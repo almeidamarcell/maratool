@@ -1,0 +1,273 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Color Picker — Convert HEX, RGB, and HSL colors | maratool',
+  description: 'Pick a color and instantly get the HEX, RGB, and HSL values. Includes WCAG contrast checker. Free, no sign-up.',
+  canonical: 'https://maratool.com/color-picker',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Color Picker',
+    url: 'https://maratool.com/color-picker',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Pick colors and convert between HEX, RGB, and HSL.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Design', item: 'https://maratool.com/developer/design' },
+      { '@type': 'ListItem', position: 4, name: 'Color Picker', item: 'https://maratool.com/color-picker' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is a HEX color code?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A HEX color code is a 6-digit hexadecimal value preceded by #, representing a color in the RGB model. Each pair of digits encodes the red, green, and blue components (00\u2013FF). For example, #FF0000 is pure red.' }
+      },
+      {
+        '@type': 'Question',
+        name: "What's the difference between RGB and HSL?",
+        acceptedAnswer: { '@type': 'Answer', text: 'RGB defines color by mixing red, green, and blue light (0\u2013255 each). HSL defines color by hue (0\u2013360\u00b0), saturation (0\u2013100%), and lightness (0\u2013100%). HSL is often more intuitive for adjusting colors because you can change brightness or saturation independently.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is WCAG contrast ratio?',
+        acceptedAnswer: { '@type': 'Answer', text: 'WCAG contrast ratio measures the luminance difference between foreground and background colors. A ratio of 4.5:1 is required for normal text (AA), and 7:1 for enhanced contrast (AAA). Higher ratios mean better readability for users with visual impairments.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I convert HEX to RGB?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Split the 6-digit HEX code into three pairs and convert each from hexadecimal to decimal. For example, #3A7BF2 becomes R=58, G=123, B=242. This tool does it automatically \u2014 just pick or enter a color.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Pick a color using the color picker or type a HEX, RGB, or HSL value.',
+  'All formats update automatically \u2014 click any Copy button to copy that format.',
+  'Check the WCAG contrast ratios against white and black backgrounds below.'
+]
+
+const faq = [
+  { q: 'What is a HEX color code?', a: 'A HEX color code is a 6-digit hexadecimal value preceded by #, representing a color in the RGB model. Each pair of digits encodes the red, green, and blue components (00\u2013FF). For example, #FF0000 is pure red.' },
+  { q: "What's the difference between RGB and HSL?", a: 'RGB defines color by mixing red, green, and blue light (0\u2013255 each). HSL defines color by hue (0\u2013360\u00b0), saturation (0\u2013100%), and lightness (0\u2013100%). HSL is often more intuitive for adjusting colors because you can change brightness or saturation independently.' },
+  { q: 'What is WCAG contrast ratio?', a: 'WCAG contrast ratio measures the luminance difference between foreground and background colors. A ratio of 4.5:1 is required for normal text (AA), and 7:1 for enhanced contrast (AAA). Higher ratios mean better readability for users with visual impairments.' },
+  { q: 'How do I convert HEX to RGB?', a: 'Split the 6-digit HEX code into three pairs and convert each from hexadecimal to decimal. For example, #3A7BF2 becomes R=58, G=123, B=242. This tool does it automatically \u2014 just pick or enter a color.' }
+]
+
+const relatedTools = [
+  { slug: 'css-gradient', name: 'CSS Gradient Generator' },
+  { slug: 'hash-generator', name: 'Hash Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Design', href: '/developer/design' },
+  { label: 'Color Picker' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell name="Color Picker" description="Pick a color and instantly get the HEX, RGB, and HSL values. Includes WCAG contrast ratio checker." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="cp-top">
+          <div class="cp-picker-wrap">
+            <input type="color" id="cp-picker" class="cp-picker" value="#2d6ef6" aria-label="Color picker" />
+          </div>
+          <div id="cp-swatch" class="cp-swatch" aria-label="Color preview"></div>
+        </div>
+
+        <div class="cp-formats">
+          <div class="cp-format-group">
+            <div class="cp-format-header">
+              <span class="tool-label">HEX</span>
+              <button class="copy-btn" id="cp-copy-hex">Copy HEX</button>
+            </div>
+            <input type="text" id="cp-hex" class="tool-input cp-mono" value="#2d6ef6" spellcheck="false" aria-label="HEX value" />
+          </div>
+
+          <div class="cp-format-group">
+            <div class="cp-format-header">
+              <span class="tool-label">RGB</span>
+              <button class="copy-btn" id="cp-copy-rgb">Copy RGB</button>
+            </div>
+            <div class="cp-rgb-fields">
+              <input type="number" id="cp-r" class="tool-input cp-num" min="0" max="255" value="45" aria-label="Red" />
+              <input type="number" id="cp-g" class="tool-input cp-num" min="0" max="255" value="110" aria-label="Green" />
+              <input type="number" id="cp-b" class="tool-input cp-num" min="0" max="255" value="246" aria-label="Blue" />
+            </div>
+          </div>
+
+          <div class="cp-format-group">
+            <div class="cp-format-header">
+              <span class="tool-label">HSL</span>
+              <button class="copy-btn" id="cp-copy-hsl">Copy HSL</button>
+            </div>
+            <div class="cp-rgb-fields">
+              <input type="number" id="cp-h" class="tool-input cp-num" min="0" max="360" value="221" aria-label="Hue" />
+              <input type="number" id="cp-s" class="tool-input cp-num" min="0" max="100" value="92" aria-label="Saturation" />
+              <input type="number" id="cp-l" class="tool-input cp-num" min="0" max="100" value="57" aria-label="Lightness" />
+            </div>
+          </div>
+        </div>
+
+        <div class="cp-contrast">
+          <span class="tool-label">Contrast checker</span>
+          <div class="cp-contrast-row">
+            <div class="cp-contrast-card" id="cp-on-white">
+              <div class="cp-contrast-preview" style="background:#fff;">
+                <span id="cp-text-on-white" style="font-weight:600;">Text</span>
+              </div>
+              <div class="cp-contrast-info">
+                <span id="cp-ratio-white"></span>
+                <span id="cp-aa-white" class="cp-badge"></span>
+                <span id="cp-aaa-white" class="cp-badge"></span>
+              </div>
+            </div>
+            <div class="cp-contrast-card" id="cp-on-black">
+              <div class="cp-contrast-preview" style="background:#000;">
+                <span id="cp-text-on-black" style="font-weight:600;">Text</span>
+              </div>
+              <div class="cp-contrast-info">
+                <span id="cp-ratio-black"></span>
+                <span id="cp-aa-black" class="cp-badge"></span>
+                <span id="cp-aaa-black" class="cp-badge"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cp-recent">
+          <span class="tool-label">Recently used</span>
+          <div id="cp-recent-list" class="cp-recent-list"></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .cp-top {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+    margin-bottom: 1rem;
+  }
+  .cp-picker-wrap {
+    flex-shrink: 0;
+  }
+  .cp-picker {
+    width: 64px;
+    height: 64px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    padding: 3px;
+    background: var(--bg);
+  }
+  .cp-swatch {
+    flex: 1;
+    min-height: 64px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .cp-formats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .cp-format-group {
+    flex: 1;
+    min-width: 140px;
+  }
+  .cp-format-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.375rem;
+  }
+  .cp-mono {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    width: 100%;
+  }
+  .cp-rgb-fields {
+    display: flex;
+    gap: 0.375rem;
+  }
+  .cp-num {
+    width: 100%;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  .cp-contrast {
+    margin-bottom: 1.25rem;
+  }
+  .cp-contrast-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.375rem;
+  }
+  .cp-contrast-card {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .cp-contrast-preview {
+    padding: 12px 16px;
+    text-align: center;
+    font-size: 15px;
+  }
+  .cp-contrast-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--text-2);
+    background: var(--bg-soft);
+  }
+  .cp-badge {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .cp-badge.pass { background: #f0fff4; color: #276749; }
+  .cp-badge.fail { background: #fff5f5; color: #c53030; }
+  .cp-recent {
+    margin-top: 0.25rem;
+  }
+  .cp-recent-list {
+    display: flex;
+    gap: 0.375rem;
+    margin-top: 0.375rem;
+    min-height: 32px;
+  }
+  .cp-recent-swatch {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .cp-recent-swatch:hover { transform: scale(1.15); }
+</style>
+<script src="../tools/color-picker.js"></script>

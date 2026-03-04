@@ -1,0 +1,131 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Dilmes Ipsum — Gerador de texto com frases da Dilma Rousseff | maratool',
+  description: 'Gere Dilmes Ipsum, o placeholder text com frases reais da presidenta Dilma Rousseff. Por par\u00e1grafos, frases ou palavras. Gr\u00e1tis, instant\u00e2neo, sem cadastro.',
+  canonical: 'https://maratool.com/dilmes-ipsum',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Dilmes Ipsum',
+    url: 'https://maratool.com/dilmes-ipsum',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Gerador de Dilmes Ipsum — placeholder text com frases da presidenta Dilma.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Generator', item: 'https://maratool.com/developer/generator' },
+      { '@type': 'ListItem', position: 4, name: 'Dilmes Ipsum', item: 'https://maratool.com/dilmes-ipsum' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'O que \u00e9 Dilmes Ipsum?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Dilmes Ipsum \u00e9 um gerador de texto placeholder que usa frases reais de Dilma Rousseff, ex-presidenta do Brasil, conhecida por suas declara\u00e7\u00f5es com l\u00f3gica singular e constru\u00e7\u00f5es verbais \u00fanicas.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'As frases s\u00e3o reais?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Sim. Todas as frases do Dilmes Ipsum s\u00e3o cita\u00e7\u00f5es reais de Dilma Rousseff, retiradas de entrevistas, discursos e pronunciamentos p\u00fablicos durante seus mandatos como presidenta do Brasil.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Para que serve o Dilmes Ipsum?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Assim como o Lorem Ipsum cl\u00e1ssico, o Dilmes Ipsum serve como texto placeholder para preencher layouts durante o design e desenvolvimento. A diferen\u00e7a \u00e9 que adiciona um toque de humor brasileiro ao processo.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Qual a diferen\u00e7a entre Lorem Ipsum e Dilmes Ipsum?',
+        acceptedAnswer: { '@type': 'Answer', text: 'O Lorem Ipsum usa texto derivado de uma obra de C\u00edcero em latim. O Dilmes Ipsum usa frases reais em portugu\u00eas brasileiro, ditas por Dilma Rousseff. Ambos servem como placeholder, mas o Dilmes Ipsum \u00e9 leg\u00edvel e humor\u00edstico.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Escolha o tipo de sa\u00edda: par\u00e1grafos, frases ou palavras.',
+  'Defina a quantidade e clique em Gerar.',
+  'Clique em Copiar para copiar o texto para a \u00e1rea de transfer\u00eancia.'
+]
+
+const faq = [
+  { q: 'O que \u00e9 Dilmes Ipsum?', a: 'Dilmes Ipsum \u00e9 um gerador de texto placeholder que usa frases reais de Dilma Rousseff, ex-presidenta do Brasil, conhecida por suas declara\u00e7\u00f5es com l\u00f3gica singular e constru\u00e7\u00f5es verbais \u00fanicas.' },
+  { q: 'As frases s\u00e3o reais?', a: 'Sim. Todas as frases do Dilmes Ipsum s\u00e3o cita\u00e7\u00f5es reais de Dilma Rousseff, retiradas de entrevistas, discursos e pronunciamentos p\u00fablicos durante seus mandatos como presidenta do Brasil.' },
+  { q: 'Para que serve o Dilmes Ipsum?', a: 'Assim como o Lorem Ipsum cl\u00e1ssico, o Dilmes Ipsum serve como texto placeholder para preencher layouts durante o design e desenvolvimento. A diferen\u00e7a \u00e9 que adiciona um toque de humor brasileiro ao processo.' },
+  { q: 'Qual a diferen\u00e7a entre Lorem Ipsum e Dilmes Ipsum?', a: 'O Lorem Ipsum usa texto derivado de uma obra de C\u00edcero em latim. O Dilmes Ipsum usa frases reais em portugu\u00eas brasileiro, ditas por Dilma Rousseff. Ambos servem como placeholder, mas o Dilmes Ipsum \u00e9 leg\u00edvel e humor\u00edstico.' }
+]
+
+const relatedTools = [
+  { slug: 'lorem-ipsum', name: 'Lorem Ipsum Generator' },
+  { slug: 'mussum-ipsum', name: 'Mussum Ipsum' },
+  { slug: 'reading-time', name: 'Reading Time Calculator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Generator', href: '/developer/generator' },
+  { label: 'Dilmes Ipsum' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell name="Dilmes Ipsum" description="Gerador de Dilmes Ipsum — placeholder text com frases reais da presidenta Dilma Rousseff, com toda a l\u00f3gica que lhe \u00e9 peculiar." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="lorem-controls">
+          <div class="lorem-control">
+            <label class="tool-label" for="dilmes-type">Tipo</label>
+            <select id="dilmes-type" class="tool-select">
+              <option value="paragraphs">Par&aacute;grafos</option>
+              <option value="sentences">Frases</option>
+              <option value="words">Palavras</option>
+            </select>
+          </div>
+          <div class="lorem-control">
+            <label class="tool-label" for="dilmes-count">Quantidade</label>
+            <input type="number" id="dilmes-count" class="tool-input" value="3" min="1" max="100" style="width:80px;" />
+          </div>
+          <div class="lorem-control" style="align-self:flex-end;">
+            <button class="tool-button" id="dilmes-generate">Gerar</button>
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div class="tool-panel-header">
+            <span class="tool-label">Sa&iacute;da</span>
+            <button class="copy-btn" id="dilmes-copy">Copiar</button>
+          </div>
+          <textarea id="dilmes-output" class="tool-textarea" rows="12" readonly aria-label="Dilmes Ipsum gerado"></textarea>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .lorem-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .lorem-control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+</style>
+<script src="../tools/dilmes-ipsum.js"></script>

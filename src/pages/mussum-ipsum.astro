@@ -1,0 +1,131 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Mussum Ipsum — Gerador de texto placeholder no estilo Mussum | maratool',
+  description: 'Gere Mussum Ipsum, o placeholder text inspirado no imortil Mussum. Por par\u00e1grafos, frases ou palavras. Gr\u00e1tis, instant\u00e2neo, sem cadastro.',
+  canonical: 'https://maratool.com/mussum-ipsum',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Mussum Ipsum',
+    url: 'https://maratool.com/mussum-ipsum',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Gerador de Mussum Ipsum — placeholder text no estilo do imortil Mussum.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Generator', item: 'https://maratool.com/developer/generator' },
+      { '@type': 'ListItem', position: 4, name: 'Mussum Ipsum', item: 'https://maratool.com/mussum-ipsum' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'O que \u00e9 Mussum Ipsum?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Mussum Ipsum \u00e9 um gerador de texto placeholder inspirado no Mussum, comediante brasileiro dos Trapalh\u00f5es. As frases misturam pseudo-latim com o estilo caracter\u00edstico do Mussum, que adicionava o sufixo "-is" \u00e0s palavras.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Quem foi Mussum?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Mussum (Ant\u00f4nio Carlos Bernardes Gomes, 1941\u20131994) foi um comediante, cantor e ator brasileiro, membro do grupo Os Trapalh\u00f5es. Era famoso pelo seu jeito \u00fanico de falar, adicionando "-is" ao final das palavras e por seu humor sobre cachacis.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Para que serve um gerador de placeholder text?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Geradores de placeholder text s\u00e3o usados em design e desenvolvimento para preencher layouts antes do conte\u00fado final estar pronto. O Mussum Ipsum adiciona um toque de humor brasileiro ao processo.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Posso usar Mussum Ipsum em projetos comerciais?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Sim. Mussum Ipsum \u00e9 texto placeholder — ele \u00e9 substitu\u00eddo pelo conte\u00fado real antes do lan\u00e7amento. Use livremente durante o desenvolvimento e prototipagem.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Escolha o tipo de sa\u00edda: par\u00e1grafos, frases ou palavras.',
+  'Defina a quantidade e clique em Gerar.',
+  'Clique em Copiar para copiar o texto para a \u00e1rea de transfer\u00eancia.'
+]
+
+const faq = [
+  { q: 'O que \u00e9 Mussum Ipsum?', a: 'Mussum Ipsum \u00e9 um gerador de texto placeholder inspirado no Mussum, comediante brasileiro dos Trapalh\u00f5es. As frases misturam pseudo-latim com o estilo caracter\u00edstico do Mussum, que adicionava o sufixo "-is" \u00e0s palavras.' },
+  { q: 'Quem foi Mussum?', a: 'Mussum (Ant\u00f4nio Carlos Bernardes Gomes, 1941\u20131994) foi um comediante, cantor e ator brasileiro, membro do grupo Os Trapalh\u00f5es. Era famoso pelo seu jeito \u00fanico de falar, adicionando "-is" ao final das palavras e por seu humor sobre cachacis.' },
+  { q: 'Para que serve um gerador de placeholder text?', a: 'Geradores de placeholder text s\u00e3o usados em design e desenvolvimento para preencher layouts antes do conte\u00fado final estar pronto. O Mussum Ipsum adiciona um toque de humor brasileiro ao processo.' },
+  { q: 'Posso usar Mussum Ipsum em projetos comerciais?', a: 'Sim. Mussum Ipsum \u00e9 texto placeholder — ele \u00e9 substitu\u00eddo pelo conte\u00fado real antes do lan\u00e7amento. Use livremente durante o desenvolvimento e prototipagem.' }
+]
+
+const relatedTools = [
+  { slug: 'lorem-ipsum', name: 'Lorem Ipsum Generator' },
+  { slug: 'dilmes-ipsum', name: 'Dilmes Ipsum' },
+  { slug: 'reading-time', name: 'Reading Time Calculator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Generator', href: '/developer/generator' },
+  { label: 'Mussum Ipsum' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell name="Mussum Ipsum" description="Gerador de Mussum Ipsum — placeholder text no estilo do imortil Mussum, o bebedor. Msjis, cachacis e muito humoris." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="lorem-controls">
+          <div class="lorem-control">
+            <label class="tool-label" for="mussum-type">Tipo</label>
+            <select id="mussum-type" class="tool-select">
+              <option value="paragraphs">Par&aacute;grafos</option>
+              <option value="sentences">Frases</option>
+              <option value="words">Palavras</option>
+            </select>
+          </div>
+          <div class="lorem-control">
+            <label class="tool-label" for="mussum-count">Quantidade</label>
+            <input type="number" id="mussum-count" class="tool-input" value="3" min="1" max="100" style="width:80px;" />
+          </div>
+          <div class="lorem-control" style="align-self:flex-end;">
+            <button class="tool-button" id="mussum-generate">Gerar</button>
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div class="tool-panel-header">
+            <span class="tool-label">Sa&iacute;da</span>
+            <button class="copy-btn" id="mussum-copy">Copiar</button>
+          </div>
+          <textarea id="mussum-output" class="tool-textarea" rows="12" readonly aria-label="Mussum Ipsum gerado"></textarea>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .lorem-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .lorem-control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+</style>
+<script src="../tools/mussum-ipsum.js"></script>

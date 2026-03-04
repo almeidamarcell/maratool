@@ -1,0 +1,232 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Markdown Editor — Write and preview markdown in real time | maratool',
+  description: 'Write markdown on the left, see the rendered HTML preview on the right — live. Copy markdown or HTML output. Free, no sign-up.',
+  canonical: 'https://maratool.com/markdown-editor',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Markdown Editor',
+    url: 'https://maratool.com/markdown-editor',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Write markdown and preview the rendered HTML output in real time.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Text', item: 'https://maratool.com/developer/text' },
+      { '@type': 'ListItem', position: 4, name: 'Markdown Editor', item: 'https://maratool.com/markdown-editor' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is Markdown?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Markdown is a lightweight markup language that uses plain-text formatting syntax. It was created by John Gruber in 2004 to be easy to read and write, and is widely used for documentation, README files, and content writing.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What Markdown syntax is supported?',
+        acceptedAnswer: { '@type': 'Answer', text: 'This editor supports headings (#), bold (**text**), italic (*text*), inline code (`code`), fenced code blocks (```), links ([text](url)), unordered lists (-), ordered lists (1.), blockquotes (>), and horizontal rules (---).' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I convert Markdown to HTML?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Type or paste your Markdown in the left panel and the HTML preview updates automatically on the right. Click Copy HTML to get the rendered HTML source code.' }
+      },
+      {
+        '@type': 'Question',
+        name: "What's the difference between Markdown flavors?",
+        acceptedAnswer: { '@type': 'Answer', text: 'Different platforms extend the original Markdown spec. GitHub Flavored Markdown (GFM) adds tables, task lists, and strikethrough. CommonMark is a strict standardization effort. This editor supports the core syntax common to all flavors.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Type or paste Markdown in the left editor panel.',
+  'The rendered HTML preview updates automatically on the right.',
+  'Click Copy Markdown or Copy HTML to copy the output to your clipboard.'
+]
+
+const faq = [
+  { q: 'What is Markdown?', a: 'Markdown is a lightweight markup language that uses plain-text formatting syntax. It was created by John Gruber in 2004 to be easy to read and write, and is widely used for documentation, README files, and content writing.' },
+  { q: 'What Markdown syntax is supported?', a: 'This editor supports headings (#), bold (**text**), italic (*text*), inline code (`code`), fenced code blocks (```), links ([text](url)), unordered lists (-), ordered lists (1.), blockquotes (>), and horizontal rules (---).' },
+  { q: 'How do I convert Markdown to HTML?', a: 'Type or paste your Markdown in the left panel and the HTML preview updates automatically on the right. Click Copy HTML to get the rendered HTML source code.' },
+  { q: "What's the difference between Markdown flavors?", a: 'Different platforms extend the original Markdown spec. GitHub Flavored Markdown (GFM) adds tables, task lists, and strikethrough. CommonMark is a strict standardization effort. This editor supports the core syntax common to all flavors.' }
+]
+
+const relatedTools = [
+  { slug: 'lorem-ipsum', name: 'Lorem Ipsum Generator' },
+  { slug: 'reading-time', name: 'Reading Time Calculator' },
+  { slug: 'diff-checker', name: 'Diff Checker' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Text', href: '/developer/text' },
+  { label: 'Markdown Editor' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell name="Markdown Editor" description="Write Markdown on the left, see the rendered HTML on the right — updated live as you type." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="md-toolbar">
+          <button class="md-toolbar-btn" data-md="bold" title="Bold">B</button>
+          <button class="md-toolbar-btn" data-md="italic" title="Italic"><em>I</em></button>
+          <button class="md-toolbar-btn" data-md="link" title="Link">Link</button>
+          <button class="md-toolbar-btn" data-md="code" title="Inline code">&lt;/&gt;</button>
+          <button class="md-toolbar-btn" data-md="h1" title="Heading 1">H1</button>
+          <button class="md-toolbar-btn" data-md="h2" title="Heading 2">H2</button>
+        </div>
+        <div class="md-split">
+          <div class="md-pane">
+            <div class="md-pane-header">
+              <span class="tool-label">Markdown</span>
+              <button class="copy-btn" id="md-copy-md">Copy Markdown</button>
+            </div>
+            <textarea id="md-input" class="md-editor" spellcheck="false" aria-label="Markdown input"></textarea>
+          </div>
+          <div class="md-pane">
+            <div class="md-pane-header">
+              <span class="tool-label">Preview</span>
+              <button class="copy-btn" id="md-copy-html">Copy HTML</button>
+            </div>
+            <div id="md-preview" class="md-preview" aria-label="Rendered preview"></div>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .md-toolbar {
+    display: flex;
+    gap: 0.25rem;
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-radius: var(--radius) var(--radius) 0 0;
+    background: var(--bg-soft);
+  }
+  .md-toolbar-btn {
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .md-toolbar-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text);
+  }
+  .md-split {
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: 0 0 var(--radius) var(--radius);
+    min-height: 360px;
+    overflow: hidden;
+  }
+  .md-pane {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .md-pane:first-child {
+    border-right: 1px solid var(--border);
+  }
+  .md-pane-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-soft);
+  }
+  .md-editor {
+    flex: 1;
+    width: 100%;
+    border: none;
+    padding: 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    resize: none;
+    outline: none;
+  }
+  .md-preview {
+    flex: 1;
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text);
+    overflow-y: auto;
+  }
+  .md-preview h1 { font-size: 1.5rem; font-weight: 700; margin: 0 0 0.5rem; }
+  .md-preview h2 { font-size: 1.25rem; font-weight: 600; margin: 0.75rem 0 0.375rem; }
+  .md-preview h3 { font-size: 1.1rem; font-weight: 600; margin: 0.5rem 0 0.25rem; }
+  .md-preview h4, .md-preview h5, .md-preview h6 { font-size: 1rem; font-weight: 600; margin: 0.5rem 0 0.25rem; }
+  .md-preview p { margin: 0 0 0.75rem; }
+  .md-preview code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--bg-soft);
+    padding: 2px 5px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+  .md-preview pre {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin: 0 0 0.75rem;
+    overflow-x: auto;
+  }
+  .md-preview pre code {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  .md-preview blockquote {
+    border-left: 3px solid var(--border);
+    margin: 0 0 0.75rem;
+    padding: 0.25rem 0 0.25rem 1rem;
+    color: var(--text-2);
+  }
+  .md-preview ul, .md-preview ol {
+    margin: 0 0 0.75rem;
+    padding-left: 1.5rem;
+  }
+  .md-preview li { margin-bottom: 0.25rem; }
+  .md-preview hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1rem 0;
+  }
+  .md-preview a { color: var(--accent); text-decoration: underline; }
+  .md-preview img { max-width: 100%; }
+</style>
+<script src="../tools/markdown-editor.js"></script>

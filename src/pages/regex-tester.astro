@@ -1,0 +1,221 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Regex Tester — Test regular expressions with live highlighting | maratool',
+  description: 'Test your regular expressions against any string. Live match highlighting, flag support, and match list. Free, no sign-up.',
+  canonical: 'https://maratool.com/regex-tester',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Regex Tester',
+    url: 'https://maratool.com/regex-tester',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Test regular expressions with live match highlighting.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Text', item: 'https://maratool.com/developer/text' },
+      { '@type': 'ListItem', position: 4, name: 'Regex Tester', item: 'https://maratool.com/regex-tester' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is a regular expression?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A regular expression (regex) is a sequence of characters that defines a search pattern. It is used for string matching, searching, and text manipulation in programming languages, text editors, and command-line tools.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What do regex flags do?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Flags modify how the regex engine processes the pattern. g (global) finds all matches instead of stopping at the first. i (case insensitive) ignores letter case. m (multiline) makes ^ and $ match line boundaries instead of just string boundaries.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I match a whole word?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Use word boundary anchors: \\bword\\b matches "word" only when it appears as a complete word, not as part of another word like "password" or "wording".' }
+      },
+      {
+        '@type': 'Question',
+        name: "What's the difference between greedy and lazy matching?",
+        acceptedAnswer: { '@type': 'Answer', text: 'Greedy quantifiers (*, +, {n,m}) match as much text as possible. Lazy quantifiers (*?, +?, {n,m}?) match as little as possible. For example, on "<b>one</b><b>two</b>", the greedy pattern <b>.*</b> matches the entire string, while <b>.*?</b> matches only "<b>one</b>".' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter a regular expression pattern in the pattern field.',
+  'Toggle flags (g, i, m) and type or paste your test string below.',
+  'Matches are highlighted in real time with a numbered list of each match and its position.'
+]
+
+const faq = [
+  { q: 'What is a regular expression?', a: 'A regular expression (regex) is a sequence of characters that defines a search pattern. It is used for string matching, searching, and text manipulation in programming languages, text editors, and command-line tools.' },
+  { q: 'What do regex flags do?', a: 'Flags modify how the regex engine processes the pattern. g (global) finds all matches instead of stopping at the first. i (case insensitive) ignores letter case. m (multiline) makes ^ and $ match line boundaries instead of just string boundaries.' },
+  { q: 'How do I match a whole word?', a: 'Use word boundary anchors: \\bword\\b matches "word" only when it appears as a complete word, not as part of another word like "password" or "wording".' },
+  { q: "What's the difference between greedy and lazy matching?", a: 'Greedy quantifiers (*, +, {n,m}) match as much text as possible. Lazy quantifiers (*?, +?, {n,m}?) match as little as possible. For example, on "<b>one</b><b>two</b>", the greedy pattern <b>.*</b> matches the entire string, while <b>.*?</b> matches only "<b>one</b>".' }
+]
+
+const relatedTools = [
+  { slug: 'diff-checker', name: 'Diff Checker' },
+  { slug: 'text-to-binary', name: 'Text to Binary' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Text', href: '/developer/text' },
+  { label: 'Regex Tester' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell name="Regex Tester" description="Test regular expressions against any string with live match highlighting, flag toggles, and a numbered match list." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="regex-pattern-row">
+          <div class="regex-pattern-wrap">
+            <span class="regex-slash">/</span>
+            <input type="text" id="regex-pattern" class="regex-input" placeholder="your regex here" aria-label="Regular expression pattern" spellcheck="false" />
+            <span class="regex-slash">/</span>
+          </div>
+          <div class="regex-flags">
+            <label class="regex-flag"><input type="checkbox" id="flag-g" checked /> g</label>
+            <label class="regex-flag"><input type="checkbox" id="flag-i" /> i</label>
+            <label class="regex-flag"><input type="checkbox" id="flag-m" /> m</label>
+          </div>
+        </div>
+
+        <div id="regex-error" class="regex-error" aria-live="polite"></div>
+
+        <div class="tool-panel">
+          <label class="tool-label" for="regex-test-string">Test string</label>
+          <textarea id="regex-test-string" class="tool-textarea" rows="6" placeholder="Type or paste your test string here..." aria-label="Test string"></textarea>
+        </div>
+
+        <div id="regex-stats" class="regex-stats">0 matches</div>
+
+        <div class="tool-panel">
+          <span class="tool-label">Matches</span>
+          <div id="regex-highlight" class="regex-highlight" aria-label="Highlighted matches"></div>
+        </div>
+
+        <div class="tool-panel">
+          <span class="tool-label">Match list</span>
+          <div id="regex-match-list" class="regex-match-list" aria-label="Match list"></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .regex-pattern-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .regex-pattern-wrap {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 200px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0 8px;
+    background: var(--bg);
+    transition: border-color 0.15s;
+  }
+  .regex-pattern-wrap:focus-within {
+    border-color: var(--accent);
+  }
+  .regex-slash {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-3);
+    user-select: none;
+  }
+  .regex-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 7px 6px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
+    background: transparent;
+  }
+  .regex-flags {
+    display: flex;
+    gap: 0.75rem;
+  }
+  .regex-flag {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-2);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .regex-error {
+    color: #c53030;
+    font-size: 13px;
+    margin-bottom: 0.5rem;
+    min-height: 0;
+  }
+  .regex-error:empty {
+    display: none;
+  }
+  .regex-stats {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-2);
+    margin-bottom: 0.75rem;
+  }
+  .regex-highlight {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+    min-height: 60px;
+  }
+  .regex-highlight mark {
+    background: #fef08a;
+    color: var(--text);
+    border-radius: 2px;
+    padding: 1px 0;
+  }
+  .regex-match-list {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+    min-height: 40px;
+    max-height: 200px;
+    overflow-y: auto;
+    color: var(--text-2);
+  }
+</style>
+<script src="../tools/regex-tester.js"></script>
