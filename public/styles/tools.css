@@ -1,0 +1,423 @@
+/* ========== TOOL SHELL ========== */
+.tool-description {
+  font-size: 0.9375rem;
+  color: var(--text-2);
+  margin: 0.5rem 0 1.5rem;
+  line-height: 1.6;
+}
+
+/* ========== TOOL CONTAINER ========== */
+.tool-container {
+  min-height: 300px;
+  margin-bottom: 2.5rem;
+}
+
+/* ========== TEXTAREAS / INPUTS ========== */
+.tool-textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.tool-textarea:focus {
+  border-color: var(--accent);
+}
+
+.tool-textarea.error-state {
+  border-color: var(--error-border);
+  background: var(--error-bg);
+}
+
+/* ========== OUTPUT PANELS ========== */
+.tool-output {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg-soft);
+  white-space: pre-wrap;
+  word-break: break-all;
+  min-height: 80px;
+}
+
+.tool-output.error-state {
+  border-color: var(--error-border);
+  background: var(--error-bg);
+  color: #c53030;
+}
+
+/* ========== BUTTONS ========== */
+.tool-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 8px 16px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.tool-button:hover {
+  background: var(--accent-hover);
+}
+
+.tool-button:active {
+  transform: scale(0.98);
+}
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 5px 10px;
+  background: var(--bg);
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.copy-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+  border-color: var(--text-3);
+}
+
+.copy-btn.copied {
+  background: var(--success-bg);
+  color: #276749;
+  border-color: var(--success-border);
+}
+
+/* ========== TABS ========== */
+.tool-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.25rem;
+}
+
+.tool-tab {
+  padding: 8px 16px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  margin-bottom: -1px;
+}
+
+.tool-tab:hover {
+  color: var(--text);
+}
+
+.tool-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ========== ROWS ========== */
+.tool-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.tool-row > * {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ========== LABELS ========== */
+.tool-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.375rem;
+}
+
+/* ========== PANEL (label + output + copy button) ========== */
+.tool-panel {
+  margin-bottom: 1rem;
+}
+
+.tool-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.375rem;
+}
+
+/* ========== SELECT / INPUT ========== */
+.tool-select,
+.tool-input {
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.tool-select:focus,
+.tool-input:focus {
+  border-color: var(--accent);
+}
+
+/* ========== HOW TO ========== */
+.how-to {
+  margin-bottom: 2.5rem;
+}
+
+.how-to h2 {
+  margin-bottom: 0.75rem;
+}
+
+.how-to ol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+/* ========== FAQ ========== */
+.faq {
+  margin-bottom: 2.5rem;
+}
+
+.faq h2 {
+  margin-bottom: 1rem;
+}
+
+.faq-item {
+  border-top: 1px solid var(--border);
+  padding: 1rem 0;
+}
+
+.faq-item:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.faq-question {
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.375rem;
+  font-size: 0.9375rem;
+}
+
+.faq-answer {
+  color: var(--text-2);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* ========== RELATED TOOLS ========== */
+.related-tools {
+  margin-bottom: 2rem;
+}
+
+.related-tools h2 {
+  margin-bottom: 0.75rem;
+}
+
+.related-tools-list {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+}
+
+.related-tools-list a {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 13px;
+  color: var(--text-2);
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.related-tools-list a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--bg-soft);
+  text-decoration: none;
+}
+
+/* ========== ERROR STATE ========== */
+.error-state {
+  border-color: var(--error-border) !important;
+  background: var(--error-bg) !important;
+}
+
+/* ========== STATS BAR ========== */
+.tool-stats {
+  display: flex;
+  gap: 1.5rem;
+  padding: 10px 12px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.tool-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tool-stat-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text);
+  font-family: var(--font-mono);
+}
+
+.tool-stat-label {
+  font-size: 11px;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ========== UUID LIST ========== */
+.uuid-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.uuid-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 6px 10px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.uuid-value {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text);
+  word-break: break-all;
+}
+
+/* ========== DIFF VIEWER ========== */
+.diff-line {
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.diff-line.added {
+  background: #f0fff4;
+  color: #276749;
+}
+
+.diff-line.removed {
+  background: #fff5f5;
+  color: #c53030;
+}
+
+.diff-line.unchanged {
+  color: var(--text-3);
+}
+
+/* ========== HASH ROWS ========== */
+.hash-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.hash-row:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.hash-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: 56px;
+  flex-shrink: 0;
+}
+
+.hash-value {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text);
+  word-break: break-all;
+}
+
+/* ========== IMAGE PREVIEW ========== */
+.image-preview {
+  max-width: 200px;
+  max-height: 200px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-top: 0.75rem;
+  display: block;
+}
+
+/* ========== LIVE CLOCK ========== */
+.live-timestamp {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text);
+  padding: 1rem 0;
+  letter-spacing: -0.02em;
+}

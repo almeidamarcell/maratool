@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://maratool.com/sitemap-index.xml

@@ -1,0 +1,113 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'UUID Generator — Generate UUIDs online instantly | maratool',
+  description: 'Generate one or more UUIDs (v1, v4, v5) instantly in your browser. Bulk generate up to 100 UUIDs at once and copy them with one click. Free, no sign-up.',
+  canonical: 'https://maratool.com/uuid-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'UUID Generator',
+    url: 'https://maratool.com/uuid-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate UUID v1, v4, and v5 in bulk directly in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Generator', item: 'https://maratool.com/developer/generator' },
+      { '@type': 'ListItem', position: 4, name: 'UUID Generator', item: 'https://maratool.com/uuid-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the difference between UUID v1, v4, and v5?',
+        acceptedAnswer: { '@type': 'Answer', text: 'UUID v1 is time-based and includes the timestamp and MAC address. UUID v4 is randomly generated and the most commonly used. UUID v5 is name-based using SHA-1 hashing against a namespace.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Are the generated UUIDs truly unique?',
+        acceptedAnswer: { '@type': 'Answer', text: 'UUID v4 uses crypto.randomUUID() which provides 122 bits of randomness. The probability of a collision is astronomically low — roughly 1 in 5.3×10^36 for any two UUIDs.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I use UUIDs as database primary keys?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. UUID v4 is widely used as a primary key in databases. The main trade-off is that random UUIDs can cause index fragmentation in B-tree indexes. UUID v7 (sequential) is often preferred for databases.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is UUID the same as GUID?',
+        acceptedAnswer: { '@type': 'Answer', text: 'UUID and GUID refer to the same concept. GUID (Globally Unique Identifier) is Microsoft\'s term for UUID (Universally Unique Identifier). The format is identical.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Select the UUID version (v4 is recommended for most use cases).',
+  'Enter how many UUIDs you need (1 to 100) and click Generate.',
+  'Copy individual UUIDs or use "Copy all" to get them all at once.'
+]
+
+const faq = [
+  { q: 'What is the difference between UUID v1, v4, and v5?', a: 'UUID v1 is time-based and includes the timestamp and MAC address. UUID v4 is randomly generated and the most commonly used. UUID v5 is name-based using SHA-1 hashing against a namespace.' },
+  { q: 'Are the generated UUIDs truly unique?', a: 'UUID v4 uses crypto.randomUUID() which provides 122 bits of randomness. The probability of a collision is astronomically low — roughly 1 in 5.3×10^36 for any two UUIDs.' },
+  { q: 'Can I use UUIDs as database primary keys?', a: 'Yes. UUID v4 is widely used as a primary key in databases. The main trade-off is that random UUIDs can cause index fragmentation in B-tree indexes. UUID v7 (sequential) is often preferred for databases.' },
+  { q: 'Is UUID the same as GUID?', a: 'UUID and GUID refer to the same concept. GUID (Globally Unique Identifier) is Microsoft\'s term for UUID (Universally Unique Identifier). The format is identical.' }
+]
+
+const relatedTools = [
+  { slug: 'hash-generator', name: 'Hash Generator' },
+  { slug: 'base64', name: 'Base64 Encode / Decode' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Generator', href: '/developer/generator' },
+  { label: 'UUID Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell name="UUID Generator" description="Generate one or many UUIDs instantly — supports v1, v4, and v5. Bulk generate up to 100 at once." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap;">
+          <div>
+            <label class="tool-label" for="uuid-version">Version</label>
+            <select id="uuid-version" class="tool-select">
+              <option value="v4" selected>v4 (random)</option>
+              <option value="v1">v1 (time-based)</option>
+              <option value="v5">v5 (name-based)</option>
+            </select>
+          </div>
+          <div>
+            <label class="tool-label" for="uuid-quantity">Quantity</label>
+            <input id="uuid-quantity" class="tool-input" type="number" min="1" max="100" value="1" style="width:80px;" />
+          </div>
+          <div style="margin-top:auto;">
+            <button id="uuid-generate" class="tool-button">Generate</button>
+          </div>
+          <div style="margin-top:auto;">
+            <button id="uuid-copy-all" class="copy-btn" style="display:none;">Copy all</button>
+          </div>
+        </div>
+
+        <ul id="uuid-output" class="uuid-list"></ul>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<script src="../tools/uuid.js"></script>

@@ -1,0 +1,116 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Hash Generator — MD5, SHA-1, SHA-256, SHA-512 online | maratool',
+  description: 'Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text instantly in your browser. Real-time hashing with one-click copy. Free, no sign-up required.',
+  canonical: 'https://maratool.com/hash-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Hash Generator',
+    url: 'https://maratool.com/hash-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from text in real time.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Encoding', item: 'https://maratool.com/developer/encoding' },
+      { '@type': 'ListItem', position: 4, name: 'Hash Generator', item: 'https://maratool.com/hash-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the difference between MD5, SHA-1, SHA-256, and SHA-512?',
+        acceptedAnswer: { '@type': 'Answer', text: 'MD5 and SHA-1 are older algorithms considered cryptographically broken for security uses. SHA-256 and SHA-512 are part of the SHA-2 family and are still considered secure. Use SHA-256 or SHA-512 for any security-sensitive hashing.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I reverse a hash to get the original text?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. Hash functions are one-way. You cannot reverse a hash to get the original input. This is by design — hashes are used to verify integrity, not to store recoverable data.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my input sent to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All hashing happens entirely in your browser using the Web Crypto API (for SHA) and a pure JavaScript MD5 implementation. Your input never leaves your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Should I use MD5 for passwords?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. MD5 is not suitable for password hashing. Use bcrypt, scrypt, or Argon2 for passwords. These algorithms are designed to be slow and resistant to brute-force attacks.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Type or paste any text into the input field.',
+  'MD5, SHA-1, SHA-256, and SHA-512 hashes update in real time as you type.',
+  'Click the Copy button next to any hash to copy it to the clipboard.'
+]
+
+const faq = [
+  { q: 'What is the difference between MD5, SHA-1, SHA-256, and SHA-512?', a: 'MD5 and SHA-1 are older algorithms considered cryptographically broken for security uses. SHA-256 and SHA-512 are part of the SHA-2 family and are still considered secure. Use SHA-256 or SHA-512 for any security-sensitive hashing.' },
+  { q: 'Can I reverse a hash to get the original text?', a: 'No. Hash functions are one-way. You cannot reverse a hash to get the original input. This is by design — hashes are used to verify integrity, not to store recoverable data.' },
+  { q: 'Is my input sent to a server?', a: 'No. All hashing happens entirely in your browser using the Web Crypto API (for SHA) and a pure JavaScript MD5 implementation. Your input never leaves your device.' },
+  { q: 'Should I use MD5 for passwords?', a: 'No. MD5 is not suitable for password hashing. Use bcrypt, scrypt, or Argon2 for passwords. These algorithms are designed to be slow and resistant to brute-force attacks.' }
+]
+
+const relatedTools = [
+  { slug: 'base64', name: 'Base64 Encode / Decode' },
+  { slug: 'jwt-decoder', name: 'JWT Decoder' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Encoding', href: '/developer/encoding' },
+  { label: 'Hash Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell name="Hash Generator" description="Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text instantly. All hashing happens in your browser — nothing is sent to a server." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="tool-panel">
+          <label class="tool-label" for="hash-input">Input text</label>
+          <textarea id="hash-input" class="tool-textarea" rows="5" placeholder="Type or paste text to hash..." aria-label="Text to hash"></textarea>
+        </div>
+
+        <div id="hash-md5" class="hash-row">
+          <span class="hash-name">MD5</span>
+          <span class="hash-value">—</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <div id="hash-sha1" class="hash-row">
+          <span class="hash-name">SHA-1</span>
+          <span class="hash-value">—</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <div id="hash-sha256" class="hash-row">
+          <span class="hash-name">SHA-256</span>
+          <span class="hash-value">—</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <div id="hash-sha512" class="hash-row">
+          <span class="hash-name">SHA-512</span>
+          <span class="hash-value">—</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<script src="../tools/hash.js"></script>

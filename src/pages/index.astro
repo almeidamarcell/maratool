@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import { tools } from '../data/tools'
+
+const seo = {
+  title: 'Free Developer Tools — maratool',
+  description: 'Free, instant, browser-based developer tools. JWT decoder, Base64, diff checker, hash generator, UUID generator, Unix timestamp, and more — no sign-up required.',
+  canonical: 'https://maratool.com/',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'maratool',
+    url: 'https://maratool.com',
+    description: 'Free browser-based developer tools',
+  }
+}
+---
+<Base {...seo}>
+  <Layout>
+    <div class="hero">
+      <h1>Free tools for developers</h1>
+      <p>Browser-based, instant, no sign-up. Everything you need in one place.</p>
+    </div>
+
+    <div class="tools-grid">
+      {tools.map(tool => (
+        tool.live
+          ? (
+            <a href={`/${tool.slug}`} class="tool-card">
+              <span class="tool-card-emoji">{tool.emoji}</span>
+              <div class="tool-card-name">{tool.name}</div>
+              <div class="tool-card-desc">{tool.description}</div>
+            </a>
+          )
+          : (
+            <div class="tool-card" style="opacity:0.5;cursor:default;">
+              <span class="tool-card-emoji">{tool.emoji}</span>
+              <div class="tool-card-name">{tool.name}</div>
+              <div class="tool-card-desc">{tool.description}</div>
+              <span class="tool-card-badge">Coming Soon</span>
+            </div>
+          )
+      ))}
+    </div>
+  </Layout>
+</Base>
