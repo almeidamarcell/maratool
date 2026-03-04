@@ -90,10 +90,80 @@ export const tools: Tool[] = [
     keywords: ['binary', 'text', 'hex', 'decimal', 'ascii', 'convert', 'encode'],
     live: true,
   },
+  {
+    slug: 'json-formatter',
+    name: 'JSON Formatter',
+    emoji: '📋',
+    description: 'Format, minify and validate JSON instantly.',
+    category: 'Developer',
+    subcategory: 'Encoding',
+    keywords: ['json', 'format', 'validate', 'minify', 'prettify'],
+    live: true,
+  },
+  {
+    slug: 'css-gradient',
+    name: 'CSS Gradient Generator',
+    emoji: '🎨',
+    description: 'Generate CSS gradients visually with live preview.',
+    category: 'Developer',
+    subcategory: 'Design',
+    keywords: ['css', 'gradient', 'linear', 'radial', 'color', 'background'],
+    live: true,
+  },
+  {
+    slug: 'lorem-ipsum',
+    name: 'Lorem Ipsum Generator',
+    emoji: '📝',
+    description: 'Generate lorem ipsum placeholder text instantly.',
+    category: 'Developer',
+    subcategory: 'Generator',
+    keywords: ['lorem', 'ipsum', 'placeholder', 'text', 'dummy'],
+    live: true,
+  },
+  {
+    slug: 'markdown-editor',
+    name: 'Markdown Editor',
+    emoji: '✍️',
+    description: 'Write markdown and preview the output in real time.',
+    category: 'Developer',
+    subcategory: 'Text',
+    keywords: ['markdown', 'editor', 'preview', 'md', 'html'],
+    live: true,
+  },
+  {
+    slug: 'regex-tester',
+    name: 'Regex Tester',
+    emoji: '🔎',
+    description: 'Test regular expressions with live match highlighting.',
+    category: 'Developer',
+    subcategory: 'Text',
+    keywords: ['regex', 'regexp', 'pattern', 'test', 'match'],
+    live: true,
+  },
+  {
+    slug: 'cron-expression',
+    name: 'Cron Expression',
+    emoji: '⏰',
+    description: 'Build and decode cron expressions with a visual editor.',
+    category: 'Developer',
+    subcategory: 'Generator',
+    keywords: ['cron', 'schedule', 'expression', 'job', 'interval'],
+    live: true,
+  },
+  {
+    slug: 'color-picker',
+    name: 'Color Picker',
+    emoji: '🖌️',
+    description: 'Pick colors and convert between HEX, RGB, and HSL.',
+    category: 'Developer',
+    subcategory: 'Design',
+    keywords: ['color', 'picker', 'hex', 'rgb', 'hsl', 'palette'],
+    live: true,
+  },
 ]
 
 // Ordered subcategories for consistent sidebar/page ordering
-export const subcategoryOrder = ['Encoding', 'Converter', 'Text', 'Generator']
+export const subcategoryOrder = ['Encoding', 'Converter', 'Text', 'Generator', 'Design']
 
 export const toolsBySubcategory = subcategoryOrder.reduce<Record<string, Tool[]>>((acc, sub) => {
   acc[sub] = tools.filter(t => t.subcategory === sub)

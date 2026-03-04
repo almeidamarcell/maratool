@@ -1,0 +1,231 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'CSS Gradient Generator — Create linear and radial gradients | maratool',
+  description: 'Generate CSS gradients visually. Pick colors, set direction, preview in real time, and copy the CSS. Free, no sign-up.',
+  canonical: 'https://maratool.com/css-gradient',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'CSS Gradient Generator',
+    url: 'https://maratool.com/css-gradient',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate CSS gradients visually with live preview.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Design', item: 'https://maratool.com/developer/design' },
+      { '@type': 'ListItem', position: 4, name: 'CSS Gradient Generator', item: 'https://maratool.com/css-gradient' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is a CSS gradient?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A CSS gradient is a smooth transition between two or more colors, created entirely with CSS. Gradients can be linear (along a straight line) or radial (from a center point outward), set via the linear-gradient() or radial-gradient() functions.' }
+      },
+      {
+        '@type': 'Question',
+        name: "What's the difference between linear and radial gradients?",
+        acceptedAnswer: { '@type': 'Answer', text: 'A linear gradient transitions colors along a straight line at a specified angle. A radial gradient transitions colors outward from a center point in a circular or elliptical shape.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I add a gradient to a div?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Apply the gradient as a background property: background: linear-gradient(135deg, #6366f1, #8b5cf6); — this creates a diagonal gradient from indigo to purple on the element.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I use more than 2 colors?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. CSS gradients support any number of color stops. For example: linear-gradient(90deg, red, green, blue) creates a gradient through three colors.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Pick two colors using the color pickers and choose a gradient type (linear or radial).',
+  'Adjust the angle with the slider or click a preset direction button.',
+  'Click Copy CSS to copy the generated CSS property to your clipboard.'
+]
+
+const faq = [
+  { q: 'What is a CSS gradient?', a: 'A CSS gradient is a smooth transition between two or more colors, created entirely with CSS. Gradients can be linear (along a straight line) or radial (from a center point outward), set via the linear-gradient() or radial-gradient() functions.' },
+  { q: "What's the difference between linear and radial gradients?", a: 'A linear gradient transitions colors along a straight line at a specified angle. A radial gradient transitions colors outward from a center point in a circular or elliptical shape.' },
+  { q: 'How do I add a gradient to a div?', a: 'Apply the gradient as a background property: background: linear-gradient(135deg, #6366f1, #8b5cf6); — this creates a diagonal gradient from indigo to purple on the element.' },
+  { q: 'Can I use more than 2 colors?', a: 'Yes. CSS gradients support any number of color stops. For example: linear-gradient(90deg, red, green, blue) creates a gradient through three colors.' }
+]
+
+const relatedTools = [
+  { slug: 'color-picker', name: 'Color Picker' },
+  { slug: 'hash-generator', name: 'Hash Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Design', href: '/developer/design' },
+  { label: 'CSS Gradient Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell name="CSS Gradient Generator" description="Generate CSS gradients visually. Pick colors, set direction, and copy the CSS — all in real time." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div id="gradient-preview" class="gradient-preview" aria-label="Gradient preview"></div>
+
+        <div class="gradient-controls">
+          <div class="gradient-control-group">
+            <span class="tool-label">Type</span>
+            <div class="gradient-type-toggle">
+              <button class="tool-tab active" id="type-linear">Linear</button>
+              <button class="tool-tab" id="type-radial">Radial</button>
+            </div>
+          </div>
+
+          <div class="gradient-control-group">
+            <span class="tool-label">Colors</span>
+            <div class="gradient-colors">
+              <input type="color" id="color-1" value="#6366f1" aria-label="Start color" />
+              <span class="gradient-arrow">&rarr;</span>
+              <input type="color" id="color-2" value="#8b5cf6" aria-label="End color" />
+            </div>
+          </div>
+
+          <div class="gradient-control-group" id="angle-group">
+            <span class="tool-label">Angle: <span id="angle-value">135</span>&deg;</span>
+            <input type="range" id="angle-slider" min="0" max="360" value="135" class="gradient-slider" aria-label="Gradient angle" />
+            <div class="gradient-presets-row">
+              <button class="preset-dir" data-angle="90" title="Right">&rarr;</button>
+              <button class="preset-dir" data-angle="180" title="Down">&darr;</button>
+              <button class="preset-dir" data-angle="45" title="Up-right">&nearr;</button>
+              <button class="preset-dir" data-angle="135" title="Down-right">&searr;</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div class="tool-panel-header">
+            <span class="tool-label">CSS</span>
+            <button class="copy-btn" id="gradient-copy">Copy CSS</button>
+          </div>
+          <pre id="gradient-output" class="tool-output" style="min-height:48px;" aria-label="CSS output"></pre>
+        </div>
+
+        <div class="gradient-presets">
+          <span class="tool-label">Presets</span>
+          <div class="gradient-swatch-row">
+            <button class="gradient-swatch" data-c1="#ff6b6b" data-c2="#feca57" title="Sunset"></button>
+            <button class="gradient-swatch" data-c1="#a29bfe" data-c2="#6c5ce7" title="Purple"></button>
+            <button class="gradient-swatch" data-c1="#00b894" data-c2="#00cec9" title="Teal"></button>
+            <button class="gradient-swatch" data-c1="#fd79a8" data-c2="#e84393" title="Pink"></button>
+            <button class="gradient-swatch" data-c1="#0984e3" data-c2="#74b9ff" title="Sky"></button>
+            <button class="gradient-swatch" data-c1="#fdcb6e" data-c2="#e17055" title="Warm"></button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .gradient-preview {
+    width: 100%;
+    height: 120px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-bottom: 1rem;
+  }
+  .gradient-controls {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+  }
+  .gradient-control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+  .gradient-type-toggle {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .gradient-colors {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .gradient-colors input[type="color"] {
+    width: 48px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 2px;
+    background: var(--bg);
+  }
+  .gradient-arrow {
+    color: var(--text-3);
+    font-size: 18px;
+  }
+  .gradient-slider {
+    width: 180px;
+    accent-color: var(--accent);
+  }
+  .gradient-presets-row {
+    display: flex;
+    gap: 0.375rem;
+  }
+  .preset-dir {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .preset-dir:hover {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .gradient-presets {
+    margin-top: 1rem;
+  }
+  .gradient-swatch-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.375rem;
+  }
+  .gradient-swatch {
+    width: 48px;
+    height: 32px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .gradient-swatch:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+</style>
+<script src="../tools/css-gradient.js"></script>

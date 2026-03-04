@@ -1,0 +1,145 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Lorem Ipsum Generator — Placeholder text generator | maratool',
+  description: 'Generate classic lorem ipsum, Mussum Ipsum, or Dilmes Ipsum placeholder text. By paragraphs, sentences, or words. Free, instant, no sign-up.',
+  canonical: 'https://maratool.com/lorem-ipsum',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Lorem Ipsum Generator',
+    url: 'https://maratool.com/lorem-ipsum',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate lorem ipsum placeholder text instantly.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Generator', item: 'https://maratool.com/developer/generator' },
+      { '@type': 'ListItem', position: 4, name: 'Lorem Ipsum Generator', item: 'https://maratool.com/lorem-ipsum' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is lorem ipsum?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Lorem ipsum is placeholder text used in design and typesetting to fill a layout before final content is ready. It helps designers focus on visual elements without being distracted by readable content.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Where does lorem ipsum come from?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Lorem ipsum is derived from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" by Cicero, written in 45 BC. The standard passage has been used as placeholder text since the 1500s.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is Mussum Ipsum?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Mussum Ipsum is a humorous Brazilian Portuguese placeholder text generator inspired by Mussum, a beloved Brazilian comedian known for adding "-is" suffixes to words. It mixes pseudo-Latin with Mussum-style phrases.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How much placeholder text should I use?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Use enough text to represent the expected content length. For a blog post mockup, 3-5 paragraphs is typical. For headlines or short UI elements, a few words or one sentence is usually enough.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Choose a variant (Classic, Mussum, or Dilmes) and output type (paragraphs, sentences, or words).',
+  'Set the quantity and click Generate.',
+  'Click Copy to copy the generated text to your clipboard.'
+]
+
+const faq = [
+  { q: 'What is lorem ipsum?', a: 'Lorem ipsum is placeholder text used in design and typesetting to fill a layout before final content is ready. It helps designers focus on visual elements without being distracted by readable content.' },
+  { q: 'Where does lorem ipsum come from?', a: 'Lorem ipsum is derived from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" by Cicero, written in 45 BC. The standard passage has been used as placeholder text since the 1500s.' },
+  { q: 'What is Mussum Ipsum?', a: 'Mussum Ipsum is a humorous Brazilian Portuguese placeholder text generator inspired by Mussum, a beloved Brazilian comedian known for adding "-is" suffixes to words. It mixes pseudo-Latin with Mussum-style phrases.' },
+  { q: 'How much placeholder text should I use?', a: 'Use enough text to represent the expected content length. For a blog post mockup, 3-5 paragraphs is typical. For headlines or short UI elements, a few words or one sentence is usually enough.' }
+]
+
+const relatedTools = [
+  { slug: 'reading-time', name: 'Reading Time Calculator' },
+  { slug: 'markdown-editor', name: 'Markdown Editor' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Generator', href: '/developer/generator' },
+  { label: 'Lorem Ipsum Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell name="Lorem Ipsum Generator" description="Generate placeholder text in three flavors: classic Lorem Ipsum, Mussum Ipsum, or Dilmes Ipsum." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="lorem-controls">
+          <div class="lorem-control">
+            <label class="tool-label" for="lorem-variant">Variant</label>
+            <select id="lorem-variant" class="tool-select">
+              <option value="classic">Classic Lorem Ipsum</option>
+              <option value="mussum">Mussum Ipsum</option>
+              <option value="dilmes">Dilmes Ipsum</option>
+            </select>
+            <span class="lorem-flavor" id="lorem-flavor">The original placeholder text since the 1500s</span>
+          </div>
+          <div class="lorem-control">
+            <label class="tool-label" for="lorem-type">Type</label>
+            <select id="lorem-type" class="tool-select">
+              <option value="paragraphs">Paragraphs</option>
+              <option value="sentences">Sentences</option>
+              <option value="words">Words</option>
+            </select>
+          </div>
+          <div class="lorem-control">
+            <label class="tool-label" for="lorem-count">Quantity</label>
+            <input type="number" id="lorem-count" class="tool-input" value="3" min="1" max="100" style="width:80px;" />
+          </div>
+          <div class="lorem-control" style="align-self:flex-end;">
+            <button class="tool-button" id="lorem-generate">Generate</button>
+          </div>
+        </div>
+
+        <div class="tool-panel">
+          <div class="tool-panel-header">
+            <span class="tool-label">Output</span>
+            <button class="copy-btn" id="lorem-copy">Copy</button>
+          </div>
+          <textarea id="lorem-output" class="tool-textarea" rows="12" readonly aria-label="Generated placeholder text"></textarea>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .lorem-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .lorem-control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+  .lorem-flavor {
+    font-size: 11px;
+    color: var(--text-3);
+    font-style: italic;
+    max-width: 240px;
+  }
+</style>
+<script src="../tools/lorem-ipsum.js"></script>

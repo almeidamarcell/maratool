@@ -1,0 +1,143 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'JSON Formatter & Validator — Format and validate JSON online | maratool',
+  description: 'Paste your JSON and instantly format, minify, or validate it. Clear error messages for invalid JSON. Free, no sign-up, runs in your browser.',
+  canonical: 'https://maratool.com/json-formatter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'JSON Formatter & Validator',
+    url: 'https://maratool.com/json-formatter',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Format, minify, and validate JSON in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Encoding', item: 'https://maratool.com/developer/encoding' },
+      { '@type': 'ListItem', position: 4, name: 'JSON Formatter', item: 'https://maratool.com/json-formatter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is JSON formatting?',
+        acceptedAnswer: { '@type': 'Answer', text: 'JSON formatting (or pretty-printing) adds indentation and line breaks to compact JSON so it becomes human-readable. This tool uses 2-space indentation by default.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I validate JSON?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Paste your JSON into the input field. The validator checks it in real time — a green checkmark means valid JSON, a red X means there is a syntax error. The error message shows exactly where the problem is.' }
+      },
+      {
+        '@type': 'Question',
+        name: "What's the difference between formatting and minifying?",
+        acceptedAnswer: { '@type': 'Answer', text: 'Formatting adds whitespace and indentation to make JSON readable. Minifying removes all unnecessary whitespace to reduce file size — useful for APIs and configuration files where size matters.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Why does my JSON show an error?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Common JSON errors include: missing or extra commas, unquoted keys, single quotes instead of double quotes, trailing commas after the last item, and unclosed brackets or braces. The error message indicates the position of the problem.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste or type your JSON into the input field.',
+  'Click Format to pretty-print or Minify to compress — validation runs automatically.',
+  'Click Copy to copy the formatted or minified result to your clipboard.'
+]
+
+const faq = [
+  { q: 'What is JSON formatting?', a: 'JSON formatting (or pretty-printing) adds indentation and line breaks to compact JSON so it becomes human-readable. This tool uses 2-space indentation by default.' },
+  { q: 'How do I validate JSON?', a: 'Paste your JSON into the input field. The validator checks it in real time — a green checkmark means valid JSON, a red X means there is a syntax error. The error message shows exactly where the problem is.' },
+  { q: "What's the difference between formatting and minifying?", a: 'Formatting adds whitespace and indentation to make JSON readable. Minifying removes all unnecessary whitespace to reduce file size — useful for APIs and configuration files where size matters.' },
+  { q: 'Why does my JSON show an error?', a: 'Common JSON errors include: missing or extra commas, unquoted keys, single quotes instead of double quotes, trailing commas after the last item, and unclosed brackets or braces. The error message indicates the position of the problem.' }
+]
+
+const relatedTools = [
+  { slug: 'hash-generator', name: 'Hash Generator' },
+  { slug: 'base64', name: 'Base64 Encode / Decode' },
+  { slug: 'jwt-decoder', name: 'JWT Decoder' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Encoding', href: '/developer/encoding' },
+  { label: 'JSON Formatter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell name="JSON Formatter" description="Format, minify, and validate JSON instantly. Runs entirely in your browser — nothing is sent to a server." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="tool-panel">
+          <div class="tool-panel-header">
+            <label class="tool-label" for="json-input">JSON Input</label>
+            <span id="json-status" class="json-status" aria-live="polite"></span>
+          </div>
+          <textarea id="json-input" class="tool-textarea" rows="10" placeholder='{"key": "value", "number": 42}' aria-label="JSON input"></textarea>
+          <div class="json-counter" id="json-input-counter">0 characters</div>
+        </div>
+
+        <div class="tool-actions">
+          <button class="tool-button" id="json-format">Format</button>
+          <button class="tool-button" id="json-minify">Minify</button>
+        </div>
+
+        <div class="tool-panel">
+          <div class="tool-panel-header">
+            <span class="tool-label">Output</span>
+            <button class="copy-btn" id="json-copy">Copy</button>
+          </div>
+          <pre id="json-output" class="tool-output" aria-label="Formatted output" style="min-height:120px;"></pre>
+          <div class="json-counter" id="json-output-counter">0 characters</div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .tool-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .json-status {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .json-status.valid {
+    color: #276749;
+  }
+  .json-status.valid::before {
+    content: '✓ ';
+  }
+  .json-status.invalid {
+    color: #c53030;
+  }
+  .json-status.invalid::before {
+    content: '✗ ';
+  }
+  .json-counter {
+    font-size: 11px;
+    color: var(--text-3);
+    margin-top: 0.25rem;
+    text-align: right;
+  }
+</style>
+<script src="../tools/json-formatter.js"></script>
