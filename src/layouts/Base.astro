@@ -9,6 +9,21 @@ interface Props {
 }
 
 const { title, description, canonical, schema, faqSchema, breadcrumbSchema } = Astro.props
+
+const canonicalURL = new URL(
+  canonical.endsWith('/') ? canonical : canonical + '/',
+  Astro.site
+)
+
+const normalizedBreadcrumb = breadcrumbSchema
+  ? {
+      ...breadcrumbSchema,
+      itemListElement: (breadcrumbSchema.itemListElement as Array<Record<string, unknown>>).map((item) => ({
+        ...item,
+        item: typeof item.item === 'string' && !item.item.endsWith('/') ? item.item + '/' : item.item,
+      })),
+    }
+  : undefined
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +32,7 @@ const { title, description, canonical, schema, faqSchema, breadcrumbSchema } = A
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    <link rel="canonical" href={canonicalURL.toString()} />
     <link rel="icon" href="/favicon.ico" />
 
     <!-- Google Fonts preconnect -->
@@ -37,7 +52,7 @@ const { title, description, canonical, schema, faqSchema, breadcrumbSchema } = A
     {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
 
     <!-- BreadcrumbList JSON-LD (optional) -->
-    {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
+    {normalizedBreadcrumb && <script type="application/ld+json" set:html={JSON.stringify(normalizedBreadcrumb)} />}
 
     <!-- Google Search Console verification — replace token after verifying -->
     <meta name="google-site-verification" content="REPLACE_WITH_TOKEN" />
