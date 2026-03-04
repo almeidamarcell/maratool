@@ -12,6 +12,10 @@ const liveTools = tools.filter(t => t.live).map(t => ({
 <header class="topbar">
   <a href="/" class="topbar-logo">maratool</a>
   <div class="search-wrap">
+    <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"/>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
     <input
       id="topbar-search"
       class="topbar-search"
@@ -20,7 +24,15 @@ const liveTools = tools.filter(t => t.live).map(t => ({
       aria-label="Search tools"
       autocomplete="off"
     />
-    <div id="search-dropdown" class="search-dropdown" hidden></div>
+    <kbd class="search-kbd" id="search-kbd">⌘K</kbd>
+    <div id="search-dropdown" class="search-dropdown" hidden>
+      <div id="search-results"></div>
+      <div class="search-footer">
+        <span>↑↓ navigate</span>
+        <span>↵ open</span>
+        <span>esc close</span>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -28,9 +40,32 @@ const liveTools = tools.filter(t => t.live).map(t => ({
 (function () {
   var input = document.getElementById('topbar-search')
   var dropdown = document.getElementById('search-dropdown')
+  var resultsEl = document.getElementById('search-results')
+  var kbd = document.getElementById('search-kbd')
   var activeIndex = -1
   var results = []
   var debounceTimer = null
+  var currentQuery = ''
+
+  // Detect Mac for shortcut display
+  var isMac = /Mac|iPod|iPhone|iPad/.test(navigator.platform)
+  if (!isMac) kbd.textContent = 'Ctrl K'
+
+  function escapeHtml(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+  }
+
+  function highlightMatch(text, query) {
+    var escaped = escapeHtml(text)
+    if (!query) return escaped
+    var lower = text.toLowerCase()
+    var idx = lower.indexOf(query.toLowerCase())
+    if (idx === -1) return escaped
+    var before = escapeHtml(text.slice(0, idx))
+    var match = escapeHtml(text.slice(idx, idx + query.length))
+    var after = escapeHtml(text.slice(idx + query.length))
+    return before + '<strong>' + match + '</strong>' + after
+  }
 
   function score(tool, q) {
     var name = tool.name.toLowerCase()
@@ -61,14 +96,17 @@ const liveTools = tools.filter(t => t.live).map(t => ({
     activeIndex = -1
     results = items
     if (items.length === 0) {
-      dropdown.innerHTML = '<div class="search-no-results">No tools found</div>'
+      resultsEl.innerHTML = '<div class="search-no-results">No tools found</div>'
     } else {
-      dropdown.innerHTML = items.map(function (t, i) {
+      resultsEl.innerHTML = items.map(function (t, i) {
         return '<a href="/' + t.slug + '" class="search-result" data-index="' + i + '">' +
-          '<span class="search-result-emoji">' + t.emoji + '</span>' +
-          '<span class="search-result-name">' + t.name + '</span>' +
-          '<span class="search-result-sub">' + t.subcategory + '</span>' +
-          '</a>'
+          '<div class="search-result-top">' +
+            '<span class="search-result-emoji">' + t.emoji + '</span>' +
+            '<span class="search-result-name">' + highlightMatch(t.name, currentQuery) + '</span>' +
+            '<span class="search-result-sub">' + escapeHtml(t.subcategory) + '</span>' +
+          '</div>' +
+          '<div class="search-result-desc">' + escapeHtml(t.description) + '</div>' +
+        '</a>'
       }).join('')
     }
     dropdown.hidden = false
@@ -92,13 +130,24 @@ const liveTools = tools.filter(t => t.live).map(t => ({
     }
   }
 
+  function updateKbd() {
+    kbd.hidden = input.value.length > 0 || document.activeElement === input
+  }
+
   input.addEventListener('input', function () {
     clearTimeout(debounceTimer)
+    updateKbd()
     debounceTimer = setTimeout(function () {
-      var q = input.value
-      if (!q.trim()) { close(); return }
+      var q = input.value.trim()
+      currentQuery = q
+      if (!q) { close(); return }
       render(search(q))
     }, 150)
+  })
+
+  input.addEventListener('focus', updateKbd)
+  input.addEventListener('blur', function () {
+    setTimeout(updateKbd, 100)
   })
 
   input.addEventListener('keydown', function (e) {
@@ -120,6 +169,16 @@ const liveTools = tools.filter(t => t.live).map(t => ({
     } else if (e.key === 'Escape') {
       input.value = ''
       close()
+      updateKbd()
+    }
+  })
+
+  // ⌘K / Ctrl+K shortcut
+  document.addEventListener('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault()
+      input.focus()
+      input.select()
     }
   })
 

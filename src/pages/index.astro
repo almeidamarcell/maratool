@@ -3,25 +3,45 @@ import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
 import { tools } from '../data/tools'
 
+const liveTools = tools.filter(t => t.live)
+
 const seo = {
-  title: 'Free Developer Tools — maratool',
-  description: 'Free, instant, browser-based developer tools. JWT decoder, Base64, diff checker, hash generator, UUID generator, Unix timestamp, and more — no sign-up required.',
+  title: 'Free Online Tools — JSON Formatter, Word Counter, Color Picker & more | maratool',
+  description: 'Free, instant, browser-based tools for everyone. JSON formatter, word counter, color picker, JWT decoder, Base64, regex tester and more — no sign-up, no tracking, nothing installed.',
   canonical: 'https://maratool.com/',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'maratool',
     url: 'https://maratool.com',
-    description: 'Free browser-based developer tools',
+    description: 'Free browser-based tools for developers, designers, and writers',
   }
+}
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Free Online Tools',
+  description: 'A collection of free browser-based utilities for developers, designers, and writers',
+  url: 'https://maratool.com',
+  numberOfItems: liveTools.length,
+  itemListElement: liveTools.map((t, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: t.name,
+    url: `https://maratool.com/${t.slug}/`,
+  })),
 }
 ---
 <Base {...seo}>
   <Layout>
     <div class="hero">
-      <h1>Free tools for developers</h1>
-      <p>Browser-based, instant, no sign-up. Everything you need in one place.</p>
+      <h1>Free online tools</h1>
+      <p>Fast, browser-based utilities for developers, designers, and writers. Everything runs locally — your data never leaves your device.</p>
     </div>
+
+    <h2>All tools</h2>
+    <p style="color:var(--text-2);margin-bottom:1.5rem;">No accounts. No installs. No data sent to any server. Pick a tool and start instantly.</p>
 
     <div class="tools-grid">
       {tools.map(tool => (
@@ -43,5 +63,12 @@ const seo = {
           )
       ))}
     </div>
+
+    <section style="margin-top:3rem;">
+      <h2>Why maratool?</h2>
+      <p style="color:var(--text-2);line-height:1.7;">maratool is a free collection of utilities that run entirely in your browser. Paste your JSON, timestamp, or regex and get an answer in under a second. Everything works offline once loaded — because nothing is sent to a server.</p>
+    </section>
+
+    <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
   </Layout>
 </Base>
