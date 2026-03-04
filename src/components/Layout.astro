@@ -1,0 +1,15 @@
+---
+import Topbar from './Topbar.astro'
+import Sidebar from './Sidebar.astro'
+import AdColumn from './AdColumn.astro'
+import Footer from './Footer.astro'
+---
+<Topbar />
+<div class="page-grid">
+  <Sidebar />
+  <main class="main-content">
+    <slot />
+  </main>
+  <AdColumn />
+</div>
+<Footer />

@@ -1,0 +1,141 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Text to Binary Converter — Convert text to binary online | maratool',
+  description: 'Convert text to binary, hex, and decimal instantly. Also converts binary back to text. Real-time conversion, runs in your browser. Free, no sign-up required.',
+  canonical: 'https://maratool.com/text-to-binary',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Text to Binary Converter',
+    url: 'https://maratool.com/text-to-binary',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert text to binary, hex, and decimal representations in real time.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Encoding', item: 'https://maratool.com/developer/encoding' },
+      { '@type': 'ListItem', position: 4, name: 'Text to Binary', item: 'https://maratool.com/text-to-binary' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How is text converted to binary?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Each character is first converted to its UTF-8 byte value(s), then each byte is represented as an 8-bit binary number. For example, the letter "A" has UTF-8 value 65, which is 01000001 in binary.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the binary representation of a space?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A space character (ASCII 32) in binary is 00100000.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this tool support Unicode and emoji?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. The converter uses the TextEncoder API which encodes characters as UTF-8. Multi-byte characters like emoji will produce multiple bytes in the output.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I convert binary back to text?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Switch to the Binary → Text tab. Paste space-separated 8-bit binary groups (e.g. 01001000 01101001) and the text output will appear immediately.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Type or paste text in the "Text → Binary" tab to see the binary, hex, and decimal representations.',
+  'Switch to "Binary → Text" and paste space-separated binary bytes to decode binary back to text.',
+  'Click Copy to copy any output to your clipboard.'
+]
+
+const faq = [
+  { q: 'How is text converted to binary?', a: 'Each character is first converted to its UTF-8 byte value(s), then each byte is represented as an 8-bit binary number. For example, the letter "A" has UTF-8 value 65, which is 01000001 in binary.' },
+  { q: 'What is the binary representation of a space?', a: 'A space character (ASCII 32) in binary is 00100000.' },
+  { q: 'Does this tool support Unicode and emoji?', a: 'Yes. The converter uses the TextEncoder API which encodes characters as UTF-8. Multi-byte characters like emoji will produce multiple bytes in the output.' },
+  { q: 'How do I convert binary back to text?', a: 'Switch to the Binary → Text tab. Paste space-separated 8-bit binary groups (e.g. 01001000 01101001) and the text output will appear immediately.' }
+]
+
+const relatedTools = [
+  { slug: 'base64', name: 'Base64 Encode / Decode' },
+  { slug: 'hash-generator', name: 'Hash Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Encoding', href: '/developer/encoding' },
+  { label: 'Text to Binary' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell name="Text to Binary" description="Convert text to binary, hex, and decimal — or decode binary back to text. Real-time conversion using UTF-8 encoding." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="tool-tabs">
+          <button class="tool-tab active" data-panel="tab-text-bin">Text → Binary</button>
+          <button class="tool-tab" data-panel="tab-bin-text">Binary → Text</button>
+        </div>
+
+        <div id="tab-text-bin" class="tab-panel">
+          <div class="tool-panel">
+            <label class="tool-label" for="bin-text-input">Text input</label>
+            <textarea id="bin-text-input" class="tool-textarea" rows="4" placeholder="Type or paste text here..." aria-label="Text to convert"></textarea>
+          </div>
+
+          <div class="tool-panel">
+            <div class="tool-panel-header">
+              <span class="tool-label">Binary</span>
+              <button class="copy-btn" data-copy-from="bin-binary-output">Copy</button>
+            </div>
+            <pre id="bin-binary-output" class="tool-output" aria-label="Binary output" style="min-height:60px;"></pre>
+          </div>
+
+          <div class="tool-row">
+            <div class="tool-panel">
+              <div class="tool-panel-header">
+                <span class="tool-label">Hexadecimal</span>
+                <button class="copy-btn" data-copy-from="bin-hex-output">Copy</button>
+              </div>
+              <pre id="bin-hex-output" class="tool-output" aria-label="Hex output" style="min-height:48px;"></pre>
+            </div>
+            <div class="tool-panel">
+              <div class="tool-panel-header">
+                <span class="tool-label">Decimal</span>
+                <button class="copy-btn" data-copy-from="bin-decimal-output">Copy</button>
+              </div>
+              <pre id="bin-decimal-output" class="tool-output" aria-label="Decimal output" style="min-height:48px;"></pre>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-bin-text" class="tab-panel" style="display:none;">
+          <div class="tool-panel">
+            <label class="tool-label" for="bin-binary-input">Binary input (space-separated bytes)</label>
+            <textarea id="bin-binary-input" class="tool-textarea" rows="5" placeholder="e.g. 01001000 01100101 01101100 01101100 01101111" aria-label="Binary input"></textarea>
+          </div>
+          <div class="tool-panel">
+            <div class="tool-panel-header">
+              <span class="tool-label">Text output</span>
+              <button id="bin-copy-output" class="copy-btn">Copy</button>
+            </div>
+            <pre id="bin-text-output" class="tool-output" aria-label="Text output" style="min-height:60px;"></pre>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<script src="../tools/binary.js"></script>

@@ -1,0 +1,122 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Base64 Encode / Decode — Convert text and images online | maratool',
+  description: 'Encode text to Base64 or decode Base64 to text instantly. Also converts images to Base64 data URLs. Bidirectional, real-time, runs in your browser. Free, no sign-up.',
+  canonical: 'https://maratool.com/base64',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Base64 Encoder / Decoder',
+    url: 'https://maratool.com/base64',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Encode and decode Base64 for text and images directly in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Encoding', item: 'https://maratool.com/developer/encoding' },
+      { '@type': 'ListItem', position: 4, name: 'Base64 Encode / Decode', item: 'https://maratool.com/base64' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is Base64 encoding?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Base64 is an encoding scheme that converts binary data into ASCII text. It uses 64 printable characters (A-Z, a-z, 0-9, +, /) and is commonly used to embed binary data in text-based formats like JSON, XML, and email.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does Base64 encrypt my data?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. Base64 is an encoding scheme, not encryption. Anyone can decode Base64 without a key. Do not use it to protect sensitive data.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Why does Base64 output have = padding?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Base64 works in 6-bit groups. When the input length is not divisible by 3, padding characters (=) are added to make the output a multiple of 4 characters.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I use a Base64 image in HTML?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. You can use a Base64 data URL directly in an <img> src attribute: <img src="data:image/png;base64,...">. This embeds the image inline without a separate file request.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'For text: type or paste into the left box and the Base64 output appears on the right (or vice versa).',
+  'For images: switch to the Image tab, click "Choose file", and the Base64 data URL is generated instantly.',
+  'Click "Copy Base64" to copy the encoded output to your clipboard.'
+]
+
+const faq = [
+  { q: 'What is Base64 encoding?', a: 'Base64 is an encoding scheme that converts binary data into ASCII text. It uses 64 printable characters (A-Z, a-z, 0-9, +, /) and is commonly used to embed binary data in text-based formats like JSON, XML, and email.' },
+  { q: 'Does Base64 encrypt my data?', a: 'No. Base64 is an encoding scheme, not encryption. Anyone can decode Base64 without a key. Do not use it to protect sensitive data.' },
+  { q: 'Why does Base64 output have = padding?', a: 'Base64 works in 6-bit groups. When the input length is not divisible by 3, padding characters (=) are added to make the output a multiple of 4 characters.' },
+  { q: 'Can I use a Base64 image in HTML?', a: 'Yes. You can use a Base64 data URL directly in an <img> src attribute: <img src="data:image/png;base64,...">. This embeds the image inline without a separate file request.' }
+]
+
+const relatedTools = [
+  { slug: 'hash-generator', name: 'Hash Generator' },
+  { slug: 'jwt-decoder', name: 'JWT Decoder' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Encoding', href: '/developer/encoding' },
+  { label: 'Base64 Encode / Decode' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell name="Base64 Encode / Decode" description="Encode text to Base64 or decode Base64 back to text. Also converts images to Base64 data URLs. Bidirectional and real-time." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="tool-tabs">
+          <button class="tool-tab active" data-panel="tab-text">Text ↔ Base64</button>
+          <button class="tool-tab" data-panel="tab-image">Image → Base64</button>
+        </div>
+
+        <div id="tab-text" class="tab-panel">
+          <div class="tool-row">
+            <div class="tool-panel">
+              <label class="tool-label" for="b64-text">Plain text</label>
+              <textarea id="b64-text" class="tool-textarea" rows="10" placeholder="Type or paste plain text..." aria-label="Plain text input"></textarea>
+            </div>
+            <div class="tool-panel">
+              <label class="tool-label" for="b64-encoded">Base64</label>
+              <textarea id="b64-encoded" class="tool-textarea" rows="10" placeholder="Or paste Base64 here to decode..." aria-label="Base64 output"></textarea>
+            </div>
+          </div>
+          <button id="b64-text-copy" class="copy-btn">Copy Base64</button>
+        </div>
+
+        <div id="tab-image" class="tab-panel" style="display:none;">
+          <div class="tool-panel">
+            <label class="tool-label" for="b64-image-file">Select image</label>
+            <input id="b64-image-file" type="file" accept="image/*" class="tool-input" style="width:100%;" aria-label="Image file" />
+          </div>
+          <img id="b64-image-preview" class="image-preview" alt="Preview" style="display:none;" />
+          <div class="tool-panel" style="margin-top:0.75rem;">
+            <label class="tool-label" for="b64-image-output">Base64 data URL</label>
+            <textarea id="b64-image-output" class="tool-textarea" rows="6" readonly aria-label="Base64 data URL output"></textarea>
+          </div>
+          <button id="b64-image-copy" class="copy-btn" style="display:none;">Copy Base64</button>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<script src="../tools/base64.js"></script>

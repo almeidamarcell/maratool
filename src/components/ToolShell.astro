@@ -1,0 +1,59 @@
+---
+import Breadcrumb from './Breadcrumb.astro'
+
+interface FAQItem {
+  q: string
+  a: string
+}
+
+interface RelatedTool {
+  slug: string
+  name: string
+}
+
+interface Props {
+  name: string
+  description: string
+  howTo: string[]
+  faq: FAQItem[]
+  relatedTools: RelatedTool[]
+  breadcrumbs?: Array<{ label: string; href?: string }>
+}
+
+const { name, description, howTo, faq, relatedTools, breadcrumbs = [] } = Astro.props
+---
+<article>
+  {breadcrumbs.length > 0 && <Breadcrumb crumbs={breadcrumbs} />}
+  <h1>{name}</h1>
+  <p class="tool-description">{description}</p>
+
+  <slot />
+
+  <section class="how-to" aria-labelledby="how-to-heading">
+    <h2 id="how-to-heading">How to use</h2>
+    <ol>
+      {howTo.map(step => <li>{step}</li>)}
+    </ol>
+  </section>
+
+  <section class="faq" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently asked questions</h2>
+    {faq.map(item => (
+      <div class="faq-item">
+        <p class="faq-question">{item.q}</p>
+        <p class="faq-answer">{item.a}</p>
+      </div>
+    ))}
+  </section>
+
+  {relatedTools.length > 0 && (
+    <section class="related-tools" aria-labelledby="related-heading">
+      <h2 id="related-heading">Related tools</h2>
+      <ul class="related-tools-list">
+        {relatedTools.map(tool => (
+          <li><a href={`/${tool.slug}`}>{tool.name}</a></li>
+        ))}
+      </ul>
+    </section>
+  )}
+</article>

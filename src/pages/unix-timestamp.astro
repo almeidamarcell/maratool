@@ -1,0 +1,132 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Unix Timestamp Converter — Convert epoch time instantly | maratool',
+  description: 'Convert Unix timestamps to human-readable dates and back. See the current timestamp live. Supports UTC and local timezone. Free, browser-based, no sign-up.',
+  canonical: 'https://maratool.com/unix-timestamp',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Unix Timestamp Converter',
+    url: 'https://maratool.com/unix-timestamp',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert Unix timestamps to readable dates and vice versa with timezone support.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Converter', item: 'https://maratool.com/developer/converter' },
+      { '@type': 'ListItem', position: 4, name: 'Unix Timestamp Converter', item: 'https://maratool.com/unix-timestamp' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is a Unix timestamp?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A Unix timestamp is the number of seconds that have elapsed since January 1, 1970, at 00:00:00 UTC (the Unix epoch). It\'s a standard way to represent points in time across programming languages and systems.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I get the current Unix timestamp in JavaScript?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Use Math.floor(Date.now() / 1000) in JavaScript. Date.now() returns milliseconds since epoch, so dividing by 1000 and flooring gives you seconds.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the difference between a Unix timestamp in seconds and milliseconds?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Unix timestamps are traditionally in seconds. JavaScript\'s Date.now() and many APIs return milliseconds. A 10-digit number is seconds; a 13-digit number is milliseconds. This converter handles both automatically.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the maximum Unix timestamp?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The maximum 32-bit Unix timestamp is 2,147,483,647, which corresponds to January 19, 2038, at 03:14:07 UTC — known as the Year 2038 problem. 64-bit systems extend this to far into the future.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'The current Unix timestamp updates live every second at the top.',
+  'Paste a timestamp in the first field to convert it to a human-readable date.',
+  'Use the date/time picker to convert a date back to a Unix timestamp.'
+]
+
+const faq = [
+  { q: 'What is a Unix timestamp?', a: 'A Unix timestamp is the number of seconds that have elapsed since January 1, 1970, at 00:00:00 UTC (the Unix epoch). It\'s a standard way to represent points in time across programming languages and systems.' },
+  { q: 'How do I get the current Unix timestamp in JavaScript?', a: 'Use Math.floor(Date.now() / 1000) in JavaScript. Date.now() returns milliseconds since epoch, so dividing by 1000 and flooring gives you seconds.' },
+  { q: 'What is the difference between a Unix timestamp in seconds and milliseconds?', a: 'Unix timestamps are traditionally in seconds. JavaScript\'s Date.now() and many APIs return milliseconds. A 10-digit number is seconds; a 13-digit number is milliseconds. This converter handles both automatically.' },
+  { q: 'What is the maximum Unix timestamp?', a: 'The maximum 32-bit Unix timestamp is 2,147,483,647, which corresponds to January 19, 2038, at 03:14:07 UTC — known as the Year 2038 problem. 64-bit systems extend this to far into the future.' }
+]
+
+const relatedTools = [
+  { slug: 'reading-time', name: 'Reading Time Calculator' },
+  { slug: 'diff-checker', name: 'Diff Checker' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Converter', href: '/developer/converter' },
+  { label: 'Unix Timestamp Converter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell name="Unix Timestamp Converter" description="Convert Unix timestamps to human-readable dates and back. Shows the current timestamp live, updated every second. Supports UTC and local timezone." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div style="margin-bottom:1.5rem;">
+          <div class="tool-panel-header" style="margin-bottom:0.5rem;">
+            <span class="tool-label">Current Unix timestamp</span>
+            <select id="unix-tz" class="tool-select">
+              <option value="local">Local time</option>
+              <option value="utc">UTC</option>
+            </select>
+          </div>
+          <div class="live-timestamp" id="unix-live" aria-live="polite">—</div>
+          <div style="font-size:13px;color:var(--text-2);margin-top:0.25rem;" id="unix-live-date">—</div>
+        </div>
+
+        <hr />
+
+        <div style="margin-top:1.5rem;margin-bottom:1.5rem;">
+          <h3 style="margin-bottom:0.75rem;">Timestamp → Date</h3>
+          <div class="tool-panel">
+            <label class="tool-label" for="unix-ts-input">Unix timestamp</label>
+            <input id="unix-ts-input" class="tool-input" type="text" placeholder="e.g. 1735689600" style="width:100%;max-width:280px;" aria-label="Unix timestamp input" />
+          </div>
+          <div class="tool-panel-header" style="margin-top:0.75rem;margin-bottom:0.375rem;">
+            <span class="tool-label">Human-readable date</span>
+            <button id="unix-ts-copy" class="copy-btn">Copy</button>
+          </div>
+          <div id="unix-ts-output" class="tool-output" aria-label="Converted date" style="min-height:40px;"></div>
+        </div>
+
+        <hr />
+
+        <div style="margin-top:1.5rem;">
+          <h3 style="margin-bottom:0.75rem;">Date → Timestamp</h3>
+          <div class="tool-panel">
+            <label class="tool-label" for="unix-dt-input">Date and time</label>
+            <input id="unix-dt-input" class="tool-input" type="datetime-local" style="width:100%;max-width:280px;" aria-label="Date and time input" />
+          </div>
+          <div class="tool-panel-header" style="margin-top:0.75rem;margin-bottom:0.375rem;">
+            <span class="tool-label">Unix timestamp</span>
+            <button id="unix-dt-copy" class="copy-btn">Copy</button>
+          </div>
+          <div id="unix-dt-output" class="tool-output" aria-label="Unix timestamp output" style="min-height:40px;"></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<script src="../tools/unix.js"></script>
