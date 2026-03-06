@@ -115,6 +115,23 @@ export interface Tool {
 Wave 1 (all live: true):
 - jwt-decoder, unix-timestamp, diff-checker, hash-generator, base64, uuid-generator, reading-time, text-to-binary
 
+## SEO: Every new tool starts with keyword research
+
+Before naming, titling, or writing any description for a new tool, find the exact query people type into Google — not the technical name of the concept.
+
+Steps for every new tool:
+1. Search Google for the problem the tool solves. Look at autocomplete, "People also ask", and the titles of the top 3 results.
+2. Access semrush to search for information https://pt.semrush.com/home/ (make sure you are logged in)
+3. Pick the phrasing with the highest search intent that the tool can realistically rank for.
+4. Use that phrase as: the page `<title>`, the `<h1>`, the `name` field in `tools.ts`, and the first sentence of `description`.
+5. Add 5–8 related queries to the `keywords` array in `tools.ts`.
+
+Wrong: "JWT Decoder" → Right: "Decode JWT token online"
+Wrong: "Unix Timestamp Converter" → Right: "Epoch to date converter"
+Wrong: "Diff Checker" → Right: "Compare two texts and find differences"
+
+Never name a tool after the technology. Name it after the job the user is trying to do.
+
 ## SEO Rules — Every Tool Page
 
 Each `.astro` in pages/ must:
