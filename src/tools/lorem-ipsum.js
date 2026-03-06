@@ -1,3 +1,4 @@
+import './hash-state.js'
 // Lorem Ipsum Generator — Classic, Mussum, Dilmes
 (function () {
   var variantSelect = document.getElementById('lorem-variant')
@@ -187,11 +188,26 @@
     output.value = text
   }
 
+  function saveState() {
+    HashState.save({
+      variant: variantSelect.value,
+      type: typeSelect.value,
+      count: countInput.value
+    })
+  }
+
   variantSelect.addEventListener('change', function () {
     flavorLabel.textContent = flavors[variantSelect.value]
+    saveState()
   })
 
-  generateBtn.addEventListener('click', generate)
+  typeSelect.addEventListener('change', saveState)
+  countInput.addEventListener('change', saveState)
+
+  generateBtn.addEventListener('click', function () {
+    generate()
+    saveState()
+  })
 
   copyBtn.addEventListener('click', function () {
     var text = output.value
@@ -205,6 +221,12 @@
       }, 2000)
     })
   })
+
+  // Restore from hash state
+  var _hs = HashState.parse()
+  if (_hs.variant) { variantSelect.value = _hs.variant; flavorLabel.textContent = flavors[_hs.variant] }
+  if (_hs.type) typeSelect.value = _hs.type
+  if (_hs.count) countInput.value = _hs.count
 
   // Generate initial output
   generate()

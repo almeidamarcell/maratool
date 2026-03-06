@@ -1,3 +1,4 @@
+import './hash-state.js'
 // Regex Tester — live match highlighting
 (function () {
   var patternInput = document.getElementById('regex-pattern')
@@ -104,14 +105,36 @@
     }
   }
 
+  function saveState() {
+    HashState.save({
+      pattern: patternInput.value,
+      test: testString.value,
+      g: flagG.checked ? '1' : '0',
+      i: flagI.checked ? '1' : '0',
+      m: flagM.checked ? '1' : '0'
+    })
+  }
+
   function debouncedRun() {
     clearTimeout(debounceTimer)
-    debounceTimer = setTimeout(run, 100)
+    debounceTimer = setTimeout(function () {
+      run()
+      saveState()
+    }, 100)
   }
 
   patternInput.addEventListener('input', debouncedRun)
   testString.addEventListener('input', debouncedRun)
-  flagG.addEventListener('change', run)
-  flagI.addEventListener('change', run)
-  flagM.addEventListener('change', run)
+  flagG.addEventListener('change', function () { run(); saveState() })
+  flagI.addEventListener('change', function () { run(); saveState() })
+  flagM.addEventListener('change', function () { run(); saveState() })
+
+  // Restore from hash state
+  var _hs = HashState.parse()
+  if (_hs.pattern !== undefined) patternInput.value = _hs.pattern
+  if (_hs.test !== undefined) testString.value = _hs.test
+  if (_hs.g !== undefined) flagG.checked = _hs.g === '1'
+  if (_hs.i !== undefined) flagI.checked = _hs.i === '1'
+  if (_hs.m !== undefined) flagM.checked = _hs.m === '1'
+  if (_hs.pattern !== undefined || _hs.test !== undefined) run()
 })()

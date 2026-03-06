@@ -1,3 +1,4 @@
+import './hash-state.js'
 // Markdown Editor — minimal vanilla JS parser + live preview
 (function () {
   var input = document.getElementById('md-input')
@@ -126,6 +127,7 @@
   input.addEventListener('input', function () {
     clearTimeout(debounceTimer)
     debounceTimer = setTimeout(updatePreview, 150)
+    HashState.save({ input: input.value })
   })
 
   // ── Toolbar insertion ──
@@ -190,4 +192,11 @@
   // ── Default content ──
   input.value = '# Hello, Markdown!\n\nThis is a **live preview** editor. Start typing on the left.\n\n## Features\n\n- **Bold** and *italic* text\n- `Inline code` and code blocks\n- [Links](https://example.com)\n- Lists, blockquotes, and more\n\n> Markdown is a lightweight markup language.\n\n```\nconst greeting = "Hello, world!";\nconsole.log(greeting);\n```\n\n---\n\n1. Write markdown\n2. See the preview\n3. Copy the output'
   updatePreview()
+
+  // ── Hash state restore (after defaults) ──
+  var saved = HashState.parse()
+  if (saved.input) {
+    input.value = saved.input
+    updatePreview()
+  }
 })()

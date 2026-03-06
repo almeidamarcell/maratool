@@ -1,3 +1,4 @@
+import './hash-state.js'
 // Reading Time Calculator
 (function () {
   const textarea = document.getElementById('reading-input')
@@ -53,5 +54,14 @@
     statFast.textContent = formatTime(words / WPM_FAST)
   }
 
-  textarea.addEventListener('input', update)
+  var saved = HashState.parse()
+  if (saved.input) {
+    textarea.value = saved.input
+    update()
+  }
+
+  textarea.addEventListener('input', function () {
+    update()
+    HashState.save({ input: textarea.value })
+  })
 })()

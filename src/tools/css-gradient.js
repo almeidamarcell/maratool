@@ -1,3 +1,4 @@
+import './hash-state.js'
 // CSS Gradient Generator
 (function () {
   var preview = document.getElementById('gradient-preview')
@@ -30,6 +31,15 @@
     angleValue.textContent = angle
   }
 
+  function saveState() {
+    HashState.save({
+      type: gradientType,
+      c1: color1.value,
+      c2: color2.value,
+      angle: angleSlider.value
+    })
+  }
+
   function setType(type) {
     gradientType = type
     if (type === 'linear') {
@@ -42,11 +52,12 @@
       angleGroup.style.display = 'none'
     }
     update()
+    saveState()
   }
 
-  color1.addEventListener('input', update)
-  color2.addEventListener('input', update)
-  angleSlider.addEventListener('input', update)
+  color1.addEventListener('input', function () { update(); saveState() })
+  color2.addEventListener('input', function () { update(); saveState() })
+  angleSlider.addEventListener('input', function () { update(); saveState() })
   linearBtn.addEventListener('click', function () { setType('linear') })
   radialBtn.addEventListener('click', function () { setType('radial') })
 
@@ -65,6 +76,7 @@
       color1.value = swatch.dataset.c1
       color2.value = swatch.dataset.c2
       update()
+      saveState()
     })
   })
 
@@ -80,5 +92,14 @@
     })
   })
 
-  update()
+  // Restore from hash state
+  var _hs = HashState.parse()
+  if (_hs.c1) color1.value = _hs.c1
+  if (_hs.c2) color2.value = _hs.c2
+  if (_hs.angle) angleSlider.value = _hs.angle
+  if (_hs.type) {
+    setType(_hs.type)
+  } else {
+    update()
+  }
 })()

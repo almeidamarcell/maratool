@@ -1,3 +1,4 @@
+import './hash-state.js'
 // Diff Checker — LCS-based line diff
 (function () {
   const leftInput = document.getElementById('diff-left')
@@ -102,4 +103,18 @@
   }
 
   compareBtn.addEventListener('click', compare)
+
+  // ---- HASH STATE ----
+  function saveHash() {
+    HashState.save({ left: leftInput.value, right: rightInput.value })
+  }
+
+  leftInput.addEventListener('input', saveHash)
+  rightInput.addEventListener('input', saveHash)
+
+  // Restore
+  var saved = HashState.parse()
+  if (saved.left !== undefined) leftInput.value = saved.left
+  if (saved.right !== undefined) rightInput.value = saved.right
+  if (saved.left && saved.right) compare()
 })()

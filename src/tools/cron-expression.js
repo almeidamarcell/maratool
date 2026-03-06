@@ -1,3 +1,4 @@
+import './hash-state.js'
 // Cron Expression Generator
 (function () {
   var fields = {
@@ -219,9 +220,22 @@
     }
   }
 
+  function saveState() {
+    HashState.save({
+      min: fields.min.value,
+      hour: fields.hour.value,
+      dom: fields.dom.value,
+      month: fields.month.value,
+      dow: fields.dow.value
+    })
+  }
+
   // ── Event listeners ──
   Object.keys(fields).forEach(function (key) {
-    fields[key].addEventListener('input', update)
+    fields[key].addEventListener('input', function () {
+      update()
+      saveState()
+    })
   })
 
   // ── Presets ──
@@ -234,6 +248,7 @@
       fields.month.value = parts[3]
       fields.dow.value = parts[4]
       update()
+      saveState()
     })
   })
 
@@ -248,6 +263,14 @@
       }, 2000)
     })
   })
+
+  // Restore from hash state
+  var _hs = HashState.parse()
+  if (_hs.min !== undefined) fields.min.value = _hs.min
+  if (_hs.hour !== undefined) fields.hour.value = _hs.hour
+  if (_hs.dom !== undefined) fields.dom.value = _hs.dom
+  if (_hs.month !== undefined) fields.month.value = _hs.month
+  if (_hs.dow !== undefined) fields.dow.value = _hs.dow
 
   update()
 })()

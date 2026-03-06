@@ -1,3 +1,4 @@
+import './hash-state.js'
 // Color Picker — HEX / RGB / HSL with contrast checker
 (function () {
   var picker = document.getElementById('cp-picker')
@@ -161,6 +162,7 @@
   picker.addEventListener('input', function () {
     var rgb = hexToRgb(picker.value)
     if (rgb) updateFromRgb(rgb.r, rgb.g, rgb.b, 'picker')
+    saveHashState()
   })
   picker.addEventListener('change', function () {
     addRecent(picker.value)
@@ -171,6 +173,7 @@
     if (rgb) {
       updateFromRgb(rgb.r, rgb.g, rgb.b, 'hex')
       addRecent(hexInput.value)
+      saveHashState()
     }
   })
 
@@ -186,6 +189,7 @@
         'rgb'
       )
       addRecent(rgbToHex(r, g, b))
+      saveHashState()
     }
   }
   rInput.addEventListener('input', onRgbInput)
@@ -204,6 +208,7 @@
       )
       updateFromRgb(rgb.r, rgb.g, rgb.b, 'hsl')
       addRecent(rgbToHex(rgb.r, rgb.g, rgb.b))
+      saveHashState()
     }
   }
   hInput.addEventListener('input', onHslInput)
@@ -232,6 +237,22 @@
     copyWithFeedback(copyHsl, 'hsl(' + hInput.value + ', ' + sInput.value + '%, ' + lInput.value + '%)', 'Copy HSL')
   })
 
+  // ── Hash state save helper ──
+  function saveHashState() {
+    var hex = rgbToHex(currentR, currentG, currentB).replace('#', '')
+    HashState.save({ hex: hex })
+  }
+
   // ── Init ──
-  updateFromRgb(45, 110, 246, 'init')
+  var saved = HashState.parse()
+  if (saved.hex) {
+    var rgb = hexToRgb(saved.hex)
+    if (rgb) {
+      updateFromRgb(rgb.r, rgb.g, rgb.b, 'init')
+    } else {
+      updateFromRgb(45, 110, 246, 'init')
+    }
+  } else {
+    updateFromRgb(45, 110, 246, 'init')
+  }
 })()

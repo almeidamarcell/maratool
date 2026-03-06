@@ -1,3 +1,4 @@
+import './hash-state.js'
 // Hash Generator — MD5 (pure JS) + SHA-1/256/512 (Web Crypto API)
 (function () {
   const input = document.getElementById('hash-input')
@@ -105,5 +106,14 @@
     setCopyBtn(outputs.sha512.querySelector('.copy-btn'), sha512val)
   }
 
-  input.addEventListener('input', update)
+  var saved = HashState.parse()
+  if (saved.input) {
+    input.value = saved.input
+    update()
+  }
+
+  input.addEventListener('input', function () {
+    update()
+    HashState.save({ input: input.value })
+  })
 })()

@@ -1,3 +1,4 @@
+import './hash-state.js'
 // UUID Generator
 (function () {
   const versionSelect = document.getElementById('uuid-version')
@@ -77,7 +78,17 @@
     })
   }
 
-  generateBtn.addEventListener('click', generate)
+  function saveState() {
+    HashState.save({ version: versionSelect.value, qty: quantityInput.value })
+  }
+
+  generateBtn.addEventListener('click', function () {
+    saveState()
+    generate()
+  })
+
+  versionSelect.addEventListener('change', saveState)
+  quantityInput.addEventListener('change', saveState)
 
   copyAllBtn.addEventListener('click', () => {
     const all = [...output.querySelectorAll('.uuid-value')].map(el => el.textContent).join('\n')
@@ -90,6 +101,11 @@
       }, 2000)
     })
   })
+
+  // Restore from hash state
+  var _hs = HashState.parse()
+  if (_hs.version) versionSelect.value = _hs.version
+  if (_hs.qty) quantityInput.value = _hs.qty
 
   // Generate one on load
   generate()

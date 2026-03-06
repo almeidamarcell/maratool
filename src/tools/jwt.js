@@ -1,3 +1,4 @@
+import './hash-state.js'
 // JWT Decoder
 (function () {
   const input = document.getElementById('jwt-input')
@@ -70,7 +71,16 @@
     sigOut.textContent = parts[2]
   }
 
-  input.addEventListener('input', decode)
+  var saved = HashState.parse()
+  if (saved.input) {
+    input.value = saved.input
+    decode()
+  }
+
+  input.addEventListener('input', function () {
+    decode()
+    HashState.save({ input: input.value })
+  })
 
   // Copy buttons
   document.querySelectorAll('[data-copy-from]').forEach(btn => {

@@ -1,3 +1,4 @@
+import './hash-state.js'
 // Base64 Encode/Decode
 (function () {
   // ---- TAB SWITCHING ----
@@ -11,6 +12,7 @@
       tab.classList.add('active')
       const target = document.getElementById(tab.dataset.panel)
       if (target) target.style.display = 'block'
+      if (typeof saveHash === 'function') saveHash()
     })
   })
 
@@ -46,14 +48,25 @@
     updating = false
   }
 
+  function getActiveTab() {
+    var active = document.querySelector('.tool-tab.active')
+    return active ? active.dataset.panel : 'tab-text'
+  }
+
+  function saveHash() {
+    HashState.save({ tab: getActiveTab(), text: textInput.value, encoded: b64Output.value })
+  }
+
   textInput.addEventListener('input', () => {
     textInput.classList.remove('error-state')
     encodeText()
+    saveHash()
   })
 
   b64Output.addEventListener('input', () => {
     b64Output.classList.remove('error-state')
     decodeText()
+    saveHash()
   })
 
   copyTextBtn.addEventListener('click', () => {
@@ -98,4 +111,18 @@
       }, 2000)
     })
   })
+
+  // ---- HASH STATE RESTORE ----
+  var saved = HashState.parse()
+  if (saved.tab) {
+    var tabEl = document.querySelector('.tool-tab[data-panel="' + saved.tab + '"]')
+    if (tabEl) tabEl.click()
+  }
+  if (saved.text) {
+    textInput.value = saved.text
+    encodeText()
+  } else if (saved.encoded) {
+    b64Output.value = saved.encoded
+    decodeText()
+  }
 })()

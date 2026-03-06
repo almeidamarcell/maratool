@@ -1,3 +1,4 @@
+import './hash-state.js'
 // Unix Timestamp Converter
 (function () {
   const liveClock = document.getElementById('unix-live')
@@ -41,9 +42,14 @@
   updateClock()
   setInterval(updateClock, 1000)
 
+  function saveHash() {
+    HashState.save({ ts: tsInput.value, dt: dtInput.value, tz: tzToggle.value })
+  }
+
   tzToggle.addEventListener('change', () => {
     updateClock()
     convertTs()
+    saveHash()
   })
 
   // Timestamp → date
@@ -71,7 +77,10 @@
     }
   }
 
-  tsInput.addEventListener('input', convertTs)
+  tsInput.addEventListener('input', () => {
+    convertTs()
+    saveHash()
+  })
 
   tsCopyBtn.addEventListener('click', () => {
     navigator.clipboard.writeText(tsOutput.textContent).then(() => {
@@ -108,7 +117,10 @@
   dtInput.value = new Date(now - offset).toISOString().slice(0, 16)
   convertDt()
 
-  dtInput.addEventListener('input', convertDt)
+  dtInput.addEventListener('input', () => {
+    convertDt()
+    saveHash()
+  })
 
   dtCopyBtn.addEventListener('click', () => {
     navigator.clipboard.writeText(dtOutput.textContent).then(() => {
@@ -120,4 +132,19 @@
       }, 2000)
     })
   })
+
+  // ---- HASH STATE RESTORE ----
+  var saved = HashState.parse()
+  if (saved.tz) {
+    tzToggle.value = saved.tz
+    updateClock()
+  }
+  if (saved.ts) {
+    tsInput.value = saved.ts
+    convertTs()
+  }
+  if (saved.dt) {
+    dtInput.value = saved.dt
+    convertDt()
+  }
 })()

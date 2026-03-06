@@ -1,3 +1,4 @@
+import './hash-state.js'
 // Text to Binary Converter
 (function () {
   const tabs = document.querySelectorAll('.tool-tab')
@@ -10,6 +11,7 @@
       tab.classList.add('active')
       const target = document.getElementById(tab.dataset.panel)
       if (target) target.style.display = 'block'
+      if (typeof saveHash === 'function') saveHash()
     })
   })
 
@@ -33,7 +35,19 @@
     decOut.textContent = bytes.join(' ')
   }
 
-  textIn.addEventListener('input', textToBin)
+  function getActiveTab() {
+    var active = document.querySelector('.tool-tab.active')
+    return active ? active.dataset.panel : 'tab-text-bin'
+  }
+
+  function saveHash() {
+    HashState.save({ tab: getActiveTab(), text: textIn.value, binary: binIn.value })
+  }
+
+  textIn.addEventListener('input', function () {
+    textToBin()
+    saveHash()
+  })
 
   document.querySelectorAll('[data-copy-from]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -75,7 +89,10 @@
     }
   }
 
-  binIn.addEventListener('input', binToText)
+  binIn.addEventListener('input', function () {
+    binToText()
+    saveHash()
+  })
 
   const copyBinOut = document.getElementById('bin-copy-output')
   if (copyBinOut) {
@@ -89,5 +106,19 @@
         }, 2000)
       })
     })
+  }
+
+  // ---- HASH STATE RESTORE ----
+  var saved = HashState.parse()
+  if (saved.tab) {
+    var tabEl = document.querySelector('.tool-tab[data-panel="' + saved.tab + '"]')
+    if (tabEl) tabEl.click()
+  }
+  if (saved.tab === 'tab-bin-text' && saved.binary) {
+    binIn.value = saved.binary
+    binToText()
+  } else if (saved.text) {
+    textIn.value = saved.text
+    textToBin()
   }
 })()

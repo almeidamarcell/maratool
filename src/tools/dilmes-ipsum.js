@@ -1,3 +1,4 @@
+import './hash-state.js'
 // Dilmes Ipsum Generator
 (function () {
   var typeSelect = document.getElementById('dilmes-type')
@@ -65,7 +66,17 @@
     output.value = text
   }
 
-  generateBtn.addEventListener('click', generate)
+  function saveState() {
+    HashState.save({ type: typeSelect.value, count: countInput.value })
+  }
+
+  typeSelect.addEventListener('change', saveState)
+  countInput.addEventListener('change', saveState)
+
+  generateBtn.addEventListener('click', function () {
+    generate()
+    saveState()
+  })
 
   copyBtn.addEventListener('click', function () {
     if (!output.value) return
@@ -78,6 +89,11 @@
       }, 2000)
     })
   })
+
+  // Restore from hash state
+  var _hs = HashState.parse()
+  if (_hs.type) typeSelect.value = _hs.type
+  if (_hs.count) countInput.value = _hs.count
 
   generate()
 })()

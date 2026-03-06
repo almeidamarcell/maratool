@@ -1,3 +1,4 @@
+import './hash-state.js'
 // JSON Formatter & Validator
 (function () {
   var input = document.getElementById('json-input')
@@ -75,7 +76,16 @@
     }
   }
 
-  input.addEventListener('input', validate)
+  var saved = HashState.parse()
+  if (saved.input) {
+    input.value = saved.input
+    validate()
+  }
+
+  input.addEventListener('input', function () {
+    validate()
+    HashState.save({ input: input.value })
+  })
   formatBtn.addEventListener('click', format)
   minifyBtn.addEventListener('click', minify)
 
