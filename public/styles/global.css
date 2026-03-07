@@ -1,5 +1,5 @@
 /* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap');
 
 /* CSS Reset */
 *, *::before, *::after {
@@ -10,20 +10,21 @@
 
 /* CSS Variables */
 :root {
-  --bg: #ffffff;
-  --bg-soft: #f7f7f5;
-  --bg-hover: #f1f1ef;
-  --border: #e8e8e4;
-  --text: #1a1a18;
+  --bg: #f5f4f1;
+  --bg-soft: #eeeee9;
+  --bg-hover: #e8e7e2;
+  --border: #ddddd6;
+  --text: #2a2a28;
   --text-2: #6b6b63;
   --text-3: #a8a8a0;
-  --accent: #2d6ef6;
-  --accent-hover: #1a58e0;
+  --accent: #c4553a;
+  --accent-hover: #a8442e;
   --sidebar-width: 240px;
   --ad-col-width: 300px;
-  --topbar-height: 52px;
-  --radius: 10px;
+  --topbar-height: 56px;
+  --radius: 6px;
   --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Instrument Serif', Georgia, 'Times New Roman', serif;
   --font-mono: 'Fira Mono', 'Consolas', 'Menlo', monospace;
   --error-bg: #fff5f5;
   --error-border: #fc8181;
@@ -52,16 +53,19 @@ a:hover {
 }
 
 h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 1.3;
+  font-family: var(--font-heading);
+  font-size: 2.25rem;
+  font-weight: 400;
+  line-height: 1.2;
   color: var(--text);
+  letter-spacing: -0.01em;
 }
 
 h2 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  line-height: 1.4;
+  font-family: var(--font-heading);
+  font-size: 1.375rem;
+  font-weight: 400;
+  line-height: 1.3;
   color: var(--text);
 }
 
@@ -88,5 +92,5 @@ li {
 hr {
   border: none;
   border-top: 1px solid var(--border);
-  margin: 1.5rem 0;
+  margin: 2rem 0;
 }

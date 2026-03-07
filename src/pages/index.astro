@@ -5,6 +5,11 @@ import { tools } from '../data/tools'
 
 const liveTools = tools.filter(t => t.live)
 
+const featuredSlugs = ['jwt-decoder', 'json-formatter', 'css-gradient', 'color-shades']
+const featuredTools = featuredSlugs
+  .map(slug => tools.find(t => t.slug === slug))
+  .filter((t): t is typeof tools[number] => !!t && t.live)
+
 const seo = {
   title: 'Free Online Tools — JSON Formatter, Word Counter, Color Picker & more | maratool',
   description: 'Free, instant, browser-based tools for everyone. JSON formatter, word counter, color picker, JWT decoder, Base64, regex tester and more — no sign-up, no tracking, nothing installed.',
@@ -38,10 +43,25 @@ const itemListSchema = {
     <div class="hero">
       <h1>Free online tools</h1>
       <p>Fast, browser-based utilities for developers, designers, and writers. Everything runs locally — your data never leaves your device.</p>
+      <p class="hero-tagline">No accounts. No installs. Nothing leaves your browser.</p>
     </div>
 
-    <h2>All tools</h2>
-    <p style="color:var(--text-2);margin-bottom:1.5rem;">No accounts. No installs. No data sent to any server. Pick a tool and start instantly.</p>
+    <section class="featured-section">
+      <h2>Featured</h2>
+      <div class="featured-grid">
+        {featuredTools.map(tool => (
+          <a href={`/${tool.slug}`} class="tool-card">
+            <span class="tool-card-emoji">{tool.emoji}</span>
+            <div class="tool-card-name">{tool.name}</div>
+            <div class="tool-card-desc">{tool.description}</div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <div class="section-header">
+      <h2>All tools</h2>
+    </div>
 
     <div class="tools-grid">
       {tools.map(tool => (
@@ -64,9 +84,9 @@ const itemListSchema = {
       ))}
     </div>
 
-    <section style="margin-top:3rem;">
+    <section style="margin-top:4rem;">
       <h2>Why maratool?</h2>
-      <p style="color:var(--text-2);line-height:1.7;">maratool is a free collection of utilities that run entirely in your browser. Paste your JSON, timestamp, or regex and get an answer in under a second. Everything works offline once loaded — because nothing is sent to a server.</p>
+      <p style="color:var(--text-2);line-height:1.7;margin-top:0.75rem;max-width:560px;">maratool is a free collection of utilities that run entirely in your browser. Paste your JSON, timestamp, or regex and get an answer in under a second. Everything works offline once loaded — because nothing is sent to a server.</p>
     </section>
 
     <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
