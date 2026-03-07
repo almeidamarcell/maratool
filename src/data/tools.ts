@@ -171,13 +171,13 @@ export const tools: Tool[] = [
     live: true,
   },
   {
-    slug: 'color-picker',
-    name: 'Color Picker',
-    emoji: '🖌️',
-    description: 'Pick colors and convert between HEX, RGB, and HSL.',
+    slug: 'color-shades',
+    name: 'Color Shades Generator',
+    emoji: '🎨',
+    description: 'Generate color shades and Tailwind CSS palettes from a single hex color. Export as CSS variables, Tailwind config, or design tokens.',
     category: 'Developer',
     subcategory: 'Design',
-    keywords: ['color', 'picker', 'hex', 'rgb', 'hsl', 'palette'],
+    keywords: ['color shades generator', 'tailwind color palette', 'generate shades from hex', 'color scale generator', 'shade generator', 'oklch palette', 'css color variables', 'design tokens'],
     live: true,
   },
 ]

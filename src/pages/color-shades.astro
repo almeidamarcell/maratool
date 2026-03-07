@@ -1,0 +1,360 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Color Shades Generator — Generate palettes from any hex color | maratool',
+  description: 'Generate color shades and Tailwind CSS palettes from a single hex color. Export as CSS variables, Tailwind config, or design tokens. Free, no sign-up.',
+  canonical: 'https://maratool.com/color-shades',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Color Shades Generator',
+    url: 'https://maratool.com/color-shades',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate color shades and Tailwind CSS palettes from a single hex color.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Design', item: 'https://maratool.com/developer/design' },
+      { '@type': 'ListItem', position: 4, name: 'Color Shades Generator', item: 'https://maratool.com/color-shades' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I generate color shades from a hex code?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Enter your hex color code (e.g., #2d6ef6) and the tool instantly generates a full shade scale from 50 (lightest) to 950 (darkest). You can adjust the number of shades, contrast shift, and algorithm to fine-tune the output.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the difference between OKLCH and HSL shade generation?',
+        acceptedAnswer: { '@type': 'Answer', text: 'OKLCH (Oklab Lightness, Chroma, Hue) produces perceptually uniform shades — equal steps in lightness look equally different to the human eye. HSL varies lightness linearly, which can produce uneven-looking results, especially for yellows and cyans. OKLCH is recommended for design systems.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I use the generated palette in Tailwind CSS?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Select the "Tailwind v3" or "Tailwind v4" export tab and copy the generated code. For v3, paste the object into your tailwind.config.js under theme.extend.colors. For v4, paste the @theme block into your CSS file.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What are design tokens and how do I export them?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Design tokens are a standardized JSON format for storing design decisions like colors. Select the "Design Tokens" export tab to get your palette in the W3C Design Tokens format, which can be used with tools like Style Dictionary, Figma Tokens, or any token-based design system.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Pick a base color using the color picker or type a hex value.',
+  'Adjust the algorithm, contrast shift, and shade count to customize your palette.',
+  'Copy individual shades or export the full palette as CSS, Tailwind, or design tokens.'
+]
+
+const faq = [
+  { q: 'How do I generate color shades from a hex code?', a: 'Enter your hex color code (e.g., #2d6ef6) and the tool instantly generates a full shade scale from 50 (lightest) to 950 (darkest). You can adjust the number of shades, contrast shift, and algorithm to fine-tune the output.' },
+  { q: 'What is the difference between OKLCH and HSL shade generation?', a: 'OKLCH (Oklab Lightness, Chroma, Hue) produces perceptually uniform shades — equal steps in lightness look equally different to the human eye. HSL varies lightness linearly, which can produce uneven-looking results, especially for yellows and cyans. OKLCH is recommended for design systems.' },
+  { q: 'How do I use the generated palette in Tailwind CSS?', a: 'Select the "Tailwind v3" or "Tailwind v4" export tab and copy the generated code. For v3, paste the object into your tailwind.config.js under theme.extend.colors. For v4, paste the @theme block into your CSS file.' },
+  { q: 'What are design tokens and how do I export them?', a: 'Design tokens are a standardized JSON format for storing design decisions like colors. Select the "Design Tokens" export tab to get your palette in the W3C Design Tokens format, which can be used with tools like Style Dictionary, Figma Tokens, or any token-based design system.' }
+]
+
+const relatedTools = [
+  { slug: 'css-gradient', name: 'CSS Gradient Generator' },
+  { slug: 'hash-generator', name: 'Hash Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Design', href: '/developer/design' },
+  { label: 'Color Shades Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="color-shades" name="Color Shades Generator" description="Generate a full shade scale from any hex color. Export as CSS variables, Tailwind config, or design tokens." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <!-- Controls -->
+        <div class="cs-controls">
+          <div class="cs-picker-wrap">
+            <input type="color" id="cs-picker" class="cs-picker" value="#2d6ef6" aria-label="Color picker" />
+          </div>
+          <div class="cs-input-group">
+            <label class="tool-label" for="cs-hex">HEX</label>
+            <input type="text" id="cs-hex" class="tool-input cs-mono" value="#2d6ef6" spellcheck="false" aria-label="Hex color value" />
+          </div>
+          <div class="cs-input-group">
+            <label class="tool-label" for="cs-name">Name</label>
+            <input type="text" id="cs-name" class="tool-input" value="brand" spellcheck="false" placeholder="brand" aria-label="Color name for export" />
+          </div>
+        </div>
+
+        <!-- Algorithm + Settings -->
+        <div class="cs-settings">
+          <div class="cs-setting">
+            <span class="tool-label">Algorithm</span>
+            <div class="tool-tabs cs-algo-tabs" id="cs-algo-tabs">
+              <button class="tool-tab active" data-algo="oklch">OKLCH Perceptual</button>
+              <button class="tool-tab" data-algo="hsl">HSL Linear</button>
+            </div>
+          </div>
+          <div class="cs-setting cs-slider-group">
+            <label class="tool-label" for="cs-shift">Contrast shift <span id="cs-shift-val">50</span></label>
+            <input type="range" id="cs-shift" class="cs-slider" min="0" max="100" value="50" aria-label="Contrast shift" />
+          </div>
+          <div class="cs-setting">
+            <label class="tool-label" for="cs-count">Shades</label>
+            <select id="cs-count" class="tool-input cs-select" aria-label="Number of shades">
+              <option value="5">5</option>
+              <option value="7">7</option>
+              <option value="9">9</option>
+              <option value="11" selected>11</option>
+              <option value="13">13</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Shade Grid -->
+        <div class="cs-grid-wrap">
+          <div class="cs-format-bar">
+            <span class="tool-label">Display</span>
+            <div class="tool-tabs cs-format-tabs" id="cs-format-tabs">
+              <button class="tool-tab active" data-fmt="hex">HEX</button>
+              <button class="tool-tab" data-fmt="rgb">RGB</button>
+              <button class="tool-tab" data-fmt="hsl">HSL</button>
+              <button class="tool-tab" data-fmt="oklch">OKLCH</button>
+            </div>
+          </div>
+          <div id="cs-grid" class="cs-grid" role="list" aria-label="Color shades"></div>
+        </div>
+
+        <!-- Export -->
+        <div class="cs-export">
+          <div class="cs-export-header">
+            <div class="tool-tabs cs-export-tabs" id="cs-export-tabs">
+              <button class="tool-tab active" data-export="css">CSS Variables</button>
+              <button class="tool-tab" data-export="tw3">Tailwind v3</button>
+              <button class="tool-tab" data-export="tw4">Tailwind v4</button>
+              <button class="tool-tab" data-export="tokens">Design Tokens</button>
+            </div>
+            <button class="copy-btn" id="cs-copy-export">Copy</button>
+          </div>
+          <pre id="cs-export-output" class="tool-output cs-export-code"></pre>
+        </div>
+
+        <!-- Contrast Checker -->
+        <div class="cs-contrast">
+          <span class="tool-label">Contrast checker (base color vs white & black)</span>
+          <div class="cs-contrast-row">
+            <div class="cs-contrast-card">
+              <div class="cs-contrast-preview" style="background:#fff;">
+                <span id="cs-text-on-white" style="font-weight:600;">Text</span>
+              </div>
+              <div class="cs-contrast-info">
+                <span id="cs-ratio-white"></span>
+                <span id="cs-aa-white" class="cs-badge"></span>
+                <span id="cs-aaa-white" class="cs-badge"></span>
+              </div>
+            </div>
+            <div class="cs-contrast-card">
+              <div class="cs-contrast-preview" style="background:#000;">
+                <span id="cs-text-on-black" style="font-weight:600;">Text</span>
+              </div>
+              <div class="cs-contrast-info">
+                <span id="cs-ratio-black"></span>
+                <span id="cs-aa-black" class="cs-badge"></span>
+                <span id="cs-aaa-black" class="cs-badge"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recently Used -->
+        <div class="cs-recent">
+          <span class="tool-label">Recently used</span>
+          <div id="cs-recent-list" class="cs-recent-list"></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .cs-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .cs-picker-wrap { flex-shrink: 0; }
+  .cs-picker {
+    width: 64px;
+    height: 64px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    padding: 3px;
+    background: var(--bg);
+  }
+  .cs-input-group { flex: 1; min-width: 100px; }
+  .cs-mono { font-family: var(--font-mono); font-size: 14px; }
+  .cs-settings {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .cs-setting { flex-shrink: 0; }
+  .cs-algo-tabs { margin-top: 0.25rem; }
+  .cs-slider-group { flex: 1; min-width: 160px; }
+  .cs-slider {
+    width: 100%;
+    accent-color: var(--accent);
+    margin-top: 0.25rem;
+  }
+  .cs-select {
+    width: auto;
+    min-width: 60px;
+  }
+  .cs-grid-wrap { margin-bottom: 1.25rem; }
+  .cs-format-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .cs-grid {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .cs-shade {
+    flex: 1;
+    min-width: 72px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.1s;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .cs-shade:last-child { border-right: none; }
+  .cs-shade:hover { transform: scaleY(1.04); z-index: 1; }
+  .cs-shade-color {
+    height: 80px;
+    width: 100%;
+  }
+  .cs-shade-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-2);
+    padding: 6px 4px 2px;
+  }
+  .cs-shade-value {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--text-3);
+    padding: 0 4px 8px;
+    word-break: break-all;
+    line-height: 1.3;
+  }
+  .cs-shade-copied {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .cs-shade-copied.show { opacity: 1; }
+  .cs-export { margin-bottom: 1.25rem; }
+  .cs-export-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .cs-export-code {
+    max-height: 240px;
+    overflow-y: auto;
+    font-size: 12px;
+  }
+  .cs-contrast { margin-bottom: 1.25rem; }
+  .cs-contrast-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.375rem;
+  }
+  .cs-contrast-card {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .cs-contrast-preview {
+    padding: 12px 16px;
+    text-align: center;
+    font-size: 15px;
+  }
+  .cs-contrast-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--text-2);
+    background: var(--bg-soft);
+  }
+  .cs-badge {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .cs-badge.pass { background: #f0fff4; color: #276749; }
+  .cs-badge.fail { background: #fff5f5; color: #c53030; }
+  .cs-recent { margin-top: 0.25rem; }
+  .cs-recent-list {
+    display: flex;
+    gap: 0.375rem;
+    margin-top: 0.375rem;
+    min-height: 32px;
+  }
+  .cs-recent-swatch {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .cs-recent-swatch:hover { transform: scale(1.15); }
+  @media (max-width: 640px) {
+    .cs-controls { flex-direction: column; align-items: stretch; }
+    .cs-picker { width: 100%; height: 48px; }
+    .cs-settings { flex-direction: column; }
+    .cs-shade { min-width: 56px; }
+    .cs-shade-color { height: 56px; }
+  }
+</style>
+<script src="../tools/color-shades.js"></script>
