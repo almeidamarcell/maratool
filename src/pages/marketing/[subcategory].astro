@@ -5,29 +5,14 @@ import Breadcrumb from '../../components/Breadcrumb.astro'
 import { toolsByCategory, subcategoryOrderByCategory } from '../../data/tools'
 
 export function getStaticPaths() {
-  const subs = subcategoryOrderByCategory.Developer ?? []
-  const catTools = toolsByCategory.Developer ?? {}
+  const subs = subcategoryOrderByCategory.Marketing ?? []
+  const catTools = toolsByCategory.Marketing ?? {}
 
   const descriptions: Record<string, { title: string; description: string; intro: string }> = {
-    encoding: {
-      title: 'Encoding Tools — maratool',
-      description: 'Free browser-based encoding tools. Encode and decode Base64, generate hashes (MD5, SHA-256), decode JWT tokens, and convert text to binary — all in your browser.',
-      intro: 'Encode, decode, and inspect data formats without sending anything to a server.',
-    },
-    converter: {
-      title: 'Converter Tools — maratool',
-      description: 'Free browser-based converter tools. Convert Unix timestamps to human-readable dates with timezone support — no sign-up, runs entirely in your browser.',
-      intro: 'Quickly convert between common data formats and representations.',
-    },
-    text: {
-      title: 'Text Tools — maratool',
-      description: 'Free browser-based text tools. Compare text with diff checker, test regex patterns — no sign-up, runs entirely in your browser.',
-      intro: 'Analyse and compare text with fast, privacy-friendly tools that run locally.',
-    },
-    generator: {
-      title: 'Generator Tools — maratool',
-      description: 'Free browser-based generator tools. Generate UUIDs (v1, v4, v5) and cron expressions — no sign-up, runs entirely in your browser.',
-      intro: 'Generate unique identifiers, schedules, and random values instantly in your browser.',
+    builder: {
+      title: 'Marketing Builder Tools — maratool',
+      description: 'Free browser-based marketing builder tools. Create UTM-tagged URLs for campaign tracking — no sign-up, runs entirely in your browser.',
+      intro: 'Build campaign URLs and marketing assets directly in your browser.',
     },
   }
 
@@ -55,18 +40,18 @@ const { sub, tools, title, description, intro } = Astro.props
 const seo = {
   title,
   description,
-  canonical: `https://maratool.com/developer/${subcategory}`,
+  canonical: `https://maratool.com/marketing/${subcategory}`,
   schema: {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: `${sub} Tools`,
-    url: `https://maratool.com/developer/${subcategory}`,
+    url: `https://maratool.com/marketing/${subcategory}`,
     description,
     hasPart: tools.map((tool: { name: string; slug: string }) => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
-      applicationCategory: 'DeveloperApplication',
+      applicationCategory: 'BusinessApplication',
     })),
   },
   breadcrumbSchema: {
@@ -74,15 +59,15 @@ const seo = {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
-      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
-      { '@type': 'ListItem', position: 3, name: sub, item: `https://maratool.com/developer/${subcategory}` },
+      { '@type': 'ListItem', position: 2, name: 'Marketing', item: 'https://maratool.com/marketing' },
+      { '@type': 'ListItem', position: 3, name: sub, item: `https://maratool.com/marketing/${subcategory}` },
     ],
   },
 }
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Developer', href: '/developer' },
+  { label: 'Marketing', href: '/marketing' },
   { label: sub },
 ]
 ---

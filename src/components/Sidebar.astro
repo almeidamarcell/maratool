@@ -1,50 +1,75 @@
 ---
-import { tools, toolsBySubcategory, subcategoryOrder } from '../data/tools'
+import { tools, toolsByCategory, categoryOrder, subcategoryOrderByCategory } from '../data/tools'
 
 const currentPath = Astro.url.pathname
 
-// Determine active subcategory from path or from the active tool
-const subcategoryMatch = currentPath.match(/^\/developer\/([^/]+)\/?$/)
-const activeSubcategoryFromPath = subcategoryMatch ? subcategoryMatch[1] : null
+// Determine which category is active from the URL
 const activeTool = tools.find(t => currentPath === `/${t.slug}` || currentPath === `/${t.slug}/`)
-const activeSubcategory = activeSubcategoryFromPath ?? (activeTool?.subcategory?.toLowerCase() ?? null)
+const categorySlugMap: Record<string, string> = {}
+for (const cat of categoryOrder) {
+  categorySlugMap[cat.toLowerCase()] = cat
+}
+
+// Check if we're on a category or subcategory page
+const categoryPageMatch = currentPath.match(/^\/([^/]+)\/?$/)
+const subcategoryPageMatch = currentPath.match(/^\/([^/]+)\/([^/]+)\/?$/)
+const activeCategoryFromPage = categoryPageMatch ? categorySlugMap[categoryPageMatch[1]] : null
+const activeCategoryFromSubPage = subcategoryPageMatch ? categorySlugMap[subcategoryPageMatch[1]] : null
+const activeCategory = activeTool?.category ?? activeCategoryFromPage ?? activeCategoryFromSubPage ?? null
+
+const activeSubcategorySlug = subcategoryPageMatch ? subcategoryPageMatch[2] : null
+const activeSubcategoryFromTool = activeTool?.subcategory?.toLowerCase() ?? null
+const activeSubcategory = activeSubcategorySlug ?? activeSubcategoryFromTool
 ---
 <nav class="sidebar" aria-label="Tools navigation">
-  <details class="sidebar-group" open>
-    <summary class="sidebar-category">
-      <a href="/developer" class="sidebar-category-label">Developer</a>
-      <svg class="sidebar-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-        <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </summary>
+  {categoryOrder.map(cat => {
+    const subs = subcategoryOrderByCategory[cat] ?? []
+    const catTools = toolsByCategory[cat] ?? {}
+    const catSlug = cat.toLowerCase()
+    const isOpen = activeCategory === cat
 
-    {subcategoryOrder.map(sub => (
-      <div class="sidebar-subcategory-group">
-        <a
-          href={`/developer/${sub.toLowerCase()}`}
-          class:list={['sidebar-subcategory', { active: activeSubcategory === sub.toLowerCase() }]}
-        >{sub}</a>
-        {(toolsBySubcategory[sub] ?? []).map(tool => (
-          <a
-            href={tool.live ? `/${tool.slug}` : undefined}
-            class:list={[
-              'sidebar-link',
-              { active: currentPath === `/${tool.slug}` || currentPath === `/${tool.slug}/` },
-              { 'coming-soon': !tool.live }
-            ]}
-            aria-current={currentPath === `/${tool.slug}` ? 'page' : undefined}
-          >
-            <span class="sidebar-link-emoji">{tool.emoji}</span>
-            <span>{tool.name}</span>
-          </a>
+    // Only include subcategories that have at least one live tool
+    const liveSubs = subs.filter(sub => (catTools[sub] ?? []).some(t => t.live))
+    if (liveSubs.length === 0) return null
+
+    return (
+      <details class="sidebar-group" open={isOpen}>
+        <summary class="sidebar-category">
+          <a href={`/${catSlug}`} class="sidebar-category-label">{cat}</a>
+          <svg class="sidebar-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+
+        {liveSubs.map(sub => (
+          <div class="sidebar-subcategory-group">
+            <a
+              href={`/${catSlug}/${sub.toLowerCase()}`}
+              class:list={['sidebar-subcategory', { active: activeCategory === cat && activeSubcategory === sub.toLowerCase() }]}
+            >{sub}</a>
+            {(catTools[sub] ?? []).map(tool => (
+              <a
+                href={tool.live ? `/${tool.slug}` : undefined}
+                class:list={[
+                  'sidebar-link',
+                  { active: currentPath === `/${tool.slug}` || currentPath === `/${tool.slug}/` },
+                  { 'coming-soon': !tool.live }
+                ]}
+                aria-current={currentPath === `/${tool.slug}` ? 'page' : undefined}
+              >
+                <span class="sidebar-link-emoji">{tool.emoji}</span>
+                <span>{tool.name}</span>
+              </a>
+            ))}
+          </div>
         ))}
-      </div>
-    ))}
-  </details>
+      </details>
+    )
+  })}
 </nav>
 
 <script>
-  // Clicking the Developer label navigates without toggling <details>
+  // Clicking the category label navigates without toggling <details>
   document.querySelectorAll('.sidebar-category-label').forEach(a => {
     a.addEventListener('click', e => e.stopPropagation())
   })

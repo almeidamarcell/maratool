@@ -4,23 +4,23 @@ import Layout from '../components/Layout.astro'
 import Breadcrumb from '../components/Breadcrumb.astro'
 import { toolsFlatByCategory } from '../data/tools'
 
-const tools = toolsFlatByCategory.Developer ?? []
+const tools = toolsFlatByCategory.Marketing ?? []
 
 const seo = {
-  title: 'Developer Tools — maratool',
-  description: 'Free browser-based developer tools. Encoding, text, converters and generators — no sign-up, runs entirely in your browser.',
-  canonical: 'https://maratool.com/developer',
+  title: 'Marketing Tools — maratool',
+  description: 'Free browser-based marketing tools. Build UTM-tagged URLs for campaign tracking — no sign-up, runs entirely in your browser.',
+  canonical: 'https://maratool.com/marketing',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Developer Tools',
-    url: 'https://maratool.com/developer',
-    description: 'Free browser-based developer tools. Encoding, text, converters and generators — no sign-up, runs entirely in your browser.',
+    name: 'Marketing Tools',
+    url: 'https://maratool.com/marketing',
+    description: 'Free browser-based marketing tools. Build UTM-tagged URLs for campaign tracking — no sign-up, runs entirely in your browser.',
     hasPart: tools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
-      applicationCategory: 'DeveloperApplication',
+      applicationCategory: 'BusinessApplication',
     })),
   },
   breadcrumbSchema: {
@@ -28,22 +28,22 @@ const seo = {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
-      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 2, name: 'Marketing', item: 'https://maratool.com/marketing' },
     ],
   },
 }
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Developer' },
+  { label: 'Marketing' },
 ]
 ---
 <Base {...seo}>
   <Layout>
     <Breadcrumb crumbs={breadcrumbs} />
     <div class="hero">
-      <h1>Developer Tools</h1>
-      <p>Free, browser-based tools for developers — encoding, text processing, converters and generators, all running locally in your browser.</p>
+      <h1>Marketing Tools</h1>
+      <p>Free, browser-based marketing tools — UTM builders and campaign helpers, all running locally in your browser.</p>
     </div>
 
     <div class="tools-grid">
