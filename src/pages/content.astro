@@ -4,23 +4,23 @@ import Layout from '../components/Layout.astro'
 import Breadcrumb from '../components/Breadcrumb.astro'
 import { toolsFlatByCategory } from '../data/tools'
 
-const tools = toolsFlatByCategory.Developer ?? []
+const tools = toolsFlatByCategory.Content ?? []
 
 const seo = {
-  title: 'Developer Tools — maratool',
-  description: 'Free browser-based developer tools. Encoding, text, converters and generators — no sign-up, runs entirely in your browser.',
-  canonical: 'https://maratool.com/developer',
+  title: 'Content Tools — maratool',
+  description: 'Free browser-based content tools. Calculate reading time, edit markdown, generate placeholder text — no sign-up, runs entirely in your browser.',
+  canonical: 'https://maratool.com/content',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Developer Tools',
-    url: 'https://maratool.com/developer',
-    description: 'Free browser-based developer tools. Encoding, text, converters and generators — no sign-up, runs entirely in your browser.',
+    name: 'Content Tools',
+    url: 'https://maratool.com/content',
+    description: 'Free browser-based content tools. Calculate reading time, edit markdown, generate placeholder text — no sign-up, runs entirely in your browser.',
     hasPart: tools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
-      applicationCategory: 'DeveloperApplication',
+      applicationCategory: 'UtilitiesApplication',
     })),
   },
   breadcrumbSchema: {
@@ -28,22 +28,22 @@ const seo = {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
-      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 2, name: 'Content', item: 'https://maratool.com/content' },
     ],
   },
 }
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Developer' },
+  { label: 'Content' },
 ]
 ---
 <Base {...seo}>
   <Layout>
     <Breadcrumb crumbs={breadcrumbs} />
     <div class="hero">
-      <h1>Developer Tools</h1>
-      <p>Free, browser-based tools for developers — encoding, text processing, converters and generators, all running locally in your browser.</p>
+      <h1>Content Tools</h1>
+      <p>Free, browser-based content tools — reading time calculators, markdown editors, and placeholder text generators, all running locally.</p>
     </div>
 
     <div class="tools-grid">

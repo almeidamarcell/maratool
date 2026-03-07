@@ -3,13 +3,14 @@ export interface Tool {
   name: string
   emoji: string
   description: string
-  category: string       // top-level: "Developer" (only one for now)
-  subcategory: string    // "Encoding" | "Converter" | "Text" | "Generator"
+  category: string       // "Developer" | "Design" | "Content" | "Marketing"
+  subcategory: string    // e.g. "Encoding", "Color", "Text", "Builder"
   keywords: string[]
   live: boolean
 }
 
 export const tools: Tool[] = [
+  // ── Developer / Encoding ──
   {
     slug: 'jwt-decoder',
     name: 'JWT Decoder',
@@ -18,26 +19,6 @@ export const tools: Tool[] = [
     category: 'Developer',
     subcategory: 'Encoding',
     keywords: ['jwt', 'json web token', 'decode', 'token', 'bearer', 'auth'],
-    live: true,
-  },
-  {
-    slug: 'unix-timestamp',
-    name: 'Unix Timestamp Converter',
-    emoji: '⏱️',
-    description: 'Convert Unix timestamps to human-readable dates and vice versa, with timezone support.',
-    category: 'Developer',
-    subcategory: 'Converter',
-    keywords: ['unix', 'timestamp', 'epoch', 'date', 'time', 'convert'],
-    live: true,
-  },
-  {
-    slug: 'diff-checker',
-    name: 'Diff Checker',
-    emoji: '🔍',
-    description: 'Compare two blocks of text and highlight added, removed, and unchanged lines.',
-    category: 'Developer',
-    subcategory: 'Text',
-    keywords: ['diff', 'compare', 'text', 'difference', 'patch', 'changes'],
     live: true,
   },
   {
@@ -61,26 +42,6 @@ export const tools: Tool[] = [
     live: true,
   },
   {
-    slug: 'uuid-generator',
-    name: 'UUID Generator',
-    emoji: '🎲',
-    description: 'Generate one or many UUIDs instantly — supports v1, v4, and v5.',
-    category: 'Developer',
-    subcategory: 'Generator',
-    keywords: ['uuid', 'guid', 'unique', 'id', 'generate', 'random'],
-    live: true,
-  },
-  {
-    slug: 'reading-time',
-    name: 'Reading Time Calculator',
-    emoji: '📖',
-    description: 'Estimate how long it takes to read any text — shows slow, average, and fast reading times.',
-    category: 'Developer',
-    subcategory: 'Text',
-    keywords: ['reading time', 'wpm', 'word count', 'words per minute', 'text', 'article'],
-    live: true,
-  },
-  {
     slug: 'text-to-binary',
     name: 'Text to Binary',
     emoji: '💻',
@@ -100,54 +61,26 @@ export const tools: Tool[] = [
     keywords: ['json', 'format', 'validate', 'minify', 'prettify'],
     live: true,
   },
+  // ── Developer / Converter ──
   {
-    slug: 'css-gradient',
-    name: 'CSS Gradient Generator',
-    emoji: '🎨',
-    description: 'Generate CSS gradients visually with live preview.',
+    slug: 'unix-timestamp',
+    name: 'Unix Timestamp Converter',
+    emoji: '⏱️',
+    description: 'Convert Unix timestamps to human-readable dates and vice versa, with timezone support.',
     category: 'Developer',
-    subcategory: 'Design',
-    keywords: ['css', 'gradient', 'linear', 'radial', 'color', 'background'],
+    subcategory: 'Converter',
+    keywords: ['unix', 'timestamp', 'epoch', 'date', 'time', 'convert'],
     live: true,
   },
+  // ── Developer / Text ──
   {
-    slug: 'lorem-ipsum',
-    name: 'Lorem Ipsum Generator',
-    emoji: '📝',
-    description: 'Generate lorem ipsum placeholder text instantly.',
-    category: 'Developer',
-    subcategory: 'Generator',
-    keywords: ['lorem', 'ipsum', 'placeholder', 'text', 'dummy'],
-    live: true,
-  },
-  {
-    slug: 'mussum-ipsum',
-    name: 'Mussum Ipsum',
-    emoji: '🍺',
-    description: 'Generate Mussum Ipsum placeholder text — a Brazilian lorem ipsum full of invented words and humor.',
-    category: 'Developer',
-    subcategory: 'Generator',
-    keywords: ['mussum', 'ipsum', 'placeholder', 'brazilian', 'lorem', 'gerador'],
-    live: true,
-  },
-  {
-    slug: 'dilmes-ipsum',
-    name: 'Dilmes Ipsum',
-    emoji: '🇧🇷',
-    description: 'Generate Dilmes Ipsum placeholder text using real quotes from former Brazilian president Dilma Rousseff.',
-    category: 'Developer',
-    subcategory: 'Generator',
-    keywords: ['dilmes', 'dilma', 'ipsum', 'placeholder', 'brazilian', 'lorem', 'gerador'],
-    live: true,
-  },
-  {
-    slug: 'markdown-editor',
-    name: 'Markdown Editor',
-    emoji: '✍️',
-    description: 'Write markdown and preview the output in real time.',
+    slug: 'diff-checker',
+    name: 'Diff Checker',
+    emoji: '🔍',
+    description: 'Compare two blocks of text and highlight added, removed, and unchanged lines.',
     category: 'Developer',
     subcategory: 'Text',
-    keywords: ['markdown', 'editor', 'preview', 'md', 'html'],
+    keywords: ['diff', 'compare', 'text', 'difference', 'patch', 'changes'],
     live: true,
   },
   {
@@ -160,6 +93,17 @@ export const tools: Tool[] = [
     keywords: ['regex', 'regexp', 'pattern', 'test', 'match'],
     live: true,
   },
+  // ── Developer / Generator ──
+  {
+    slug: 'uuid-generator',
+    name: 'UUID Generator',
+    emoji: '🎲',
+    description: 'Generate one or many UUIDs instantly — supports v1, v4, and v5.',
+    category: 'Developer',
+    subcategory: 'Generator',
+    keywords: ['uuid', 'guid', 'unique', 'id', 'generate', 'random'],
+    live: true,
+  },
   {
     slug: 'cron-expression',
     name: 'Cron Expression',
@@ -170,25 +114,118 @@ export const tools: Tool[] = [
     keywords: ['cron', 'schedule', 'expression', 'job', 'interval'],
     live: true,
   },
+  // ── Design / Color ──
+  {
+    slug: 'css-gradient',
+    name: 'CSS Gradient Generator',
+    emoji: '🎨',
+    description: 'Generate CSS gradients visually with live preview.',
+    category: 'Design',
+    subcategory: 'Color',
+    keywords: ['css', 'gradient', 'linear', 'radial', 'color', 'background'],
+    live: true,
+  },
   {
     slug: 'color-shades',
     name: 'Color Shades Generator',
     emoji: '🎨',
     description: 'Generate color shades and Tailwind CSS palettes from a single hex color. Export as CSS variables, Tailwind config, or design tokens.',
-    category: 'Developer',
-    subcategory: 'Design',
+    category: 'Design',
+    subcategory: 'Color',
     keywords: ['color shades generator', 'tailwind color palette', 'generate shades from hex', 'color scale generator', 'shade generator', 'oklch palette', 'css color variables', 'design tokens'],
     live: true,
   },
+  // ── Content / Text ──
+  {
+    slug: 'reading-time',
+    name: 'Reading Time Calculator',
+    emoji: '📖',
+    description: 'Estimate how long it takes to read any text — shows slow, average, and fast reading times.',
+    category: 'Content',
+    subcategory: 'Text',
+    keywords: ['reading time', 'wpm', 'word count', 'words per minute', 'text', 'article'],
+    live: true,
+  },
+  {
+    slug: 'markdown-editor',
+    name: 'Markdown Editor',
+    emoji: '✍️',
+    description: 'Write markdown and preview the output in real time.',
+    category: 'Content',
+    subcategory: 'Text',
+    keywords: ['markdown', 'editor', 'preview', 'md', 'html'],
+    live: true,
+  },
+  // ── Content / Generator ──
+  {
+    slug: 'lorem-ipsum',
+    name: 'Lorem Ipsum Generator',
+    emoji: '📝',
+    description: 'Generate lorem ipsum placeholder text instantly.',
+    category: 'Content',
+    subcategory: 'Generator',
+    keywords: ['lorem', 'ipsum', 'placeholder', 'text', 'dummy'],
+    live: true,
+  },
+  {
+    slug: 'mussum-ipsum',
+    name: 'Mussum Ipsum',
+    emoji: '🍺',
+    description: 'Generate Mussum Ipsum placeholder text — a Brazilian lorem ipsum full of invented words and humor.',
+    category: 'Content',
+    subcategory: 'Generator',
+    keywords: ['mussum', 'ipsum', 'placeholder', 'brazilian', 'lorem', 'gerador'],
+    live: true,
+  },
+  {
+    slug: 'dilmes-ipsum',
+    name: 'Dilmes Ipsum',
+    emoji: '🇧🇷',
+    description: 'Generate Dilmes Ipsum placeholder text using real quotes from former Brazilian president Dilma Rousseff.',
+    category: 'Content',
+    subcategory: 'Generator',
+    keywords: ['dilmes', 'dilma', 'ipsum', 'placeholder', 'brazilian', 'lorem', 'gerador'],
+    live: true,
+  },
+  // ── Marketing / Builder ──
+  {
+    slug: 'utm-builder',
+    name: 'UTM Builder',
+    emoji: '🔗',
+    description: 'Build UTM-tagged URLs for campaign tracking in Google Analytics.',
+    category: 'Marketing',
+    subcategory: 'Builder',
+    keywords: ['utm', 'campaign', 'tracking', 'url', 'google analytics', 'marketing'],
+    live: false,
+  },
 ]
 
-// Ordered subcategories for consistent sidebar/page ordering
-export const subcategoryOrder = ['Encoding', 'Converter', 'Text', 'Generator', 'Design']
+// Ordered categories and their subcategories
+export const categoryOrder = ['Developer', 'Design', 'Content', 'Marketing'] as const
 
-export const toolsBySubcategory = subcategoryOrder.reduce<Record<string, Tool[]>>((acc, sub) => {
-  acc[sub] = tools.filter(t => t.subcategory === sub)
+export const subcategoryOrderByCategory: Record<string, string[]> = {
+  Developer: ['Encoding', 'Converter', 'Text', 'Generator'],
+  Design: ['Color'],
+  Content: ['Text', 'Generator'],
+  Marketing: ['Builder'],
+}
+
+// Tools grouped by category → subcategory
+export const toolsByCategory: Record<string, Record<string, Tool[]>> = categoryOrder.reduce<Record<string, Record<string, Tool[]>>>((acc, cat) => {
+  const subs = subcategoryOrderByCategory[cat] ?? []
+  acc[cat] = subs.reduce<Record<string, Tool[]>>((subAcc, sub) => {
+    subAcc[sub] = tools.filter(t => t.category === cat && t.subcategory === sub)
+    return subAcc
+  }, {})
   return acc
 }, {})
 
-// Legacy export kept for any existing consumers
-export const toolsByCategory = { Developer: tools }
+// Flat list of tools per category (for category landing pages)
+export const toolsFlatByCategory: Record<string, Tool[]> = categoryOrder.reduce<Record<string, Tool[]>>((acc, cat) => {
+  acc[cat] = tools.filter(t => t.category === cat)
+  return acc
+}, {})
+
+// Legacy: subcategory order for Developer (kept for developer/[subcategory] page)
+export const subcategoryOrder = subcategoryOrderByCategory.Developer
+export const toolsBySubcategory = toolsByCategory.Developer ?? {}
