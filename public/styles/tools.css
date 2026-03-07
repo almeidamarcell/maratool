@@ -524,3 +524,24 @@ html.embed .embed-modal-overlay {
   margin-top: 0.75rem;
   justify-content: flex-end;
 }
+
+/* ========== BADGE (pass/fail) ========== */
+.tool-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.tool-badge.pass {
+  background: var(--success-bg);
+  color: #276749;
+}
+
+.tool-badge.fail {
+  background: var(--error-bg);
+  color: #c53030;
+}

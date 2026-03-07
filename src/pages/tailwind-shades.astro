@@ -1,0 +1,232 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Tailwind Shade Generator — Generate Tailwind color palettes | maratool',
+  description: 'Generate a full Tailwind CSS color palette (50-950) from any hex color. Export as Tailwind config, CSS variables, or design tokens. Free, no sign-up.',
+  canonical: 'https://maratool.com/tailwind-shades',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Tailwind Shade Generator',
+    url: 'https://maratool.com/tailwind-shades',
+    applicationCategory: 'DesignApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate a full Tailwind CSS color palette (50-950) from any hex color.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Design', item: 'https://maratool.com/design' },
+      { '@type': 'ListItem', position: 3, name: 'Color', item: 'https://maratool.com/design/color' },
+      { '@type': 'ListItem', position: 4, name: 'Tailwind Shade Generator', item: 'https://maratool.com/tailwind-shades' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I generate Tailwind color shades from a hex code?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Enter your brand hex color and this tool generates all 11 Tailwind shades (50-950) using perceptually uniform OKLCH color science. Copy the output directly into your tailwind.config.js or CSS file.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What shade numbers does Tailwind CSS use?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Tailwind uses 11 shade steps: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, and 950. Shade 50 is the lightest and 950 is the darkest. Your base color typically maps closest to the 500 shade.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I add custom colors to Tailwind CSS?',
+        acceptedAnswer: { '@type': 'Answer', text: 'In Tailwind v3, add colors to the theme.extend.colors object in tailwind.config.js. In Tailwind v4, use the @theme directive in your CSS file. This tool generates the correct format for both versions.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is OKLCH and why use it for shade generation?',
+        acceptedAnswer: { '@type': 'Answer', text: 'OKLCH is a perceptually uniform color space. Unlike HSL, equal steps in OKLCH lightness look equally different to the human eye, producing more natural and consistent color palettes across all hues.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Pick a base color using the color picker or type a hex value.',
+  'Optionally change the palette name for your exports.',
+  'Copy individual shades or export the full palette in your preferred format.'
+]
+
+const faq = [
+  { q: 'How do I generate Tailwind color shades from a hex code?', a: 'Enter your brand hex color and this tool generates all 11 Tailwind shades (50-950) using perceptually uniform OKLCH color science.' },
+  { q: 'What shade numbers does Tailwind CSS use?', a: 'Tailwind uses 11 shade steps: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, and 950. Shade 50 is lightest, 950 is darkest.' },
+  { q: 'How do I add custom colors to Tailwind CSS?', a: 'In v3, add to theme.extend.colors in tailwind.config.js. In v4, use @theme in CSS. This tool generates both formats.' },
+  { q: 'What is OKLCH and why use it for shade generation?', a: 'OKLCH is a perceptually uniform color space. Equal lightness steps look equally different to the human eye, producing more natural palettes.' }
+]
+
+const relatedTools = [
+  { slug: 'color-shades', name: 'Color Shades Generator' },
+  { slug: 'contrast-checker', name: 'Contrast Checker' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Design', href: '/design' },
+  { label: 'Color', href: '/design/color' },
+  { label: 'Tailwind Shade Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="tailwind-shades" name="Tailwind Shade Generator" description="Generate a full Tailwind CSS color palette (50-950) from any hex color." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="ts-input-row">
+          <input type="color" id="ts-picker" value="#2d6ef6" class="ts-picker" aria-label="Color picker" />
+          <input type="text" id="ts-hex" value="#2d6ef6" class="ts-hex-input" spellcheck="false" aria-label="Hex color" />
+          <div class="ts-name-wrap">
+            <label class="ts-name-label" for="ts-name">Name</label>
+            <input type="text" id="ts-name" value="primary" class="ts-name-input" spellcheck="false" placeholder="primary" />
+          </div>
+        </div>
+
+        <div id="ts-grid" class="ts-grid" role="list" aria-label="Color shades"></div>
+
+        <div class="ts-export">
+          <div class="ts-export-header">
+            <div class="tool-tabs ts-export-tabs" id="ts-export-tabs">
+              <button class="tool-tab active" data-export="tw3">Tailwind v3</button>
+              <button class="tool-tab" data-export="tw4">Tailwind v4</button>
+              <button class="tool-tab" data-export="css">CSS Variables</button>
+              <button class="tool-tab" data-export="tokens">Design Tokens</button>
+            </div>
+            <button class="copy-btn" id="ts-copy-export">Copy</button>
+          </div>
+          <pre id="ts-export-output" class="tool-output ts-export-code"></pre>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .ts-input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .ts-picker {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 2px;
+    background: var(--bg);
+    flex-shrink: 0;
+  }
+  .ts-hex-input {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 110px;
+    padding: 0;
+  }
+  .ts-name-wrap {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .ts-name-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-3);
+  }
+  .ts-name-input {
+    width: 120px;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px 10px;
+  }
+
+  .ts-grid {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .ts-shade {
+    min-height: 80px;
+    border-radius: 10px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: transform 0.1s;
+    position: relative;
+  }
+  .ts-shade:hover { transform: scale(1.05); }
+  .ts-shade-label {
+    font-size: 9px;
+    font-weight: 600;
+    opacity: 0.75;
+  }
+  .ts-shade-hex {
+    font-size: 9px;
+    font-family: var(--font-mono);
+    opacity: 0.65;
+  }
+  .ts-shade-copied {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.15s;
+    pointer-events: none;
+  }
+  .ts-shade-copied.show { opacity: 1; }
+
+  .ts-export { margin-bottom: 0.5rem; }
+  .ts-export-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .ts-export-code {
+    max-height: 240px;
+    overflow-y: auto;
+    font-size: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .ts-input-row { flex-wrap: wrap; }
+    .ts-name-wrap { margin-left: 0; width: 100%; }
+    .ts-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
+    .ts-shade { min-height: 64px; padding: 4px; }
+  }
+</style>
+<script src="../tools/tailwind-shades.js"></script>

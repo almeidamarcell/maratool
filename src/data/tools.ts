@@ -72,6 +72,16 @@ export const tools: Tool[] = [
     keywords: ['unix', 'timestamp', 'epoch', 'date', 'time', 'convert'],
     live: true,
   },
+  {
+    slug: 'px-to-rem',
+    name: 'PX to REM Converter',
+    emoji: '📏',
+    description: 'Convert pixels to rem and rem to pixels instantly. Configurable base font size with a common conversions reference table.',
+    category: 'Developer',
+    subcategory: 'Converter',
+    keywords: ['px to rem', 'rem to px', 'pixel to rem converter', 'css unit converter', 'rem calculator', 'font size converter'],
+    live: true,
+  },
   // ── Developer / Text ──
   {
     slug: 'diff-checker',
@@ -133,6 +143,47 @@ export const tools: Tool[] = [
     category: 'Design',
     subcategory: 'Color',
     keywords: ['color shades generator', 'tailwind color palette', 'generate shades from hex', 'color scale generator', 'shade generator', 'oklch palette', 'css color variables', 'design tokens'],
+    live: true,
+  },
+  {
+    slug: 'contrast-checker',
+    name: 'Contrast Checker',
+    emoji: '♿',
+    description: 'Check color contrast ratios for WCAG AA and AAA compliance. Test foreground and background colors for accessibility.',
+    category: 'Design',
+    subcategory: 'Color',
+    keywords: ['contrast checker', 'wcag contrast', 'color contrast ratio', 'accessibility checker', 'aa aaa compliance', 'color accessibility'],
+    live: true,
+  },
+  {
+    slug: 'tailwind-shades',
+    name: 'Tailwind Shade Generator',
+    emoji: '🎨',
+    description: 'Generate a full Tailwind CSS color palette (50-950) from any hex color. Export as CSS variables or Tailwind config.',
+    category: 'Design',
+    subcategory: 'Color',
+    keywords: ['tailwind color generator', 'tailwind palette', 'shade generator', 'tailwind 50 to 950', 'color scale', 'css color palette'],
+    live: true,
+  },
+  // ── Design / Asset ──
+  {
+    slug: 'favicon-generator',
+    name: 'Favicon Generator',
+    emoji: '🖼️',
+    description: 'Generate favicons in all sizes from a single image. Download as ICO, PNG, or a complete ZIP with all sizes.',
+    category: 'Design',
+    subcategory: 'Asset',
+    keywords: ['favicon generator', 'ico generator', 'favicon from png', 'apple touch icon', 'favicon sizes', 'favicon maker'],
+    live: true,
+  },
+  {
+    slug: 'svg-optimizer',
+    name: 'SVG Optimizer',
+    emoji: '✂️',
+    description: 'Optimize and minify SVG files in the browser. Remove metadata, clean attributes, and reduce file size instantly.',
+    category: 'Design',
+    subcategory: 'Asset',
+    keywords: ['svg optimizer', 'svg minifier', 'optimize svg online', 'svg cleaner', 'reduce svg size', 'svg compressor'],
     live: true,
   },
   // ── Content / Text ──
@@ -205,7 +256,7 @@ export const categoryOrder = ['Developer', 'Design', 'Content', 'Marketing'] as 
 
 export const subcategoryOrderByCategory: Record<string, string[]> = {
   Developer: ['Encoding', 'Converter', 'Text', 'Generator'],
-  Design: ['Color'],
+  Design: ['Color', 'Asset'],
   Content: ['Text', 'Generator'],
   Marketing: ['Builder'],
 }
