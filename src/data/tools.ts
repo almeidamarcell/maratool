@@ -124,6 +124,16 @@ export const tools: Tool[] = [
     keywords: ['cron', 'schedule', 'expression', 'job', 'interval'],
     live: true,
   },
+  {
+    slug: 'qr-code-generator',
+    name: 'QR Code Generator',
+    emoji: '📱',
+    description: 'Generate styled QR codes with custom colors, shapes, and logos. Download as PNG or SVG.',
+    category: 'Developer',
+    subcategory: 'Generator',
+    keywords: ['qr code generator', 'qr code maker', 'create qr code', 'qr code with logo', 'custom qr code', 'styled qr code'],
+    live: true,
+  },
   // ── Design / Color ──
   {
     slug: 'css-gradient',

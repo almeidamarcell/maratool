@@ -1,0 +1,702 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'QR Code Generator — Create styled QR codes with logos | maratool',
+  description: 'Generate custom QR codes with colors, shapes, and logos. Download as PNG or SVG. Supports URL, email, phone, WiFi, SMS, and geo content. Free, no sign-up.',
+  canonical: 'https://maratool.com/qr-code-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'QR Code Generator',
+    url: 'https://maratool.com/qr-code-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate styled QR codes with custom colors, shapes, and logos.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Generator', item: 'https://maratool.com/developer/generator' },
+      { '@type': 'ListItem', position: 4, name: 'QR Code Generator', item: 'https://maratool.com/qr-code-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I create a QR code with a custom logo?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Enter your content (URL, text, etc.), then scroll to the Logo / Image section in Options. Upload a PNG or JPG image and it will be centered on the QR code. The tool automatically increases error correction to ensure the code remains scannable.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is QR code error correction?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Error correction allows a QR code to be read even if part of it is damaged or obscured. Level L recovers 7% of data, M recovers 15%, Q recovers 25%, and H recovers 30%. Higher levels make the code more complex but more resilient — use H when adding a logo.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What content types can I encode in a QR code?',
+        acceptedAnswer: { '@type': 'Answer', text: 'This tool supports URLs, email addresses (mailto:), phone numbers (tel:), WiFi credentials (auto-connect), SMS messages, and geographic coordinates. Each type uses a standard format that phones and scanners recognize automatically.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Should I download QR codes as PNG or SVG?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Use SVG for print materials — it scales to any size without losing quality. Use PNG for digital use (websites, social media, messaging). Both formats are generated entirely in your browser.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Type or paste your content (URL, text, WiFi credentials, etc.).',
+  'Customize the style: colors, dot shape, eye shape, and optionally add a logo.',
+  'Download the QR code as PNG or SVG, or copy it to clipboard.'
+]
+
+const faq = [
+  { q: 'How do I create a QR code with a custom logo?', a: 'Enter your content, then upload a logo in the Logo / Image section. The tool centers it on the QR code and increases error correction to keep it scannable.' },
+  { q: 'What is QR code error correction?', a: 'Error correction lets a QR code be read even if part of it is obscured. L=7%, M=15%, Q=25%, H=30%. Use H when adding a logo.' },
+  { q: 'What content types can I encode?', a: 'URLs, email (mailto:), phone (tel:), WiFi auto-connect, SMS, and geo coordinates. Each uses a standard format phones recognize.' },
+  { q: 'Should I download as PNG or SVG?', a: 'SVG for print (scales infinitely). PNG for digital (websites, social media). Both are generated in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'uuid-generator', name: 'UUID Generator' },
+  { slug: 'base64', name: 'Base64 Encode / Decode' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Generator', href: '/developer/generator' },
+  { label: 'QR Code Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="qr-code-generator" name="QR Code Generator" description="Generate styled QR codes with custom colors, shapes, and logos." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <!-- Mode tabs -->
+        <div class="qr-tabs">
+          <button class="qr-tab active" data-tab="single" type="button">Single</button>
+          <button class="qr-tab" data-tab="vcard" type="button">vCard Builder</button>
+          <button class="qr-tab" data-tab="batch" type="button">Batch Mode</button>
+        </div>
+
+        <!-- Single mode: Content input -->
+        <div class="qr-tab-panel" id="qr-panel-single">
+          <div class="qr-content-section">
+            <label class="tool-label" for="qr-content">Content</label>
+            <textarea id="qr-content" class="tool-input qr-content-input" placeholder="Enter URL, text, or data..." rows="3" spellcheck="false"></textarea>
+            <div class="qr-type-bar">
+              <button class="qr-type-btn" data-type="url" type="button">URL</button>
+              <button class="qr-type-btn" data-type="email" type="button">Email</button>
+              <button class="qr-type-btn" data-type="phone" type="button">Phone</button>
+              <button class="qr-type-btn" data-type="wifi" type="button">WiFi</button>
+              <button class="qr-type-btn" data-type="sms" type="button">SMS</button>
+              <button class="qr-type-btn" data-type="geo" type="button">Geo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- vCard mode -->
+        <div class="qr-tab-panel" id="qr-panel-vcard" style="display:none;">
+          <div class="qr-vcard-form">
+            <div class="qr-vcard-row">
+              <div class="qr-vcard-field">
+                <label class="qr-vcard-label" for="qr-vc-first">First Name</label>
+                <input type="text" id="qr-vc-first" class="tool-input qr-vcard-input" placeholder="John" />
+              </div>
+              <div class="qr-vcard-field">
+                <label class="qr-vcard-label" for="qr-vc-last">Last Name</label>
+                <input type="text" id="qr-vc-last" class="tool-input qr-vcard-input" placeholder="Doe" />
+              </div>
+            </div>
+            <div class="qr-vcard-row">
+              <div class="qr-vcard-field">
+                <label class="qr-vcard-label" for="qr-vc-org">Organization</label>
+                <input type="text" id="qr-vc-org" class="tool-input qr-vcard-input" placeholder="Acme Inc." />
+              </div>
+              <div class="qr-vcard-field">
+                <label class="qr-vcard-label" for="qr-vc-title">Job Title</label>
+                <input type="text" id="qr-vc-title" class="tool-input qr-vcard-input" placeholder="Software Engineer" />
+              </div>
+            </div>
+            <div class="qr-vcard-row">
+              <div class="qr-vcard-field">
+                <label class="qr-vcard-label" for="qr-vc-email">Email</label>
+                <input type="email" id="qr-vc-email" class="tool-input qr-vcard-input" placeholder="john@example.com" />
+              </div>
+              <div class="qr-vcard-field">
+                <label class="qr-vcard-label" for="qr-vc-phone">Phone</label>
+                <input type="tel" id="qr-vc-phone" class="tool-input qr-vcard-input" placeholder="+1234567890" />
+              </div>
+            </div>
+            <div class="qr-vcard-row">
+              <div class="qr-vcard-field">
+                <label class="qr-vcard-label" for="qr-vc-url">Website</label>
+                <input type="url" id="qr-vc-url" class="tool-input qr-vcard-input" placeholder="https://example.com" />
+              </div>
+              <div class="qr-vcard-field">
+                <label class="qr-vcard-label" for="qr-vc-addr">Address</label>
+                <input type="text" id="qr-vc-addr" class="tool-input qr-vcard-input" placeholder="123 Main St, City" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Batch mode -->
+        <div class="qr-tab-panel" id="qr-panel-batch" style="display:none;">
+          <div class="qr-batch-input-section">
+            <label class="tool-label" for="qr-batch-input">Enter one item per line</label>
+            <textarea id="qr-batch-input" class="tool-input qr-batch-textarea" placeholder="https://example.com&#10;https://another-site.com&#10;Hello world" rows="5" spellcheck="false"></textarea>
+            <div class="qr-batch-actions">
+              <button class="qr-export-btn qr-export-primary" id="qr-batch-generate" type="button">Generate All</button>
+              <button class="qr-export-btn" id="qr-batch-download" type="button" style="display:none;">Download ZIP</button>
+              <span class="qr-batch-status" id="qr-batch-status"></span>
+            </div>
+          </div>
+          <div class="qr-batch-grid" id="qr-batch-grid"></div>
+        </div>
+
+        <!-- Main layout: Preview + Options (hidden in batch mode) -->
+        <div class="qr-main" id="qr-main-layout">
+          <!-- Left: Preview + Quick Styles + Export -->
+          <div class="qr-left">
+            <span class="tool-label">Preview</span>
+            <div class="qr-preview-box" id="qr-preview">
+              <div class="qr-placeholder" id="qr-placeholder">Enter content to generate QR code</div>
+            </div>
+
+            <div class="qr-quick-styles">
+              <span class="tool-label">Quick Styles</span>
+              <div class="qr-style-bar" id="qr-style-bar">
+                <button class="qr-style-btn active" data-style="classic" type="button">Classic</button>
+                <button class="qr-style-btn" data-style="rounded" type="button">Rounded</button>
+                <button class="qr-style-btn" data-style="dots" type="button">Dots</button>
+                <button class="qr-style-btn" data-style="classy" type="button">Classy</button>
+                <button class="qr-style-btn" data-style="indigo" type="button">Indigo</button>
+                <button class="qr-style-btn" data-style="rose" type="button">Rose</button>
+                <button class="qr-style-btn" data-style="teal" type="button">Teal</button>
+              </div>
+            </div>
+
+            <div class="qr-export-bar">
+              <button class="qr-export-btn qr-export-primary" id="qr-dl-png" type="button">PNG</button>
+              <button class="qr-export-btn" id="qr-dl-svg" type="button">SVG</button>
+              <button class="qr-export-btn" id="qr-copy" type="button">Copy</button>
+            </div>
+          </div>
+
+          <!-- Right: Options -->
+          <div class="qr-right">
+            <span class="tool-label">Options</span>
+
+            <!-- Basics -->
+            <details class="qr-section" open>
+              <summary class="qr-section-title">Basics</summary>
+              <div class="qr-section-body">
+                <div class="qr-option-row">
+                  <label class="qr-option-label">Size</label>
+                  <input type="range" id="qr-size" min="100" max="1000" value="300" step="10" class="qr-slider" />
+                  <span class="qr-option-value" id="qr-size-value">300px</span>
+                </div>
+                <div class="qr-option-row">
+                  <label class="qr-option-label">Padding</label>
+                  <input type="range" id="qr-padding" min="0" max="10" value="2" step="1" class="qr-slider" />
+                  <span class="qr-option-value" id="qr-padding-value">2</span>
+                </div>
+                <div class="qr-option-row">
+                  <label class="qr-option-label">Error Correction</label>
+                  <div class="qr-btn-group" id="qr-ec-group">
+                    <button class="qr-opt-btn" data-ec="L" type="button">L</button>
+                    <button class="qr-opt-btn active" data-ec="M" type="button">M</button>
+                    <button class="qr-opt-btn" data-ec="Q" type="button">Q</button>
+                    <button class="qr-opt-btn" data-ec="H" type="button">H</button>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!-- Colours -->
+            <details class="qr-section">
+              <summary class="qr-section-title">Colours</summary>
+              <div class="qr-section-body">
+                <div class="qr-color-row">
+                  <label class="qr-option-label">Foreground</label>
+                  <div class="qr-color-input-wrap">
+                    <input type="color" id="qr-fg-color" value="#000000" class="qr-color-picker" />
+                    <input type="text" id="qr-fg-hex" value="#000000" class="qr-color-hex" spellcheck="false" />
+                  </div>
+                </div>
+                <div class="qr-color-row">
+                  <label class="qr-option-label">Background</label>
+                  <div class="qr-color-input-wrap">
+                    <input type="color" id="qr-bg-color" value="#ffffff" class="qr-color-picker" />
+                    <input type="text" id="qr-bg-hex" value="#ffffff" class="qr-color-hex" spellcheck="false" />
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!-- Shapes -->
+            <details class="qr-section">
+              <summary class="qr-section-title">Shapes</summary>
+              <div class="qr-section-body">
+                <div class="qr-shape-group">
+                  <label class="qr-option-label">Bit Style</label>
+                  <div class="qr-btn-group qr-btn-group-wrap" id="qr-dot-group">
+                    <button class="qr-opt-btn active" data-dot="square" type="button">Boxy</button>
+                    <button class="qr-opt-btn" data-dot="rounded" type="button">Rounded</button>
+                    <button class="qr-opt-btn" data-dot="dots" type="button">Dots</button>
+                    <button class="qr-opt-btn" data-dot="classy" type="button">Classy</button>
+                    <button class="qr-opt-btn" data-dot="classy-rounded" type="button">Smooth</button>
+                    <button class="qr-opt-btn" data-dot="extra-rounded" type="button">Blob</button>
+                  </div>
+                </div>
+                <div class="qr-shape-group">
+                  <label class="qr-option-label">Eyes</label>
+                  <div class="qr-btn-group qr-btn-group-wrap" id="qr-eye-group">
+                    <button class="qr-opt-btn active" data-eye="square" type="button">Boxy</button>
+                    <button class="qr-opt-btn" data-eye="extra-rounded" type="button">Rounded</button>
+                    <button class="qr-opt-btn" data-eye="dot" type="button">Circular</button>
+                  </div>
+                </div>
+                <div class="qr-shape-group">
+                  <label class="qr-option-label">Pupils</label>
+                  <div class="qr-btn-group qr-btn-group-wrap" id="qr-pupil-group">
+                    <button class="qr-opt-btn active" data-pupil="square" type="button">Square</button>
+                    <button class="qr-opt-btn" data-pupil="dot" type="button">Circle</button>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <!-- Logo -->
+            <details class="qr-section">
+              <summary class="qr-section-title">Logo / Image</summary>
+              <div class="qr-section-body">
+                <div class="qr-logo-upload" id="qr-logo-upload">
+                  <input type="file" id="qr-logo-file" accept="image/png,image/jpeg,image/svg+xml" hidden />
+                  <button class="qr-logo-btn" id="qr-logo-browse" type="button">Upload logo</button>
+                  <span class="qr-logo-name" id="qr-logo-name">No file chosen</span>
+                  <button class="qr-logo-clear" id="qr-logo-clear" type="button" style="display:none;">&times;</button>
+                </div>
+                <div class="qr-option-row" id="qr-logo-size-row" style="display:none;">
+                  <label class="qr-option-label">Logo size</label>
+                  <input type="range" id="qr-logo-size" min="10" max="50" value="30" step="1" class="qr-slider" />
+                  <span class="qr-option-value" id="qr-logo-size-value">30%</span>
+                </div>
+                <div class="qr-option-row" id="qr-logo-margin-row" style="display:none;">
+                  <label class="qr-option-label">Logo margin</label>
+                  <input type="range" id="qr-logo-margin" min="0" max="20" value="4" step="1" class="qr-slider" />
+                  <span class="qr-option-value" id="qr-logo-margin-value">4px</span>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  /* Tabs */
+  .qr-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+  }
+  .qr-tab {
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-right: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s;
+  }
+  .qr-tab:last-child { border-right: none; }
+  .qr-tab:hover { background: var(--bg-soft); }
+  .qr-tab.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* vCard form */
+  .qr-vcard-form { margin-bottom: 0.5rem; }
+  .qr-vcard-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .qr-vcard-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-3);
+    margin-bottom: 0.25rem;
+  }
+  .qr-vcard-input {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  /* Batch mode */
+  .qr-batch-textarea {
+    width: 100%;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    resize: vertical;
+    min-height: 80px;
+  }
+  .qr-batch-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .qr-batch-actions .qr-export-btn { flex: 0 0 auto; }
+  .qr-batch-status {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+  .qr-batch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
+  }
+  .qr-batch-item {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    padding: 0.5rem;
+    text-align: center;
+  }
+  .qr-batch-item canvas, .qr-batch-item svg {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+  }
+  .qr-batch-item-label {
+    font-size: 10px;
+    color: var(--text-3);
+    margin-top: 0.375rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .qr-content-input {
+    width: 100%;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    resize: vertical;
+    min-height: 60px;
+  }
+  .qr-type-bar {
+    display: flex;
+    gap: 0.375rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .qr-type-btn {
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.1s, border-color 0.1s;
+  }
+  .qr-type-btn:hover { background: var(--bg-soft); }
+  .qr-type-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  /* Main layout */
+  .qr-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  /* Preview */
+  .qr-preview-box {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.375rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  .qr-preview-box img, .qr-preview-box canvas, .qr-preview-box svg {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .qr-placeholder {
+    color: var(--text-3);
+    font-size: 13px;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  /* Quick styles */
+  .qr-quick-styles { margin-bottom: 1rem; }
+  .qr-style-bar {
+    display: flex;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+    margin-top: 0.375rem;
+  }
+  .qr-style-btn {
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .qr-style-btn:hover { background: var(--bg-soft); }
+  .qr-style-btn.active {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+
+  /* Export */
+  .qr-export-bar {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .qr-export-btn {
+    flex: 1;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .qr-export-btn:hover { background: var(--bg-soft); }
+  .qr-export-primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .qr-export-primary:hover { background: var(--accent-hover); }
+
+  /* Options panel */
+  .qr-section {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 0.75rem;
+  }
+  .qr-section-title {
+    padding: 0.625rem 0.75rem;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .qr-section-title::after {
+    content: '\25BC';
+    font-size: 9px;
+    color: var(--text-3);
+    transition: transform 0.15s;
+  }
+  .qr-section[open] .qr-section-title::after {
+    transform: rotate(180deg);
+  }
+  .qr-section-title::-webkit-details-marker { display: none; }
+  .qr-section-body {
+    padding: 0 0.75rem 0.75rem;
+  }
+
+  .qr-option-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.625rem;
+  }
+  .qr-option-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-2);
+    min-width: 90px;
+    flex-shrink: 0;
+  }
+  .qr-option-value {
+    font-size: 12px;
+    font-family: var(--font-mono);
+    color: var(--text-3);
+    min-width: 44px;
+    text-align: right;
+  }
+  .qr-slider {
+    flex: 1;
+    accent-color: var(--accent);
+    margin: 0;
+  }
+
+  /* Button groups */
+  .qr-btn-group {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .qr-btn-group-wrap {
+    flex-wrap: wrap;
+    border: none;
+    gap: 0.375rem;
+  }
+  .qr-opt-btn {
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .qr-btn-group:not(.qr-btn-group-wrap) .qr-opt-btn {
+    border-radius: 0;
+    border-right: none;
+  }
+  .qr-btn-group:not(.qr-btn-group-wrap) .qr-opt-btn:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+  .qr-btn-group:not(.qr-btn-group-wrap) .qr-opt-btn:last-child { border-radius: 0 var(--radius) var(--radius) 0; border-right: 1px solid var(--border); }
+  .qr-btn-group-wrap .qr-opt-btn {
+    border-radius: 4px;
+  }
+  .qr-opt-btn:hover { background: var(--bg-soft); }
+  .qr-opt-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  /* Colors */
+  .qr-color-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.625rem;
+  }
+  .qr-color-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  .qr-color-picker {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 1px;
+    background: var(--bg);
+    flex-shrink: 0;
+  }
+  .qr-color-hex {
+    width: 80px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 8px;
+  }
+
+  /* Shapes */
+  .qr-shape-group { margin-bottom: 0.75rem; }
+  .qr-shape-group:last-child { margin-bottom: 0; }
+  .qr-shape-group .qr-option-label { margin-bottom: 0.375rem; display: block; }
+
+  /* Logo */
+  .qr-logo-upload {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .qr-logo-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .qr-logo-btn:hover { background: var(--bg-soft); }
+  .qr-logo-name {
+    font-size: 12px;
+    color: var(--text-3);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+  .qr-logo-clear {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--text-3);
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+  }
+  .qr-logo-clear:hover { color: var(--text); }
+
+  @media (max-width: 768px) {
+    .qr-main { grid-template-columns: 1fr; }
+    .qr-vcard-row { grid-template-columns: 1fr; }
+    .qr-tabs { grid-template-columns: 1fr; }
+  }
+</style>
+<script is:inline src="https://unpkg.com/qr-code-styling@1.8.4/lib/qr-code-styling.js"></script>
+<script src="../tools/qr-generator.js"></script>
