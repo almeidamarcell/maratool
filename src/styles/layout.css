@@ -504,6 +504,23 @@
   color: var(--text-2);
 }
 
+/* ========== EMBED MODE ========== */
+html.embed .topbar,
+html.embed .sidebar,
+html.embed .ad-column,
+html.embed .footer {
+  display: none !important;
+}
+
+html.embed .page-grid {
+  grid-template-columns: 1fr;
+  min-height: auto;
+}
+
+html.embed .main-content {
+  padding: 1rem;
+}
+
 /* ========== MOBILE ========== */
 @media (max-width: 768px) {
   .page-grid {

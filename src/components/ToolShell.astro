@@ -1,5 +1,7 @@
 ---
 import Breadcrumb from './Breadcrumb.astro'
+import EmbedBadge from './EmbedBadge.astro'
+import EmbedButton from './EmbedButton.astro'
 
 interface FAQItem {
   q: string
@@ -13,6 +15,7 @@ interface RelatedTool {
 
 interface Props {
   name: string
+  slug: string
   description: string
   howTo: string[]
   faq: FAQItem[]
@@ -20,11 +23,14 @@ interface Props {
   breadcrumbs?: Array<{ label: string; href?: string }>
 }
 
-const { name, description, howTo, faq, relatedTools, breadcrumbs = [] } = Astro.props
+const { name, slug, description, howTo, faq, relatedTools, breadcrumbs = [] } = Astro.props
 ---
 <article>
   {breadcrumbs.length > 0 && <Breadcrumb crumbs={breadcrumbs} />}
-  <h1>{name}</h1>
+  <div class="tool-header" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+    <h1>{name}</h1>
+    <EmbedButton slug={slug} />
+  </div>
   <p class="tool-description">{description}</p>
 
   <slot />
@@ -56,4 +62,5 @@ const { name, description, howTo, faq, relatedTools, breadcrumbs = [] } = Astro.
       </ul>
     </section>
   )}
+  <EmbedBadge toolUrl={`https://maratool.com/${slug}`} />
 </article>

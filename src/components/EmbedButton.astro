@@ -1,0 +1,74 @@
+---
+interface Props {
+  slug: string
+}
+const { slug } = Astro.props
+const embedUrl = `https://maratool.com/${slug}?embed=1`
+const snippet = `<iframe src="${embedUrl}" width="100%" height="500" style="border:1px solid #e8e8e4;border-radius:10px;" loading="lazy"></iframe>`
+---
+<button class="embed-trigger copy-btn" aria-label="Embed this tool">
+  &lt;/&gt; Embed
+</button>
+
+<div class="embed-modal-overlay" aria-hidden="true">
+  <div class="embed-modal">
+    <h3>Embed this tool</h3>
+    <p style="font-size:13px;color:var(--text-2);margin-bottom:0.75rem;">
+      Copy the iframe snippet below and paste it into your HTML.
+    </p>
+    <textarea class="embed-modal-snippet" readonly>{snippet}</textarea>
+    <div class="embed-modal-actions">
+      <button class="copy-btn embed-copy-btn">Copy</button>
+      <button class="copy-btn embed-close-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+(function() {
+  document.addEventListener('click', function(e) {
+    var trigger = e.target.closest('.embed-trigger');
+    if (trigger) {
+      var overlay = trigger.nextElementSibling;
+      while (overlay && !overlay.classList.contains('embed-modal-overlay')) {
+        overlay = overlay.nextElementSibling;
+      }
+      if (overlay) {
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+      }
+      return;
+    }
+
+    var closeBtn = e.target.closest('.embed-close-btn');
+    if (closeBtn) {
+      var modal = closeBtn.closest('.embed-modal-overlay');
+      if (modal) {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+      return;
+    }
+
+    var copyBtn = e.target.closest('.embed-copy-btn');
+    if (copyBtn) {
+      var textarea = copyBtn.closest('.embed-modal').querySelector('.embed-modal-snippet');
+      if (textarea) {
+        navigator.clipboard.writeText(textarea.value);
+        copyBtn.textContent = 'Copied!';
+        copyBtn.classList.add('copied');
+        setTimeout(function() {
+          copyBtn.textContent = 'Copy';
+          copyBtn.classList.remove('copied');
+        }, 2000);
+      }
+      return;
+    }
+
+    if (e.target.classList.contains('embed-modal-overlay')) {
+      e.target.classList.remove('active');
+      e.target.setAttribute('aria-hidden', 'true');
+    }
+  });
+})();
+</script>
