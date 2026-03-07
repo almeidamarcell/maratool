@@ -13,10 +13,12 @@ import {
   var picker = document.getElementById('cs-picker')
   var hexInput = document.getElementById('cs-hex')
   var nameInput = document.getElementById('cs-name')
-  var algoTabs = document.getElementById('cs-algo-tabs')
+  var algoSelect = document.getElementById('cs-algo')
   var shiftSlider = document.getElementById('cs-shift')
-  var shiftVal = document.getElementById('cs-shift-val')
-  var countSelect = document.getElementById('cs-count')
+  var shiftDisplay = document.getElementById('cs-shift-display')
+  var countValue = document.getElementById('cs-count-value')
+  var countMinus = document.getElementById('cs-count-minus')
+  var countPlus = document.getElementById('cs-count-plus')
   var formatTabs = document.getElementById('cs-format-tabs')
   var grid = document.getElementById('cs-grid')
   var exportTabs = document.getElementById('cs-export-tabs')
@@ -32,7 +34,20 @@ import {
   var aaaBlack = document.getElementById('cs-aaa-black')
   var recentList = document.getElementById('cs-recent-list')
 
+  // RGB slider refs
+  var trackR = document.getElementById('cs-track-r')
+  var trackG = document.getElementById('cs-track-g')
+  var trackB = document.getElementById('cs-track-b')
+  var thumbR = document.getElementById('cs-thumb-r')
+  var thumbG = document.getElementById('cs-thumb-g')
+  var thumbB = document.getElementById('cs-thumb-b')
+  var inputR = document.getElementById('cs-input-r')
+  var inputG = document.getElementById('cs-input-g')
+  var inputB = document.getElementById('cs-input-b')
+
   // ── State ──
+  var MAX_SLOTS = 21
+  var SHADE_COUNTS = [5, 7, 9, 11, 13, 15, 17, 19, 21]
   var state = {
     hex: '#2d6ef6',
     algorithm: 'oklch',
@@ -63,6 +78,85 @@ import {
     })
   }
 
+  // ── RGB slider helpers ──
+  function updateRgbSliders(rgb) {
+    inputR.value = rgb.r
+    inputG.value = rgb.g
+    inputB.value = rgb.b
+    updateTrackGradients(rgb)
+    updateThumbPositions(rgb)
+  }
+
+  function updateTrackGradients(rgb) {
+    // R track: vary red from 0 to 255, keep G and B fixed
+    trackR.style.background = 'linear-gradient(to right, ' +
+      rgbToHex(0, rgb.g, rgb.b) + ', ' + rgbToHex(255, rgb.g, rgb.b) + ')'
+    // G track
+    trackG.style.background = 'linear-gradient(to right, ' +
+      rgbToHex(rgb.r, 0, rgb.b) + ', ' + rgbToHex(rgb.r, 255, rgb.b) + ')'
+    // B track
+    trackB.style.background = 'linear-gradient(to right, ' +
+      rgbToHex(rgb.r, rgb.g, 0) + ', ' + rgbToHex(rgb.r, rgb.g, 255) + ')'
+  }
+
+  function updateThumbPositions(rgb) {
+    thumbR.style.left = (rgb.r / 255 * 100) + '%'
+    thumbG.style.left = (rgb.g / 255 * 100) + '%'
+    thumbB.style.left = (rgb.b / 255 * 100) + '%'
+  }
+
+  function setupChannelTrackDrag(track, thumb, input, channel) {
+    function getValueFromEvent(e) {
+      var rect = track.getBoundingClientRect()
+      var x = (e.clientX || e.touches[0].clientX) - rect.left
+      var ratio = Math.max(0, Math.min(1, x / rect.width))
+      return Math.round(ratio * 255)
+    }
+
+    function applyValue(val) {
+      var rgb = hexToRgb(state.hex)
+      if (!rgb) return
+      rgb[channel] = val
+      var hex = rgbToHex(rgb.r, rgb.g, rgb.b)
+      setColor(hex, 'rgb')
+    }
+
+    function onMove(e) {
+      e.preventDefault()
+      var val = getValueFromEvent(e)
+      applyValue(val)
+    }
+
+    function onUp() {
+      document.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseup', onUp)
+      document.removeEventListener('touchmove', onMove)
+      document.removeEventListener('touchend', onUp)
+      addRecent(state.hex)
+    }
+
+    track.addEventListener('mousedown', function (e) {
+      onMove(e)
+      document.addEventListener('mousemove', onMove)
+      document.addEventListener('mouseup', onUp)
+    })
+    track.addEventListener('touchstart', function (e) {
+      onMove(e)
+      document.addEventListener('touchmove', onMove, { passive: false })
+      document.addEventListener('touchend', onUp)
+    }, { passive: false })
+
+    input.addEventListener('input', function () {
+      var val = parseInt(input.value, 10)
+      if (isNaN(val)) return
+      val = Math.max(0, Math.min(255, val))
+      applyValue(val)
+    })
+    input.addEventListener('change', function () {
+      addRecent(state.hex)
+    })
+  }
+
   // ── Core update ──
   function update() {
     var rgb = hexToRgb(state.hex)
@@ -72,6 +166,7 @@ import {
     renderGrid()
     renderExport()
     updateContrast(rgb)
+    updateRgbSliders(rgb)
     saveHashState()
   }
 
@@ -85,45 +180,66 @@ import {
     }
   }
 
+  function textColorForBg(rgb) {
+    var lum = luminance(rgb.r, rgb.g, rgb.b)
+    return lum > 0.4 ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.85)'
+  }
+
   function renderGrid() {
     grid.innerHTML = ''
-    currentShades.forEach(function (shade) {
-      var div = document.createElement('div')
-      div.className = 'cs-shade'
-      div.setAttribute('role', 'listitem')
-      div.title = 'Click to copy'
+    for (var i = 0; i < MAX_SLOTS; i++) {
+      var shade = currentShades[i]
+      var wrapper = document.createElement('div')
+      wrapper.className = 'cs-shade-wrapper'
 
-      var colorDiv = document.createElement('div')
-      colorDiv.className = 'cs-shade-color'
-      colorDiv.style.background = shade.hex
+      if (shade) {
+        var div = document.createElement('div')
+        div.className = 'cs-shade'
+        div.style.background = shade.hex
+        div.style.color = textColorForBg(shade.rgb)
 
-      var labelDiv = document.createElement('div')
-      labelDiv.className = 'cs-shade-label'
-      labelDiv.textContent = shade.step
+        var labelDiv = document.createElement('div')
+        labelDiv.className = 'cs-shade-label'
+        labelDiv.textContent = shade.step
 
-      var valueDiv = document.createElement('div')
-      valueDiv.className = 'cs-shade-value'
-      valueDiv.textContent = getShadeValue(shade)
+        var valueDiv = document.createElement('div')
+        valueDiv.className = 'cs-shade-value'
+        valueDiv.textContent = getShadeValue(shade)
 
-      var copiedDiv = document.createElement('div')
-      copiedDiv.className = 'cs-shade-copied'
-      copiedDiv.textContent = 'Copied!'
+        div.appendChild(labelDiv)
+        div.appendChild(valueDiv)
 
-      div.appendChild(colorDiv)
-      div.appendChild(labelDiv)
-      div.appendChild(valueDiv)
-      div.appendChild(copiedDiv)
+        var copyBtn = document.createElement('button')
+        copyBtn.className = 'cs-shade-copy'
+        copyBtn.textContent = 'Copy'
+        ;(function (s, btn) {
+          btn.addEventListener('click', function () {
+            var text = getShadeValue(s)
+            navigator.clipboard.writeText(text).then(function () {
+              btn.textContent = 'Copied!'
+              btn.classList.add('copied')
+              setTimeout(function () {
+                btn.textContent = 'Copy'
+                btn.classList.remove('copied')
+              }, 1500)
+            })
+          })
+        })(shade, copyBtn)
 
-      div.addEventListener('click', function () {
-        var text = getShadeValue(shade)
-        navigator.clipboard.writeText(text).then(function () {
-          copiedDiv.classList.add('show')
-          setTimeout(function () { copiedDiv.classList.remove('show') }, 1200)
-        })
-      })
+        wrapper.appendChild(div)
+        wrapper.appendChild(copyBtn)
+      } else {
+        var empty = document.createElement('div')
+        empty.className = 'cs-shade cs-shade-empty'
+        var emptyLabel = document.createElement('div')
+        emptyLabel.className = 'cs-shade-empty-label'
+        emptyLabel.textContent = 'EMPTY'
+        empty.appendChild(emptyLabel)
+        wrapper.appendChild(empty)
+      }
 
-      grid.appendChild(div)
-    })
+      grid.appendChild(wrapper)
+    }
   }
 
   // ── Export rendering ──
@@ -248,20 +364,33 @@ import {
     saveHashState()
   })
 
-  setupTabs(algoTabs, 'data-algo', function (val) {
-    state.algorithm = val
+  algoSelect.addEventListener('change', function () {
+    state.algorithm = algoSelect.value
     update()
   })
 
   shiftSlider.addEventListener('input', function () {
     state.shift = parseInt(shiftSlider.value, 10)
-    shiftVal.textContent = state.shift
+    shiftDisplay.textContent = (state.shift / 100).toFixed(2)
     update()
   })
 
-  countSelect.addEventListener('change', function () {
-    state.count = parseInt(countSelect.value, 10)
-    update()
+  countMinus.addEventListener('click', function () {
+    var idx = SHADE_COUNTS.indexOf(state.count)
+    if (idx > 0) {
+      state.count = SHADE_COUNTS[idx - 1]
+      countValue.textContent = state.count
+      update()
+    }
+  })
+
+  countPlus.addEventListener('click', function () {
+    var idx = SHADE_COUNTS.indexOf(state.count)
+    if (idx < SHADE_COUNTS.length - 1) {
+      state.count = SHADE_COUNTS[idx + 1]
+      countValue.textContent = state.count
+      update()
+    }
   })
 
   setupTabs(formatTabs, 'data-fmt', function (val) {
@@ -278,6 +407,11 @@ import {
     copyWithFeedback(copyExport, exportOutput.textContent, 'Copy')
   })
 
+  // Setup RGB channel track dragging
+  setupChannelTrackDrag(trackR, thumbR, inputR, 'r')
+  setupChannelTrackDrag(trackG, thumbG, inputG, 'g')
+  setupChannelTrackDrag(trackB, thumbB, inputB, 'b')
+
   // ── Init ──
   var saved = HashState.parse()
   if (saved.hex) {
@@ -286,21 +420,21 @@ import {
   }
   if (saved.algo && (saved.algo === 'oklch' || saved.algo === 'hsl')) {
     state.algorithm = saved.algo
-    setActiveTab(algoTabs, saved.algo, 'data-algo')
+    algoSelect.value = saved.algo
   }
   if (saved.shift) {
     var s = parseInt(saved.shift, 10)
     if (!isNaN(s) && s >= 0 && s <= 100) {
       state.shift = s
       shiftSlider.value = s
-      shiftVal.textContent = s
+      shiftDisplay.textContent = (s / 100).toFixed(2)
     }
   }
   if (saved.count) {
     var c = parseInt(saved.count, 10)
-    if ([5, 7, 9, 11, 13].indexOf(c) !== -1) {
+    if (SHADE_COUNTS.indexOf(c) !== -1) {
       state.count = c
-      countSelect.value = c
+      countValue.textContent = c
     }
   }
   if (saved.name) {

@@ -148,7 +148,16 @@ function getSteps(count) {
   if (count === 9) return [50, 100, 200, 300, 500, 700, 800, 900, 950]
   if (count === 7) return [50, 100, 300, 500, 700, 900, 950]
   if (count === 5) return [50, 200, 500, 800, 950]
-  return DEFAULT_STEPS
+  if (count === 15) return [50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 750, 800, 850, 900, 950]
+  if (count === 17) return [50, 100, 150, 200, 250, 300, 350, 400, 500, 600, 650, 700, 750, 800, 850, 900, 950]
+  if (count === 19) return [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950]
+  if (count === 21) return [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950]
+  // Fallback: generate evenly spaced steps
+  var steps = []
+  for (var i = 0; i < count; i++) {
+    steps.push(Math.round(50 + (900 / (count - 1)) * i))
+  }
+  return steps
 }
 
 function clamp01(v) { return Math.max(0, Math.min(1, v)) }
@@ -188,9 +197,10 @@ function generateShadesOklch(baseHex, steps, contrastShift) {
   var lch = oklabToOklch(lab.L, lab.a, lab.b)
 
   // Lightness range controlled by contrastShift (0-100)
+  // shift=0 → narrow range (muted), shift=100 → full range (near white to near black)
   var shift = contrastShift / 100
-  var lightEnd = 0.95 + shift * 0.04   // 0.95 to 0.99
-  var darkEnd = 0.15 - shift * 0.10    // 0.15 to 0.05
+  var lightEnd = 0.80 + shift * 0.19   // 0.80 to 0.99
+  var darkEnd = 0.30 - shift * 0.27    // 0.30 to 0.03
   if (darkEnd < 0.03) darkEnd = 0.03
 
   var maxStep = steps[steps.length - 1]
@@ -229,9 +239,10 @@ function generateShadesHsl(baseHex, steps, contrastShift) {
   var rgb = hexToRgb(baseHex)
   var hsl = rgbToHsl(rgb.r, rgb.g, rgb.b)
 
+  // shift=0 → narrow range (muted), shift=100 → full range (near white to near black)
   var shift = contrastShift / 100
-  var lightEnd = 95 + shift * 3
-  var darkEnd = 10 - shift * 7
+  var lightEnd = 75 + shift * 23       // 75 to 98
+  var darkEnd = 30 - shift * 27        // 30 to 3
   if (darkEnd < 3) darkEnd = 3
 
   var maxStep = steps[steps.length - 1]
