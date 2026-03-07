@@ -59,7 +59,11 @@ maratool/
 ├── tsconfig.json
 ├── public/
 │   ├── favicon.ico
-│   └── robots.txt
+│   ├── robots.txt
+│   └── styles/                    # CSS lives here (served as static assets)
+│       ├── global.css             # reset + variables + typography
+│       ├── layout.css             # topbar, sidebar, grid, ad col, footer
+│       └── tools.css              # shared tool UI: inputs, outputs, buttons, copy feedback
 └── src/
     ├── components/
     │   ├── Layout.astro           # topbar + 3-col grid + footer
@@ -90,12 +94,8 @@ maratool/
     │   ├── uuid.js
     │   ├── reading.js
     │   └── binary.js
-    ├── data/
-    │   └── tools.ts               # single source of truth for all tool metadata
-    └── styles/
-        ├── global.css             # reset + variables + typography
-        ├── layout.css             # topbar, sidebar, grid, ad col, footer
-        └── tools.css              # shared tool UI: inputs, outputs, buttons, copy feedback
+    └── data/
+        └── tools.ts               # single source of truth for all tool metadata
 ```
 
 ## tools.ts — Central Registry
