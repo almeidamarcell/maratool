@@ -8,22 +8,24 @@
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
-  padding: 0 1.25rem;
-  gap: 1rem;
+  padding: 0 1.5rem;
+  gap: 1.25rem;
 }
 
 .topbar-logo {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--accent);
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 1.375rem;
+  font-weight: 400;
+  color: var(--text);
   text-decoration: none;
   flex-shrink: 0;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .topbar-logo:hover {
   text-decoration: none;
-  opacity: 0.85;
+  color: var(--accent);
 }
 
 /* ========== SEARCH ========== */
@@ -61,7 +63,7 @@
 
 .topbar-search {
   width: 100%;
-  padding: 6px 48px 6px 32px;
+  padding: 7px 48px 7px 32px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg-soft);
@@ -94,7 +96,7 @@
 .search-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.18);
 }
 
 .search-panel {
@@ -104,7 +106,7 @@
   right: 0;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   max-height: 70vh;
   overflow-y: auto;
   animation: search-slide-in 0.12s ease;
@@ -210,13 +212,14 @@
   height: calc(100vh - var(--topbar-height));
   overflow-y: auto;
   border-right: 1px solid var(--border);
-  padding: 1rem 0;
+  padding: 1.25rem 0;
   background: var(--bg);
 }
 
 /* Collapsible sidebar groups */
 .sidebar-group {
   border: none;
+  margin-bottom: 0.75rem;
 }
 
 .sidebar-group summary {
@@ -231,28 +234,30 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 1rem 0.25rem;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-3);
+  padding: 0.5rem 1.25rem 0.375rem;
   cursor: pointer;
   user-select: none;
 }
 
-.sidebar-category:hover {
-  color: var(--text-2);
+.sidebar-category:hover .sidebar-category-label {
+  color: var(--text);
 }
 
 .sidebar-category-label {
-  color: inherit;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-2);
   text-decoration: none;
   flex: 1;
+  letter-spacing: 0;
+  text-transform: none;
+  transition: color 0.15s;
 }
 
 .sidebar-category-label:hover {
-  color: var(--text-2);
+  color: var(--text);
   text-decoration: none;
 }
 
@@ -276,7 +281,7 @@
 
 .sidebar-subcategory {
   display: block;
-  padding: 0.375rem 1rem 0.2rem 12px;
+  padding: 0.375rem 1.25rem 0.2rem 16px;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -299,7 +304,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 6px 1rem 6px 24px;
+  padding: 7px 1.25rem 7px 28px;
   font-size: 13px;
   color: var(--text-2);
   text-decoration: none;
@@ -335,7 +340,7 @@
 
 /* ========== MAIN CONTENT ========== */
 .main-content {
-  padding: 2rem;
+  padding: 3rem;
   min-width: 0;
 }
 
@@ -379,7 +384,7 @@
 .footer {
   grid-column: 1 / -1;
   border-top: 1px solid var(--border);
-  padding: 1.5rem 2rem;
+  padding: 2rem 3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -392,58 +397,101 @@
 }
 
 .footer-wordmark {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--font-heading);
+  font-style: italic;
   font-size: 120px;
   color: var(--text-3);
   line-height: 1;
   height: 72px;
   overflow: hidden;
   user-select: none;
-  opacity: 0.4;
+  opacity: 0.25;
 }
 
 /* ========== HOMEPAGE ========== */
 .hero {
-  margin-bottom: 2.5rem;
+  margin-bottom: 4rem;
 }
 
 .hero h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .hero p {
   font-size: 1rem;
   color: var(--text-2);
+  max-width: 560px;
+  line-height: 1.7;
 }
 
+/* Privacy one-liner */
+.hero-tagline {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 1.125rem;
+  color: var(--text-3);
+  margin-top: 1.25rem;
+  letter-spacing: 0;
+}
+
+/* Featured tools section */
+.featured-section {
+  margin-bottom: 4rem;
+}
+
+.featured-section h2 {
+  margin-bottom: 1.25rem;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+/* Section headers */
+.section-header {
+  margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+  margin-bottom: 0.25rem;
+}
+
+.section-header p {
+  font-size: 14px;
+}
+
+/* ========== TOOL CARDS ========== */
 .tools-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .tool-card {
   display: block;
-  padding: 1.25rem;
+  padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg);
   text-decoration: none;
-  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+  position: relative;
 }
 
 .tool-card:hover {
   background: var(--bg-soft);
   border-color: var(--accent);
   text-decoration: none;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .tool-card-emoji {
-  font-size: 2rem;
+  font-size: 1.75rem;
   display: block;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.875rem;
   line-height: 1;
 }
 
@@ -452,12 +500,34 @@
   font-weight: 600;
   color: var(--text);
   margin-bottom: 0.375rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.tool-card-name::after {
+  content: '\2192';
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.15s, transform 0.15s;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.tool-card:hover .tool-card-name::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Hide arrow on non-live cards */
+div.tool-card .tool-card-name::after {
+  display: none;
 }
 
 .tool-card-desc {
   font-size: 13px;
   color: var(--text-2);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .tool-card-badge {
@@ -474,7 +544,7 @@
 /* ========== BREADCRUMB ========== */
 .breadcrumb {
   font-size: 13px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -533,10 +603,28 @@ html.embed .main-content {
   }
 
   .main-content {
-    padding: 1.25rem;
+    padding: 1.5rem;
+  }
+
+  .footer {
+    padding: 1.5rem;
   }
 
   .footer-wordmark {
     display: none;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .featured-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-grid {
+    grid-template-columns: 1fr;
   }
 }

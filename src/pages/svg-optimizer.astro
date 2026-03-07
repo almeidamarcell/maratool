@@ -1,0 +1,226 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'SVG Optimizer — Minify and clean SVG files online | maratool',
+  description: 'Optimize and minify SVG files in the browser. Remove metadata, clean attributes, and reduce file size instantly. Free, no sign-up, nothing leaves your browser.',
+  canonical: 'https://maratool.com/svg-optimizer',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'SVG Optimizer',
+    url: 'https://maratool.com/svg-optimizer',
+    applicationCategory: 'DesignApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Optimize and minify SVG files in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Design', item: 'https://maratool.com/design' },
+      { '@type': 'ListItem', position: 3, name: 'Asset', item: 'https://maratool.com/design/asset' },
+      { '@type': 'ListItem', position: 4, name: 'SVG Optimizer', item: 'https://maratool.com/svg-optimizer' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How does SVG optimization work?',
+        acceptedAnswer: { '@type': 'Answer', text: 'SVG optimization removes unnecessary data like editor metadata, comments, default attribute values, and redundant whitespace. This reduces file size without changing how the SVG looks.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is it safe to optimize SVGs?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. This tool only removes data that does not affect the visual output — comments, editor metadata, empty elements, and default values. The original SVG structure and visual appearance are preserved.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this tool upload my SVG to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. Everything runs in your browser using the built-in DOMParser and XMLSerializer APIs. Your SVG never leaves your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How much can SVG optimization reduce file size?',
+        acceptedAnswer: { '@type': 'Answer', text: 'It depends on the source. SVGs exported from design tools like Figma, Illustrator, or Inkscape often contain 20-60% unnecessary data. Simple SVGs may see smaller savings.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste your SVG code into the input area.',
+  'The optimized version appears automatically with size comparison.',
+  'Click Copy to grab the optimized SVG code.'
+]
+
+const faq = [
+  { q: 'How does SVG optimization work?', a: 'It removes unnecessary data like editor metadata, comments, default attribute values, and whitespace — reducing size without changing appearance.' },
+  { q: 'Is it safe to optimize SVGs?', a: 'Yes. Only non-visual data is removed: comments, metadata, empty elements, and default values. The visual output stays the same.' },
+  { q: 'Does this tool upload my SVG to a server?', a: 'No. Everything runs in your browser using DOMParser and XMLSerializer. Your SVG never leaves your device.' },
+  { q: 'How much can SVG optimization reduce file size?', a: 'SVGs from design tools often contain 20-60% unnecessary data. Simple hand-written SVGs may see smaller savings.' }
+]
+
+const relatedTools = [
+  { slug: 'favicon-generator', name: 'Favicon Generator' },
+  { slug: 'css-gradient', name: 'CSS Gradient Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Design', href: '/design' },
+  { label: 'Asset', href: '/design/asset' },
+  { label: 'SVG Optimizer' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="svg-optimizer" name="SVG Optimizer" description="Optimize and minify SVG files by removing metadata, comments, and default attributes." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="so-input-section">
+          <label class="tool-label" for="so-input">Paste SVG</label>
+          <textarea id="so-input" class="tool-input so-textarea" placeholder="Paste your SVG code here..." rows="8" spellcheck="false"></textarea>
+        </div>
+
+        <div class="so-error" id="so-error" style="display:none;">
+          <span class="so-error-text">Invalid SVG — could not parse the input.</span>
+        </div>
+
+        <div class="so-stats" id="so-stats" style="display:none;">
+          <div class="so-stat">
+            <span class="so-stat-label">Original</span>
+            <span class="so-stat-value" id="so-original-size">&mdash;</span>
+          </div>
+          <div class="so-stat">
+            <span class="so-stat-label">Optimized</span>
+            <span class="so-stat-value" id="so-optimized-size">&mdash;</span>
+          </div>
+          <div class="so-stat so-stat-savings">
+            <span class="so-stat-label">Savings</span>
+            <span class="so-stat-value" id="so-savings">&mdash;</span>
+          </div>
+        </div>
+
+        <div class="so-output-section" id="so-output-section" style="display:none;">
+          <div class="so-output-header">
+            <label class="tool-label">Optimized SVG</label>
+            <button class="copy-btn" id="so-copy">Copy</button>
+          </div>
+          <pre id="so-output" class="tool-output so-output-code"></pre>
+        </div>
+
+        <div class="so-preview" id="so-preview" style="display:none;">
+          <div class="so-preview-pane">
+            <span class="tool-label">Original</span>
+            <div class="so-preview-box" id="so-preview-original"></div>
+          </div>
+          <div class="so-preview-pane">
+            <span class="tool-label">Optimized</span>
+            <div class="so-preview-box" id="so-preview-optimized"></div>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .so-textarea {
+    width: 100%;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .so-error {
+    background: var(--error-bg);
+    border: 1px solid var(--error-border);
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+  }
+  .so-error-text { color: #c53030; font-size: 13px; }
+
+  .so-stats {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 1rem 0;
+  }
+  .so-stat {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .so-stat:last-child { border-right: none; }
+  .so-stat-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-3);
+    margin-bottom: 0.25rem;
+  }
+  .so-stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--text);
+  }
+  .so-stat-savings .so-stat-value { color: var(--accent); }
+
+  .so-output-section { margin-bottom: 1rem; }
+  .so-output-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  .so-output-code {
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 11px;
+    word-break: break-all;
+    white-space: pre-wrap;
+  }
+
+  .so-preview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  .so-preview-pane {}
+  .so-preview-box {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #fff;
+    padding: 1rem;
+    margin-top: 0.375rem;
+  }
+  .so-preview-box :global(svg) {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .so-preview { grid-template-columns: 1fr; }
+  }
+</style>
+<script src="../tools/svg-optimizer.js"></script>
