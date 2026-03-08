@@ -20,6 +20,22 @@ Domain registered: maratool.com (March 2026)
 
 **Never introduce:** Tailwind, React, Vue, Alpine, any JS framework inside tools/.
 
+## Astro Scoping Rule — CRITICAL
+
+Tool pages create DOM elements dynamically with vanilla JS. Astro's default `<style>` tags are **scoped** — they add `[data-astro-cid-xxx]` attribute selectors to every CSS rule. JS-created elements don't get this attribute, so scoped styles silently fail on them with no build errors.
+
+**Rule:** Every `.astro` page that has a companion JS file creating DOM elements MUST use `<style is:global>` instead of `<style>`. This includes all tool pages.
+
+**Verification:** After any CSS change to a tool page, open the browser, inspect a JS-created element, and confirm the expected styles are applied (e.g., `border-radius`, `opacity`, `position`). Don't trust that "it built successfully" means styles are working.
+
+## Design Reference Matching
+
+When asked to match a reference design (screenshot or live site):
+1. **Open the reference** in the browser and take a screenshot for comparison
+2. **After implementing**, open the live deployed version side-by-side with the reference
+3. **Verify key visual properties** by inspecting computed styles in the browser (height, border-radius, opacity, transitions)
+4. **Never consider it done** until you've visually confirmed the deployed result matches the reference — build passing is not sufficient
+
 ## Design System
 
 ```css
