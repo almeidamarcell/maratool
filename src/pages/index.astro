@@ -5,10 +5,10 @@ import { tools } from '../data/tools'
 
 const liveTools = tools.filter(t => t.live)
 
-const featuredSlugs = ['jwt-decoder', 'json-formatter', 'css-gradient', 'color-shades']
+const featuredSlugs = ['background-remover', 'qr-code-generator', 'utm-builder']
 const featuredTools = featuredSlugs
   .map(slug => tools.find(t => t.slug === slug))
-  .filter((t): t is typeof tools[number] => !!t && t.live)
+  .filter((t): t is typeof tools[number] => !!t)
 
 const seo = {
   title: 'Free Online Tools — JSON Formatter, Word Counter, Color Picker & more | maratool',
@@ -50,11 +50,22 @@ const itemListSchema = {
       <h2>Featured</h2>
       <div class="featured-grid">
         {featuredTools.map(tool => (
-          <a href={`/${tool.slug}`} class="tool-card">
-            <span class="tool-card-emoji">{tool.emoji}</span>
-            <div class="tool-card-name">{tool.name}</div>
-            <div class="tool-card-desc">{tool.description}</div>
-          </a>
+          tool.live
+            ? (
+              <a href={`/${tool.slug}`} class="tool-card">
+                <span class="tool-card-emoji">{tool.emoji}</span>
+                <div class="tool-card-name">{tool.name}</div>
+                <div class="tool-card-desc">{tool.description}</div>
+              </a>
+            )
+            : (
+              <div class="tool-card" style="opacity:0.5;cursor:default;">
+                <span class="tool-card-emoji">{tool.emoji}</span>
+                <div class="tool-card-name">{tool.name}</div>
+                <div class="tool-card-desc">{tool.description}</div>
+                <span class="tool-card-badge">Coming Soon</span>
+              </div>
+            )
         ))}
       </div>
     </section>
