@@ -156,6 +156,16 @@ export const tools: Tool[] = [
     live: true,
   },
   {
+    slug: 'palette-generator',
+    name: 'Palette Generator',
+    emoji: '🎨',
+    description: 'Generate beautiful color palettes with 28 strategies — color theory, moods, decades, nature, and culture. Lock, export, download.',
+    category: 'Design',
+    subcategory: 'Color',
+    keywords: ['color palette generator', 'palette maker', 'color scheme generator', 'random palette', 'complementary colors', 'analogous palette', 'triadic colors'],
+    live: true,
+  },
+  {
     slug: 'contrast-checker',
     name: 'Contrast Checker',
     emoji: '♿',
