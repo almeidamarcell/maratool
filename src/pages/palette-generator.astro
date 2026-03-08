@@ -146,10 +146,12 @@ const breadcrumbs = [
         <!-- Export -->
         <div class="pg-export">
           <span class="pg-export-label">Export</span>
-          <button class="pg-export-btn" id="pg-export-hex" type="button">Copy HEX</button>
-          <button class="pg-export-btn" id="pg-export-css" type="button">CSS Variables</button>
-          <button class="pg-export-btn" id="pg-export-json" type="button">JSON</button>
-          <button class="pg-export-btn" id="pg-export-img" type="button">Download Image</button>
+          <div class="pg-export-btns">
+            <button class="pg-export-btn" id="pg-export-hex" type="button">Copy HEX</button>
+            <button class="pg-export-btn" id="pg-export-css" type="button">CSS Variables</button>
+            <button class="pg-export-btn" id="pg-export-json" type="button">JSON</button>
+            <button class="pg-export-btn" id="pg-export-img" type="button">Download Image</button>
+          </div>
         </div>
 
         <!-- Colour list -->
@@ -162,69 +164,105 @@ const breadcrumbs = [
   </Layout>
 </Base>
 <style>
-  /* Strip */
+  /* ── Strip container ── */
   .pg-strip {
     display: flex;
-    gap: 0;
-    border-radius: var(--radius);
-    overflow: hidden;
-    min-height: 160px;
-    margin-bottom: 1.25rem;
+    gap: 6px;
+    padding: 6px;
+    border-radius: 14px;
+    background: var(--bg-soft);
     border: 1px solid var(--border);
+    min-height: 190px;
+    margin-bottom: 1.25rem;
+    overflow: hidden;
   }
+
+  /* ── Individual swatch ── */
   .pg-swatch {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
-    padding: 0.75rem 0.5rem;
+    justify-content: space-between;
+    padding: 10px 6px 12px;
     position: relative;
     cursor: default;
-    transition: flex 0.3s ease-out;
+    transition: flex 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     min-width: 0;
+    border-radius: 10px;
+    overflow: hidden;
   }
   .pg-swatch:hover {
-    flex: 1.5;
+    flex: 1.6;
   }
+
+  /* Controls row at top of swatch */
   .pg-swatch-controls {
     display: flex;
-    gap: 0.25rem;
-    position: absolute;
-    top: 8px;
-    right: 8px;
+    gap: 4px;
+    justify-content: center;
+    width: 100%;
     opacity: 0;
-    transition: opacity 0.15s;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
   }
   .pg-swatch:hover .pg-swatch-controls {
     opacity: 1;
   }
   .pg-swatch-btn {
-    background: rgba(255,255,255,0.85);
-    border: none;
-    border-radius: 4px;
-    width: 26px;
-    height: 26px;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
     font-size: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #333;
-    transition: background 0.1s;
+    transition: background 0.15s, transform 0.15s;
   }
   .pg-swatch-btn:hover {
-    background: rgba(255,255,255,1);
-  }
-  .pg-swatch-label {
-    font-size: 11px;
-    font-weight: 600;
-    font-family: var(--font-mono);
-    opacity: 0.9;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    background: rgba(255,255,255,0.95);
+    transform: scale(1.08);
   }
 
-  /* Controls */
+  /* Circle accent in the middle */
+  .pg-swatch-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.4);
+    flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s;
+  }
+  .pg-swatch:hover .pg-swatch-circle {
+    transform: scale(1.12);
+    border-color: rgba(255,255,255,0.7);
+  }
+
+  /* Hex label at bottom */
+  .pg-swatch-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    opacity: 0.85;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .pg-swatch-lock-icon {
+    font-size: 10px;
+    opacity: 0.7;
+  }
+
+  /* ── Controls bar ── */
   .pg-controls {
     display: flex;
     align-items: center;
@@ -233,7 +271,7 @@ const breadcrumbs = [
     flex-wrap: wrap;
   }
   .pg-generate-btn {
-    padding: 8px 20px;
+    padding: 9px 22px;
     font-size: 13px;
     font-weight: 600;
     background: var(--accent);
@@ -241,11 +279,12 @@ const breadcrumbs = [
     border: none;
     border-radius: var(--radius);
     cursor: pointer;
-    transition: background 0.15s;
+    transition: background 0.15s, transform 0.1s;
   }
   .pg-generate-btn:hover { background: var(--accent-hover, #1d5ed6); }
+  .pg-generate-btn:active { transform: scale(0.97); }
   .pg-select {
-    padding: 8px 12px;
+    padding: 9px 14px;
     font-size: 13px;
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -263,8 +302,8 @@ const breadcrumbs = [
     margin-left: auto;
   }
   .pg-count-btn {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     border: none;
     background: var(--bg);
     color: var(--text);
@@ -277,43 +316,47 @@ const breadcrumbs = [
   }
   .pg-count-btn:hover { background: var(--bg-soft); }
   .pg-count-value {
-    width: 32px;
+    width: 34px;
     text-align: center;
     font-size: 13px;
     font-weight: 600;
     border-left: 1px solid var(--border);
     border-right: 1px solid var(--border);
-    line-height: 32px;
+    line-height: 34px;
   }
 
-  /* Strategy description */
+  /* ── Strategy description ── */
   .pg-strategy-desc {
-    font-size: 12px;
-    color: var(--text-3);
+    font-size: 13px;
+    color: var(--text-2);
     background: var(--bg-soft);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 0.5rem 0.75rem;
-    margin-bottom: 1.25rem;
-    min-height: 32px;
+    padding: 0.625rem 0.875rem;
+    margin-bottom: 1.5rem;
+    min-height: 36px;
+    line-height: 1.4;
   }
 
-  /* Export */
+  /* ── Export ── */
   .pg-export {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 0.5rem;
-    margin-bottom: 1.25rem;
-    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
   }
   .pg-export-label {
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
     color: var(--text);
-    margin-right: 0.25rem;
+  }
+  .pg-export-btns {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
   }
   .pg-export-btn {
-    padding: 6px 14px;
+    padding: 7px 16px;
     font-size: 12px;
     font-weight: 500;
     border: 1px solid var(--border);
@@ -321,60 +364,66 @@ const breadcrumbs = [
     background: var(--bg);
     color: var(--text);
     cursor: pointer;
-    transition: background 0.1s;
+    transition: background 0.1s, border-color 0.1s;
   }
-  .pg-export-btn:hover { background: var(--bg-soft); }
+  .pg-export-btn:hover { background: var(--bg-soft); border-color: var(--text-3); }
 
-  /* Colour list */
+  /* ── Colour list ── */
   .pg-colours-label {
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
     color: var(--text);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.625rem;
   }
   .pg-colours {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0;
     margin-bottom: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
   }
   .pg-colour-row {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    background: var(--bg-soft);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 0.625rem 0.75rem;
+    gap: 1rem;
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
   }
+  .pg-colour-row:last-child { border-bottom: none; }
+  .pg-colour-row:hover { background: var(--bg-soft); }
   .pg-colour-chip {
-    width: 44px;
-    height: 44px;
-    border-radius: 8px;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
     flex-shrink: 0;
-    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
   }
   .pg-colour-info {
     flex: 1;
     min-width: 0;
   }
   .pg-colour-hex {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--text);
     font-family: var(--font-mono);
+    line-height: 1.3;
   }
   .pg-colour-name {
     font-family: var(--font);
     font-weight: 400;
     color: var(--text-2);
-    font-size: 12px;
-    margin-left: 0.375rem;
+    font-size: 13px;
+    margin-left: 0.5rem;
   }
   .pg-colour-meta {
     font-size: 11px;
     color: var(--text-3);
     font-family: var(--font-mono);
-    margin-top: 2px;
+    margin-top: 3px;
+    letter-spacing: 0.01em;
   }
   .pg-colour-actions {
     display: flex;
@@ -382,45 +431,48 @@ const breadcrumbs = [
     flex-shrink: 0;
   }
   .pg-action-btn {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 8px;
     background: var(--bg);
     color: var(--text-2);
-    font-size: 13px;
+    font-size: 14px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    transition: background 0.1s;
+    transition: background 0.1s, border-color 0.1s, transform 0.1s;
   }
-  .pg-action-btn:hover { background: var(--bg-hover); }
+  .pg-action-btn:hover { background: var(--bg-hover); border-color: var(--text-3); transform: scale(1.05); }
   .pg-action-btn.pg-locked { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-  /* Hint */
+  /* ── Hint ── */
   .pg-hint {
     text-align: center;
     font-size: 12px;
     color: var(--text-3);
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
   }
   .pg-hint kbd {
     display: inline-block;
-    padding: 1px 6px;
+    padding: 2px 8px;
     font-size: 11px;
     font-family: var(--font-mono);
     border: 1px solid var(--border);
-    border-radius: 3px;
+    border-radius: 4px;
     background: var(--bg-soft);
   }
 
   @media (max-width: 768px) {
-    .pg-strip { min-height: 120px; }
+    .pg-strip { min-height: 140px; flex-wrap: wrap; }
+    .pg-swatch { min-width: 60px; }
+    .pg-swatch-circle { width: 36px; height: 36px; }
     .pg-controls { flex-wrap: wrap; }
     .pg-count-control { margin-left: 0; }
-    .pg-colour-row { flex-wrap: wrap; }
+    .pg-colour-row { flex-wrap: wrap; gap: 0.5rem; padding: 0.75rem; }
+    .pg-colour-actions { width: 100%; justify-content: flex-end; }
   }
 </style>
 <script src="../tools/palette-generator.js"></script>

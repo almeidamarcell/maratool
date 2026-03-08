@@ -381,43 +381,18 @@
     for (var i = 0; i < colours.length; i++) {
       (function (idx) {
         var c = colours[idx]
+        var tc = textColor(c.hex)
         var swatch = document.createElement('div')
         swatch.className = 'pg-swatch'
         swatch.style.background = c.hex
-        swatch.style.color = textColor(c.hex)
+        swatch.style.color = tc
         swatch.setAttribute('data-idx', idx)
 
+        // Controls row at top
         var controls = document.createElement('div')
         controls.className = 'pg-swatch-controls'
 
-        // Lock button
-        var lockBtn = document.createElement('button')
-        lockBtn.type = 'button'
-        lockBtn.className = 'pg-swatch-btn'
-        lockBtn.innerHTML = c.locked ? '&#128274;' : '&#128275;'
-        lockBtn.title = c.locked ? 'Unlock' : 'Lock'
-        lockBtn.addEventListener('click', function (e) {
-          e.stopPropagation()
-          colours[idx].locked = !colours[idx].locked
-          renderAll()
-        })
-        controls.appendChild(lockBtn)
-
-        // Copy button
-        var copySwBtn = document.createElement('button')
-        copySwBtn.type = 'button'
-        copySwBtn.className = 'pg-swatch-btn'
-        copySwBtn.innerHTML = '&#128203;'
-        copySwBtn.title = 'Copy hex'
-        copySwBtn.addEventListener('click', function (e) {
-          e.stopPropagation()
-          navigator.clipboard.writeText(c.hex.toUpperCase())
-          copySwBtn.innerHTML = '&#10003;'
-          setTimeout(function () { copySwBtn.innerHTML = '&#128203;' }, 1500)
-        })
-        controls.appendChild(copySwBtn)
-
-        // Remove button
+        // Remove button (left)
         if (colours.length > MIN_COLOURS) {
           var removeBtn = document.createElement('button')
           removeBtn.type = 'button'
@@ -434,11 +409,37 @@
           controls.appendChild(removeBtn)
         }
 
+        // Lock button
+        var lockBtn = document.createElement('button')
+        lockBtn.type = 'button'
+        lockBtn.className = 'pg-swatch-btn'
+        lockBtn.innerHTML = c.locked ? '&#128274;' : '&#128275;'
+        lockBtn.title = c.locked ? 'Unlock' : 'Lock'
+        lockBtn.addEventListener('click', function (e) {
+          e.stopPropagation()
+          colours[idx].locked = !colours[idx].locked
+          renderAll()
+        })
+        controls.appendChild(lockBtn)
+
         swatch.appendChild(controls)
 
+        // Circle accent in the middle
+        var circle = document.createElement('div')
+        circle.className = 'pg-swatch-circle'
+        swatch.appendChild(circle)
+
+        // Label with optional lock icon
         var label = document.createElement('div')
         label.className = 'pg-swatch-label'
-        label.textContent = c.hex.toUpperCase()
+        if (c.locked) {
+          var lockIcon = document.createElement('span')
+          lockIcon.className = 'pg-swatch-lock-icon'
+          lockIcon.innerHTML = '&#128274;'
+          label.appendChild(lockIcon)
+        }
+        var hexText = document.createTextNode(c.hex.toUpperCase())
+        label.appendChild(hexText)
         swatch.appendChild(label)
 
         stripEl.appendChild(swatch)
