@@ -1,0 +1,426 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Color Palette Generator — Create beautiful palettes | maratool',
+  description: 'Generate beautiful color palettes with 28 strategies: color theory, moods, decades, nature, and culture. Lock colors, export as HEX, CSS, JSON, or image. Free, instant, no sign-up.',
+  canonical: 'https://maratool.com/palette-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Color Palette Generator',
+    url: 'https://maratool.com/palette-generator',
+    applicationCategory: 'DesignApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate beautiful color palettes with 28 strategies.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Design', item: 'https://maratool.com/design' },
+      { '@type': 'ListItem', position: 3, name: 'Color', item: 'https://maratool.com/design/color' },
+      { '@type': 'ListItem', position: 4, name: 'Palette Generator', item: 'https://maratool.com/palette-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I generate a color palette?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Click Generate or press Spacebar. Choose from 28 strategies including color theory (analogous, complementary, triadic), moods, decades, nature themes, and cultural styles. Adjust the number of colors with + and -.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I lock colors while generating new ones?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Click the lock icon on any color to keep it fixed. When you generate a new palette, locked colors stay in place while the rest change.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What export formats are available?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Export as HEX values, CSS custom properties, JSON array, or download as a PNG image with color swatches and hex labels.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What color space does this tool use?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Palettes are generated in OKLCH color space, which produces perceptually uniform and harmonious results. Each color shows RGB and OKLCH values.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Choose a generation strategy and number of colors, then click Generate or press Spacebar.',
+  'Lock any colors you want to keep, then regenerate to fill in the rest.',
+  'Export your palette as HEX, CSS variables, JSON, or download as an image.'
+]
+
+const faq = [
+  { q: 'How do I generate a color palette?', a: 'Click Generate or press Spacebar. Choose from 28 strategies. Adjust the count with + and -.' },
+  { q: 'Can I lock colors?', a: 'Yes. Click the lock icon on any color. Locked colors stay when you regenerate.' },
+  { q: 'What export formats are available?', a: 'HEX values, CSS custom properties, JSON array, or PNG image download.' },
+  { q: 'What color space is used?', a: 'OKLCH for perceptually uniform, harmonious palettes. RGB and OKLCH values are shown for each color.' }
+]
+
+const relatedTools = [
+  { slug: 'color-shades', name: 'Color Shades Generator' },
+  { slug: 'contrast-checker', name: 'Contrast Checker' },
+  { slug: 'css-gradient', name: 'CSS Gradient Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Design', href: '/design' },
+  { label: 'Color', href: '/design/color' },
+  { label: 'Palette Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="palette-generator" name="Palette Generator" description="Generate beautiful colour palettes with 28 strategies." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <!-- Palette strip -->
+        <div class="pg-strip" id="pg-strip"></div>
+
+        <!-- Controls -->
+        <div class="pg-controls">
+          <button class="pg-generate-btn" id="pg-generate" type="button">Generate</button>
+          <select class="pg-select" id="pg-strategy">
+            <optgroup label="Random">
+              <option value="random-cohesive" selected>Random</option>
+              <option value="true-random">Chaos</option>
+            </optgroup>
+            <optgroup label="Color Theory">
+              <option value="analogous">Analogous</option>
+              <option value="complementary">Complementary</option>
+              <option value="triadic">Triadic</option>
+              <option value="split-complementary">Split-Comp</option>
+              <option value="tetradic">Tetradic</option>
+              <option value="monochromatic">Mono</option>
+            </optgroup>
+            <optgroup label="Moods">
+              <option value="thermos">Thermos</option>
+              <option value="specimen">Specimen</option>
+              <option value="souvenir">Souvenir</option>
+              <option value="curfew">Curfew</option>
+              <option value="telegraph">Telegraph</option>
+            </optgroup>
+            <optgroup label="Decades">
+              <option value="70s">1970s</option>
+              <option value="80s">1980s</option>
+              <option value="90s">1990s</option>
+              <option value="y2k">Y2K</option>
+            </optgroup>
+            <optgroup label="Nature">
+              <option value="ocean-sunset">Ocean Sunset</option>
+              <option value="forest-morning">Forest Morning</option>
+              <option value="desert-dusk">Desert Dusk</option>
+              <option value="arctic">Arctic</option>
+              <option value="volcanic">Volcanic</option>
+              <option value="meadow">Meadow</option>
+            </optgroup>
+            <optgroup label="Culture">
+              <option value="bauhaus">Bauhaus</option>
+              <option value="art-deco">Art Deco</option>
+              <option value="japanese">Japanese</option>
+              <option value="scandinavian">Scandinavian</option>
+              <option value="mexican">Mexican</option>
+            </optgroup>
+          </select>
+          <div class="pg-count-control">
+            <button class="pg-count-btn" id="pg-count-minus" type="button">&minus;</button>
+            <span class="pg-count-value" id="pg-count">5</span>
+            <button class="pg-count-btn" id="pg-count-plus" type="button">+</button>
+          </div>
+        </div>
+
+        <!-- Strategy description -->
+        <div class="pg-strategy-desc" id="pg-strategy-desc"></div>
+
+        <!-- Export -->
+        <div class="pg-export">
+          <span class="pg-export-label">Export</span>
+          <button class="pg-export-btn" id="pg-export-hex" type="button">Copy HEX</button>
+          <button class="pg-export-btn" id="pg-export-css" type="button">CSS Variables</button>
+          <button class="pg-export-btn" id="pg-export-json" type="button">JSON</button>
+          <button class="pg-export-btn" id="pg-export-img" type="button">Download Image</button>
+        </div>
+
+        <!-- Colour list -->
+        <div class="pg-colours-label">Colours</div>
+        <div class="pg-colours" id="pg-colours"></div>
+
+        <div class="pg-hint">Press <kbd>Space</kbd> to generate a new palette</div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  /* Strip */
+  .pg-strip {
+    display: flex;
+    gap: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    min-height: 160px;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--border);
+  }
+  .pg-swatch {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0.75rem 0.5rem;
+    position: relative;
+    cursor: default;
+    transition: flex 0.3s ease-out;
+    min-width: 0;
+  }
+  .pg-swatch:hover {
+    flex: 1.5;
+  }
+  .pg-swatch-controls {
+    display: flex;
+    gap: 0.25rem;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .pg-swatch:hover .pg-swatch-controls {
+    opacity: 1;
+  }
+  .pg-swatch-btn {
+    background: rgba(255,255,255,0.85);
+    border: none;
+    border-radius: 4px;
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    transition: background 0.1s;
+  }
+  .pg-swatch-btn:hover {
+    background: rgba(255,255,255,1);
+  }
+  .pg-swatch-label {
+    font-size: 11px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+
+  /* Controls */
+  .pg-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .pg-generate-btn {
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .pg-generate-btn:hover { background: var(--accent-hover, #1d5ed6); }
+  .pg-select {
+    padding: 8px 12px;
+    font-size: 13px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    min-width: 160px;
+  }
+  .pg-count-control {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-left: auto;
+  }
+  .pg-count-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s;
+  }
+  .pg-count-btn:hover { background: var(--bg-soft); }
+  .pg-count-value {
+    width: 32px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    line-height: 32px;
+  }
+
+  /* Strategy description */
+  .pg-strategy-desc {
+    font-size: 12px;
+    color: var(--text-3);
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 1.25rem;
+    min-height: 32px;
+  }
+
+  /* Export */
+  .pg-export {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .pg-export-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-right: 0.25rem;
+  }
+  .pg-export-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .pg-export-btn:hover { background: var(--bg-soft); }
+
+  /* Colour list */
+  .pg-colours-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .pg-colours {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .pg-colour-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.625rem 0.75rem;
+  }
+  .pg-colour-chip {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+  .pg-colour-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .pg-colour-hex {
+    font-size: 13px;
+    color: var(--text);
+    font-family: var(--font-mono);
+  }
+  .pg-colour-name {
+    font-family: var(--font);
+    font-weight: 400;
+    color: var(--text-2);
+    font-size: 12px;
+    margin-left: 0.375rem;
+  }
+  .pg-colour-meta {
+    font-size: 11px;
+    color: var(--text-3);
+    font-family: var(--font-mono);
+    margin-top: 2px;
+  }
+  .pg-colour-actions {
+    display: flex;
+    gap: 0.375rem;
+    flex-shrink: 0;
+  }
+  .pg-action-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text-2);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background 0.1s;
+  }
+  .pg-action-btn:hover { background: var(--bg-hover); }
+  .pg-action-btn.pg-locked { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* Hint */
+  .pg-hint {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-3);
+    margin-top: 0.5rem;
+  }
+  .pg-hint kbd {
+    display: inline-block;
+    padding: 1px 6px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--bg-soft);
+  }
+
+  @media (max-width: 768px) {
+    .pg-strip { min-height: 120px; }
+    .pg-controls { flex-wrap: wrap; }
+    .pg-count-control { margin-left: 0; }
+    .pg-colour-row { flex-wrap: wrap; }
+  }
+</style>
+<script src="../tools/palette-generator.js"></script>
