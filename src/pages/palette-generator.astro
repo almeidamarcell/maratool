@@ -167,12 +167,12 @@ const breadcrumbs = [
   /* ── Strip container ── */
   .pg-strip {
     display: flex;
-    gap: 6px;
-    padding: 6px;
-    border-radius: 14px;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 16px;
     background: var(--bg-soft);
     border: 1px solid var(--border);
-    min-height: 190px;
+    height: 320px;
     margin-bottom: 1.25rem;
     overflow: hidden;
   }
@@ -183,65 +183,71 @@ const breadcrumbs = [
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px 6px 12px;
+    justify-content: flex-end;
+    padding: 14px 8px 18px;
     position: relative;
     cursor: default;
-    transition: flex 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     min-width: 0;
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
   }
   .pg-swatch:hover {
-    flex: 1.6;
+    flex: 1.8;
   }
 
-  /* Controls row at top of swatch */
+  /* Controls row — overlay at top of swatch */
   .pg-swatch-controls {
     display: flex;
-    gap: 4px;
+    gap: 6px;
     justify-content: center;
-    width: 100%;
+    position: absolute;
+    top: 12px;
+    left: 0;
+    right: 0;
     opacity: 0;
-    transition: opacity 0.2s;
-    flex-shrink: 0;
+    transition: opacity 0.25s;
+    z-index: 2;
   }
   .pg-swatch:hover .pg-swatch-controls {
     opacity: 1;
   }
   .pg-swatch-btn {
-    background: rgba(255,255,255,0.7);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 6px;
-    width: 28px;
-    height: 28px;
-    font-size: 12px;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #333;
     transition: background 0.15s, transform 0.15s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
   .pg-swatch-btn:hover {
     background: rgba(255,255,255,0.95);
-    transform: scale(1.08);
+    transform: scale(1.1);
   }
 
-  /* Circle accent in the middle */
+  /* Circle accent — centered in swatch */
   .pg-swatch-circle {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    border: 3px solid rgba(255,255,255,0.4);
+    border: 3px solid rgba(255,255,255,0.45);
     flex-shrink: 0;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s;
+    margin-bottom: auto;
+    margin-top: auto;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s;
   }
   .pg-swatch:hover .pg-swatch-circle {
-    transform: scale(1.12);
-    border-color: rgba(255,255,255,0.7);
+    transform: scale(1.15);
+    border-color: rgba(255,255,255,0.75);
   }
 
   /* Hex label at bottom */
@@ -249,13 +255,17 @@ const breadcrumbs = [
     display: flex;
     align-items: center;
     gap: 4px;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
     font-family: var(--font-mono);
-    opacity: 0.85;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    opacity: 0;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.25);
     white-space: nowrap;
     flex-shrink: 0;
+    transition: opacity 0.25s;
+  }
+  .pg-swatch:hover .pg-swatch-label {
+    opacity: 1;
   }
   .pg-swatch-lock-icon {
     font-size: 10px;
@@ -466,9 +476,9 @@ const breadcrumbs = [
   }
 
   @media (max-width: 768px) {
-    .pg-strip { min-height: 140px; flex-wrap: wrap; }
-    .pg-swatch { min-width: 60px; }
-    .pg-swatch-circle { width: 36px; height: 36px; }
+    .pg-strip { height: 220px; }
+    .pg-swatch-circle { width: 40px; height: 40px; }
+    .pg-swatch-btn { width: 28px; height: 28px; font-size: 12px; }
     .pg-controls { flex-wrap: wrap; }
     .pg-count-control { margin-left: 0; }
     .pg-colour-row { flex-wrap: wrap; gap: 0.5rem; padding: 0.75rem; }
