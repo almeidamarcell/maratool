@@ -446,7 +446,7 @@
 
 .featured-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
 
@@ -496,6 +496,7 @@
 }
 
 .tool-card-name {
+  font-family: var(--font);
   font-size: 0.9375rem;
   font-weight: 600;
   color: var(--text);
@@ -525,6 +526,7 @@ div.tool-card .tool-card-name::after {
 }
 
 .tool-card-desc {
+  font-family: var(--font);
   font-size: 13px;
   color: var(--text-2);
   line-height: 1.55;
