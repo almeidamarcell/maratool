@@ -206,6 +206,16 @@ export const tools: Tool[] = [
     keywords: ['svg optimizer', 'svg minifier', 'optimize svg online', 'svg cleaner', 'reduce svg size', 'svg compressor'],
     live: true,
   },
+  {
+    slug: 'background-remover',
+    name: 'Background Remover',
+    emoji: '✂️',
+    description: 'Remove image backgrounds instantly in your browser using AI. No upload, no sign-up — powered by a local ML model.',
+    category: 'Design',
+    subcategory: 'Asset',
+    keywords: ['remove background', 'background remover', 'bg remover', 'transparent background', 'remove bg online', 'image background removal', 'ai background remover'],
+    live: true,
+  },
   // ── Content / Text ──
   {
     slug: 'reading-time',
