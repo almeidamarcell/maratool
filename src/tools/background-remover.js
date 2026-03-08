@@ -171,10 +171,8 @@
   }
 
   // --- Apply mask to original ---
-  async function applyMask(originalFile, maskBlob) {
+  async function applyMask(originalFile, maskRawImage) {
     var origBitmap = await createImageBitmap(originalFile)
-    var maskBitmap = await createImageBitmap(maskBlob)
-
     var w = origBitmap.width
     var h = origBitmap.height
 
@@ -187,19 +185,20 @@
     ctx.drawImage(origBitmap, 0, 0, w, h)
     var imageData = ctx.getImageData(0, 0, w, h)
 
-    // Draw mask to separate canvas
-    var maskCanvas = document.createElement('canvas')
-    maskCanvas.width = w
-    maskCanvas.height = h
-    var maskCtx = maskCanvas.getContext('2d')
-    maskCtx.drawImage(maskBitmap, 0, 0, w, h)
+    // maskRawImage is a RawImage from @huggingface/transformers
+    // Convert to canvas to get pixel data at the original image size
+    var maskCanvas = maskRawImage.toCanvas()
+    var maskScaled = document.createElement('canvas')
+    maskScaled.width = w
+    maskScaled.height = h
+    var maskCtx = maskScaled.getContext('2d')
+    maskCtx.drawImage(maskCanvas, 0, 0, w, h)
     var maskData = maskCtx.getImageData(0, 0, w, h)
 
     // Apply mask as alpha
     var pixels = imageData.data
     var mask = maskData.data
     for (var i = 0; i < pixels.length; i += 4) {
-      // Use grayscale value of mask as alpha
       pixels[i + 3] = mask[i] // R channel of mask = grayscale
     }
 
