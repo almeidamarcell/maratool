@@ -429,7 +429,7 @@
         circle.className = 'pg-swatch-circle'
         swatch.appendChild(circle)
 
-        // Label with optional lock icon
+        // Label with lock icon + hex + copy button
         var label = document.createElement('div')
         label.className = 'pg-swatch-label'
         if (c.locked) {
@@ -438,8 +438,21 @@
           lockIcon.innerHTML = '&#128274;'
           label.appendChild(lockIcon)
         }
-        var hexText = document.createTextNode(c.hex.toUpperCase())
+        var hexText = document.createElement('span')
+        hexText.textContent = c.hex.toUpperCase()
         label.appendChild(hexText)
+        var copyIcon = document.createElement('button')
+        copyIcon.type = 'button'
+        copyIcon.className = 'pg-swatch-copy'
+        copyIcon.innerHTML = '&#128203;'
+        copyIcon.title = 'Copy hex'
+        copyIcon.addEventListener('click', function (e) {
+          e.stopPropagation()
+          navigator.clipboard.writeText(c.hex.toUpperCase())
+          copyIcon.innerHTML = '&#10003;'
+          setTimeout(function () { copyIcon.innerHTML = '&#128203;' }, 1500)
+        })
+        label.appendChild(copyIcon)
         swatch.appendChild(label)
 
         stripEl.appendChild(swatch)
