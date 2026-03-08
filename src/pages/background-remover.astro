@@ -1,0 +1,344 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Background Remover — Remove image background online free | maratool',
+  description: 'Remove image backgrounds instantly using AI — right in your browser. No upload to any server, no sign-up required. Powered by a local ML model.',
+  canonical: 'https://maratool.com/background-remover',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Background Remover',
+    url: 'https://maratool.com/background-remover',
+    applicationCategory: 'DesignApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Remove image backgrounds instantly using AI in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Design', item: 'https://maratool.com/design' },
+      { '@type': 'ListItem', position: 3, name: 'Asset', item: 'https://maratool.com/design/asset' },
+      { '@type': 'ListItem', position: 4, name: 'Background Remover', item: 'https://maratool.com/background-remover' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How does the background remover work?',
+        acceptedAnswer: { '@type': 'Answer', text: 'It uses a machine learning model (RMBG-1.4) that runs entirely in your browser. The model segments the foreground from the background and produces a transparent PNG.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my image uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. The AI model runs locally in your browser using WebGPU or WebAssembly. Your image never leaves your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Why does it need to download ~180 MB?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The ML model weights need to be downloaded once. After the first use, your browser caches the files so subsequent uses are instant.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What image formats are supported?',
+        acceptedAnswer: { '@type': 'Answer', text: 'You can upload PNG, JPG, JPEG, and WebP images. The result is always exported as a transparent PNG.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop an image or click to select a PNG, JPG, or WebP file.',
+  'Wait for the AI model to process (first use downloads ~180 MB).',
+  'Download the result as a transparent PNG.'
+]
+
+const faq = [
+  { q: 'How does the background remover work?', a: 'It uses a machine learning model (RMBG-1.4) that runs entirely in your browser. The model segments the foreground from the background and produces a transparent PNG.' },
+  { q: 'Is my image uploaded to a server?', a: 'No. The AI model runs locally in your browser using WebGPU or WebAssembly. Your image never leaves your device.' },
+  { q: 'Why does it need to download ~180 MB?', a: 'The ML model weights need to be downloaded once. After the first use, your browser caches the files so subsequent uses are instant.' },
+  { q: 'What image formats are supported?', a: 'You can upload PNG, JPG, JPEG, and WebP images. The result is always exported as a transparent PNG.' }
+]
+
+const relatedTools = [
+  { slug: 'favicon-generator', name: 'Favicon Generator' },
+  { slug: 'svg-optimizer', name: 'SVG Optimizer' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Design', href: '/design' },
+  { label: 'Asset', href: '/design/asset' },
+  { label: 'Background Remover' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="background-remover" name="Background Remover" description="Remove image backgrounds instantly using AI — right in your browser. No upload, no sign-up." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <!-- Drop zone (initial state) -->
+        <div class="br-dropzone" id="br-dropzone">
+          <input type="file" id="br-file-input" accept="image/png,image/jpeg,image/webp" hidden />
+          <div class="br-dropzone-inner">
+            <svg class="br-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <p class="br-dropzone-title">Drop an image here</p>
+            <p class="br-dropzone-sub">or click to select a file</p>
+            <p class="br-dropzone-formats">PNG, JPG, WebP</p>
+          </div>
+        </div>
+
+        <!-- Info banner -->
+        <div class="br-info" id="br-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>The processing engine (~180 MB) downloads on first use and is cached by your browser.</span>
+        </div>
+
+        <!-- Progress state -->
+        <div class="br-progress" id="br-progress" style="display:none;">
+          <div class="br-progress-text" id="br-progress-text">Loading AI model...</div>
+          <div class="br-progress-bar-track">
+            <div class="br-progress-bar-fill" id="br-progress-bar"></div>
+          </div>
+          <div class="br-progress-detail" id="br-progress-detail"></div>
+        </div>
+
+        <!-- Processing spinner -->
+        <div class="br-processing" id="br-processing" style="display:none;">
+          <div class="br-spinner"></div>
+          <p>Removing background...</p>
+        </div>
+
+        <!-- Error state -->
+        <div class="br-error" id="br-error" style="display:none;">
+          <span class="br-error-text" id="br-error-text"></span>
+          <button class="br-error-retry" id="br-error-retry">Try again</button>
+        </div>
+
+        <!-- Result -->
+        <div class="br-result" id="br-result" style="display:none;">
+          <div class="br-result-grid">
+            <div class="br-result-pane">
+              <span class="tool-label">Original</span>
+              <div class="br-result-box">
+                <img id="br-original-preview" alt="Original image" />
+              </div>
+            </div>
+            <div class="br-result-pane">
+              <span class="tool-label">Result</span>
+              <div class="br-result-box br-checkerboard">
+                <img id="br-result-preview" alt="Background removed" />
+              </div>
+            </div>
+          </div>
+          <div class="br-actions">
+            <button class="tool-button" id="br-download">Download PNG</button>
+            <button class="copy-btn" id="br-new">Remove another</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .br-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .br-dropzone:hover,
+  .br-dropzone.drag-over {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .br-dropzone-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .br-upload-icon {
+    color: var(--text-3);
+    margin-bottom: 0.5rem;
+  }
+  .br-dropzone-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0;
+  }
+  .br-dropzone-sub {
+    font-size: 0.875rem;
+    color: var(--text-2);
+    margin: 0;
+  }
+  .br-dropzone-formats {
+    font-size: 0.75rem;
+    color: var(--text-3);
+    margin: 0.25rem 0 0;
+  }
+
+  .br-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+    color: var(--text-2);
+    line-height: 1.5;
+  }
+  .br-info svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: var(--text-3);
+  }
+
+  /* Progress */
+  .br-progress {
+    text-align: center;
+    padding: 2rem;
+  }
+  .br-progress-text {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+  .br-progress-bar-track {
+    width: 100%;
+    max-width: 400px;
+    height: 8px;
+    background: var(--bg-hover);
+    border-radius: 4px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .br-progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px;
+    width: 0%;
+    transition: width 0.3s;
+  }
+  .br-progress-detail {
+    font-size: 0.75rem;
+    color: var(--text-3);
+    margin-top: 0.5rem;
+  }
+
+  /* Processing spinner */
+  .br-processing {
+    text-align: center;
+    padding: 2rem;
+  }
+  .br-processing p {
+    font-size: 0.9375rem;
+    color: var(--text-2);
+    margin-top: 1rem;
+  }
+  .br-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    margin: 0 auto;
+    animation: br-spin 0.8s linear infinite;
+  }
+  @keyframes br-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Error */
+  .br-error {
+    background: var(--error-bg);
+    border: 1px solid var(--error-border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .br-error-text {
+    color: #c53030;
+    font-size: 0.875rem;
+  }
+  .br-error-retry {
+    padding: 6px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    white-space: nowrap;
+    color: var(--text);
+  }
+  .br-error-retry:hover {
+    background: var(--bg-hover);
+  }
+
+  /* Result */
+  .br-result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .br-result-box {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--bg);
+    padding: 0.75rem;
+    margin-top: 0.375rem;
+  }
+  .br-result-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  .br-checkerboard {
+    background-image:
+      linear-gradient(45deg, #e0e0e0 25%, transparent 25%),
+      linear-gradient(-45deg, #e0e0e0 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #e0e0e0 75%),
+      linear-gradient(-45deg, transparent 75%, #e0e0e0 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+  }
+  .br-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .br-result-grid { grid-template-columns: 1fr; }
+    .br-result-box { height: 240px; }
+    .br-dropzone { padding: 2rem 1rem; }
+  }
+</style>
+<script src="../tools/background-remover.js"></script>
