@@ -28,11 +28,46 @@
   color: var(--accent);
 }
 
+/* ========== TOPBAR NAV ========== */
+.topbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.topbar-nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition: color 0.1s, background 0.1s;
+  flex-shrink: 0;
+}
+
+.topbar-nav-link:hover {
+  color: var(--text);
+  background: var(--bg-hover);
+}
+
+.topbar-nav-link.active {
+  color: var(--accent);
+  background: #eef2fe;
+}
+
+@media (max-width: 900px) {
+  .topbar-nav { display: none; }
+}
+
 /* ========== SEARCH ========== */
 .search-wrap {
   position: relative;
-  flex: 1;
-  max-width: 480px;
+  flex: 0 0 auto;
+  width: 220px;
 }
 
 .search-icon {
