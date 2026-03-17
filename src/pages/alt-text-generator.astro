@@ -1,0 +1,208 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Image Alt Text Generator — Generate alt text with AI | maratool',
+  description: 'Generate descriptive alt text for images using AI. Runs locally in your browser — no upload, no sign-up. Edit the result and copy it for your HTML or Markdown.',
+  canonical: 'https://maratool.com/alt-text-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Image Alt Text Generator',
+    url: 'https://maratool.com/alt-text-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate image alt text using AI, running locally in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Inspect', item: 'https://maratool.com/image/inspect' },
+      { '@type': 'ListItem', position: 4, name: 'Alt Text Generator', item: 'https://maratool.com/alt-text-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How does the alt text generator work?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The tool uses a vision-language AI model (ViT-GPT2) that runs directly in your browser. It analyzes the image and generates a natural language description. The model is downloaded once (~50 MB) and cached.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my image uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. The AI model runs entirely in your browser using WebAssembly. Your images never leave your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What makes good alt text?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Good alt text is specific and concise (under 125 characters), describes the image content and purpose, avoids starting with "image of" or "picture of", and provides context relevant to the surrounding content.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I edit the generated alt text?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. The generated text appears in an editable text box. Refine it to better match your context, then copy it for use in your HTML img alt attribute or Markdown image syntax.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop an image or click to select one — PNG, JPG, or WebP.',
+  'Wait for the AI model to generate a description (first use downloads ~50 MB, then cached).',
+  'Edit the alt text if needed, then copy it for your HTML or Markdown.',
+]
+
+const faq = [
+  { q: 'How does the alt text generator work?', a: 'It uses a vision-language AI model (ViT-GPT2) that runs in your browser. It analyzes the image and generates a description. The model (~50 MB) is downloaded once and cached.' },
+  { q: 'Is my image uploaded to a server?', a: 'No. The AI model runs entirely in your browser using WebAssembly. Your images never leave your device.' },
+  { q: 'What makes good alt text?', a: 'Good alt text is specific, concise (under 125 characters), describes content and purpose, and avoids starting with "image of".' },
+  { q: 'Can I edit the generated alt text?', a: 'Yes. The generated text appears in an editable box. Refine it, then copy for your HTML or Markdown.' },
+]
+
+const relatedTools = [
+  { slug: 'background-remover', name: 'Background Remover' },
+  { slug: 'pdf-accessibility-checker', name: 'PDF Accessibility Checker' },
+  { slug: 'contrast-checker', name: 'Contrast Checker' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Inspect', href: '/image/inspect' },
+  { label: 'Alt Text Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="alt-text-generator" name="Image Alt Text Generator" description="Generate descriptive alt text for images using AI. Runs locally in your browser — nothing is uploaded." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="pdf-dropzone" id="atg-dropzone">
+          <input type="file" id="atg-file" accept="image/png,image/jpeg,image/webp" hidden />
+          <div class="pdf-dropzone-inner">
+            <svg class="pdf-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <p class="pdf-dropzone-title">Drop an image here</p>
+            <p class="pdf-dropzone-sub">or click to select a file</p>
+            <p class="atg-formats">PNG, JPG, WebP</p>
+          </div>
+        </div>
+
+        <div id="atg-progress" class="atg-progress" style="display:none;">
+          <p id="atg-progress-text" class="atg-progress-text">Loading...</p>
+          <div class="atg-progress-track">
+            <div id="atg-progress-bar" class="atg-progress-bar"></div>
+          </div>
+        </div>
+
+        <div id="atg-result" style="display:none;">
+          <div class="atg-result-grid">
+            <div class="atg-preview-wrap">
+              <img id="atg-preview" class="atg-preview" alt="Uploaded image preview" />
+            </div>
+            <div class="atg-output-wrap">
+              <div class="tool-panel">
+                <label class="tool-label" for="atg-output">Generated alt text</label>
+                <textarea id="atg-output" class="tool-textarea" rows="4" aria-label="Alt text output"></textarea>
+                <span id="atg-char-count" class="atg-char-count"></span>
+              </div>
+              <div class="atg-guidelines">
+                <strong>Tips for good alt text:</strong> Be specific and concise (under 125 characters). Describe content and purpose. Avoid "image of" or "picture of".
+              </div>
+              <div class="pdf-actions">
+                <button id="atg-copy" class="copy-btn">Copy alt text</button>
+                <button id="atg-regenerate" class="tool-button pdf-new-btn">Regenerate</button>
+                <button id="atg-new" class="tool-button pdf-new-btn">New image</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .atg-formats {
+    font-size: 0.75rem;
+    color: var(--text-3);
+    margin: 0.25rem 0 0;
+  }
+  .atg-progress {
+    padding: 2rem;
+    text-align: center;
+  }
+  .atg-progress-text {
+    font-size: 0.875rem;
+    color: var(--text-2);
+    margin: 0 0 0.75rem;
+  }
+  .atg-progress-track {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-hover);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .atg-progress-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.3s;
+  }
+  .atg-result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 640px) {
+    .atg-result-grid { grid-template-columns: 1fr; }
+  }
+  .atg-preview-wrap {
+    background: repeating-conic-gradient(#e8e8e4 0% 25%, transparent 0% 50%) 50% / 16px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+  }
+  .atg-preview {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 4px;
+  }
+  .atg-output-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .atg-char-count {
+    font-size: 0.75rem;
+    color: var(--text-3);
+    margin-top: 0.25rem;
+  }
+  .atg-char-warn {
+    color: #b91c1c;
+  }
+  .atg-guidelines {
+    font-size: 0.8125rem;
+    color: var(--text-2);
+    background: var(--bg-soft);
+    padding: 0.625rem 0.75rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    line-height: 1.5;
+  }
+</style>
+
+<script src="../tools/alt-text-generator.js"></script>

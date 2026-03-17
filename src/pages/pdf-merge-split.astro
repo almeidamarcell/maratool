@@ -1,0 +1,186 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Merge and Split PDF — Combine or extract PDF pages online | maratool',
+  description: 'Merge multiple PDF files into one or split a PDF by extracting specific pages. Runs entirely in your browser — no upload, no sign-up required.',
+  canonical: 'https://maratool.com/pdf-merge-split',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Merge and Split PDF Pages',
+    url: 'https://maratool.com/pdf-merge-split',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Merge or split PDF files entirely in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'PDF', item: 'https://maratool.com/pdf' },
+      { '@type': 'ListItem', position: 3, name: 'Edit', item: 'https://maratool.com/pdf/edit' },
+      { '@type': 'ListItem', position: 4, name: 'Merge & Split PDF', item: 'https://maratool.com/pdf-merge-split' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I merge PDF files?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Select two or more PDF files using the "Add files" button. Reorder them with the arrow buttons if needed. Click "Merge" to combine them into a single PDF that downloads automatically.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I extract specific pages from a PDF?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Switch to the Split tab, select a PDF, then enter the page range (e.g. 1-3, 5, 7-10). Click "Extract pages" to download a new PDF containing only those pages.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Are my PDFs uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens in your browser using pdf-lib. Your files never leave your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is there a file size limit?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The limit depends on your browser\'s memory. Files up to 50 MB work well on most devices. For very large PDFs, try processing fewer files at a time.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'To merge: add PDF files, reorder if needed, then click "Merge" to download the combined PDF.',
+  'To split: select a PDF, enter a page range like "1-3, 5, 7-10", then click "Extract pages".',
+  'The resulting PDF downloads automatically — no server upload required.',
+]
+
+const faq = [
+  { q: 'How do I merge PDF files?', a: 'Select two or more PDF files using the "Add files" button. Reorder them with the arrow buttons. Click "Merge" to combine them into a single PDF that downloads automatically.' },
+  { q: 'How do I extract specific pages from a PDF?', a: 'Switch to the Split tab, select a PDF, then enter the page range (e.g. 1-3, 5, 7-10). Click "Extract pages" to download a new PDF containing only those pages.' },
+  { q: 'Are my PDFs uploaded to a server?', a: 'No. All processing happens in your browser using pdf-lib. Your files never leave your device.' },
+  { q: 'Is there a file size limit?', a: 'The limit depends on your browser\'s memory. Files up to 50 MB work well on most devices.' },
+]
+
+const relatedTools = [
+  { slug: 'pdf-to-text', name: 'Extract Text from PDF' },
+  { slug: 'pdf-metadata', name: 'PDF Metadata Viewer' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'PDF', href: '/pdf' },
+  { label: 'Edit', href: '/pdf/edit' },
+  { label: 'Merge & Split PDF' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="pdf-merge-split" name="Merge and Split PDF Pages" description="Merge multiple PDF files or extract specific pages into a new PDF. Runs entirely in your browser." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="tool-tabs">
+          <button class="tool-tab active" data-panel="tab-merge">Merge</button>
+          <button class="tool-tab" data-panel="tab-split">Split</button>
+        </div>
+
+        <div id="tab-merge" class="tab-panel">
+          <div class="pms-upload-row">
+            <label class="tool-button pms-add-btn">
+              Add PDF files
+              <input id="pms-merge-files" type="file" accept="application/pdf" multiple hidden />
+            </label>
+          </div>
+          <div id="pms-merge-list" class="pms-file-list"></div>
+          <div id="pms-merge-progress" class="pdf-progress" style="display:none;"></div>
+          <button id="pms-merge-btn" class="tool-button" style="display:none;">Merge PDFs</button>
+        </div>
+
+        <div id="tab-split" class="tab-panel" style="display:none;">
+          <div class="pdf-dropzone" id="pms-split-dropzone">
+            <input type="file" id="pms-split-file" accept="application/pdf" hidden />
+            <div class="pdf-dropzone-inner">
+              <svg class="pdf-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <p class="pdf-dropzone-title">Drop a PDF here</p>
+              <p class="pdf-dropzone-sub">or click to select a file</p>
+            </div>
+          </div>
+          <p id="pms-split-info" class="pdf-file-info"></p>
+          <div id="pms-split-controls" style="display:none;">
+            <div class="tool-panel">
+              <label class="tool-label" for="pms-split-range">Page range</label>
+              <input id="pms-split-range" class="tool-input" type="text" placeholder="e.g. 1-3, 5, 7-10" aria-label="Page range" />
+            </div>
+            <div id="pms-split-progress" class="pdf-progress" style="display:none;"></div>
+            <button id="pms-split-btn" class="tool-button">Extract pages</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .pms-upload-row {
+    margin-bottom: 0.75rem;
+  }
+  .pms-add-btn {
+    cursor: pointer;
+  }
+  .pms-file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    margin-bottom: 0.75rem;
+  }
+  .pms-file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+  }
+  .pms-file-name {
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pms-file-controls {
+    display: flex;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+  .pms-move-btn {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    cursor: pointer;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-2);
+  }
+  .pms-move-btn:hover {
+    background: var(--bg-hover);
+  }
+  .pms-remove-btn {
+    color: #b91c1c;
+  }
+  .pms-remove-btn:hover {
+    background: var(--error-bg, #fef2f2);
+  }
+</style>
+
+<script src="../tools/pdf-merge-split.js"></script>

@@ -1,0 +1,155 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Base64 Image Previewer — Preview Base64 images online | maratool',
+  description: 'Paste a Base64 string or data URL and instantly preview the image. Shows format, dimensions, and estimated file size. Free, no upload required.',
+  canonical: 'https://maratool.com/base64-image-preview',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Base64 Image Previewer',
+    url: 'https://maratool.com/base64-image-preview',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Preview Base64-encoded images instantly in the browser. Shows format, dimensions, and file size.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Inspect', item: 'https://maratool.com/image/inspect' },
+      { '@type': 'ListItem', position: 4, name: 'Base64 Image Previewer', item: 'https://maratool.com/base64-image-preview' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I preview a Base64 image?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Paste the Base64 string or full data URL (e.g. data:image/png;base64,...) into the input box. The image renders instantly below with format, dimensions, and estimated file size.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What Base64 image formats are supported?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Any format your browser supports: PNG, JPEG, GIF, WebP, SVG, BMP, ICO, and AVIF. The tool auto-detects the format from the data URL prefix or attempts to render raw Base64 as PNG.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my Base64 data sent to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. Everything runs locally in your browser. Your data never leaves your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is a Base64 data URL?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A data URL embeds file content directly in a string using the format data:[mediatype];base64,[data]. For images, it looks like data:image/png;base64,iVBORw0KGgo... and can be used directly in HTML img src attributes or CSS background-image.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste a Base64 string or data URL into the text box.',
+  'The image preview, format, dimensions, and estimated file size appear instantly.',
+  'Click "Copy data URL" to copy the full data URL to your clipboard.',
+]
+
+const faq = [
+  { q: 'How do I preview a Base64 image?', a: 'Paste the Base64 string or full data URL (e.g. data:image/png;base64,...) into the input box. The image renders instantly below with format, dimensions, and estimated file size.' },
+  { q: 'What Base64 image formats are supported?', a: 'Any format your browser supports: PNG, JPEG, GIF, WebP, SVG, BMP, ICO, and AVIF. The tool auto-detects the format from the data URL prefix or attempts to render raw Base64 as PNG.' },
+  { q: 'Is my Base64 data sent to a server?', a: 'No. Everything runs locally in your browser. Your data never leaves your device.' },
+  { q: 'What is a Base64 data URL?', a: 'A data URL embeds file content directly in a string using the format data:[mediatype];base64,[data]. For images, it looks like data:image/png;base64,iVBORw0KGgo... and can be used directly in HTML img src attributes or CSS background-image.' },
+]
+
+const relatedTools = [
+  { slug: 'base64', name: 'Base64 Encode / Decode' },
+  { slug: 'favicon-generator', name: 'Favicon Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Inspect', href: '/image/inspect' },
+  { label: 'Base64 Image Previewer' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="base64-image-preview" name="Base64 Image Previewer" description="Paste a Base64 string or data URL and instantly preview the image. Shows format, dimensions, and estimated file size." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="tool-panel">
+          <label class="tool-label" for="bip-input">Base64 or data URL</label>
+          <textarea id="bip-input" class="tool-textarea" rows="6" placeholder="Paste Base64 string or data:image/png;base64,... here" aria-label="Base64 input"></textarea>
+        </div>
+
+        <div id="bip-error" class="bip-error" style="display:none;"></div>
+
+        <div id="bip-result" class="bip-result" style="display:none;">
+          <div class="bip-meta">
+            <span id="bip-format" class="bip-meta-item"></span>
+            <span id="bip-dimensions" class="bip-meta-item"></span>
+            <span id="bip-size" class="bip-meta-item"></span>
+          </div>
+          <div class="bip-preview-wrap">
+            <img id="bip-preview" class="bip-preview" alt="Base64 image preview" />
+          </div>
+        </div>
+
+        <button id="bip-copy" class="copy-btn" style="display:none;">Copy data URL</button>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .bip-error {
+    padding: 0.75rem 1rem;
+    background: var(--error-bg, #fef2f2);
+    border: 1px solid var(--error-border, #fecaca);
+    color: var(--error-text, #b91c1c);
+    border-radius: var(--radius);
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+  }
+  .bip-result {
+    margin-top: 0.75rem;
+  }
+  .bip-meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+  .bip-meta-item {
+    font-size: 0.8125rem;
+    color: var(--text-2);
+    background: var(--bg-soft);
+    padding: 0.25rem 0.625rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .bip-preview-wrap {
+    background: repeating-conic-gradient(#e8e8e4 0% 25%, transparent 0% 50%) 50% / 16px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+  }
+  .bip-preview {
+    max-width: 100%;
+    max-height: 500px;
+    border-radius: 4px;
+  }
+</style>
+
+<script src="../tools/base64-image-preview.js"></script>

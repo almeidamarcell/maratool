@@ -4,23 +4,23 @@ import Layout from '../components/Layout.astro'
 import Breadcrumb from '../components/Breadcrumb.astro'
 import { toolsFlatByCategory } from '../data/tools'
 
-const tools = toolsFlatByCategory.Design ?? []
+const tools = toolsFlatByCategory.PDF ?? []
 
 const seo = {
-  title: 'Design Tools — maratool',
-  description: 'Free browser-based design tools. Generate CSS gradients, color palettes, and shades — no sign-up, runs entirely in your browser.',
-  canonical: 'https://maratool.com/design',
+  title: 'PDF Tools — maratool',
+  description: 'Free browser-based PDF tools. Extract text, convert to Markdown, merge and split pages, check accessibility — no upload, runs in your browser.',
+  canonical: 'https://maratool.com/pdf',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Design Tools',
-    url: 'https://maratool.com/design',
-    description: 'Free browser-based design tools. Generate CSS gradients, color palettes, and shades — no sign-up, runs entirely in your browser.',
+    name: 'PDF Tools',
+    url: 'https://maratool.com/pdf',
+    description: 'Free browser-based PDF tools. Extract text, convert to Markdown, merge and split pages, check accessibility — no upload, runs in your browser.',
     hasPart: tools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
-      applicationCategory: 'DesignApplication',
+      applicationCategory: 'DeveloperApplication',
     })),
   },
   breadcrumbSchema: {
@@ -28,22 +28,22 @@ const seo = {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
-      { '@type': 'ListItem', position: 2, name: 'Design', item: 'https://maratool.com/design' },
+      { '@type': 'ListItem', position: 2, name: 'PDF', item: 'https://maratool.com/pdf' },
     ],
   },
 }
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Design' },
+  { label: 'PDF' },
 ]
 ---
 <Base {...seo}>
   <Layout>
     <Breadcrumb crumbs={breadcrumbs} />
     <div class="hero">
-      <h1>Design Tools</h1>
-      <p>Free, browser-based design tools for colors, gradients, and styling — all running locally in your browser.</p>
+      <h1>PDF Tools</h1>
+      <p>Free, browser-based PDF tools — extract text, view metadata, merge, split, and check accessibility, all running locally.</p>
     </div>
 
     <div class="tools-grid">

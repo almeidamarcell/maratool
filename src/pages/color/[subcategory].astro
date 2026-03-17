@@ -1,0 +1,104 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import Breadcrumb from '../../components/Breadcrumb.astro'
+import { toolsByCategory, subcategoryOrderByCategory } from '../../data/tools'
+
+export function getStaticPaths() {
+  const subs = subcategoryOrderByCategory.Color ?? []
+  const catTools = toolsByCategory.Color ?? {}
+
+  const descriptions: Record<string, { title: string; description: string; intro: string }> = {
+    generate: {
+      title: 'Color Generator Tools — maratool',
+      description: 'Free browser-based color generators. Create CSS gradients, color shades, palettes, and Tailwind palettes — no sign-up, runs in your browser.',
+      intro: 'Generate gradients, shades, and palettes for your projects instantly.',
+    },
+    check: {
+      title: 'Color Check Tools — maratool',
+      description: 'Free browser-based color checking tools. Check contrast ratios for WCAG AA and AAA compliance — no sign-up, runs in your browser.',
+      intro: 'Verify color accessibility and contrast compliance directly in your browser.',
+    },
+  }
+
+  return subs.map(sub => {
+    const slug = sub.toLowerCase()
+    const meta = descriptions[slug] ?? {
+      title: `${sub} Color Tools — maratool`,
+      description: `Free browser-based color ${sub.toLowerCase()} tools — no sign-up, runs entirely in your browser.`,
+      intro: `Color ${sub.toLowerCase()} tools that run locally in your browser.`,
+    }
+    return {
+      params: { subcategory: slug },
+      props: { sub, tools: catTools[sub] ?? [], ...meta },
+    }
+  })
+}
+
+const { subcategory } = Astro.params
+const { sub, tools, title, description, intro } = Astro.props
+
+const seo = {
+  title,
+  description,
+  canonical: `https://maratool.com/color/${subcategory}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `Color ${sub} Tools`,
+    url: `https://maratool.com/color/${subcategory}`,
+    description,
+    hasPart: tools.map((tool: { name: string; slug: string }) => ({
+      '@type': 'SoftwareApplication',
+      name: tool.name,
+      url: `https://maratool.com/${tool.slug}`,
+      applicationCategory: 'DesignApplication',
+    })),
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Color', item: 'https://maratool.com/color' },
+      { '@type': 'ListItem', position: 3, name: sub, item: `https://maratool.com/color/${subcategory}` },
+    ],
+  },
+}
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Color', href: '/color' },
+  { label: sub },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <Breadcrumb crumbs={breadcrumbs} />
+    <div class="hero">
+      <h1>Color {sub} Tools</h1>
+      <p>{intro}</p>
+    </div>
+
+    <div class="tools-grid">
+      {tools.map((tool: { live: boolean; slug: string; emoji: string; name: string; description: string }) => (
+        tool.live
+          ? (
+            <a href={`/${tool.slug}`} class="tool-card">
+              <span class="tool-card-emoji">{tool.emoji}</span>
+              <div class="tool-card-name">{tool.name}</div>
+              <div class="tool-card-desc">{tool.description}</div>
+            </a>
+          )
+          : (
+            <div class="tool-card" style="opacity:0.5;cursor:default;">
+              <span class="tool-card-emoji">{tool.emoji}</span>
+              <div class="tool-card-name">{tool.name}</div>
+              <div class="tool-card-desc">{tool.description}</div>
+              <span class="tool-card-badge">Coming Soon</span>
+            </div>
+          )
+      ))}
+    </div>
+  </Layout>
+</Base>

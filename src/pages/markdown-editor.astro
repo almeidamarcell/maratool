@@ -22,8 +22,8 @@ const seo = {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
-      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
-      { '@type': 'ListItem', position: 3, name: 'Text', item: 'https://maratool.com/developer/text' },
+      { '@type': 'ListItem', position: 2, name: 'Text', item: 'https://maratool.com/text' },
+      { '@type': 'ListItem', position: 3, name: 'Edit', item: 'https://maratool.com/text/edit' },
       { '@type': 'ListItem', position: 4, name: 'Markdown Editor', item: 'https://maratool.com/markdown-editor' },
     ],
   },
@@ -39,7 +39,7 @@ const seo = {
       {
         '@type': 'Question',
         name: 'What Markdown syntax is supported?',
-        acceptedAnswer: { '@type': 'Answer', text: 'This editor supports headings (#), bold (**text**), italic (*text*), inline code (`code`), fenced code blocks (```), links ([text](url)), unordered lists (-), ordered lists (1.), blockquotes (>), and horizontal rules (---).' }
+        acceptedAnswer: { '@type': 'Answer', text: 'This editor supports full GitHub Flavored Markdown (GFM): headings (#), bold (**text**), italic (*text*), strikethrough (~~text~~), inline code (`code`), fenced code blocks (```), links, images, tables, task lists (- [ ]), unordered and ordered lists, blockquotes (>), and horizontal rules (---).' }
       },
       {
         '@type': 'Question',
@@ -48,8 +48,8 @@ const seo = {
       },
       {
         '@type': 'Question',
-        name: "What's the difference between Markdown flavors?",
-        acceptedAnswer: { '@type': 'Answer', text: 'Different platforms extend the original Markdown spec. GitHub Flavored Markdown (GFM) adds tables, task lists, and strikethrough. CommonMark is a strict standardization effort. This editor supports the core syntax common to all flavors.' }
+        name: "Does this editor support tables and task lists?",
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. This editor uses GitHub Flavored Markdown (GFM) which fully supports pipe tables (| col1 | col2 |), task lists (- [x] done), and strikethrough (~~text~~). Use the toolbar buttons to quickly insert a table or task list template.' }
       }
     ]
   }
@@ -63,9 +63,9 @@ const howTo = [
 
 const faq = [
   { q: 'What is Markdown?', a: 'Markdown is a lightweight markup language that uses plain-text formatting syntax. It was created by John Gruber in 2004 to be easy to read and write, and is widely used for documentation, README files, and content writing.' },
-  { q: 'What Markdown syntax is supported?', a: 'This editor supports headings (#), bold (**text**), italic (*text*), inline code (`code`), fenced code blocks (```), links ([text](url)), unordered lists (-), ordered lists (1.), blockquotes (>), and horizontal rules (---).' },
+  { q: 'What Markdown syntax is supported?', a: 'This editor supports full GitHub Flavored Markdown (GFM): headings, bold, italic, strikethrough, inline code, fenced code blocks, links, images, tables, task lists, ordered and unordered lists, blockquotes, and horizontal rules.' },
   { q: 'How do I convert Markdown to HTML?', a: 'Type or paste your Markdown in the left panel and the HTML preview updates automatically on the right. Click Copy HTML to get the rendered HTML source code.' },
-  { q: "What's the difference between Markdown flavors?", a: 'Different platforms extend the original Markdown spec. GitHub Flavored Markdown (GFM) adds tables, task lists, and strikethrough. CommonMark is a strict standardization effort. This editor supports the core syntax common to all flavors.' }
+  { q: 'Does this editor support tables and task lists?', a: 'Yes. This editor uses GitHub Flavored Markdown (GFM) which fully supports pipe tables, task lists (- [x] done), and strikethrough (~~text~~). Use the toolbar buttons to quickly insert templates.' }
 ]
 
 const relatedTools = [
@@ -76,8 +76,8 @@ const relatedTools = [
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Developer', href: '/developer' },
-  { label: 'Text', href: '/developer/text' },
+  { label: 'Text', href: '/text' },
+  { label: 'Edit', href: '/text/edit' },
   { label: 'Markdown Editor' },
 ]
 ---
@@ -88,10 +88,13 @@ const breadcrumbs = [
         <div class="md-toolbar">
           <button class="md-toolbar-btn" data-md="bold" title="Bold">B</button>
           <button class="md-toolbar-btn" data-md="italic" title="Italic"><em>I</em></button>
+          <button class="md-toolbar-btn" data-md="strikethrough" title="Strikethrough"><s>S</s></button>
           <button class="md-toolbar-btn" data-md="link" title="Link">Link</button>
           <button class="md-toolbar-btn" data-md="code" title="Inline code">&lt;/&gt;</button>
           <button class="md-toolbar-btn" data-md="h1" title="Heading 1">H1</button>
           <button class="md-toolbar-btn" data-md="h2" title="Heading 2">H2</button>
+          <button class="md-toolbar-btn" data-md="table" title="Insert table">Table</button>
+          <button class="md-toolbar-btn" data-md="task" title="Insert task list">Task</button>
         </div>
         <div class="md-split">
           <div class="md-pane">
@@ -113,7 +116,7 @@ const breadcrumbs = [
     </ToolShell>
   </Layout>
 </Base>
-<style>
+<style is:global>
   .md-toolbar {
     display: flex;
     gap: 0.25rem;
@@ -228,5 +231,38 @@ const breadcrumbs = [
   }
   .md-preview a { color: var(--accent); text-decoration: underline; }
   .md-preview img { max-width: 100%; }
+  .md-preview table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 0.75rem;
+    font-size: 13px;
+  }
+  .md-preview th, .md-preview td {
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    text-align: left;
+  }
+  .md-preview th {
+    background: var(--bg-soft);
+    font-weight: 600;
+  }
+  .md-preview tr:nth-child(even) {
+    background: var(--bg-soft);
+  }
+  .md-preview del {
+    text-decoration: line-through;
+    color: var(--text-2);
+  }
+  .md-preview input[type="checkbox"] {
+    margin-right: 0.4rem;
+    vertical-align: middle;
+  }
+  .md-preview ul.contains-task-list,
+  .md-preview .task-list-item {
+    list-style: none;
+  }
+  .md-preview ul.contains-task-list {
+    padding-left: 0.5rem;
+  }
 </style>
 <script src="../tools/markdown-editor.js"></script>

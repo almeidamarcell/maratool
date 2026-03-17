@@ -1,0 +1,118 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'PDF to Markdown Converter — Convert PDF to MD online | maratool',
+  description: 'Convert PDF files to clean Markdown with automatic heading detection. Ideal for LLM context, RAG pipelines, and documentation. Free, runs in your browser.',
+  canonical: 'https://maratool.com/pdf-to-markdown',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'PDF to Markdown Converter',
+    url: 'https://maratool.com/pdf-to-markdown',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert PDF to Markdown with heading detection in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'PDF', item: 'https://maratool.com/pdf' },
+      { '@type': 'ListItem', position: 3, name: 'Extract', item: 'https://maratool.com/pdf/extract' },
+      { '@type': 'ListItem', position: 4, name: 'PDF to Markdown', item: 'https://maratool.com/pdf-to-markdown' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How does PDF to Markdown conversion work?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The tool extracts text from each PDF page, analyzes font sizes to detect headings, and converts them to Markdown heading syntax (# ## ###). Body text becomes regular paragraphs. Pages are separated with horizontal rules.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I use this for LLM or RAG pipelines?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. The Markdown output preserves heading hierarchy, making it ideal for semantic chunking in RAG pipelines or as context for LLMs.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does it handle multi-column layouts?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The tool uses the reading order provided by pdf.js, which works well for most single-column documents. Complex multi-column layouts may not preserve the intended order.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my PDF uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. The file is processed entirely in your browser using pdf.js. Your document never leaves your device.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop a PDF file onto the upload area or click to select one.',
+  'The tool converts each page to Markdown with automatic heading detection.',
+  'Copy the Markdown output or edit it directly in the text box.',
+]
+
+const faq = [
+  { q: 'How does PDF to Markdown conversion work?', a: 'The tool extracts text from each PDF page, analyzes font sizes to detect headings, and converts them to Markdown heading syntax (# ## ###). Body text becomes regular paragraphs.' },
+  { q: 'Can I use this for LLM or RAG pipelines?', a: 'Yes. The Markdown output preserves heading hierarchy, making it ideal for semantic chunking in RAG pipelines or as context for LLMs.' },
+  { q: 'Does it handle multi-column layouts?', a: 'The tool uses the reading order provided by pdf.js, which works well for most single-column documents. Complex multi-column layouts may not preserve the intended order.' },
+  { q: 'Is my PDF uploaded to a server?', a: 'No. The file is processed entirely in your browser using pdf.js. Your document never leaves your device.' },
+]
+
+const relatedTools = [
+  { slug: 'pdf-to-text', name: 'Extract Text from PDF' },
+  { slug: 'html-to-markdown', name: 'HTML to Markdown' },
+  { slug: 'markdown-editor', name: 'Markdown Editor' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'PDF', href: '/pdf' },
+  { label: 'Extract', href: '/pdf/extract' },
+  { label: 'PDF to Markdown' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="pdf-to-markdown" name="Convert PDF to Markdown" description="Convert PDF files to clean Markdown with automatic heading detection. Ideal for LLM context and documentation." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="pdf-dropzone" id="ptm-dropzone">
+          <input type="file" id="ptm-file" accept="application/pdf" hidden />
+          <div class="pdf-dropzone-inner">
+            <svg class="pdf-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p class="pdf-dropzone-title">Drop a PDF here</p>
+            <p class="pdf-dropzone-sub">or click to select a file</p>
+          </div>
+        </div>
+
+        <div id="ptm-progress" class="pdf-progress" style="display:none;">Loading...</div>
+        <p id="ptm-file-info" class="pdf-file-info"></p>
+
+        <div id="ptm-result" style="display:none;">
+          <div class="tool-panel">
+            <label class="tool-label" for="ptm-output">Markdown output</label>
+            <textarea id="ptm-output" class="tool-textarea" rows="20" aria-label="Markdown output"></textarea>
+          </div>
+          <div class="pdf-actions">
+            <button id="ptm-copy" class="copy-btn">Copy Markdown</button>
+            <button id="ptm-new" class="tool-button pdf-new-btn">New PDF</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+</style>
+
+<script src="../tools/pdf-to-markdown.js"></script>

@@ -5,36 +5,37 @@ import Breadcrumb from '../../components/Breadcrumb.astro'
 import { toolsByCategory, subcategoryOrderByCategory } from '../../data/tools'
 
 export function getStaticPaths() {
-  const subs = subcategoryOrderByCategory.Design ?? []
-  const catTools = toolsByCategory.Design ?? {}
+  const subs = subcategoryOrderByCategory.Text ?? []
+  const catTools = toolsByCategory.Text ?? {}
 
   const descriptions: Record<string, { title: string; description: string; intro: string }> = {
-    color: {
-      title: 'Color Tools — maratool',
-      description: 'Free browser-based color tools. Generate CSS gradients, color shades, and palettes — no sign-up, runs entirely in your browser.',
-      intro: 'Pick colors, generate gradients, and build palettes — all running locally in your browser.',
+    analyze: {
+      title: 'Text Analysis Tools — maratool',
+      description: 'Free browser-based text analysis tools. Compare text diffs, test regex patterns, calculate reading time — no sign-up, runs in your browser.',
+      intro: 'Analyze, compare, and inspect text with fast, privacy-friendly tools that run locally.',
     },
-    asset: {
-      title: 'Asset Tools — maratool',
-      description: 'Free browser-based asset tools. Generate favicons, optimize SVGs — no sign-up, runs entirely in your browser.',
-      intro: 'Generate, optimize, and convert design assets directly in your browser.',
+    edit: {
+      title: 'Text Editing Tools — maratool',
+      description: 'Free browser-based text editing tools. Edit Markdown, generate Markdown tables, format JSON — no sign-up, runs in your browser.',
+      intro: 'Edit, format, and structure text and data directly in your browser.',
+    },
+    generate: {
+      title: 'Text Generator Tools — maratool',
+      description: 'Free browser-based placeholder text generators. Lorem Ipsum, Mussum Ipsum, and Dilmes Ipsum — no sign-up, runs in your browser.',
+      intro: 'Generate placeholder text in multiple styles for mockups and prototypes.',
     },
   }
 
   return subs.map(sub => {
     const slug = sub.toLowerCase()
     const meta = descriptions[slug] ?? {
-      title: `${sub} Tools — maratool`,
-      description: `Free browser-based ${sub.toLowerCase()} tools — no sign-up, runs entirely in your browser.`,
-      intro: `${sub} tools that run locally in your browser.`,
+      title: `${sub} Text Tools — maratool`,
+      description: `Free browser-based text ${sub.toLowerCase()} tools — no sign-up, runs entirely in your browser.`,
+      intro: `Text ${sub.toLowerCase()} tools that run locally in your browser.`,
     }
     return {
       params: { subcategory: slug },
-      props: {
-        sub,
-        tools: catTools[sub] ?? [],
-        ...meta,
-      },
+      props: { sub, tools: catTools[sub] ?? [], ...meta },
     }
   })
 }
@@ -45,18 +46,18 @@ const { sub, tools, title, description, intro } = Astro.props
 const seo = {
   title,
   description,
-  canonical: `https://maratool.com/design/${subcategory}`,
+  canonical: `https://maratool.com/text/${subcategory}`,
   schema: {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: `${sub} Tools`,
-    url: `https://maratool.com/design/${subcategory}`,
+    name: `Text ${sub} Tools`,
+    url: `https://maratool.com/text/${subcategory}`,
     description,
     hasPart: tools.map((tool: { name: string; slug: string }) => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
-      applicationCategory: 'DesignApplication',
+      applicationCategory: 'UtilitiesApplication',
     })),
   },
   breadcrumbSchema: {
@@ -64,15 +65,15 @@ const seo = {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
-      { '@type': 'ListItem', position: 2, name: 'Design', item: 'https://maratool.com/design' },
-      { '@type': 'ListItem', position: 3, name: sub, item: `https://maratool.com/design/${subcategory}` },
+      { '@type': 'ListItem', position: 2, name: 'Text', item: 'https://maratool.com/text' },
+      { '@type': 'ListItem', position: 3, name: sub, item: `https://maratool.com/text/${subcategory}` },
     ],
   },
 }
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Design', href: '/design' },
+  { label: 'Text', href: '/text' },
   { label: sub },
 ]
 ---
@@ -80,7 +81,7 @@ const breadcrumbs = [
   <Layout>
     <Breadcrumb crumbs={breadcrumbs} />
     <div class="hero">
-      <h1>{sub} Tools</h1>
+      <h1>Text {sub} Tools</h1>
       <p>{intro}</p>
     </div>
 

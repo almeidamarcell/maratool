@@ -8,14 +8,14 @@ const tools = toolsFlatByCategory.Developer ?? []
 
 const seo = {
   title: 'Developer Tools — maratool',
-  description: 'Free browser-based developer tools. Encoding, text, converters and generators — no sign-up, runs entirely in your browser.',
+  description: 'Free browser-based developer tools. Generate hashes, decode JWT tokens, create UUIDs, build cron expressions — no sign-up, runs in your browser.',
   canonical: 'https://maratool.com/developer',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'Developer Tools',
     url: 'https://maratool.com/developer',
-    description: 'Free browser-based developer tools. Encoding, text, converters and generators — no sign-up, runs entirely in your browser.',
+    description: 'Free browser-based developer tools. Generate hashes, decode JWT tokens, create UUIDs, build cron expressions — no sign-up, runs in your browser.',
     hasPart: tools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
@@ -43,7 +43,7 @@ const breadcrumbs = [
     <Breadcrumb crumbs={breadcrumbs} />
     <div class="hero">
       <h1>Developer Tools</h1>
-      <p>Free, browser-based tools for developers — encoding, text processing, converters and generators, all running locally in your browser.</p>
+      <p>Free, browser-based developer tools — cryptography, ID generation, and scheduling, all running locally in your browser.</p>
     </div>
 
     <div class="tools-grid">

@@ -1,0 +1,170 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'PDF Page Counter & Metadata Viewer — Check PDF info online | maratool',
+  description: 'View PDF page count, file size, author, creation date, PDF version, and more. Check if a PDF is tagged, encrypted, or linearized. Free, runs in your browser.',
+  canonical: 'https://maratool.com/pdf-metadata',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'PDF Page Counter & Metadata Viewer',
+    url: 'https://maratool.com/pdf-metadata',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'View PDF metadata, page count, and properties in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'PDF', item: 'https://maratool.com/pdf' },
+      { '@type': 'ListItem', position: 3, name: 'Inspect', item: 'https://maratool.com/pdf/inspect' },
+      { '@type': 'ListItem', position: 4, name: 'PDF Metadata Viewer', item: 'https://maratool.com/pdf-metadata' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I check how many pages a PDF has?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Drop or select a PDF file. The page count appears instantly along with other metadata like file size, author, and creation date.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What metadata can I see?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Page count, file size, PDF version, title, author, subject, creator, producer, creation date, modification date, and whether the PDF is tagged, encrypted, or linearized.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my PDF uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. The file is processed entirely in your browser. Nothing is uploaded or sent anywhere.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What does "tagged" mean for a PDF?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A tagged PDF has structure tags that define the reading order, headings, lists, and tables. Tagged PDFs are required for accessibility compliance (ADA, EAA, Section 508) and work better with screen readers.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop a PDF file onto the upload area or click to select one.',
+  'View the page count, file size, and PDF version in the summary.',
+  'Check metadata details like author, dates, and accessibility tags below.',
+]
+
+const faq = [
+  { q: 'How do I check how many pages a PDF has?', a: 'Drop or select a PDF file. The page count appears instantly along with other metadata like file size, author, and creation date.' },
+  { q: 'What metadata can I see?', a: 'Page count, file size, PDF version, title, author, subject, creator, producer, creation date, modification date, and whether the PDF is tagged, encrypted, or linearized.' },
+  { q: 'Is my PDF uploaded to a server?', a: 'No. The file is processed entirely in your browser. Nothing is uploaded or sent anywhere.' },
+  { q: 'What does "tagged" mean for a PDF?', a: 'A tagged PDF has structure tags that define the reading order, headings, lists, and tables. Tagged PDFs are required for accessibility compliance (ADA, EAA, Section 508) and work better with screen readers.' },
+]
+
+const relatedTools = [
+  { slug: 'pdf-to-text', name: 'Extract Text from PDF' },
+  { slug: 'pdf-accessibility-checker', name: 'PDF Accessibility Checker' },
+  { slug: 'pdf-merge-split', name: 'Merge & Split PDF' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'PDF', href: '/pdf' },
+  { label: 'Inspect', href: '/pdf/inspect' },
+  { label: 'PDF Metadata Viewer' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="pdf-metadata" name="PDF Page Counter & Metadata Viewer" description="View PDF page count, file size, author, dates, and properties. Check tagged, encrypted, and linearized status." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="pdf-dropzone" id="pm-dropzone">
+          <input type="file" id="pm-file" accept="application/pdf" hidden />
+          <div class="pdf-dropzone-inner">
+            <svg class="pdf-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p class="pdf-dropzone-title">Drop a PDF here</p>
+            <p class="pdf-dropzone-sub">or click to select a file</p>
+          </div>
+        </div>
+
+        <div id="pm-progress" class="pdf-progress" style="display:none;">Loading...</div>
+        <p id="pm-file-info" class="pdf-file-info"></p>
+
+        <div id="pm-result" style="display:none;">
+          <h3 class="pm-section-title">Summary</h3>
+          <div id="pm-stats" class="pm-grid"></div>
+          <h3 class="pm-section-title">Details</h3>
+          <div id="pm-meta" class="pm-grid"></div>
+          <div class="pdf-actions">
+            <button id="pm-new" class="tool-button pdf-new-btn">New PDF</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .pm-section-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 1rem 0 0.5rem;
+  }
+  .pm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.5rem;
+  }
+  .pm-stat {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.625rem 0.75rem;
+  }
+  .pm-stat-label {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-3);
+    margin-bottom: 0.25rem;
+  }
+  .pm-stat-value {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--text);
+    word-break: break-all;
+  }
+  .pm-stat-badge {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 0.125rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .pm-badge-pass {
+    background: var(--success-bg, #f0fdf4);
+    color: #15803d;
+    border: 1px solid var(--success-border, #bbf7d0);
+  }
+  .pm-badge-fail {
+    background: var(--error-bg, #fef2f2);
+    color: #b91c1c;
+    border: 1px solid var(--error-border, #fecaca);
+  }
+  .pm-error {
+    color: #b91c1c;
+    padding: 0.75rem;
+  }
+</style>
+
+<script src="../tools/pdf-metadata.js"></script>

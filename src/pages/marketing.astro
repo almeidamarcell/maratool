@@ -8,14 +8,14 @@ const tools = toolsFlatByCategory.Marketing ?? []
 
 const seo = {
   title: 'Marketing Tools — maratool',
-  description: 'Free browser-based marketing tools. Build UTM-tagged URLs for campaign tracking — no sign-up, runs entirely in your browser.',
+  description: 'Free browser-based marketing tools. Generate QR codes, build UTM-tagged URLs for campaign tracking — no sign-up, runs in your browser.',
   canonical: 'https://maratool.com/marketing',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'Marketing Tools',
     url: 'https://maratool.com/marketing',
-    description: 'Free browser-based marketing tools. Build UTM-tagged URLs for campaign tracking — no sign-up, runs entirely in your browser.',
+    description: 'Free browser-based marketing tools. Generate QR codes, build UTM-tagged URLs for campaign tracking — no sign-up, runs in your browser.',
     hasPart: tools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,

@@ -1,0 +1,124 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'JSON to Markdown Table — Convert JSON arrays to tables | maratool',
+  description: 'Paste a JSON array and get a formatted Markdown table instantly. Supports nested values, missing keys, and column alignment. Free, runs in your browser.',
+  canonical: 'https://maratool.com/json-to-markdown-table',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'JSON to Markdown Table Converter',
+    url: 'https://maratool.com/json-to-markdown-table',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert JSON arrays to Markdown tables instantly in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Format', item: 'https://maratool.com/converter/format' },
+      { '@type': 'ListItem', position: 4, name: 'JSON to Markdown Table', item: 'https://maratool.com/json-to-markdown-table' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I convert JSON to a Markdown table?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Paste your JSON array of objects into the input box. The tool extracts all keys as column headers and renders each object as a row. The Markdown table appears instantly in the output.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What happens if objects have different keys?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The tool collects all unique keys across all objects. If an object is missing a key, that cell is left empty in the table.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I convert nested JSON to a table?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Nested objects and arrays are stringified (shown as JSON) in the cell. For best results, use flat JSON objects with simple key-value pairs.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this work with GitHub Flavored Markdown?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. The output follows GFM table syntax and renders correctly on GitHub, GitLab, and any Markdown renderer that supports tables.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste a JSON array of objects into the left text box.',
+  'Choose column alignment (left, center, or right) from the dropdown.',
+  'Copy the generated Markdown table from the output box.',
+]
+
+const faq = [
+  { q: 'How do I convert JSON to a Markdown table?', a: 'Paste your JSON array of objects into the input box. The tool extracts all keys as column headers and renders each object as a row. The Markdown table appears instantly in the output.' },
+  { q: 'What happens if objects have different keys?', a: 'The tool collects all unique keys across all objects. If an object is missing a key, that cell is left empty in the table.' },
+  { q: 'Can I convert nested JSON to a table?', a: 'Nested objects and arrays are stringified (shown as JSON) in the cell. For best results, use flat JSON objects with simple key-value pairs.' },
+  { q: 'Does this work with GitHub Flavored Markdown?', a: 'Yes. The output follows GFM table syntax and renders correctly on GitHub, GitLab, and any Markdown renderer that supports tables.' },
+]
+
+const relatedTools = [
+  { slug: 'json-formatter', name: 'JSON Formatter' },
+  { slug: 'csv-to-json', name: 'CSV to JSON Converter' },
+  { slug: 'markdown-table-generator', name: 'Markdown Table Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Format', href: '/converter/format' },
+  { label: 'JSON to Markdown Table' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="json-to-markdown-table" name="Convert JSON to Markdown Table" description="Paste a JSON array and get a formatted Markdown table instantly. Handles nested values, missing keys, and custom alignment." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="tool-row">
+          <div class="tool-panel">
+            <label class="tool-label" for="jmt-input">JSON array</label>
+            <textarea id="jmt-input" class="tool-textarea" rows="12" placeholder='[{"name":"Alice","age":30},{"name":"Bob","age":25}]' aria-label="JSON input"></textarea>
+          </div>
+          <div class="tool-panel">
+            <label class="tool-label" for="jmt-output">Markdown table</label>
+            <textarea id="jmt-output" class="tool-textarea tool-output" rows="12" readonly aria-label="Markdown table output"></textarea>
+          </div>
+        </div>
+        <div class="jmt-controls">
+          <label class="tool-label" for="jmt-align">Alignment</label>
+          <select id="jmt-align" class="tool-select">
+            <option value="left">Left</option>
+            <option value="center">Center</option>
+            <option value="right">Right</option>
+          </select>
+          <button id="jmt-copy" class="copy-btn">Copy Markdown</button>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .jmt-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  .jmt-controls .tool-label {
+    margin-bottom: 0;
+  }
+</style>
+
+<script src="../tools/json-to-markdown-table.js"></script>

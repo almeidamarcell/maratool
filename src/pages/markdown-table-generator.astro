@@ -1,0 +1,198 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Markdown Table Generator — Build tables visually | maratool',
+  description: 'Build Markdown tables visually with a grid editor. Set column alignment, add or remove rows and columns, and copy the result. Free, runs in your browser.',
+  canonical: 'https://maratool.com/markdown-table-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Markdown Table Generator',
+    url: 'https://maratool.com/markdown-table-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Build Markdown tables visually with a grid editor.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Text', item: 'https://maratool.com/text' },
+      { '@type': 'ListItem', position: 3, name: 'Edit', item: 'https://maratool.com/text/edit' },
+      { '@type': 'ListItem', position: 4, name: 'Markdown Table Generator', item: 'https://maratool.com/markdown-table-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I create a Markdown table?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Type your data into the grid cells. The first row is the header by default. The Markdown table updates live as you type. Click "Copy Markdown" to copy the result.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I change column alignment?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Click the alignment button above each column to cycle between left (←), center (↔), and right (→) alignment. The separator row in the Markdown output updates accordingly.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I use this for GitHub READMEs?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. The output follows GitHub Flavored Markdown table syntax and renders correctly on GitHub, GitLab, and any Markdown renderer that supports tables.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is there a limit on rows or columns?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The tool supports up to 50 rows and 20 columns. You can add or remove rows and columns using the buttons or by changing the inputs.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Set the number of rows and columns, then type your data into the grid cells.',
+  'Click the alignment buttons above columns to set left, center, or right alignment.',
+  'Copy the generated Markdown table from the output box below the grid.',
+]
+
+const faq = [
+  { q: 'How do I create a Markdown table?', a: 'Type your data into the grid cells. The first row is the header by default. The Markdown table updates live as you type. Click "Copy Markdown" to copy the result.' },
+  { q: 'How do I change column alignment?', a: 'Click the alignment button above each column to cycle between left (←), center (↔), and right (→) alignment. The separator row in the Markdown output updates accordingly.' },
+  { q: 'Can I use this for GitHub READMEs?', a: 'Yes. The output follows GitHub Flavored Markdown table syntax and renders correctly on GitHub, GitLab, and any Markdown renderer that supports tables.' },
+  { q: 'Is there a limit on rows or columns?', a: 'The tool supports up to 50 rows and 20 columns. You can add or remove rows and columns using the buttons or by changing the inputs.' },
+]
+
+const relatedTools = [
+  { slug: 'json-to-markdown-table', name: 'JSON to Markdown Table' },
+  { slug: 'markdown-editor', name: 'Markdown Editor' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Text', href: '/text' },
+  { label: 'Edit', href: '/text/edit' },
+  { label: 'Markdown Table Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="markdown-table-generator" name="Markdown Table Generator" description="Build Markdown tables visually with a grid editor. Set alignment, add rows and columns, copy the output." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="mtg-controls">
+          <label class="tool-label">Rows <input id="mtg-rows" type="number" class="tool-input mtg-size-input" value="3" min="1" max="50" /></label>
+          <label class="tool-label">Cols <input id="mtg-cols" type="number" class="tool-input mtg-size-input" value="3" min="1" max="20" /></label>
+          <button id="mtg-add-row" class="tool-button mtg-btn">+ Row</button>
+          <button id="mtg-add-col" class="tool-button mtg-btn">+ Col</button>
+          <button id="mtg-remove-row" class="tool-button mtg-btn mtg-btn-secondary">− Row</button>
+          <button id="mtg-remove-col" class="tool-button mtg-btn mtg-btn-secondary">− Col</button>
+          <label class="mtg-check-label"><input id="mtg-header" type="checkbox" checked /> Include header</label>
+        </div>
+
+        <div id="mtg-grid" class="mtg-grid"></div>
+
+        <div class="tool-panel" style="margin-top:0.75rem;">
+          <label class="tool-label" for="mtg-output">Markdown output</label>
+          <textarea id="mtg-output" class="tool-textarea tool-output" rows="8" readonly aria-label="Markdown table output"></textarea>
+        </div>
+        <button id="mtg-copy" class="copy-btn">Copy Markdown</button>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .mtg-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+  .mtg-controls .tool-label {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+  }
+  .mtg-size-input {
+    width: 56px;
+    text-align: center;
+  }
+  .mtg-btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+    min-width: auto;
+  }
+  .mtg-btn-secondary {
+    background: var(--bg-soft);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .mtg-btn-secondary:hover {
+    background: var(--bg-hover);
+  }
+  .mtg-check-label {
+    font-size: 0.8125rem;
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    cursor: pointer;
+  }
+  .mtg-grid {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow-x: auto;
+    padding: 0.5rem;
+    background: var(--bg-soft);
+  }
+  .mtg-row {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+  .mtg-header-row .mtg-cell {
+    font-weight: 600;
+    background: var(--bg-hover);
+  }
+  .mtg-cell {
+    flex: 1;
+    min-width: 80px;
+    padding: 0.375rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 0.8125rem;
+    font-family: var(--font);
+    background: var(--bg);
+  }
+  .mtg-cell:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px;
+  }
+  .mtg-align-row {
+    margin-bottom: 4px;
+  }
+  .mtg-align-btn {
+    flex: 1;
+    min-width: 80px;
+    padding: 0.25rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    cursor: pointer;
+    font-size: 0.75rem;
+    color: var(--text-2);
+  }
+  .mtg-align-btn:hover {
+    background: var(--bg-hover);
+  }
+</style>
+
+<script src="../tools/markdown-table-generator.js"></script>

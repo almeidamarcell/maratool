@@ -1,0 +1,106 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'HTML to Markdown Converter — Convert HTML to MD online | maratool',
+  description: 'Paste HTML and get clean Markdown instantly. Handles headings, lists, links, images, tables, code blocks, and inline formatting. Free, no sign-up.',
+  canonical: 'https://maratool.com/html-to-markdown',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'HTML to Markdown Converter',
+    url: 'https://maratool.com/html-to-markdown',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert HTML to Markdown instantly in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Format', item: 'https://maratool.com/converter/format' },
+      { '@type': 'ListItem', position: 4, name: 'HTML to Markdown', item: 'https://maratool.com/html-to-markdown' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I convert HTML to Markdown?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Paste your HTML code into the left text box. The Markdown output appears instantly on the right. The converter handles headings, paragraphs, lists, links, images, bold, italic, code, tables, and blockquotes.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this tool handle HTML tables?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. HTML tables are converted to GitHub Flavored Markdown table syntax with proper header separators.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is the HTML parsed securely?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. The tool uses the browser\'s built-in DOMParser API to parse HTML safely. No scripts are executed, and the conversion runs entirely in your browser.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What HTML elements are supported?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Headings (h1-h6), paragraphs, bold/italic, links, images, ordered/unordered lists, tables, code blocks, inline code, blockquotes, and horizontal rules.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste HTML code into the left text box.',
+  'The Markdown output appears instantly on the right side.',
+  'Click "Copy Markdown" to copy the result to your clipboard.',
+]
+
+const faq = [
+  { q: 'How do I convert HTML to Markdown?', a: 'Paste your HTML code into the left text box. The Markdown output appears instantly on the right. The converter handles headings, paragraphs, lists, links, images, bold, italic, code, tables, and blockquotes.' },
+  { q: 'Does this tool handle HTML tables?', a: 'Yes. HTML tables are converted to GitHub Flavored Markdown table syntax with proper header separators.' },
+  { q: 'Is the HTML parsed securely?', a: 'Yes. The tool uses the browser\'s built-in DOMParser API to parse HTML safely. No scripts are executed, and the conversion runs entirely in your browser.' },
+  { q: 'What HTML elements are supported?', a: 'Headings (h1-h6), paragraphs, bold/italic, links, images, ordered/unordered lists, tables, code blocks, inline code, blockquotes, and horizontal rules.' },
+]
+
+const relatedTools = [
+  { slug: 'markdown-editor', name: 'Markdown Editor' },
+  { slug: 'markdown-table-generator', name: 'Markdown Table Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Format', href: '/converter/format' },
+  { label: 'HTML to Markdown' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="html-to-markdown" name="Convert HTML to Markdown" description="Paste HTML and get clean Markdown instantly. Handles headings, lists, links, images, tables, and code blocks." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="tool-row">
+          <div class="tool-panel">
+            <label class="tool-label" for="htm-input">HTML</label>
+            <textarea id="htm-input" class="tool-textarea" rows="14" placeholder="<h1>Hello</h1>&#10;<p>Paste your HTML here...</p>" aria-label="HTML input"></textarea>
+          </div>
+          <div class="tool-panel">
+            <label class="tool-label" for="htm-output">Markdown</label>
+            <textarea id="htm-output" class="tool-textarea tool-output" rows="14" readonly aria-label="Markdown output"></textarea>
+          </div>
+        </div>
+        <button id="htm-copy" class="copy-btn">Copy Markdown</button>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+</style>
+
+<script src="../tools/html-to-markdown.js"></script>

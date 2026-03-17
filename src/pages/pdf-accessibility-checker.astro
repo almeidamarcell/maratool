@@ -1,0 +1,180 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'PDF Accessibility Checker — Test PDF a11y compliance online | maratool',
+  description: 'Check if your PDF meets accessibility requirements. Tests for document title, language, tagged structure, author metadata, and more. Free, runs in your browser.',
+  canonical: 'https://maratool.com/pdf-accessibility-checker',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'PDF Accessibility Checker',
+    url: 'https://maratool.com/pdf-accessibility-checker',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Check PDF accessibility compliance in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'PDF', item: 'https://maratool.com/pdf' },
+      { '@type': 'ListItem', position: 3, name: 'Inspect', item: 'https://maratool.com/pdf/inspect' },
+      { '@type': 'ListItem', position: 4, name: 'PDF Accessibility Checker', item: 'https://maratool.com/pdf-accessibility-checker' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What does this PDF accessibility checker test?',
+        acceptedAnswer: { '@type': 'Answer', text: 'It checks for document title, language specification, tagged PDF structure, valid page structure, and author metadata. These are key requirements for ADA, EAA, and Section 508 compliance.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is a tagged PDF?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A tagged PDF contains structure tags that define the reading order, headings, lists, and tables. Tags are essential for screen readers and assistive technologies to correctly interpret the document.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is this a full PDF/UA compliance check?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. This is a quick accessibility check for common requirements. For full PDF/UA-1 or PDF/UA-2 compliance testing, use a dedicated tool like veraPDF or PAC (PDF Accessibility Checker).' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my PDF uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. Everything runs locally in your browser. Your PDF never leaves your device.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop a PDF file onto the upload area or click to select one.',
+  'The tool checks for accessibility requirements and displays a pass/fail checklist.',
+  'Review failed checks and their recommendations to improve your PDF\'s accessibility.',
+]
+
+const faq = [
+  { q: 'What does this PDF accessibility checker test?', a: 'It checks for document title, language specification, tagged PDF structure, valid page structure, and author metadata. These are key requirements for ADA, EAA, and Section 508 compliance.' },
+  { q: 'What is a tagged PDF?', a: 'A tagged PDF contains structure tags that define the reading order, headings, lists, and tables. Tags are essential for screen readers and assistive technologies.' },
+  { q: 'Is this a full PDF/UA compliance check?', a: 'No. This is a quick accessibility check. For full PDF/UA compliance, use a dedicated tool like veraPDF or PAC.' },
+  { q: 'Is my PDF uploaded to a server?', a: 'No. Everything runs locally in your browser. Your PDF never leaves your device.' },
+]
+
+const relatedTools = [
+  { slug: 'pdf-metadata', name: 'PDF Metadata Viewer' },
+  { slug: 'contrast-checker', name: 'Contrast Checker' },
+  { slug: 'alt-text-generator', name: 'Alt Text Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'PDF', href: '/pdf' },
+  { label: 'Inspect', href: '/pdf/inspect' },
+  { label: 'PDF Accessibility Checker' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="pdf-accessibility-checker" name="PDF Accessibility Checker" description="Check if your PDF has accessibility tags, document title, language, and other a11y requirements." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="pdf-dropzone" id="pac-dropzone">
+          <input type="file" id="pac-file" accept="application/pdf" hidden />
+          <div class="pdf-dropzone-inner">
+            <svg class="pdf-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p class="pdf-dropzone-title">Drop a PDF here</p>
+            <p class="pdf-dropzone-sub">or click to select a file</p>
+          </div>
+        </div>
+
+        <div id="pac-progress" class="pdf-progress" style="display:none;">Loading...</div>
+        <p id="pac-file-info" class="pdf-file-info"></p>
+
+        <div id="pac-result" style="display:none;">
+          <div id="pac-summary" class="pac-summary"></div>
+          <div id="pac-checklist" class="pac-checklist"></div>
+          <div class="pdf-actions">
+            <button id="pac-new" class="tool-button pdf-new-btn">New PDF</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .pac-summary {
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    margin-bottom: 0.75rem;
+  }
+  .pac-summary-pass {
+    background: var(--success-bg, #f0fdf4);
+    color: #15803d;
+    border: 1px solid var(--success-border, #bbf7d0);
+  }
+  .pac-summary-warn {
+    background: #fffbeb;
+    color: #92400e;
+    border: 1px solid #fde68a;
+  }
+  .pac-summary-fail {
+    background: var(--error-bg, #fef2f2);
+    color: #b91c1c;
+    border: 1px solid var(--error-border, #fecaca);
+  }
+  .pac-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+  .pac-check {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg-soft);
+  }
+  .pac-check-pass {
+    border-left: 3px solid #22c55e;
+  }
+  .pac-check-fail {
+    border-left: 3px solid #ef4444;
+  }
+  .pac-check-icon {
+    font-size: 1.125rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    width: 1.5rem;
+    text-align: center;
+  }
+  .pac-check-pass .pac-check-icon { color: #22c55e; }
+  .pac-check-fail .pac-check-icon { color: #ef4444; }
+  .pac-check-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .pac-check-detail {
+    font-size: 0.8125rem;
+    color: var(--text-2);
+    margin-left: auto;
+  }
+  .pac-error {
+    color: #b91c1c;
+    padding: 0.75rem;
+  }
+</style>
+
+<script src="../tools/pdf-accessibility-checker.js"></script>

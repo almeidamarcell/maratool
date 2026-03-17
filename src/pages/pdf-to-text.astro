@@ -1,0 +1,176 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Extract Text from PDF — Copy text from any PDF online | maratool',
+  description: 'Extract and copy text from PDF files instantly in your browser. No upload to servers — runs 100% locally. Supports multi-page PDFs with page-by-page extraction.',
+  canonical: 'https://maratool.com/pdf-to-text',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Extract Text from PDF',
+    url: 'https://maratool.com/pdf-to-text',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Extract text from PDF files locally in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'PDF', item: 'https://maratool.com/pdf' },
+      { '@type': 'ListItem', position: 3, name: 'Extract', item: 'https://maratool.com/pdf/extract' },
+      { '@type': 'ListItem', position: 4, name: 'Extract Text from PDF', item: 'https://maratool.com/pdf-to-text' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I extract text from a PDF?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Drop or select a PDF file. The tool extracts text from every page and displays it in a text box. Click "Copy text" to copy the result to your clipboard.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my PDF uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. The PDF is processed entirely in your browser using Mozilla\'s pdf.js library. Your file never leaves your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does it work with scanned PDFs?',
+        acceptedAnswer: { '@type': 'Answer', text: 'This tool extracts embedded text from digital PDFs. Scanned PDFs that contain only images without text layers will produce empty results — OCR is not included.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How large of a PDF can I process?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The tool works in your browser, so the limit depends on your device\'s memory. PDFs up to 100+ pages and 50 MB work well on most modern devices.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop a PDF file onto the upload area or click to select one.',
+  'Wait for the text extraction to finish — progress is shown page by page.',
+  'Copy the extracted text with the "Copy text" button.',
+]
+
+const faq = [
+  { q: 'How do I extract text from a PDF?', a: 'Drop or select a PDF file. The tool extracts text from every page and displays it in a text box. Click "Copy text" to copy the result to your clipboard.' },
+  { q: 'Is my PDF uploaded to a server?', a: 'No. The PDF is processed entirely in your browser using Mozilla\'s pdf.js library. Your file never leaves your device.' },
+  { q: 'Does it work with scanned PDFs?', a: 'This tool extracts embedded text from digital PDFs. Scanned PDFs that contain only images without text layers will produce empty results — OCR is not included.' },
+  { q: 'How large of a PDF can I process?', a: 'The tool works in your browser, so the limit depends on your device\'s memory. PDFs up to 100+ pages and 50 MB work well on most modern devices.' },
+]
+
+const relatedTools = [
+  { slug: 'pdf-to-markdown', name: 'PDF to Markdown' },
+  { slug: 'pdf-metadata', name: 'PDF Metadata Viewer' },
+  { slug: 'pdf-merge-split', name: 'Merge & Split PDF' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'PDF', href: '/pdf' },
+  { label: 'Extract', href: '/pdf/extract' },
+  { label: 'Extract Text from PDF' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="pdf-to-text" name="Extract Text from PDF" description="Extract and copy text from any PDF file instantly. Runs 100% in your browser — nothing is uploaded." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <div class="pdf-dropzone" id="ptt-dropzone">
+          <input type="file" id="ptt-file" accept="application/pdf" hidden />
+          <div class="pdf-dropzone-inner">
+            <svg class="pdf-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p class="pdf-dropzone-title">Drop a PDF here</p>
+            <p class="pdf-dropzone-sub">or click to select a file</p>
+          </div>
+        </div>
+
+        <div id="ptt-progress" class="pdf-progress" style="display:none;">Loading...</div>
+        <p id="ptt-file-info" class="pdf-file-info"></p>
+
+        <div id="ptt-result" style="display:none;">
+          <div class="tool-panel">
+            <label class="tool-label" for="ptt-output">Extracted text</label>
+            <textarea id="ptt-output" class="tool-textarea tool-output" rows="18" readonly aria-label="Extracted text"></textarea>
+          </div>
+          <div class="pdf-actions">
+            <button id="ptt-copy" class="copy-btn">Copy text</button>
+            <button id="ptt-new" class="tool-button pdf-new-btn">New PDF</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .pdf-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .pdf-dropzone:hover,
+  .pdf-dropzone.dropzone-active {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .pdf-dropzone-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .pdf-upload-icon {
+    color: var(--text-3);
+    margin-bottom: 0.5rem;
+  }
+  .pdf-dropzone-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0;
+  }
+  .pdf-dropzone-sub {
+    font-size: 0.875rem;
+    color: var(--text-2);
+    margin: 0;
+  }
+  .pdf-progress {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-2);
+    font-size: 0.875rem;
+  }
+  .pdf-file-info {
+    font-size: 0.8125rem;
+    color: var(--text-3);
+    margin: 0.5rem 0;
+  }
+  .pdf-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .pdf-new-btn {
+    background: var(--bg-soft);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .pdf-new-btn:hover {
+    background: var(--bg-hover);
+  }
+</style>
+
+<script src="../tools/pdf-to-text.js"></script>

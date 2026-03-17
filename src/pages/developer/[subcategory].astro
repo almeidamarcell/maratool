@@ -9,23 +9,13 @@ export function getStaticPaths() {
   const catTools = toolsByCategory.Developer ?? {}
 
   const descriptions: Record<string, { title: string; description: string; intro: string }> = {
-    encoding: {
-      title: 'Encoding Tools — maratool',
-      description: 'Free browser-based encoding tools. Encode and decode Base64, generate hashes (MD5, SHA-256), decode JWT tokens, and convert text to binary — all in your browser.',
-      intro: 'Encode, decode, and inspect data formats without sending anything to a server.',
+    crypto: {
+      title: 'Crypto Tools — maratool',
+      description: 'Free browser-based cryptography tools. Generate hashes (MD5, SHA-256), decode JWT tokens — no sign-up, runs entirely in your browser.',
+      intro: 'Hash, encode, and inspect cryptographic data without sending anything to a server.',
     },
-    converter: {
-      title: 'Converter Tools — maratool',
-      description: 'Free browser-based converter tools. Convert Unix timestamps to human-readable dates with timezone support — no sign-up, runs entirely in your browser.',
-      intro: 'Quickly convert between common data formats and representations.',
-    },
-    text: {
-      title: 'Text Tools — maratool',
-      description: 'Free browser-based text tools. Compare text with diff checker, test regex patterns — no sign-up, runs entirely in your browser.',
-      intro: 'Analyse and compare text with fast, privacy-friendly tools that run locally.',
-    },
-    generator: {
-      title: 'Generator Tools — maratool',
+    generate: {
+      title: 'Developer Generator Tools — maratool',
       description: 'Free browser-based generator tools. Generate UUIDs (v1, v4, v5) and cron expressions — no sign-up, runs entirely in your browser.',
       intro: 'Generate unique identifiers, schedules, and random values instantly in your browser.',
     },
