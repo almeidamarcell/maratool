@@ -1,0 +1,261 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'UTM Builder — Create campaign URLs for Google Analytics | maratool',
+  description: 'Build UTM-tagged URLs for Google Analytics campaign tracking. Add source, medium, and campaign parameters to any link. Free, runs in your browser.',
+  canonical: 'https://maratool.com/utm-builder',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'UTM Builder',
+    url: 'https://maratool.com/utm-builder',
+    applicationCategory: 'MarketingApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Build UTM-tagged URLs for Google Analytics campaign tracking.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Marketing', item: 'https://maratool.com/marketing' },
+      { '@type': 'ListItem', position: 3, name: 'Builder', item: 'https://maratool.com/marketing/builder' },
+      { '@type': 'ListItem', position: 4, name: 'UTM Builder', item: 'https://maratool.com/utm-builder' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What are UTM parameters?',
+        acceptedAnswer: { '@type': 'Answer', text: 'UTM parameters are tags appended to a URL that tell Google Analytics where traffic came from. There are five parameters: utm_source (e.g. google, newsletter), utm_medium (e.g. cpc, email), utm_campaign (e.g. spring-sale), utm_term (paid keyword), and utm_content (for A/B testing links).' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Which UTM parameters are required?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Google Analytics requires utm_source, utm_medium, and utm_campaign for a session to be attributed correctly. utm_term and utm_content are optional and used for more granular tracking — utm_term for keywords in paid search and utm_content to differentiate ads or links.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Are UTM parameters case-sensitive?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Google Analytics treats "Google" and "google" as different sources. Stick to lowercase and use hyphens instead of spaces or underscores to keep your reports consistent. A common convention is all-lowercase with hyphens: utm_source=google, utm_campaign=spring-sale.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Do UTM parameters affect SEO?',
+        acceptedAnswer: { '@type': 'Answer', text: 'UTM-tagged URLs should not be indexed by search engines. Google typically ignores UTM parameters when crawling. However, to be safe, avoid sharing UTM links publicly on your own site. Use them only in ads, emails, and external campaigns.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your destination URL and fill in the required fields: source, medium, and campaign name.',
+  'Add optional fields (term, content) for more granular tracking in Google Analytics.',
+  'Copy the generated UTM URL and use it in your ad, email, or social post.'
+]
+
+const faq = [
+  { q: 'What are UTM parameters?', a: 'UTM tags appended to a URL that tell Google Analytics where traffic came from: source (google, newsletter), medium (cpc, email), campaign (spring-sale), term (paid keyword), content (A/B test variant).' },
+  { q: 'Which UTM parameters are required?', a: 'utm_source, utm_medium, and utm_campaign are required. utm_term and utm_content are optional for deeper reporting.' },
+  { q: 'Are UTM parameters case-sensitive?', a: 'Yes. Use lowercase and hyphens consistently: utm_source=google, utm_campaign=spring-sale. Inconsistent casing splits traffic in your reports.' },
+  { q: 'Do UTM parameters affect SEO?', a: 'Google ignores them when crawling. Avoid sharing UTM links publicly on your own site — use them only in external campaigns.' }
+]
+
+const relatedTools = [
+  { slug: 'qr-code-generator', name: 'QR Code Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Marketing', href: '/marketing' },
+  { label: 'Builder', href: '/marketing/builder' },
+  { label: 'UTM Builder' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="utm-builder" name="UTM Builder" description="Build UTM-tagged URLs for Google Analytics campaign tracking." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height: 480px;">
+        <div class="utm-form">
+          <!-- Website URL -->
+          <div class="utm-field">
+            <label class="tool-label" for="utm-url">Website URL <span class="utm-required">*</span></label>
+            <input type="url" id="utm-url" class="tool-input utm-input" placeholder="https://example.com/landing-page" spellcheck="false" autocomplete="off" />
+            <span class="utm-error" id="utm-url-error"></span>
+          </div>
+
+          <div class="utm-row">
+            <!-- utm_source -->
+            <div class="utm-field">
+              <label class="tool-label" for="utm-source">Campaign Source <span class="utm-required">*</span></label>
+              <input type="text" id="utm-source" class="tool-input utm-input" placeholder="google" list="utm-source-list" spellcheck="false" autocomplete="off" />
+              <datalist id="utm-source-list">
+                <option value="google">
+                <option value="facebook">
+                <option value="twitter">
+                <option value="linkedin">
+                <option value="newsletter">
+                <option value="instagram">
+                <option value="youtube">
+                <option value="bing">
+                <option value="reddit">
+                <option value="tiktok">
+              </datalist>
+            </div>
+
+            <!-- utm_medium -->
+            <div class="utm-field">
+              <label class="tool-label" for="utm-medium">Campaign Medium <span class="utm-required">*</span></label>
+              <input type="text" id="utm-medium" class="tool-input utm-input" placeholder="cpc" list="utm-medium-list" spellcheck="false" autocomplete="off" />
+              <datalist id="utm-medium-list">
+                <option value="cpc">
+                <option value="email">
+                <option value="social">
+                <option value="organic">
+                <option value="referral">
+                <option value="display">
+                <option value="affiliate">
+                <option value="video">
+                <option value="banner">
+              </datalist>
+            </div>
+          </div>
+
+          <!-- utm_campaign -->
+          <div class="utm-field">
+            <label class="tool-label" for="utm-campaign">Campaign Name <span class="utm-required">*</span></label>
+            <input type="text" id="utm-campaign" class="tool-input utm-input" placeholder="spring-sale-2026" spellcheck="false" autocomplete="off" />
+          </div>
+
+          <div class="utm-row">
+            <!-- utm_term -->
+            <div class="utm-field">
+              <label class="tool-label" for="utm-term">Campaign Term <span class="utm-optional">(optional)</span></label>
+              <input type="text" id="utm-term" class="tool-input utm-input" placeholder="running+shoes" spellcheck="false" autocomplete="off" />
+            </div>
+
+            <!-- utm_content -->
+            <div class="utm-field">
+              <label class="tool-label" for="utm-content">Campaign Content <span class="utm-optional">(optional)</span></label>
+              <input type="text" id="utm-content" class="tool-input utm-input" placeholder="hero-banner-a" spellcheck="false" autocomplete="off" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Output -->
+        <div class="utm-output-section">
+          <label class="tool-label">Generated URL</label>
+          <textarea id="utm-output" class="tool-input utm-output-textarea" readonly placeholder="Fill in the required fields above to generate your UTM URL..." rows="3" spellcheck="false"></textarea>
+        </div>
+
+        <!-- Actions -->
+        <div class="utm-actions">
+          <button class="utm-btn utm-btn-primary" id="utm-copy" type="button">Copy URL</button>
+          <button class="utm-btn utm-btn-share" id="utm-share" type="button">Copy config link</button>
+          <button class="utm-btn utm-btn-reset" id="utm-reset" type="button">Reset</button>
+        </div>
+
+        <p class="utm-share-hint">Use "Copy config link" to share pre-filled UTM settings with your team.</p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .utm-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    margin-bottom: 1.25rem;
+  }
+  .utm-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.875rem;
+  }
+  .utm-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .utm-input {
+    width: 100%;
+    font-size: 14px;
+  }
+  .utm-required {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .utm-optional {
+    color: var(--text-3);
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .utm-error {
+    font-size: 12px;
+    color: #e53e3e;
+    min-height: 16px;
+  }
+  .utm-output-section {
+    margin-bottom: 1rem;
+  }
+  .utm-output-textarea {
+    width: 100%;
+    font-family: var(--font-mono, monospace);
+    font-size: 12px;
+    word-break: break-all;
+    resize: none;
+    background: var(--bg-soft);
+    color: var(--text);
+  }
+  .utm-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .utm-btn {
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s;
+  }
+  .utm-btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .utm-btn-primary:hover { opacity: 0.9; }
+  .utm-btn-share {
+    background: var(--bg);
+    color: var(--text);
+  }
+  .utm-btn-share:hover { background: var(--bg-soft); }
+  .utm-btn-reset {
+    background: var(--bg);
+    color: var(--text-2);
+  }
+  .utm-btn-reset:hover { background: var(--bg-soft); }
+  .utm-share-hint {
+    font-size: 12px;
+    color: var(--text-3);
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+  }
+  @media (max-width: 640px) {
+    .utm-row { grid-template-columns: 1fr; }
+    .utm-actions { flex-direction: column; }
+    .utm-btn { width: 100%; text-align: center; }
+  }
+</style>
+<script src="../tools/utm-builder.js"></script>

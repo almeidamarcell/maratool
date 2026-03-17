@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Cron Expression Generator — Build and decode cron jobs | maratool',
-  description: 'Build cron expressions visually. Get plain-English descriptions and see the next 5 scheduled run times. Free, no sign-up.',
+  description: 'Build cron expressions visually with a live editor. Get plain-English descriptions, next 5 run times, and common presets. Free, no sign-up.',
   canonical: 'https://maratool.com/cron-expression',
   schema: {
     '@context': 'https://schema.org',
@@ -143,6 +143,29 @@ const breadcrumbs = [
             <button class="cron-preset" data-expr="0 0 1 * *">First of month</button>
           </div>
         </div>
+
+        <div class="cron-reference">
+          <span class="tool-label">Common cron patterns</span>
+          <table class="cron-ref-table">
+            <thead>
+              <tr><th>Schedule</th><th>Expression</th></tr>
+            </thead>
+            <tbody>
+              <tr class="cron-ref-row" data-expr="*/5 * * * *"><td>Every 5 minutes</td><td><code>*/5 * * * *</code></td></tr>
+              <tr class="cron-ref-row" data-expr="*/15 * * * *"><td>Every 15 minutes</td><td><code>*/15 * * * *</code></td></tr>
+              <tr class="cron-ref-row" data-expr="*/30 * * * *"><td>Every 30 minutes</td><td><code>*/30 * * * *</code></td></tr>
+              <tr class="cron-ref-row" data-expr="0 * * * *"><td>Every hour at minute 0</td><td><code>0 * * * *</code></td></tr>
+              <tr class="cron-ref-row" data-expr="0 9 * * *"><td>Every day at 9am</td><td><code>0 9 * * *</code></td></tr>
+              <tr class="cron-ref-row" data-expr="0 9 * * 1-5"><td>Every weekday at 9am</td><td><code>0 9 * * 1-5</code></td></tr>
+              <tr class="cron-ref-row" data-expr="0 0 * * 0"><td>Every Sunday at midnight</td><td><code>0 0 * * 0</code></td></tr>
+              <tr class="cron-ref-row" data-expr="0 0 1 * *"><td>First day of month at midnight</td><td><code>0 0 1 * *</code></td></tr>
+              <tr class="cron-ref-row" data-expr="0 */6 * * *"><td>Every 6 hours</td><td><code>0 */6 * * *</code></td></tr>
+              <tr class="cron-ref-row" data-expr="0 0,12 * * *"><td>Twice daily (midnight and noon)</td><td><code>0 0,12 * * *</code></td></tr>
+              <tr class="cron-ref-row" data-expr="0 8,18 * * 1-5"><td>Every weekday at 8am and 6pm</td><td><code>0 8,18 * * 1-5</code></td></tr>
+              <tr class="cron-ref-row" data-expr="0 0 1 1 *"><td>Every January 1st at midnight</td><td><code>0 0 1 1 *</code></td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </ToolShell>
   </Layout>
@@ -222,6 +245,39 @@ const breadcrumbs = [
     border-color: var(--accent);
     color: var(--accent);
     background: var(--bg-soft);
+  }
+  .cron-reference {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+  .cron-ref-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+    font-size: 13px;
+  }
+  .cron-ref-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-3);
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cron-ref-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .cron-ref-table tr:last-child td { border-bottom: none; }
+  .cron-ref-table tr:hover td { background: var(--bg-soft); }
+  .cron-ref-table code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
   }
 </style>
 <script src="../tools/cron-expression.js"></script>

@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Regex Tester — Test regular expressions with live highlighting | maratool',
-  description: 'Test your regular expressions against any string. Live match highlighting, flag support, and match list. Free, no sign-up.',
+  description: 'Test regular expressions against any string with live match highlighting. Supports g, i, m flags and shows all match groups. Free, no sign-up.',
   canonical: 'https://maratool.com/regex-tester',
   schema: {
     '@context': 'https://schema.org',
@@ -115,6 +115,20 @@ const breadcrumbs = [
           <span class="tool-label">Match list</span>
           <div id="regex-match-list" class="regex-match-list" aria-label="Match list"></div>
         </div>
+
+        <div class="regex-patterns-section">
+          <span class="tool-label">Common patterns</span>
+          <div class="regex-patterns-grid">
+            <button class="regex-pattern-btn" data-pattern="^[\w.+-]+@[\w-]+\.[a-z]{2,}$" data-flags="i">Email address</button>
+            <button class="regex-pattern-btn" data-pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&\/=]*)" data-flags="g">URL</button>
+            <button class="regex-pattern-btn" data-pattern="^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$" data-flags="">IPv4 address</button>
+            <button class="regex-pattern-btn" data-pattern="^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$" data-flags="">Date (YYYY-MM-DD)</button>
+            <button class="regex-pattern-btn" data-pattern="^\+?1?\s?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$" data-flags="">Phone (US)</button>
+            <button class="regex-pattern-btn" data-pattern="^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" data-flags="">Hex color</button>
+            <button class="regex-pattern-btn" data-pattern="^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" data-flags="i">UUID</button>
+            <button class="regex-pattern-btn" data-pattern="^[a-z0-9]+(?:-[a-z0-9]+)*$" data-flags="">URL slug</button>
+          </div>
+        </div>
       </div>
     </ToolShell>
   </Layout>
@@ -216,6 +230,32 @@ const breadcrumbs = [
     max-height: 200px;
     overflow-y: auto;
     color: var(--text-2);
+  }
+  .regex-patterns-section {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+  .regex-patterns-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-top: 0.5rem;
+  }
+  .regex-pattern-btn {
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: var(--bg);
+    font-size: 12px;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .regex-pattern-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--bg-soft);
   }
 </style>
 <script src="../tools/regex-tester.js"></script>

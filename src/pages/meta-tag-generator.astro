@@ -1,0 +1,228 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Meta Tag Generator — HTML and Open Graph tags for SEO | maratool',
+  description: 'Generate HTML meta tags for SEO and social sharing. Covers title, description, canonical, Open Graph, and Twitter Card tags. Preview and copy in one click.',
+  canonical: 'https://maratool.com/meta-tag-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Meta Tag Generator',
+    url: 'https://maratool.com/meta-tag-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate HTML meta tags for SEO and social sharing.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Generate', item: 'https://maratool.com/developer/generate' },
+      { '@type': 'ListItem', position: 4, name: 'Meta Tag Generator', item: 'https://maratool.com/meta-tag-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the ideal length for a meta title?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Google displays up to ~60 characters of a page title in search results. Aim for 50–60 characters to ensure nothing is truncated. Use the most important keyword near the start of the title.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the ideal length for a meta description?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Google shows 140–160 characters of the meta description in desktop search results. Write a clear, action-oriented sentence that includes your target keyword and gives users a reason to click.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the difference between og:title and the page <title>?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The <title> tag controls what appears in Google search results and browser tabs. The og:title controls what text appears when your page is shared on Facebook, LinkedIn, Slack, and other platforms. They can be different — social titles are often shorter and more conversational.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What Twitter Card type should I use?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Use summary_large_image if you have a high-quality featured image (displays as a large card with the image on top). Use summary for simple link previews with a small thumbnail. summary_large_image drives significantly higher click-through rates on Twitter/X.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Fill in the Basic SEO fields: title, description, and canonical URL.',
+  'Optionally set Open Graph fields for Facebook/LinkedIn and Twitter Card fields.',
+  'Copy the generated HTML tags and paste them inside the <head> of your page.'
+]
+
+const faq = [
+  { q: 'What is the ideal length for a meta title?', a: 'Aim for 50–60 characters. Google truncates titles beyond ~60 chars. Put the main keyword near the start.' },
+  { q: 'What is the ideal length for a meta description?', a: '140–160 characters. Write action-oriented text with your target keyword and a reason to click.' },
+  { q: 'What is the difference between og:title and the page <title>?', a: '<title> controls Google SERPs and browser tabs. og:title controls social media link previews. They can differ.' },
+  { q: 'What Twitter Card type should I use?', a: 'summary_large_image if you have a featured image (drives higher CTR). summary for simple previews.' }
+]
+
+const relatedTools = [
+  { slug: 'schema-markup-generator', name: 'Schema Markup Generator' },
+  { slug: 'robots-txt-generator', name: 'Robots.txt Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Generate', href: '/developer/generate' },
+  { label: 'Meta Tag Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="meta-tag-generator" name="Meta Tag Generator" description="Generate HTML meta tags for SEO and social sharing. Fill in the fields and copy the output into your <head>." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height: 480px;">
+        <!-- Basic SEO -->
+        <div class="mtg-section">
+          <span class="mtg-section-title">Basic SEO</span>
+          <div class="mtg-field">
+            <div class="mtg-label-row">
+              <label class="tool-label" for="mtg-title">Title</label>
+              <span class="mtg-count" id="mtg-title-count">0 chars</span>
+            </div>
+            <input type="text" id="mtg-title" class="tool-input mtg-input" placeholder="My Page Title — 50 to 60 characters" />
+          </div>
+          <div class="mtg-field">
+            <div class="mtg-label-row">
+              <label class="tool-label" for="mtg-desc">Description</label>
+              <span class="mtg-count" id="mtg-desc-count">0 chars</span>
+            </div>
+            <textarea id="mtg-desc" class="tool-input mtg-input" rows="2" placeholder="A brief, keyword-rich description — 140 to 160 characters"></textarea>
+          </div>
+          <div class="mtg-grid-2">
+            <div class="mtg-field"><label class="tool-label" for="mtg-canonical">Canonical URL</label><input type="url" id="mtg-canonical" class="tool-input mtg-input" placeholder="https://example.com/page" /></div>
+            <div class="mtg-field"><label class="tool-label" for="mtg-author">Author <span class="sg-optional">(optional)</span></label><input type="text" id="mtg-author" class="tool-input mtg-input" placeholder="Jane Smith" /></div>
+          </div>
+          <div class="mtg-field"><label class="tool-label" for="mtg-robots">Robots <span class="sg-optional">(optional)</span></label>
+            <select id="mtg-robots" class="tool-input mtg-input">
+              <option value="">Default</option>
+              <option value="index, follow">index, follow</option>
+              <option value="noindex, nofollow">noindex, nofollow</option>
+              <option value="noindex, follow">noindex, follow</option>
+              <option value="index, nofollow">index, nofollow</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Open Graph -->
+        <details class="mtg-section-details">
+          <summary class="mtg-section-title mtg-summary">Open Graph (Facebook, LinkedIn)</summary>
+          <div class="mtg-section-body">
+            <div class="mtg-grid-2">
+              <div class="mtg-field"><label class="tool-label" for="mtg-og-title">og:title <span class="sg-optional">(uses title if empty)</span></label><input type="text" id="mtg-og-title" class="tool-input mtg-input" placeholder="Same as title or custom" /></div>
+              <div class="mtg-field"><label class="tool-label" for="mtg-og-url">og:url <span class="sg-optional">(uses canonical if empty)</span></label><input type="url" id="mtg-og-url" class="tool-input mtg-input" placeholder="https://example.com/page" /></div>
+              <div class="mtg-field"><label class="tool-label" for="mtg-og-type">og:type</label>
+                <select id="mtg-og-type" class="tool-input mtg-input">
+                  <option value="website">website</option>
+                  <option value="article">article</option>
+                  <option value="product">product</option>
+                </select>
+              </div>
+              <div class="mtg-field"><label class="tool-label" for="mtg-og-site">og:site_name <span class="sg-optional">(optional)</span></label><input type="text" id="mtg-og-site" class="tool-input mtg-input" placeholder="My Website" /></div>
+            </div>
+            <div class="mtg-field"><label class="tool-label" for="mtg-og-desc">og:description <span class="sg-optional">(uses description if empty)</span></label><textarea id="mtg-og-desc" class="tool-input mtg-input" rows="2" placeholder="Social sharing description"></textarea></div>
+            <div class="mtg-field"><label class="tool-label" for="mtg-og-image">og:image URL</label><input type="url" id="mtg-og-image" class="tool-input mtg-input" placeholder="https://example.com/social-image.jpg (1200×630)" /></div>
+          </div>
+        </details>
+
+        <!-- Twitter Card -->
+        <details class="mtg-section-details">
+          <summary class="mtg-section-title mtg-summary">Twitter Card</summary>
+          <div class="mtg-section-body">
+            <div class="mtg-grid-2">
+              <div class="mtg-field"><label class="tool-label" for="mtg-tw-card">Card type</label>
+                <select id="mtg-tw-card" class="tool-input mtg-input">
+                  <option value="summary_large_image">summary_large_image</option>
+                  <option value="summary">summary</option>
+                </select>
+              </div>
+              <div class="mtg-field"><label class="tool-label" for="mtg-tw-site">@site handle <span class="sg-optional">(optional)</span></label><input type="text" id="mtg-tw-site" class="tool-input mtg-input" placeholder="@yourhandle" /></div>
+              <div class="mtg-field"><label class="tool-label" for="mtg-tw-title">twitter:title <span class="sg-optional">(uses title if empty)</span></label><input type="text" id="mtg-tw-title" class="tool-input mtg-input" placeholder="Twitter headline" /></div>
+              <div class="mtg-field"><label class="tool-label" for="mtg-tw-image">twitter:image URL</label><input type="url" id="mtg-tw-image" class="tool-input mtg-input" placeholder="https://example.com/twitter-image.jpg" /></div>
+            </div>
+            <div class="mtg-field"><label class="tool-label" for="mtg-tw-desc">twitter:description <span class="sg-optional">(uses description if empty)</span></label><textarea id="mtg-tw-desc" class="tool-input mtg-input" rows="2" placeholder="Twitter card description"></textarea></div>
+          </div>
+        </details>
+
+        <!-- Output -->
+        <div class="sg-output-section">
+          <div class="sg-output-header">
+            <span class="tool-label">Generated Tags</span>
+            <button class="sg-copy-btn" id="mtg-copy" type="button">Copy all</button>
+          </div>
+          <textarea id="mtg-output" class="tool-input sg-output-textarea" readonly spellcheck="false" style="min-height:180px;"></textarea>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .mtg-section { margin-bottom: 1rem; }
+  .mtg-section-title {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-3);
+    margin-bottom: 0.75rem;
+  }
+  .mtg-section-details {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+  }
+  .mtg-summary {
+    padding: 0.625rem 0.75rem;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-3);
+    margin-bottom: 0;
+  }
+  .mtg-summary::after {
+    content: '\25BC';
+    font-size: 9px;
+    transition: transform 0.15s;
+  }
+  .mtg-section-details[open] .mtg-summary::after { transform: rotate(180deg); }
+  .mtg-summary::-webkit-details-marker { display: none; }
+  .mtg-section-body { padding: 0 0.75rem 0.75rem; }
+  .mtg-field { margin-bottom: 0.75rem; }
+  .mtg-label-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.25rem; }
+  .mtg-label-row .tool-label { margin-bottom: 0; }
+  .mtg-count {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text-3);
+  }
+  .mtg-count-short { color: #d97706; }
+  .mtg-count-ok { color: #16a34a; }
+  .mtg-count-long { color: #dc2626; }
+  .mtg-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  @media (max-width: 600px) { .mtg-grid-2 { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/meta-tag-generator.js"></script>

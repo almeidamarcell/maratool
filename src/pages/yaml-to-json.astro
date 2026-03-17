@@ -1,0 +1,155 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'YAML to JSON Converter — Convert YAML to JSON online | maratool',
+  description: 'Convert YAML to JSON or JSON to YAML instantly in your browser. Paste your YAML and get formatted JSON output. No upload, no sign-up. Free.',
+  canonical: 'https://maratool.com/yaml-to-json',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'YAML to JSON Converter',
+    url: 'https://maratool.com/yaml-to-json',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert YAML to JSON or JSON to YAML online.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'YAML to JSON', item: 'https://maratool.com/yaml-to-json' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the difference between YAML and JSON?',
+        acceptedAnswer: { '@type': 'Answer', text: 'YAML (YAML Ain\'t Markup Language) is a human-readable data serialization format that uses indentation to define structure. JSON (JavaScript Object Notation) uses braces and brackets and is more verbose but universally supported by programming languages and APIs. YAML supports comments; JSON does not.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can YAML features get lost when converting to JSON?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. YAML supports features that JSON does not: comments, multi-line strings, anchors and aliases, and multiple documents in one file. These are lost or flattened during conversion to JSON. The data itself (keys, values, arrays, objects) is preserved.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What does YAML indentation mean for conversion?',
+        acceptedAnswer: { '@type': 'Answer', text: 'YAML uses indentation (usually 2 spaces) to define nested objects and arrays. When converting to JSON, each indented level becomes a nested object or array in JSON. Inconsistent indentation is a common source of YAML parse errors.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this converter work offline?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. The conversion runs entirely in your browser using the js-yaml library loaded from a CDN. Your YAML or JSON data never leaves your device. Once loaded, no internet connection is needed.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste your YAML into the left panel — JSON output appears on the right instantly.',
+  'Or paste JSON into the right panel to convert back to YAML.',
+  'Click Copy to copy the output to your clipboard.'
+]
+
+const faq = [
+  { q: 'What is the difference between YAML and JSON?', a: 'YAML uses indentation and supports comments; JSON uses braces/brackets and has broader API support. Both represent the same data structures.' },
+  { q: 'Can YAML features get lost when converting to JSON?', a: 'Yes. Comments, anchors, aliases, and multi-line strings are lost. The data (keys, values, arrays, objects) is preserved.' },
+  { q: 'What does YAML indentation mean for conversion?', a: 'Indentation defines nesting. Each indented level becomes a nested object or array in JSON. Inconsistent indentation causes parse errors.' },
+  { q: 'Does this converter work offline?', a: 'The js-yaml library is loaded from a CDN once. After that, conversion runs entirely in your browser — no data leaves your device.' }
+]
+
+const relatedTools = [
+  { slug: 'xml-to-json', name: 'XML to JSON Converter' },
+  { slug: 'json-formatter', name: 'JSON Formatter' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'YAML to JSON' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="yaml-to-json" name="YAML to JSON Converter" description="Convert YAML to JSON or JSON to YAML instantly. Paste into either panel and get the output immediately." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height: 420px;">
+        <div class="ytj-grid">
+          <div class="ytj-panel">
+            <div class="ytj-panel-header">
+              <span class="tool-label">YAML Input</span>
+            </div>
+            <textarea id="ytj-yaml-input" class="tool-input ytj-textarea" spellcheck="false" placeholder="name: Alice&#10;age: 30&#10;tags:&#10;  - developer&#10;  - writer"></textarea>
+            <div id="ytj-yaml-error" class="ytj-error" style="display:none;"></div>
+          </div>
+          <div class="ytj-panel">
+            <div class="ytj-panel-header">
+              <span class="tool-label">JSON Output</span>
+              <button class="sg-copy-btn" id="ytj-copy-json" type="button">Copy</button>
+            </div>
+            <textarea id="ytj-json-output" class="tool-input ytj-textarea" readonly spellcheck="false"></textarea>
+          </div>
+        </div>
+        <div class="ytj-divider"><span class="ytj-divider-label">↕ Also converts JSON → YAML</span></div>
+        <div class="ytj-grid">
+          <div class="ytj-panel">
+            <div class="ytj-panel-header">
+              <span class="tool-label">JSON Input</span>
+            </div>
+            <textarea id="ytj-json-input" class="tool-input ytj-textarea" spellcheck="false" placeholder='{"name":"Alice","age":30,"tags":["developer","writer"]}'></textarea>
+            <div id="ytj-json-error" class="ytj-error" style="display:none;"></div>
+          </div>
+          <div class="ytj-panel">
+            <div class="ytj-panel-header">
+              <span class="tool-label">YAML Output</span>
+              <button class="sg-copy-btn" id="ytj-copy-yaml" type="button">Copy</button>
+            </div>
+            <textarea id="ytj-yaml-output" class="tool-input ytj-textarea" readonly spellcheck="false"></textarea>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .ytj-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .ytj-panel { display: flex; flex-direction: column; gap: 0.375rem; }
+  .ytj-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .ytj-panel-header .tool-label { margin-bottom: 0; }
+  .ytj-textarea {
+    font-family: var(--font-mono, monospace);
+    font-size: 12px;
+    min-height: 160px;
+    resize: vertical;
+  }
+  .ytj-error {
+    font-size: 12px;
+    color: #dc2626;
+    padding: 4px 0;
+  }
+  .ytj-divider {
+    text-align: center;
+    margin: 0.75rem 0;
+    color: var(--text-3);
+    font-size: 12px;
+  }
+  @media (max-width: 600px) { .ytj-grid { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/yaml-to-json.js"></script>

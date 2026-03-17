@@ -1,0 +1,172 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'API Key Generator — Secure random API keys online | maratool',
+  description: 'Generate cryptographically secure API keys in hex, base64, or alphanumeric formats. Choose length and quantity. Runs offline in your browser. Free.',
+  canonical: 'https://maratool.com/api-key-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'API Key Generator',
+    url: 'https://maratool.com/api-key-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate cryptographically secure API keys online.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Generate', item: 'https://maratool.com/developer/generate' },
+      { '@type': 'ListItem', position: 4, name: 'API Key Generator', item: 'https://maratool.com/api-key-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Is this API key generator cryptographically secure?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. The generator uses the Web Crypto API\'s crypto.getRandomValues() function, which produces cryptographically strong random numbers. This is the same source of randomness used in TLS, JWT libraries, and other security-critical applications. The output is suitable for use as an API key, secret token, or session identifier.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What format should I use for my API key?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Hex (lowercase a-f and 0-9) is the most common format — readable, URL-safe, and widely supported. Base64url is more compact for the same entropy and is also URL-safe. Alphanumeric (A-Z a-z 0-9) is the most human-readable but slightly less compact than hex for the same entropy.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How long should an API key be?',
+        acceptedAnswer: { '@type': 'Answer', text: 'For a hex key, 32 bytes (64 hex chars) gives 256 bits of entropy — the same as AES-256. This is considered secure against brute force indefinitely. For alphanumeric keys, 32 characters gives about 190 bits of entropy, which is also more than sufficient.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this tool send generated keys anywhere?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All keys are generated locally in your browser using the Web Crypto API. No data is sent to any server, and no keys are logged or stored. The tool works completely offline once loaded.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Select a format: Hex for standard API keys, Base64 for compact tokens, or Alphanumeric for readable keys.',
+  'Set the byte length (32 bytes = 64 hex chars = 256-bit entropy) and how many keys to generate.',
+  'Click Generate and copy the keys to your application.'
+]
+
+const faq = [
+  { q: 'Is this API key generator cryptographically secure?', a: 'Yes — uses crypto.getRandomValues(), the same source as TLS and JWT libraries. Suitable for API keys, tokens, and session IDs.' },
+  { q: 'What format should I use for my API key?', a: 'Hex is the most common — URL-safe and widely supported. Base64url is more compact. Alphanumeric is the most human-readable.' },
+  { q: 'How long should an API key be?', a: '32 bytes (64 hex chars) = 256 bits of entropy. This is the same as AES-256 and is considered unbreakable against brute force.' },
+  { q: 'Does this tool send generated keys anywhere?', a: 'No. Generation is local, offline, and nothing is logged or stored.' }
+]
+
+const relatedTools = [
+  { slug: 'password-generator', name: 'Password Generator' },
+  { slug: 'uuid-generator', name: 'UUID Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Generate', href: '/developer/generate' },
+  { label: 'API Key Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="api-key-generator" name="API Key Generator" description="Generate cryptographically secure API keys in hex, base64, or alphanumeric formats. Runs offline in your browser — nothing leaves your device." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height: 360px;">
+        <!-- Format -->
+        <div class="akg-section">
+          <span class="akg-label">Format</span>
+          <div class="akg-radio-group">
+            <label class="akg-radio"><input type="radio" name="akg-format" value="hex" checked /> Hex <span class="akg-hint">(a-f 0-9)</span></label>
+            <label class="akg-radio"><input type="radio" name="akg-format" value="base64" /> Base64url <span class="akg-hint">(URL-safe)</span></label>
+            <label class="akg-radio"><input type="radio" name="akg-format" value="alphanumeric" /> Alphanumeric <span class="akg-hint">(A-Z a-z 0-9)</span></label>
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="akg-options">
+          <div class="akg-option">
+            <label class="tool-label" for="akg-length">Byte length <span class="akg-hint-inline">(<span id="akg-length-val">32</span> bytes)</span></label>
+            <input type="range" id="akg-length" min="8" max="128" value="32" step="8" class="akg-slider" />
+            <div class="akg-range-labels"><span>8</span><span>64</span><span>128</span></div>
+          </div>
+          <div class="akg-option">
+            <label class="tool-label" for="akg-count">Quantity</label>
+            <input type="number" id="akg-count" class="tool-input akg-count-input" min="1" max="20" value="1" />
+          </div>
+        </div>
+
+        <!-- Generate button -->
+        <button class="akg-generate-btn" id="akg-generate" type="button">Generate</button>
+
+        <!-- Output -->
+        <div class="sg-output-section">
+          <div class="sg-output-header">
+            <span class="tool-label">Generated Keys</span>
+            <button class="sg-copy-btn" id="akg-copy" type="button">Copy all</button>
+          </div>
+          <textarea id="akg-output" class="tool-input sg-output-textarea" readonly spellcheck="false" style="min-height:120px;font-family:var(--font-mono,monospace);font-size:13px;"></textarea>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .akg-section { margin-bottom: 1rem; }
+  .akg-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-3);
+    margin-bottom: 0.5rem;
+  }
+  .akg-radio-group { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .akg-radio {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .akg-hint { font-size: 11px; color: var(--text-3); }
+  .akg-hint-inline { font-size: 11px; color: var(--text-3); font-weight: 400; font-family: var(--font-mono, monospace); }
+  .akg-options {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: start;
+    margin-bottom: 1rem;
+  }
+  .akg-option { display: flex; flex-direction: column; gap: 0.25rem; }
+  .akg-slider { width: 100%; cursor: pointer; }
+  .akg-range-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-3); }
+  .akg-count-input { width: 80px; }
+  .akg-generate-btn {
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .akg-generate-btn:hover { opacity: 0.9; }
+  @media (max-width: 600px) { .akg-options { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/api-key-generator.js"></script>

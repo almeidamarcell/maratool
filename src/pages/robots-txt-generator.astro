@@ -1,0 +1,185 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Robots.txt Generator — Create robots.txt for your website | maratool',
+  description: 'Generate a valid robots.txt file for your website. Control which bots can crawl your pages, block AI scrapers, and add your sitemap URL. Copy and deploy.',
+  canonical: 'https://maratool.com/robots-txt-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Robots.txt Generator',
+    url: 'https://maratool.com/robots-txt-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate a valid robots.txt file for your website.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Generate', item: 'https://maratool.com/developer/generate' },
+      { '@type': 'ListItem', position: 4, name: 'Robots.txt Generator', item: 'https://maratool.com/robots-txt-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is a robots.txt file?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A robots.txt file is a plain-text file placed at the root of your website (e.g. https://example.com/robots.txt) that tells web crawlers which pages or sections they are allowed or not allowed to crawl. It follows the Robots Exclusion Protocol. Note: it\'s a directive, not an enforcement — malicious bots may ignore it.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does robots.txt prevent pages from appearing in Google?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Disallowing a URL in robots.txt prevents Googlebot from crawling it, but it does not guarantee the page won\'t appear in search results. If other pages link to it, Google may still index the URL (just without content). To prevent indexing, use a noindex meta tag or X-Robots-Tag header instead.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I block AI training crawlers?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Use the "Block AI bots" preset to add Disallow: / rules for GPTBot (OpenAI), CCBot (Common Crawl), anthropic-ai (Anthropic), Claude-Web, and Google-Extended (Google Bard/Gemini). Note that only well-behaved AI crawlers will respect these rules.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What should I put as the Sitemap URL?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Enter the full absolute URL of your XML sitemap, e.g. https://example.com/sitemap.xml. If you use an Astro, Next.js, or WordPress site, the sitemap is usually auto-generated at /sitemap.xml or /sitemap_index.xml. Including it in robots.txt helps search engines discover and crawl your pages faster.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Choose a preset (Allow All, Block All, Block AI bots) or build rules manually with the rule builder.',
+  'Optionally add your sitemap URL and enable a crawl delay.',
+  'Copy the generated robots.txt and upload it to the root of your website.'
+]
+
+const faq = [
+  { q: 'What is a robots.txt file?', a: 'A plain-text file at your site root that tells crawlers which pages to skip. It follows the Robots Exclusion Protocol — well-behaved bots respect it, malicious ones may not.' },
+  { q: 'Does robots.txt prevent pages from appearing in Google?', a: 'It prevents crawling, not indexing. Google may still index a blocked URL if other pages link to it. Use noindex to prevent indexing.' },
+  { q: 'How do I block AI training crawlers?', a: 'Use the "Block AI bots" preset to add Disallow rules for GPTBot, CCBot, anthropic-ai, Claude-Web, and Google-Extended.' },
+  { q: 'What should I put as the Sitemap URL?', a: 'The full absolute URL, e.g. https://example.com/sitemap.xml. It helps search engines discover your pages faster.' }
+]
+
+const relatedTools = [
+  { slug: 'meta-tag-generator', name: 'Meta Tag Generator' },
+  { slug: 'schema-markup-generator', name: 'Schema Markup Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Generate', href: '/developer/generate' },
+  { label: 'Robots.txt Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="robots-txt-generator" name="Robots.txt Generator" description="Generate a valid robots.txt file for your website. Control which bots can crawl your pages, block AI scrapers, and add your sitemap URL." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height: 480px;">
+        <!-- Presets -->
+        <div class="rtg-presets">
+          <span class="rtg-presets-label">Presets:</span>
+          <button class="rtg-preset sg-type-btn" data-preset="allow-all" type="button">Allow All</button>
+          <button class="rtg-preset sg-type-btn" data-preset="block-all" type="button">Block All</button>
+          <button class="rtg-preset sg-type-btn" data-preset="block-ai" type="button">Block AI bots</button>
+          <button class="rtg-preset sg-type-btn" data-preset="wordpress" type="button">WordPress</button>
+        </div>
+
+        <!-- Rule builder -->
+        <div id="rtg-rules" class="rtg-rules"></div>
+        <button class="sg-add-btn" id="rtg-add-rule" type="button">+ Add rule</button>
+
+        <!-- Sitemap & Crawl-delay -->
+        <div class="rtg-options">
+          <div class="rtg-field">
+            <label class="tool-label" for="rtg-sitemap">Sitemap URL <span class="sg-optional">(optional)</span></label>
+            <input type="url" id="rtg-sitemap" class="tool-input" placeholder="https://example.com/sitemap.xml" />
+          </div>
+          <div class="rtg-field">
+            <label class="tool-label rtg-crawldelay-label">
+              <input type="checkbox" id="rtg-crawldelay-check" />
+              Crawl-delay <span class="sg-optional">(seconds)</span>
+            </label>
+            <div id="rtg-crawldelay-row" style="display:none;">
+              <input type="number" id="rtg-crawldelay" class="tool-input" min="1" max="60" value="10" style="width:100px;" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Output -->
+        <div class="sg-output-section">
+          <div class="sg-output-header">
+            <span class="tool-label">robots.txt</span>
+            <button class="sg-copy-btn" id="rtg-copy" type="button">Copy</button>
+          </div>
+          <textarea id="rtg-output" class="tool-input sg-output-textarea" readonly spellcheck="false" style="min-height:180px;"></textarea>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .rtg-presets {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem;
+    margin-bottom: 1.25rem;
+  }
+  .rtg-presets-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-3);
+    margin-right: 0.25rem;
+  }
+  .rtg-rules { margin-bottom: 0.75rem; }
+  .rtg-rule {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .rtg-rule-header {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    align-items: center;
+  }
+  .rtg-ua { flex: 1; }
+  .rtg-directives { display: flex; flex-direction: column; gap: 0.375rem; margin-bottom: 0.5rem; }
+  .rtg-directive {
+    display: flex;
+    gap: 0.375rem;
+    align-items: center;
+  }
+  .rtg-select { width: 110px; flex-shrink: 0; appearance: auto; cursor: pointer; }
+  .rtg-dir-path { flex: 1; }
+  .rtg-options {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.75rem;
+    align-items: start;
+    margin-top: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+  .rtg-field { display: flex; flex-direction: column; gap: 0.25rem; }
+  .rtg-crawldelay-label {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+  @media (max-width: 600px) { .rtg-options { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/robots-txt-generator.js"></script>

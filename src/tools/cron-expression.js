@@ -238,6 +238,22 @@ import './hash-state.js'
     })
   })
 
+  // ── Reference table rows ──
+  document.querySelectorAll('.cron-ref-row').forEach(function (row) {
+    row.style.cursor = 'pointer'
+    row.addEventListener('click', function () {
+      var parts = row.dataset.expr.split(' ')
+      fields.min.value = parts[0]
+      fields.hour.value = parts[1]
+      fields.dom.value = parts[2]
+      fields.month.value = parts[3]
+      fields.dow.value = parts[4]
+      update()
+      saveState()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    })
+  })
+
   // ── Presets ──
   document.querySelectorAll('.cron-preset').forEach(function (btn) {
     btn.addEventListener('click', function () {

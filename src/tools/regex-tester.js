@@ -123,6 +123,19 @@ import './hash-state.js'
     }, 100)
   }
 
+  // Common pattern buttons
+  document.querySelectorAll('.regex-pattern-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      patternInput.value = btn.dataset.pattern
+      var flags = btn.dataset.flags || ''
+      flagG.checked = flags.indexOf('g') !== -1
+      flagI.checked = flags.indexOf('i') !== -1
+      flagM.checked = flags.indexOf('m') !== -1
+      run()
+      saveState()
+    })
+  })
+
   patternInput.addEventListener('input', debouncedRun)
   testString.addEventListener('input', debouncedRun)
   flagG.addEventListener('change', function () { run(); saveState() })

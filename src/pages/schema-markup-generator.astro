@@ -1,0 +1,309 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Schema Markup Generator — JSON-LD structured data generator | maratool',
+  description: 'Generate JSON-LD structured data for Article, Product, FAQ, HowTo, LocalBusiness, and more. Copy and paste into your HTML head. Free, instant.',
+  canonical: 'https://maratool.com/schema-markup-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Schema Markup Generator',
+    url: 'https://maratool.com/schema-markup-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate JSON-LD structured data for SEO.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Generate', item: 'https://maratool.com/developer/generate' },
+      { '@type': 'ListItem', position: 4, name: 'Schema Markup Generator', item: 'https://maratool.com/schema-markup-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is JSON-LD structured data?',
+        acceptedAnswer: { '@type': 'Answer', text: 'JSON-LD (JavaScript Object Notation for Linked Data) is a method of encoding structured data using JSON. Google and other search engines read it to understand the content of your page — enabling rich results like star ratings, FAQ dropdowns, product prices, and breadcrumbs in search results.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Where do I paste the generated JSON-LD?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Paste the <script type="application/ld+json"> block inside the <head> of your HTML page, or just before </body>. Google recommends placing it in the <head>. In CMS platforms like WordPress, use a plugin like Yoast SEO or insert it via a custom head script field.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I add multiple schema types to one page?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. You can have multiple JSON-LD blocks on a single page. For example, an article page might have both Article schema and BreadcrumbList schema. Each type goes in its own <script type="application/ld+json"> block. Generate each type separately and add both to the <head>.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I validate my structured data?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Use Google\'s Rich Results Test (search.google.com/test/rich-results) to validate your markup and preview how it will appear in search results. The Schema Markup Validator at validator.schema.org can also check for errors against the full schema.org specification.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Select the schema type that matches your content (Article, Product, FAQ, etc.).',
+  'Fill in the fields — the JSON-LD output updates in real time.',
+  'Copy the generated script block and paste it into the <head> of your HTML page.'
+]
+
+const faq = [
+  { q: 'What is JSON-LD structured data?', a: 'JSON-LD tells search engines what your page is about, enabling rich results like FAQ dropdowns, product prices, and star ratings in SERPs.' },
+  { q: 'Where do I paste the generated JSON-LD?', a: 'Inside the <head> of your HTML, or before </body>. In WordPress, use Yoast SEO or a custom head script field.' },
+  { q: 'Can I add multiple schema types to one page?', a: 'Yes. Each type goes in its own <script type="application/ld+json"> block. Generate each separately and add all blocks to the <head>.' },
+  { q: 'How do I validate my structured data?', a: 'Use Google\'s Rich Results Test (search.google.com/test/rich-results) or the Schema Markup Validator at validator.schema.org.' }
+]
+
+const relatedTools = [
+  { slug: 'meta-tag-generator', name: 'Meta Tag Generator' },
+  { slug: 'robots-txt-generator', name: 'Robots.txt Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Generate', href: '/developer/generate' },
+  { label: 'Schema Markup Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="schema-markup-generator" name="Schema Markup Generator" description="Generate JSON-LD structured data for SEO. Select a schema type, fill in the fields, and copy the script block." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height: 480px;">
+        <!-- Schema type selector -->
+        <div class="sg-type-bar">
+          <button class="sg-type-btn active" data-type="article" type="button">Article</button>
+          <button class="sg-type-btn" data-type="product" type="button">Product</button>
+          <button class="sg-type-btn" data-type="faq" type="button">FAQ</button>
+          <button class="sg-type-btn" data-type="howto" type="button">HowTo</button>
+          <button class="sg-type-btn" data-type="localbusiness" type="button">LocalBusiness</button>
+          <button class="sg-type-btn" data-type="person" type="button">Person</button>
+        </div>
+
+        <!-- Article form -->
+        <div class="sg-form" data-form="article">
+          <div class="sg-grid-2">
+            <div class="sg-field"><label class="tool-label" for="sg-article-headline">Headline</label><input type="text" id="sg-article-headline" class="tool-input" placeholder="How to bake sourdough bread" /></div>
+            <div class="sg-field"><label class="tool-label" for="sg-article-author">Author name</label><input type="text" id="sg-article-author" class="tool-input" placeholder="Jane Smith" /></div>
+            <div class="sg-field"><label class="tool-label" for="sg-article-date">Date published</label><input type="date" id="sg-article-date" class="tool-input" /></div>
+            <div class="sg-field"><label class="tool-label" for="sg-article-url">Article URL</label><input type="url" id="sg-article-url" class="tool-input" placeholder="https://example.com/article" /></div>
+          </div>
+          <div class="sg-field"><label class="tool-label" for="sg-article-image">Image URL <span class="sg-optional">(optional)</span></label><input type="url" id="sg-article-image" class="tool-input" placeholder="https://example.com/image.jpg" /></div>
+        </div>
+
+        <!-- Product form -->
+        <div class="sg-form" data-form="product" style="display:none;">
+          <div class="sg-grid-2">
+            <div class="sg-field"><label class="tool-label" for="sg-product-name">Product name</label><input type="text" id="sg-product-name" class="tool-input" placeholder="Wireless Headphones" /></div>
+            <div class="sg-field"><label class="tool-label" for="sg-product-url">Product URL</label><input type="url" id="sg-product-url" class="tool-input" placeholder="https://example.com/product" /></div>
+            <div class="sg-field"><label class="tool-label" for="sg-product-price">Price</label><input type="text" id="sg-product-price" class="tool-input" placeholder="49.99" /></div>
+            <div class="sg-field"><label class="tool-label" for="sg-product-currency">Currency</label><input type="text" id="sg-product-currency" class="tool-input" placeholder="USD" value="USD" /></div>
+          </div>
+          <div class="sg-field"><label class="tool-label" for="sg-product-avail">Availability</label>
+            <select id="sg-product-avail" class="tool-input sg-select">
+              <option value="InStock">InStock</option>
+              <option value="OutOfStock">OutOfStock</option>
+              <option value="PreOrder">PreOrder</option>
+              <option value="Discontinued">Discontinued</option>
+            </select>
+          </div>
+          <div class="sg-field"><label class="tool-label" for="sg-product-desc">Description</label><textarea id="sg-product-desc" class="tool-input" rows="2" placeholder="Brief product description"></textarea></div>
+        </div>
+
+        <!-- FAQ form -->
+        <div class="sg-form" data-form="faq" style="display:none;">
+          <div id="sg-faq-items">
+            <div class="sg-faq-item">
+              <input class="tool-input sg-faq-q" placeholder="Question" />
+              <textarea class="tool-input sg-faq-a" rows="2" placeholder="Answer"></textarea>
+            </div>
+            <div class="sg-faq-item">
+              <input class="tool-input sg-faq-q" placeholder="Question" />
+              <textarea class="tool-input sg-faq-a" rows="2" placeholder="Answer"></textarea>
+            </div>
+          </div>
+          <button class="sg-add-btn" id="sg-faq-add" type="button">+ Add question</button>
+        </div>
+
+        <!-- HowTo form -->
+        <div class="sg-form" data-form="howto" style="display:none;">
+          <div class="sg-grid-2">
+            <div class="sg-field"><label class="tool-label" for="sg-howto-name">Title</label><input type="text" id="sg-howto-name" class="tool-input" placeholder="How to change a tyre" /></div>
+            <div class="sg-field"><label class="tool-label" for="sg-howto-desc">Description</label><input type="text" id="sg-howto-desc" class="tool-input" placeholder="Step-by-step guide to changing a flat tyre" /></div>
+          </div>
+          <div id="sg-howto-steps">
+            <div class="sg-howto-step"><span class="sg-step-num">1</span><input class="tool-input sg-step-name" placeholder="Step name" /><textarea class="tool-input sg-step-text" rows="2" placeholder="Step description"></textarea></div>
+            <div class="sg-howto-step"><span class="sg-step-num">2</span><input class="tool-input sg-step-name" placeholder="Step name" /><textarea class="tool-input sg-step-text" rows="2" placeholder="Step description"></textarea></div>
+          </div>
+          <button class="sg-add-btn" id="sg-howto-add" type="button">+ Add step</button>
+        </div>
+
+        <!-- LocalBusiness form -->
+        <div class="sg-form" data-form="localbusiness" style="display:none;">
+          <div class="sg-grid-2">
+            <div class="sg-field"><label class="tool-label" for="sg-lb-name">Business name</label><input type="text" id="sg-lb-name" class="tool-input" placeholder="Acme Coffee" /></div>
+            <div class="sg-field"><label class="tool-label" for="sg-lb-phone">Phone</label><input type="tel" id="sg-lb-phone" class="tool-input" placeholder="+1-555-0100" /></div>
+            <div class="sg-field"><label class="tool-label" for="sg-lb-url">Website URL</label><input type="url" id="sg-lb-url" class="tool-input" placeholder="https://example.com" /></div>
+            <div class="sg-field"><label class="tool-label" for="sg-lb-hours">Opening hours <span class="sg-optional">(optional)</span></label><input type="text" id="sg-lb-hours" class="tool-input" placeholder="Mo-Fr 09:00-18:00" /></div>
+          </div>
+          <div class="sg-field"><label class="tool-label" for="sg-lb-address">Address</label><input type="text" id="sg-lb-address" class="tool-input" placeholder="123 Main St, Springfield, IL 62701" /></div>
+        </div>
+
+        <!-- Person form -->
+        <div class="sg-form" data-form="person" style="display:none;">
+          <div class="sg-grid-2">
+            <div class="sg-field"><label class="tool-label" for="sg-person-name">Full name</label><input type="text" id="sg-person-name" class="tool-input" placeholder="Alice Johnson" /></div>
+            <div class="sg-field"><label class="tool-label" for="sg-person-title">Job title</label><input type="text" id="sg-person-title" class="tool-input" placeholder="Software Engineer" /></div>
+            <div class="sg-field"><label class="tool-label" for="sg-person-url">Website URL</label><input type="url" id="sg-person-url" class="tool-input" placeholder="https://alice.dev" /></div>
+            <div class="sg-field"><label class="tool-label" for="sg-person-email">Email</label><input type="email" id="sg-person-email" class="tool-input" placeholder="alice@example.com" /></div>
+          </div>
+        </div>
+
+        <!-- Output -->
+        <div class="sg-output-section">
+          <div class="sg-output-header">
+            <span class="tool-label">JSON-LD Output</span>
+            <button class="sg-copy-btn" id="sg-copy" type="button">Copy</button>
+          </div>
+          <textarea id="sg-output" class="tool-input sg-output-textarea" readonly spellcheck="false"></textarea>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .sg-type-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-bottom: 1.25rem;
+  }
+  .sg-type-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+  }
+  .sg-type-btn:hover { background: var(--bg-soft); }
+  .sg-type-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .sg-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .sg-field { display: flex; flex-direction: column; gap: 0.25rem; }
+  .sg-optional {
+    font-size: 11px;
+    color: var(--text-3);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .sg-select {
+    appearance: auto;
+    cursor: pointer;
+  }
+  .sg-faq-item, .sg-howto-step {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+  }
+  .sg-faq-item { grid-template-columns: 1fr 1fr auto; align-items: start; }
+  .sg-howto-step { grid-template-columns: auto 1fr 1fr auto; align-items: start; }
+  .sg-step-num {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-3);
+    padding-top: 9px;
+    min-width: 16px;
+    text-align: center;
+  }
+  .sg-remove-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+    color: var(--text-3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+  .sg-remove-btn:hover { color: #dc2626; border-color: #dc2626; }
+  .sg-add-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    margin-top: 0.25rem;
+  }
+  .sg-add-btn:hover { background: var(--bg-soft); border-color: var(--accent); color: var(--accent); }
+  .sg-output-section { margin-top: 1.25rem; }
+  .sg-output-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.375rem;
+  }
+  .sg-output-header .tool-label { margin-bottom: 0; }
+  .sg-copy-btn {
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .sg-copy-btn:hover { background: var(--bg-soft); }
+  .sg-output-textarea {
+    width: 100%;
+    font-family: var(--font-mono, monospace);
+    font-size: 12px;
+    min-height: 200px;
+    resize: vertical;
+    background: var(--bg-soft);
+  }
+  @media (max-width: 600px) {
+    .sg-grid-2 { grid-template-columns: 1fr; }
+    .sg-faq-item { grid-template-columns: 1fr auto; }
+    .sg-faq-item textarea { grid-column: 1; }
+    .sg-howto-step { grid-template-columns: auto 1fr auto; }
+    .sg-howto-step textarea { grid-column: 2; }
+  }
+</style>
+<script src="../tools/schema-generator.js"></script>

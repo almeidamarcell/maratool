@@ -1,0 +1,232 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Bcrypt Generator — Hash passwords with bcrypt online | maratool',
+  description: 'Hash passwords with bcrypt in your browser. Choose cost factor (rounds), generate secure hashes, and verify passwords against existing hashes. No upload.',
+  canonical: 'https://maratool.com/bcrypt-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Bcrypt Generator',
+    url: 'https://maratool.com/bcrypt-generator',
+    applicationCategory: 'SecurityApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Hash passwords with bcrypt in your browser. No upload, runs locally.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Crypto', item: 'https://maratool.com/developer/crypto' },
+      { '@type': 'ListItem', position: 4, name: 'Bcrypt Generator', item: 'https://maratool.com/bcrypt-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is bcrypt and why is it used for passwords?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Bcrypt is a password hashing function designed by Niels Provos and David Mazières. Unlike fast hash functions (MD5, SHA-256), bcrypt is intentionally slow — the cost factor controls how many rounds of computation are needed. This makes brute-force attacks impractical even with modern hardware. It also automatically salts each hash, preventing rainbow table attacks.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What cost factor should I use?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A cost factor of 10–12 is recommended for most web applications. At factor 10, bcrypt takes ~100ms to hash one password on a modern CPU — slow enough to deter attackers but fast enough for login forms. Higher factors (12+) are appropriate for high-security applications. The minimum recommended is 10; anything below 8 is considered insecure.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does bcrypt hash the same password differently each time?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Bcrypt generates a random salt each time it hashes a password, so the same password produces a different hash on every call. The salt is embedded in the hash string itself (the $2b$rounds$salt portion), which is why the verify function only needs the password and hash — the salt is already there.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is it safe to run bcrypt in a browser?',
+        acceptedAnswer: { '@type': 'Answer', text: 'For testing and learning, yes. The bcryptjs library used here is a pure JavaScript implementation of bcrypt — no native code, no server calls. Your password never leaves your browser. For production use, always hash passwords server-side (Node.js, Python, Ruby, etc.) — never in the client.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the password to hash, adjust the cost factor (10 recommended), and click "Generate hash".',
+  'Copy the resulting bcrypt hash to use in your application.',
+  'To verify: switch to the Verify tab, enter the plaintext password and the stored hash, and click "Verify".'
+]
+
+const faq = [
+  { q: 'What is bcrypt and why is it used for passwords?', a: 'Bcrypt is intentionally slow — the cost factor controls how many computation rounds are needed. This makes brute-force attacks impractical. It also salts each hash automatically, preventing rainbow table attacks.' },
+  { q: 'What cost factor should I use?', a: 'Use 10–12 for most web applications. Factor 10 takes ~100ms per hash — slow enough to deter attackers, fast enough for login forms.' },
+  { q: 'Does bcrypt hash the same password differently each time?', a: 'Yes. A random salt is generated each time and embedded in the hash string. That\'s why the verify function can reconstruct the salt from the stored hash.' },
+  { q: 'Is it safe to run bcrypt in a browser?', a: 'For testing and learning, yes — bcryptjs is pure JavaScript, no server calls. For production, always hash passwords server-side, never in the client.' }
+]
+
+const relatedTools = [
+  { slug: 'hash-generator', name: 'Hash Generator' },
+  { slug: 'password-generator', name: 'Password Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Crypto', href: '/developer/crypto' },
+  { label: 'Bcrypt Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="bcrypt-generator" name="Bcrypt Generator" description="Hash passwords with bcrypt in your browser. Choose cost factor, generate hashes, and verify passwords. Runs locally — nothing uploaded." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height: 320px;">
+        <!-- Tabs -->
+        <div class="bcrypt-tabs">
+          <button class="bcrypt-tab active" data-tab="hash" type="button">Hash</button>
+          <button class="bcrypt-tab" data-tab="verify" type="button">Verify</button>
+        </div>
+
+        <!-- Hash panel -->
+        <div class="bcrypt-panel" data-panel="hash">
+          <div class="bcrypt-field">
+            <label class="tool-label" for="bcrypt-password">Password</label>
+            <input type="password" id="bcrypt-password" class="tool-input" placeholder="Enter password to hash" autocomplete="off" />
+          </div>
+
+          <div class="bcrypt-cost-row">
+            <label class="tool-label" for="bcrypt-cost">Cost factor: <span id="bcrypt-cost-value">10</span></label>
+            <input type="range" id="bcrypt-cost" min="4" max="12" value="10" class="bcrypt-slider" />
+            <span class="bcrypt-cost-hint">Higher = slower = more secure</span>
+          </div>
+
+          <button class="bcrypt-btn bcrypt-btn-primary" id="bcrypt-hash-btn" type="button">Generate hash</button>
+
+          <div class="bcrypt-status" id="bcrypt-hash-status"></div>
+
+          <div class="bcrypt-output-row">
+            <input type="text" id="bcrypt-hash-output" class="tool-input bcrypt-output-input" readonly placeholder="Hash will appear here…" spellcheck="false" />
+            <button class="bcrypt-btn" id="bcrypt-hash-copy" type="button">Copy</button>
+          </div>
+        </div>
+
+        <!-- Verify panel -->
+        <div class="bcrypt-panel" data-panel="verify" style="display:none;">
+          <div class="bcrypt-field">
+            <label class="tool-label" for="bcrypt-verify-password">Password</label>
+            <input type="password" id="bcrypt-verify-password" class="tool-input" placeholder="Enter the plaintext password" autocomplete="off" />
+          </div>
+          <div class="bcrypt-field">
+            <label class="tool-label" for="bcrypt-verify-hash">Bcrypt hash</label>
+            <input type="text" id="bcrypt-verify-hash" class="tool-input" placeholder="$2b$10$…" spellcheck="false" autocomplete="off" />
+          </div>
+          <button class="bcrypt-btn bcrypt-btn-primary" id="bcrypt-verify-btn" type="button">Verify</button>
+          <div class="bcrypt-verify-result" id="bcrypt-verify-result"></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .bcrypt-tabs {
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    width: fit-content;
+  }
+  .bcrypt-tab {
+    padding: 8px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-right: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s;
+  }
+  .bcrypt-tab:last-child { border-right: none; }
+  .bcrypt-tab.active { background: var(--accent); color: #fff; }
+  .bcrypt-tab:not(.active):hover { background: var(--bg-soft); }
+  .bcrypt-field { margin-bottom: 1rem; }
+  .bcrypt-cost-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .bcrypt-cost-row .tool-label { margin-bottom: 0; white-space: nowrap; }
+  .bcrypt-slider {
+    flex: 1;
+    min-width: 120px;
+    accent-color: var(--accent);
+  }
+  .bcrypt-cost-hint {
+    font-size: 11px;
+    color: var(--text-3);
+    white-space: nowrap;
+  }
+  .bcrypt-btn {
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: opacity 0.1s;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .bcrypt-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .bcrypt-btn:not(:disabled):hover { background: var(--bg-soft); }
+  .bcrypt-btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .bcrypt-btn-primary:not(:disabled):hover { opacity: 0.9; background: var(--accent); }
+  .bcrypt-status {
+    font-size: 13px;
+    margin: 0.75rem 0;
+    min-height: 20px;
+    color: var(--text-2);
+  }
+  .bcrypt-ok { color: #16a34a; }
+  .bcrypt-error { color: #dc2626; }
+  .bcrypt-output-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+  }
+  .bcrypt-output-input {
+    flex: 1;
+    font-family: var(--font-mono, monospace);
+    font-size: 12px;
+    background: var(--bg-soft);
+  }
+  .bcrypt-verify-result {
+    margin-top: 1rem;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    min-height: 44px;
+  }
+  .bcrypt-match {
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+  }
+  .bcrypt-nomatch {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+  }
+</style>
+<script src="../tools/bcrypt-generator.js"></script>
