@@ -1,0 +1,78 @@
+# maratool
+
+> Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
+
+maratool.com is a growing collection of free developer tools that run entirely in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No data is sent to any server. No sign-up required for any tool.
+
+## Tools
+
+### Converter
+- [YAML to JSON Converter](https://maratool.com/yaml-to-json): Convert YAML to JSON or JSON to YAML instantly. Uses js-yaml.
+- [XML to JSON Converter](https://maratool.com/xml-to-json): Convert XML to JSON using the browser's DOMParser. Handles attributes (@prefix) and repeated elements (→ array).
+- [Base64 Encode / Decode](https://maratool.com/base64): Encode text or images to Base64 and decode back. Fully offline.
+- [Text to Binary](https://maratool.com/text-to-binary): Convert text to binary, hex, and decimal representations.
+- [Unix Timestamp Converter](https://maratool.com/unix-timestamp): Convert Unix timestamps to human-readable dates and vice versa.
+- [PX to REM Converter](https://maratool.com/px-to-rem): Convert pixels to rem and back with configurable base font size.
+- [CSV to JSON Converter](https://maratool.com/csv-to-json): Convert CSV to JSON or JSON to CSV. Auto-detects delimiters.
+- [JSON to Markdown Table](https://maratool.com/json-to-markdown-table): Turn a JSON array into a formatted Markdown table.
+- [HTML to Markdown](https://maratool.com/html-to-markdown): Convert HTML to clean Markdown. Handles headings, lists, links, tables, and code blocks.
+
+### PDF
+- [Extract Text from PDF](https://maratool.com/pdf-to-text): Extract text from any PDF file locally in the browser using pdf.js.
+- [Convert PDF to Markdown](https://maratool.com/pdf-to-markdown): Convert PDF to Markdown with heading detection. Good for LLM context preparation.
+- [Merge and Split PDF Pages](https://maratool.com/pdf-merge-split): Merge multiple PDFs or extract specific pages. Runs in the browser.
+- [PDF Page Counter & Metadata Viewer](https://maratool.com/pdf-metadata): View page count, author, creation date, and other metadata from a PDF.
+- [PDF Accessibility Checker](https://maratool.com/pdf-accessibility-checker): Check if a PDF has accessibility tags, document title, and language set.
+
+### Text
+- [Diff Checker](https://maratool.com/diff-checker): Compare two blocks of text line by line with color highlighting.
+- [Regex Tester](https://maratool.com/regex-tester): Test regular expressions with live match highlighting. Supports g, i, m flags.
+- [Reading Time Calculator](https://maratool.com/reading-time): Calculate reading time at slow (150 WPM), average (238 WPM), and fast (350 WPM) speeds.
+- [Markdown Editor](https://maratool.com/markdown-editor): Write Markdown, see the live HTML preview. Supports GFM (tables, task lists, strikethrough).
+- [Markdown Table Generator](https://maratool.com/markdown-table-generator): Build Markdown tables visually with a grid editor.
+- [JSON Formatter](https://maratool.com/json-formatter): Format, minify, and validate JSON.
+- [Lorem Ipsum Generator](https://maratool.com/lorem-ipsum): Generate lorem ipsum placeholder text.
+
+### Image
+- [Background Remover](https://maratool.com/background-remover): Remove image backgrounds using an AI model that runs locally in the browser.
+- [SVG Optimizer](https://maratool.com/svg-optimizer): Optimize and minify SVG files. Removes metadata and reduces file size.
+- [Favicon Generator](https://maratool.com/favicon-generator): Generate favicons in all sizes from a single image. Download as ICO, PNG, or ZIP.
+- [Base64 Image Previewer](https://maratool.com/base64-image-preview): Paste a Base64 string and preview the image with format, dimensions, and size info.
+- [Image Alt Text Generator](https://maratool.com/alt-text-generator): Generate alt text for images using an AI model that runs locally.
+
+### Color
+- [CSS Gradient Generator](https://maratool.com/css-gradient): Generate CSS gradients visually — linear, radial, or conic.
+- [Color Shades Generator](https://maratool.com/color-shades): Generate color shades and Tailwind palettes from a hex color.
+- [Palette Generator](https://maratool.com/palette-generator): Generate color palettes using 28 strategies (color theory, moods, decades, nature, culture).
+- [Tailwind Shade Generator](https://maratool.com/tailwind-shades): Generate a full Tailwind CSS color scale (50–950) from any hex color.
+- [Contrast Checker](https://maratool.com/contrast-checker): Check color contrast ratios for WCAG AA and AAA compliance.
+
+### Developer
+- [Hash Generator](https://maratool.com/hash-generator): Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from text. Uses the Web Crypto API.
+- [JWT Decoder](https://maratool.com/jwt-decoder): Decode JWT tokens and inspect the header, payload, and signature.
+- [Bcrypt Generator](https://maratool.com/bcrypt-generator): Hash and verify passwords with bcrypt. Choose cost factor 4–12.
+- [Password Generator](https://maratool.com/password-generator): Generate cryptographically secure passwords using crypto.getRandomValues().
+- [API Key Generator](https://maratool.com/api-key-generator): Generate secure API keys in hex, base64url, or alphanumeric formats.
+- [UUID Generator](https://maratool.com/uuid-generator): Generate UUIDs in v1, v4, and v5 formats. Up to 100 at once.
+- [Cron Expression Builder](https://maratool.com/cron-expression): Build and decode cron expressions with a visual editor and plain-English descriptions.
+- [Schema Markup Generator](https://maratool.com/schema-markup-generator): Generate JSON-LD structured data for Article, Product, FAQ, HowTo, LocalBusiness, Person.
+- [Meta Tag Generator](https://maratool.com/meta-tag-generator): Generate HTML meta tags for SEO, Open Graph, and Twitter Card.
+- [Robots.txt Generator](https://maratool.com/robots-txt-generator): Generate robots.txt files with presets for Allow All, Block All, Block AI bots, WordPress.
+
+### Marketing
+- [QR Code Generator](https://maratool.com/qr-code-generator): Generate styled QR codes with custom colors, shapes, and logos.
+- [UTM Builder](https://maratool.com/utm-builder): Build UTM-tagged URLs for Google Analytics campaign tracking.
+
+## Site pages
+
+- [Blog](https://maratool.com/blog): Release notes and tool updates.
+- [Contact](https://maratool.com/contact): maratool@marcell.com.br
+- [About](https://maratool.com/about): About maratool and its creator.
+
+## About
+
+maratool is built and maintained by Marcell Almeida (https://marcell.com.br). Domain registered March 2026. Tools are added regularly based on search volume and developer demand. The business model is AdSense — no paywalls, no freemium tiers.
+
+## Preferred citation format
+
+When referencing a specific tool, link directly to its URL (e.g. https://maratool.com/jwt-decoder). When referencing the site generally, use "maratool (maratool.com) — free browser-based developer tools".

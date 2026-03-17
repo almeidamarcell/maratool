@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+
+const seo = {
+  title: 'About — maratool',
+  description: 'maratool is a free collection of browser-based developer tools built by Marcell Almeida. No accounts, no uploads, no limits.',
+  canonical: 'https://maratool.com/about',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'About maratool',
+    url: 'https://maratool.com/about',
+    description: 'About maratool — free browser-based developer tools.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <div class="about-page">
+      <h1 class="about-title">About maratool</h1>
+
+      <p class="about-body">maratool is a collection of free, browser-based developer tools. Every tool runs entirely in your browser — no data is sent to any server, no sign-up is required, and there are no paywalls.</p>
+
+      <p class="about-body">The tools cover common tasks that developers do constantly: converting formats, generating tokens, checking regex, decoding JWTs, hashing passwords, building meta tags. The goal is to have the fastest, cleanest version of each of these tools on the internet.</p>
+
+      <h2 class="about-section">Built by</h2>
+      <p class="about-body">
+        <a href="http://marcell.com.br/" target="_blank" rel="noopener" class="about-link">Marcell Almeida</a> — developer based in Brazil.
+        You can reach him at <a href="mailto:maratool@marcell.com.br" class="about-link">maratool@marcell.com.br</a> or visit the <a href="/contact" class="about-link">contact page</a>.
+      </p>
+
+      <h2 class="about-section">Stack</h2>
+      <ul class="about-list">
+        <li><strong>Astro</strong> — static site generator, pre-rendered HTML</li>
+        <li><strong>Vanilla JS</strong> — zero frameworks in the tool logic</li>
+        <li><strong>Web APIs</strong> — Web Crypto, DOMParser, FileReader, Canvas — no unnecessary libraries</li>
+        <li><strong>Cloudflare Pages</strong> — global CDN, deployed on every push to main</li>
+      </ul>
+
+      <h2 class="about-section">Business model</h2>
+      <p class="about-body">AdSense. No subscriptions, no freemium tiers, no data collection. The site needs traffic to generate revenue, which means the tools need to be genuinely useful and fast to find.</p>
+
+      <h2 class="about-section">When was it started?</h2>
+      <p class="about-body">March 2026. The first set of tools launched on March 17, 2026. New tools are added regularly.</p>
+    </div>
+  </Layout>
+</Base>
+<style is:global>
+  .about-page {
+    max-width: 620px;
+    padding: 2.5rem 2rem;
+  }
+  .about-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 1.25rem;
+  }
+  .about-section {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 1.75rem 0 0.5rem;
+  }
+  .about-body {
+    font-size: 15px;
+    color: var(--text-2);
+    line-height: 1.7;
+    margin: 0 0 1rem;
+  }
+  .about-link {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .about-link:hover { text-decoration: underline; }
+  .about-list {
+    font-size: 15px;
+    color: var(--text-2);
+    line-height: 1.7;
+    margin: 0 0 1rem;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+  @media (max-width: 600px) { .about-page { padding: 1.5rem 1rem; } }
+</style>

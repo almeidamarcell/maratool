@@ -1,0 +1,14 @@
+/* TEAM */
+Creator & Developer: Marcell Almeida
+Site: https://marcell.com.br
+Contact: maratool@marcell.com.br
+Location: Brazil
+
+/* SITE */
+Name: maratool
+URL: https://maratool.com
+Description: Free browser-based developer tools
+Stack: Astro, Vanilla JS, Cloudflare Pages
+Standards: HTML5, CSS3, Web Crypto API, Web APIs
+Language: English
+Last update: 2026-03-17

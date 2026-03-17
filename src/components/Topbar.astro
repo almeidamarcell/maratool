@@ -36,6 +36,7 @@ const liveTools = tools.filter(t => t.live).map(t => ({
     ))}
     <span class="topbar-nav-sep" aria-hidden="true"></span>
     <a href="/blog" class:list={['topbar-nav-link', { active: Astro.url.pathname.startsWith('/blog') }]}>Blog</a>
+    <a href="/about" class:list={['topbar-nav-link', { active: Astro.url.pathname === '/about' || Astro.url.pathname === '/about/' }]}>About</a>
     <a href="/contact" class:list={['topbar-nav-link', { active: Astro.url.pathname === '/contact' || Astro.url.pathname === '/contact/' }]}>Contact</a>
   </nav>
 </header>
