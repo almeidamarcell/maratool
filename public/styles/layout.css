@@ -33,8 +33,7 @@
   display: flex;
   align-items: center;
   gap: 0.125rem;
-  flex: 1;
-  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .topbar-nav-link {
@@ -54,6 +53,10 @@
   background: var(--bg-hover);
 }
 
+.topbar-nav-link:visited {
+  color: var(--text);
+}
+
 .topbar-nav-link.active {
   color: var(--accent);
   background: #eef2fe;
@@ -66,8 +69,8 @@
 /* ========== SEARCH ========== */
 .search-wrap {
   position: relative;
-  flex: 0 0 auto;
-  width: 220px;
+  flex: 1;
+  max-width: 480px;
 }
 
 .search-icon {
