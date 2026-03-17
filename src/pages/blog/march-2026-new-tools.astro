@@ -11,7 +11,7 @@ const seo = {
     '@type': 'BlogPosting',
     headline: '9 new free developer tools — March 2026',
     datePublished: '2026-03-17',
-    author: { '@type': 'Organization', name: 'maratool' },
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'http://marcell.com.br/' },
     publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
     url: 'https://maratool.com/blog/march-2026-new-tools',
     description: 'Today we launched 9 new browser-based developer tools at maratool.',
@@ -34,6 +34,7 @@ const seo = {
         <div class="blog-post-meta">
           <a href="/blog" class="blog-back">← Blog</a>
           <time datetime="2026-03-17" class="blog-post-date">March 17, 2026</time>
+          <span class="blog-post-author">by <a href="http://marcell.com.br/" target="_blank" rel="noopener">Marcell Almeida</a></span>
         </div>
         <h1 class="blog-post-title">9 new free developer tools — March 2026</h1>
         <p class="blog-post-lead">All of them run entirely in your browser. No accounts, no uploads, no limits.</p>
@@ -91,7 +92,7 @@ const seo = {
 
         <hr class="blog-divider" />
 
-        <p class="blog-footer-note">All tools at <a href="/">maratool.com</a> are free, run in your browser, and require no sign-up. If something doesn't work the way you expect, <a href="https://github.com/almeidamarcell/maratool/issues">open an issue on GitHub</a>.</p>
+        <p class="blog-footer-note">All tools at <a href="/">maratool.com</a> are free, run in your browser, and require no sign-up. If something doesn't work the way you expect, reach out.</p>
       </div>
     </article>
   </Layout>
@@ -117,6 +118,15 @@ const seo = {
     font-size: 12px;
     color: var(--text-3);
   }
+  .blog-post-author {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+  .blog-post-author a {
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  .blog-post-author a:hover { color: var(--accent); }
   .blog-post-header { margin-bottom: 2rem; }
   .blog-post-title {
     font-size: 1.875rem;
