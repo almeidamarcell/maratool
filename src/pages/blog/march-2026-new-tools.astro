@@ -1,0 +1,192 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: '9 new free developer tools — March 2026 | maratool',
+  description: 'Today we launched 9 new browser-based developer tools: password generator, bcrypt hash, schema markup, meta tags, robots.txt, YAML to JSON, XML to JSON, and API key generator.',
+  canonical: 'https://maratool.com/blog/march-2026-new-tools',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: '9 new free developer tools — March 2026',
+    datePublished: '2026-03-17',
+    author: { '@type': 'Organization', name: 'maratool' },
+    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
+    url: 'https://maratool.com/blog/march-2026-new-tools',
+    description: 'Today we launched 9 new browser-based developer tools at maratool.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: '9 new free developer tools — March 2026', item: 'https://maratool.com/blog/march-2026-new-tools' },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">← Blog</a>
+          <time datetime="2026-03-17" class="blog-post-date">March 17, 2026</time>
+        </div>
+        <h1 class="blog-post-title">9 new free developer tools — March 2026</h1>
+        <p class="blog-post-lead">All of them run entirely in your browser. No accounts, no uploads, no limits.</p>
+      </header>
+
+      <div class="blog-body">
+        <p>We shipped a big batch of tools today. Here's what's new.</p>
+
+        <hr class="blog-divider" />
+
+        <h2><a href="/password-generator">Password Generator</a></h2>
+        <p>Generates cryptographically secure passwords using <code>crypto.getRandomValues()</code> — the same entropy source as TLS. Choose length (8–64 characters), toggle uppercase, digits, and symbols, and exclude ambiguous characters like <code>0</code>, <code>O</code>, <code>I</code>, and <code>l</code>. A strength bar shows Weak / Fair / Good / Strong based on length and character variety. Nothing is sent anywhere.</p>
+
+        <h2><a href="/bcrypt-generator">Bcrypt Generator</a></h2>
+        <p>Hash and verify passwords with bcrypt directly in the browser, powered by <a href="https://github.com/dcodeIO/bcrypt.js">bcryptjs</a> loaded from a CDN. The Hash tab lets you pick a cost factor from 4 to 12 — higher costs take longer but are more resistant to brute force. The Verify tab checks a plaintext password against an existing hash. Useful for testing backend auth logic without spinning up a server.</p>
+
+        <h2><a href="/schema-markup-generator">Schema Markup Generator</a></h2>
+        <p>Generates valid JSON-LD structured data for six schema types: Article, Product, FAQ, HowTo, LocalBusiness, and Person. Fill in the fields, copy the <code>&lt;script type="application/ld+json"&gt;</code> block, paste it into your page's <code>&lt;head&gt;</code>. Google uses this to power rich results — FAQ dropdowns, product prices, star ratings, breadcrumbs.</p>
+
+        <h2><a href="/meta-tag-generator">Meta Tag Generator</a></h2>
+        <p>Generates the full set of meta tags needed for SEO and social sharing: <code>&lt;title&gt;</code>, meta description, canonical URL, Open Graph tags, and Twitter Card tags. Title and description fields show live character counts with color feedback — green when you're in the optimal range, amber when too short, red when too long. Open Graph and Twitter Card fields fall back to your basic title and description if left empty, so you only fill in what's different.</p>
+
+        <h2><a href="/robots-txt-generator">Robots.txt Generator</a></h2>
+        <p>Builds a valid <code>robots.txt</code> file from a visual rule builder. Four presets get you started fast:</p>
+        <ul>
+          <li><strong>Allow All</strong> — <code>User-agent: * / Allow: /</code></li>
+          <li><strong>Block All</strong> — <code>User-agent: * / Disallow: /</code></li>
+          <li><strong>Block AI bots</strong> — disallows GPTBot, CCBot, anthropic-ai, Claude-Web, and Google-Extended</li>
+          <li><strong>WordPress</strong> — blocks <code>/wp-admin/</code> and <code>/wp-includes/</code></li>
+        </ul>
+        <p>You can add custom rules, mix user agents, and include your sitemap URL. Optional crawl-delay field included.</p>
+
+        <h2><a href="/yaml-to-json">YAML to JSON Converter</a></h2>
+        <p>Converts YAML to JSON and JSON to YAML, bidirectionally. Paste into either panel and the other updates instantly. Powered by <a href="https://github.com/nodeca/js-yaml">js-yaml</a> loaded from jsDelivr. Useful for working with Kubernetes configs, GitHub Actions workflows, or any API that needs one format and you have the other.</p>
+
+        <h2><a href="/xml-to-json">XML to JSON Converter</a></h2>
+        <p>Converts XML to JSON using the browser's built-in <code>DOMParser</code> — no library needed. Attributes become keys prefixed with <code>@</code> (e.g. <code>&lt;item id="1"&gt;</code> → <code>&#123;"item": &#123;"@id": "1"&#125;&#125;</code>). Repeated sibling elements with the same tag name are automatically merged into a JSON array. Works with any well-formed XML: RSS feeds, SOAP responses, config files, SVG metadata.</p>
+
+        <h2><a href="/api-key-generator">API Key Generator</a></h2>
+        <p>Generates cryptographically secure API keys in three formats:</p>
+        <ul>
+          <li><strong>Hex</strong> — lowercase <code>a-f</code> and <code>0-9</code>. Standard format, widely supported.</li>
+          <li><strong>Base64url</strong> — URL-safe base64, more compact than hex for the same entropy.</li>
+          <li><strong>Alphanumeric</strong> — <code>A-Z a-z 0-9</code>. Most human-readable.</li>
+        </ul>
+        <p>Choose byte length from 8 to 128. At 32 bytes (64 hex chars), you get 256 bits of entropy — the same as AES-256. Generate up to 20 keys at once. All generation happens locally via <code>crypto.getRandomValues()</code>.</p>
+
+        <h2><a href="/utm-builder">UTM Builder</a></h2>
+        <p>Builds UTM-tagged URLs for Google Analytics campaign tracking. Paste a destination URL, fill in source, medium, campaign, and optional term and content parameters, and get the tagged URL instantly. The full configuration is saved in the URL hash — bookmark it or share it with your team to reuse the same UTM setup.</p>
+
+        <hr class="blog-divider" />
+
+        <h2>What else shipped</h2>
+        <p>Alongside the new tools, the site got a category navigation bar in the topbar — Converter, PDF, Text, Image, Color, Developer, and Marketing — so you can jump between tool categories without digging through the sidebar. The links are static HTML on every page, which helps search engines understand the site's structure.</p>
+
+        <hr class="blog-divider" />
+
+        <p class="blog-footer-note">All tools at <a href="/">maratool.com</a> are free, run in your browser, and require no sign-up. If something doesn't work the way you expect, <a href="https://github.com/almeidamarcell/maratool/issues">open an issue on GitHub</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>
+<style is:global>
+  .blog-post {
+    max-width: 680px;
+    padding: 2.5rem 2rem;
+  }
+  .blog-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .blog-back {
+    font-size: 13px;
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  .blog-back:hover { color: var(--accent); }
+  .blog-post-date {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+  .blog-post-header { margin-bottom: 2rem; }
+  .blog-post-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.02em;
+  }
+  .blog-post-lead {
+    font-size: 16px;
+    color: var(--text-2);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .blog-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .blog-body p { margin: 0 0 1rem; }
+  .blog-body h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 2rem 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .blog-body h2 a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .blog-body h2 a:hover { color: var(--accent); }
+  .blog-body ul {
+    margin: 0.5rem 0 1rem 1.25rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+  .blog-body li { line-height: 1.6; }
+  .blog-body code {
+    font-family: var(--font-mono, monospace);
+    font-size: 13px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: var(--text);
+  }
+  .blog-body a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .blog-body a:hover { text-decoration: underline; }
+  .blog-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+  .blog-footer-note {
+    font-size: 14px;
+    color: var(--text-2);
+    padding: 1rem;
+    background: var(--bg-soft);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 600px) {
+    .blog-post { padding: 1.5rem 1rem; }
+    .blog-post-title { font-size: 1.5rem; }
+  }
+</style>

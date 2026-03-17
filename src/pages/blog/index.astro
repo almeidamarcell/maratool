@@ -1,0 +1,116 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'Blog — maratool',
+  description: 'Updates, release notes, and tool guides from maratool — free browser-based developer tools.',
+  canonical: 'https://maratool.com/blog',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'maratool Blog',
+    url: 'https://maratool.com/blog',
+    description: 'Updates and release notes from maratool.',
+  },
+}
+
+const posts = [
+  {
+    slug: 'march-2026-new-tools',
+    title: '9 new free developer tools — March 2026',
+    date: 'March 17, 2026',
+    description: 'Password generator, bcrypt, schema markup, meta tags, robots.txt, YAML to JSON, XML to JSON, API key generator, and a new topbar nav.',
+  },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <div class="blog-index">
+      <div class="blog-index-header">
+        <h1 class="blog-index-title">Blog</h1>
+        <p class="blog-index-subtitle">Release notes and tool updates from maratool.</p>
+      </div>
+      <ul class="blog-post-list">
+        {posts.map(post => (
+          <li class="blog-post-item">
+            <a href={`/blog/${post.slug}`} class="blog-post-link">
+              <span class="blog-post-date">{post.date}</span>
+              <span class="blog-post-title">{post.title}</span>
+              <span class="blog-post-desc">{post.description}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </Layout>
+</Base>
+<style is:global>
+  .blog-index {
+    max-width: 680px;
+    padding: 2.5rem 2rem;
+  }
+  .blog-index-header { margin-bottom: 2rem; }
+  .blog-index-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 0.5rem;
+  }
+  .blog-index-subtitle {
+    font-size: 14px;
+    color: var(--text-2);
+    margin: 0;
+  }
+  .blog-post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .blog-post-item {
+    border-top: 1px solid var(--border);
+  }
+  .blog-post-item:last-child { border-bottom: 1px solid var(--border); }
+  .blog-post-link {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 1.25rem;
+    padding: 1.25rem 0;
+    text-decoration: none;
+    color: inherit;
+  }
+  .blog-post-link:hover .blog-post-title { color: var(--accent); }
+  .blog-post-date {
+    font-size: 12px;
+    color: var(--text-3);
+    padding-top: 3px;
+    grid-row: 1;
+  }
+  .blog-post-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    grid-column: 2;
+    grid-row: 1;
+    transition: color 0.1s;
+  }
+  .blog-post-desc {
+    font-size: 13px;
+    color: var(--text-2);
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: 0.25rem;
+    line-height: 1.5;
+  }
+  @media (max-width: 600px) {
+    .blog-index { padding: 1.5rem 1rem; }
+    .blog-post-link { grid-template-columns: 1fr; }
+    .blog-post-date { grid-column: 1; }
+    .blog-post-title { grid-column: 1; }
+    .blog-post-desc { grid-column: 1; }
+  }
+</style>
