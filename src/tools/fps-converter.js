@@ -193,8 +193,12 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
 
     var ff = new mod.FFmpeg()
 
+    var lastLogs = []
     ff.on('log', function (e) {
       if (e.message) {
+        console.log('[ffmpeg]', e.message)
+        lastLogs.push(e.message)
+        if (lastLogs.length > 20) lastLogs.shift()
         var timeMatch = e.message.match(/time=(\d+):(\d+):(\d+\.\d+)/)
         if (timeMatch) {
           var secs = parseInt(timeMatch[1]) * 3600 + parseInt(timeMatch[2]) * 60 + parseFloat(timeMatch[3])
@@ -205,6 +209,7 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
         }
       }
     })
+    ff._lastLogs = lastLogs
 
     progressBar.style.width = '20%'
     progressDetail.textContent = 'Loading worker...'
@@ -256,13 +261,25 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
       await ff.writeFile(inputName, fileData)
 
       progressDetail.textContent = 'Processing...'
+      if (ff._lastLogs) ff._lastLogs.length = 0
       var args = buildFfmpegArgs(inputName, outputName, selectedFps)
-      await ff.exec(args)
+      var exitCode = await ff.exec(args)
+
+      if (exitCode !== 0) {
+        var logTail = (ff._lastLogs || []).slice(-5).join('\n')
+        throw new Error('FFmpeg exited with code ' + exitCode + (logTail ? ':\n' + logTail : ''))
+      }
 
       progressBar.style.width = '95%'
       progressDetail.textContent = 'Reading output...'
 
-      var outputData = await ff.readFile(outputName)
+      var outputData
+      try {
+        outputData = await ff.readFile(outputName)
+      } catch (readErr) {
+        var logTail2 = (ff._lastLogs || []).slice(-5).join('\n')
+        throw new Error('Output file not created. FFmpeg may have failed:\n' + logTail2)
+      }
 
       // Clean up ffmpeg FS
       await ff.deleteFile(inputName)
@@ -285,7 +302,10 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
       showState('result')
     } catch (err) {
       console.error('FPS conversion failed:', err)
-      showError('Conversion failed: ' + (err.message || 'Unknown error'))
+      var msg = err.message || String(err) || 'Unknown error'
+      // Show first line in UI, full error in console
+      var firstLine = msg.split('\n')[0]
+      showError('Conversion failed: ' + firstLine + '. Check browser console for details.')
     }
   })
 
