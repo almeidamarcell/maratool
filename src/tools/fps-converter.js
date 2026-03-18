@@ -79,7 +79,7 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
   })
 
   // --- File handling ---
-  var MAX_FILE_SIZE = 500 * 1024 * 1024 // 500 MB
+  var MAX_FILE_SIZE = 1024 * 1024 * 1024 // 1 GB
 
   function handleFile(file) {
     var validation = validateVideoFile(file)
@@ -89,7 +89,7 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
     }
 
     if (file.size > MAX_FILE_SIZE) {
-      showError('File too large (' + formatFileSize(file.size) + '). Maximum is 500 MB for in-browser conversion.')
+      showError('File too large (' + formatFileSize(file.size) + '). Maximum is 1 GB for in-browser conversion.')
       return
     }
 
