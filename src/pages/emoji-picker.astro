@@ -67,7 +67,7 @@ const faq = [
   { q: 'How do I copy an emoji?', a: 'Click any emoji in the grid and it is copied to your clipboard instantly. A brief "Copied!" confirmation appears.' },
   { q: 'Can I search for a specific emoji?', a: 'Yes — type any word into the search box (e.g. "cat", "fire", "heart") and the grid filters in real time across all categories.' },
   { q: 'Do these emojis work on Discord and Slack?', a: 'Yes. These are standard Unicode emojis supported by all major platforms: Discord, Slack, WhatsApp, Twitter/X, iMessage, Android, and iOS.' },
-  { q: 'How do I make a custom animated emoji for Discord?', a: 'Use EmojiCreator.ai — upload any image and add shake, spin, sparkle, or fire animations. Download as GIF or PNG sized for Discord, Slack, or Twitch.' },
+  { q: 'How do I make a custom animated emoji for Discord?', a: 'Use <a href="https://emojicreator.ai" target="_blank" rel="noopener">EmojiCreator.ai</a> — upload any image and add shake, spin, sparkle, or fire animations. Download as GIF or PNG sized for Discord, Slack, or Twitch.' },
 ]
 
 const relatedTools = [
@@ -122,17 +122,18 @@ const breadcrumbs = [
 
       <div class="emoji-credit">
         <p>
-          Want a <strong>custom animated emoji</strong> for Discord, Slack, or Twitch?
-          Upload your image and add shake, spin, sparkle, or fire effects at
-          <a href="https://emojicreator.ai" target="_blank" rel="noopener">EmojiCreator.ai</a>
-          — the animated emoji maker this tool is powered by.
+          Powered by <a href="https://emojicreator.ai" target="_blank" rel="noopener"><strong>EmojiCreator.ai</strong></a>
+          — the free animated emoji maker. Upload any image and add shake, spin, sparkle, or fire animations.
+          Download sized for Discord, Slack, or Twitch.
         </p>
       </div>
     </ToolShell>
   </Layout>
 </Base>
 
-<script define:vars={{ emojiData }}></script>
+<script define:vars={{ emojiData }}>
+  window.__emojiData = emojiData
+</script>
 <script src="../tools/emoji-picker.js"></script>
 
 <style is:global>

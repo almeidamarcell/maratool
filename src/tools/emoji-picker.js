@@ -1,4 +1,5 @@
 (function () {
+  var emojiData = window.__emojiData || {}
   var searchInput = document.getElementById('emoji-search')
   var grid = document.getElementById('emoji-grid')
   var tabs = document.querySelectorAll('.emoji-tab')
