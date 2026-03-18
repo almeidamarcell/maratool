@@ -15,6 +15,7 @@
     "astro": "^5.17.1"
   },
   "devDependencies": {
+    "emoji.json": "^16.0.0",
     "jsdom": "^29.0.0",
     "vitest": "^3.2.4"
   }

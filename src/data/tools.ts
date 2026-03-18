@@ -455,6 +455,17 @@ export const tools: Tool[] = [
     keywords: ['cron', 'schedule', 'expression', 'job', 'interval'],
     live: true,
   },
+  // ── Text / Emoji ──
+  {
+    slug: 'emoji-picker',
+    name: 'Emoji Picker — Copy & Paste Any Emoji',
+    emoji: '😀',
+    description: 'Click any emoji to instantly copy it to your clipboard. Search and browse 2,300+ Unicode emojis by category.',
+    category: 'Text',
+    subcategory: 'Generate',
+    keywords: ['copy paste emoji', 'emoji picker', 'emoji keyboard', 'emoji copy', 'emoji search', 'emoji finder', 'emoji browser'],
+    live: true,
+  },
   // ── Marketing / Builder ──
   {
     slug: 'qr-code-generator',

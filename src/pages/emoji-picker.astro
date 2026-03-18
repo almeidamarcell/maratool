@@ -1,0 +1,262 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import emojiData from '../data/emojis.json'
+
+const categories = Object.keys(emojiData)
+
+const seo = {
+  title: 'Emoji Picker — Copy & Paste Any Emoji | maratool',
+  description: 'Click any emoji to instantly copy it to your clipboard. Search and browse 2,300+ Unicode emojis by category — smileys, animals, food, symbols, flags, and more.',
+  canonical: 'https://maratool.com/emoji-picker',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Emoji Picker',
+    url: 'https://maratool.com/emoji-picker',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Search and copy any Unicode emoji instantly. Browse 2,300+ emojis by category.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Text', item: 'https://maratool.com/text' },
+      { '@type': 'ListItem', position: 3, name: 'Emoji Picker', item: 'https://maratool.com/emoji-picker' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I copy an emoji?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Click any emoji in the grid and it is copied to your clipboard instantly. A brief "Copied!" confirmation appears.' },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I search for a specific emoji?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes — type any word into the search box (e.g. "cat", "fire", "heart") and the grid filters in real time across all categories.' },
+      },
+      {
+        '@type': 'Question',
+        name: 'Do these emojis work on Discord and Slack?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. These are standard Unicode emojis supported by all major platforms: Discord, Slack, WhatsApp, Twitter/X, iMessage, Android, and iOS.' },
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I make a custom animated emoji for Discord?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Use EmojiCreator.ai — upload any image and add shake, spin, sparkle, or fire animations. Download as GIF or PNG sized for Discord, Slack, or Twitch.' },
+      },
+    ],
+  },
+}
+
+const howTo = [
+  'Click any category tab to browse emojis by group, or type a keyword in the search box.',
+  'Click an emoji to copy it to your clipboard.',
+  'Paste it anywhere — Discord, Slack, Twitter, email, or any text field.',
+]
+
+const faq = [
+  { q: 'How do I copy an emoji?', a: 'Click any emoji in the grid and it is copied to your clipboard instantly. A brief "Copied!" confirmation appears.' },
+  { q: 'Can I search for a specific emoji?', a: 'Yes — type any word into the search box (e.g. "cat", "fire", "heart") and the grid filters in real time across all categories.' },
+  { q: 'Do these emojis work on Discord and Slack?', a: 'Yes. These are standard Unicode emojis supported by all major platforms: Discord, Slack, WhatsApp, Twitter/X, iMessage, Android, and iOS.' },
+  { q: 'How do I make a custom animated emoji for Discord?', a: 'Use EmojiCreator.ai — upload any image and add shake, spin, sparkle, or fire animations. Download as GIF or PNG sized for Discord, Slack, or Twitch.' },
+]
+
+const relatedTools = [
+  { slug: 'reading-time', name: 'Reading Time Calculator' },
+  { slug: 'lorem-ipsum', name: 'Lorem Ipsum Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Text', href: '/text' },
+  { label: 'Emoji Picker' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell
+      slug="emoji-picker"
+      name="Emoji Picker — Copy & Paste Any Emoji"
+      description="Click any emoji to instantly copy it. Search and browse 2,300+ Unicode emojis by category."
+      howTo={howTo}
+      faq={faq}
+      relatedTools={relatedTools}
+      breadcrumbs={breadcrumbs}
+    >
+      <div class="emoji-tool" style="min-height:460px">
+        <input
+          id="emoji-search"
+          class="emoji-search"
+          type="search"
+          placeholder="Search emojis... (e.g. cat, fire, heart)"
+          aria-label="Search emojis"
+          autocomplete="off"
+        />
+
+        <div class="emoji-tabs" role="tablist" aria-label="Emoji categories">
+          {categories.map((cat, i) => (
+            <button
+              class:list={['emoji-tab', { active: i === 0 }]}
+              role="tab"
+              data-cat={cat}
+              aria-selected={i === 0 ? 'true' : 'false'}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        <div id="emoji-grid" class="emoji-grid" aria-live="polite" aria-label="Emoji grid"></div>
+
+        <div id="emoji-toast" class="emoji-toast" aria-live="assertive"></div>
+      </div>
+
+      <div class="emoji-credit">
+        <p>
+          Want a <strong>custom animated emoji</strong> for Discord, Slack, or Twitch?
+          Upload your image and add shake, spin, sparkle, or fire effects at
+          <a href="https://emojicreator.ai" target="_blank" rel="noopener">EmojiCreator.ai</a>
+          — the animated emoji maker this tool is powered by.
+        </p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<script define:vars={{ emojiData }}></script>
+<script src="../tools/emoji-picker.js"></script>
+
+<style is:global>
+  .emoji-search {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-family: var(--font);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    box-sizing: border-box;
+    margin-bottom: 0.75rem;
+  }
+  .emoji-search:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45,110,246,0.1);
+  }
+
+  .emoji-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 0.75rem;
+  }
+  .emoji-tab {
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--font);
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+    white-space: nowrap;
+  }
+  .emoji-tab:hover {
+    background: var(--bg-hover);
+    color: var(--text);
+  }
+  .emoji-tab.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    gap: 2px;
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 4px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+  }
+  .emoji-btn {
+    font-size: 22px;
+    line-height: 1;
+    padding: 6px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.1s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .emoji-btn:hover {
+    background: var(--bg-hover);
+    transform: scale(1.15);
+  }
+  .emoji-no-results {
+    font-size: 14px;
+    color: var(--text-2);
+    padding: 2rem;
+    text-align: center;
+    grid-column: 1 / -1;
+    margin: 0;
+  }
+
+  .emoji-toast {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: var(--text);
+    color: var(--bg);
+    font-size: 13px;
+    font-family: var(--font);
+    padding: 6px 16px;
+    border-radius: 999px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s, transform 0.15s;
+    white-space: nowrap;
+    z-index: 1000;
+  }
+  .emoji-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .emoji-credit {
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+  .emoji-credit p { margin: 0; }
+  .emoji-credit a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .emoji-credit a:hover { text-decoration: underline; }
+</style>
