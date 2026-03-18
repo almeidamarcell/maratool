@@ -174,11 +174,12 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
   var ffmpegLoaded = false
   var fetchFile = null
 
-  // CDN URLs
+  // CDN URLs — must use ESM build consistently so the module worker
+  // can dynamic-import() the core as an ES module from a blob URL
   var CDN_BASE = 'https://cdn.jsdelivr.net/npm'
-  var CORE_URL = CDN_BASE + '/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js'
-  var WASM_URL = CDN_BASE + '/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.wasm'
-  var WORKER_URL = CDN_BASE + '/@ffmpeg/ffmpeg@0.12.10/dist/umd/814.ffmpeg.js'
+  var CORE_URL = CDN_BASE + '/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js'
+  var WASM_URL = CDN_BASE + '/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.wasm'
+  var WORKER_URL = CDN_BASE + '/@ffmpeg/ffmpeg@0.12.10/dist/esm/worker.js'
 
   // Convert a CDN URL to a same-origin blob URL
   // (needed because blob Workers can't importScripts cross-origin reliably)
