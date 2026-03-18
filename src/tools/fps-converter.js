@@ -164,8 +164,11 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
   })
 
   // --- FFmpeg loading ---
+  var ffmpegLoaded = false
+  var fetchFile = null
+
   async function loadFfmpeg() {
-    if (ffmpeg) return ffmpeg
+    if (ffmpeg && ffmpegLoaded) return ffmpeg
 
     showState('progress')
     progressText.textContent = 'Loading FFmpeg engine...'
@@ -174,11 +177,11 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
 
     var mod = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js')
     var utilMod = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js')
+    fetchFile = utilMod.fetchFile
 
-    ffmpeg = new mod.FFmpeg()
-    ffmpeg._fetchFile = utilMod.fetchFile
+    var ff = new mod.FFmpeg()
 
-    ffmpeg.on('log', function (e) {
+    ff.on('log', function (e) {
       // Parse progress from ffmpeg log output
       if (e.message) {
         var timeMatch = e.message.match(/time=(\d+):(\d+):(\d+\.\d+)/)
@@ -195,9 +198,13 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
     progressBar.style.width = '30%'
     progressDetail.textContent = 'Initializing FFmpeg...'
 
-    await ffmpeg.load({
-      coreURL: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js',
+    await ff.load({
+      coreURL: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js',
     })
+
+    // Only cache after successful load
+    ffmpeg = ff
+    ffmpegLoaded = true
 
     progressBar.style.width = '50%'
     progressDetail.textContent = 'FFmpeg ready'
@@ -223,7 +230,7 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
       var inputName = 'input' + getExtension(currentFilename)
       var outputName = getOutputFilename(currentFilename, selectedFps)
 
-      var fileData = await ff._fetchFile(currentFile)
+      var fileData = await fetchFile(currentFile)
       await ff.writeFile(inputName, fileData)
 
       progressDetail.textContent = 'Processing...'
