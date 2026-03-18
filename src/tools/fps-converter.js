@@ -174,10 +174,19 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
   var ffmpegLoaded = false
   var fetchFile = null
 
-  // CDN base URLs — use UMD builds (no SharedArrayBuffer/COOP/COEP needed)
-  var CORE_URL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js'
-  var WASM_URL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.wasm'
-  var WORKER_URL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/814.ffmpeg.js'
+  // CDN URLs
+  var CDN_BASE = 'https://cdn.jsdelivr.net/npm'
+  var CORE_URL = CDN_BASE + '/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js'
+  var WASM_URL = CDN_BASE + '/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.wasm'
+  var WORKER_URL = CDN_BASE + '/@ffmpeg/ffmpeg@0.12.10/dist/umd/814.ffmpeg.js'
+
+  // Convert a CDN URL to a same-origin blob URL
+  // (needed because blob Workers can't importScripts cross-origin reliably)
+  async function toBlobURL(url, mimeType) {
+    var response = await fetch(url)
+    var blob = new Blob([await response.arrayBuffer()], { type: mimeType })
+    return URL.createObjectURL(blob)
+  }
 
   async function loadFfmpeg() {
     if (ffmpeg && ffmpegLoaded) return ffmpeg
@@ -187,8 +196,8 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
     progressBar.style.width = '0%'
     progressDetail.textContent = 'Downloading ~25 MB (cached after first use)'
 
-    var mod = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js')
-    var utilMod = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js')
+    var mod = await import(CDN_BASE + '/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js')
+    var utilMod = await import(CDN_BASE + '/@ffmpeg/util@0.12.1/dist/esm/index.js')
     fetchFile = utilMod.fetchFile
 
     var ff = new mod.FFmpeg()
@@ -211,21 +220,24 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
     })
     ff._lastLogs = lastLogs
 
+    progressBar.style.width = '10%'
+    progressDetail.textContent = 'Downloading FFmpeg core...'
+
+    // Fetch all assets and convert to same-origin blob URLs
+    // This avoids cross-origin Worker/importScripts restrictions
+    var coreBlobURL = await toBlobURL(CORE_URL, 'text/javascript')
     progressBar.style.width = '20%'
+    var wasmBlobURL = await toBlobURL(WASM_URL, 'application/wasm')
+    progressBar.style.width = '40%'
     progressDetail.textContent = 'Loading worker...'
+    var workerBlobURL = await toBlobURL(WORKER_URL, 'text/javascript')
 
-    // Fetch worker script and create same-origin blob URL
-    // (browsers block cross-origin Web Workers from CDN)
-    var workerResponse = await fetch(WORKER_URL)
-    var workerBlob = new Blob([await workerResponse.text()], { type: 'text/javascript' })
-    var workerBlobURL = URL.createObjectURL(workerBlob)
-
-    progressBar.style.width = '30%'
+    progressBar.style.width = '45%'
     progressDetail.textContent = 'Initializing FFmpeg...'
 
     await ff.load({
-      coreURL: CORE_URL,
-      wasmURL: WASM_URL,
+      coreURL: coreBlobURL,
+      wasmURL: wasmBlobURL,
       classWorkerURL: workerBlobURL,
     })
 
