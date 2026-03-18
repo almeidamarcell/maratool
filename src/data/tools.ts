@@ -102,6 +102,17 @@ export const tools: Tool[] = [
     keywords: ['px to rem', 'rem to px', 'pixel to rem converter', 'css unit converter', 'rem calculator', 'font size converter'],
     live: true,
   },
+  // ── Converter / Video ──
+  {
+    slug: 'fps-converter',
+    name: 'FPS Converter — Change Video Frame Rate',
+    emoji: '🎬',
+    description: 'Change video frame rate (FPS) online — convert between 24, 30, 60 fps and more. Runs entirely in your browser.',
+    category: 'Converter',
+    subcategory: 'Video',
+    keywords: ['fps converter', 'change video frame rate', 'convert fps', 'video frame rate converter', '30fps to 60fps', '60fps to 24fps', 'change fps online'],
+    live: true,
+  },
   // ── PDF / Extract ──
   {
     slug: 'pdf-to-text',
@@ -493,7 +504,7 @@ export const tools: Tool[] = [
 export const categoryOrder = ['Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing'] as const
 
 export const subcategoryOrderByCategory: Record<string, string[]> = {
-  Converter: ['Format', 'Unit'],
+  Converter: ['Format', 'Unit', 'Video'],
   PDF: ['Extract', 'Edit', 'Inspect'],
   Text: ['Analyze', 'Edit', 'Generate'],
   Image: ['Transform', 'Inspect'],
