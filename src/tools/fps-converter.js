@@ -195,11 +195,21 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
       }
     })
 
+    progressBar.style.width = '20%'
+    progressDetail.textContent = 'Loading worker...'
+
+    // Fetch worker script and create same-origin blob URL
+    // (browsers block cross-origin Web Workers)
+    var workerResponse = await fetch('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/worker.js')
+    var workerBlob = new Blob([await workerResponse.text()], { type: 'text/javascript' })
+    var workerURL = URL.createObjectURL(workerBlob)
+
     progressBar.style.width = '30%'
     progressDetail.textContent = 'Initializing FFmpeg...'
 
     await ff.load({
       coreURL: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js',
+      classWorkerURL: workerURL,
     })
 
     // Only cache after successful load
