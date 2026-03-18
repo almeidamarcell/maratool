@@ -79,10 +79,17 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
   })
 
   // --- File handling ---
+  var MAX_FILE_SIZE = 500 * 1024 * 1024 // 500 MB
+
   function handleFile(file) {
     var validation = validateVideoFile(file)
     if (!validation.valid) {
       showError(validation.error)
+      return
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      showError('File too large (' + formatFileSize(file.size) + '). Maximum is 500 MB for in-browser conversion.')
       return
     }
 
@@ -167,6 +174,11 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
   var ffmpegLoaded = false
   var fetchFile = null
 
+  // CDN base URLs — use UMD builds (no SharedArrayBuffer/COOP/COEP needed)
+  var CORE_URL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js'
+  var WASM_URL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.wasm'
+  var WORKER_URL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/814.ffmpeg.js'
+
   async function loadFfmpeg() {
     if (ffmpeg && ffmpegLoaded) return ffmpeg
 
@@ -182,7 +194,6 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
     var ff = new mod.FFmpeg()
 
     ff.on('log', function (e) {
-      // Parse progress from ffmpeg log output
       if (e.message) {
         var timeMatch = e.message.match(/time=(\d+):(\d+):(\d+\.\d+)/)
         if (timeMatch) {
@@ -199,17 +210,18 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
     progressDetail.textContent = 'Loading worker...'
 
     // Fetch worker script and create same-origin blob URL
-    // (browsers block cross-origin Web Workers)
-    var workerResponse = await fetch('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/worker.js')
+    // (browsers block cross-origin Web Workers from CDN)
+    var workerResponse = await fetch(WORKER_URL)
     var workerBlob = new Blob([await workerResponse.text()], { type: 'text/javascript' })
-    var workerURL = URL.createObjectURL(workerBlob)
+    var workerBlobURL = URL.createObjectURL(workerBlob)
 
     progressBar.style.width = '30%'
     progressDetail.textContent = 'Initializing FFmpeg...'
 
     await ff.load({
-      coreURL: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js',
-      classWorkerURL: workerURL,
+      coreURL: CORE_URL,
+      wasmURL: WASM_URL,
+      classWorkerURL: workerBlobURL,
     })
 
     // Only cache after successful load
