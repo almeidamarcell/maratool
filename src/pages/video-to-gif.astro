@@ -189,6 +189,58 @@ const breadcrumbs = [
                   <option value="3">3 times</option>
                 </select>
               </div>
+              <div class="vtg-option">
+                <label class="vtg-label">Speed</label>
+                <div class="vtg-fps-row">
+                  <div class="vtg-fps-presets" id="vtg-speed-presets">
+                    <button type="button" class="vtg-fps-btn" data-speed="0.5">0.5×</button>
+                    <button type="button" class="vtg-fps-btn active" data-speed="1">1×</button>
+                    <button type="button" class="vtg-fps-btn" data-speed="1.5">1.5×</button>
+                    <button type="button" class="vtg-fps-btn" data-speed="2">2×</button>
+                  </div>
+                </div>
+              </div>
+              <div class="vtg-option">
+                <label class="vtg-checkbox-label">
+                  <input type="checkbox" id="vtg-reverse" />
+                  Reverse playback
+                </label>
+                <span class="vtg-hint">Plays the GIF backwards</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text overlay -->
+          <div class="vtg-section">
+            <span class="vtg-section-label">Text Overlay (optional)</span>
+            <div class="vtg-text-grid">
+              <div class="vtg-option" style="grid-column: 1 / -1;">
+                <input type="text" id="vtg-text" class="vtg-text-input" placeholder="Enter text to overlay on GIF..." maxlength="100" />
+              </div>
+              <div class="vtg-option">
+                <label class="vtg-label" for="vtg-text-size">Size</label>
+                <select id="vtg-text-size" class="vtg-select">
+                  <option value="24">Small</option>
+                  <option value="36" selected>Medium</option>
+                  <option value="48">Large</option>
+                </select>
+              </div>
+              <div class="vtg-option">
+                <label class="vtg-label" for="vtg-text-pos">Position</label>
+                <select id="vtg-text-pos" class="vtg-select">
+                  <option value="top">Top</option>
+                  <option value="center">Center</option>
+                  <option value="bottom" selected>Bottom</option>
+                </select>
+              </div>
+              <div class="vtg-option">
+                <label class="vtg-label" for="vtg-text-color">Color</label>
+                <select id="vtg-text-color" class="vtg-select">
+                  <option value="white" selected>White</option>
+                  <option value="black">Black</option>
+                  <option value="yellow">Yellow</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -390,6 +442,20 @@ const breadcrumbs = [
   }
   .vtg-result-actions {
     display: flex; gap: 0.75rem; align-items: center; justify-content: center;
+  }
+
+  .vtg-text-input {
+    width: 100%; padding: 6px 10px; font-size: 13px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--bg); color: var(--text);
+  }
+  .vtg-text-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75rem;
+  }
+  .vtg-checkbox-label {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.875rem; color: var(--text); cursor: pointer;
   }
 
   @media (max-width: 768px) {

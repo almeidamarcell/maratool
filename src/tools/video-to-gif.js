@@ -1,4 +1,5 @@
 import { validateVideoFile, formatDuration, formatFileSize } from './fps-converter-core.js'
+import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncodePassArgs, validateGifOptions } from './video-to-gif-core.js'
 
 ;(function () {
   'use strict'
@@ -21,6 +22,12 @@ import { validateVideoFile, formatDuration, formatFileSize } from './fps-convert
   var fpsCustom = document.getElementById('vtg-fps-custom')
   var widthInput = document.getElementById('vtg-width')
   var loopSelect = document.getElementById('vtg-loop')
+  var speedPresetsEl = document.getElementById('vtg-speed-presets')
+  var reverseCheckbox = document.getElementById('vtg-reverse')
+  var textInput = document.getElementById('vtg-text')
+  var textSizeSelect = document.getElementById('vtg-text-size')
+  var textPosSelect = document.getElementById('vtg-text-pos')
+  var textColorSelect = document.getElementById('vtg-text-color')
   var convertBtn = document.getElementById('vtg-convert')
   var changeBtn = document.getElementById('vtg-change')
   var progressEl = document.getElementById('vtg-progress')
@@ -44,6 +51,7 @@ import { validateVideoFile, formatDuration, formatFileSize } from './fps-convert
   var previewUrl = null
   var resultBlobUrl = null
   var selectedFps = 10
+  var selectedSpeed = 1
   var videoDuration = 0
   var MAX_FILE_SIZE = 200 * 1024 * 1024
 
@@ -127,6 +135,16 @@ import { validateVideoFile, formatDuration, formatFileSize } from './fps-convert
     if (val && val > 0) { fpsBtns.forEach(function (b) { b.classList.remove('active') }); selectedFps = val }
   })
 
+  // ── Speed presets ──
+  var speedBtns = speedPresetsEl.querySelectorAll('.vtg-fps-btn')
+  speedBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      speedBtns.forEach(function (b) { b.classList.remove('active') })
+      btn.classList.add('active')
+      selectedSpeed = parseFloat(btn.dataset.speed)
+    })
+  })
+
   // ── FFmpeg loading (uses shared ffmpeg-loader.js) ──
   async function loadFfmpeg() {
     if (ffmpeg && ffmpegLoaded) return ffmpeg
@@ -174,10 +192,12 @@ import { validateVideoFile, formatDuration, formatFileSize } from './fps-convert
     var trimStart = parseFloat(startInput.value) || 0
     var trimEnd = parseFloat(endInput.value) || videoDuration
     var trimLen = trimEnd - trimStart
+    var fps = selectedFps
+    var speed = selectedSpeed
+    var reverseEnabled = reverseCheckbox.checked
 
-    if (trimLen <= 0) { showError('End time must be after start time.'); return }
-    if (trimLen > 60) { showError('Maximum GIF duration is 60 seconds.'); return }
-    if (selectedFps < 1 || selectedFps > 50) { showError('FPS must be between 1 and 50.'); return }
+    var validation = validateGifOptions({ trimLen: trimLen, fps: fps, speed: speed })
+    if (!validation.valid) { showError(validation.error); return }
 
     try {
       var ff = await loadFfmpeg()
@@ -194,21 +214,26 @@ import { validateVideoFile, formatDuration, formatFileSize } from './fps-convert
       var fileData = await fetchFile(currentFile)
       await ff.writeFile(inputName, fileData)
 
-      var fps = selectedFps
       var loop = parseInt(loopSelect.value, 10)
       var outputWidth = parseInt(widthInput.value, 10)
-      var scaleFilter = outputWidth > 0 ? ',scale=' + outputWidth + ':-1:flags=lanczos' : ''
+
+      var baseFilters = buildBaseFilters({ fps: fps, speed: speed, width: outputWidth, reverse: reverseEnabled })
+
+      var drawtextFilter = buildDrawtextFilter({
+        text: textInput.value,
+        size: parseInt(textSizeSelect.value, 10),
+        position: textPosSelect.value,
+        color: textColorSelect.value,
+      })
 
       // Pass 1: generate palette
       progressDetail.textContent = 'Generating color palette...'
       ff._lastLogs.length = 0
 
-      var ret1 = await ff.exec([
-        '-ss', String(trimStart), '-t', String(trimLen),
-        '-i', inputName,
-        '-vf', 'fps=' + fps + scaleFilter + ',palettegen=stats_mode=diff',
-        '-y', paletteName
-      ])
+      var pass1Args = buildPalettePassArgs({
+        trimStart: trimStart, trimLen: trimLen, inputName: inputName, paletteName: paletteName, baseFilters: baseFilters
+      })
+      var ret1 = await ff.exec(pass1Args)
       if (ret1 !== 0) {
         throw new Error('Palette generation failed (code ' + ret1 + '): ' + ff._lastLogs.slice(-3).join(' '))
       }
@@ -217,13 +242,11 @@ import { validateVideoFile, formatDuration, formatFileSize } from './fps-convert
       progressDetail.textContent = 'Encoding GIF...'
       ff._lastLogs.length = 0
 
-      var ret2 = await ff.exec([
-        '-ss', String(trimStart), '-t', String(trimLen),
-        '-i', inputName, '-i', paletteName,
-        '-lavfi', 'fps=' + fps + scaleFilter + ' [x]; [x][1:v] paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle',
-        '-loop', String(loop),
-        '-y', outputName
-      ])
+      var pass2Args = buildEncodePassArgs({
+        trimStart: trimStart, trimLen: trimLen, inputName: inputName, paletteName: paletteName,
+        outputName: outputName, baseFilters: baseFilters, drawtextFilter: drawtextFilter, loop: loop
+      })
+      var ret2 = await ff.exec(pass2Args)
       if (ret2 !== 0) {
         throw new Error('GIF encoding failed (code ' + ret2 + '): ' + ff._lastLogs.slice(-3).join(' '))
       }
@@ -243,7 +266,9 @@ import { validateVideoFile, formatDuration, formatFileSize } from './fps-convert
 
       resultImg.src = resultBlobUrl
       var widthLabel = outputWidth > 0 ? outputWidth + 'px wide' : 'original size'
-      resultStats.innerHTML = '<strong>' + trimLen.toFixed(1) + 's</strong> at <strong>' + fps + ' fps</strong> \u2014 ' + widthLabel + ' \u2014 <strong>' + formatFileSize(blob.size) + '</strong>'
+      var speedLabel = speed !== 1 ? ' at ' + speed + '\u00d7 speed' : ''
+      var reverseLabel = reverseEnabled ? ' (reversed)' : ''
+      resultStats.innerHTML = '<strong>' + trimLen.toFixed(1) + 's</strong> at <strong>' + fps + ' fps</strong>' + speedLabel + reverseLabel + ' \u2014 ' + widthLabel + ' \u2014 <strong>' + formatFileSize(blob.size) + '</strong>'
 
       showState('result')
     } catch (err) {
@@ -268,10 +293,16 @@ import { validateVideoFile, formatDuration, formatFileSize } from './fps-convert
 
   // ── Reset ──
   function reset() {
-    fileInput.value = ''; currentFile = null; videoDuration = 0; selectedFps = 10
+    fileInput.value = ''; currentFile = null; videoDuration = 0; selectedFps = 10; selectedSpeed = 1
     if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = null }
     if (resultBlobUrl) { URL.revokeObjectURL(resultBlobUrl); resultBlobUrl = null }
     fpsBtns.forEach(function (b) { b.classList.toggle('active', b.dataset.fps === '10') })
+    speedBtns.forEach(function (b) { b.classList.toggle('active', b.dataset.speed === '1') })
+    reverseCheckbox.checked = false
+    textInput.value = ''
+    textSizeSelect.value = '36'
+    textPosSelect.value = 'bottom'
+    textColorSelect.value = 'white'
     fpsCustom.value = ''; widthInput.value = ''
     showState('dropzone')
   }
