@@ -1,0 +1,258 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Text Scratchpad — Find, Replace & Transform | maratool',
+  description: 'A quick text editor with find & replace, case transforms (uppercase, lowercase, title case), slug generation, sort lines, and more. Free, no sign-up.',
+  canonical: 'https://maratool.com/text-scratchpad',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Text Scratchpad',
+    url: 'https://maratool.com/text-scratchpad',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Quick text editor with find & replace, case transforms, and text manipulation tools.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Text', item: 'https://maratool.com/text' },
+      { '@type': 'ListItem', position: 3, name: 'Edit', item: 'https://maratool.com/text/edit' },
+      { '@type': 'ListItem', position: 4, name: 'Text Scratchpad', item: 'https://maratool.com/text-scratchpad' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I convert text to uppercase online?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Paste your text into the scratchpad, then click the UPPERCASE button. The entire text is converted instantly. You can also use lowercase, Title Case, camelCase, or slug-case transforms.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I use regex in find and replace?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Toggle the "Regex" switch in the Find & Replace panel to enable regular expression matching. This supports full JavaScript regex syntax including capture groups in the replacement.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I remove duplicate lines from text?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Paste your text and click the "Remove duplicates" button. It keeps the first occurrence of each unique line and removes all subsequent duplicates.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I sort lines alphabetically?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Click "Sort A-Z" to sort lines in ascending order, or "Sort Z-A" for descending order. Sorting is case-insensitive by default.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste or type your text in the editor area.',
+  'Use the toolbar buttons to transform text: change case, sort lines, remove duplicates, or trim whitespace.',
+  'Open the Find & Replace panel to search (with optional regex) and replace text.'
+]
+
+const faq = [
+  { q: 'How do I convert text to uppercase online?', a: 'Paste your text, then click the UPPERCASE button. You can also use lowercase, Title Case, camelCase, or slug-case.' },
+  { q: 'Can I use regex in find and replace?', a: 'Yes. Toggle the "Regex" switch to enable regular expression matching with full JavaScript regex syntax.' },
+  { q: 'How do I remove duplicate lines from text?', a: 'Click "Remove duplicates" to keep the first occurrence of each unique line and remove all subsequent duplicates.' },
+  { q: 'How do I sort lines alphabetically?', a: 'Click "Sort A-Z" for ascending or "Sort Z-A" for descending. Sorting is case-insensitive.' }
+]
+
+const relatedTools = [
+  { slug: 'diff-checker', name: 'Diff Checker' },
+  { slug: 'reading-time', name: 'Reading Time Calculator' },
+  { slug: 'markdown-editor', name: 'Markdown Editor' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Text', href: '/text' },
+  { label: 'Edit', href: '/text/edit' },
+  { label: 'Text Scratchpad' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="text-scratchpad" name="Text Scratchpad — Find, Replace & Transform" description="A quick text editor with case transforms, find & replace, sort, deduplicate, and more." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="ts-toolbar">
+          <div class="ts-toolbar-group">
+            <span class="ts-toolbar-label">Transform</span>
+            <button class="ts-btn" data-action="uppercase">UPPER</button>
+            <button class="ts-btn" data-action="lowercase">lower</button>
+            <button class="ts-btn" data-action="titlecase">Title</button>
+            <button class="ts-btn" data-action="sentencecase">Sentence</button>
+            <button class="ts-btn" data-action="camelcase">camelCase</button>
+            <button class="ts-btn" data-action="slugcase">slug-case</button>
+          </div>
+          <div class="ts-toolbar-group">
+            <span class="ts-toolbar-label">Lines</span>
+            <button class="ts-btn" data-action="sort-asc">Sort A-Z</button>
+            <button class="ts-btn" data-action="sort-desc">Sort Z-A</button>
+            <button class="ts-btn" data-action="dedup">Remove duplicates</button>
+            <button class="ts-btn" data-action="trim">Trim whitespace</button>
+          </div>
+        </div>
+
+        <div class="ts-find-replace" id="ts-find-replace">
+          <div class="ts-fr-toggle">
+            <button class="ts-btn ts-fr-btn" id="ts-fr-toggle">Find & Replace</button>
+          </div>
+          <div class="ts-fr-panel" id="ts-fr-panel" style="display:none;">
+            <div class="ts-fr-row">
+              <input type="text" id="ts-find" class="tool-input ts-fr-input" placeholder="Find" />
+              <input type="text" id="ts-replace" class="tool-input ts-fr-input" placeholder="Replace with" />
+              <label class="ts-fr-regex">
+                <input type="checkbox" id="ts-regex" /> Regex
+              </label>
+              <button class="ts-btn ts-fr-action" id="ts-replace-btn">Replace All</button>
+            </div>
+            <div class="ts-fr-status" id="ts-fr-status"></div>
+          </div>
+        </div>
+
+        <textarea id="ts-textarea" class="tool-input ts-textarea" placeholder="Paste or type your text here..." rows="16"></textarea>
+
+        <div class="ts-stats" id="ts-stats">
+          <span id="ts-words">0 words</span>
+          <span class="ts-stat-sep">&middot;</span>
+          <span id="ts-chars">0 characters</span>
+          <span class="ts-stat-sep">&middot;</span>
+          <span id="ts-lines">0 lines</span>
+        </div>
+
+        <button class="copy-btn ts-copy" id="ts-copy">Copy text</button>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .ts-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .ts-toolbar-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem;
+  }
+  .ts-toolbar-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-3);
+    margin-right: 0.25rem;
+  }
+  .ts-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s;
+    white-space: nowrap;
+  }
+  .ts-btn:hover {
+    background: var(--bg-soft);
+    color: var(--text);
+  }
+
+  .ts-find-replace {
+    margin-bottom: 0.75rem;
+  }
+  .ts-fr-btn {
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .ts-fr-panel {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .ts-fr-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .ts-fr-input {
+    flex: 1;
+    min-width: 120px;
+    font-size: 14px;
+  }
+  .ts-fr-regex {
+    font-size: 12px;
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .ts-fr-action {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .ts-fr-action:hover {
+    opacity: 0.9;
+    background: var(--accent);
+    color: #fff;
+  }
+  .ts-fr-status {
+    font-size: 12px;
+    color: var(--text-3);
+    margin-top: 0.375rem;
+    min-height: 18px;
+  }
+
+  .ts-textarea {
+    width: 100%;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 200px;
+  }
+
+  .ts-stats {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.5rem;
+    font-size: 13px;
+    color: var(--text-3);
+  }
+  .ts-stat-sep {
+    color: var(--border);
+  }
+
+  .ts-copy {
+    margin-top: 0.75rem;
+  }
+
+  @media (max-width: 640px) {
+    .ts-fr-row { flex-direction: column; }
+    .ts-fr-input { min-width: 100%; }
+  }
+</style>
+<script src="../tools/text-scratchpad.js"></script>

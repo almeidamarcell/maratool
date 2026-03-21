@@ -1,0 +1,294 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Graph Calculator — Plot Functions Online | maratool',
+  description: 'Plot mathematical functions on an interactive graph. Supports multiple equations, zoom, pan, and real-time updates. Free, no sign-up.',
+  canonical: 'https://maratool.com/graph-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Graph Calculator — Plot Functions',
+    url: 'https://maratool.com/graph-calculator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Plot mathematical functions on an interactive graph with zoom, pan, and multiple equations.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Calculator', item: 'https://maratool.com/developer/calculator' },
+      { '@type': 'ListItem', position: 4, name: 'Graph Calculator', item: 'https://maratool.com/graph-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What functions can I plot?',
+        acceptedAnswer: { '@type': 'Answer', text: 'You can plot any expression using x as the variable. Supported functions include sin, cos, tan, log, sqrt, abs, exp, and operators like ^ for power. For example: sin(x), x^2, log(x), sqrt(x).' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I zoom and pan the graph?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Use the mouse wheel to zoom in and out. Click and drag on the graph to pan. You can also use the +/- buttons or type exact viewport bounds in the X and Y range inputs.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I plot multiple functions at once?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. You can plot up to 4 functions simultaneously. Each one gets a distinct color so you can compare them visually.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I reset the graph view?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Click the Reset button to return to the default viewport of x=[-10,10] and y=[-10,10].' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter a function expression using x as the variable (e.g. sin(x), x^2).',
+  'Press Enter or click Plot to render the graph. Add up to 4 functions.',
+  'Zoom with mouse wheel, pan by dragging, or adjust the viewport inputs.',
+]
+
+const faq = [
+  { q: 'What functions can I plot?', a: 'Any expression using x as the variable. Supported: sin, cos, tan, log, sqrt, abs, exp, and ^ for power. Examples: sin(x), x^2, log(x), sqrt(x).' },
+  { q: 'How do I zoom and pan the graph?', a: 'Use mouse wheel to zoom, click and drag to pan, or type exact viewport bounds in the X and Y range inputs.' },
+  { q: 'Can I plot multiple functions at once?', a: 'Yes. Up to 4 functions simultaneously, each with a distinct color.' },
+  { q: 'How do I reset the graph view?', a: 'Click the Reset button to return to the default viewport of x=[-10,10] and y=[-10,10].' },
+]
+
+const relatedTools = [
+  { slug: 'scientific-calculator', name: 'Scientific Calculator' },
+  { slug: 'algebra-calculator', name: 'Algebra Calculator' },
+  { slug: 'base-converter', name: 'Number Base Converter' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Calculator', href: '/developer/calculator' },
+  { label: 'Graph Calculator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="graph-calculator" name="Graph Calculator — Plot Functions" description="Plot mathematical functions on an interactive graph. Supports multiple equations, zoom, pan, and real-time updates." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:500px">
+        <div class="gc-inputs" id="gc-inputs">
+          <div class="gc-fn-row" data-idx="0">
+            <span class="gc-fn-color" style="background:#2d6ef6"></span>
+            <span class="gc-fn-label">y =</span>
+            <input type="text" class="gc-fn-input" data-idx="0" placeholder="sin(x)" value="sin(x)" />
+          </div>
+          <div class="gc-fn-row" data-idx="1">
+            <span class="gc-fn-color" style="background:#e74c3c"></span>
+            <span class="gc-fn-label">y =</span>
+            <input type="text" class="gc-fn-input" data-idx="1" placeholder="x^2" />
+          </div>
+          <div class="gc-fn-row" data-idx="2">
+            <span class="gc-fn-color" style="background:#27ae60"></span>
+            <span class="gc-fn-label">y =</span>
+            <input type="text" class="gc-fn-input" data-idx="2" placeholder="log(x)" />
+          </div>
+          <div class="gc-fn-row" data-idx="3">
+            <span class="gc-fn-color" style="background:#f39c12"></span>
+            <span class="gc-fn-label">y =</span>
+            <input type="text" class="gc-fn-input" data-idx="3" placeholder="cos(x)" />
+          </div>
+          <div class="gc-fn-actions">
+            <button class="gc-plot-btn" id="gc-plot-btn">Plot</button>
+          </div>
+        </div>
+
+        <div class="gc-canvas-wrap">
+          <canvas id="gc-canvas" width="800" height="500"></canvas>
+          <div class="gc-cursor-info" id="gc-cursor-info"></div>
+        </div>
+
+        <div class="gc-controls">
+          <div class="gc-viewport">
+            <div class="gc-vp-group">
+              <label class="gc-vp-label">X min</label>
+              <input type="number" class="gc-vp-input" id="gc-xmin" value="-10" step="1" />
+            </div>
+            <div class="gc-vp-group">
+              <label class="gc-vp-label">X max</label>
+              <input type="number" class="gc-vp-input" id="gc-xmax" value="10" step="1" />
+            </div>
+            <div class="gc-vp-group">
+              <label class="gc-vp-label">Y min</label>
+              <input type="number" class="gc-vp-input" id="gc-ymin" value="-10" step="1" />
+            </div>
+            <div class="gc-vp-group">
+              <label class="gc-vp-label">Y max</label>
+              <input type="number" class="gc-vp-input" id="gc-ymax" value="10" step="1" />
+            </div>
+          </div>
+          <div class="gc-zoom-btns">
+            <button class="gc-ctrl-btn" id="gc-zoom-in" title="Zoom in">+</button>
+            <button class="gc-ctrl-btn" id="gc-zoom-out" title="Zoom out">&minus;</button>
+            <button class="gc-ctrl-btn" id="gc-reset" title="Reset viewport">Reset</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .gc-inputs {
+    margin-bottom: 1rem;
+  }
+  .gc-fn-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .gc-fn-color {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .gc-fn-label {
+    font-size: 14px;
+    font-family: var(--font-mono);
+    color: var(--text-2);
+    flex-shrink: 0;
+  }
+  .gc-fn-input {
+    flex: 1;
+    padding: 6px 10px;
+    font-size: 14px;
+    font-family: var(--font-mono);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+  }
+  .gc-fn-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45,110,246,0.1);
+  }
+  .gc-fn-input.error {
+    border-color: #e74c3c;
+  }
+  .gc-fn-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .gc-plot-btn {
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--font);
+    padding: 6px 20px;
+    border: none;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .gc-plot-btn:hover { background: #2560d4; }
+
+  .gc-canvas-wrap {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 1rem;
+    background: #fff;
+  }
+  #gc-canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    cursor: crosshair;
+  }
+  .gc-cursor-info {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 12px;
+    font-family: var(--font-mono);
+    color: var(--text-2);
+    background: rgba(255,255,255,0.85);
+    padding: 2px 8px;
+    border-radius: 4px;
+    pointer-events: none;
+  }
+
+  .gc-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+  .gc-viewport {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .gc-vp-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .gc-vp-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .gc-vp-input {
+    width: 80px;
+    padding: 4px 8px;
+    font-size: 13px;
+    font-family: var(--font-mono);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text);
+    text-align: center;
+  }
+  .gc-zoom-btns {
+    display: flex;
+    gap: 4px;
+  }
+  .gc-ctrl-btn {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font);
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .gc-ctrl-btn:hover { background: var(--bg-hover); }
+
+  @media (max-width: 768px) {
+    .gc-controls { flex-direction: column; align-items: stretch; }
+    .gc-viewport { flex-wrap: wrap; }
+  }
+</style>
+<script is:inline src="https://cdn.jsdelivr.net/npm/mathjs@13.2.0/lib/browser/math.min.js"></script>
+<script src="../tools/graph-calculator.js"></script>

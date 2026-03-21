@@ -1,0 +1,226 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Color Harmony Generator — Find complementary, triadic & analogous colors | maratool',
+  description: 'Generate color harmonies from any base color. Get complementary, analogous, triadic, split-complementary, tetradic, and square color schemes instantly.',
+  canonical: 'https://maratool.com/color-harmony-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Color Harmony Generator',
+    url: 'https://maratool.com/color-harmony-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate complementary, triadic, analogous, and more color harmonies from any base color.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Color', item: 'https://maratool.com/color' },
+      { '@type': 'ListItem', position: 3, name: 'Generate', item: 'https://maratool.com/color/generate' },
+      { '@type': 'ListItem', position: 4, name: 'Color Harmony Generator', item: 'https://maratool.com/color-harmony-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is a color harmony?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A color harmony is a set of colors that look visually pleasing together based on their position on the color wheel. Common harmonies include complementary (opposite on the wheel), analogous (adjacent), and triadic (evenly spaced at 120 degrees).' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I find the complementary color of a hex code?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Enter your hex code in the input field, then select the Complementary harmony type. The tool rotates the hue by 180 degrees on the color wheel to give you the exact complementary color with its hex, RGB, and HSL values.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the difference between triadic and split-complementary?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Triadic harmony uses three colors evenly spaced at 120 degrees apart on the color wheel. Split-complementary uses the base color plus two colors flanking its complement at 150 and 210 degrees. Split-complementary is less vibrant and easier to balance in designs.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I copy the generated colors?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Click any color swatch to copy its hex value to your clipboard. You can also see each color\'s RGB and HSL values displayed below the swatch.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Pick a base color using the color picker or type a hex value.',
+  'Select a harmony type: Complementary, Analogous, Triadic, Split-complementary, Tetradic, or Square.',
+  'Click any color swatch to copy its hex value.'
+]
+
+const faq = [
+  { q: 'What is a color harmony?', a: 'A color harmony is a set of colors that look visually pleasing together based on their position on the color wheel. Common harmonies include complementary (opposite), analogous (adjacent), and triadic (evenly spaced at 120 degrees).' },
+  { q: 'How do I find the complementary color of a hex code?', a: 'Enter your hex code, then select the Complementary harmony type. The tool rotates the hue by 180 degrees on the color wheel to give you the exact complementary color.' },
+  { q: 'What is the difference between triadic and split-complementary?', a: 'Triadic uses three colors evenly spaced at 120 degrees. Split-complementary uses the base color plus two colors flanking its complement at 150 and 210 degrees. Split-complementary offers more subtlety.' },
+  { q: 'Can I copy the generated colors?', a: 'Yes. Click any swatch to copy its hex value. RGB and HSL values are displayed below each swatch.' }
+]
+
+const relatedTools = [
+  { slug: 'color-shades', name: 'Color Shades Generator' },
+  { slug: 'palette-generator', name: 'Palette Generator' },
+  { slug: 'palette-collection', name: 'Browse Curated Color Palettes' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Color', href: '/color' },
+  { label: 'Generate', href: '/color/generate' },
+  { label: 'Color Harmony Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="color-harmony-generator" name="Color Harmony Generator" description="Generate complementary, triadic, analogous, and more color harmonies from any base color." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <!-- Color input -->
+        <div class="chg-input-row">
+          <input type="color" id="chg-picker" class="chg-picker" value="#2d6ef6" aria-label="Base color picker" />
+          <input type="text" id="chg-hex" class="chg-hex-input" value="#2d6ef6" spellcheck="false" aria-label="Base hex color" />
+        </div>
+
+        <!-- Harmony type tabs -->
+        <div class="chg-harmony-tabs" id="chg-harmony-tabs">
+          <button class="tool-tab active" data-harmony="complementary">Complementary</button>
+          <button class="tool-tab" data-harmony="analogous">Analogous</button>
+          <button class="tool-tab" data-harmony="triadic">Triadic</button>
+          <button class="tool-tab" data-harmony="split">Split-comp</button>
+          <button class="tool-tab" data-harmony="tetradic">Tetradic</button>
+          <button class="tool-tab" data-harmony="square">Square</button>
+        </div>
+
+        <!-- Color wheel + swatches -->
+        <div class="chg-main">
+          <div class="chg-wheel-wrap">
+            <canvas id="chg-wheel" width="280" height="280" aria-label="Color wheel showing harmony relationships"></canvas>
+          </div>
+          <div class="chg-swatches" id="chg-swatches"></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .chg-input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .chg-picker {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 2px;
+    background: var(--bg);
+    flex-shrink: 0;
+  }
+  .chg-hex-input {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    width: 140px;
+  }
+
+  .chg-harmony-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .chg-main {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    min-height: 300px;
+  }
+  .chg-wheel-wrap {
+    flex-shrink: 0;
+    width: 280px;
+    height: 280px;
+  }
+  #chg-wheel {
+    display: block;
+    border-radius: 50%;
+  }
+
+  .chg-swatches {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .chg-swatch-card {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.15s;
+  }
+  .chg-swatch-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .chg-swatch-preview {
+    width: 80px;
+    flex-shrink: 0;
+  }
+  .chg-swatch-details {
+    flex: 1;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    background: var(--bg);
+  }
+  .chg-swatch-hex {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .chg-swatch-formats {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text-3);
+    line-height: 1.4;
+  }
+  .chg-swatch-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-3);
+  }
+  .chg-swatch-card.copied .chg-swatch-hex {
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .chg-main { flex-direction: column; align-items: center; }
+    .chg-swatches { width: 100%; }
+  }
+</style>
+<script src="../tools/color-harmony-generator.js"></script>

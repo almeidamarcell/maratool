@@ -1,0 +1,295 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Unicode Glyph Browser — Find & Copy Special Characters | maratool',
+  description: 'Browse, search, and copy Unicode characters by category. Find arrows, math symbols, currency signs, box drawing, and special glyphs instantly.',
+  canonical: 'https://maratool.com/glyph-browser',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Unicode Glyph Browser',
+    url: 'https://maratool.com/glyph-browser',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Browse, search, and copy Unicode characters by category.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Text', item: 'https://maratool.com/text' },
+      { '@type': 'ListItem', position: 3, name: 'Generate', item: 'https://maratool.com/text/generate' },
+      { '@type': 'ListItem', position: 4, name: 'Unicode Glyph Browser', item: 'https://maratool.com/glyph-browser' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I copy a Unicode character?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Click any character in the grid and it is copied to your clipboard instantly. You can also see the HTML entity and CSS content value in the detail panel.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I search for a Unicode character by name?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes — type a keyword like "arrow", "heart", or a code point like "U+2192" in the search box. The grid filters in real time across all categories.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What Unicode blocks are included?',
+        acceptedAnswer: { '@type': 'Answer', text: 'This browser includes Arrows, Math Operators, Currency, Box Drawing, Greek, Cyrillic, Latin Extended, Symbols, Dingbats, Braille, Geometric Shapes, and a common Emoji subset.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I use a Unicode character in HTML or CSS?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Click a character to see its HTML entity (e.g. &#x2192;) and CSS content value (e.g. \\2192). Copy either format and paste it directly into your code.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Click a category tab to browse characters by Unicode block, or type a keyword in the search box.',
+  'Click any character to copy it to your clipboard.',
+  'View the detail panel for the code point, HTML entity, and CSS content value.',
+]
+
+const faq = [
+  { q: 'How do I copy a Unicode character?', a: 'Click any character in the grid and it is copied to your clipboard instantly. You can also see the HTML entity and CSS content value in the detail panel.' },
+  { q: 'Can I search for a Unicode character by name?', a: 'Yes — type a keyword like "arrow", "heart", or a code point like "U+2192" in the search box. The grid filters in real time across all categories.' },
+  { q: 'What Unicode blocks are included?', a: 'This browser includes Arrows, Math Operators, Currency, Box Drawing, Greek, Cyrillic, Latin Extended, Symbols, Dingbats, Braille, Geometric Shapes, and a common Emoji subset.' },
+  { q: 'How do I use a Unicode character in HTML or CSS?', a: 'Click a character to see its HTML entity (e.g. &amp;#x2192;) and CSS content value (e.g. \\2192). Copy either format and paste it directly into your code.' },
+]
+
+const relatedTools = [
+  { slug: 'emoji-picker', name: 'Emoji Picker' },
+  { slug: 'text-to-binary', name: 'Text to Binary' },
+  { slug: 'font-explorer', name: 'Font File Explorer' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Text', href: '/text' },
+  { label: 'Generate', href: '/text/generate' },
+  { label: 'Unicode Glyph Browser' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="glyph-browser" name="Unicode Glyph Browser" description="Browse, search, and copy Unicode characters by category. Find arrows, math symbols, currency signs, and special glyphs." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:460px">
+        <input
+          id="gb-search"
+          class="gb-search"
+          type="search"
+          placeholder="Search by name or code point (e.g. arrow, U+2192)"
+          aria-label="Search Unicode characters"
+          autocomplete="off"
+        />
+
+        <div class="gb-tabs" id="gb-tabs" role="tablist" aria-label="Unicode categories"></div>
+
+        <div class="gb-main">
+          <div id="gb-grid" class="gb-grid" aria-live="polite" aria-label="Character grid"></div>
+          <div id="gb-detail" class="gb-detail">
+            <div class="gb-detail-char" id="gb-detail-char">?</div>
+            <div class="gb-detail-info">
+              <div class="gb-detail-row"><span class="gb-detail-label">Name</span><span id="gb-detail-name" class="gb-detail-value">Click a character</span></div>
+              <div class="gb-detail-row"><span class="gb-detail-label">Code Point</span><span id="gb-detail-code" class="gb-detail-value">&mdash;</span></div>
+              <div class="gb-detail-row"><span class="gb-detail-label">HTML Entity</span><span id="gb-detail-html" class="gb-detail-value gb-copyable">&mdash;</span></div>
+              <div class="gb-detail-row"><span class="gb-detail-label">CSS Content</span><span id="gb-detail-css" class="gb-detail-value gb-copyable">&mdash;</span></div>
+              <div class="gb-detail-row"><span class="gb-detail-label">JS Escape</span><span id="gb-detail-js" class="gb-detail-value gb-copyable">&mdash;</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="gb-toast" class="gb-toast" aria-live="assertive"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .gb-search {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-family: var(--font);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    box-sizing: border-box;
+    margin-bottom: 0.75rem;
+  }
+  .gb-search:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(45,110,246,0.1);
+  }
+
+  .gb-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 0.75rem;
+  }
+  .gb-tab {
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--font);
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+    white-space: nowrap;
+  }
+  .gb-tab:hover {
+    background: var(--bg-hover);
+    color: var(--text);
+  }
+  .gb-tab.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .gb-main {
+    display: grid;
+    grid-template-columns: 1fr 240px;
+    gap: 1rem;
+  }
+
+  .gb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
+    gap: 2px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 4px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+  }
+  .gb-char {
+    font-size: 20px;
+    line-height: 1;
+    padding: 8px 4px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.1s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+  }
+  .gb-char:hover {
+    background: var(--bg-hover);
+    transform: scale(1.15);
+  }
+  .gb-char.selected {
+    background: var(--accent);
+    color: #fff;
+  }
+  .gb-no-results {
+    font-size: 14px;
+    color: var(--text-2);
+    padding: 2rem;
+    text-align: center;
+    grid-column: 1 / -1;
+    margin: 0;
+  }
+
+  .gb-detail {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+    padding: 1rem;
+    position: sticky;
+    top: 60px;
+    align-self: start;
+  }
+  .gb-detail-char {
+    font-size: 56px;
+    text-align: center;
+    padding: 0.5rem 0;
+    line-height: 1.2;
+  }
+  .gb-detail-info {
+    margin-top: 0.75rem;
+  }
+  .gb-detail-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+  }
+  .gb-detail-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-3);
+  }
+  .gb-detail-value {
+    font-size: 13px;
+    font-family: var(--font-mono);
+    color: var(--text);
+    word-break: break-all;
+  }
+  .gb-copyable {
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background 0.1s;
+  }
+  .gb-copyable:hover {
+    background: var(--bg-hover);
+  }
+  .gb-copyable.copied {
+    color: var(--accent);
+  }
+
+  .gb-toast {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: var(--text);
+    color: var(--bg);
+    font-size: 13px;
+    font-family: var(--font);
+    padding: 6px 16px;
+    border-radius: 999px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s, transform 0.15s;
+    white-space: nowrap;
+    z-index: 1000;
+  }
+  .gb-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    .gb-main {
+      grid-template-columns: 1fr;
+    }
+    .gb-detail {
+      position: static;
+    }
+  }
+</style>
+<script src="../tools/glyph-browser.js"></script>

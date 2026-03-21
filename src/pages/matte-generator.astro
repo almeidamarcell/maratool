@@ -1,0 +1,311 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Square Matte Generator for Social Media — Add Borders to Photos | maratool',
+  description: 'Put non-square images on a colored matte with custom aspect ratio and padding. Perfect for Instagram grid posts. Free, runs in your browser.',
+  canonical: 'https://maratool.com/matte-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Square Matte Generator for Social Media',
+    url: 'https://maratool.com/matte-generator',
+    applicationCategory: 'DesignApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Put non-square images on a colored matte for social media.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Social', item: 'https://maratool.com/image/social' },
+      { '@type': 'ListItem', position: 4, name: 'Square Matte Generator', item: 'https://maratool.com/matte-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I make a non-square image fit in a square frame?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Upload your image, select the 1:1 square ratio, pick a background color, and download. The image is centered on the colored matte without cropping.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What aspect ratios are available?',
+        acceptedAnswer: { '@type': 'Answer', text: '1:1 (square), 4:5 (Instagram portrait), 16:9 (landscape), and custom width/height. You can also adjust padding from 0% to 20%.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this tool crop my image?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. The image is placed on a larger canvas with the background color filling the extra space. Your entire image is preserved.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this tool upload my images to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All processing uses the Canvas API in your browser. Your images never leave your device.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload the image you want to put on a matte.',
+  'Choose background color, aspect ratio, and padding amount.',
+  'Preview the result and click Download to save.'
+]
+
+const faq = [
+  { q: 'How do I make a non-square image fit in a square frame?', a: 'Upload your image, select 1:1 ratio, pick a background color, and download. The image centers on the matte without cropping.' },
+  { q: 'What aspect ratios are available?', a: '1:1 (square), 4:5 (portrait), 16:9 (landscape), and custom. Padding adjustable from 0% to 20%.' },
+  { q: 'Does this tool crop my image?', a: 'No. The image is placed on a larger canvas. Your entire image is preserved.' },
+  { q: 'Does this tool upload my images?', a: 'No. All processing runs in your browser. Your images never leave your device.' }
+]
+
+const relatedTools = [
+  { slug: 'social-media-cropper', name: 'Social Media Image Cropper' },
+  { slug: 'scroll-generator', name: 'Instagram Carousel Scroll Generator' },
+  { slug: 'watermarker', name: 'Add Watermark to Image' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Social', href: '/image/social' },
+  { label: 'Square Matte Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="matte-generator" name="Square Matte Generator for Social Media" description="Put non-square images on a colored matte. Perfect for Instagram grid posts." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <!-- Upload -->
+        <div class="mg-upload" id="mg-upload">
+          <input type="file" id="mg-file" accept="image/png,image/jpeg,image/webp" hidden />
+          <div class="mg-upload-content">
+            <div class="mg-upload-icon">⬜</div>
+            <p class="mg-upload-text">Drop an image here or <button type="button" class="mg-upload-btn" id="mg-browse">browse</button></p>
+            <p class="mg-upload-hint">PNG, JPEG, or WebP</p>
+          </div>
+        </div>
+
+        <!-- Source info -->
+        <div class="mg-source" id="mg-source" style="display:none;">
+          <div class="mg-source-preview">
+            <img id="mg-source-img" alt="Source image" />
+            <span class="mg-source-info" id="mg-source-info"></span>
+          </div>
+          <button class="mg-change-btn" id="mg-change" type="button">Change image</button>
+        </div>
+
+        <!-- Controls -->
+        <div class="mg-controls" id="mg-controls" style="display:none;">
+          <div class="mg-row mg-row-inline">
+            <div class="mg-field">
+              <label class="tool-label" for="mg-color">Background color</label>
+              <div class="mg-color-wrap">
+                <input type="color" id="mg-color" value="#ffffff" />
+                <input type="text" id="mg-color-hex" class="tool-input mg-hex-input" value="#ffffff" />
+              </div>
+            </div>
+          </div>
+
+          <div class="mg-row">
+            <span class="tool-label">Aspect ratio</span>
+            <div class="mg-ratio-btns" id="mg-ratio-btns">
+              <button type="button" class="mg-ratio-btn active" data-ratio="1:1">1:1 Square</button>
+              <button type="button" class="mg-ratio-btn" data-ratio="4:5">4:5 Portrait</button>
+              <button type="button" class="mg-ratio-btn" data-ratio="16:9">16:9 Landscape</button>
+              <button type="button" class="mg-ratio-btn" data-ratio="custom">Custom</button>
+            </div>
+            <div class="mg-custom-ratio" id="mg-custom-ratio" style="display:none;">
+              <input type="number" id="mg-custom-w" class="tool-input mg-small-input" value="1" min="1" max="20" placeholder="W" />
+              <span class="mg-ratio-sep">:</span>
+              <input type="number" id="mg-custom-h" class="tool-input mg-small-input" value="1" min="1" max="20" placeholder="H" />
+            </div>
+          </div>
+
+          <div class="mg-row">
+            <label class="tool-label" for="mg-padding">Padding</label>
+            <input type="range" id="mg-padding" min="0" max="20" value="5" />
+            <span class="mg-range-val" id="mg-padding-val">5%</span>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="mg-preview-wrap" id="mg-preview-wrap" style="display:none;">
+          <span class="tool-label">Preview</span>
+          <div class="mg-preview">
+            <canvas id="mg-canvas"></canvas>
+          </div>
+          <button class="mg-download-btn" id="mg-download" type="button">Download</button>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .mg-upload {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    margin-bottom: 1.25rem;
+  }
+  .mg-upload:hover, .mg-upload.dragover {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .mg-upload-icon { font-size: 36px; margin-bottom: 0.75rem; }
+  .mg-upload-text { color: var(--text-2); font-size: 14px; }
+  .mg-upload-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: underline;
+    padding: 0;
+  }
+  .mg-upload-hint { color: var(--text-3); font-size: 12px; margin-top: 0.375rem; }
+
+  .mg-source {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .mg-source-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+  }
+  .mg-source-preview img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fff;
+  }
+  .mg-source-info { font-size: 13px; color: var(--text-2); }
+  .mg-change-btn {
+    font-size: 13px;
+    color: var(--accent);
+    background: none;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 6px 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .mg-change-btn:hover { background: var(--accent); color: #fff; }
+
+  .mg-controls { margin-bottom: 1.25rem; }
+  .mg-row { margin-bottom: 1rem; }
+  .mg-row-inline { display: flex; gap: 1rem; }
+  .mg-field { flex: 1; }
+
+  .mg-color-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+  }
+  .mg-hex-input {
+    width: 100px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+
+  .mg-ratio-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.375rem;
+  }
+  .mg-ratio-btn {
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .mg-ratio-btn:hover { background: var(--bg-soft); }
+  .mg-ratio-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .mg-custom-ratio {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .mg-small-input { width: 64px; text-align: center; }
+  .mg-ratio-sep { color: var(--text-3); font-weight: 600; }
+
+  .mg-range-val {
+    font-size: 13px;
+    color: var(--text-2);
+    font-family: var(--font-mono);
+    margin-left: 0.5rem;
+  }
+
+  .mg-preview-wrap { margin-bottom: 1.25rem; }
+  .mg-preview {
+    margin-top: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--bg-soft);
+    text-align: center;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .mg-preview canvas {
+    max-width: 100%;
+    max-height: 500px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .mg-download-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .mg-download-btn:hover { opacity: 0.9; }
+
+  @media (max-width: 768px) {
+    .mg-row-inline { flex-direction: column; }
+    .mg-source { flex-direction: column; }
+  }
+</style>
+<script src="../tools/matte-generator.js"></script>

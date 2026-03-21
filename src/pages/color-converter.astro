@@ -1,0 +1,182 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Color Converter — HEX, RGB, HSL, OKLCH | maratool',
+  description: 'Convert colors between HEX, RGB, HSL, and OKLCH formats instantly. Includes a live color picker preview. Free, no sign-up.',
+  canonical: 'https://maratool.com/color-converter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Color Converter',
+    url: 'https://maratool.com/color-converter',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert colors between HEX, RGB, HSL, and OKLCH formats instantly with a live color picker.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Color', item: 'https://maratool.com/color' },
+      { '@type': 'ListItem', position: 3, name: 'Convert', item: 'https://maratool.com/color/convert' },
+      { '@type': 'ListItem', position: 4, name: 'Color Converter', item: 'https://maratool.com/color-converter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I convert HEX to RGB?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Enter a hex color code (e.g. #ff5733) and the RGB values appear instantly. Each pair of hex digits maps to red, green, and blue channels (0-255).' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is OKLCH and why should I use it?',
+        acceptedAnswer: { '@type': 'Answer', text: 'OKLCH is a perceptually uniform color space with Lightness, Chroma, and Hue axes. It produces more predictable color modifications than HSL because equal numeric changes look like equal visual changes.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I convert RGB to HSL?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Enter RGB values (0-255 for each channel) and the HSL equivalent appears automatically. HSL represents color as Hue (0-360), Saturation (0-100%), and Lightness (0-100%).' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I use the color picker to select a color?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Click the color swatch to open your browser\'s native color picker. Selecting a color updates all formats (HEX, RGB, HSL, OKLCH) simultaneously.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter a color in any format — HEX, RGB, HSL, or OKLCH — or use the color picker.',
+  'All other formats update instantly as you type.',
+  'Click "Copy" next to any format to copy it to your clipboard.'
+]
+
+const faq = [
+  { q: 'How do I convert HEX to RGB?', a: 'Enter a hex color code (e.g. #ff5733) and the RGB values appear instantly. Each pair of hex digits maps to red, green, and blue channels (0-255).' },
+  { q: 'What is OKLCH and why should I use it?', a: 'OKLCH is a perceptually uniform color space with Lightness, Chroma, and Hue axes. It produces more predictable color modifications than HSL.' },
+  { q: 'How do I convert RGB to HSL?', a: 'Enter RGB values (0-255 for each channel) and the HSL equivalent appears automatically. HSL represents color as Hue (0-360), Saturation (0-100%), and Lightness (0-100%).' },
+  { q: 'Can I use the color picker to select a color?', a: 'Yes. Click the color swatch to open your browser\'s native color picker. Selecting a color updates all formats simultaneously.' }
+]
+
+const relatedTools = [
+  { slug: 'contrast-checker', name: 'Contrast Checker' },
+  { slug: 'color-shades', name: 'Color Shades Generator' },
+  { slug: 'css-gradient', name: 'CSS Gradient Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Color', href: '/color' },
+  { label: 'Convert', href: '/color/convert' },
+  { label: 'Color Converter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="color-converter" name="Convert Colors Between Formats" description="Convert colors between HEX, RGB, HSL, and OKLCH formats instantly. Includes a live color picker preview." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="cc-preview-row">
+          <input type="color" id="cc-picker" class="cc-picker" value="#2d6ef6" />
+          <div class="cc-swatch" id="cc-swatch"></div>
+        </div>
+
+        <div class="cc-fields">
+          <div class="cc-field">
+            <label class="tool-label" for="cc-hex">HEX</label>
+            <div class="cc-input-row">
+              <input type="text" id="cc-hex" class="tool-input cc-input" placeholder="#2d6ef6" spellcheck="false" />
+              <button class="copy-btn" data-cc-copy="hex">Copy</button>
+            </div>
+          </div>
+
+          <div class="cc-field">
+            <label class="tool-label" for="cc-rgb">RGB</label>
+            <div class="cc-input-row">
+              <input type="text" id="cc-rgb" class="tool-input cc-input" placeholder="rgb(45, 110, 246)" spellcheck="false" />
+              <button class="copy-btn" data-cc-copy="rgb">Copy</button>
+            </div>
+          </div>
+
+          <div class="cc-field">
+            <label class="tool-label" for="cc-hsl">HSL</label>
+            <div class="cc-input-row">
+              <input type="text" id="cc-hsl" class="tool-input cc-input" placeholder="hsl(221, 91%, 57%)" spellcheck="false" />
+              <button class="copy-btn" data-cc-copy="hsl">Copy</button>
+            </div>
+          </div>
+
+          <div class="cc-field">
+            <label class="tool-label" for="cc-oklch">OKLCH</label>
+            <div class="cc-input-row">
+              <input type="text" id="cc-oklch" class="tool-input cc-input" placeholder="oklch(0.560 0.200 264)" spellcheck="false" />
+              <button class="copy-btn" data-cc-copy="oklch">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .cc-preview-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .cc-picker {
+    width: 48px;
+    height: 48px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    background: none;
+    border-radius: var(--radius);
+  }
+  .cc-picker::-webkit-color-swatch-wrapper { padding: 0; }
+  .cc-picker::-webkit-color-swatch { border: 1px solid var(--border); border-radius: var(--radius); }
+  .cc-picker::-moz-color-swatch { border: 1px solid var(--border); border-radius: var(--radius); }
+  .cc-swatch {
+    flex: 1;
+    height: 48px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: #2d6ef6;
+    transition: background 0.15s;
+  }
+  .cc-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .cc-field {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+  }
+  .cc-input-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .cc-input {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+  @media (max-width: 768px) {
+    .cc-fields { grid-template-columns: 1fr; }
+  }
+</style>
+<script src="../tools/color-converter.js"></script>

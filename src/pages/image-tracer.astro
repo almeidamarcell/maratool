@@ -1,0 +1,200 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Image to SVG — Trace Raster to Vector Online | maratool',
+  description: 'Convert PNG or JPEG images to SVG vector graphics. Adjust colors, detail, and smoothing. Download the traced SVG. Runs in your browser.',
+  canonical: 'https://maratool.com/image-tracer',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Image to SVG — Trace Raster to Vector',
+    url: 'https://maratool.com/image-tracer',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert raster images to SVG vector graphics in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Image to SVG', item: 'https://maratool.com/image-tracer' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How does image tracing work?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The tool analyzes pixel colors in the raster image, groups them into regions, then traces the edges of those regions as SVG paths. You control how many colors and how much detail to retain.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What image formats can I trace?',
+        acceptedAnswer: { '@type': 'Answer', text: 'PNG, JPEG, GIF, and BMP images are supported. The image is loaded onto a canvas, then traced to SVG using imagetracerjs.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is the tracing done on a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All processing runs in your browser. Your image never leaves your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I get a cleaner SVG output?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Reduce the number of colors, increase blur radius to smooth edges, and adjust the path detail slider. For logos and simple graphics, 2-8 colors usually give the best results.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload an image (PNG, JPEG, GIF) by clicking the dropzone or dragging a file.',
+  'Adjust options: number of colors, path detail, blur, and corner threshold.',
+  'Click "Download SVG" to save the traced vector image.'
+]
+
+const faq = [
+  { q: 'How does image tracing work?', a: 'It groups pixels by color, then traces edges as SVG paths. You control color count and detail level.' },
+  { q: 'What image formats can I trace?', a: 'PNG, JPEG, GIF, and BMP. The image is loaded on a canvas and processed with imagetracerjs.' },
+  { q: 'Is the tracing done on a server?', a: 'No. Everything runs in your browser. Your image never leaves your device.' },
+  { q: 'How do I get a cleaner SVG?', a: 'Reduce colors, increase blur radius, and adjust path detail. For logos, 2-8 colors work best.' }
+]
+
+const relatedTools = [
+  { slug: 'svg-optimizer', name: 'SVG Optimizer' },
+  { slug: 'background-remover', name: 'Background Remover' },
+  { slug: 'image-converter', name: 'Image Format Converter' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'Image to SVG' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="image-tracer" name="Image to SVG — Trace Raster to Vector" description="Convert raster images (PNG, JPEG) to SVG vector graphics. Adjust detail, colors, and smoothing." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="it-dropzone" id="it-dropzone">
+          <input type="file" id="it-file" accept="image/*" hidden />
+          <div class="pdf-dropzone-inner">
+            <svg class="pdf-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p class="pdf-dropzone-title">Drop an image here</p>
+            <p class="pdf-dropzone-sub">or click to select (PNG, JPEG, GIF)</p>
+          </div>
+        </div>
+
+        <div id="it-controls" class="it-controls" style="display:none;">
+          <div class="it-opt">
+            <label class="tool-label" for="it-colors">Colors</label>
+            <input type="range" id="it-colors" min="2" max="64" value="16" />
+            <span id="it-colors-val" class="it-range-val">16</span>
+          </div>
+          <div class="it-opt">
+            <label class="tool-label" for="it-detail">Path detail</label>
+            <select id="it-detail" class="tool-input it-select">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <div class="it-opt">
+            <label class="tool-label" for="it-blur">Blur radius</label>
+            <input type="range" id="it-blur" min="0" max="5" value="0" />
+            <span id="it-blur-val" class="it-range-val">0</span>
+          </div>
+          <div class="it-opt">
+            <label class="tool-label" for="it-corner">Corner threshold</label>
+            <input type="range" id="it-corner" min="0" max="180" value="135" />
+            <span id="it-corner-val" class="it-range-val">135</span>
+          </div>
+          <button id="it-trace-btn" class="tool-button">Trace</button>
+        </div>
+
+        <div id="it-preview" class="it-preview" style="display:none;">
+          <div class="it-side">
+            <span class="tool-label">Original</span>
+            <div class="it-img-wrap"><img id="it-original" alt="Original" /></div>
+          </div>
+          <div class="it-side">
+            <span class="tool-label">Traced SVG</span>
+            <div id="it-svg-wrap" class="it-img-wrap"></div>
+          </div>
+        </div>
+
+        <div id="it-status" class="it-status"></div>
+        <button id="it-download" class="tool-button" style="display:none;">Download SVG</button>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .it-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 1rem;
+  }
+  .it-dropzone:hover, .it-dropzone.dropzone-active {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .it-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .it-opt { flex: 1 1 140px; }
+  .it-select { appearance: auto; cursor: pointer; max-width: 140px; }
+  .it-range-val {
+    font-size: 13px;
+    font-family: var(--font-mono);
+    color: var(--text-2);
+    margin-left: 0.375rem;
+  }
+  .it-preview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .it-side {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.75rem;
+  }
+  .it-img-wrap {
+    margin-top: 0.5rem;
+    text-align: center;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .it-img-wrap img, .it-img-wrap svg { max-width: 100%; max-height: 400px; }
+  .it-status { font-size: 14px; color: var(--text-2); margin-bottom: 0.5rem; }
+  @media (max-width: 768px) {
+    .it-preview { grid-template-columns: 1fr; }
+  }
+</style>
+<script src="../tools/image-tracer.js"></script>

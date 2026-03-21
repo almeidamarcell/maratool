@@ -1,0 +1,191 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Number Base Converter — Decimal, Hex, Binary, Octal | maratool',
+  description: 'Convert numbers between decimal, hexadecimal, binary, and octal instantly. Type in any base and see all others update in real time.',
+  canonical: 'https://maratool.com/base-converter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Number Base Converter',
+    url: 'https://maratool.com/base-converter',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert numbers between decimal, hexadecimal, binary, and octal instantly.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Calculator', item: 'https://maratool.com/developer/calculator' },
+      { '@type': 'ListItem', position: 4, name: 'Number Base Converter', item: 'https://maratool.com/base-converter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I convert decimal to hexadecimal?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Enter a decimal number and the hex equivalent appears instantly. Hexadecimal uses digits 0-9 and letters A-F to represent values 0-15 per digit. For example, decimal 255 = hex FF.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I convert binary to decimal?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Enter a binary number (only 0s and 1s) and the decimal equivalent appears. Each binary digit represents a power of 2. For example, binary 1010 = decimal 10.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is octal numbering?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Octal is base-8, using digits 0-7. It was common in early computing because each octal digit maps to exactly 3 binary digits. For example, octal 77 = decimal 63 = binary 111111.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I convert negative numbers?',
+        acceptedAnswer: { '@type': 'Answer', text: 'This tool handles positive integers. For negative numbers in binary, you would typically use two\'s complement representation, which depends on the bit width of your system.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter a number in any base — decimal, hexadecimal, binary, or octal.',
+  'All other bases update in real time as you type.',
+  'Click "Copy" next to any value to copy it to your clipboard.'
+]
+
+const faq = [
+  { q: 'How do I convert decimal to hexadecimal?', a: 'Enter a decimal number and the hex equivalent appears instantly. Hexadecimal uses digits 0-9 and letters A-F. For example, decimal 255 = hex FF.' },
+  { q: 'How do I convert binary to decimal?', a: 'Enter a binary number (only 0s and 1s) and the decimal equivalent appears. Each binary digit represents a power of 2. For example, binary 1010 = decimal 10.' },
+  { q: 'What is octal numbering?', a: 'Octal is base-8, using digits 0-7. Each octal digit maps to exactly 3 binary digits. For example, octal 77 = decimal 63 = binary 111111.' },
+  { q: 'Can I convert negative numbers?', a: 'This tool handles positive integers. For negative numbers in binary, you would typically use two\'s complement representation, which depends on the bit width.' }
+]
+
+const relatedTools = [
+  { slug: 'text-to-binary', name: 'Text to Binary' },
+  { slug: 'hash-generator', name: 'Hash Generator' },
+  { slug: 'scientific-calculator', name: 'Scientific Calculator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Calculator', href: '/developer/calculator' },
+  { label: 'Number Base Converter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="base-converter" name="Number Base Converter" description="Convert numbers between decimal, hexadecimal, binary, and octal instantly. Type in any field and all others update in real time." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="bc-grid">
+          <div class="bc-panel">
+            <label class="tool-label" for="bc-dec">Decimal (Base 10)</label>
+            <div class="bc-input-row">
+              <input type="text" id="bc-dec" class="tool-input bc-input" placeholder="255" spellcheck="false" />
+              <button class="copy-btn" data-bc-copy="dec">Copy</button>
+            </div>
+          </div>
+
+          <div class="bc-panel">
+            <label class="tool-label" for="bc-hex">Hexadecimal (Base 16)</label>
+            <div class="bc-input-row">
+              <input type="text" id="bc-hex" class="tool-input bc-input" placeholder="FF" spellcheck="false" />
+              <button class="copy-btn" data-bc-copy="hex">Copy</button>
+            </div>
+          </div>
+
+          <div class="bc-panel">
+            <label class="tool-label" for="bc-bin">Binary (Base 2)</label>
+            <div class="bc-input-row">
+              <input type="text" id="bc-bin" class="tool-input bc-input" placeholder="11111111" spellcheck="false" />
+              <button class="copy-btn" data-bc-copy="bin">Copy</button>
+            </div>
+          </div>
+
+          <div class="bc-panel">
+            <label class="tool-label" for="bc-oct">Octal (Base 8)</label>
+            <div class="bc-input-row">
+              <input type="text" id="bc-oct" class="tool-input bc-input" placeholder="377" spellcheck="false" />
+              <button class="copy-btn" data-bc-copy="oct">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bc-bit-visual">
+          <span class="tool-label">Bit visualization (16-bit)</span>
+          <div class="bc-bits" id="bc-bits"></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .bc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .bc-panel {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+  }
+  .bc-input-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .bc-input {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 16px;
+  }
+  .bc-bit-visual {
+    margin-top: 0.5rem;
+  }
+  .bc-bits {
+    display: flex;
+    gap: 2px;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .bc-bit {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.1s, color 0.1s;
+    background: var(--bg);
+    color: var(--text-3);
+  }
+  .bc-bit.on {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .bc-bit-sep {
+    width: 6px;
+  }
+  @media (max-width: 768px) {
+    .bc-grid { grid-template-columns: 1fr; }
+  }
+</style>
+<script src="../tools/base-converter.js"></script>

@@ -1,0 +1,386 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Font File Explorer — Inspect OTF, TTF & WOFF Fonts Online | maratool',
+  description: 'Upload any OTF, TTF, or WOFF font file and instantly view metadata, character set, OpenType features, glyph table, and metrics. Free, no sign-up.',
+  canonical: 'https://maratool.com/font-explorer',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Font File Explorer',
+    url: 'https://maratool.com/font-explorer',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Upload any font file and inspect its metadata, character set, OpenType features, and glyph table.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Text', item: 'https://maratool.com/text' },
+      { '@type': 'ListItem', position: 3, name: 'Analyze', item: 'https://maratool.com/text/analyze' },
+      { '@type': 'ListItem', position: 4, name: 'Font File Explorer', item: 'https://maratool.com/font-explorer' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What font formats are supported?',
+        acceptedAnswer: { '@type': 'Answer', text: 'This tool supports OTF (OpenType), TTF (TrueType), and WOFF (Web Open Font Format) files. WOFF2 is not supported because it requires a separate decompression library.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my font file uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. The font is parsed entirely in your browser using opentype.js. Nothing is sent to any server.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What metadata can I see from a font file?',
+        acceptedAnswer: { '@type': 'Answer', text: 'You can see the font family name, style, version, designer, license, units per em, ascender, descender, line gap, number of glyphs, and a list of OpenType features.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I see the SVG path of individual glyphs?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Click any glyph in the character set grid and you will see its SVG outline rendered at large size along with its path data and metrics.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drag and drop a font file (.otf, .ttf, .woff) onto the upload area, or click to select one.',
+  'Browse the metadata, preview text, character set, and OpenType features panels.',
+  'Click any glyph in the character grid to see its SVG path and metrics.',
+]
+
+const faq = [
+  { q: 'What font formats are supported?', a: 'This tool supports OTF (OpenType), TTF (TrueType), and WOFF (Web Open Font Format) files. WOFF2 is not supported because it requires a separate decompression library.' },
+  { q: 'Is my font file uploaded to a server?', a: 'No. The font is parsed entirely in your browser using opentype.js. Nothing is sent to any server.' },
+  { q: 'What metadata can I see from a font file?', a: 'You can see the font family name, style, version, designer, license, units per em, ascender, descender, line gap, number of glyphs, and a list of OpenType features.' },
+  { q: 'Can I see the SVG path of individual glyphs?', a: 'Yes. Click any glyph in the character set grid and you will see its SVG outline rendered at large size along with its path data and metrics.' },
+]
+
+const relatedTools = [
+  { slug: 'glyph-browser', name: 'Unicode Glyph Browser' },
+  { slug: 'typography-calculator', name: 'Typography Size Converter' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Text', href: '/text' },
+  { label: 'Analyze', href: '/text/analyze' },
+  { label: 'Font File Explorer' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="font-explorer" name="Font File Explorer" description="Upload any OTF, TTF, or WOFF font file and inspect metadata, character set, OpenType features, and glyph outlines." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:400px">
+        <div id="fe-dropzone" class="fe-dropzone">
+          <div class="fe-dropzone-inner">
+            <span class="fe-dropzone-icon">&#128196;</span>
+            <p class="fe-dropzone-text">Drop a font file here, or click to select</p>
+            <p class="fe-dropzone-hint">Supports .otf, .ttf, .woff</p>
+          </div>
+          <input type="file" id="fe-file-input" accept=".otf,.ttf,.woff" hidden />
+        </div>
+
+        <div id="fe-panels" class="fe-panels" style="display:none">
+          <div class="fe-header">
+            <span id="fe-font-name" class="fe-font-name"></span>
+            <button id="fe-clear" class="fe-clear-btn">Clear</button>
+          </div>
+
+          <!-- Tabs -->
+          <div class="fe-tab-bar" role="tablist">
+            <button class="fe-tab active" data-panel="preview" role="tab" aria-selected="true">Preview</button>
+            <button class="fe-tab" data-panel="metadata" role="tab" aria-selected="false">Metadata</button>
+            <button class="fe-tab" data-panel="charset" role="tab" aria-selected="false">Characters</button>
+            <button class="fe-tab" data-panel="features" role="tab" aria-selected="false">Features</button>
+            <button class="fe-tab" data-panel="metrics" role="tab" aria-selected="false">Metrics</button>
+          </div>
+
+          <!-- Preview panel -->
+          <div id="fe-panel-preview" class="fe-panel">
+            <div class="fe-preview-controls">
+              <label class="tool-label" for="fe-preview-size">Size</label>
+              <input type="range" id="fe-preview-size" min="12" max="120" value="48" />
+              <span id="fe-preview-size-label" class="fe-size-label">48px</span>
+            </div>
+            <input id="fe-preview-text" class="fe-preview-input" type="text" value="The quick brown fox jumps over the lazy dog" placeholder="Type preview text..." />
+            <div id="fe-preview-render" class="fe-preview-render" style="font-size:48px"></div>
+            <div class="fe-waterfall" id="fe-waterfall"></div>
+          </div>
+
+          <!-- Metadata panel -->
+          <div id="fe-panel-metadata" class="fe-panel" style="display:none">
+            <table class="fe-meta-table" id="fe-meta-table"></table>
+          </div>
+
+          <!-- Characters panel -->
+          <div id="fe-panel-charset" class="fe-panel" style="display:none">
+            <div id="fe-charset-grid" class="fe-charset-grid"></div>
+            <div id="fe-glyph-detail" class="fe-glyph-detail" style="display:none">
+              <div id="fe-glyph-svg" class="fe-glyph-svg"></div>
+              <div id="fe-glyph-info" class="fe-glyph-info"></div>
+            </div>
+          </div>
+
+          <!-- Features panel -->
+          <div id="fe-panel-features" class="fe-panel" style="display:none">
+            <div id="fe-features-list" class="fe-features-list"></div>
+          </div>
+
+          <!-- Metrics panel -->
+          <div id="fe-panel-metrics" class="fe-panel" style="display:none">
+            <table class="fe-meta-table" id="fe-metrics-table"></table>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .fe-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .fe-dropzone:hover, .fe-dropzone.dragover {
+    border-color: var(--accent);
+    background: rgba(45,110,246,0.04);
+  }
+  .fe-dropzone-icon { font-size: 36px; display: block; margin-bottom: 0.5rem; }
+  .fe-dropzone-text { font-size: 14px; color: var(--text); margin: 0 0 0.25rem; }
+  .fe-dropzone-hint { font-size: 12px; color: var(--text-3); margin: 0; }
+
+  .fe-panels { margin-top: 0; }
+  .fe-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  .fe-font-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .fe-clear-btn {
+    font-size: 13px;
+    font-family: var(--font);
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+  }
+  .fe-clear-btn:hover { background: var(--bg-hover); }
+
+  .fe-tab-bar {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .fe-tab {
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--font);
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+  }
+  .fe-tab:hover { background: var(--bg-hover); color: var(--text); }
+  .fe-tab.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .fe-panel {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+    padding: 1rem;
+  }
+
+  .fe-preview-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .fe-size-label { font-size: 13px; color: var(--text-2); min-width: 40px; }
+  .fe-preview-input {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-family: var(--font);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    box-sizing: border-box;
+    margin-bottom: 0.75rem;
+  }
+  .fe-preview-input:focus {
+    border-color: var(--accent);
+  }
+  .fe-preview-render {
+    padding: 1rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow-wrap: break-word;
+    word-break: break-word;
+    min-height: 60px;
+  }
+  .fe-waterfall {
+    margin-top: 1rem;
+  }
+  .fe-waterfall-item {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .fe-waterfall-label {
+    font-size: 11px;
+    color: var(--text-3);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .fe-meta-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .fe-meta-table td {
+    padding: 8px 12px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+  .fe-meta-table td:first-child {
+    font-weight: 600;
+    color: var(--text-2);
+    width: 160px;
+    white-space: nowrap;
+  }
+
+  .fe-charset-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+    gap: 2px;
+    max-height: 360px;
+    overflow-y: auto;
+    margin-bottom: 0.75rem;
+  }
+  .fe-glyph-btn {
+    font-size: 20px;
+    padding: 8px 4px;
+    border: none;
+    background: var(--bg);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+  }
+  .fe-glyph-btn:hover { background: var(--bg-hover); }
+  .fe-glyph-btn.selected { background: var(--accent); color: #fff; }
+
+  .fe-glyph-detail {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 1rem;
+  }
+  .fe-glyph-svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fe-glyph-svg svg {
+    max-width: 180px;
+    max-height: 180px;
+  }
+  .fe-glyph-info {
+    font-size: 13px;
+    color: var(--text);
+  }
+  .fe-glyph-info-row {
+    margin-bottom: 0.4rem;
+  }
+  .fe-glyph-info-label {
+    font-weight: 600;
+    color: var(--text-2);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+  }
+  .fe-glyph-info-value {
+    font-family: var(--font-mono);
+    word-break: break-all;
+  }
+
+  .fe-features-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+  }
+  .fe-feature-tag {
+    font-size: 13px;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .fe-feature-code {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .fe-feature-name {
+    color: var(--text-2);
+  }
+  .fe-no-features {
+    font-size: 14px;
+    color: var(--text-2);
+    padding: 1rem;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .fe-glyph-detail { grid-template-columns: 1fr; }
+  }
+</style>
+<script src="../tools/font-explorer.js"></script>

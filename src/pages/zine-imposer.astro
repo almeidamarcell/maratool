@@ -1,0 +1,165 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Zine Layout Generator — 8-Page Mini-Zine from One Sheet | maratool',
+  description: 'Create an 8-page mini-zine imposition layout from a single sheet of paper. Upload a PDF, download the print-ready layout. Runs in your browser.',
+  canonical: 'https://maratool.com/zine-imposer',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Zine Layout Generator — 8-Page Mini-Zine',
+    url: 'https://maratool.com/zine-imposer',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate an 8-page mini-zine layout for single-sheet printing.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'PDF', item: 'https://maratool.com/pdf' },
+      { '@type': 'ListItem', position: 3, name: 'Edit', item: 'https://maratool.com/pdf/edit' },
+      { '@type': 'ListItem', position: 4, name: 'Zine Layout Generator', item: 'https://maratool.com/zine-imposer' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is a mini-zine?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A mini-zine is an 8-page booklet made from a single sheet of paper by folding and cutting. It is popular for DIY publishing, art, and creative projects.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How does the zine imposition work?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Your 8 PDF pages are arranged on one sheet (front and back) so that when printed double-sided, folded, and cut along the center, they form a booklet that reads in order.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does my PDF need exactly 8 pages?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Ideally yes. If your PDF has fewer than 8 pages, the remaining slots will be left blank. More than 8 pages will be ignored.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my file uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All processing runs in your browser using pdf-lib. Your file never leaves your device.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload a PDF with up to 8 pages.',
+  'Preview the front and back layout — pages are arranged for fold-and-cut assembly.',
+  'Click "Download Print-Ready PDF" and follow the fold/cut instructions to assemble your zine.'
+]
+
+const faq = [
+  { q: 'What is a mini-zine?', a: 'An 8-page booklet made from one sheet by folding and cutting. Popular for DIY publishing.' },
+  { q: 'How does zine imposition work?', a: 'Pages are arranged on one sheet (front+back) so they read in order after folding and cutting.' },
+  { q: 'Does my PDF need exactly 8 pages?', a: 'Ideally yes. Fewer pages leave blank slots; more than 8 are ignored.' },
+  { q: 'Is my file uploaded?', a: 'No. All processing runs locally in your browser using pdf-lib.' }
+]
+
+const relatedTools = [
+  { slug: 'print-imposer', name: 'PDF Page Imposer' },
+  { slug: 'pdf-merge-split', name: 'Merge & Split PDF' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'PDF', href: '/pdf' },
+  { label: 'Edit', href: '/pdf/edit' },
+  { label: 'Zine Layout Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="zine-imposer" name="Zine Layout Generator — 8-Page Mini-Zine" description="Create an 8-page mini-zine imposition layout from a single sheet of paper. Upload a PDF and download the print-ready layout." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="pdf-dropzone" id="zi-dropzone">
+          <input type="file" id="zi-file" accept="application/pdf" hidden />
+          <div class="pdf-dropzone-inner">
+            <svg class="pdf-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p class="pdf-dropzone-title">Drop a PDF here (up to 8 pages)</p>
+            <p class="pdf-dropzone-sub">or click to select a file</p>
+          </div>
+        </div>
+
+        <p id="zi-file-info" class="pdf-file-info"></p>
+
+        <div id="zi-preview" class="zi-preview" style="display:none;">
+          <div class="zi-side">
+            <span class="tool-label">Front (print side 1)</span>
+            <canvas id="zi-front" class="zi-canvas" width="400" height="280"></canvas>
+          </div>
+          <div class="zi-side">
+            <span class="tool-label">Back (print side 2)</span>
+            <canvas id="zi-back" class="zi-canvas" width="400" height="280"></canvas>
+          </div>
+        </div>
+
+        <div class="zi-instructions" id="zi-instructions" style="display:none;">
+          <h3 class="zi-instr-title">How to assemble your zine</h3>
+          <ol class="zi-steps">
+            <li>Print the PDF double-sided (flip on long edge), landscape orientation.</li>
+            <li>Fold the sheet in half lengthwise (top to bottom).</li>
+            <li>Unfold, then fold in half widthwise (right to left).</li>
+            <li>Fold in half widthwise again.</li>
+            <li>Unfold completely — you should see 8 panels with a crease pattern.</li>
+            <li>Cut along the center horizontal crease between the middle two columns only.</li>
+            <li>Fold lengthwise again and push the cut edges together to form the booklet.</li>
+          </ol>
+        </div>
+
+        <div id="zi-progress" class="pdf-progress" style="display:none;"></div>
+        <button id="zi-generate" class="tool-button" style="display:none;">Download Print-Ready PDF</button>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .zi-preview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .zi-side {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.75rem;
+  }
+  .zi-canvas { max-width: 100%; margin-top: 0.5rem; }
+  .zi-instructions {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  .zi-instr-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+  }
+  .zi-steps {
+    font-size: 13px;
+    color: var(--text-2);
+    padding-left: 1.25rem;
+    margin: 0;
+  }
+  .zi-steps li { margin-bottom: 0.25rem; }
+  @media (max-width: 768px) {
+    .zi-preview { grid-template-columns: 1fr; }
+  }
+</style>
+<script src="../tools/zine-imposer.js"></script>

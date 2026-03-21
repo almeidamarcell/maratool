@@ -1,0 +1,173 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'PDF Preflight Checker — Check Print Readiness | maratool',
+  description: 'Analyze PDF files for print-readiness. Check page sizes, fonts, color spaces, and image resolution. Runs entirely in your browser — no upload.',
+  canonical: 'https://maratool.com/pdf-preflight',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'PDF Preflight Checker',
+    url: 'https://maratool.com/pdf-preflight',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Analyze PDF files for print-readiness issues in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'PDF', item: 'https://maratool.com/pdf' },
+      { '@type': 'ListItem', position: 3, name: 'Inspect', item: 'https://maratool.com/pdf/inspect' },
+      { '@type': 'ListItem', position: 4, name: 'PDF Preflight Checker', item: 'https://maratool.com/pdf-preflight' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What does a PDF preflight checker do?',
+        acceptedAnswer: { '@type': 'Answer', text: 'It analyzes a PDF file for issues that could cause problems during printing — such as mixed page sizes, non-embedded fonts, low-resolution images, and RGB color spaces (instead of CMYK).' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my PDF uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All analysis runs in your browser using pdf.js and pdf-lib. Your file never leaves your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What checks are performed?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Page sizes and consistency, embedded fonts, image resolution estimation, color space detection (RGB vs CMYK), overall document info (page count, file size, PDF version, metadata).' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What do the status icons mean?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Green checkmark means pass, yellow triangle means warning (should address for quality), red X means a critical issue that must be resolved before printing.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload a PDF by clicking the dropzone or dragging a file.',
+  'Wait for the analysis to complete — page sizes, fonts, images, and colors are checked.',
+  'Review the summary and individual check results. Fix any errors before printing.'
+]
+
+const faq = [
+  { q: 'What does a PDF preflight checker do?', a: 'It analyzes a PDF for print issues — mixed page sizes, missing fonts, low-res images, and wrong color spaces.' },
+  { q: 'Is my PDF uploaded to a server?', a: 'No. All analysis runs in your browser. Your file stays on your device.' },
+  { q: 'What checks are performed?', a: 'Page sizes, embedded fonts, image resolution, color spaces, document info (page count, version, metadata).' },
+  { q: 'What do the status icons mean?', a: 'Green = pass, yellow = warning, red = critical issue that must be fixed.' }
+]
+
+const relatedTools = [
+  { slug: 'pdf-metadata', name: 'PDF Metadata Viewer' },
+  { slug: 'pdf-merge-split', name: 'Merge & Split PDF' },
+  { slug: 'print-imposer', name: 'PDF Page Imposer' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'PDF', href: '/pdf' },
+  { label: 'Inspect', href: '/pdf/inspect' },
+  { label: 'PDF Preflight Checker' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="pdf-preflight" name="PDF Preflight Checker" description="Analyze PDF files for print-readiness issues — check page sizes, fonts, color spaces, and image resolution." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="pdf-dropzone" id="pf-dropzone">
+          <input type="file" id="pf-file" accept="application/pdf" hidden />
+          <div class="pdf-dropzone-inner">
+            <svg class="pdf-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p class="pdf-dropzone-title">Drop a PDF here</p>
+            <p class="pdf-dropzone-sub">or click to select a file</p>
+          </div>
+        </div>
+
+        <div id="pf-status" class="pf-status"></div>
+
+        <div id="pf-summary" class="pf-summary" style="display:none;"></div>
+
+        <div id="pf-report" class="pf-report" style="display:none;">
+          <div class="pf-section" id="pf-doc-info">
+            <h3 class="pf-section-title">Document Info</h3>
+            <div id="pf-doc-body" class="pf-section-body"></div>
+          </div>
+          <div class="pf-section" id="pf-pages-info">
+            <h3 class="pf-section-title">Page Sizes</h3>
+            <div id="pf-pages-body" class="pf-section-body"></div>
+          </div>
+          <div class="pf-section" id="pf-fonts-info">
+            <h3 class="pf-section-title">Fonts</h3>
+            <div id="pf-fonts-body" class="pf-section-body"></div>
+          </div>
+          <div class="pf-section" id="pf-colors-info">
+            <h3 class="pf-section-title">Color Spaces</h3>
+            <div id="pf-colors-body" class="pf-section-body"></div>
+          </div>
+          <div class="pf-section" id="pf-images-info">
+            <h3 class="pf-section-title">Images</h3>
+            <div id="pf-images-body" class="pf-section-body"></div>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .pf-status { font-size: 14px; color: var(--text-2); margin: 0.75rem 0; }
+  .pf-summary {
+    padding: 1rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-bottom: 1rem;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .pf-summary.pass { background: #f0fdf4; border-color: #86efac; color: #166534; }
+  .pf-summary.warn { background: #fefce8; border-color: #fde68a; color: #854d0e; }
+  .pf-summary.fail { background: #fef2f2; border-color: #fca5a5; color: #991b1b; }
+  .pf-report {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .pf-section {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+  }
+  .pf-section-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: var(--text);
+  }
+  .pf-section-body { font-size: 13px; color: var(--text-2); }
+  .pf-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .pf-row:last-child { border-bottom: none; }
+  .pf-icon { flex-shrink: 0; font-size: 14px; }
+  .pf-icon.pass { color: #16a34a; }
+  .pf-icon.warn { color: #ca8a04; }
+  .pf-icon.fail { color: #dc2626; }
+  .pf-label { font-weight: 500; color: var(--text); min-width: 100px; }
+  .pf-value { color: var(--text-2); }
+</style>
+<script src="../tools/pdf-preflight.js"></script>

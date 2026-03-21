@@ -1,0 +1,225 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Typography Size Converter — PX, PT, EM, % | maratool',
+  description: 'Convert between px, pt, em, rem, and percent for CSS typography. Enter any value and see all units instantly. Free, no sign-up.',
+  canonical: 'https://maratool.com/typography-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Typography Size Converter',
+    url: 'https://maratool.com/typography-calculator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert between px, pt, em, rem, and percent for CSS typography.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Unit', item: 'https://maratool.com/converter/unit' },
+      { '@type': 'ListItem', position: 4, name: 'Typography Size Converter', item: 'https://maratool.com/typography-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I convert px to pt?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Multiply the pixel value by 0.75 (or divide by 1.333). For example, 16px = 12pt. This is because CSS defines 1 inch as 96px and 1 inch as 72pt, so 1pt = 96/72 = 1.333px.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the difference between em and rem?',
+        acceptedAnswer: { '@type': 'Answer', text: 'em is relative to the parent element font size, while rem is relative to the root (html) font size. Both default to 16px in most browsers, but em compounds when nested while rem stays consistent.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I convert percent to px for fonts?',
+        acceptedAnswer: { '@type': 'Answer', text: '100% equals the base font size (usually 16px). So 150% = 24px (16 * 1.5). Enter a percentage value in this tool and it shows the pixel equivalent instantly.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What base font size should I use?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The browser default is 16px, and most CSS frameworks use this as the root size. If your project sets a different font-size on the html element, adjust the base size in this tool to match.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Set your base font size (default is 16px) to match your project.',
+  'Enter a value in any unit field — px, pt, em, rem, or percent.',
+  'All other fields update instantly. Click any value to copy it.'
+]
+
+const faq = [
+  { q: 'How do I convert px to pt?', a: 'Multiply the pixel value by 0.75 (or divide by 1.333). For example, 16px = 12pt. CSS defines 1 inch as 96px and 72pt, so 1pt = 1.333px.' },
+  { q: 'What is the difference between em and rem?', a: 'em is relative to the parent element font size, while rem is relative to the root (html) font size. Both default to 16px, but em compounds when nested.' },
+  { q: 'How do I convert percent to px for fonts?', a: '100% equals the base font size (usually 16px). So 150% = 24px (16 &times; 1.5).' },
+  { q: 'What base font size should I use?', a: 'The browser default is 16px. If your project sets a different font-size on the html element, adjust the base size here to match.' }
+]
+
+const relatedTools = [
+  { slug: 'px-to-rem', name: 'PX to REM Converter' },
+  { slug: 'line-height-calculator', name: 'Line Height Calculator' },
+  { slug: 'unit-converter', name: 'Unit Converter' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Unit', href: '/converter/unit' },
+  { label: 'Typography Size Converter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="typography-calculator" name="Typography Size Converter — PX, PT, EM, %" description="Enter a value in any unit and see all other units instantly. Configurable base font size." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="tc-base-row">
+          <label class="tool-label" for="tc-base">Base font size</label>
+          <div class="tc-base-input-wrap">
+            <input type="number" id="tc-base" class="tc-base-input" value="16" min="1" max="200" />
+            <span class="tc-unit-label">px</span>
+          </div>
+        </div>
+
+        <div class="tc-grid">
+          <div class="tc-field">
+            <label class="tool-label" for="tc-px">Pixels (px)</label>
+            <div class="tc-input-wrap">
+              <input type="number" id="tc-px" class="tool-input tc-input" placeholder="16" step="any" />
+              <button class="copy-btn tc-copy" data-unit="px">Copy</button>
+            </div>
+          </div>
+          <div class="tc-field">
+            <label class="tool-label" for="tc-pt">Points (pt)</label>
+            <div class="tc-input-wrap">
+              <input type="number" id="tc-pt" class="tool-input tc-input" placeholder="12" step="any" />
+              <button class="copy-btn tc-copy" data-unit="pt">Copy</button>
+            </div>
+          </div>
+          <div class="tc-field">
+            <label class="tool-label" for="tc-em">Em</label>
+            <div class="tc-input-wrap">
+              <input type="number" id="tc-em" class="tool-input tc-input" placeholder="1" step="any" />
+              <button class="copy-btn tc-copy" data-unit="em">Copy</button>
+            </div>
+          </div>
+          <div class="tc-field">
+            <label class="tool-label" for="tc-rem">Rem</label>
+            <div class="tc-input-wrap">
+              <input type="number" id="tc-rem" class="tool-input tc-input" placeholder="1" step="any" />
+              <button class="copy-btn tc-copy" data-unit="rem">Copy</button>
+            </div>
+          </div>
+          <div class="tc-field">
+            <label class="tool-label" for="tc-pct">Percent (%)</label>
+            <div class="tc-input-wrap">
+              <input type="number" id="tc-pct" class="tool-input tc-input" placeholder="100" step="any" />
+              <button class="copy-btn tc-copy" data-unit="%">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tc-table-wrap">
+          <span class="tool-label">Common conversions</span>
+          <table class="tc-table">
+            <thead><tr><th>px</th><th>pt</th><th>em</th><th>rem</th><th>%</th></tr></thead>
+            <tbody id="tc-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .tc-base-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .tc-base-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+  .tc-base-input {
+    width: 72px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    padding: 6px 8px;
+  }
+  .tc-unit-label { font-size: 13px; color: var(--text-3); }
+
+  .tc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .tc-field {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+  }
+  .tc-input-wrap {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .tc-input {
+    width: 100%;
+    font-size: 18px;
+    font-family: var(--font-mono);
+  }
+
+  .tc-table-wrap { margin-top: 0.5rem; }
+  .tc-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+  }
+  .tc-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-3);
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tc-table td {
+    padding: 8px 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .tc-table tr:hover td { background: var(--bg-soft); }
+  .tc-table td.copied { color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .tc-grid { grid-template-columns: 1fr; }
+  }
+</style>
+<script src="../tools/typography-calculator.js"></script>

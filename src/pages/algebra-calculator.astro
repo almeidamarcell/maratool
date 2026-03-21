@@ -1,0 +1,229 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Algebra Calculator — Solve, Simplify & Factor Online | maratool',
+  description: 'Simplify expressions, factor polynomials, solve equations, compute derivatives and integrals. Renders results with LaTeX. Free, no sign-up.',
+  canonical: 'https://maratool.com/algebra-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Algebra Calculator — Solve & Simplify',
+    url: 'https://maratool.com/algebra-calculator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Simplify, factor, expand, solve, differentiate, and integrate algebraic expressions online.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Calculator', item: 'https://maratool.com/developer/calculator' },
+      { '@type': 'ListItem', position: 4, name: 'Algebra Calculator', item: 'https://maratool.com/algebra-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I solve an equation online?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Type the equation (e.g. 2*x + 5 = 15), set the variable to solve for, and click "Solve". The tool returns exact solutions rendered in LaTeX notation.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What expressions can this algebra calculator handle?',
+        acceptedAnswer: { '@type': 'Answer', text: 'It supports simplification, factoring, expansion, solving equations, derivatives, and integrals. You can use powers (^), trigonometric functions (sin, cos, tan), logarithms (log), and square roots (sqrt).' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this calculator show step-by-step solutions?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The calculator shows the final result rendered beautifully with LaTeX. It does not show intermediate steps, but it handles simplification, factoring, and solving in one click.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my data sent to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All computation runs in your browser using the nerdamer library. Nothing is uploaded.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Type a math expression (e.g. x^2 + 2*x + 1) or click an example chip.',
+  'Choose an operation: Simplify, Factor, Expand, Solve, Derivative, or Integrate.',
+  'The result renders instantly with LaTeX — click "Copy" to copy the raw expression.'
+]
+
+const faq = [
+  { q: 'How do I solve an equation online?', a: 'Type the equation (e.g. 2*x + 5 = 15), set the variable, and click "Solve".' },
+  { q: 'What expressions can this calculator handle?', a: 'Powers, trig functions, logarithms, square roots, polynomials, and more.' },
+  { q: 'Does it show step-by-step solutions?', a: 'It shows the final result in LaTeX. It does not display intermediate steps.' },
+  { q: 'Is my data sent to a server?', a: 'No. All computation happens in your browser using the nerdamer library.' }
+]
+
+const relatedTools = [
+  { slug: 'scientific-calculator', name: 'Scientific Calculator' },
+  { slug: 'graph-calculator', name: 'Graph Calculator' },
+  { slug: 'base-converter', name: 'Number Base Converter' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Calculator', href: '/developer/calculator' },
+  { label: 'Algebra Calculator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="algebra-calculator" name="Algebra Calculator — Solve & Simplify" description="Simplify expressions, factor polynomials, solve equations, and compute derivatives. Renders math with LaTeX." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="ac-input-row">
+          <label class="tool-label" for="ac-expression">Expression</label>
+          <input type="text" id="ac-expression" class="tool-input" placeholder="e.g. x^2 + 2*x + 1" autocomplete="off" />
+        </div>
+
+        <div class="ac-var-row">
+          <label class="tool-label" for="ac-variable">Variable</label>
+          <input type="text" id="ac-variable" class="ac-var-input" value="x" maxlength="3" />
+        </div>
+
+        <div class="ac-chips" id="ac-chips">
+          <button class="ac-chip" data-expr="x^2 + 2*x + 1">x&sup2; + 2x + 1</button>
+          <button class="ac-chip" data-expr="sin(x)^2 + cos(x)^2">sin&sup2;(x) + cos&sup2;(x)</button>
+          <button class="ac-chip" data-expr="2*x + 5 = 15">2x + 5 = 15</button>
+          <button class="ac-chip" data-expr="x^3 - 8">x&sup3; &minus; 8</button>
+          <button class="ac-chip" data-expr="(x+1)*(x-1)*(x+3)">(x+1)(x&minus;1)(x+3)</button>
+        </div>
+
+        <div class="ac-ops" id="ac-ops">
+          <button class="ac-op active" data-op="simplify">Simplify</button>
+          <button class="ac-op" data-op="factor">Factor</button>
+          <button class="ac-op" data-op="expand">Expand</button>
+          <button class="ac-op" data-op="solve">Solve</button>
+          <button class="ac-op" data-op="derivative">Derivative</button>
+          <button class="ac-op" data-op="integrate">Integrate</button>
+        </div>
+
+        <div class="ac-result-panel" id="ac-result-panel">
+          <div id="ac-katex-output" class="ac-katex-output"></div>
+          <div id="ac-raw-output" class="ac-raw-output"></div>
+          <button class="copy-btn" id="ac-copy-btn" style="display:none;">Copy</button>
+        </div>
+
+        <div id="ac-error" class="ac-error"></div>
+        <div id="ac-loading" class="ac-loading" style="display:none;">Loading algebra engine...</div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .ac-input-row { margin-bottom: 0.75rem; }
+  .ac-var-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .ac-var-input {
+    width: 56px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    padding: 6px 8px;
+    font-family: var(--font-mono);
+  }
+  .ac-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-bottom: 1rem;
+  }
+  .ac-chip {
+    padding: 4px 12px;
+    font-size: 13px;
+    font-family: var(--font-mono);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    background: var(--bg-soft);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .ac-chip:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .ac-ops {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-bottom: 1rem;
+  }
+  .ac-op {
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .ac-op:hover { background: var(--bg-hover); color: var(--text); }
+  .ac-op.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .ac-result-panel {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    min-height: 60px;
+    position: relative;
+  }
+  .ac-katex-output {
+    font-size: 22px;
+    min-height: 32px;
+    overflow-x: auto;
+  }
+  .ac-raw-output {
+    font-size: 13px;
+    font-family: var(--font-mono);
+    color: var(--text-3);
+    margin-top: 0.5rem;
+    word-break: break-all;
+  }
+  .ac-error {
+    color: #b91c1c;
+    font-size: 14px;
+    margin-top: 0.5rem;
+  }
+  .ac-loading {
+    color: var(--text-3);
+    font-size: 14px;
+    margin-top: 0.5rem;
+  }
+  .ac-result-panel .copy-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+<script src="../tools/algebra-calculator.js"></script>

@@ -1,0 +1,383 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Add Watermark to Image Online — Text & Image Watermarks | maratool',
+  description: 'Add text or image watermarks to photos in your browser. Adjust opacity, position, size, and rotation. No upload to servers — runs 100% locally.',
+  canonical: 'https://maratool.com/watermarker',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Add Watermark to Image',
+    url: 'https://maratool.com/watermarker',
+    applicationCategory: 'DesignApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Add text or image watermarks to photos in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Add Watermark to Image', item: 'https://maratool.com/watermarker' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I add a watermark to an image?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Upload your image, choose text or image watermark mode, configure opacity, position, and size, then download the watermarked result. Everything runs in your browser — no upload to any server.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I tile a watermark across the entire image?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Select the "Tile" position option and the watermark will repeat across the entire image with configurable spacing and rotation angle.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this tool upload my images to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All processing uses the Canvas API in your browser. Your images never leave your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What image formats are supported?',
+        acceptedAnswer: { '@type': 'Answer', text: 'You can upload PNG, JPEG, and WebP images as the base image. For image watermarks, PNG with transparency works best. The output is always PNG.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload the image you want to watermark.',
+  'Choose text or image watermark mode, then configure position, opacity, and size.',
+  'Preview the result and click Download to save the watermarked image.'
+]
+
+const faq = [
+  { q: 'How do I add a watermark to an image?', a: 'Upload your image, choose text or image watermark, configure opacity and position, then download. Everything runs in your browser.' },
+  { q: 'Can I tile a watermark across the entire image?', a: 'Yes. Select the "Tile" position and the watermark repeats across the image with configurable spacing and rotation.' },
+  { q: 'Does this tool upload my images to a server?', a: 'No. All processing uses the Canvas API in your browser. Your images never leave your device.' },
+  { q: 'What image formats are supported?', a: 'PNG, JPEG, and WebP for the base image. For image watermarks, PNG with transparency works best. Output is PNG.' }
+]
+
+const relatedTools = [
+  { slug: 'social-media-cropper', name: 'Social Media Image Cropper' },
+  { slug: 'matte-generator', name: 'Square Matte Generator' },
+  { slug: 'image-converter', name: 'Image Format Converter' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'Add Watermark to Image' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="watermarker" name="Add Watermark to Image" description="Add text or image watermarks to photos. Adjust opacity, position, size, and rotation." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <!-- Upload -->
+        <div class="wm-upload" id="wm-upload">
+          <input type="file" id="wm-file" accept="image/png,image/jpeg,image/webp" hidden />
+          <div class="wm-upload-content">
+            <div class="wm-upload-icon">💧</div>
+            <p class="wm-upload-text">Drop an image here or <button type="button" class="wm-upload-btn" id="wm-browse">browse</button></p>
+            <p class="wm-upload-hint">PNG, JPEG, or WebP</p>
+          </div>
+        </div>
+
+        <!-- Source info -->
+        <div class="wm-source" id="wm-source" style="display:none;">
+          <div class="wm-source-preview">
+            <img id="wm-source-img" alt="Source image" />
+            <span class="wm-source-info" id="wm-source-info"></span>
+          </div>
+          <button class="wm-change-btn" id="wm-change" type="button">Change image</button>
+        </div>
+
+        <!-- Controls -->
+        <div class="wm-controls" id="wm-controls" style="display:none;">
+          <!-- Watermark type toggle -->
+          <div class="wm-row">
+            <span class="tool-label">Watermark type</span>
+            <div class="wm-toggle">
+              <button type="button" class="wm-toggle-btn active" id="wm-type-text">Text</button>
+              <button type="button" class="wm-toggle-btn" id="wm-type-image">Image</button>
+            </div>
+          </div>
+
+          <!-- Text watermark options -->
+          <div class="wm-text-opts" id="wm-text-opts">
+            <div class="wm-row">
+              <label class="tool-label" for="wm-text-input">Watermark text</label>
+              <input type="text" id="wm-text-input" class="tool-input" value="maratool.com" placeholder="Your watermark text" />
+            </div>
+            <div class="wm-row wm-row-inline">
+              <div class="wm-field">
+                <label class="tool-label" for="wm-font-size">Font size</label>
+                <input type="number" id="wm-font-size" class="tool-input wm-small-input" value="48" min="8" max="500" />
+              </div>
+              <div class="wm-field">
+                <label class="tool-label" for="wm-color">Color</label>
+                <input type="color" id="wm-color" value="#ffffff" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Image watermark options -->
+          <div class="wm-image-opts" id="wm-image-opts" style="display:none;">
+            <div class="wm-row">
+              <label class="tool-label">Watermark image</label>
+              <div class="wm-wm-upload" id="wm-wm-upload">
+                <input type="file" id="wm-wm-file" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden />
+                <button type="button" class="wm-upload-btn" id="wm-wm-browse">Choose watermark image</button>
+                <span class="wm-wm-name" id="wm-wm-name"></span>
+              </div>
+            </div>
+            <div class="wm-row">
+              <label class="tool-label" for="wm-wm-scale">Watermark scale (%)</label>
+              <input type="range" id="wm-wm-scale" min="5" max="100" value="25" />
+              <span class="wm-range-val" id="wm-wm-scale-val">25%</span>
+            </div>
+          </div>
+
+          <!-- Shared options -->
+          <div class="wm-row">
+            <label class="tool-label" for="wm-opacity">Opacity</label>
+            <input type="range" id="wm-opacity" min="1" max="100" value="50" />
+            <span class="wm-range-val" id="wm-opacity-val">50%</span>
+          </div>
+
+          <div class="wm-row">
+            <label class="tool-label">Position</label>
+            <div class="wm-position-grid" id="wm-position-grid">
+              <button type="button" class="wm-pos-btn" data-pos="tl" title="Top-left">&#8598;</button>
+              <button type="button" class="wm-pos-btn" data-pos="tc" title="Top-center">&#8593;</button>
+              <button type="button" class="wm-pos-btn" data-pos="tr" title="Top-right">&#8599;</button>
+              <button type="button" class="wm-pos-btn" data-pos="ml" title="Middle-left">&#8592;</button>
+              <button type="button" class="wm-pos-btn active" data-pos="mc" title="Center">&#8226;</button>
+              <button type="button" class="wm-pos-btn" data-pos="mr" title="Middle-right">&#8594;</button>
+              <button type="button" class="wm-pos-btn" data-pos="bl" title="Bottom-left">&#8601;</button>
+              <button type="button" class="wm-pos-btn" data-pos="bc" title="Bottom-center">&#8595;</button>
+              <button type="button" class="wm-pos-btn" data-pos="br" title="Bottom-right">&#8600;</button>
+            </div>
+            <button type="button" class="wm-tile-btn" id="wm-tile-btn">Tile (repeat)</button>
+          </div>
+
+          <div class="wm-row">
+            <label class="tool-label" for="wm-rotation">Rotation</label>
+            <input type="range" id="wm-rotation" min="-180" max="180" value="0" />
+            <span class="wm-range-val" id="wm-rotation-val">0°</span>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="wm-preview-wrap" id="wm-preview-wrap" style="display:none;">
+          <span class="tool-label">Preview</span>
+          <div class="wm-preview">
+            <canvas id="wm-canvas"></canvas>
+          </div>
+          <button class="wm-download-btn" id="wm-download" type="button">Download watermarked image</button>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .wm-upload {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    margin-bottom: 1.25rem;
+  }
+  .wm-upload:hover, .wm-upload.dragover {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .wm-upload-icon { font-size: 36px; margin-bottom: 0.75rem; }
+  .wm-upload-text { color: var(--text-2); font-size: 14px; }
+  .wm-upload-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: underline;
+    padding: 0;
+  }
+  .wm-upload-hint { color: var(--text-3); font-size: 12px; margin-top: 0.375rem; }
+
+  .wm-source {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .wm-source-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+  }
+  .wm-source-preview img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fff;
+  }
+  .wm-source-info { font-size: 13px; color: var(--text-2); }
+  .wm-change-btn {
+    font-size: 13px;
+    color: var(--accent);
+    background: none;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 6px 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .wm-change-btn:hover { background: var(--accent); color: #fff; }
+
+  .wm-controls { margin-bottom: 1.25rem; }
+  .wm-row { margin-bottom: 1rem; }
+  .wm-row-inline { display: flex; gap: 1rem; }
+  .wm-field { flex: 1; }
+  .wm-small-input { width: 80px; }
+
+  .wm-toggle {
+    display: inline-flex;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .wm-toggle-btn {
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .wm-toggle-btn.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .wm-wm-upload {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .wm-wm-name { font-size: 13px; color: var(--text-2); }
+
+  .wm-position-grid {
+    display: inline-grid;
+    grid-template-columns: repeat(3, 36px);
+    gap: 4px;
+    margin-top: 0.375rem;
+  }
+  .wm-pos-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text-2);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .wm-pos-btn:hover { background: var(--bg-soft); }
+  .wm-pos-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .wm-tile-btn {
+    display: block;
+    margin-top: 0.5rem;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .wm-tile-btn:hover { background: var(--bg-soft); }
+  .wm-tile-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .wm-range-val {
+    font-size: 13px;
+    color: var(--text-2);
+    font-family: var(--font-mono);
+    margin-left: 0.5rem;
+  }
+
+  .wm-preview-wrap { margin-bottom: 1.25rem; }
+  .wm-preview {
+    margin-top: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--bg-soft);
+    text-align: center;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .wm-preview canvas {
+    max-width: 100%;
+    max-height: 500px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .wm-download-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .wm-download-btn:hover { opacity: 0.9; }
+
+  @media (max-width: 768px) {
+    .wm-row-inline { flex-direction: column; }
+    .wm-source { flex-direction: column; }
+  }
+</style>
+<script src="../tools/watermarker.js"></script>

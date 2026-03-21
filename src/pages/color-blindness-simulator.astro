@@ -1,0 +1,292 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Color Blindness Simulator — See how colors look to colorblind users | maratool',
+  description: 'Simulate color blindness on images and colors. Preview protanopia, deuteranopia, tritanopia, and more. Test accessibility in your browser — free, no upload.',
+  canonical: 'https://maratool.com/color-blindness-simulator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Color Blindness Simulator',
+    url: 'https://maratool.com/color-blindness-simulator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Simulate how colors and images appear to people with color blindness.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Color', item: 'https://maratool.com/color' },
+      { '@type': 'ListItem', position: 3, name: 'Check', item: 'https://maratool.com/color/check' },
+      { '@type': 'ListItem', position: 4, name: 'Color Blindness Simulator', item: 'https://maratool.com/color-blindness-simulator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How does color blindness simulation work?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The simulator applies scientifically validated 3x3 color transformation matrices to each pixel. These matrices, based on research by Machado, Oliveira and Fernandes (2009), remap RGB values to approximate how someone with a specific color vision deficiency perceives colors.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What types of color blindness can this tool simulate?',
+        acceptedAnswer: { '@type': 'Answer', text: 'This tool simulates 7 types: Protanopia (red-blind), Deuteranopia (green-blind), Tritanopia (blue-blind), Achromatopsia (total color blindness), Protanomaly (red-weak), Deuteranomaly (green-weak), and Tritanomaly (blue-weak). Deuteranomaly is the most common, affecting about 6% of males.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I test my website design for color blindness accessibility?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Take a screenshot of your design and upload it to the Image mode. The simulator will show how it appears under each type of color blindness. This helps ensure your UI uses sufficient contrast and does not rely solely on color to convey information.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this tool upload my images to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens entirely in your browser using HTML Canvas. Your images never leave your device.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Choose Image mode to upload an image, or Color mode to pick a single color.',
+  'Select a color blindness type from the list to see the simulated result.',
+  'Compare the original and simulated output side by side.'
+]
+
+const faq = [
+  { q: 'How does color blindness simulation work?', a: 'The simulator applies scientifically validated 3x3 color transformation matrices to each pixel. These matrices remap RGB values to approximate how someone with a specific color vision deficiency perceives colors.' },
+  { q: 'What types of color blindness can this tool simulate?', a: 'This tool simulates 7 types: Protanopia (red-blind), Deuteranopia (green-blind), Tritanopia (blue-blind), Achromatopsia (total color blindness), Protanomaly (red-weak), Deuteranomaly (green-weak), and Tritanomaly (blue-weak).' },
+  { q: 'Can I test my website design for color blindness accessibility?', a: 'Yes. Take a screenshot of your design and upload it. The simulator shows how it appears under each type of color blindness, helping you ensure your UI does not rely solely on color to convey information.' },
+  { q: 'Does this tool upload my images to a server?', a: 'No. All processing happens entirely in your browser using HTML Canvas. Your images never leave your device.' }
+]
+
+const relatedTools = [
+  { slug: 'contrast-checker', name: 'Contrast Checker' },
+  { slug: 'color-converter', name: 'Color Converter' },
+  { slug: 'color-harmony-generator', name: 'Color Harmony Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Color', href: '/color' },
+  { label: 'Check', href: '/color/check' },
+  { label: 'Color Blindness Simulator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="color-blindness-simulator" name="Color Blindness Simulator" description="Preview how colors and images appear to people with different types of color blindness." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+        <!-- Mode toggle -->
+        <div class="cbs-mode-bar">
+          <div class="tool-tabs" id="cbs-mode-tabs">
+            <button class="tool-tab active" data-mode="image">Image</button>
+            <button class="tool-tab" data-mode="color">Color</button>
+          </div>
+        </div>
+
+        <!-- Image mode -->
+        <div id="cbs-image-mode" class="cbs-mode">
+          <div class="cbs-upload-area" id="cbs-upload-area">
+            <input type="file" id="cbs-file-input" accept="image/*" hidden />
+            <div class="cbs-upload-prompt" id="cbs-upload-prompt">
+              <span class="cbs-upload-icon">&#128247;</span>
+              <span>Drop an image here or <button class="cbs-upload-btn" id="cbs-browse-btn">browse</button></span>
+              <span class="cbs-upload-hint">PNG, JPEG, WebP — processed locally</span>
+            </div>
+          </div>
+          <div class="cbs-image-results" id="cbs-image-results" style="display:none;">
+            <div class="cbs-image-grid" id="cbs-image-grid"></div>
+          </div>
+        </div>
+
+        <!-- Color mode -->
+        <div id="cbs-color-mode" class="cbs-mode" style="display:none;">
+          <div class="cbs-color-input-row">
+            <input type="color" id="cbs-color-picker" class="cbs-picker" value="#e74c3c" aria-label="Pick a color" />
+            <input type="text" id="cbs-hex-input" class="cbs-hex-input" value="#e74c3c" spellcheck="false" placeholder="#e74c3c" aria-label="Hex color" />
+          </div>
+          <div class="cbs-swatch-grid" id="cbs-swatch-grid"></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .cbs-mode-bar {
+    margin-bottom: 1rem;
+  }
+  .cbs-mode {
+    min-height: 300px;
+  }
+
+  /* Upload area */
+  .cbs-upload-area {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    background: var(--bg-soft);
+  }
+  .cbs-upload-area.dragover {
+    border-color: var(--accent);
+    background: rgba(45,110,246,0.04);
+  }
+  .cbs-upload-prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-2);
+  }
+  .cbs-upload-icon { font-size: 32px; }
+  .cbs-upload-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: inherit;
+    padding: 0;
+  }
+  .cbs-upload-hint {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+
+  /* Image results grid */
+  .cbs-image-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .cbs-image-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--bg-soft);
+  }
+  .cbs-image-card-label {
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-2);
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cbs-image-card-label small {
+    font-weight: 400;
+    color: var(--text-3);
+    font-size: 11px;
+  }
+  .cbs-image-card canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .cbs-change-image-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+  }
+  .cbs-change-btn {
+    font-size: 13px;
+    color: var(--accent);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .cbs-change-btn:hover { background: var(--bg-hover); }
+
+  /* Color mode */
+  .cbs-color-input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .cbs-picker {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 2px;
+    background: var(--bg);
+    flex-shrink: 0;
+  }
+  .cbs-hex-input {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    width: 140px;
+  }
+
+  /* Swatch grid */
+  .cbs-swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+  .cbs-swatch-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.15s;
+  }
+  .cbs-swatch-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .cbs-swatch-preview {
+    height: 80px;
+  }
+  .cbs-swatch-info {
+    padding: 8px 10px;
+    background: var(--bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cbs-swatch-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .cbs-swatch-hex {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text-2);
+  }
+  .cbs-swatch-card.copied .cbs-swatch-hex {
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .cbs-image-grid { grid-template-columns: 1fr; }
+    .cbs-swatch-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+<script src="../tools/color-blindness-simulator.js"></script>

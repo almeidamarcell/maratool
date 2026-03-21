@@ -1,0 +1,241 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Split Image Into Grid Tiles — Download as ZIP | maratool',
+  description: 'Split any image into a grid of tiles. Choose rows and columns, preview the grid overlay, and download all tiles as a ZIP file. Free, runs in your browser.',
+  canonical: 'https://maratool.com/image-splitter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Image Splitter',
+    url: 'https://maratool.com/image-splitter',
+    applicationCategory: 'DesignApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Split any image into a grid of tiles and download as a ZIP.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Image Splitter', item: 'https://maratool.com/image-splitter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I split an image into equal parts?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Upload your image, set the number of rows and columns, and click "Split & Download ZIP". Each tile will be an equal portion of the original image.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What image formats are supported?',
+        acceptedAnswer: { '@type': 'Answer', text: 'You can upload PNG, JPEG, WebP, GIF, or BMP images. The output tiles are always saved as PNG files inside the ZIP.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I preview the grid before splitting?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. After uploading, grid lines are overlaid on the image preview so you can see exactly how the image will be divided before downloading.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this tool upload my image to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All processing uses the Canvas API in your browser. Your image never leaves your device.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload or drop an image (PNG, JPEG, WebP, or other formats).',
+  'Set the number of rows and columns for the grid.',
+  'Click "Split & Download ZIP" to get all tiles in a ZIP file.'
+]
+
+const faq = [
+  { q: 'How do I split an image into equal parts?', a: 'Upload your image, set rows and columns, and click "Split & Download ZIP". Each tile is an equal portion of the original.' },
+  { q: 'What image formats are supported?', a: 'PNG, JPEG, WebP, GIF, or BMP. Output tiles are always PNG.' },
+  { q: 'Can I preview the grid before splitting?', a: 'Yes. Grid lines are overlaid on the preview so you can see how the image will be divided.' },
+  { q: 'Does this tool upload my image to a server?', a: 'No. All processing uses the Canvas API in your browser. Your image never leaves your device.' }
+]
+
+const relatedTools = [
+  { slug: 'image-converter', name: 'Image Format Converter' },
+  { slug: 'scroll-generator', name: 'Instagram Carousel Scroll Generator' },
+  { slug: 'favicon-generator', name: 'Favicon Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'Image Splitter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="image-splitter" name="Split Image Into Grid Tiles" description="Split any image into a grid of tiles. Choose rows and columns, preview the result, and download all tiles as a ZIP." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="is-upload" id="is-upload">
+          <input type="file" id="is-file" accept="image/*" hidden />
+          <div class="is-upload-content">
+            <div class="is-upload-icon">🔲</div>
+            <p class="is-upload-text">Drop an image here or <button type="button" class="is-upload-btn" id="is-browse">browse</button></p>
+            <p class="is-upload-hint">PNG, JPEG, WebP, GIF, or BMP</p>
+          </div>
+        </div>
+
+        <div class="is-workspace" id="is-workspace" style="display:none;">
+          <div class="is-controls">
+            <div class="is-control-group">
+              <label class="tool-label" for="is-rows">Rows</label>
+              <input type="number" id="is-rows" class="is-num-input" value="2" min="1" max="10" />
+            </div>
+            <div class="is-control-group">
+              <label class="tool-label" for="is-cols">Columns</label>
+              <input type="number" id="is-cols" class="is-num-input" value="2" min="1" max="10" />
+            </div>
+            <div class="is-control-group is-info-group">
+              <span class="is-tile-info" id="is-tile-info"></span>
+            </div>
+            <button type="button" class="is-change-btn" id="is-change">Change image</button>
+          </div>
+
+          <div class="is-preview-wrap" id="is-preview-wrap">
+            <img id="is-preview-img" alt="Preview" />
+            <div class="is-grid-overlay" id="is-grid-overlay"></div>
+          </div>
+
+          <button type="button" id="is-split" class="is-split-btn">Split & Download ZIP</button>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .is-upload {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    margin-bottom: 1.25rem;
+  }
+  .is-upload:hover, .is-upload.dragover {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .is-upload-icon { font-size: 36px; margin-bottom: 0.75rem; }
+  .is-upload-text { color: var(--text-2); font-size: 14px; }
+  .is-upload-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: underline;
+    padding: 0;
+  }
+  .is-upload-hint { color: var(--text-3); font-size: 12px; margin-top: 0.375rem; }
+
+  .is-controls {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .is-control-group { display: flex; flex-direction: column; gap: 0.25rem; }
+  .is-info-group {
+    flex: 1;
+    justify-content: flex-end;
+    min-width: 0;
+  }
+  .is-num-input {
+    width: 72px;
+    padding: 8px 10px;
+    font-size: 14px;
+    font-family: var(--font-mono);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    text-align: center;
+  }
+  .is-tile-info {
+    font-size: 13px;
+    color: var(--text-2);
+  }
+  .is-change-btn {
+    font-size: 13px;
+    color: var(--accent);
+    background: none;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .is-change-btn:hover { background: var(--accent); color: #fff; }
+
+  .is-preview-wrap {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #fff;
+  }
+  .is-preview-wrap img {
+    display: block;
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+  }
+  .is-grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: grid;
+  }
+  .is-grid-cell {
+    border: 1px dashed rgba(45, 110, 246, 0.5);
+    box-sizing: border-box;
+  }
+
+  .is-split-btn {
+    display: inline-block;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .is-split-btn:hover { opacity: 0.9; }
+  .is-split-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  @media (max-width: 768px) {
+    .is-controls { flex-direction: column; align-items: stretch; }
+  }
+</style>
+<script src="../tools/image-splitter.js"></script>

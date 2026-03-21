@@ -1,0 +1,185 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Barcode Generator — Code128, EAN-13, QR & More | maratool',
+  description: 'Generate barcodes in Code 128, EAN-13, UPC-A, QR Code, Data Matrix, PDF417, and more. Download as PNG. Free, runs in your browser.',
+  canonical: 'https://maratool.com/barcode-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Barcode Generator',
+    url: 'https://maratool.com/barcode-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate barcodes in multiple formats and download as PNG.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Marketing', item: 'https://maratool.com/marketing' },
+      { '@type': 'ListItem', position: 3, name: 'Builder', item: 'https://maratool.com/marketing/builder' },
+      { '@type': 'ListItem', position: 4, name: 'Barcode Generator', item: 'https://maratool.com/barcode-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What barcode formats are supported?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Code 128, EAN-13, UPC-A, QR Code, Data Matrix, PDF417, Code 39, and ITF-14. Both 1D and 2D barcode types are available.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I customize the barcode colors?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. You can set the bar color and background color using hex color pickers. You can also adjust width scale, height, and whether text is shown below the barcode.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I download the barcode?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Click the "Download PNG" button below the barcode preview. The image downloads immediately with your chosen settings.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is there a character limit for barcode content?',
+        acceptedAnswer: { '@type': 'Answer', text: 'It depends on the format. EAN-13 requires exactly 12-13 digits, UPC-A requires 11-12 digits. Code 128 and QR Code accept alphanumeric strings of varying lengths.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the text or number to encode and select a barcode format.',
+  'Adjust options like scale, height, colors, and text visibility.',
+  'Click "Download PNG" to save the barcode image.'
+]
+
+const faq = [
+  { q: 'What barcode formats are supported?', a: 'Code 128, EAN-13, UPC-A, QR Code, Data Matrix, PDF417, Code 39, and ITF-14.' },
+  { q: 'Can I customize barcode colors?', a: 'Yes. Set bar color and background color with hex pickers. Adjust scale and height too.' },
+  { q: 'How do I download the barcode?', a: 'Click "Download PNG" below the preview. The image saves immediately.' },
+  { q: 'Is there a character limit?', a: 'Depends on the format. EAN-13 needs 12-13 digits. Code 128 and QR accept longer alphanumeric strings.' }
+]
+
+const relatedTools = [
+  { slug: 'qr-code-generator', name: 'QR Code Generator' },
+  { slug: 'utm-builder', name: 'UTM Builder' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Marketing', href: '/marketing' },
+  { label: 'Builder', href: '/marketing/builder' },
+  { label: 'Barcode Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="barcode-generator" name="Barcode Generator — Code128, EAN-13 & More" description="Generate barcodes in Code 128, EAN-13, UPC-A, QR Code, Data Matrix, PDF417, and more. Download as PNG." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="bc-row">
+          <label class="tool-label" for="bc-input">Content</label>
+          <input type="text" id="bc-input" class="tool-input" placeholder="Enter text or number to encode" />
+        </div>
+
+        <div class="bc-row">
+          <label class="tool-label" for="bc-format">Format</label>
+          <select id="bc-format" class="tool-input bc-select">
+            <option value="code128" selected>Code 128</option>
+            <option value="ean13">EAN-13</option>
+            <option value="upca">UPC-A</option>
+            <option value="qrcode">QR Code</option>
+            <option value="datamatrix">Data Matrix</option>
+            <option value="pdf417">PDF417</option>
+            <option value="code39">Code 39</option>
+            <option value="itf14">ITF-14</option>
+          </select>
+        </div>
+
+        <div class="bc-options">
+          <div class="bc-opt">
+            <label class="tool-label" for="bc-scale">Width scale</label>
+            <input type="number" id="bc-scale" class="tool-input bc-num" value="3" min="1" max="10" />
+          </div>
+          <div class="bc-opt">
+            <label class="tool-label" for="bc-height">Height</label>
+            <input type="number" id="bc-height" class="tool-input bc-num" value="15" min="5" max="100" />
+          </div>
+          <div class="bc-opt bc-opt-check">
+            <label class="tool-label">
+              <input type="checkbox" id="bc-text" checked /> Show text
+            </label>
+          </div>
+          <div class="bc-opt">
+            <label class="tool-label" for="bc-bar-color">Bar color</label>
+            <input type="color" id="bc-bar-color" value="#000000" class="bc-color" />
+          </div>
+          <div class="bc-opt">
+            <label class="tool-label" for="bc-bg-color">Background</label>
+            <input type="color" id="bc-bg-color" value="#ffffff" class="bc-color" />
+          </div>
+        </div>
+
+        <div class="bc-preview-wrap">
+          <canvas id="bc-canvas" class="bc-canvas"></canvas>
+          <div id="bc-error" class="bc-error"></div>
+        </div>
+
+        <button id="bc-download" class="tool-button" style="display:none;">Download PNG</button>
+        <div id="bc-loading" class="ac-loading" style="display:none;">Loading barcode engine...</div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .bc-row { margin-bottom: 0.75rem; }
+  .bc-select {
+    appearance: auto;
+    cursor: pointer;
+  }
+  .bc-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: flex-end;
+  }
+  .bc-opt { flex: 0 0 auto; }
+  .bc-opt-check { display: flex; align-items: center; padding-bottom: 4px; }
+  .bc-opt-check .tool-label { display: flex; align-items: center; gap: 0.375rem; cursor: pointer; }
+  .bc-num { width: 72px; text-align: center; }
+  .bc-color {
+    width: 40px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2px;
+    cursor: pointer;
+    background: var(--bg);
+  }
+  .bc-preview-wrap {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bc-canvas { max-width: 100%; }
+  .bc-error {
+    color: #b91c1c;
+    font-size: 14px;
+  }
+</style>
+<script src="../tools/barcode-generator.js"></script>

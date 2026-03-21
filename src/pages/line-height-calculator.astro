@@ -1,0 +1,223 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Line Height Calculator — Optimal CSS line-height | maratool',
+  description: 'Calculate the optimal CSS line-height for any font size. Live preview, copy-ready CSS values in px, em, and unitless. Free, no sign-up.',
+  canonical: 'https://maratool.com/line-height-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Line Height Calculator',
+    url: 'https://maratool.com/line-height-calculator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate the optimal CSS line-height for any font size with live preview.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Unit', item: 'https://maratool.com/converter/unit' },
+      { '@type': 'ListItem', position: 4, name: 'Line Height Calculator', item: 'https://maratool.com/line-height-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is a good line-height for body text?',
+        acceptedAnswer: { '@type': 'Answer', text: 'For body text at 16px, a line-height between 1.4 and 1.6 (unitless) works well. This gives enough vertical spacing for readability without making the text feel too loose. The golden ratio (1.618) is a popular choice.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Should I use px, em, or unitless line-height?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Use unitless values (like 1.5) whenever possible. Unitless line-height scales proportionally with font size, so nested elements inherit the ratio rather than a fixed pixel value. This prevents text overlap in child elements with different font sizes.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does line-height affect accessibility?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. WCAG 2.1 Success Criterion 1.4.12 recommends line-height of at least 1.5 times the font size for body text. Tight line-height makes text harder to read for people with dyslexia or low vision.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Should headings have a different line-height than body text?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Headings typically use a tighter line-height (1.1 to 1.3) because larger text needs less relative spacing. Body text reads better with 1.4 to 1.6. This calculator lets you test both scenarios.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your font size in pixels.',
+  'Adjust the ratio slider to find the right line-height.',
+  'Copy the computed value in px, em, or unitless format.'
+]
+
+const faq = [
+  { q: 'What is a good line-height for body text?', a: 'For body text at 16px, a line-height between 1.4 and 1.6 (unitless) works well. The golden ratio (1.618) is a popular choice.' },
+  { q: 'Should I use px, em, or unitless line-height?', a: 'Use unitless values (like 1.5) whenever possible. Unitless line-height scales proportionally with font size, preventing text overlap in child elements.' },
+  { q: 'Does line-height affect accessibility?', a: 'Yes. WCAG 2.1 recommends line-height of at least 1.5 times the font size for body text. Tight line-height makes text harder to read for people with dyslexia or low vision.' },
+  { q: 'Should headings have a different line-height than body text?', a: 'Yes. Headings typically use a tighter line-height (1.1 to 1.3) because larger text needs less relative spacing. Body text reads better with 1.4 to 1.6.' }
+]
+
+const relatedTools = [
+  { slug: 'px-to-rem', name: 'PX to REM Converter' },
+  { slug: 'typography-calculator', name: 'Typography Size Converter' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Unit', href: '/converter/unit' },
+  { label: 'Line Height Calculator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="line-height-calculator" name="Line Height Calculator" description="Calculate the optimal CSS line-height for any font size. Live preview and copy-ready CSS values." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="lh-controls">
+          <div class="lh-control">
+            <label class="tool-label" for="lh-font-size">Font size (px)</label>
+            <input type="number" id="lh-font-size" class="tool-input lh-size-input" value="16" min="1" max="200" step="1" />
+          </div>
+          <div class="lh-control lh-slider-control">
+            <label class="tool-label" for="lh-ratio">Ratio: <span id="lh-ratio-display">1.5</span></label>
+            <input type="range" id="lh-ratio" class="lh-slider" min="1.0" max="2.5" step="0.05" value="1.5" />
+            <div class="lh-presets">
+              <button class="lh-preset" data-ratio="1.2">Tight</button>
+              <button class="lh-preset" data-ratio="1.375">Snug</button>
+              <button class="lh-preset active" data-ratio="1.5">Normal</button>
+              <button class="lh-preset" data-ratio="1.618">Golden</button>
+              <button class="lh-preset" data-ratio="1.625">Relaxed</button>
+              <button class="lh-preset" data-ratio="2.0">Loose</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lh-outputs">
+          <div class="lh-output-card">
+            <span class="tool-label">Pixels</span>
+            <span class="lh-value" id="lh-val-px">24px</span>
+            <button class="copy-btn" data-lh-copy="px">Copy</button>
+          </div>
+          <div class="lh-output-card">
+            <span class="tool-label">EM</span>
+            <span class="lh-value" id="lh-val-em">1.5em</span>
+            <button class="copy-btn" data-lh-copy="em">Copy</button>
+          </div>
+          <div class="lh-output-card">
+            <span class="tool-label">Unitless</span>
+            <span class="lh-value" id="lh-val-unitless">1.5</span>
+            <button class="copy-btn" data-lh-copy="unitless">Copy</button>
+          </div>
+        </div>
+
+        <div class="lh-preview-section">
+          <span class="tool-label">Live preview</span>
+          <div class="lh-preview" id="lh-preview">
+            <p>The quick brown fox jumps over the lazy dog. Typography is the art and technique of arranging type to make written language legible, readable, and appealing when displayed. The arrangement of type involves selecting typefaces, point sizes, line lengths, line-spacing, and letter-spacing.</p>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style>
+  .lh-controls {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    align-items: start;
+  }
+  .lh-control { }
+  .lh-size-input {
+    width: 100%;
+    font-size: 18px;
+    font-family: var(--font-mono);
+    text-align: center;
+  }
+  .lh-slider-control { }
+  .lh-slider {
+    width: 100%;
+    margin: 0.5rem 0;
+    accent-color: var(--accent);
+  }
+  .lh-presets {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+  }
+  .lh-preset {
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s;
+  }
+  .lh-preset:hover { background: var(--bg-soft); }
+  .lh-preset.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .lh-outputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .lh-output-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    text-align: center;
+  }
+  .lh-value {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--text);
+    margin: 0.5rem 0;
+  }
+
+  .lh-preview-section {
+    margin-top: 0.5rem;
+  }
+  .lh-preview {
+    margin-top: 0.5rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    font-family: var(--font);
+    color: var(--text);
+    transition: font-size 0.2s, line-height 0.2s;
+  }
+  .lh-preview p {
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .lh-controls { grid-template-columns: 1fr; }
+    .lh-outputs { grid-template-columns: 1fr; }
+  }
+</style>
+<script src="../tools/line-height-calculator.js"></script>

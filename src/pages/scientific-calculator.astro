@@ -1,0 +1,330 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Scientific Calculator Online — Trig, Log, Exponents | maratool',
+  description: 'Full-featured scientific calculator with trigonometry, logarithms, exponents, memory, and expression history. Free, works in your browser.',
+  canonical: 'https://maratool.com/scientific-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Scientific Calculator Online',
+    url: 'https://maratool.com/scientific-calculator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Full-featured scientific calculator with trigonometry, logarithms, exponents, and expression history.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Calculator', item: 'https://maratool.com/developer/calculator' },
+      { '@type': 'ListItem', position: 4, name: 'Scientific Calculator', item: 'https://maratool.com/scientific-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Can I use keyboard shortcuts?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Type numbers and operators directly on your keyboard. Press Enter to evaluate, Backspace to delete, and Escape to clear.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this calculator support trigonometry?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. It supports sin, cos, tan, and their inverse functions (asin, acos, atan). You can switch between degrees and radians mode.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How does memory work?',
+        acceptedAnswer: { '@type': 'Answer', text: 'MC clears memory, MR recalls the stored value, M+ adds the current display to memory, and M- subtracts the current display from memory.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What math functions are available?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Besides basic arithmetic, you get sin, cos, tan, asin, acos, atan, log (base 10), ln (natural log), exp, abs, square root, power, factorial, and modulo.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Click buttons or type on your keyboard to build a math expression.',
+  'Press = or Enter to evaluate the expression.',
+  'View your calculation history in the panel below and click any entry to reload it.',
+]
+
+const faq = [
+  { q: 'Can I use keyboard shortcuts?', a: 'Yes. Type numbers and operators directly on your keyboard. Press Enter to evaluate, Backspace to delete, and Escape to clear.' },
+  { q: 'Does this calculator support trigonometry?', a: 'Yes. It supports sin, cos, tan, and their inverse functions (asin, acos, atan). You can switch between degrees and radians mode.' },
+  { q: 'How does memory work?', a: 'MC clears memory, MR recalls the stored value, M+ adds the current display to memory, and M- subtracts the current display from memory.' },
+  { q: 'What math functions are available?', a: 'Besides basic arithmetic, you get sin, cos, tan, asin, acos, atan, log (base 10), ln (natural log), exp, abs, square root, power, factorial, and modulo.' },
+]
+
+const relatedTools = [
+  { slug: 'graph-calculator', name: 'Graph Calculator' },
+  { slug: 'base-converter', name: 'Number Base Converter' },
+  { slug: 'algebra-calculator', name: 'Algebra Calculator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Calculator', href: '/developer/calculator' },
+  { label: 'Scientific Calculator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="scientific-calculator" name="Scientific Calculator Online" description="Full-featured scientific calculator with trigonometry, logarithms, exponents, memory, and expression history." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:400px">
+        <div class="sc-calc">
+          <div class="sc-display">
+            <div class="sc-display-expr" id="sc-expr">&nbsp;</div>
+            <div class="sc-display-result" id="sc-result">0</div>
+            <div class="sc-display-mode">
+              <button class="sc-mode-btn active" id="sc-deg-btn" data-mode="deg">DEG</button>
+              <button class="sc-mode-btn" id="sc-rad-btn" data-mode="rad">RAD</button>
+              <span class="sc-memory-indicator" id="sc-mem-indicator"></span>
+            </div>
+          </div>
+
+          <div class="sc-buttons" id="sc-buttons">
+            <!-- Row 1: functions -->
+            <button class="sc-btn sc-fn" data-action="sin">sin</button>
+            <button class="sc-btn sc-fn" data-action="cos">cos</button>
+            <button class="sc-btn sc-fn" data-action="tan">tan</button>
+            <button class="sc-btn sc-fn" data-action="log">log</button>
+            <button class="sc-btn sc-fn" data-action="ln">ln</button>
+            <!-- Row 2: inverse + extras -->
+            <button class="sc-btn sc-fn" data-action="asin">sin⁻¹</button>
+            <button class="sc-btn sc-fn" data-action="acos">cos⁻¹</button>
+            <button class="sc-btn sc-fn" data-action="atan">tan⁻¹</button>
+            <button class="sc-btn sc-fn" data-action="exp">exp</button>
+            <button class="sc-btn sc-fn" data-action="abs">|x|</button>
+            <!-- Row 3: power, root, constants -->
+            <button class="sc-btn sc-fn" data-action="pow">x^y</button>
+            <button class="sc-btn sc-fn" data-action="sqrt">&#8730;</button>
+            <button class="sc-btn sc-fn" data-action="fact">n!</button>
+            <button class="sc-btn sc-fn" data-action="pi">&#960;</button>
+            <button class="sc-btn sc-fn" data-action="e">e</button>
+            <!-- Row 4: memory -->
+            <button class="sc-btn sc-mem" data-action="mc">MC</button>
+            <button class="sc-btn sc-mem" data-action="mr">MR</button>
+            <button class="sc-btn sc-mem" data-action="m+">M+</button>
+            <button class="sc-btn sc-mem" data-action="m-">M&minus;</button>
+            <button class="sc-btn sc-fn" data-action="mod">mod</button>
+            <!-- Row 5: clear, parens, operators -->
+            <button class="sc-btn sc-clear" data-action="clear">C</button>
+            <button class="sc-btn sc-clear" data-action="backspace">&#9003;</button>
+            <button class="sc-btn sc-op" data-action="(">(</button>
+            <button class="sc-btn sc-op" data-action=")">)</button>
+            <button class="sc-btn sc-op" data-action="/">&#247;</button>
+            <!-- Row 6: 7-9, multiply -->
+            <button class="sc-btn sc-num" data-action="7">7</button>
+            <button class="sc-btn sc-num" data-action="8">8</button>
+            <button class="sc-btn sc-num" data-action="9">9</button>
+            <button class="sc-btn sc-op" data-action="*">&#215;</button>
+            <button class="sc-btn sc-op" data-action="%">%</button>
+            <!-- Row 7: 4-6, subtract -->
+            <button class="sc-btn sc-num" data-action="4">4</button>
+            <button class="sc-btn sc-num" data-action="5">5</button>
+            <button class="sc-btn sc-num" data-action="6">6</button>
+            <button class="sc-btn sc-op" data-action="-">&minus;</button>
+            <button class="sc-btn sc-fn" data-action="ans">Ans</button>
+            <!-- Row 8: 1-3, add -->
+            <button class="sc-btn sc-num" data-action="1">1</button>
+            <button class="sc-btn sc-num" data-action="2">2</button>
+            <button class="sc-btn sc-num" data-action="3">3</button>
+            <button class="sc-btn sc-op" data-action="+">+</button>
+            <button class="sc-btn sc-eq" data-action="=" rowspan="2">=</button>
+            <!-- Row 9: 0, dot -->
+            <button class="sc-btn sc-num sc-zero" data-action="0">0</button>
+            <button class="sc-btn sc-num" data-action=".">.</button>
+            <button class="sc-btn sc-op" data-action=",">,</button>
+          </div>
+        </div>
+
+        <div class="sc-history">
+          <div class="sc-history-header">
+            <span class="sc-history-title">History</span>
+            <button class="sc-history-clear" id="sc-clear-history">Clear</button>
+          </div>
+          <div class="sc-history-list" id="sc-history-list">
+            <p class="sc-history-empty">No calculations yet.</p>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .sc-calc {
+    max-width: 420px;
+    margin: 0 auto 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+    overflow: hidden;
+  }
+  .sc-display {
+    padding: 1rem 1.25rem 0.75rem;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .sc-display-expr {
+    font-size: 13px;
+    font-family: var(--font-mono);
+    color: var(--text-3);
+    min-height: 20px;
+    text-align: right;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .sc-display-result {
+    font-size: 32px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--text);
+    text-align: right;
+    min-height: 44px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .sc-display-mode {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+  }
+  .sc-mode-btn {
+    font-size: 10px;
+    font-weight: 600;
+    font-family: var(--font);
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--text-3);
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s;
+  }
+  .sc-mode-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .sc-memory-indicator {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-left: auto;
+  }
+
+  .sc-buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    padding: 4px;
+  }
+  .sc-btn {
+    font-size: 15px;
+    font-family: var(--font);
+    font-weight: 500;
+    padding: 12px 4px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.1s, transform 0.05s;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .sc-btn:hover { background: var(--bg-hover); }
+  .sc-btn:active { transform: scale(0.95); }
+  .sc-fn { color: var(--text-2); font-size: 13px; }
+  .sc-mem { color: var(--accent); font-size: 12px; font-weight: 600; }
+  .sc-op { color: var(--accent); font-weight: 600; font-size: 18px; }
+  .sc-num { font-weight: 600; font-size: 18px; }
+  .sc-clear { color: #d44; font-weight: 600; }
+  .sc-eq {
+    background: var(--accent);
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    grid-row: span 2;
+  }
+  .sc-eq:hover { background: #2560d4; }
+  .sc-zero { grid-column: span 2; }
+
+  .sc-history {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .sc-history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .sc-history-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-2);
+  }
+  .sc-history-clear {
+    font-size: 12px;
+    font-family: var(--font);
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--text-3);
+    cursor: pointer;
+  }
+  .sc-history-clear:hover { background: var(--bg-hover); }
+  .sc-history-list {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 0.5rem;
+  }
+  .sc-history-empty {
+    font-size: 13px;
+    color: var(--text-3);
+    text-align: center;
+    padding: 1rem;
+    margin: 0;
+  }
+  .sc-history-item {
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.1s;
+    margin-bottom: 2px;
+  }
+  .sc-history-item:hover { background: var(--bg-hover); }
+  .sc-history-expr {
+    font-size: 12px;
+    font-family: var(--font-mono);
+    color: var(--text-3);
+  }
+  .sc-history-result {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    color: var(--text);
+  }
+</style>
+<script is:inline src="https://cdn.jsdelivr.net/npm/mathjs@13.2.0/lib/browser/math.min.js"></script>
+<script src="../tools/scientific-calculator.js"></script>

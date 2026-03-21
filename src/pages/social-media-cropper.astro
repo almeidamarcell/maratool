@@ -1,0 +1,298 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Social Media Image Cropper — Resize for Instagram, X, Bluesky | maratool',
+  description: 'Crop and resize images for Instagram, Twitter/X, Bluesky, Facebook, YouTube, and LinkedIn. Preset aspect ratios for every platform. Free, no sign-up.',
+  canonical: 'https://maratool.com/social-media-cropper',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Social Media Image Cropper',
+    url: 'https://maratool.com/social-media-cropper',
+    applicationCategory: 'DesignApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Crop and resize images for social media platforms with preset dimensions.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Social', item: 'https://maratool.com/image/social' },
+      { '@type': 'ListItem', position: 4, name: 'Social Media Image Cropper', item: 'https://maratool.com/social-media-cropper' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What size should an Instagram post image be?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Instagram square posts are 1080x1080 pixels (1:1). Portrait posts use 1080x1350 (4:5). Stories and Reels use 1080x1920 (9:16). This tool crops your image to any of these sizes.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the Twitter/X header image size?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Twitter/X header images are 1500x500 pixels (3:1 aspect ratio). Upload a wide image and this tool will help you position the crop area.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this tool upload my images?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All cropping runs in your browser using the Canvas API. Your images never leave your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What image formats can I crop?',
+        acceptedAnswer: { '@type': 'Answer', text: 'PNG, JPEG, and WebP images are supported. The cropped result downloads as PNG to preserve quality.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload the image you want to crop for social media.',
+  'Select a platform preset (Instagram, X, Bluesky, etc.) and drag to reposition the crop area.',
+  'Click "Crop & Download" to save the cropped image.'
+]
+
+const faq = [
+  { q: 'What size should an Instagram post image be?', a: 'Square posts are 1080x1080 (1:1). Portrait posts use 1080x1350 (4:5). Stories use 1080x1920 (9:16).' },
+  { q: 'What is the Twitter/X header image size?', a: '1500x500 pixels (3:1 aspect ratio).' },
+  { q: 'Does this tool upload my images?', a: 'No. All cropping runs in your browser using the Canvas API. Your images never leave your device.' },
+  { q: 'What image formats can I crop?', a: 'PNG, JPEG, and WebP. The cropped result downloads as PNG.' }
+]
+
+const relatedTools = [
+  { slug: 'matte-generator', name: 'Square Matte Generator' },
+  { slug: 'scroll-generator', name: 'Instagram Carousel Scroll Generator' },
+  { slug: 'watermarker', name: 'Add Watermark to Image' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Social', href: '/image/social' },
+  { label: 'Social Media Image Cropper' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="social-media-cropper" name="Social Media Image Cropper" description="Crop and resize images for Instagram, Bluesky, Twitter/X, Facebook, YouTube, and LinkedIn." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <!-- Upload -->
+        <div class="sc-upload" id="sc-upload">
+          <input type="file" id="sc-file" accept="image/png,image/jpeg,image/webp" hidden />
+          <div class="sc-upload-content">
+            <div class="sc-upload-icon">📱</div>
+            <p class="sc-upload-text">Drop an image here or <button type="button" class="sc-upload-btn" id="sc-browse">browse</button></p>
+            <p class="sc-upload-hint">PNG, JPEG, or WebP</p>
+          </div>
+        </div>
+
+        <!-- Source info -->
+        <div class="sc-source" id="sc-source" style="display:none;">
+          <div class="sc-source-preview">
+            <img id="sc-source-img" alt="Source image" />
+            <span class="sc-source-info" id="sc-source-info"></span>
+          </div>
+          <button class="sc-change-btn" id="sc-change" type="button">Change image</button>
+        </div>
+
+        <!-- Platform presets -->
+        <div class="sc-presets" id="sc-presets" style="display:none;">
+          <span class="tool-label">Platform &amp; size</span>
+          <div class="sc-preset-grid" id="sc-preset-grid"></div>
+        </div>
+
+        <!-- Crop area -->
+        <div class="sc-crop-wrap" id="sc-crop-wrap" style="display:none;">
+          <span class="tool-label">Drag to reposition</span>
+          <div class="sc-crop-container" id="sc-crop-container">
+            <img id="sc-crop-img" alt="Crop preview" draggable="false" />
+            <div class="sc-crop-overlay" id="sc-crop-overlay">
+              <div class="sc-crop-grid"></div>
+            </div>
+          </div>
+          <div class="sc-crop-info" id="sc-crop-info"></div>
+          <button class="sc-download-btn" id="sc-download" type="button">Crop &amp; Download</button>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .sc-upload {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    margin-bottom: 1.25rem;
+  }
+  .sc-upload:hover, .sc-upload.dragover {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .sc-upload-icon { font-size: 36px; margin-bottom: 0.75rem; }
+  .sc-upload-text { color: var(--text-2); font-size: 14px; }
+  .sc-upload-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: underline;
+    padding: 0;
+  }
+  .sc-upload-hint { color: var(--text-3); font-size: 12px; margin-top: 0.375rem; }
+
+  .sc-source {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .sc-source-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+  }
+  .sc-source-preview img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fff;
+  }
+  .sc-source-info { font-size: 13px; color: var(--text-2); }
+  .sc-change-btn {
+    font-size: 13px;
+    color: var(--accent);
+    background: none;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 6px 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .sc-change-btn:hover { background: var(--accent); color: #fff; }
+
+  .sc-presets { margin-bottom: 1.25rem; }
+  .sc-preset-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .sc-preset-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .sc-preset-btn:hover { background: var(--bg-soft); }
+  .sc-preset-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .sc-preset-btn .sc-preset-dims {
+    display: block;
+    font-weight: 400;
+    font-size: 10px;
+    color: var(--text-3);
+    margin-top: 2px;
+  }
+  .sc-preset-btn.active .sc-preset-dims { color: rgba(255,255,255,0.7); }
+
+  .sc-crop-wrap { margin-bottom: 1.25rem; }
+  .sc-crop-container {
+    position: relative;
+    display: inline-block;
+    margin-top: 0.5rem;
+    max-width: 100%;
+    user-select: none;
+    -webkit-user-select: none;
+    overflow: hidden;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .sc-crop-container img {
+    display: block;
+    max-width: 100%;
+    max-height: 500px;
+  }
+  .sc-crop-overlay {
+    position: absolute;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
+    cursor: move;
+    z-index: 2;
+  }
+  .sc-crop-grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    pointer-events: none;
+  }
+  .sc-crop-grid::before,
+  .sc-crop-grid::after {
+    content: '';
+    position: absolute;
+    background: rgba(255,255,255,0.3);
+  }
+  .sc-crop-grid::before {
+    top: 33.33%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    box-shadow: 0 calc(33.33cqh) 0 rgba(255,255,255,0.3);
+  }
+
+  .sc-crop-info {
+    font-size: 13px;
+    color: var(--text-2);
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .sc-download-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .sc-download-btn:hover { opacity: 0.9; }
+
+  @media (max-width: 768px) {
+    .sc-source { flex-direction: column; }
+  }
+</style>
+<script src="../tools/social-media-cropper.js"></script>

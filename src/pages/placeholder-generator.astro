@@ -1,0 +1,268 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Placeholder Image Generator — Custom Size & Colors | maratool',
+  description: 'Generate placeholder images with custom dimensions, background color, text color, and label. Download as PNG — no sign-up required. Runs in your browser.',
+  canonical: 'https://maratool.com/placeholder-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Placeholder Image Generator',
+    url: 'https://maratool.com/placeholder-generator',
+    applicationCategory: 'DesignApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate placeholder images with custom dimensions, colors, and text.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Placeholder Image Generator', item: 'https://maratool.com/placeholder-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I generate a placeholder image?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Set the width and height, pick background and text colors, optionally enter custom text, and click "Download PNG". The image is generated instantly in your browser.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What text appears on the placeholder image?',
+        acceptedAnswer: { '@type': 'Answer', text: 'By default, the image shows its dimensions (e.g., "800 x 600"). You can replace this with any custom text using the text input field.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is this an alternative to placeholder.com?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Unlike placeholder.com which requires a URL request, this tool generates images locally in your browser. You download a real PNG file that works offline.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I use these placeholder images in my projects?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Absolutely. Generated images are plain colored rectangles with text — no copyright applies. Use them freely in mockups, wireframes, or development.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Set width, height, and pick background and text colors.',
+  'Enter custom text or leave blank for default dimensions label.',
+  'Click "Download PNG" to save the placeholder image.'
+]
+
+const faq = [
+  { q: 'How do I generate a placeholder image?', a: 'Set dimensions and colors, optionally enter custom text, and click "Download PNG".' },
+  { q: 'What text appears on the placeholder image?', a: 'By default it shows dimensions like "800 x 600". Enter custom text to replace it.' },
+  { q: 'Is this an alternative to placeholder.com?', a: 'Yes. This tool generates images locally — you download a real PNG file that works offline.' },
+  { q: 'Can I use these placeholder images in my projects?', a: 'Yes. Generated images are plain colored rectangles with text. No copyright applies.' }
+]
+
+const relatedTools = [
+  { slug: 'image-converter', name: 'Image Format Converter' },
+  { slug: 'favicon-generator', name: 'Favicon Generator' },
+  { slug: 'css-gradient', name: 'CSS Gradient Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'Placeholder Image Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="placeholder-generator" name="Placeholder Image Generator" description="Generate placeholder images with custom dimensions, colors, and text. Download as PNG." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="pg-controls">
+          <div class="pg-row">
+            <div class="pg-field">
+              <label class="tool-label" for="pg-width">Width (px)</label>
+              <input type="number" id="pg-width" class="pg-num-input" value="800" min="1" max="4096" />
+            </div>
+            <span class="pg-times">&times;</span>
+            <div class="pg-field">
+              <label class="tool-label" for="pg-height">Height (px)</label>
+              <input type="number" id="pg-height" class="pg-num-input" value="600" min="1" max="4096" />
+            </div>
+          </div>
+
+          <div class="pg-row">
+            <div class="pg-field">
+              <label class="tool-label" for="pg-bg">Background</label>
+              <div class="pg-color-wrap">
+                <input type="color" id="pg-bg" class="pg-color-input" value="#cccccc" />
+                <input type="text" id="pg-bg-hex" class="pg-hex-input" value="#cccccc" maxlength="7" />
+              </div>
+            </div>
+            <div class="pg-field">
+              <label class="tool-label" for="pg-fg">Text color</label>
+              <div class="pg-color-wrap">
+                <input type="color" id="pg-fg" class="pg-color-input" value="#666666" />
+                <input type="text" id="pg-fg-hex" class="pg-hex-input" value="#666666" maxlength="7" />
+              </div>
+            </div>
+          </div>
+
+          <div class="pg-row">
+            <div class="pg-field pg-field-full">
+              <label class="tool-label" for="pg-text">Custom text (leave blank for dimensions)</label>
+              <input type="text" id="pg-text" class="pg-text-input" placeholder="800 × 600" />
+            </div>
+          </div>
+
+          <div class="pg-presets">
+            <span class="tool-label">Presets:</span>
+            <button type="button" class="pg-preset" data-w="1200" data-h="630">OG Image</button>
+            <button type="button" class="pg-preset" data-w="1080" data-h="1080">Square</button>
+            <button type="button" class="pg-preset" data-w="1920" data-h="1080">HD</button>
+            <button type="button" class="pg-preset" data-w="800" data-h="600">4:3</button>
+            <button type="button" class="pg-preset" data-w="300" data-h="250">Ad 300x250</button>
+            <button type="button" class="pg-preset" data-w="728" data-h="90">Banner</button>
+          </div>
+        </div>
+
+        <div class="pg-preview-wrap">
+          <canvas id="pg-canvas"></canvas>
+        </div>
+
+        <button type="button" id="pg-download" class="pg-download-btn">Download PNG</button>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .pg-controls {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .pg-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .pg-row:last-child { margin-bottom: 0; }
+  .pg-field { display: flex; flex-direction: column; gap: 0.25rem; }
+  .pg-field-full { flex: 1; }
+  .pg-times {
+    font-size: 18px;
+    color: var(--text-3);
+    padding-bottom: 6px;
+  }
+  .pg-num-input {
+    width: 100px;
+    padding: 8px 10px;
+    font-size: 14px;
+    font-family: var(--font-mono);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    text-align: center;
+  }
+  .pg-color-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .pg-color-input {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2px;
+    cursor: pointer;
+    background: var(--bg);
+  }
+  .pg-hex-input {
+    width: 80px;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-family: var(--font-mono);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+  }
+  .pg-text-input {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  .pg-presets {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .pg-preset {
+    padding: 4px 10px;
+    font-size: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .pg-preset:hover { background: var(--bg-hover); color: var(--text); }
+
+  .pg-preview-wrap {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+  .pg-preview-wrap canvas {
+    max-width: 100%;
+    max-height: 400px;
+    display: block;
+    border-radius: 4px;
+  }
+
+  .pg-download-btn {
+    display: inline-block;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .pg-download-btn:hover { opacity: 0.9; }
+
+  @media (max-width: 768px) {
+    .pg-row { flex-wrap: wrap; }
+    .pg-num-input { width: 80px; }
+  }
+</style>
+<script src="../tools/placeholder-generator.js"></script>

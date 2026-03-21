@@ -1,0 +1,298 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Instagram Carousel Scroll Generator — Split Image into Slides | maratool',
+  description: 'Split a wide or tall image into seamless carousel slides for Instagram. Choose number of slides, preview boundaries, and download all as ZIP. Free, no sign-up.',
+  canonical: 'https://maratool.com/scroll-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Instagram Carousel Scroll Generator',
+    url: 'https://maratool.com/scroll-generator',
+    applicationCategory: 'DesignApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Split images into seamless carousel slides for Instagram.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Social', item: 'https://maratool.com/image/social' },
+      { '@type': 'ListItem', position: 4, name: 'Instagram Carousel Scroll Generator', item: 'https://maratool.com/scroll-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I make a seamless Instagram carousel from one image?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Upload a wide or tall image, choose horizontal or vertical split, set the number of slides, and download all slides as a ZIP. When posted in order, they create a seamless scrollable carousel.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How many slides can I split an image into?',
+        acceptedAnswer: { '@type': 'Answer', text: 'You can split into 2 to 10 slides. Instagram allows up to 20 slides per carousel post. The default is auto-calculated based on your image dimensions for 1080px-wide slides.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the difference between horizontal and vertical split?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Horizontal split divides the image left to right — best for panoramas. Vertical split divides top to bottom — best for tall infographics or comic strips.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this tool upload my images?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens in your browser using the Canvas API. Your images never leave your device.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload a wide or tall image you want to split into carousel slides.',
+  'Choose horizontal or vertical split and set the number of slides.',
+  'Preview slide boundaries and click "Download All as ZIP" to save.'
+]
+
+const faq = [
+  { q: 'How do I make a seamless Instagram carousel?', a: 'Upload a wide or tall image, choose split direction, set slide count, and download as ZIP. Post slides in order for a seamless scroll.' },
+  { q: 'How many slides can I split into?', a: '2 to 10 slides. Instagram allows up to 20 per post. Default is auto-calculated for 1080px-wide slides.' },
+  { q: 'Horizontal vs vertical split?', a: 'Horizontal divides left-to-right (panoramas). Vertical divides top-to-bottom (infographics, comics).' },
+  { q: 'Does this tool upload my images?', a: 'No. Everything runs in your browser. Images never leave your device.' }
+]
+
+const relatedTools = [
+  { slug: 'social-media-cropper', name: 'Social Media Image Cropper' },
+  { slug: 'matte-generator', name: 'Square Matte Generator' },
+  { slug: 'watermarker', name: 'Add Watermark to Image' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Social', href: '/image/social' },
+  { label: 'Instagram Carousel Scroll Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="scroll-generator" name="Instagram Carousel Scroll Generator" description="Split a wide or tall image into seamless carousel slides. Download all slides as a ZIP." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <!-- Upload -->
+        <div class="sg-upload" id="sg-upload">
+          <input type="file" id="sg-file" accept="image/png,image/jpeg,image/webp" hidden />
+          <div class="sg-upload-content">
+            <div class="sg-upload-icon">📜</div>
+            <p class="sg-upload-text">Drop a wide or tall image here or <button type="button" class="sg-upload-btn" id="sg-browse">browse</button></p>
+            <p class="sg-upload-hint">PNG, JPEG, or WebP</p>
+          </div>
+        </div>
+
+        <!-- Source info -->
+        <div class="sg-source" id="sg-source" style="display:none;">
+          <div class="sg-source-preview">
+            <img id="sg-source-img" alt="Source image" />
+            <span class="sg-source-info" id="sg-source-info"></span>
+          </div>
+          <button class="sg-change-btn" id="sg-change" type="button">Change image</button>
+        </div>
+
+        <!-- Controls -->
+        <div class="sg-controls" id="sg-controls" style="display:none;">
+          <div class="sg-row">
+            <span class="tool-label">Split direction</span>
+            <div class="sg-toggle">
+              <button type="button" class="sg-toggle-btn active" id="sg-dir-h">Horizontal</button>
+              <button type="button" class="sg-toggle-btn" id="sg-dir-v">Vertical</button>
+            </div>
+          </div>
+
+          <div class="sg-row">
+            <label class="tool-label" for="sg-slides">Number of slides</label>
+            <div class="sg-slides-wrap">
+              <input type="number" id="sg-slides" class="tool-input sg-small-input" min="2" max="10" value="3" />
+              <span class="sg-auto-hint" id="sg-auto-hint"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="sg-preview-wrap" id="sg-preview-wrap" style="display:none;">
+          <span class="tool-label">Slide preview</span>
+          <div class="sg-preview" id="sg-preview"></div>
+          <div class="sg-slide-info" id="sg-slide-info"></div>
+          <button class="sg-download-btn" id="sg-download" type="button">Download All as ZIP</button>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .sg-upload {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    margin-bottom: 1.25rem;
+  }
+  .sg-upload:hover, .sg-upload.dragover {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .sg-upload-icon { font-size: 36px; margin-bottom: 0.75rem; }
+  .sg-upload-text { color: var(--text-2); font-size: 14px; }
+  .sg-upload-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: underline;
+    padding: 0;
+  }
+  .sg-upload-hint { color: var(--text-3); font-size: 12px; margin-top: 0.375rem; }
+
+  .sg-source {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .sg-source-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+  }
+  .sg-source-preview img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #fff;
+  }
+  .sg-source-info { font-size: 13px; color: var(--text-2); }
+  .sg-change-btn {
+    font-size: 13px;
+    color: var(--accent);
+    background: none;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 6px 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .sg-change-btn:hover { background: var(--accent); color: #fff; }
+
+  .sg-controls { margin-bottom: 1.25rem; }
+  .sg-row { margin-bottom: 1rem; }
+
+  .sg-toggle {
+    display: inline-flex;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: 0.375rem;
+  }
+  .sg-toggle-btn {
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .sg-toggle-btn.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .sg-slides-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.375rem;
+  }
+  .sg-small-input { width: 72px; text-align: center; }
+  .sg-auto-hint { font-size: 12px; color: var(--text-3); }
+
+  .sg-preview-wrap { margin-bottom: 1.25rem; }
+  .sg-preview {
+    display: flex;
+    gap: 4px;
+    margin-top: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  .sg-preview.vertical {
+    flex-direction: column;
+    overflow-x: visible;
+    overflow-y: auto;
+    max-height: 600px;
+  }
+  .sg-slide-card {
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    background: var(--bg-soft);
+  }
+  .sg-slide-card canvas {
+    display: block;
+  }
+  .sg-slide-label {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .sg-slide-info {
+    font-size: 13px;
+    color: var(--text-2);
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .sg-download-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .sg-download-btn:hover { opacity: 0.9; }
+
+  @media (max-width: 768px) {
+    .sg-source { flex-direction: column; }
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="../tools/scroll-generator.js"></script>

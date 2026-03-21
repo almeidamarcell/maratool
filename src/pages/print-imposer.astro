@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'PDF Page Imposer for Booklet Printing | maratool',
+  description: 'Arrange PDF pages for booklet, saddle-stitch, 2-up, or N-up printing. Runs entirely in your browser — no upload required.',
+  canonical: 'https://maratool.com/print-imposer',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'PDF Page Imposer for Booklet Printing',
+    url: 'https://maratool.com/print-imposer',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Arrange PDF pages for booklet and N-up imposition in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'PDF', item: 'https://maratool.com/pdf' },
+      { '@type': 'ListItem', position: 3, name: 'Edit', item: 'https://maratool.com/pdf/edit' },
+      { '@type': 'ListItem', position: 4, name: 'PDF Page Imposer', item: 'https://maratool.com/print-imposer' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is PDF imposition?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Imposition is the process of arranging pages on a larger sheet so that when printed, folded, and trimmed, they appear in the correct reading order. This tool supports booklet, 2-up, 4-up, and custom N-up layouts.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How does booklet (saddle-stitch) imposition work?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Pages are reordered in pairs for center-fold binding. For an 8-page document, sheet 1 gets pages (8,1) on the front and (2,7) on the back. When folded and stapled in the middle, pages read in order.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my PDF uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All processing uses pdf-lib in your browser. Your file never leaves your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What sheet sizes are supported?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A4, A3, US Letter, and Tabloid. For custom sizes, enter width and height in millimeters.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload a PDF file using the dropzone.',
+  'Select an imposition mode (Booklet, 2-up, 4-up, or custom N-up) and choose a sheet size.',
+  'Click "Download Imposed PDF" to save the rearranged PDF for printing.'
+]
+
+const faq = [
+  { q: 'What is PDF imposition?', a: 'Arranging pages on sheets so they read in order after printing, folding, and trimming.' },
+  { q: 'How does booklet imposition work?', a: 'Pages are paired for center-fold binding. For 8 pages: sheet 1 gets (8,1) front and (2,7) back.' },
+  { q: 'Is my PDF uploaded to a server?', a: 'No. Everything runs in your browser using pdf-lib.' },
+  { q: 'What sheet sizes are supported?', a: 'A4, A3, US Letter, Tabloid, and custom sizes in millimeters.' }
+]
+
+const relatedTools = [
+  { slug: 'zine-imposer', name: 'Zine Layout Generator' },
+  { slug: 'pdf-merge-split', name: 'Merge & Split PDF' },
+  { slug: 'pdf-preflight', name: 'PDF Preflight Checker' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'PDF', href: '/pdf' },
+  { label: 'Edit', href: '/pdf/edit' },
+  { label: 'PDF Page Imposer' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="print-imposer" name="PDF Page Imposer for Booklet Printing" description="Arrange PDF pages for booklet, saddle-stitch, or N-up printing. Runs entirely in your browser." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="pdf-dropzone" id="pi-dropzone">
+          <input type="file" id="pi-file" accept="application/pdf" hidden />
+          <div class="pdf-dropzone-inner">
+            <svg class="pdf-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p class="pdf-dropzone-title">Drop a PDF here</p>
+            <p class="pdf-dropzone-sub">or click to select a file</p>
+          </div>
+        </div>
+
+        <p id="pi-file-info" class="pdf-file-info"></p>
+
+        <div id="pi-controls" style="display:none;">
+          <div class="pi-row">
+            <label class="tool-label" for="pi-mode">Imposition mode</label>
+            <select id="pi-mode" class="tool-input pi-select">
+              <option value="booklet">Booklet (saddle stitch)</option>
+              <option value="2up">2-up</option>
+              <option value="4up">4-up</option>
+              <option value="nup">Custom N-up</option>
+            </select>
+          </div>
+
+          <div id="pi-nup-opts" class="pi-row" style="display:none;">
+            <div class="pi-inline">
+              <label class="tool-label" for="pi-rows">Rows</label>
+              <input type="number" id="pi-rows" class="tool-input pi-num" value="2" min="1" max="10" />
+            </div>
+            <div class="pi-inline">
+              <label class="tool-label" for="pi-cols">Columns</label>
+              <input type="number" id="pi-cols" class="tool-input pi-num" value="2" min="1" max="10" />
+            </div>
+          </div>
+
+          <div class="pi-row">
+            <label class="tool-label" for="pi-sheet">Sheet size</label>
+            <select id="pi-sheet" class="tool-input pi-select">
+              <option value="a4">A4 (210 x 297 mm)</option>
+              <option value="a3">A3 (297 x 420 mm)</option>
+              <option value="letter">US Letter (216 x 279 mm)</option>
+              <option value="tabloid">Tabloid (279 x 432 mm)</option>
+            </select>
+          </div>
+
+          <div id="pi-preview-wrap" class="pi-preview-wrap">
+            <canvas id="pi-preview" class="pi-preview-canvas" width="400" height="280"></canvas>
+          </div>
+
+          <div id="pi-progress" class="pdf-progress" style="display:none;"></div>
+          <button id="pi-generate" class="tool-button">Download Imposed PDF</button>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .pi-row { margin-bottom: 0.75rem; }
+  .pi-select { appearance: auto; cursor: pointer; max-width: 300px; }
+  .pi-num { width: 72px; text-align: center; }
+  .pi-inline { display: inline-flex; align-items: center; gap: 0.5rem; margin-right: 1rem; }
+  .pi-preview-wrap {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .pi-preview-canvas { max-width: 100%; }
+</style>
+<script src="../tools/print-imposer.js"></script>
