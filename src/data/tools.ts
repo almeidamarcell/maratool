@@ -385,6 +385,16 @@ export const tools: Tool[] = [
     live: true,
   },
   {
+    slug: 'gif-bg-remover',
+    name: 'GIF Background Remover',
+    emoji: '✂️',
+    description: 'Remove the background from any GIF and make it transparent. Pick a color, adjust tolerance, download — 100% in your browser.',
+    category: 'Image',
+    subcategory: 'Transform',
+    keywords: ['gif background remover', 'remove gif background', 'make gif transparent', 'transparent gif maker', 'gif background removal online'],
+    live: true,
+  },
+  {
     slug: 'svg-optimizer',
     name: 'SVG Optimizer',
     emoji: '✂️',

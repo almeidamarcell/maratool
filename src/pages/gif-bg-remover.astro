@@ -1,0 +1,309 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'GIF Background Remover — Make GIF Transparent Online | maratool',
+  description: 'Remove the background from any GIF and make it transparent. Pick a color, adjust tolerance, and download — runs 100% in your browser.',
+  canonical: 'https://maratool.com/gif-bg-remover',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GIF Background Remover',
+    url: 'https://maratool.com/gif-bg-remover',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Remove GIF backgrounds by color and make them transparent.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'GIF Background Remover', item: 'https://maratool.com/gif-bg-remover' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Is this GIF background remover free?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermarks, no sign-up, no limits. Everything runs in your browser.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this tool upload my GIF to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally in your browser. Your GIF never leaves your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How does color-based background removal work?',
+        acceptedAnswer: { '@type': 'Answer', text: 'You pick the background color (by clicking on the GIF or entering a hex value), then the tool finds all pixels within your tolerance range and makes them transparent across every frame.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Will the edges look smooth?',
+        acceptedAnswer: { '@type': 'Answer', text: 'GIF only supports 1-bit transparency (fully transparent or fully opaque), so edges may appear slightly jagged. For smooth edges, use a PNG-based background remover.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop a GIF file or click to select one.',
+  'Click on the preview to pick the background color, then adjust the tolerance slider.',
+  'Click "Remove Background" and download the transparent GIF.'
+]
+
+const faq = [
+  { q: 'Is this GIF background remover free?', a: 'Yes. 100% free, no watermarks, no sign-up, no limits. Everything runs in your browser.' },
+  { q: 'Does this tool upload my GIF to a server?', a: 'No. All processing happens locally in your browser. Your GIF never leaves your device.' },
+  { q: 'How does color-based background removal work?', a: 'You pick the background color (by clicking on the GIF or entering a hex value), then the tool finds all pixels within your tolerance range and makes them transparent across every frame.' },
+  { q: 'Will the edges look smooth?', a: 'GIF only supports 1-bit transparency (fully transparent or fully opaque), so edges may appear slightly jagged. For smooth edges, use a PNG-based background remover.' }
+]
+
+const relatedTools = [
+  { slug: 'gif-maker', name: 'GIF Maker' },
+  { slug: 'background-remover', name: 'Background Remover (AI)' },
+  { slug: 'video-to-gif', name: 'Video to GIF Converter' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'GIF Background Remover' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="gif-bg-remover" name="GIF Background Remover — Make GIF Transparent" description="Remove the background from any GIF by picking a color. Adjust tolerance, preview the result, and download — 100% in your browser." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:400px;">
+        <!-- Drop zone -->
+        <div class="gbr-dropzone" id="gbr-dropzone">
+          <input type="file" id="gbr-file-input" accept="image/gif" hidden />
+          <div class="gbr-dropzone-inner">
+            <svg class="gbr-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <p class="gbr-dropzone-title">Drop a GIF here</p>
+            <p class="gbr-dropzone-sub">or click to select a file</p>
+            <p class="gbr-dropzone-formats">Animated GIF files only</p>
+          </div>
+        </div>
+
+        <!-- Editor (configure phase) -->
+        <div class="gbr-editor" id="gbr-editor" style="display:none;">
+          <div class="gbr-preview-row">
+            <div class="gbr-preview-wrap">
+              <img id="gbr-preview-img" alt="GIF preview" />
+              <canvas id="gbr-pick-canvas" style="display:none;"></canvas>
+              <div class="gbr-pick-overlay" id="gbr-pick-overlay">
+                <span>Click on the GIF to pick background color</span>
+              </div>
+            </div>
+            <div class="gbr-controls">
+              <div class="gbr-control-group">
+                <span class="gbr-label">Background color</span>
+                <div class="gbr-color-row">
+                  <div class="gbr-swatch" id="gbr-swatch"></div>
+                  <input type="text" id="gbr-hex-input" class="gbr-hex-input" placeholder="#ffffff" maxlength="7" />
+                </div>
+              </div>
+              <div class="gbr-control-group">
+                <span class="gbr-label">Tolerance <span class="gbr-tolerance-val" id="gbr-tolerance-val">15%</span></span>
+                <input type="range" id="gbr-tolerance" class="gbr-slider" min="0" max="100" value="15" />
+              </div>
+              <div class="gbr-stats" id="gbr-stats"></div>
+            </div>
+          </div>
+          <div class="gbr-actions">
+            <button class="tool-button" id="gbr-remove">Remove Background</button>
+            <button class="copy-btn" id="gbr-change">Change GIF</button>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="gbr-progress" id="gbr-progress" style="display:none;">
+          <div class="gbr-progress-text" id="gbr-progress-text">Processing frames...</div>
+          <div class="gbr-progress-track">
+            <div class="gbr-progress-fill" id="gbr-progress-fill"></div>
+          </div>
+          <div class="gbr-progress-detail" id="gbr-progress-detail"></div>
+        </div>
+
+        <!-- Error -->
+        <div class="gbr-error" id="gbr-error" style="display:none;">
+          <span class="gbr-error-text" id="gbr-error-text"></span>
+          <button class="gbr-error-retry" id="gbr-error-retry">Try again</button>
+        </div>
+
+        <!-- Result -->
+        <div class="gbr-result" id="gbr-result" style="display:none;">
+          <div class="gbr-result-grid">
+            <div class="gbr-result-pane">
+              <span class="tool-label">Original</span>
+              <div class="gbr-result-box">
+                <img id="gbr-original-img" alt="Original GIF" />
+              </div>
+            </div>
+            <div class="gbr-result-pane">
+              <span class="tool-label">Result</span>
+              <div class="gbr-result-box gbr-checkerboard">
+                <img id="gbr-result-img" alt="Transparent GIF" />
+              </div>
+            </div>
+          </div>
+          <div class="gbr-result-stats" id="gbr-result-stats"></div>
+          <div class="gbr-result-actions">
+            <button class="tool-button" id="gbr-download">Download GIF</button>
+            <button class="copy-btn" id="gbr-new">Remove another</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .gbr-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .gbr-dropzone:hover, .gbr-dropzone.drag-over {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .gbr-dropzone-inner {
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  }
+  .gbr-upload-icon { color: var(--text-3); margin-bottom: 0.5rem; }
+  .gbr-dropzone-title { font-size: 1.125rem; font-weight: 600; color: var(--text); margin: 0; }
+  .gbr-dropzone-sub { font-size: 0.875rem; color: var(--text-2); margin: 0; }
+  .gbr-dropzone-formats { font-size: 0.75rem; color: var(--text-3); margin: 0.25rem 0 0; }
+
+  /* Editor */
+  .gbr-preview-row {
+    display: flex; gap: 1.5rem; margin-bottom: 1rem;
+  }
+  .gbr-preview-wrap {
+    flex: 1; min-width: 0; position: relative; cursor: crosshair;
+  }
+  .gbr-preview-wrap img {
+    width: 100%; border-radius: var(--radius);
+    border: 1px solid var(--border); background: var(--bg-soft);
+  }
+  .gbr-pick-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: rgba(0,0,0,0.6); color: #fff;
+    font-size: 0.75rem; text-align: center;
+    padding: 6px; border-radius: 0 0 var(--radius) var(--radius);
+    pointer-events: none;
+  }
+  .gbr-controls {
+    min-width: 200px; display: flex; flex-direction: column; gap: 1rem;
+  }
+  .gbr-control-group {
+    display: flex; flex-direction: column; gap: 0.375rem;
+  }
+  .gbr-label {
+    font-size: 0.75rem; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;
+  }
+  .gbr-color-row {
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .gbr-swatch {
+    width: 32px; height: 32px; border-radius: 6px;
+    border: 2px solid var(--border); background: #ffffff;
+    flex-shrink: 0;
+  }
+  .gbr-hex-input {
+    width: 90px; padding: 6px 8px; font-size: 13px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--bg); color: var(--text); font-family: var(--font-mono);
+  }
+  .gbr-slider {
+    width: 100%; accent-color: var(--accent);
+  }
+  .gbr-tolerance-val {
+    font-family: var(--font-mono); color: var(--accent); font-weight: 700;
+  }
+  .gbr-stats {
+    font-size: 0.8125rem; color: var(--text-2); line-height: 1.5;
+  }
+  .gbr-actions {
+    display: flex; gap: 0.75rem; align-items: center;
+  }
+
+  /* Progress */
+  .gbr-progress { text-align: center; padding: 2rem; }
+  .gbr-progress-text {
+    font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 1rem;
+  }
+  .gbr-progress-track {
+    width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover);
+    border-radius: 4px; margin: 0 auto; overflow: hidden;
+  }
+  .gbr-progress-fill {
+    height: 100%; background: var(--accent); border-radius: 4px;
+    width: 0%; transition: width 0.3s;
+  }
+  .gbr-progress-detail {
+    font-size: 0.75rem; color: var(--text-3); margin-top: 0.5rem;
+  }
+
+  /* Error */
+  .gbr-error {
+    background: var(--error-bg); border: 1px solid var(--error-border);
+    border-radius: var(--radius); padding: 1rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .gbr-error-text { color: #c53030; font-size: 0.875rem; }
+  .gbr-error-retry {
+    padding: 6px 14px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; font-size: 0.8125rem; cursor: pointer; white-space: nowrap; color: var(--text);
+  }
+  .gbr-error-retry:hover { background: var(--bg-hover); }
+
+  /* Result */
+  .gbr-result-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.75rem;
+  }
+  .gbr-result-box {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    height: 320px; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; background: var(--bg); padding: 0.75rem; margin-top: 0.375rem;
+  }
+  .gbr-result-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .gbr-checkerboard {
+    background: repeating-conic-gradient(#e0e0e0 0% 25%, #fff 0% 50%) 0 0 / 16px 16px;
+  }
+  .gbr-result-stats {
+    font-size: 0.875rem; color: var(--text-2); margin-bottom: 0.75rem;
+    text-align: center; line-height: 1.6;
+  }
+  .gbr-result-actions {
+    display: flex; gap: 0.75rem; align-items: center; justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .gbr-preview-row { flex-direction: column; }
+    .gbr-controls { min-width: 0; }
+    .gbr-result-grid { grid-template-columns: 1fr; }
+    .gbr-result-box { height: 240px; }
+    .gbr-dropzone { padding: 2rem 1rem; }
+  }
+</style>
+<script src="../tools/gif-bg-remover.js"></script>
