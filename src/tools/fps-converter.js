@@ -174,21 +174,6 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
   var ffmpegLoaded = false
   var fetchFile = null
 
-  // CDN URLs — must use ESM build consistently so the module worker
-  // can dynamic-import() the core as an ES module from a blob URL
-  var CDN_BASE = 'https://cdn.jsdelivr.net/npm'
-  var CORE_URL = CDN_BASE + '/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js'
-  var WASM_URL = CDN_BASE + '/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.wasm'
-  var WORKER_URL = CDN_BASE + '/@ffmpeg/ffmpeg@0.12.10/dist/esm/worker.js'
-
-  // Convert a CDN URL to a same-origin blob URL
-  // (needed because blob Workers can't importScripts cross-origin reliably)
-  async function toBlobURL(url, mimeType) {
-    var response = await fetch(url)
-    var blob = new Blob([await response.arrayBuffer()], { type: mimeType })
-    return URL.createObjectURL(blob)
-  }
-
   async function loadFfmpeg() {
     if (ffmpeg && ffmpegLoaded) return ffmpeg
 
@@ -197,18 +182,20 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
     progressBar.style.width = '0%'
     progressDetail.textContent = 'Downloading ~25 MB (cached after first use)'
 
-    var mod = await import(CDN_BASE + '/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js')
-    var utilMod = await import(CDN_BASE + '/@ffmpeg/util@0.12.1/dist/esm/index.js')
-    fetchFile = utilMod.fetchFile
+    var loader = await import('./ffmpeg-loader.js')
+    var result = await loader.loadFFmpeg(function (pct, detail) {
+      progressBar.style.width = pct + '%'
+      progressDetail.textContent = detail
+    })
 
-    var ff = new mod.FFmpeg()
+    var ff = result.ff
+    fetchFile = result.fetchFile
 
-    var lastLogs = []
     ff.on('log', function (e) {
       if (e.message) {
         console.log('[ffmpeg]', e.message)
-        lastLogs.push(e.message)
-        if (lastLogs.length > 20) lastLogs.shift()
+        ff._lastLogs.push(e.message)
+        if (ff._lastLogs.length > 20) ff._lastLogs.shift()
         var timeMatch = e.message.match(/time=(\d+):(\d+):(\d+\.\d+)/)
         if (timeMatch) {
           var secs = parseInt(timeMatch[1]) * 3600 + parseInt(timeMatch[2]) * 60 + parseFloat(timeMatch[3])
@@ -219,36 +206,9 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
         }
       }
     })
-    ff._lastLogs = lastLogs
 
-    progressBar.style.width = '10%'
-    progressDetail.textContent = 'Downloading FFmpeg core...'
-
-    // Fetch all assets and convert to same-origin blob URLs
-    // This avoids cross-origin Worker/importScripts restrictions
-    var coreBlobURL = await toBlobURL(CORE_URL, 'text/javascript')
-    progressBar.style.width = '20%'
-    var wasmBlobURL = await toBlobURL(WASM_URL, 'application/wasm')
-    progressBar.style.width = '40%'
-    progressDetail.textContent = 'Loading worker...'
-    var workerBlobURL = await toBlobURL(WORKER_URL, 'text/javascript')
-
-    progressBar.style.width = '45%'
-    progressDetail.textContent = 'Initializing FFmpeg...'
-
-    await ff.load({
-      coreURL: coreBlobURL,
-      wasmURL: wasmBlobURL,
-      classWorkerURL: workerBlobURL,
-    })
-
-    // Only cache after successful load
     ffmpeg = ff
     ffmpegLoaded = true
-
-    progressBar.style.width = '50%'
-    progressDetail.textContent = 'FFmpeg ready'
-
     return ffmpeg
   }
 
@@ -300,13 +260,13 @@ import { validateFps, validateVideoFile, formatDuration, formatFileSize, buildFf
 
       // Create result blob
       if (resultBlobUrl) URL.revokeObjectURL(resultBlobUrl)
-      var blob = new Blob([outputData.buffer], { type: 'video/mp4' })
+      var blob = new Blob([outputData.buffer || outputData], { type: 'video/mp4' })
       resultBlobUrl = URL.createObjectURL(blob)
 
       // Show result
       resultPreview.src = resultBlobUrl
       var originalSize = formatFileSize(currentFile.size)
-      var newSize = formatFileSize(outputData.byteLength)
+      var newSize = formatFileSize(blob.size)
       var statsHtml = '<strong>Original:</strong> ' + (detectedFps ? detectedFps + ' fps' : 'unknown fps') + ' · ' + originalSize
       statsHtml += '<br><strong>Converted:</strong> ' + selectedFps + ' fps · ' + newSize
       resultStats.innerHTML = statsHtml
