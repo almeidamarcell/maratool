@@ -144,6 +144,16 @@ export const tools: Tool[] = [
     keywords: ['fps converter', 'change video frame rate', 'convert fps', 'video frame rate converter', '30fps to 60fps', '60fps to 24fps', 'change fps online'],
     live: true,
   },
+  {
+    slug: 'video-to-gif',
+    name: 'Video to GIF Converter — MP4 to GIF Online',
+    emoji: '🎬',
+    description: 'Convert MP4, WebM, and MOV videos to animated GIFs in your browser. Trim start/end, set FPS, adjust size — no upload to servers.',
+    category: 'Converter',
+    subcategory: 'Video',
+    keywords: ['video to gif', 'mp4 to gif', 'convert video to gif', 'video to gif converter', 'webm to gif', 'mov to gif', 'make gif from video'],
+    live: true,
+  },
   // ── PDF / Extract ──
   {
     slug: 'pdf-to-text',

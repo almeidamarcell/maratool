@@ -1,0 +1,402 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Video to GIF Converter — MP4 to GIF Online Free | maratool',
+  description: 'Convert MP4, WebM, and MOV videos to animated GIFs in your browser. Trim start and end, set frame rate, adjust size — no upload to servers.',
+  canonical: 'https://maratool.com/video-to-gif',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Video to GIF Converter',
+    url: 'https://maratool.com/video-to-gif',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert video files to animated GIFs directly in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Video', item: 'https://maratool.com/converter/video' },
+      { '@type': 'ListItem', position: 4, name: 'Video to GIF Converter', item: 'https://maratool.com/video-to-gif' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Is this video to GIF converter free?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. This tool is 100% free with no watermarks, no sign-up, and no conversion limits. Everything runs in your browser.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What video formats can I convert to GIF?',
+        acceptedAnswer: { '@type': 'Answer', text: 'You can upload MP4, WebM, and MOV files. The tool uses FFmpeg WebAssembly to handle the conversion entirely in your browser.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I trim the video before converting?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Use the start and end time controls to select the exact segment you want to convert. You can also use the "Use current position" buttons while previewing the video.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Why does it download ~25 MB on first use?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The FFmpeg engine runs as a WebAssembly module in your browser. It is downloaded once and cached, so subsequent conversions start instantly.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop a video file or click to select an MP4, WebM, or MOV.',
+  'Set the start/end time, frame rate, and output width.',
+  'Click "Convert to GIF" and download the result.'
+]
+
+const faq = [
+  { q: 'Is this video to GIF converter free?', a: 'Yes. 100% free, no watermarks, no sign-up, no limits. Everything runs in your browser.' },
+  { q: 'What video formats can I convert to GIF?', a: 'MP4, WebM, and MOV. The tool uses FFmpeg WebAssembly for conversion entirely in your browser.' },
+  { q: 'Can I trim the video before converting?', a: 'Yes. Set start and end times to select the exact segment. Use "Use current position" while previewing for precise trimming.' },
+  { q: 'Why does it download ~25 MB on first use?', a: 'The FFmpeg engine runs as WebAssembly in your browser. It downloads once and is cached for future use.' }
+]
+
+const relatedTools = [
+  { slug: 'fps-converter', name: 'FPS Converter' },
+  { slug: 'gif-maker', name: 'GIF Maker' },
+  { slug: 'image-converter', name: 'Image Format Converter' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Video', href: '/converter/video' },
+  { label: 'Video to GIF Converter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="video-to-gif" name="Video to GIF Converter — MP4 to GIF Online" description="Convert MP4, WebM, and MOV videos to animated GIFs directly in your browser. Trim, set FPS, adjust width — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:400px;">
+        <!-- Drop zone -->
+        <div class="vtg-dropzone" id="vtg-dropzone">
+          <input type="file" id="vtg-file-input" accept="video/mp4,video/webm,video/quicktime" hidden />
+          <div class="vtg-dropzone-inner">
+            <svg class="vtg-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <p class="vtg-dropzone-title">Drop a video here</p>
+            <p class="vtg-dropzone-sub">or click to select a file</p>
+            <p class="vtg-dropzone-formats">MP4, WebM, MOV — max 200 MB</p>
+          </div>
+        </div>
+
+        <div class="vtg-info" id="vtg-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>The FFmpeg engine (~25 MB) downloads on first use and is cached by your browser.</span>
+        </div>
+
+        <!-- Settings -->
+        <div class="vtg-settings" id="vtg-settings" style="display:none;">
+          <div class="vtg-preview-row">
+            <div class="vtg-video-wrap">
+              <video id="vtg-video" controls preload="metadata"></video>
+            </div>
+            <div class="vtg-metadata">
+              <div class="vtg-stat">
+                <span class="vtg-stat-value" id="vtg-duration">—</span>
+                <span class="vtg-stat-label">Duration</span>
+              </div>
+              <div class="vtg-stat">
+                <span class="vtg-stat-value" id="vtg-dimensions">—</span>
+                <span class="vtg-stat-label">Resolution</span>
+              </div>
+              <div class="vtg-stat">
+                <span class="vtg-stat-value" id="vtg-filesize">—</span>
+                <span class="vtg-stat-label">File size</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trim controls -->
+          <div class="vtg-section">
+            <span class="vtg-section-label">Trim</span>
+            <div class="vtg-trim-row">
+              <div class="vtg-trim-field">
+                <label class="vtg-label" for="vtg-start">Start time</label>
+                <div class="vtg-trim-input-row">
+                  <input type="number" id="vtg-start" class="vtg-time-input" value="0" min="0" step="0.1" />
+                  <span class="vtg-time-unit">sec</span>
+                  <button type="button" class="vtg-use-pos" id="vtg-use-start" title="Use current video position">&#9654;</button>
+                </div>
+              </div>
+              <div class="vtg-trim-field">
+                <label class="vtg-label" for="vtg-end">End time</label>
+                <div class="vtg-trim-input-row">
+                  <input type="number" id="vtg-end" class="vtg-time-input" value="5" min="0" step="0.1" />
+                  <span class="vtg-time-unit">sec</span>
+                  <button type="button" class="vtg-use-pos" id="vtg-use-end" title="Use current video position">&#9654;</button>
+                </div>
+              </div>
+              <div class="vtg-trim-field">
+                <span class="vtg-label">Selected</span>
+                <span class="vtg-trim-duration" id="vtg-trim-duration">5.0s</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- GIF options -->
+          <div class="vtg-section">
+            <span class="vtg-section-label">GIF Options</span>
+            <div class="vtg-options-grid">
+              <div class="vtg-option">
+                <label class="vtg-label" for="vtg-fps">Frame rate</label>
+                <div class="vtg-fps-row">
+                  <div class="vtg-fps-presets" id="vtg-fps-presets">
+                    <button class="vtg-fps-btn" data-fps="5">5</button>
+                    <button class="vtg-fps-btn active" data-fps="10">10</button>
+                    <button class="vtg-fps-btn" data-fps="15">15</button>
+                    <button class="vtg-fps-btn" data-fps="20">20</button>
+                    <button class="vtg-fps-btn" data-fps="25">25</button>
+                  </div>
+                  <input type="number" id="vtg-fps-custom" class="vtg-small-input" placeholder="Custom" min="1" max="50" />
+                  <span class="vtg-time-unit">fps</span>
+                </div>
+              </div>
+              <div class="vtg-option">
+                <label class="vtg-label" for="vtg-width">Output width</label>
+                <div class="vtg-trim-input-row">
+                  <input type="number" id="vtg-width" class="vtg-small-input" placeholder="auto" min="1" max="1920" />
+                  <span class="vtg-time-unit">px</span>
+                </div>
+                <span class="vtg-hint">Leave empty for original size</span>
+              </div>
+              <div class="vtg-option">
+                <label class="vtg-label" for="vtg-loop">Loop</label>
+                <select id="vtg-loop" class="vtg-select">
+                  <option value="0">Infinite</option>
+                  <option value="1">Once</option>
+                  <option value="2">Twice</option>
+                  <option value="3">3 times</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="vtg-actions">
+            <button class="tool-button" id="vtg-convert">Convert to GIF</button>
+            <button class="copy-btn" id="vtg-change">Change video</button>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="vtg-progress" id="vtg-progress" style="display:none;">
+          <div class="vtg-progress-text" id="vtg-progress-text">Loading FFmpeg...</div>
+          <div class="vtg-progress-track">
+            <div class="vtg-progress-fill" id="vtg-progress-fill"></div>
+          </div>
+          <div class="vtg-progress-detail" id="vtg-progress-detail"></div>
+        </div>
+
+        <!-- Error -->
+        <div class="vtg-error" id="vtg-error" style="display:none;">
+          <span class="vtg-error-text" id="vtg-error-text"></span>
+          <button class="vtg-error-retry" id="vtg-error-retry">Try again</button>
+        </div>
+
+        <!-- Result -->
+        <div class="vtg-result" id="vtg-result" style="display:none;">
+          <div class="vtg-result-preview">
+            <img id="vtg-result-img" alt="Converted GIF preview" />
+          </div>
+          <div class="vtg-result-stats" id="vtg-result-stats"></div>
+          <div class="vtg-result-actions">
+            <button class="tool-button" id="vtg-download">Download GIF</button>
+            <button class="copy-btn" id="vtg-new">Convert another</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .vtg-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .vtg-dropzone:hover, .vtg-dropzone.drag-over {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .vtg-dropzone-inner {
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  }
+  .vtg-upload-icon { color: var(--text-3); margin-bottom: 0.5rem; }
+  .vtg-dropzone-title { font-size: 1.125rem; font-weight: 600; color: var(--text); margin: 0; }
+  .vtg-dropzone-sub { font-size: 0.875rem; color: var(--text-2); margin: 0; }
+  .vtg-dropzone-formats { font-size: 0.75rem; color: var(--text-3); margin: 0.25rem 0 0; }
+
+  .vtg-info {
+    display: flex; align-items: flex-start; gap: 0.5rem;
+    padding: 0.75rem 1rem; background: var(--bg-soft);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    margin-top: 1rem; font-size: 0.8125rem; color: var(--text-2); line-height: 1.5;
+  }
+  .vtg-info svg { flex-shrink: 0; margin-top: 1px; color: var(--text-3); }
+
+  /* Settings */
+  .vtg-preview-row {
+    display: flex; gap: 1.5rem; margin-bottom: 1.25rem;
+  }
+  .vtg-video-wrap { flex: 1; min-width: 0; }
+  .vtg-video-wrap video {
+    width: 100%; border-radius: var(--radius);
+    border: 1px solid var(--border); background: #000;
+  }
+  .vtg-metadata {
+    display: flex; flex-direction: column; gap: 1rem; min-width: 130px;
+  }
+  .vtg-stat { display: flex; flex-direction: column; gap: 0.125rem; }
+  .vtg-stat-value {
+    font-size: 1.125rem; font-weight: 600; color: var(--text);
+    font-family: var(--font-mono);
+  }
+  .vtg-stat-label {
+    font-size: 0.75rem; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+
+  .vtg-section {
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem;
+  }
+  .vtg-section-label {
+    display: block; font-size: 0.8125rem; font-weight: 600;
+    color: var(--text-2); text-transform: uppercase;
+    letter-spacing: 0.05em; margin-bottom: 0.75rem;
+  }
+
+  /* Trim */
+  .vtg-trim-row { display: flex; gap: 1.25rem; align-items: flex-end; flex-wrap: wrap; }
+  .vtg-trim-field { display: flex; flex-direction: column; gap: 0.25rem; }
+  .vtg-label { font-size: 0.75rem; color: var(--text-3); }
+  .vtg-trim-input-row { display: flex; align-items: center; gap: 4px; }
+  .vtg-time-input {
+    width: 80px; padding: 6px 8px; font-size: 13px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--bg); color: var(--text); font-family: var(--font-mono);
+  }
+  .vtg-time-unit { font-size: 0.75rem; color: var(--text-3); }
+  .vtg-use-pos {
+    background: none; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 4px 8px; cursor: pointer; font-size: 11px; color: var(--text-2);
+    transition: border-color 0.15s;
+  }
+  .vtg-use-pos:hover { border-color: var(--accent); color: var(--accent); }
+  .vtg-trim-duration {
+    font-size: 1rem; font-weight: 600; font-family: var(--font-mono);
+    color: var(--accent);
+  }
+
+  /* GIF options */
+  .vtg-options-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .vtg-option { display: flex; flex-direction: column; gap: 0.25rem; }
+  .vtg-fps-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .vtg-fps-presets { display: flex; gap: 0.25rem; }
+  .vtg-fps-btn {
+    padding: 4px 10px; border: 1px solid var(--border); border-radius: 14px;
+    background: var(--bg); color: var(--text); font-size: 0.8125rem;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .vtg-fps-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .vtg-fps-btn.active {
+    background: var(--accent); border-color: var(--accent); color: #fff;
+  }
+  .vtg-small-input {
+    width: 70px; padding: 4px 8px; font-size: 13px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--bg); color: var(--text); font-family: var(--font-mono);
+  }
+  .vtg-select {
+    padding: 6px 8px; font-size: 13px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--bg); color: var(--text);
+  }
+  .vtg-hint { font-size: 0.6875rem; color: var(--text-3); }
+
+  .vtg-actions {
+    display: flex; gap: 0.75rem; align-items: center; margin-top: 0.25rem;
+  }
+
+  /* Progress */
+  .vtg-progress { text-align: center; padding: 2rem; }
+  .vtg-progress-text {
+    font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 1rem;
+  }
+  .vtg-progress-track {
+    width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover);
+    border-radius: 4px; margin: 0 auto; overflow: hidden;
+  }
+  .vtg-progress-fill {
+    height: 100%; background: var(--accent); border-radius: 4px;
+    width: 0%; transition: width 0.3s;
+  }
+  .vtg-progress-detail {
+    font-size: 0.75rem; color: var(--text-3); margin-top: 0.5rem;
+  }
+
+  /* Error */
+  .vtg-error {
+    background: var(--error-bg); border: 1px solid var(--error-border);
+    border-radius: var(--radius); padding: 1rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .vtg-error-text { color: #c53030; font-size: 0.875rem; }
+  .vtg-error-retry {
+    padding: 6px 14px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; font-size: 0.8125rem; cursor: pointer; white-space: nowrap;
+    color: var(--text);
+  }
+  .vtg-error-retry:hover { background: var(--bg-hover); }
+
+  /* Result */
+  .vtg-result-preview {
+    text-align: center; margin-bottom: 0.75rem;
+    background: repeating-conic-gradient(#e0e0e0 0% 25%, #fff 0% 50%) 0 0 / 16px 16px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 1rem; min-height: 100px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .vtg-result-preview img { max-width: 100%; max-height: 500px; }
+  .vtg-result-stats {
+    font-size: 0.875rem; color: var(--text-2); margin-bottom: 0.75rem;
+    text-align: center; line-height: 1.6;
+  }
+  .vtg-result-actions {
+    display: flex; gap: 0.75rem; align-items: center; justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .vtg-preview-row { flex-direction: column; }
+    .vtg-metadata { flex-direction: row; min-width: 0; flex-wrap: wrap; }
+    .vtg-trim-row { flex-direction: column; align-items: stretch; }
+    .vtg-options-grid { grid-template-columns: 1fr; }
+  }
+</style>
+<script src="../tools/video-to-gif.js"></script>
