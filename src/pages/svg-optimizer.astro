@@ -56,7 +56,7 @@ const seo = {
 }
 
 const howTo = [
-  'Paste your SVG code into the input area.',
+  'Paste your SVG code or upload an .svg file.',
   'The optimized version appears automatically with size comparison.',
   'Click Copy to grab the optimized SVG code.'
 ]
@@ -85,8 +85,15 @@ const breadcrumbs = [
     <ToolShell slug="svg-optimizer" name="SVG Optimizer" description="Optimize and minify SVG files by removing metadata, comments, and default attributes." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container">
         <div class="so-input-section">
-          <label class="tool-label" for="so-input">Paste SVG</label>
-          <textarea id="so-input" class="tool-input so-textarea" placeholder="Paste your SVG code here..." rows="8" spellcheck="false"></textarea>
+          <div class="so-input-header">
+            <label class="tool-label" for="so-input">SVG Input</label>
+            <label class="so-upload-btn" for="so-file-input">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 10v2.667A1.334 1.334 0 0 1 12.667 14H3.333A1.334 1.334 0 0 1 2 12.667V10"/><polyline points="11.333 5.333 8 2 4.667 5.333"/><line x1="8" y1="2" x2="8" y2="10"/></svg>
+              Upload .svg
+            </label>
+            <input type="file" id="so-file-input" accept=".svg,image/svg+xml" style="display:none;" />
+          </div>
+          <textarea id="so-input" class="tool-input so-textarea" placeholder="Paste your SVG code here or upload an .svg file..." rows="8" spellcheck="false"></textarea>
         </div>
 
         <div class="so-error" id="so-error" style="display:none;">
@@ -131,6 +138,34 @@ const breadcrumbs = [
   </Layout>
 </Base>
 <style>
+  .so-input-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .so-input-header .tool-label {
+    margin-bottom: 0;
+  }
+  .so-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .so-upload-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent);
+  }
+
   .so-textarea {
     width: 100%;
     font-family: var(--font-mono);

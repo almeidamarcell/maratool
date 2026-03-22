@@ -189,6 +189,19 @@
     debounceTimer = setTimeout(run, 300)
   })
 
+  var fileInput = document.getElementById('so-file-input')
+  fileInput.addEventListener('change', function () {
+    var file = fileInput.files[0]
+    if (!file) return
+    var reader = new FileReader()
+    reader.onload = function () {
+      input.value = reader.result
+      run()
+    }
+    reader.readAsText(file)
+    fileInput.value = ''
+  })
+
   copyBtn.addEventListener('click', function () {
     navigator.clipboard.writeText(output.textContent).then(function () {
       var orig = copyBtn.textContent
