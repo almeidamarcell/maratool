@@ -23,8 +23,8 @@ describe('tool categories', () => {
     }
   })
 
-  test('Converter category has Format and Unit subcategories', () => {
-    expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Unit'])
+  test('Converter category has Format, Unit, and Video subcategories', () => {
+    expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Unit', 'Video'])
   })
 
   test('PDF category has Extract, Edit, Inspect subcategories', () => {
@@ -35,16 +35,16 @@ describe('tool categories', () => {
     expect(subcategoryOrderByCategory['Text']).toEqual(['Analyze', 'Edit', 'Generate'])
   })
 
-  test('Image category has Transform and Inspect subcategories', () => {
-    expect(subcategoryOrderByCategory['Image']).toEqual(['Transform', 'Inspect'])
+  test('Image category has Transform, Social, and Inspect subcategories', () => {
+    expect(subcategoryOrderByCategory['Image']).toEqual(['Transform', 'Social', 'Inspect'])
   })
 
-  test('Color category has Generate and Check subcategories', () => {
-    expect(subcategoryOrderByCategory['Color']).toEqual(['Generate', 'Check'])
+  test('Color category has Generate, Convert, and Check subcategories', () => {
+    expect(subcategoryOrderByCategory['Color']).toEqual(['Generate', 'Convert', 'Check'])
   })
 
-  test('Developer category has Crypto and Generate subcategories', () => {
-    expect(subcategoryOrderByCategory['Developer']).toEqual(['Crypto', 'Generate'])
+  test('Developer category has Crypto, Generate, Calculator, and Reference subcategories', () => {
+    expect(subcategoryOrderByCategory['Developer']).toEqual(['Crypto', 'Generate', 'Calculator', 'Reference'])
   })
 
   test('Marketing category has Builder subcategory', () => {

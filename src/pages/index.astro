@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
-import { tools } from '../data/tools'
+import { tools, categoryOrder, toolsFlatByCategory } from '../data/tools'
 
 const liveTools = tools.filter(t => t.live)
 
@@ -70,30 +70,37 @@ const itemListSchema = {
       </div>
     </section>
 
-    <div class="section-header">
-      <h2>All tools</h2>
-    </div>
-
-    <div class="tools-grid">
-      {tools.map(tool => (
-        tool.live
-          ? (
-            <a href={`/${tool.slug}`} class="tool-card">
-              <span class="tool-card-emoji">{tool.emoji}</span>
-              <div class="tool-card-name">{tool.name}</div>
-              <div class="tool-card-desc">{tool.description}</div>
-            </a>
-          )
-          : (
-            <div class="tool-card" style="opacity:0.5;cursor:default;">
-              <span class="tool-card-emoji">{tool.emoji}</span>
-              <div class="tool-card-name">{tool.name}</div>
-              <div class="tool-card-desc">{tool.description}</div>
-              <span class="tool-card-badge">Coming Soon</span>
-            </div>
-          )
-      ))}
-    </div>
+    {categoryOrder.map(cat => {
+      const catTools = toolsFlatByCategory[cat] ?? []
+      if (catTools.length === 0) return null
+      return (
+        <section class="category-section">
+          <div class="section-header">
+            <h2>{cat}</h2>
+          </div>
+          <div class="tools-grid">
+            {catTools.map(tool => (
+              tool.live
+                ? (
+                  <a href={`/${tool.slug}`} class="tool-card">
+                    <span class="tool-card-emoji">{tool.emoji}</span>
+                    <div class="tool-card-name">{tool.name}</div>
+                    <div class="tool-card-desc">{tool.description}</div>
+                  </a>
+                )
+                : (
+                  <div class="tool-card" style="opacity:0.5;cursor:default;">
+                    <span class="tool-card-emoji">{tool.emoji}</span>
+                    <div class="tool-card-name">{tool.name}</div>
+                    <div class="tool-card-desc">{tool.description}</div>
+                    <span class="tool-card-badge">Coming Soon</span>
+                  </div>
+                )
+            ))}
+          </div>
+        </section>
+      )
+    })}
 
     <section style="margin-top:4rem;">
       <h2>Why maratool?</h2>

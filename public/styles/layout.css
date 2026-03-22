@@ -523,6 +523,11 @@
   gap: 1rem;
 }
 
+/* Category sections */
+.category-section {
+  margin-bottom: 3rem;
+}
+
 /* Section headers */
 .section-header {
   margin-bottom: 1.5rem;
