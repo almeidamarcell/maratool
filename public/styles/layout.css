@@ -491,6 +491,11 @@
   margin-bottom: 0.75rem;
 }
 
+.hero-mascot {
+  display: block;
+  margin-bottom: 1rem;
+}
+
 .hero p {
   font-size: 1rem;
   color: var(--text-2);

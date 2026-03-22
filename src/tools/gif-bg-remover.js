@@ -130,20 +130,9 @@ import { hexToRgb, rgbToHex, isColorMatch, buildTransparentFrame, findOrAddTrans
   var gifuctModule = null
   async function loadGifuct() {
     if (gifuctModule) return gifuctModule
-    // gifuct-js UMD — exposes parseGIF, decompressFrames globally
-    await loadScript('https://cdn.jsdelivr.net/npm/gifuct-js@2.1.2/dist/gifuct-js.min.js')
-    gifuctModule = { parseGIF: window.parseGIF, decompressFrames: window.decompressFrames }
+    var mod = await import('https://cdn.jsdelivr.net/npm/gifuct-js@2.1.2/+esm')
+    gifuctModule = { parseGIF: mod.parseGIF, decompressFrames: mod.decompressFrames }
     return gifuctModule
-  }
-
-  function loadScript(src) {
-    return new Promise(function (resolve, reject) {
-      var s = document.createElement('script')
-      s.src = src
-      s.onload = resolve
-      s.onerror = function () { reject(new Error('Failed to load ' + src)) }
-      document.head.appendChild(s)
-    })
   }
 
   // ── Frame compositing ──
@@ -250,16 +239,8 @@ import { hexToRgb, rgbToHex, isColorMatch, buildTransparentFrame, findOrAddTrans
         var rgba = frame.rgba
         var pixelCount = gifWidth * gifHeight
 
-        // Extract RGB for quantization
-        var rgb = new Uint8Array(pixelCount * 3)
-        for (var j = 0; j < pixelCount; j++) {
-          rgb[j * 3] = rgba[j * 4]
-          rgb[j * 3 + 1] = rgba[j * 4 + 1]
-          rgb[j * 3 + 2] = rgba[j * 4 + 2]
-        }
-
-        var palette = quantize(rgb, 255, { format: 'rgb333' })
-        var indexed = applyPalette(rgb, palette, 'rgb333')
+        var palette = quantize(rgba, 255)
+        var indexed = applyPalette(rgba, palette)
 
         var transpIdx = findOrAddTransparentIndex(palette)
         var finalIndexed = buildTransparentFrame(indexed, rgba, gifWidth, gifHeight, tr, tg, tb, tolerance, transpIdx)
@@ -267,7 +248,8 @@ import { hexToRgb, rgbToHex, isColorMatch, buildTransparentFrame, findOrAddTrans
         gif.writeFrame(finalIndexed, gifWidth, gifHeight, {
           palette: palette,
           delay: Math.max(frame.delay, 20),
-          transparent: transpIdx,
+          transparent: true,
+          transparentIndex: transpIdx,
           dispose: 2,
         })
 
