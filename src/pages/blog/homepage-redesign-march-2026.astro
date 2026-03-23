@@ -1,0 +1,189 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'New homepage: search, recently used, and better navigation — March 2026 | maratool',
+  description: 'maratool has a redesigned homepage with instant search, recently used tools, new tool highlights, task-oriented categories, and an improved sidebar with subcategory filters.',
+  canonical: 'https://maratool.com/blog/homepage-redesign-march-2026',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'New homepage: search, recently used, and better navigation',
+    datePublished: '2026-03-23',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'http://marcell.com.br/' },
+    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
+    url: 'https://maratool.com/blog/homepage-redesign-march-2026',
+    description: 'maratool has a redesigned homepage with instant search, recently used tools, and task-oriented category groups.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Homepage redesign — March 2026', item: 'https://maratool.com/blog/homepage-redesign-march-2026' },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">&larr; Blog</a>
+          <time datetime="2026-03-23" class="blog-post-date">March 23, 2026</time>
+          <span class="blog-post-author">by <a href="http://marcell.com.br/" target="_blank" rel="noopener">Marcell Almeida</a></span>
+        </div>
+        <h1 class="blog-post-title">New homepage: search, recently used, and better navigation</h1>
+        <p class="blog-post-lead">With 79 tools across 7 categories, the old homepage wasn't cutting it. We redesigned it from scratch for discoverability at scale.</p>
+      </header>
+
+      <div class="blog-body">
+        <p>When maratool had 8 tools, a simple list was enough. At 79 tools, you need search, shortcuts, and structure. Here's what changed.</p>
+
+        <hr class="blog-divider" />
+
+        <h2>Hero search</h2>
+        <p>The homepage now opens with a large search bar. Start typing — "convert csv", "color picker", "regex" — and matching tools appear instantly. It searches tool names, descriptions, and keywords. No page reload, no waiting.</p>
+
+        <h2>Recently used</h2>
+        <p>Below the search bar, you'll see a "Pick up where you left off" section showing tools you've used recently. It's powered by localStorage — nothing is sent to a server. The sidebar also shows your last 5 tools at the top for quick access from any page.</p>
+
+        <h2>New tools section</h2>
+        <p>The latest additions get a dedicated section at the top of the page with a ✨ badge. Right now that's the <a href="/instagram-video-downloader">Instagram Video Downloader</a>, <a href="/gif-bg-remover">GIF Background Remover</a>, and <a href="/svg-optimizer">SVG Optimizer</a>.</p>
+
+        <h2>Task-oriented categories</h2>
+        <p>Instead of listing every tool on the homepage, we show 3 tools per category with a "See all X tools" link. Categories are labeled by what you're trying to do — "Convert formats", "Work with images", "Inspect & debug" — not by abstract taxonomy. Each card has a color-coded left border so you can scan categories at a glance.</p>
+
+        <hr class="blog-divider" />
+
+        <h2>Sidebar improvements</h2>
+        <p>The sidebar got three upgrades:</p>
+        <ul>
+          <li><strong>Recently used</strong> — your last 5 tools appear at the very top of the sidebar, above the category list.</li>
+          <li><strong>Count badges</strong> — each category shows how many live tools it contains (e.g. "Image 18").</li>
+          <li><strong>Subcategory tag pills</strong> — when you expand a category, you'll see clickable pills like "Format", "Unit", "Transform", "Social" that filter the tool list. These link to the corresponding subcategory pages.</li>
+        </ul>
+
+        <h2>Simplified topbar</h2>
+        <p>The topbar used to show category links (Converter, PDF, Text, Image...). With 7 categories and growing, that was getting crowded. We stripped it down to just the essentials: logo, Blog, About, Contact, and the search bar. Category navigation now lives entirely in the sidebar where there's room to expand it.</p>
+
+        <hr class="blog-divider" />
+
+        <h2>Design details</h2>
+        <p>The homepage cards use a compact horizontal layout — emoji on the left, name and description on the right. Grid is 3 columns on desktop, 2 on tablet, 1 on mobile. The color system uses 7 category colors applied as left borders: warm red for Converter, purple for Image, green for Text, blue for Developer, orange for Color, pink for PDF, teal for Marketing.</p>
+
+        <p>The whole site continues to use the warm beige palette (background <code>#f5f4f1</code>, not stark white) with Instrument Serif for headings and Inter for body text.</p>
+
+        <hr class="blog-divider" />
+
+        <p class="blog-footer-note">All tools at <a href="/">maratool.com</a> are free, run in your browser, and require no sign-up. If something doesn't work the way you expect, <a href="/contact">reach out</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>
+<style is:global>
+  .blog-post {
+    max-width: 680px;
+    padding: 2.5rem 2rem;
+  }
+  .blog-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .blog-back {
+    font-size: 13px;
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  .blog-back:hover { color: var(--accent); }
+  .blog-post-date {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+  .blog-post-author {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+  .blog-post-author a {
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  .blog-post-author a:hover { color: var(--accent); }
+  .blog-post-header { margin-bottom: 2rem; }
+  .blog-post-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.02em;
+  }
+  .blog-post-lead {
+    font-size: 16px;
+    color: var(--text-2);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .blog-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .blog-body p { margin: 0 0 1rem; }
+  .blog-body h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 2rem 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .blog-body h2 a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .blog-body h2 a:hover { color: var(--accent); }
+  .blog-body ul {
+    margin: 0.5rem 0 1rem 1.25rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+  .blog-body li { line-height: 1.6; }
+  .blog-body code {
+    font-family: var(--font-mono, monospace);
+    font-size: 13px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: var(--text);
+  }
+  .blog-body a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .blog-body a:hover { text-decoration: underline; }
+  .blog-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+  .blog-footer-note {
+    font-size: 14px;
+    color: var(--text-2);
+    padding: 1rem;
+    background: var(--bg-soft);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 600px) {
+    .blog-post { padding: 1.5rem 1rem; }
+    .blog-post-title { font-size: 1.5rem; }
+  }
+</style>
