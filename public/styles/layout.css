@@ -47,7 +47,7 @@
 .topbar-nav-link {
   font-size: 13px;
   font-weight: 500;
-  color: var(--text-2);
+  color: var(--text-3);
   text-decoration: none;
   padding: 4px 10px;
   border-radius: 6px;
@@ -62,12 +62,12 @@
 }
 
 .topbar-nav-link:visited {
-  color: var(--text);
+  color: var(--text-3);
 }
 
 .topbar-nav-link.active {
   color: var(--accent);
-  background: #eef2fe;
+  background: var(--bg-hover);
 }
 
 .topbar-nav-sep {
@@ -305,8 +305,8 @@
   padding: 2px 10px;
   font-size: 11px;
   font-weight: 500;
-  color: var(--text-2);
-  background: var(--bg-soft);
+  color: var(--text-3);
+  background: transparent;
   border: 1px solid var(--border);
   border-radius: 100px;
   text-decoration: none;
@@ -323,7 +323,7 @@
 .sidebar-tag.active {
   color: var(--accent);
   border-color: var(--accent);
-  background: #fdf5f3;
+  background: var(--bg-hover);
 }
 
 /* Sidebar count badge */
