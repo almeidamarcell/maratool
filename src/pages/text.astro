@@ -33,12 +33,51 @@ const seo = {
   },
 }
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'How to compare two texts side by side?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Paste your two texts into the diff checker and click Compare. maratool highlights added and removed lines with color coding, showing you exactly what changed between the two versions.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I format JSON without installing a tool?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. Paste your raw JSON into maratool\'s JSON formatter and get properly indented, syntax-highlighted output instantly. It runs in your browser — no extensions, no installs, no sign-up needed.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'What text tools are available for free?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'maratool offers free text comparison (diff checker), regex testing, Markdown editing with live preview, JSON formatting, Lorem Ipsum generation, reading time calculation, and more — all browser-based with no limits.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Is my text data safe when using online text tools?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. All maratool text tools run entirely in your browser using client-side JavaScript. Your text is never sent to any server, making it safe for sensitive content like code, contracts, or personal writing.'
+      }
+    },
+  ]
+}
+
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Text' },
 ]
 ---
-<Base {...seo}>
+<Base {...seo} faqSchema={faqSchema}>
   <Layout>
     <Breadcrumb crumbs={breadcrumbs} />
     <div class="hero">

@@ -4,13 +4,13 @@ import Layout from '../components/Layout.astro'
 import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
-  title: 'Cron Expression Generator — Build and decode cron jobs | maratool',
+  title: 'Cron Expression Builder & Decoder — visual cron editor | maratool',
   description: 'Build cron expressions visually with a live editor. Get plain-English descriptions, next 5 run times, and common presets. Free, no sign-up.',
   canonical: 'https://maratool.com/cron-expression',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'Cron Expression Generator',
+    name: 'Cron Expression Builder & Decoder',
     url: 'https://maratool.com/cron-expression',
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'Any',
@@ -70,7 +70,8 @@ const faq = [
 
 const relatedTools = [
   { slug: 'unix-timestamp', name: 'Unix Timestamp Converter' },
-  { slug: 'uuid-generator', name: 'UUID Generator' },
+  { slug: 'uuid-generator', name: 'Generate UUID v4 Online' },
+  { slug: 'regex-tester', name: 'Test Regex Patterns Online' },
 ]
 
 const breadcrumbs = [
@@ -82,7 +83,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="cron-expression" name="Cron Expression Generator" description="Build cron expressions visually. See a plain-English description and the next 5 scheduled run times." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="cron-expression" name="Cron Expression Builder & Decoder" description="Build cron expressions visually. See a plain-English description and the next 5 scheduled run times." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container">
         <div class="cron-fields">
           <div class="cron-field">

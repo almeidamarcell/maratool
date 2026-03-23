@@ -20,7 +20,7 @@ const seo = {
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
-      applicationCategory: 'DesignApplication',
+      applicationCategory: 'MultimediaApplication',
     })),
   },
   breadcrumbSchema: {
@@ -33,12 +33,51 @@ const seo = {
   },
 }
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'How to remove image background without Photoshop?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Use maratool\'s background remover — upload your image and get a transparent PNG in seconds. It runs entirely in your browser using AI-powered processing, with no Photoshop or any other software required.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I convert images without uploading to a server?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. All maratool image tools process files locally in your browser. Your images never leave your device — no uploads, no cloud processing, no privacy concerns.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'What image formats are supported?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'maratool supports PNG, JPEG, WebP, SVG, GIF, and ICO formats. You can convert between formats, optimize SVGs, generate favicons from any image, and preview Base64-encoded images.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Are these image tools free to use?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, all image tools on maratool are completely free with no sign-up, no watermarks, and no usage limits. Process as many images as you need directly in your browser.'
+      }
+    },
+  ]
+}
+
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Image' },
 ]
 ---
-<Base {...seo}>
+<Base {...seo} faqSchema={faqSchema}>
   <Layout>
     <Breadcrumb crumbs={breadcrumbs} />
     <div class="hero">

@@ -4,13 +4,13 @@ import Layout from '../components/Layout.astro'
 import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
-  title: 'Contrast Checker — WCAG color contrast ratio checker | maratool',
+  title: 'Color Contrast Checker (WCAG) — check AA & AAA compliance | maratool',
   description: 'Check color contrast ratios for WCAG AA and AAA compliance. Test foreground and background colors for accessibility instantly. Free, no sign-up.',
   canonical: 'https://maratool.com/contrast-checker',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'Contrast Checker',
+    name: 'Color Contrast Checker (WCAG)',
     url: 'https://maratool.com/contrast-checker',
     applicationCategory: 'DesignApplication',
     operatingSystem: 'Any',
@@ -24,7 +24,7 @@ const seo = {
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
       { '@type': 'ListItem', position: 2, name: 'Color', item: 'https://maratool.com/color' },
       { '@type': 'ListItem', position: 3, name: 'Check', item: 'https://maratool.com/color/check' },
-      { '@type': 'ListItem', position: 4, name: 'Contrast Checker', item: 'https://maratool.com/contrast-checker' },
+      { '@type': 'ListItem', position: 4, name: 'Color Contrast Checker (WCAG)', item: 'https://maratool.com/contrast-checker' },
     ],
   },
   faqSchema: {
@@ -70,7 +70,8 @@ const faq = [
 
 const relatedTools = [
   { slug: 'color-shades', name: 'Color Shades Generator' },
-  { slug: 'css-gradient', name: 'CSS Gradient Generator' },
+  { slug: 'color-converter', name: 'Convert Colors Between Formats' },
+  { slug: 'color-blindness-simulator', name: 'Color Blindness Simulator' },
 ]
 
 const breadcrumbs = [
@@ -82,7 +83,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="contrast-checker" name="Contrast Checker" description="Check color contrast ratios against WCAG AA and AAA standards." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="contrast-checker" name="Color Contrast Checker (WCAG)" description="Check color contrast ratios against WCAG AA and AAA standards." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container">
         <div class="cc-inputs">
           <div class="cc-color-block">

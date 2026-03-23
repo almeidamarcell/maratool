@@ -4,15 +4,15 @@ import Layout from '../components/Layout.astro'
 import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
-  title: 'CSS Gradient Generator — Create linear and radial gradients | maratool',
+  title: 'CSS Gradient Generator with Live Preview — linear, radial & conic | maratool',
   description: 'Generate CSS gradients visually — linear, radial, or conic. Pick colors, set direction, preview live, and copy the CSS rule. Free, no sign-up.',
   canonical: 'https://maratool.com/css-gradient',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'CSS Gradient Generator',
+    name: 'CSS Gradient Generator with Live Preview',
     url: 'https://maratool.com/css-gradient',
-    applicationCategory: 'DeveloperApplication',
+    applicationCategory: 'DesignApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     description: 'Generate CSS gradients visually with live preview.',
@@ -24,7 +24,7 @@ const seo = {
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
       { '@type': 'ListItem', position: 2, name: 'Color', item: 'https://maratool.com/color' },
       { '@type': 'ListItem', position: 3, name: 'Generate', item: 'https://maratool.com/color/generate' },
-      { '@type': 'ListItem', position: 4, name: 'CSS Gradient Generator', item: 'https://maratool.com/css-gradient' },
+      { '@type': 'ListItem', position: 4, name: 'CSS Gradient Generator with Live Preview', item: 'https://maratool.com/css-gradient' },
     ],
   },
   faqSchema: {
@@ -70,7 +70,8 @@ const faq = [
 
 const relatedTools = [
   { slug: 'color-shades', name: 'Color Shades Generator' },
-  { slug: 'hash-generator', name: 'Hash Generator' },
+  { slug: 'color-converter', name: 'Convert Colors Between Formats' },
+  { slug: 'contrast-checker', name: 'Color Contrast Checker (WCAG)' },
 ]
 
 const breadcrumbs = [
@@ -82,7 +83,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="css-gradient" name="CSS Gradient Generator" description="Generate CSS gradients visually. Pick colors, set direction, and copy the CSS — all in real time." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="css-gradient" name="CSS Gradient Generator with Live Preview" description="Generate CSS gradients visually. Pick colors, set direction, and copy the CSS — all in real time." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container">
         <div id="gradient-preview" class="gradient-preview" aria-label="Gradient preview"></div>
 

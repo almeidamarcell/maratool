@@ -33,12 +33,51 @@ const seo = {
   },
 }
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'How to generate a color palette from a single color?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Enter any hex color into maratool\'s palette generator and get a full range of harmonious shades, tints, and complementary colors instantly. Export the palette as CSS variables, Tailwind config, or copy individual hex values.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'What is WCAG color contrast and how do I check it?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'WCAG (Web Content Accessibility Guidelines) defines minimum contrast ratios between text and background colors — 4.5:1 for normal text and 3:1 for large text. Use maratool\'s contrast checker to test any color pair and see if it passes AA or AAA compliance.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I export color palettes to CSS variables?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. maratool\'s color tools let you generate palettes and export them directly as CSS custom properties, Tailwind CSS config, or plain hex/RGB values — ready to paste into your project.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'How do I check if my colors are accessible?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Use maratool\'s contrast checker to enter your foreground and background colors. It calculates the WCAG contrast ratio and tells you whether the combination passes AA and AAA standards for both normal and large text.'
+      }
+    },
+  ]
+}
+
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Color' },
 ]
 ---
-<Base {...seo}>
+<Base {...seo} faqSchema={faqSchema}>
   <Layout>
     <Breadcrumb crumbs={breadcrumbs} />
     <div class="hero">

@@ -20,7 +20,7 @@ const seo = {
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
-      applicationCategory: 'DeveloperApplication',
+      applicationCategory: 'UtilitiesApplication',
     })),
   },
   breadcrumbSchema: {
@@ -33,12 +33,51 @@ const seo = {
   },
 }
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'How to extract text from a PDF without installing software?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Use maratool\'s PDF text extractor — open your PDF directly in the browser and get the full text content instantly. No software installation, no uploads to external servers. Everything runs locally in your browser.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I merge PDFs without uploading to a server?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. maratool\'s PDF tools process files entirely in your browser using client-side JavaScript. Your documents never leave your device, making it safe for confidential and sensitive files.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Is it safe to use online PDF tools?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'With maratool, yes. Unlike most online PDF tools that upload your files to remote servers, maratool processes everything locally in your browser. No data is transmitted, stored, or accessible to anyone else.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'What PDF tools are available for free?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'maratool offers free PDF text extraction, PDF to Markdown conversion, page merging and splitting, metadata viewing, and accessibility checking — all with no sign-up and no usage limits.'
+      }
+    },
+  ]
+}
+
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'PDF' },
 ]
 ---
-<Base {...seo}>
+<Base {...seo} faqSchema={faqSchema}>
   <Layout>
     <Breadcrumb crumbs={breadcrumbs} />
     <div class="hero">

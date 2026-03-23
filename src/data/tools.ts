@@ -242,7 +242,7 @@ export const tools: Tool[] = [
   // ── Text / Analyze ──
   {
     slug: 'diff-checker',
-    name: 'Diff Checker',
+    name: 'Compare Two Texts Online',
     emoji: '🔍',
     description: 'Compare two blocks of text and highlight added, removed, and unchanged lines.',
     category: 'Text',
@@ -252,7 +252,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'regex-tester',
-    name: 'Regex Tester',
+    name: 'Test Regex Patterns Online',
     emoji: '🔎',
     description: 'Test regular expressions with live match highlighting.',
     category: 'Text',
@@ -284,7 +284,7 @@ export const tools: Tool[] = [
   // ── Text / Edit ──
   {
     slug: 'markdown-editor',
-    name: 'Markdown Editor',
+    name: 'Markdown Editor with Live Preview',
     emoji: '✍️',
     description: 'Write markdown and preview the output in real time.',
     category: 'Text',
@@ -314,7 +314,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'json-formatter',
-    name: 'JSON Formatter',
+    name: 'Format and Validate JSON Online',
     emoji: '📋',
     description: 'Format, minify and validate JSON instantly.',
     category: 'Text',
@@ -335,7 +335,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'lorem-ipsum',
-    name: 'Lorem Ipsum Generator',
+    name: 'Generate Lorem Ipsum Text',
     emoji: '📝',
     description: 'Generate lorem ipsum placeholder text instantly.',
     category: 'Text',
@@ -540,7 +540,7 @@ export const tools: Tool[] = [
   // ── Color / Generate ──
   {
     slug: 'css-gradient',
-    name: 'CSS Gradient Generator',
+    name: 'CSS Gradient Generator with Live Preview',
     emoji: '🎨',
     description: 'Generate CSS gradients visually with live preview.',
     category: 'Color',
@@ -613,7 +613,7 @@ export const tools: Tool[] = [
   // ── Color / Check ──
   {
     slug: 'contrast-checker',
-    name: 'Contrast Checker',
+    name: 'Color Contrast Checker (WCAG)',
     emoji: '♿',
     description: 'Check color contrast ratios for WCAG AA and AAA compliance. Test foreground and background colors for accessibility.',
     category: 'Color',
@@ -635,7 +635,7 @@ export const tools: Tool[] = [
   // ── Developer / Crypto ──
   {
     slug: 'hash-generator',
-    name: 'Hash Generator',
+    name: 'Generate MD5 SHA-256 Hash Online',
     emoji: '#️⃣',
     description: 'Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text input instantly.',
     category: 'Developer',
@@ -645,7 +645,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'jwt-decoder',
-    name: 'JWT Decoder',
+    name: 'Decode JWT Token Online',
     emoji: '🔐',
     description: 'Decode and inspect JWT tokens instantly — view header, payload, and signature.',
     category: 'Developer',
@@ -717,7 +717,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'uuid-generator',
-    name: 'UUID Generator',
+    name: 'Generate UUID v4 Online',
     emoji: '🎲',
     description: 'Generate one or many UUIDs instantly — supports v1, v4, and v5.',
     category: 'Developer',
@@ -727,7 +727,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'cron-expression',
-    name: 'Cron Expression',
+    name: 'Cron Expression Builder & Decoder',
     emoji: '⏰',
     description: 'Build and decode cron expressions with a visual editor.',
     category: 'Developer',

@@ -42,9 +42,48 @@ const searchTools = liveTools.map(t => ({
   description: t.description,
 }))
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Are these tools really free?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, every tool on maratool is completely free with no sign-up, no limits, and no hidden paywalls. The site is supported by ads.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Is my data safe?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Absolutely. Every tool runs entirely in your browser using JavaScript. Your files and text never leave your device — nothing is uploaded to any server.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Do I need to create an account?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'No. There are no accounts, no sign-ups, and no login walls. Just open a tool and start using it immediately.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'What tools are available on maratool?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'maratool offers 80+ tools across 7 categories: converters (CSV, JSON, Base64, XML), PDF tools (extract, merge, accessibility), text tools (diff, regex, markdown, JSON formatter), image tools (background remover, GIF maker, SVG optimizer), color tools (gradients, palettes, contrast checker), developer tools (JWT decoder, hash generator, UUID, cron), and marketing tools (QR codes, UTM builder, barcodes).'
+      }
+    }
+  ]
+}
+
 const seo = {
-  title: 'Free Online Tools — JSON Formatter, Word Counter, Color Picker & more | maratool',
-  description: 'Free, instant, browser-based tools for everyone. JSON formatter, word counter, color picker, JWT decoder, Base64, regex tester and more — no sign-up, no tracking, nothing installed.',
+  title: 'maratool — 80+ Free Browser-Based Tools | No Sign-Up',
+  description: 'Free, instant, browser-based tools for developers, designers, and writers. JSON formatter, color picker, JWT decoder, Base64, PDF tools and more — no sign-up, no tracking, nothing installed.',
   canonical: 'https://maratool.com/',
   schema: {
     '@context': 'https://schema.org',
@@ -70,7 +109,7 @@ const itemListSchema = {
   })),
 }
 ---
-<Base {...seo}>
+<Base {...seo} faqSchema={faqSchema}>
   <Layout>
     <!-- Hero -->
     <div class="hero">
@@ -159,6 +198,26 @@ const itemListSchema = {
     <section style="margin-top:2rem;">
       <h2>Why maratool?</h2>
       <p style="color:var(--text-2);line-height:1.7;margin-top:0.75rem;max-width:560px;">No sign-ups. No "free tier" limits. No waiting for a server. maratool runs +80 tools directly in your browser. Your files stay on your device. Results appear instantly.</p>
+    </section>
+
+    <section class="faq" style="margin-top:2rem;">
+      <h2>Frequently asked questions</h2>
+      <div class="faq-item">
+        <h3 class="faq-question">Are these tools really free?</h3>
+        <p class="faq-answer">Yes, every tool on maratool is completely free with no sign-up, no limits, and no hidden paywalls. The site is supported by ads.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Is my data safe?</h3>
+        <p class="faq-answer">Absolutely. Every tool runs entirely in your browser using JavaScript. Your files and text never leave your device — nothing is uploaded to any server.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">Do I need to create an account?</h3>
+        <p class="faq-answer">No. There are no accounts, no sign-ups, and no login walls. Just open a tool and start using it immediately.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">What tools are available on maratool?</h3>
+        <p class="faq-answer">maratool offers 80+ tools across 7 categories: converters (CSV, JSON, Base64, XML), PDF tools (extract, merge, accessibility), text tools (diff, regex, markdown, JSON formatter), image tools (background remover, GIF maker, SVG optimizer), color tools (gradients, palettes, contrast checker), developer tools (JWT decoder, hash generator, UUID, cron), and marketing tools (QR codes, UTM builder, barcodes).</p>
+      </div>
     </section>
 
     <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />

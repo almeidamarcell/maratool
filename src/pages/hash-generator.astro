@@ -4,13 +4,13 @@ import Layout from '../components/Layout.astro'
 import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
-  title: 'Hash Generator — MD5, SHA-1, SHA-256, SHA-512 online | maratool',
+  title: 'Generate MD5 SHA-256 Hash Online — hash any text instantly | maratool',
   description: 'Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text instantly in your browser. Real-time hashing with one-click copy. Free, no sign-up required.',
   canonical: 'https://maratool.com/hash-generator',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'Hash Generator',
+    name: 'Generate MD5 SHA-256 Hash Online',
     url: 'https://maratool.com/hash-generator',
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'Any',
@@ -24,7 +24,7 @@ const seo = {
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
       { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
       { '@type': 'ListItem', position: 3, name: 'Crypto', item: 'https://maratool.com/developer/crypto' },
-      { '@type': 'ListItem', position: 4, name: 'Hash Generator', item: 'https://maratool.com/hash-generator' },
+      { '@type': 'ListItem', position: 4, name: 'Generate MD5 SHA-256 Hash Online', item: 'https://maratool.com/hash-generator' },
     ],
   },
   faqSchema: {
@@ -70,7 +70,8 @@ const faq = [
 
 const relatedTools = [
   { slug: 'base64', name: 'Base64 Encode / Decode' },
-  { slug: 'jwt-decoder', name: 'JWT Decoder' },
+  { slug: 'jwt-decoder', name: 'Decode JWT Token Online' },
+  { slug: 'bcrypt-generator', name: 'Bcrypt Generator' },
 ]
 
 const breadcrumbs = [
@@ -82,7 +83,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="hash-generator" name="Hash Generator" description="Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text instantly. All hashing happens in your browser — nothing is sent to a server." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="hash-generator" name="Generate MD5 SHA-256 Hash Online" description="Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text instantly. All hashing happens in your browser — nothing is sent to a server." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container">
         <div class="tool-panel">
           <label class="tool-label" for="hash-input">Input text</label>

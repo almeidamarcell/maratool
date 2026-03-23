@@ -33,12 +33,51 @@ const seo = {
   },
 }
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'How to create a QR code with a custom logo?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Use maratool\'s QR code generator — enter your URL or text, optionally upload a logo, and download a high-resolution QR code as PNG or SVG. Everything is generated in your browser with no sign-up required.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'What is a UTM tag and why should I use it?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'UTM tags are query parameters (utm_source, utm_medium, utm_campaign, etc.) added to URLs to track where your traffic comes from in analytics tools like Google Analytics. They help you measure which campaigns, channels, and content drive the most clicks and conversions.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I generate barcodes online for free?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. maratool\'s barcode generator creates standard barcodes in formats like Code 128, EAN-13, and UPC-A directly in your browser. Download as PNG or SVG — no software installation or account needed.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Are these marketing tools free to use?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, all marketing tools on maratool are completely free with no sign-up, no watermarks, and no usage limits. Generate QR codes, build UTM-tagged URLs, and create barcodes as often as you need.'
+      }
+    },
+  ]
+}
+
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Marketing' },
 ]
 ---
-<Base {...seo}>
+<Base {...seo} faqSchema={faqSchema}>
   <Layout>
     <Breadcrumb crumbs={breadcrumbs} />
     <div class="hero">

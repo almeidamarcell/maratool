@@ -20,7 +20,7 @@ const seo = {
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
-      applicationCategory: 'DeveloperApplication',
+      applicationCategory: 'UtilitiesApplication',
     })),
   },
   breadcrumbSchema: {
@@ -33,12 +33,51 @@ const seo = {
   },
 }
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'How to convert CSV to JSON online?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Paste your CSV data into the input field and get instant JSON output. maratool runs entirely in your browser — no file uploads, no server processing, and no data leaves your machine.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I convert files without uploading to a server?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. All maratool converters run 100% client-side using JavaScript in your browser. Your data never leaves your device, making it safe for sensitive or proprietary content.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'What formats can I convert between?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'maratool supports conversions between CSV and JSON, HTML and Markdown, Base64 encoding/decoding, Unix timestamps, and more. New converters are added regularly.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Are these converters free to use?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, all converter tools on maratool are completely free with no sign-up required. There are no usage limits — convert as many files as you need.'
+      }
+    },
+  ]
+}
+
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Converter' },
 ]
 ---
-<Base {...seo}>
+<Base {...seo} faqSchema={faqSchema}>
   <Layout>
     <Breadcrumb crumbs={breadcrumbs} />
     <div class="hero">

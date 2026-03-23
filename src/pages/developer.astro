@@ -33,12 +33,51 @@ const seo = {
   },
 }
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'How to decode a JWT token online?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Paste your JWT into maratool\'s decoder to instantly see the header, payload, and signature in formatted JSON. It runs entirely in your browser — your tokens are never sent to any server.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'What hash algorithms are supported?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'maratool\'s hash generator supports MD5, SHA-1, SHA-256, and SHA-512. All hashes are computed simultaneously as you type, using the Web Crypto API for SHA algorithms and a pure JavaScript implementation for MD5.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I generate secure passwords in the browser?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. maratool uses the browser\'s built-in crypto.getRandomValues() API to generate cryptographically secure passwords and UUIDs. No data leaves your device — everything is generated locally.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Are these developer tools free to use?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, all developer tools on maratool are completely free with no sign-up or usage limits. They include JWT decoding, hash generation, UUID creation, cron expression building, and more.'
+      }
+    },
+  ]
+}
+
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Developer' },
 ]
 ---
-<Base {...seo}>
+<Base {...seo} faqSchema={faqSchema}>
   <Layout>
     <Breadcrumb crumbs={breadcrumbs} />
     <div class="hero">

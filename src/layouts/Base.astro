@@ -6,9 +6,11 @@ interface Props {
   schema: Record<string, unknown>
   faqSchema?: Record<string, unknown>
   breadcrumbSchema?: Record<string, unknown>
+  ogImage?: string
 }
 
-const { title, description, canonical, schema, faqSchema, breadcrumbSchema } = Astro.props
+const { title, description, canonical, schema, faqSchema, breadcrumbSchema, ogImage } = Astro.props
+const resolvedOgImage = ogImage ?? 'https://maratool.com/og-image.png'
 
 const canonicalURL = new URL(
   canonical.endsWith('/') ? canonical : canonical + '/',
@@ -40,14 +42,14 @@ const normalizedBreadcrumb = breadcrumbSchema
     <meta property="og:url" content={canonicalURL.toString()} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="https://maratool.com/og-image.png" />
+    <meta property="og:image" content={resolvedOgImage} />
     <meta property="og:site_name" content="maratool" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="https://maratool.com/og-image.png" />
+    <meta name="twitter:image" content={resolvedOgImage} />
 
     <link rel="canonical" href={canonicalURL.toString()} />
     <link rel="icon" href="/favicon.ico" />
@@ -75,14 +77,11 @@ const normalizedBreadcrumb = breadcrumbSchema
     <!-- BreadcrumbList JSON-LD (optional) -->
     {normalizedBreadcrumb && <script type="application/ld+json" set:html={JSON.stringify(normalizedBreadcrumb)} />}
 
+    <meta name="theme-color" content="#ffffff" />
+
     <!-- Google Search Console verification — replace token after verifying -->
     <meta name="google-site-verification" content="REPLACE_WITH_TOKEN" />
 
-    <!-- PostHog — replace YOUR_KEY with value from posthog.com → Project Settings → Project API Key -->
-    <script>
-      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]);t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+" (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||(window.posthog=[]));
-      posthog.init('YOUR_KEY', { api_host: 'https://app.posthog.com' })
-    </script>
   </head>
   <body>
     <slot />

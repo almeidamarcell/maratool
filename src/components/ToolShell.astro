@@ -46,7 +46,7 @@ const { name, slug, description, howTo, faq, relatedTools, breadcrumbs = [] } = 
     <h2 id="faq-heading">Frequently asked questions</h2>
     {faq.map(item => (
       <div class="faq-item">
-        <p class="faq-question">{item.q}</p>
+        <h3 class="faq-question">{item.q}</h3>
         <p class="faq-answer" set:html={item.a} />
       </div>
     ))}
