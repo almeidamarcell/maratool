@@ -41,7 +41,10 @@ function setLoading(loading) {
 
 function showResult(data) {
   resultEl.style.display = 'block'
+  // Proxy thumbnail through our Worker to avoid Instagram CDN CORS/referrer blocks
   previewImg.src = data.thumbnailUrl
+    ? `${API_BASE}/api/instagram/download?url=${encodeURIComponent(data.thumbnailUrl)}&filename=preview.jpg&inline=1`
+    : ''
   previewImg.alt = data.caption ? data.caption.slice(0, 100) : 'Instagram post preview'
   captionEl.textContent = data.caption ? data.caption.slice(0, 200) : ''
   usernameEl.textContent = data.username ? `@${data.username}` : ''
@@ -75,7 +78,7 @@ async function handleSubmit(e) {
   setLoading(true)
 
   try {
-    const res = await fetch(`${API_BASE}/api/instagram/${shortcode}`)
+    const res = await fetch(`${API_BASE}/api/instagram/${shortcode}?url=${encodeURIComponent(url)}`)
     const data = await res.json()
 
     if (data.error) {

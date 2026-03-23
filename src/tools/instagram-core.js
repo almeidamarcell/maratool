@@ -126,6 +126,7 @@ const ERROR_MESSAGES = {
   'not-found': 'Post not found. It may be private or deleted.',
   'rate-limited': 'Too many requests. Please try again in a minute.',
   'not-video': 'This post is not a video.',
+  'extraction-failed': 'Could not extract media. The post may be private, deleted, or temporarily unavailable.',
   'server-error': 'Something went wrong. Please try again.',
 }
 

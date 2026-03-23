@@ -53,9 +53,14 @@ function jsonResponse(data, status, env) {
  * For video reels, one item will have extension "mp4".
  * For photos, items have extension "webp"/"jpg".
  */
-async function extractFromInstagram120(shortcode, env) {
+async function extractFromInstagram120(shortcode, env, originalUrl) {
   const apiKey = env.RAPIDAPI_KEY
   if (!apiKey) return null
+
+  // Use the original URL if provided (preserves /reel/ vs /p/ format),
+  // otherwise construct a URL trying /reel/ first (most common use case)
+  const igUrl = originalUrl || `https://www.instagram.com/reel/${shortcode}/`
+
 
   try {
     const resp = await fetch('https://instagram120.p.rapidapi.com/api/instagram/links', {
@@ -65,9 +70,7 @@ async function extractFromInstagram120(shortcode, env) {
         'x-rapidapi-key': apiKey,
         'x-rapidapi-host': 'instagram120.p.rapidapi.com',
       },
-      body: JSON.stringify({
-        url: `https://www.instagram.com/p/${shortcode}/`,
-      }),
+      body: JSON.stringify({ url: igUrl }),
     })
 
     if (!resp.ok) return null
@@ -231,9 +234,19 @@ async function extractFromKohi(shortcode) {
   }
 }
 
-async function handleFetch(shortcode, env) {
-  // Primary: instagram120 RapidAPI
-  let result = await extractFromInstagram120(shortcode, env)
+async function handleFetch(shortcode, env, originalUrl) {
+  // Primary: instagram120 RapidAPI (pass original URL to preserve /reel/ vs /p/)
+  let result = await extractFromInstagram120(shortcode, env, originalUrl)
+
+  // If failed and we used /reel/ format, retry with /p/ format (or vice versa)
+  if (!result && originalUrl) {
+    const altUrl = originalUrl.includes('/reel/')
+      ? originalUrl.replace('/reel/', '/p/')
+      : originalUrl.replace('/p/', '/reel/')
+    if (altUrl !== originalUrl) {
+      result = await extractFromInstagram120(shortcode, env, altUrl)
+    }
+  }
 
   // Fallbacks
   if (!result) result = await extractFromCobalt(shortcode)
@@ -282,12 +295,13 @@ async function handleDownload(request, env) {
 
   const contentType = mediaResponse.headers.get('Content-Type') || 'application/octet-stream'
   const contentLength = mediaResponse.headers.get('Content-Length')
+  const inline = url.searchParams.get('inline') === '1'
 
   const responseHeaders = {
     'Content-Type': contentType,
-    'Content-Disposition': `attachment; filename="${filename}"`,
     ...corsHeaders(env),
   }
+  if (!inline) responseHeaders['Content-Disposition'] = `attachment; filename="${filename}"`
   if (contentLength) responseHeaders['Content-Length'] = contentLength
 
   return new Response(mediaResponse.body, { status: 200, headers: responseHeaders })
@@ -323,7 +337,8 @@ export default {
 
       const match = path.match(/^\/api\/instagram\/([a-zA-Z0-9_-]+)$/)
       if (match) {
-        return handleFetch(match[1], env)
+        const originalUrl = url.searchParams.get('url') || null
+        return handleFetch(match[1], env, originalUrl)
       }
 
       return jsonResponse({ error: 'not-found' }, 404, env)

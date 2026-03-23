@@ -1,0 +1,193 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'Download Instagram Reels & Videos — free browser tool | maratool',
+  description: 'maratool now lets you download Instagram reels, videos, and photos for free. Paste a URL, preview the post, and save the file — no login, no watermark.',
+  canonical: 'https://maratool.com/blog/instagram-video-downloader-launch',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'Download Instagram Reels & Videos — new tool at maratool',
+    datePublished: '2026-03-22',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'http://marcell.com.br/' },
+    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
+    url: 'https://maratool.com/blog/instagram-video-downloader-launch',
+    description: 'maratool now lets you download Instagram reels, videos, and photos for free. Paste a URL, preview the post, and save the file.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Instagram Video Downloader', item: 'https://maratool.com/blog/instagram-video-downloader-launch' },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">&larr; Blog</a>
+          <time datetime="2026-03-22" class="blog-post-date">March 22, 2026</time>
+          <span class="blog-post-author">by <a href="http://marcell.com.br/" target="_blank" rel="noopener">Marcell Almeida</a></span>
+        </div>
+        <h1 class="blog-post-title">Download Instagram Reels & Videos — new tool at maratool</h1>
+        <p class="blog-post-lead">Save any public Instagram reel, video, or photo to your device. No login, no watermark, no install.</p>
+      </header>
+
+      <div class="blog-body">
+        <p>We just shipped the <a href="/instagram-video-downloader">Instagram Video Downloader</a> — paste an Instagram URL, see a preview with caption and username, then download the video or photo in full quality.</p>
+
+        <hr class="blog-divider" />
+
+        <h2>How it works</h2>
+        <p>The tool accepts any public Instagram post, reel, or IGTV URL. Here's the flow:</p>
+        <ol>
+          <li><strong>Paste the URL</strong> — copy the link from Instagram (share button → "Copy link") and paste it into the input field. You can also use the "Paste from clipboard" button.</li>
+          <li><strong>Preview</strong> — we fetch the post metadata and show you a thumbnail, the caption, and the username so you can confirm it's the right post.</li>
+          <li><strong>Download</strong> — hit "Download Video" (or "Download Photo" for image posts) and the file saves to your device.</li>
+        </ol>
+
+        <h2>What it supports</h2>
+        <ul>
+          <li><strong>Reels</strong> — short-form video, the most common use case. Downloads the full MP4.</li>
+          <li><strong>Video posts</strong> — regular feed videos, same as reels.</li>
+          <li><strong>Photo posts</strong> — single image posts. Downloads the full-resolution image.</li>
+        </ul>
+        <p>The tool works with any public Instagram account. Private accounts are not supported — Instagram doesn't expose their content without authentication.</p>
+
+        <h2>Technical details</h2>
+        <p>The downloader uses a backend proxy running on Cloudflare Workers. When you paste a URL, the proxy fetches the post metadata from Instagram's servers, extracts the direct media URL, and streams the file back to your browser with the right headers for downloading.</p>
+        <p>Your Instagram URL is never stored. The proxy doesn't log URLs, shortcodes, or any user data. It just forwards the request and relays the response.</p>
+        <p>We use a multi-provider extraction strategy with automatic fallback. If the primary source is temporarily unavailable, the tool tries alternative extraction methods before showing an error. This keeps the success rate high even when individual APIs have downtime.</p>
+
+        <h2>Why not just screen-record?</h2>
+        <p>Screen recording gives you a compressed version at your screen's resolution with UI overlays baked in. This tool downloads the original file at the resolution Instagram serves — typically 1080p for reels, often higher for photos. No watermarks, no notification bars, no compression artifacts from re-encoding.</p>
+
+        <h2>Limitations</h2>
+        <ul>
+          <li><strong>Private accounts</strong> — not supported. The post must be publicly accessible.</li>
+          <li><strong>Stories</strong> — not supported yet. Stories use a different API that requires authentication.</li>
+          <li><strong>Carousel posts</strong> — currently downloads the first item. Multi-slide support is planned.</li>
+        </ul>
+
+        <hr class="blog-divider" />
+
+        <h2>Try it now</h2>
+        <p>Head to the <a href="/instagram-video-downloader">Instagram Video Downloader</a> and paste a URL. It works on desktop and mobile, in any browser.</p>
+
+        <hr class="blog-divider" />
+
+        <p class="blog-footer-note">All tools at <a href="/">maratool.com</a> are free, run in your browser, and require no sign-up. If something doesn't work the way you expect, <a href="/contact">reach out</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>
+<style is:global>
+  .blog-post {
+    max-width: 680px;
+    padding: 2.5rem 2rem;
+  }
+  .blog-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .blog-back {
+    font-size: 13px;
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  .blog-back:hover { color: var(--accent); }
+  .blog-post-date {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+  .blog-post-author {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+  .blog-post-author a {
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  .blog-post-author a:hover { color: var(--accent); }
+  .blog-post-header { margin-bottom: 2rem; }
+  .blog-post-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.02em;
+  }
+  .blog-post-lead {
+    font-size: 16px;
+    color: var(--text-2);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .blog-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .blog-body p { margin: 0 0 1rem; }
+  .blog-body h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 2rem 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .blog-body h2 a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .blog-body h2 a:hover { color: var(--accent); }
+  .blog-body ul, .blog-body ol {
+    margin: 0.5rem 0 1rem 1.25rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+  .blog-body li { line-height: 1.6; }
+  .blog-body code {
+    font-family: var(--font-mono, monospace);
+    font-size: 13px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: var(--text);
+  }
+  .blog-body a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .blog-body a:hover { text-decoration: underline; }
+  .blog-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+  .blog-footer-note {
+    font-size: 14px;
+    color: var(--text-2);
+    padding: 1rem;
+    background: var(--bg-soft);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 600px) {
+    .blog-post { padding: 1.5rem 1rem; }
+    .blog-post-title { font-size: 1.5rem; }
+  }
+</style>
