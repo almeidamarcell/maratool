@@ -1,0 +1,6 @@
+name = "maratool-instagram-api"
+main = "src/index.js"
+compatibility_date = "2024-12-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://maratool.com"

@@ -496,6 +496,26 @@ export const tools: Tool[] = [
     keywords: ['instagram carousel maker', 'seamless scroll generator', 'split image for carousel', 'instagram multi-image post', 'carousel generator'],
     live: true,
   },
+  {
+    slug: 'instagram-video-downloader',
+    name: 'Instagram Video Downloader — Save Reels & Videos',
+    emoji: '📥',
+    description: 'Download Instagram Reels and videos in MP4 format. Paste the link, click download — free, no login, no watermark.',
+    category: 'Image',
+    subcategory: 'Social',
+    keywords: ['instagram video downloader', 'download instagram reel', 'save instagram video', 'instagram reel downloader', 'download reels online', 'instagram mp4 download'],
+    live: true,
+  },
+  {
+    slug: 'instagram-photo-downloader',
+    name: 'Instagram Photo Downloader — Save Posts & Images',
+    emoji: '📥',
+    description: 'Download photos from Instagram posts in full resolution. Paste the link, click download — free, no login, no watermark.',
+    category: 'Image',
+    subcategory: 'Social',
+    keywords: ['instagram photo downloader', 'download instagram photo', 'save instagram image', 'instagram image downloader', 'download instagram post'],
+    live: false,
+  },
   // ── Image / Inspect ──
   {
     slug: 'base64-image-preview',
