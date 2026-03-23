@@ -5,10 +5,42 @@ import { tools, categoryOrder, toolsFlatByCategory } from '../data/tools'
 
 const liveTools = tools.filter(t => t.live)
 
-const featuredSlugs = ['background-remover', 'qr-code-generator', 'utm-builder']
-const featuredTools = featuredSlugs
-  .map(slug => tools.find(t => t.slug === slug))
+// Task-oriented labels for each category
+const taskLabels: Record<string, string> = {
+  Converter: 'Convert formats',
+  PDF: 'Work with PDFs',
+  Text: 'Work with text',
+  Image: 'Work with images',
+  Color: 'Pick colors',
+  Developer: 'Inspect & debug',
+  Marketing: 'Marketing tools',
+}
+
+// Category color CSS variable names
+const catColors: Record<string, string> = {
+  Converter: 'var(--cat-converter)',
+  PDF: 'var(--cat-pdf)',
+  Text: 'var(--cat-text)',
+  Image: 'var(--cat-image)',
+  Color: 'var(--cat-color)',
+  Developer: 'var(--cat-developer)',
+  Marketing: 'var(--cat-marketing)',
+}
+
+// Newest tools (last 3 added — based on recent commits)
+const newToolSlugs = ['instagram-video-downloader', 'gif-background-remover', 'video-to-gif']
+const newTools = newToolSlugs
+  .map(slug => tools.find(t => t.slug === slug && t.live))
   .filter((t): t is typeof tools[number] => !!t)
+
+// Tools data for hero search (same as Topbar)
+const searchTools = liveTools.map(t => ({
+  slug: t.slug,
+  name: t.name,
+  emoji: t.emoji,
+  keywords: t.keywords,
+  description: t.description,
+}))
 
 const seo = {
   title: 'Free Online Tools — JSON Formatter, Word Counter, Color Picker & more | maratool',
@@ -40,70 +72,87 @@ const itemListSchema = {
 ---
 <Base {...seo}>
   <Layout>
+    <!-- Hero -->
     <div class="hero">
       <h1>Free online tools</h1>
-      <img src="/mascot.gif" alt="maratool mascot" class="hero-mascot" width="200" height="140" />
+      <div class="hero-search-wrap">
+        <svg class="hero-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input
+          id="hero-search"
+          class="hero-search"
+          type="search"
+          placeholder="What do you need? Try 'convert csv' or 'color picker'..."
+          aria-label="Search tools"
+          autocomplete="off"
+        />
+      </div>
       <p>Fast, browser-based utilities for developers, designers, and writers. Everything runs locally — your data never leaves your device.</p>
       <p class="hero-tagline">No accounts. No installs. Nothing leaves your browser.</p>
     </div>
 
-    <section class="featured-section">
-      <h2>Featured</h2>
-      <div class="featured-grid">
-        {featuredTools.map(tool => (
-          tool.live
-            ? (
-              <a href={`/${tool.slug}`} class="tool-card">
+    <!-- Hero search results -->
+    <div id="hero-search-overlay" class="hero-search-results" hidden>
+      <div id="hero-search-results-list"></div>
+    </div>
+
+    <!-- Recently Used (rendered by JS from localStorage) -->
+    <div id="recently-used" class="recently-used" hidden>
+      <div class="recently-used-title">Pick up where you left off</div>
+      <div id="recently-used-grid" class="recently-used-grid"></div>
+    </div>
+
+    <!-- New tools -->
+    {newTools.length > 0 && (
+      <section class="task-section">
+        <div class="task-header">
+          <h2>New</h2>
+        </div>
+        <div class="tools-grid">
+          {newTools.map(tool => (
+            <a href={`/${tool.slug}`} class="tool-card" data-cat={tool.category.toLowerCase()}>
+              <span class="tool-card-emoji">{tool.emoji}</span>
+              <div class="tool-card-name">{tool.name}<span class="badge-new">New</span></div>
+              <div class="tool-card-desc">{tool.description}</div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Task-oriented category groups -->
+    {categoryOrder.map(cat => {
+      const catTools = (toolsFlatByCategory[cat] ?? []).filter(t => t.live)
+      if (catTools.length === 0) return null
+      const previewTools = catTools.slice(0, 3)
+      const label = taskLabels[cat] ?? cat
+      const color = catColors[cat] ?? 'var(--accent)'
+      return (
+        <section class="task-section">
+          <div class="task-header">
+            <h2>
+              <span class="task-color-bar" style={`background: ${color}`}></span>
+              {label}
+            </h2>
+            <a href={`/${cat.toLowerCase()}`} class="task-see-all">
+              See all {catTools.length} tools &rarr;
+            </a>
+          </div>
+          <div class="tools-grid">
+            {previewTools.map(tool => (
+              <a href={`/${tool.slug}`} class="tool-card" data-cat={tool.category.toLowerCase()}>
                 <span class="tool-card-emoji">{tool.emoji}</span>
                 <div class="tool-card-name">{tool.name}</div>
                 <div class="tool-card-desc">{tool.description}</div>
               </a>
-            )
-            : (
-              <div class="tool-card" style="opacity:0.5;cursor:default;">
-                <span class="tool-card-emoji">{tool.emoji}</span>
-                <div class="tool-card-name">{tool.name}</div>
-                <div class="tool-card-desc">{tool.description}</div>
-                <span class="tool-card-badge">Coming Soon</span>
-              </div>
-            )
-        ))}
-      </div>
-    </section>
-
-    {categoryOrder.map(cat => {
-      const catTools = toolsFlatByCategory[cat] ?? []
-      if (catTools.length === 0) return null
-      return (
-        <section class="category-section">
-          <div class="section-header">
-            <h2>{cat}</h2>
-          </div>
-          <div class="tools-grid">
-            {catTools.map(tool => (
-              tool.live
-                ? (
-                  <a href={`/${tool.slug}`} class="tool-card">
-                    <span class="tool-card-emoji">{tool.emoji}</span>
-                    <div class="tool-card-name">{tool.name}</div>
-                    <div class="tool-card-desc">{tool.description}</div>
-                  </a>
-                )
-                : (
-                  <div class="tool-card" style="opacity:0.5;cursor:default;">
-                    <span class="tool-card-emoji">{tool.emoji}</span>
-                    <div class="tool-card-name">{tool.name}</div>
-                    <div class="tool-card-desc">{tool.description}</div>
-                    <span class="tool-card-badge">Coming Soon</span>
-                  </div>
-                )
             ))}
           </div>
         </section>
       )
     })}
 
-    <section style="margin-top:4rem;">
+    <section style="margin-top:2rem;">
       <h2>Why maratool?</h2>
       <p style="color:var(--text-2);line-height:1.7;margin-top:0.75rem;max-width:560px;">maratool is a free collection of utilities that run entirely in your browser. Paste your JSON, timestamp, or regex and get an answer in under a second. Everything works offline once loaded — because nothing is sent to a server.</p>
     </section>
@@ -111,3 +160,175 @@ const itemListSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
   </Layout>
 </Base>
+
+<script define:vars={{ searchTools }}>
+(function () {
+  // ── Recently Used ──
+  var recentKey = 'maratool_recent'
+  var maxRecent = 8
+  var recentEl = document.getElementById('recently-used')
+  var recentGrid = document.getElementById('recently-used-grid')
+
+  function loadRecent() {
+    try {
+      var raw = localStorage.getItem(recentKey)
+      if (!raw) return []
+      var parsed = JSON.parse(raw)
+      return Array.isArray(parsed) ? parsed.slice(0, maxRecent) : []
+    } catch (e) { return [] }
+  }
+
+  function renderRecent() {
+    var items = loadRecent()
+    if (items.length === 0) { recentEl.hidden = true; return }
+    recentEl.hidden = false
+    recentGrid.innerHTML = items.map(function (item) {
+      return '<a href="/' + item.slug + '" class="recently-used-chip"><span>' + item.emoji + '</span>' + item.name + '</a>'
+    }).join('')
+  }
+
+  renderRecent()
+
+  // ── Track tool visits (for other pages to call) ──
+  // This runs on the homepage; individual tool pages add themselves to localStorage
+  // via a small inline script in ToolShell.astro
+
+  // ── Hero Search ──
+  var heroInput = document.getElementById('hero-search')
+  var heroOverlay = document.getElementById('hero-search-overlay')
+  var heroResultsList = document.getElementById('hero-search-results-list')
+  var heroActiveIndex = -1
+  var heroResults = []
+  var heroDebounce = null
+
+  function escapeHtml(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+  }
+
+  function highlightMatch(text, query) {
+    var escaped = escapeHtml(text)
+    if (!query) return escaped
+    var lower = text.toLowerCase()
+    var idx = lower.indexOf(query.toLowerCase())
+    if (idx === -1) return escaped
+    return escapeHtml(text.slice(0, idx)) +
+      '<strong>' + escapeHtml(text.slice(idx, idx + query.length)) + '</strong>' +
+      escapeHtml(text.slice(idx + query.length))
+  }
+
+  function score(tool, q) {
+    var name = tool.name.toLowerCase()
+    var desc = tool.description.toLowerCase()
+    if (name === q) return 5
+    if (name.startsWith(q)) return 4
+    if (name.includes(q)) return 3
+    for (var i = 0; i < tool.keywords.length; i++) {
+      if (tool.keywords[i].includes(q)) return 2
+    }
+    if (desc.includes(q)) return 1
+    return 0
+  }
+
+  function heroSearch(q) {
+    q = q.toLowerCase().trim()
+    if (!q) return []
+    var scored = []
+    for (var i = 0; i < searchTools.length; i++) {
+      var s = score(searchTools[i], q)
+      if (s > 0) scored.push({ tool: searchTools[i], score: s })
+    }
+    scored.sort(function (a, b) { return b.score - a.score })
+    return scored.slice(0, 8).map(function (x) { return x.tool })
+  }
+
+  function renderHeroResults(items, query) {
+    heroActiveIndex = -1
+    heroResults = items
+    if (!query) { heroOverlay.hidden = true; return }
+    if (items.length === 0) {
+      heroResultsList.innerHTML = '<div class="search-no-results">No tools found for &ldquo;' + escapeHtml(query) + '&rdquo;</div>'
+    } else {
+      heroResultsList.innerHTML = items.map(function (t, i) {
+        return '<a href="/' + t.slug + '" class="search-result" data-index="' + i + '">' +
+          '<span class="search-result-emoji">' + t.emoji + '</span>' +
+          '<div class="search-result-body">' +
+            '<div class="search-result-name">' + highlightMatch(t.name, query) + '</div>' +
+            '<div class="search-result-desc">' + escapeHtml(t.description) + '</div>' +
+          '</div></a>'
+      }).join('')
+    }
+    heroOverlay.hidden = false
+  }
+
+  function setHeroActive(idx) {
+    var items = heroResultsList.querySelectorAll('.search-result')
+    if (heroActiveIndex >= 0 && heroActiveIndex < items.length) {
+      items[heroActiveIndex].classList.remove('active')
+    }
+    heroActiveIndex = idx
+    if (heroActiveIndex >= 0 && heroActiveIndex < items.length) {
+      items[heroActiveIndex].classList.add('active')
+      items[heroActiveIndex].scrollIntoView({ block: 'nearest' })
+    }
+  }
+
+  heroInput.addEventListener('input', function () {
+    clearTimeout(heroDebounce)
+    heroDebounce = setTimeout(function () {
+      var q = heroInput.value.trim()
+      if (!q) { heroOverlay.hidden = true; return }
+      renderHeroResults(heroSearch(q), q)
+    }, 150)
+  })
+
+  heroInput.addEventListener('keydown', function (e) {
+    if (heroOverlay.hidden) return
+    var items = heroResultsList.querySelectorAll('.search-result')
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setHeroActive(Math.min(heroActiveIndex + 1, items.length - 1))
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setHeroActive(Math.max(heroActiveIndex - 1, 0))
+    } else if (e.key === 'Enter') {
+      e.preventDefault()
+      if (heroActiveIndex >= 0 && heroActiveIndex < items.length) {
+        window.location.href = items[heroActiveIndex].href
+      } else if (heroResults.length > 0) {
+        window.location.href = '/' + heroResults[0].slug
+      }
+    } else if (e.key === 'Escape') {
+      heroInput.value = ''
+      heroOverlay.hidden = true
+      heroInput.blur()
+    }
+  })
+
+  // Close hero search on click outside
+  document.addEventListener('click', function (e) {
+    if (!heroInput.contains(e.target) && !heroOverlay.contains(e.target)) {
+      heroOverlay.hidden = true
+    }
+  })
+
+  heroInput.addEventListener('focus', function () {
+    var q = heroInput.value.trim()
+    if (q) renderHeroResults(heroSearch(q), q)
+  })
+})()
+</script>
+
+<style is:global>
+  .hero-search-results {
+    max-width: 560px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    margin-top: -0.5rem;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    max-height: 420px;
+    overflow-y: auto;
+  }
+</style>

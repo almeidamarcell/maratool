@@ -30,6 +30,15 @@
   --error-border: #fc8181;
   --success-bg: #f0fff4;
   --success-border: #68d391;
+
+  /* Category colors */
+  --cat-converter: #c4553a;
+  --cat-image: #7c5cbf;
+  --cat-text: #3d8b6e;
+  --cat-developer: #2d6ef6;
+  --cat-color: #d4842a;
+  --cat-pdf: #c74882;
+  --cat-marketing: #4a8fa8;
 }
 
 /* Base Typography */
