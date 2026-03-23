@@ -1,5 +1,5 @@
 ---
-import { tools, toolsByCategory, categoryOrder, subcategoryOrderByCategory } from '../data/tools'
+import { tools, toolsByCategory, toolsFlatByCategory, categoryOrder, subcategoryOrderByCategory } from '../data/tools'
 
 const currentPath = Astro.url.pathname
 
@@ -20,8 +20,21 @@ const activeCategory = activeTool?.category ?? activeCategoryFromPage ?? activeC
 const activeSubcategorySlug = subcategoryPageMatch ? subcategoryPageMatch[2] : null
 const activeSubcategoryFromTool = activeTool?.subcategory?.toLowerCase() ?? null
 const activeSubcategory = activeSubcategorySlug ?? activeSubcategoryFromTool
+
+// Count live tools per category
+const catCounts: Record<string, number> = {}
+for (const cat of categoryOrder) {
+  catCounts[cat] = (toolsFlatByCategory[cat] ?? []).filter(t => t.live).length
+}
 ---
 <nav class="sidebar" aria-label="Tools navigation">
+  <!-- Recently used (rendered by JS from localStorage) -->
+  <div id="sidebar-recent" class="sidebar-recent" hidden>
+    <div class="sidebar-recent-title">Recently used</div>
+    <div id="sidebar-recent-list"></div>
+  </div>
+  <div id="sidebar-recent-divider" class="sidebar-recent-divider" hidden></div>
+
   {categoryOrder.map(cat => {
     const subs = subcategoryOrderByCategory[cat] ?? []
     const catTools = toolsByCategory[cat] ?? {}
@@ -36,6 +49,7 @@ const activeSubcategory = activeSubcategorySlug ?? activeSubcategoryFromTool
       <details class="sidebar-group" open={isOpen}>
         <summary class="sidebar-category">
           <a href={`/${catSlug}`} class="sidebar-category-label">{cat}</a>
+          <span class="sidebar-count-badge">{catCounts[cat]}</span>
           <svg class="sidebar-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
             <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -73,4 +87,25 @@ const activeSubcategory = activeSubcategorySlug ?? activeSubcategoryFromTool
   document.querySelectorAll('.sidebar-category-label').forEach(a => {
     a.addEventListener('click', e => e.stopPropagation())
   })
+
+  // Sidebar recently used
+  ;(function () {
+    var key = 'maratool_recent'
+    var max = 5
+    var container = document.getElementById('sidebar-recent')
+    var list = document.getElementById('sidebar-recent-list')
+    var divider = document.getElementById('sidebar-recent-divider')
+    try {
+      var raw = localStorage.getItem(key)
+      if (!raw) return
+      var items = JSON.parse(raw)
+      if (!Array.isArray(items) || items.length === 0) return
+      items = items.slice(0, max)
+      list.innerHTML = items.map(function (item) {
+        return '<a href="/' + item.slug + '" class="sidebar-link"><span class="sidebar-link-emoji">' + (item.emoji || '') + '</span><span>' + item.name + '</span></a>'
+      }).join('')
+      container.hidden = false
+      divider.hidden = false
+    } catch (e) {}
+  })()
 </script>

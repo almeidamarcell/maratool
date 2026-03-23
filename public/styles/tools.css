@@ -422,6 +422,15 @@
   letter-spacing: -0.02em;
 }
 
+/* ========== CATEGORY COLOR BORDERS ========== */
+.tool-card[data-cat="converter"] { border-left: 3px solid var(--cat-converter); }
+.tool-card[data-cat="image"]     { border-left: 3px solid var(--cat-image); }
+.tool-card[data-cat="text"]      { border-left: 3px solid var(--cat-text); }
+.tool-card[data-cat="developer"] { border-left: 3px solid var(--cat-developer); }
+.tool-card[data-cat="color"]     { border-left: 3px solid var(--cat-color); }
+.tool-card[data-cat="pdf"]       { border-left: 3px solid var(--cat-pdf); }
+.tool-card[data-cat="marketing"] { border-left: 3px solid var(--cat-marketing); }
+
 /* ========== EMBED MODE — TOOL SHELL ========== */
 html.embed .breadcrumb,
 html.embed .tool-header,
