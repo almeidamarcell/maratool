@@ -55,6 +55,16 @@ for (const cat of categoryOrder) {
           </svg>
         </summary>
 
+        <!-- Subcategory tag pills -->
+        <div class="sidebar-tag-pills">
+          {liveSubs.map(sub => (
+            <a
+              href={`/${catSlug}/${sub.toLowerCase()}`}
+              class:list={['sidebar-tag', { active: activeCategory === cat && activeSubcategory === sub.toLowerCase() }]}
+            >{sub}</a>
+          ))}
+        </div>
+
         {liveSubs.map(sub => (
           <div class="sidebar-subcategory-group">
             <a
