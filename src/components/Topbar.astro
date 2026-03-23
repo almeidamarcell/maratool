@@ -28,16 +28,7 @@ const liveTools = tools.filter(t => t.live).map(t => ({
     />
     <kbd class="search-kbd" id="search-kbd">⌘K</kbd>
   </div>
-  <nav class="topbar-nav" aria-label="Tool categories">
-    {categoryOrder.map(cat => (
-      <a
-        href={`/${cat.toLowerCase()}`}
-        class:list={['topbar-nav-link', { active: Astro.url.pathname.startsWith(`/${cat.toLowerCase()}`) }]}
-      >
-        {cat}
-      </a>
-    ))}
-    <span class="topbar-nav-sep" aria-hidden="true"></span>
+  <nav class="topbar-nav" aria-label="Site navigation">
     <a href="/blog" class:list={['topbar-nav-link', { active: Astro.url.pathname.startsWith('/blog') }]}>Blog</a>
     <a href="/about" class:list={['topbar-nav-link', { active: Astro.url.pathname === '/about' || Astro.url.pathname === '/about/' }]}>About</a>
     <a href="/contact" class:list={['topbar-nav-link', { active: Astro.url.pathname === '/contact' || Astro.url.pathname === '/contact/' }]}>Contact</a>
