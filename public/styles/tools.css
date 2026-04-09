@@ -431,6 +431,7 @@ h3.faq-question {
 .tool-card[data-cat="color"]     { border-left: 3px solid var(--cat-color); }
 .tool-card[data-cat="pdf"]       { border-left: 3px solid var(--cat-pdf); }
 .tool-card[data-cat="marketing"] { border-left: 3px solid var(--cat-marketing); }
+.tool-card[data-cat="mockup"]    { border-left: 3px solid var(--cat-mockup); }
 
 /* ========== EMBED MODE — TOOL SHELL ========== */
 html.embed .breadcrumb,

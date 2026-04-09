@@ -71,6 +71,7 @@ describe('SEO audit — Group 2: High Impact', () => {
       Marketing: 'BusinessApplication',
       Developer: 'DeveloperApplication',
       Converter: 'UtilitiesApplication',
+      Mockup: 'DesignApplication',
     }
     // Calculator subcategory in Developer should be UtilitiesApplication
     const calculatorSlugs = tools

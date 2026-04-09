@@ -1,0 +1,208 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import { instagramPost } from '../data/mockup-platforms'
+
+const platformConfig = instagramPost
+
+const seo = {
+  title: 'Instagram Post Mockup Generator — Create Fake Posts | maratool',
+  description: 'Create realistic Instagram post screenshots online. Edit caption, likes, comments, and profile inline. Download as PNG. Free, no sign-up.',
+  canonical: 'https://maratool.com/instagram-post-mockup',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Instagram Post Mockup Generator',
+    url: 'https://maratool.com/instagram-post-mockup',
+    applicationCategory: 'DesignApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Create realistic Instagram post screenshots with editable caption, metrics, and PNG export.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Mockup', item: 'https://maratool.com/mockup' },
+      { '@type': 'ListItem', position: 3, name: 'Posts', item: 'https://maratool.com/mockup/posts' },
+      { '@type': 'ListItem', position: 4, name: 'Instagram Post Mockup Generator', item: 'https://maratool.com/instagram-post-mockup' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Is this Instagram post mockup generator free?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes, completely free. No sign-up, no watermark. Create unlimited Instagram post mockups and download them as PNG.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I upload my own image for the post?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Click the Upload Image button in the controls panel to add your own photo to the Instagram post mockup.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this tool store my images or data?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. Everything runs in your browser. Your images and text never leave your device. The PNG is generated locally.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I create a dark mode Instagram post?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Click the dark mode toggle above the phone preview to switch between light and dark Instagram themes.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Edit the author name, handle, and caption using the controls panel on the left.',
+  'Upload an image or adjust likes, comments, and other metrics.',
+  'Toggle dark mode or hide the phone frame, then click Download PNG.'
+]
+
+const faq = [
+  { q: 'Is this Instagram post mockup generator free?', a: 'Yes, completely free. No sign-up, no watermark. Create unlimited mockups and download as PNG.' },
+  { q: 'Can I upload my own image for the post?', a: 'Yes. Click the Upload Image button in the controls panel to add your own photo.' },
+  { q: 'Does this tool store my images or data?', a: 'No. Everything runs in your browser. Your images and text never leave your device.' },
+  { q: 'Can I create a dark mode Instagram post?', a: 'Yes. Click the dark mode toggle above the phone preview to switch themes.' }
+]
+
+const relatedTools = [
+  { slug: 'x-post-mockup', name: 'X (Twitter) Post Mockup' },
+  { slug: 'instagram-chat-mockup', name: 'Instagram DM Mockup' },
+  { slug: 'whatsapp-chat-mockup', name: 'WhatsApp Chat Mockup' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Mockup', href: '/mockup' },
+  { label: 'Posts', href: '/mockup/posts' },
+  { label: 'Instagram Post Mockup' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="instagram-post-mockup" name="Instagram Post Mockup Generator" description="Create realistic Instagram post screenshots. Edit caption, likes, comments, and profile. Download as PNG." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:600px;">
+        <div class="mockup-workspace">
+          <!-- Controls panel -->
+          <div class="controls-panel">
+            <div class="controls-section">
+              <h3 class="controls-label">Author</h3>
+              <div class="ctrl-row">
+                <input type="text" class="ctrl-input" id="author-name" placeholder="Username">
+              </div>
+              <div class="ctrl-row">
+                <input type="text" class="ctrl-input" id="author-handle" placeholder="Display name">
+              </div>
+              <label class="ctrl-checkbox">
+                <input type="checkbox" id="author-verified"> Verified badge
+              </label>
+            </div>
+            <div class="controls-section">
+              <h3 class="controls-label">Caption</h3>
+              <textarea class="ctrl-input" id="content-text" rows="3" placeholder="Write a caption..."></textarea>
+            </div>
+            <div class="controls-section">
+              <h3 class="controls-label">Image</h3>
+              <input type="file" id="image-upload" accept="image/*" style="display:none">
+              <button class="mockup-btn mockup-btn-outline" id="image-upload-btn" style="width:100%">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                Upload Image
+              </button>
+            </div>
+            <div class="controls-section">
+              <h3 class="controls-label">Metrics</h3>
+              <div class="ctrl-row">
+                <label class="ctrl-label-sm">Likes</label>
+                <input type="number" class="ctrl-input" id="metric-likes" min="0">
+              </div>
+              <div class="ctrl-row">
+                <label class="ctrl-label-sm">Comments</label>
+                <input type="number" class="ctrl-input" id="metric-comments" min="0">
+              </div>
+              <div class="ctrl-row">
+                <label class="ctrl-label-sm">Shares</label>
+                <input type="number" class="ctrl-input" id="metric-shares" min="0">
+              </div>
+              <div class="ctrl-row">
+                <label class="ctrl-label-sm">Saves</label>
+                <input type="number" class="ctrl-input" id="metric-bookmarks" min="0">
+              </div>
+            </div>
+            <div class="controls-section">
+              <h3 class="controls-label">Timestamp</h3>
+              <input type="text" class="ctrl-input" id="post-timestamp" placeholder="2h">
+            </div>
+          </div>
+
+          <!-- Preview -->
+          <div class="mockup-preview">
+            <div class="mockup-action-bar">
+              <button class="mockup-btn mockup-btn-outline" id="toggle-dark">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                Dark mode
+              </button>
+              <button class="mockup-btn mockup-btn-outline" id="toggle-frame">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                Hide frame
+              </button>
+              <div style="flex:1"></div>
+              <button class="mockup-btn mockup-btn-primary" id="download-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download PNG
+              </button>
+            </div>
+
+            <div class="phone-frame" id="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-screen" id="phone-screen">
+                <div class="igp-screen">
+                  <div class="igp-statusbar">
+                    <span class="igp-statusbar-time">15:08</span>
+                    <span style="flex:1"></span>
+                    <span class="igp-statusbar-icons">
+                      <svg viewBox="0 0 18 12" fill="currentColor" width="16" height="11"><rect x="0" y="9" width="3" height="3" rx="1"/><rect x="5" y="6" width="3" height="6" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+                      <svg viewBox="0 0 16 12" fill="currentColor" width="15" height="11"><path d="M8.5 1.5C10.4 1.5 12.1 2.3 13.3 3.5L14.7 2.1C13.1 0.5 10.9-0.5 8.5-0.5C6.1-0.5 3.9 0.5 2.3 2.1L3.7 3.5C4.9 2.3 6.6 1.5 8.5 1.5ZM5.1 5C5.9 4.2 7.1 3.7 8.5 3.7C9.9 3.7 11.1 4.2 11.9 5L8.5 8.5L5.1 5Z"/></svg>
+                      <svg viewBox="0 0 25 12" fill="none" width="25" height="12"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="currentColor" stroke-width="1"/><rect x="2" y="2" width="18" height="8" rx="2" fill="currentColor"/><path d="M23 4.5C23.5523 4.5 24 4.94772 24 5.5V6.5C24 7.05228 23.5523 7.5 23 7.5" fill="currentColor"/></svg>
+                    </span>
+                  </div>
+                  <div class="igp-topbar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    <span class="igp-topbar-title">Feed</span>
+                    <div style="flex:1"></div>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                  </div>
+                  <div class="igp-content-area" id="post-content"></div>
+                  <div class="igp-home-indicator"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<link rel="stylesheet" href="/styles/mockup.css" />
+
+<script define:vars={{ platformConfig }}>
+  window.__mockupPlatform = platformConfig
+</script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="../tools/mockup/mockup-common.js"></script>
+<script src="../tools/mockup/post-engine.js"></script>
+
+<style is:global>
+.mockup-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>

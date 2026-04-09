@@ -98,6 +98,14 @@ maratool.com is a growing collection of free developer tools that run entirely i
 - [Barcode Generator — Code128, EAN-13 & More](https://maratool.com/barcode-generator): Generate barcodes in Code 128, EAN-13, UPC-A, QR, Data Matrix, and more. Download as PNG or SVG.
 - [QR Code Generator](https://maratool.com/qr-code-generator): Generate styled QR codes with custom colors, shapes, and logos. Download as PNG or SVG.
 - [UTM Builder](https://maratool.com/utm-builder): Build UTM-tagged URLs for Google Analytics campaign tracking. Add source, medium, and campaign parameters to any link.
+- [WhatsApp Chat Mockup Generator](https://maratool.com/whatsapp-chat-mockup): Create realistic WhatsApp chat screenshots. Edit messages inline, toggle dark mode, download as PNG.
+- [iMessage Chat Mockup Generator](https://maratool.com/imessage-chat-mockup): Create realistic iMessage chat screenshots with blue and gray bubbles, delivered/read receipts.
+- [Discord Chat Mockup Generator](https://maratool.com/discord-chat-mockup): Create realistic Discord chat screenshots with server-style messages, avatars, and timestamps.
+- [Instagram DM Mockup Generator](https://maratool.com/instagram-chat-mockup): Create realistic Instagram DM screenshots with purple gradient header and heart reactions.
+- [ChatGPT Conversation Mockup](https://maratool.com/chatgpt-mockup): Create realistic ChatGPT conversation screenshots with user prompts and AI responses.
+- [Instagram Post Mockup Generator](https://maratool.com/instagram-post-mockup): Create realistic Instagram post screenshots with profile, caption, likes, and comments.
+- [X (Twitter) Post Mockup Generator](https://maratool.com/x-post-mockup): Create realistic X/Twitter post screenshots with profile, tweet text, likes, and retweets.
+- [Gmail Email Mockup Generator](https://maratool.com/gmail-mockup): Create realistic Gmail email screenshots with from, to, subject, and body.
 
 ## Site pages
 

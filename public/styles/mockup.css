@@ -1,0 +1,2283 @@
+/* ── Mockup Tools — Shared Styles ──
+   Phone frames, WhatsApp theme, control panels, workspace layout.
+   Uses maratool design tokens from global.css.
+   Category color: --cat-mockup: #6366f1
+*/
+
+/* ── Mockup workspace ── */
+.mockup-tool-container { min-height: 600px; margin-bottom: 2.5rem; }
+.mockup-workspace { display: grid; grid-template-columns: 280px 1fr; gap: 24px; align-items: start; }
+
+/* ── Controls panel ── */
+.controls-panel {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: sticky;
+  top: calc(var(--topbar-height) + 16px);
+}
+.controls-section { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.controls-section:last-child { border-bottom: none; }
+.controls-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-3);
+  margin-bottom: 10px;
+  display: block;
+}
+.ctrl-row { display: flex; gap: 6px; margin-bottom: 6px; }
+.ctrl-input {
+  flex: 1;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 13px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color 150ms;
+}
+.ctrl-input:focus { border-color: var(--cat-mockup); }
+.ctrl-input::placeholder { color: var(--text-3); }
+select.ctrl-input { appearance: auto; }
+
+/* ── Direction toggle ── */
+.dir-toggle {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.dir-toggle button {
+  flex: 1;
+  padding: 6px 8px;
+  border: none;
+  background: #fff;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--text-2);
+  transition: all 0.1s;
+}
+.dir-toggle button.active {
+  background: var(--cat-mockup);
+  color: #fff;
+}
+
+/* ── Person items ── */
+.person-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: var(--radius);
+  margin-bottom: 2px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.person-item:hover { background: var(--bg); }
+.person-item.active { background: var(--bg-soft); }
+.person-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  flex-shrink: 0;
+}
+.person-name { font-size: 13px; font-weight: 500; flex: 1; }
+
+/* ── Message list in controls ── */
+.msg-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 4px;
+  font-size: 12px;
+  background: #fff;
+  transition: border-color 0.1s;
+}
+.msg-item:hover { border-color: var(--text-3); }
+.msg-item .msg-body { flex: 1; min-width: 0; }
+.msg-item .msg-sender { font-weight: 600; font-size: 10px; color: var(--text-3); }
+.msg-item .msg-preview {
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.msg-reorder { display: flex; flex-direction: column; flex-shrink: 0; }
+.msg-reorder button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 3px;
+  font-size: 10px;
+  color: var(--text-3);
+  line-height: 1;
+  transition: color 0.1s;
+}
+.msg-reorder button:hover { color: var(--text); }
+.msg-reorder button:disabled { opacity: 0.2; cursor: default; }
+
+/* ── Preview area ── */
+.mockup-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mockup-action-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  align-items: center;
+  width: 100%;
+}
+
+/* ── Mockup buttons ── */
+.mockup-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 7px 14px;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.mockup-btn-primary {
+  background: var(--cat-mockup);
+  color: #fff;
+}
+.mockup-btn-primary:hover { background: #4f46e5; }
+.mockup-btn-outline {
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.mockup-btn-outline:hover {
+  background: var(--bg);
+  border-color: var(--text-3);
+}
+.mockup-btn-danger {
+  padding: 3px 6px;
+  background: none;
+  color: var(--text-3);
+  border: none;
+  font-size: 14px;
+  line-height: 1;
+}
+.mockup-btn-danger:hover { color: #dc2626; }
+
+/* ══════════════════════════════════════
+   PHONE FRAME — iPhone 15 Pro
+   ══════════════════════════════════════ */
+.phone-frame {
+  width: 393px;
+  height: 852px;
+  border-radius: 48px;
+  background: #fff;
+  border: 12px solid #000;
+  position: relative;
+  box-shadow:
+    0 30px 60px rgba(0,0,0,0.15),
+    0 10px 20px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+.phone-frame.no-frame {
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+.phone-frame.no-frame .phone-screen { border-radius: 0; }
+.phone-frame.no-frame .phone-notch { display: none; }
+
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  border-radius: 36px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Dynamic Island */
+.phone-notch {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 30px;
+  background: #000;
+  border-radius: 9999px;
+  z-index: 10;
+}
+
+/* ══════════════════════════════════════
+   WHATSAPP — REAL iOS LOOK
+   Matched from actual WhatsApp screenshot
+   ══════════════════════════════════════ */
+
+.wa-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  background: #075E54;
+}
+
+/* ── Status bar — green, white text ── */
+.wa-statusbar {
+  height: 54px;
+  background: #075E54;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 28px 6px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  flex-shrink: 0;
+  justify-content: space-between;
+}
+.wa-statusbar-time { font-weight: 700; font-size: 15px; color: #fff; }
+.wa-statusbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #fff;
+}
+.wa-statusbar-icons svg { display: block; }
+
+/* ── Header — green background, white text ── */
+.wa-header {
+  background: #075E54;
+  padding: 6px 10px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.wa-header-back {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+.wa-header-back svg {
+  width: 12px;
+  height: 20px;
+}
+.wa-header-back-count {
+  font-size: 17px;
+  color: #fff;
+}
+.wa-header-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #128C7E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.wa-header-info {
+  flex: 1;
+}
+.wa-header-name {
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.wa-header-status {
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+  line-height: 1.3;
+}
+.wa-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: #fff;
+  flex-shrink: 0;
+}
+.wa-header-actions svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ── Chat area — authentic wallpaper ── */
+.wa-chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 8px;
+  background-color: #E2DDD5;
+  background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
+  background-size: 412px auto;
+  background-repeat: repeat;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ── Date pill ── */
+.wa-date-pill {
+  align-self: center;
+  background: rgba(255,255,255,0.85);
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #54656F;
+  margin: 6px 0;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.06);
+}
+
+/* ── Message bubbles — matched from real screenshot ── */
+.wa-msg {
+  max-width: 80%;
+  padding: 6px 7px 8px 9px;
+  border-radius: 7.5px;
+  font-size: 16.5px;
+  line-height: 1.25;
+  position: relative;
+  margin-bottom: 2px;
+  word-wrap: break-word;
+  cursor: text;
+  min-height: 28px;
+  box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+}
+.wa-msg:focus {
+  outline: 2px solid var(--cat-mockup);
+  outline-offset: 2px;
+  border-radius: 7.5px;
+}
+
+.wa-msg.outgoing {
+  align-self: flex-end;
+  background: #D9FDD3;
+  color: #111B21;
+}
+.wa-msg.incoming {
+  align-self: flex-start;
+  background: #FFFFFF;
+  color: #111B21;
+}
+
+/* Bubble tails */
+.wa-msg.outgoing.has-tail {
+  border-radius: 7.5px 0px 7.5px 7.5px;
+  margin-right: 8px;
+}
+.wa-msg.outgoing.has-tail::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -8px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 10px 8px;
+  border-color: transparent transparent transparent #D9FDD3;
+}
+.wa-msg.incoming.has-tail {
+  border-radius: 0px 7.5px 7.5px 7.5px;
+  margin-left: 8px;
+}
+.wa-msg.incoming.has-tail::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 8px 10px 0;
+  border-color: transparent #FFFFFF transparent transparent;
+}
+
+.wa-msg-text {
+  display: inline;
+}
+
+/* Time + ticks inline at end of message */
+.wa-msg-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  float: right;
+  margin-left: 8px;
+  margin-top: 4px;
+  position: relative;
+  top: 2px;
+}
+.wa-msg-time {
+  font-size: 11px;
+  color: rgba(0,0,0,0.45);
+  font-weight: 400;
+}
+.wa-msg-ticks {
+  display: flex;
+  align-items: center;
+  color: #53BDEB;
+  line-height: 1;
+}
+.wa-msg-ticks svg {
+  width: 16px;
+  height: 11px;
+}
+
+/* ── Input bar — white area at bottom ── */
+.wa-input-bar {
+  background: #F0F0F0;
+  padding: 6px 10px 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.wa-home-indicator {
+  background: #F0F0F0;
+  padding: 8px 0 6px;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.wa-home-indicator::after {
+  content: '';
+  width: 134px;
+  height: 5px;
+  background: #000;
+  border-radius: 3px;
+  opacity: 0.2;
+}
+.wa-input-icon {
+  color: #007AFF;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wa-input-icon svg {
+  width: 24px;
+  height: 24px;
+}
+.wa-input-icon-gray { color: #8E8E93; }
+.wa-input-wrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.wa-input-field {
+  width: 100%;
+  padding: 8px 38px 8px 12px;
+  border-radius: 18px;
+  border: 0.5px solid rgba(0,0,0,0.18);
+  background: #fff;
+  font-size: 16px;
+  color: #111B21;
+  font-family: inherit;
+}
+.wa-input-field::placeholder { color: #8696A0; }
+.wa-input-sticker {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  color: #8E8E93;
+}
+
+/* ══════════════════════════════════════
+   WHATSAPP DARK MODE
+   ══════════════════════════════════════ */
+.phone-screen.dark .wa-screen { background: #121B22; }
+.phone-screen.dark .wa-statusbar {
+  background: #121B22;
+  color: #fff;
+}
+.phone-screen.dark .wa-header {
+  background: #121B22;
+}
+.phone-screen.dark .wa-header-name { color: #E9EDEF; }
+.phone-screen.dark .wa-header-status { color: #8696A0; }
+.phone-screen.dark .wa-header-actions { color: #8696A0; }
+.phone-screen.dark .wa-chat {
+  background-color: #0B141A;
+  background-image:
+    linear-gradient(rgba(11,20,26,0.95), rgba(11,20,26,0.95)),
+    url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
+  background-size: auto, 412px auto;
+  background-repeat: repeat;
+  background-blend-mode: normal, screen;
+}
+.phone-screen.dark .wa-msg.outgoing {
+  background: #005C4B;
+  color: #E9EDEF;
+}
+.phone-screen.dark .wa-msg.incoming {
+  background: #202C33;
+  color: #E9EDEF;
+}
+.phone-screen.dark .wa-msg.outgoing.has-tail::after {
+  border-color: transparent transparent transparent #005C4B;
+}
+.phone-screen.dark .wa-msg.incoming.has-tail::after {
+  border-color: transparent #202C33 transparent transparent;
+}
+.phone-screen.dark .wa-msg { box-shadow: none; }
+.phone-screen.dark .wa-msg-time { color: rgba(255,255,255,0.45); }
+.phone-screen.dark .wa-msg-ticks { color: #53BDEB; }
+.phone-screen.dark .wa-date-pill {
+  background: rgba(25,30,32,0.85);
+  color: rgba(255,255,255,0.6);
+}
+.phone-screen.dark .wa-input-bar {
+  background: #1F2C34;
+}
+.phone-screen.dark .wa-home-indicator {
+  background: #1F2C34;
+}
+.phone-screen.dark .wa-home-indicator::after {
+  background: #fff;
+  opacity: 0.2;
+}
+.phone-screen.dark .wa-input-field {
+  background: #2A3942;
+  color: #E9EDEF;
+  border-color: rgba(255,255,255,0.08);
+}
+.phone-screen.dark .wa-input-icon { color: #8696A0; }
+.phone-screen.dark .wa-input-sticker svg { stroke: #8696A0; }
+
+/* ══════════════════════════════════════
+   DISCORD — DARK-FIRST DESKTOP CHAT
+   Authentic Discord server chat appearance
+   ══════════════════════════════════════ */
+
+.dc-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #313338;
+}
+
+/* ── Discord status bar (minimal) ── */
+.dc-statusbar {
+  height: 54px;
+  background: #313338;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 28px 6px;
+  color: #B5BAC1;
+  font-size: 15px;
+  font-weight: 600;
+  flex-shrink: 0;
+  justify-content: space-between;
+}
+.dc-statusbar-time { font-weight: 700; font-size: 15px; color: #DBDEE1; }
+.dc-statusbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #DBDEE1;
+}
+.dc-statusbar-icons svg { display: block; }
+
+/* ── Discord channel header ── */
+.dc-header {
+  background: #313338;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #3F4147;
+  min-height: 44px;
+}
+.dc-header-hash {
+  color: #80848E;
+  font-size: 20px;
+  font-weight: 500;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.dc-header-name {
+  color: #F2F3F5;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dc-header-divider {
+  width: 1px;
+  height: 20px;
+  background: #3F4147;
+  flex-shrink: 0;
+  margin: 0 4px;
+}
+.dc-header-topic {
+  color: #B5BAC1;
+  font-size: 12px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dc-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #B5BAC1;
+  flex-shrink: 0;
+}
+.dc-header-actions svg { width: 20px; height: 20px; display: block; }
+
+/* ── Chat area ── */
+.dc-chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 0 8px;
+  background: #313338;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Message rows ── */
+.dc-msg-row {
+  padding: 2px 16px;
+  transition: background 0.1s;
+  position: relative;
+}
+.dc-msg-row:hover { background: #2E3035; }
+
+.dc-msg-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+.dc-msg-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.dc-msg-info {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.dc-msg-username {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.375;
+}
+
+.dc-msg-time {
+  font-size: 11px;
+  color: #949BA4;
+  font-weight: 400;
+  flex-shrink: 0;
+}
+
+.dc-msg-text {
+  font-size: 15px;
+  line-height: 1.375;
+  color: #DBDEE1;
+  padding: 2px 0 2px 52px;
+  cursor: text;
+  word-wrap: break-word;
+  min-height: 22px;
+  outline: none;
+}
+.dc-msg-text:focus {
+  outline: 2px solid var(--cat-mockup);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Collapsed messages — no header, just text with indent */
+.dc-msg-row.dc-msg-collapsed { padding-top: 0; }
+.dc-msg-row.dc-msg-collapsed .dc-msg-text { padding-top: 0; }
+
+/* ── Discord date divider ── */
+.dc-date-divider {
+  display: flex;
+  align-items: center;
+  margin: 8px 16px;
+}
+.dc-date-divider::before,
+.dc-date-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #3F4147;
+}
+.dc-date-divider span {
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #949BA4;
+}
+
+/* ── Input bar — Discord style ── */
+.dc-input-bar {
+  background: #313338;
+  padding: 0 16px 20px;
+  flex-shrink: 0;
+}
+.dc-input-wrap {
+  display: flex;
+  align-items: center;
+  background: #383A40;
+  border-radius: 8px;
+  padding: 2px 4px;
+  gap: 0;
+}
+.dc-input-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #B5BAC1;
+  border: none;
+  background: none;
+}
+.dc-input-btn svg { width: 20px; height: 20px; }
+.dc-input-field {
+  flex: 1;
+  padding: 8px 4px;
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  color: #DBDEE1;
+  font-family: inherit;
+  outline: none;
+}
+.dc-input-field::placeholder { color: #6D6F78; }
+.dc-input-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.dc-input-actions svg { width: 20px; height: 20px; }
+
+/* ── Home indicator ── */
+.dc-home-indicator {
+  background: #313338;
+  padding: 4px 0 6px;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dc-home-indicator::after {
+  content: '';
+  width: 134px;
+  height: 5px;
+  background: #fff;
+  border-radius: 3px;
+  opacity: 0.15;
+}
+
+/* ══════════════════════════════════════
+   DISCORD LIGHT MODE
+   ══════════════════════════════════════ */
+.phone-screen.dc-light .dc-screen { background: #FFFFFF; }
+.phone-screen.dc-light .dc-statusbar { background: #FFFFFF; color: #4E5058; }
+.phone-screen.dc-light .dc-statusbar-time { color: #313338; }
+.phone-screen.dc-light .dc-statusbar-icons { color: #313338; }
+.phone-screen.dc-light .dc-header {
+  background: #FFFFFF;
+  border-bottom-color: #E3E5E8;
+}
+.phone-screen.dc-light .dc-header-hash { color: #80848E; }
+.phone-screen.dc-light .dc-header-name { color: #060607; }
+.phone-screen.dc-light .dc-header-divider { background: #E3E5E8; }
+.phone-screen.dc-light .dc-header-topic { color: #4E5058; }
+.phone-screen.dc-light .dc-header-actions { color: #4E5058; }
+.phone-screen.dc-light .dc-chat { background: #FFFFFF; }
+.phone-screen.dc-light .dc-msg-row:hover { background: #F2F3F5; }
+.phone-screen.dc-light .dc-msg-text { color: #313338; }
+.phone-screen.dc-light .dc-msg-time { color: #80848E; }
+.phone-screen.dc-light .dc-date-divider::before,
+.phone-screen.dc-light .dc-date-divider::after { background: #E3E5E8; }
+.phone-screen.dc-light .dc-date-divider span { color: #5C5E66; }
+.phone-screen.dc-light .dc-input-bar { background: #FFFFFF; }
+.phone-screen.dc-light .dc-input-wrap { background: #EBEDEF; }
+.phone-screen.dc-light .dc-input-field { color: #313338; }
+.phone-screen.dc-light .dc-input-field::placeholder { color: #80848E; }
+.phone-screen.dc-light .dc-input-btn { color: #4E5058; }
+.phone-screen.dc-light .dc-input-actions { color: #4E5058; }
+.phone-screen.dc-light .dc-home-indicator { background: #FFFFFF; }
+.phone-screen.dc-light .dc-home-indicator::after { background: #000; opacity: 0.15; }
+
+/* ══════════════════════════════════════
+   CHATGPT — FULL-WIDTH ALTERNATING ROWS
+   Authentic ChatGPT 2024/2025 UI
+   ══════════════════════════════════════ */
+
+.gpt-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: 'Söhne', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  background: #FFFFFF;
+}
+
+/* ── Status bar ── */
+.gpt-statusbar {
+  height: 54px;
+  background: #FFFFFF;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 28px 6px;
+  color: #0D0D0D;
+  font-size: 15px;
+  font-weight: 600;
+  flex-shrink: 0;
+  justify-content: space-between;
+}
+.gpt-statusbar-time { font-weight: 700; font-size: 15px; }
+.gpt-statusbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #0D0D0D;
+}
+.gpt-statusbar-icons svg { display: block; }
+
+/* ── Header — minimal, model chip centered ── */
+.gpt-header {
+  background: #FFFFFF;
+  padding: 6px 14px 10px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.gpt-header-sidebar {
+  color: #0D0D0D;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+.gpt-header-new {
+  color: #0D0D0D;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+.gpt-model-chip {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0D0D0D;
+}
+.gpt-model-chip svg { opacity: 0.5; }
+
+/* ── Chat area — alternating rows ── */
+.gpt-chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 0 16px;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Messages ── */
+.gpt-msg {
+  width: 100%;
+  padding: 12px 24px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+/* User message: gray rounded box, right-aligned */
+.gpt-msg-user {
+  justify-content: flex-end;
+  padding: 8px 24px;
+}
+.gpt-msg-user .gpt-msg-text {
+  background: #F7F7F8;
+  padding: 10px 16px;
+  border-radius: 20px;
+  max-width: 80%;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #0D0D0D;
+  cursor: text;
+  outline: none;
+  word-wrap: break-word;
+}
+.gpt-msg-user .gpt-msg-text:focus {
+  outline: 2px solid var(--cat-mockup);
+  outline-offset: 2px;
+}
+
+/* Assistant message: full width, icon on left */
+.gpt-msg-assistant {
+  padding: 12px 24px;
+}
+.gpt-msg-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.gpt-msg-icon-assistant {
+  background: #000;
+  color: #fff;
+  border: 1px solid #ECECEC;
+}
+.gpt-msg-icon-assistant svg {
+  width: 18px;
+  height: 18px;
+}
+
+.gpt-msg-content {
+  flex: 1;
+  min-width: 0;
+}
+.gpt-msg-assistant .gpt-msg-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #0D0D0D;
+  cursor: text;
+  outline: none;
+  word-wrap: break-word;
+  padding: 2px 0;
+}
+.gpt-msg-assistant .gpt-msg-text:focus {
+  outline: 2px solid var(--cat-mockup);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Copy / action buttons under assistant messages */
+.gpt-msg-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.gpt-action-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #ACACAC;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+  border-radius: 4px;
+}
+.gpt-action-btn:hover { color: #0D0D0D; }
+
+/* ── Input bar — bottom, rounded ── */
+.gpt-input-bar {
+  background: #FFFFFF;
+  padding: 0 16px 4px;
+  flex-shrink: 0;
+}
+.gpt-input-wrap {
+  display: flex;
+  align-items: center;
+  background: #F4F4F4;
+  border-radius: 24px;
+  padding: 4px 8px;
+  gap: 4px;
+}
+.gpt-input-attach {
+  color: #0D0D0D;
+  opacity: 0.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 4px;
+}
+.gpt-input-field {
+  flex: 1;
+  padding: 8px 4px;
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  color: #0D0D0D;
+  font-family: inherit;
+  outline: none;
+}
+.gpt-input-field::placeholder { color: #8E8E8E; }
+.gpt-input-send {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #0D0D0D;
+  border-radius: 50%;
+  color: #fff;
+  opacity: 0.3;
+}
+.gpt-input-send svg { width: 16px; height: 16px; }
+
+/* ── Disclaimer text ── */
+.gpt-disclaimer {
+  text-align: center;
+  font-size: 11px;
+  color: #9B9B9B;
+  padding: 4px 16px 2px;
+  background: #FFFFFF;
+  flex-shrink: 0;
+}
+
+/* ── Home indicator ── */
+.gpt-home-indicator {
+  background: #FFFFFF;
+  padding: 6px 0 6px;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.gpt-home-indicator::after {
+  content: '';
+  width: 134px;
+  height: 5px;
+  background: #000;
+  border-radius: 3px;
+  opacity: 0.2;
+}
+
+/* ══════════════════════════════════════
+   CHATGPT DARK MODE
+   ══════════════════════════════════════ */
+.phone-screen.dark .gpt-screen { background: #212121; }
+.phone-screen.dark .gpt-statusbar {
+  background: #212121;
+  color: #ECECEC;
+}
+.phone-screen.dark .gpt-statusbar-icons { color: #ECECEC; }
+.phone-screen.dark .gpt-header {
+  background: #212121;
+}
+.phone-screen.dark .gpt-header-sidebar { color: #ECECEC; }
+.phone-screen.dark .gpt-header-new { color: #ECECEC; }
+.phone-screen.dark .gpt-model-chip { color: #ECECEC; }
+.phone-screen.dark .gpt-chat { background: #212121; }
+
+.phone-screen.dark .gpt-msg-user .gpt-msg-text {
+  background: #2F2F2F;
+  color: #ECECEC;
+}
+.phone-screen.dark .gpt-msg-assistant .gpt-msg-text {
+  color: #ECECEC;
+}
+.phone-screen.dark .gpt-msg-icon-assistant {
+  background: #fff;
+  color: #000;
+  border-color: #444;
+}
+.phone-screen.dark .gpt-action-btn { color: #666; }
+.phone-screen.dark .gpt-action-btn:hover { color: #ECECEC; }
+
+.phone-screen.dark .gpt-input-bar { background: #212121; }
+.phone-screen.dark .gpt-input-wrap { background: #2F2F2F; }
+.phone-screen.dark .gpt-input-field { color: #ECECEC; }
+.phone-screen.dark .gpt-input-field::placeholder { color: #666; }
+.phone-screen.dark .gpt-input-attach { color: #ECECEC; }
+.phone-screen.dark .gpt-input-send {
+  background: #676767;
+  color: #212121;
+}
+
+.phone-screen.dark .gpt-disclaimer {
+  background: #212121;
+  color: #666;
+}
+.phone-screen.dark .gpt-home-indicator { background: #212121; }
+.phone-screen.dark .gpt-home-indicator::after {
+  background: #fff;
+  opacity: 0.2;
+}
+
+/* ══════════════════════════════════════
+   INSTAGRAM POST (.igp-*)
+   ══════════════════════════════════════ */
+
+.igp-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  background: #FAFAFA;
+}
+.igp-statusbar {
+  height: 54px;
+  background: #FFFFFF;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 28px 6px;
+  color: #262626;
+  font-size: 15px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.igp-statusbar-time { font-weight: 700; font-size: 15px; }
+.igp-statusbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.igp-topbar {
+  background: #FFFFFF;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid #DBDBDB;
+  flex-shrink: 0;
+  color: #262626;
+}
+.igp-topbar-title {
+  font-size: 17px;
+  font-weight: 600;
+  flex: 1;
+}
+.igp-content-area {
+  flex: 1;
+  overflow-y: auto;
+  background: #FFFFFF;
+}
+.igp-home-indicator {
+  background: #FFFFFF;
+  padding: 8px 0 6px;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.igp-home-indicator::after {
+  content: '';
+  width: 134px;
+  height: 5px;
+  background: #000;
+  border-radius: 3px;
+  opacity: 0.2;
+}
+
+/* ── IG Post card ── */
+.igp-card {
+  background: #FFFFFF;
+  border-bottom: 1px solid #DBDBDB;
+}
+.igp-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  gap: 10px;
+}
+.igp-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.igp-avatar-initial {
+  background: #E1306C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+.igp-header-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.igp-username {
+  font-size: 14px;
+  font-weight: 600;
+  color: #262626;
+}
+.igp-verified {
+  flex-shrink: 0;
+}
+.igp-menu {
+  color: #262626;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.igp-image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: #EFEFEF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.igp-placeholder {
+  color: #AAAAAA;
+}
+.igp-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+}
+.igp-actions-left {
+  display: flex;
+  gap: 16px;
+}
+.igp-icon {
+  width: 24px;
+  height: 24px;
+  color: #262626;
+  cursor: pointer;
+}
+.igp-bookmark {
+  color: #262626;
+}
+.igp-likes {
+  font-size: 14px;
+  font-weight: 600;
+  color: #262626;
+  padding: 0 12px 4px;
+}
+.igp-caption {
+  padding: 0 12px 4px;
+  font-size: 14px;
+  color: #262626;
+  line-height: 1.4;
+}
+.igp-caption-user {
+  font-weight: 600;
+}
+.igp-caption-text {
+  outline: none;
+  cursor: text;
+}
+.igp-caption-text:focus {
+  outline: 2px solid var(--cat-mockup);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.igp-comments-link {
+  padding: 0 12px 2px;
+  font-size: 14px;
+  color: #8E8E93;
+}
+.igp-timestamp {
+  padding: 2px 12px 12px;
+  font-size: 10px;
+  color: #8E8E93;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* ── Instagram Post Dark Mode ── */
+.phone-screen.dark .igp-screen { background: #000; }
+.phone-screen.dark .igp-statusbar { background: #000; color: #F5F5F5; }
+.phone-screen.dark .igp-topbar { background: #000; color: #F5F5F5; border-bottom-color: #262626; }
+.phone-screen.dark .igp-content-area { background: #000; }
+.phone-screen.dark .igp-card { background: #000; border-bottom-color: #262626; }
+.phone-screen.dark .igp-username { color: #F5F5F5; }
+.phone-screen.dark .igp-menu { color: #F5F5F5; }
+.phone-screen.dark .igp-icon { color: #F5F5F5; }
+.phone-screen.dark .igp-bookmark { color: #F5F5F5; }
+.phone-screen.dark .igp-likes { color: #F5F5F5; }
+.phone-screen.dark .igp-caption { color: #F5F5F5; }
+.phone-screen.dark .igp-caption-user { color: #F5F5F5; }
+.phone-screen.dark .igp-comments-link { color: #A8A8A8; }
+.phone-screen.dark .igp-timestamp { color: #A8A8A8; }
+.phone-screen.dark .igp-image { background: #1A1A1A; }
+.phone-screen.dark .igp-home-indicator { background: #000; }
+.phone-screen.dark .igp-home-indicator::after { background: #fff; opacity: 0.2; }
+.phone-screen.dark .igp-avatar-initial { background: #E1306C; }
+
+/* ══════════════════════════════════════
+   X/TWITTER POST (.xp-*)
+   ══════════════════════════════════════ */
+
+.xp-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  background: #FFFFFF;
+}
+.xp-statusbar {
+  height: 54px;
+  background: #FFFFFF;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 28px 6px;
+  color: #0F1419;
+  font-size: 15px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.xp-statusbar-time { font-weight: 700; font-size: 15px; }
+.xp-statusbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.xp-topbar {
+  background: #FFFFFF;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid #EFF3F4;
+  flex-shrink: 0;
+  color: #0F1419;
+}
+.xp-topbar-title {
+  font-size: 17px;
+  font-weight: 700;
+}
+.xp-content-area {
+  flex: 1;
+  overflow-y: auto;
+  background: #FFFFFF;
+}
+.xp-home-indicator {
+  background: #FFFFFF;
+  padding: 8px 0 6px;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.xp-home-indicator::after {
+  content: '';
+  width: 134px;
+  height: 5px;
+  background: #000;
+  border-radius: 3px;
+  opacity: 0.2;
+}
+
+/* ── X Post card ── */
+.xp-card {
+  background: #FFFFFF;
+  padding: 12px 16px;
+  border-bottom: 1px solid #EFF3F4;
+}
+.xp-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.xp-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.xp-avatar-initial {
+  background: #1D9BF0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+}
+.xp-header-info {
+  flex: 1;
+  min-width: 0;
+}
+.xp-name-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.xp-displayname {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0F1419;
+}
+.xp-verified {
+  flex-shrink: 0;
+}
+.xp-handle {
+  font-size: 15px;
+  color: #536471;
+}
+.xp-menu {
+  color: #536471;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.xp-content {
+  font-size: 17px;
+  line-height: 1.5;
+  color: #0F1419;
+  padding: 8px 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  outline: none;
+  cursor: text;
+}
+.xp-content:focus {
+  outline: 2px solid var(--cat-mockup);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.xp-image {
+  margin: 4px 0;
+  border-radius: 16px;
+  overflow: hidden;
+  max-height: 280px;
+}
+.xp-timestamp {
+  font-size: 15px;
+  color: #536471;
+  padding: 8px 0;
+  border-bottom: 1px solid #EFF3F4;
+}
+.xp-metrics-row {
+  display: flex;
+  gap: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid #EFF3F4;
+  font-size: 14px;
+  color: #536471;
+}
+.xp-metric strong {
+  color: #0F1419;
+  font-weight: 700;
+}
+.xp-actions {
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0 0;
+}
+.xp-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #536471;
+  font-size: 13px;
+  cursor: pointer;
+}
+.xp-action svg { flex-shrink: 0; }
+
+/* ── X Post Dark Mode ── */
+.phone-screen.dark .xp-screen { background: #000; }
+.phone-screen.dark .xp-statusbar { background: #000; color: #E7E9EA; }
+.phone-screen.dark .xp-topbar { background: #000; color: #E7E9EA; border-bottom-color: #2F3336; }
+.phone-screen.dark .xp-content-area { background: #000; }
+.phone-screen.dark .xp-card { background: #000; border-bottom-color: #2F3336; }
+.phone-screen.dark .xp-displayname { color: #E7E9EA; }
+.phone-screen.dark .xp-handle { color: #71767B; }
+.phone-screen.dark .xp-menu { color: #71767B; }
+.phone-screen.dark .xp-content { color: #E7E9EA; }
+.phone-screen.dark .xp-timestamp { color: #71767B; border-bottom-color: #2F3336; }
+.phone-screen.dark .xp-metrics-row { border-bottom-color: #2F3336; color: #71767B; }
+.phone-screen.dark .xp-metric strong { color: #E7E9EA; }
+.phone-screen.dark .xp-action { color: #71767B; }
+.phone-screen.dark .xp-home-indicator { background: #000; }
+.phone-screen.dark .xp-home-indicator::after { background: #fff; opacity: 0.2; }
+.phone-screen.dark .xp-avatar-initial { background: #1D9BF0; }
+
+/* ══════════════════════════════════════
+   GMAIL (.gm-*)
+   ══════════════════════════════════════ */
+
+.gm-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: 'Google Sans', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #F6F8FC;
+}
+.gm-statusbar {
+  height: 54px;
+  background: #F6F8FC;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 28px 6px;
+  color: #1F1F1F;
+  font-size: 15px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.gm-statusbar-time { font-weight: 700; font-size: 15px; }
+.gm-statusbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.gm-content-area {
+  flex: 1;
+  overflow-y: auto;
+  background: #FFFFFF;
+  margin: 0 8px;
+  border-radius: 16px 16px 0 0;
+}
+.gm-home-indicator {
+  background: #F6F8FC;
+  padding: 8px 0 6px;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.gm-home-indicator::after {
+  content: '';
+  width: 134px;
+  height: 5px;
+  background: #000;
+  border-radius: 3px;
+  opacity: 0.2;
+}
+
+/* ── Gmail email view ── */
+.gm-email {
+  padding: 0;
+}
+.gm-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 16px;
+  color: #1F1F1F;
+}
+.gm-toolbar-icon {
+  color: #5F6368;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.gm-subject-row {
+  padding: 4px 16px 8px;
+}
+.gm-subject {
+  font-size: 22px;
+  font-weight: 400;
+  color: #1F1F1F;
+  margin: 0 0 6px;
+  line-height: 1.3;
+  outline: none;
+  font-family: 'Google Sans', Roboto, sans-serif;
+}
+.gm-subject:focus {
+  outline: 2px solid var(--cat-mockup);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.gm-labels {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.gm-label {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.gm-sender-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+}
+.gm-sender-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+.gm-avatar-initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+}
+.gm-sender-info {
+  flex: 1;
+  min-width: 0;
+}
+.gm-sender-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.gm-sender-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1F1F1F;
+}
+.gm-date {
+  font-size: 12px;
+  color: #5F6368;
+  flex-shrink: 0;
+}
+.gm-sender-email {
+  font-size: 12px;
+  color: #5F6368;
+}
+.gm-to {
+  font-size: 12px;
+  color: #5F6368;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.gm-sender-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.gm-body {
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #1F1F1F;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  min-height: 200px;
+  outline: none;
+  cursor: text;
+}
+.gm-body:focus {
+  outline: 2px solid var(--cat-mockup);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.gm-reply-bar {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+  border-top: 1px solid #E8EAED;
+}
+.gm-reply-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 24px;
+  border: 1px solid #DADCE0;
+  border-radius: 18px;
+  background: #FFFFFF;
+  color: #5F6368;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+}
+.gm-reply-btn:hover {
+  background: #F1F3F4;
+}
+
+/* ── Gmail Dark Mode ── */
+.phone-screen.dark .gm-screen { background: #1F1F1F; }
+.phone-screen.dark .gm-statusbar { background: #1F1F1F; color: #E3E3E3; }
+.phone-screen.dark .gm-content-area { background: #292A2D; }
+.phone-screen.dark .gm-toolbar { color: #E3E3E3; }
+.phone-screen.dark .gm-toolbar-icon { color: #9AA0A6; }
+.phone-screen.dark .gm-subject { color: #E3E3E3; }
+.phone-screen.dark .gm-sender-name { color: #E3E3E3; }
+.phone-screen.dark .gm-date { color: #9AA0A6; }
+.phone-screen.dark .gm-sender-email { color: #9AA0A6; }
+.phone-screen.dark .gm-to { color: #9AA0A6; }
+.phone-screen.dark .gm-body { color: #E3E3E3; }
+.phone-screen.dark .gm-reply-bar { border-top-color: #3C4043; }
+.phone-screen.dark .gm-reply-btn {
+  background: #292A2D;
+  border-color: #3C4043;
+  color: #9AA0A6;
+}
+.phone-screen.dark .gm-reply-btn:hover { background: #3C4043; }
+.phone-screen.dark .gm-sender-actions .gm-toolbar-icon { color: #9AA0A6; }
+.phone-screen.dark .gm-home-indicator { background: #1F1F1F; }
+.phone-screen.dark .gm-home-indicator::after { background: #fff; opacity: 0.2; }
+
+/* ── Controls helpers ── */
+.ctrl-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+  padding: 4px 0;
+}
+.ctrl-checkbox input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--cat-mockup);
+}
+.ctrl-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ctrl-label-sm {
+  font-size: 12px;
+  color: var(--text-2);
+  min-width: 70px;
+  flex-shrink: 0;
+}
+textarea.ctrl-input {
+  resize: vertical;
+  min-height: 60px;
+  font-family: var(--font);
+}
+
+/* ══════════════════════════════════════
+   iMESSAGE — REAL iOS LOOK
+   Blue outgoing, gray incoming, clean white UI
+   ══════════════════════════════════════ */
+
+.im-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  background: #FFFFFF;
+}
+
+/* ── Status bar — light bg, dark text ── */
+.im-statusbar {
+  height: 54px;
+  background: #F6F6F6;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 28px 6px;
+  color: #000;
+  font-size: 15px;
+  font-weight: 600;
+  flex-shrink: 0;
+  justify-content: space-between;
+}
+.im-statusbar-time { font-weight: 700; font-size: 15px; color: #000; }
+.im-statusbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #000;
+}
+.im-statusbar-icons svg { display: block; }
+
+/* ── Header — light background, dark text ── */
+.im-header {
+  background: #F6F6F6;
+  padding: 6px 10px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  border-bottom: 0.5px solid #C6C6C8;
+}
+.im-header-back {
+  color: #007AFF;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+.im-header-back svg { width: 12px; height: 20px; }
+.im-header-back-count { font-size: 17px; color: #007AFF; }
+.im-header-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #007AFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.im-header-info { flex: 1; text-align: center; }
+.im-header-name {
+  color: #000;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.im-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: #007AFF;
+  flex-shrink: 0;
+}
+.im-header-actions svg { width: 22px; height: 22px; }
+
+/* ── Chat area — plain white ── */
+.im-chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 12px;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ── Date pill ── */
+.im-screen .wa-date-pill {
+  align-self: center;
+  background: rgba(0,0,0,0.06);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #8E8E93;
+  margin: 6px 0;
+  box-shadow: none;
+}
+
+/* ── iMessage bubbles — override wa-msg inside im-screen ── */
+.im-screen .wa-msg {
+  border-radius: 18px;
+  font-size: 16px;
+  line-height: 1.3;
+  padding: 8px 12px;
+  box-shadow: none;
+  margin-bottom: 2px;
+}
+.im-screen .wa-msg.outgoing {
+  background: #007AFF;
+  color: #FFFFFF;
+  align-self: flex-end;
+}
+.im-screen .wa-msg.incoming {
+  background: #E5E5EA;
+  color: #000000;
+  align-self: flex-start;
+}
+
+/* Bubble tails — iMessage style */
+.im-screen .wa-msg.outgoing.has-tail {
+  border-radius: 18px 4px 18px 18px;
+  margin-right: 8px;
+}
+.im-screen .wa-msg.outgoing.has-tail::after { display: none; }
+.im-screen .wa-msg.incoming.has-tail {
+  border-radius: 4px 18px 18px 18px;
+  margin-left: 8px;
+}
+.im-screen .wa-msg.incoming.has-tail::after { display: none; }
+
+/* Time styling */
+.im-screen .wa-msg-time { font-size: 11px; color: rgba(255,255,255,0.7); }
+.im-screen .wa-msg.incoming .wa-msg-time { color: rgba(0,0,0,0.4); }
+
+/* Hide checkmark ticks — iMessage uses "Delivered" text */
+.im-screen .wa-msg-ticks { display: none; }
+
+/* Delivered indicator */
+.im-delivered {
+  align-self: flex-end;
+  font-size: 11px;
+  color: #8E8E93;
+  margin-right: 16px;
+  margin-top: 2px;
+  margin-bottom: 4px;
+}
+
+/* ── Input bar — iMessage style ── */
+.im-input-bar {
+  background: #F6F6F6;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  border-top: 0.5px solid #C6C6C8;
+}
+.im-home-indicator {
+  background: #FFFFFF;
+  padding: 8px 0 6px;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.im-home-indicator::after {
+  content: '';
+  width: 134px;
+  height: 5px;
+  background: #000;
+  border-radius: 3px;
+  opacity: 0.2;
+}
+.im-input-icon {
+  color: #8E8E93;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.im-input-icon svg { width: 24px; height: 24px; }
+.im-input-wrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.im-input-field {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 18px;
+  border: 0.5px solid #C6C6C8;
+  background: #fff;
+  font-size: 16px;
+  color: #000;
+  font-family: inherit;
+}
+.im-input-field::placeholder { color: #8E8E93; }
+.im-input-send {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #007AFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  cursor: default;
+}
+.im-input-send svg { width: 16px; height: 16px; color: #fff; }
+
+/* ══════════════════════════════════════
+   iMESSAGE DARK MODE
+   ══════════════════════════════════════ */
+.phone-screen.dark .im-screen { background: #000000; }
+.phone-screen.dark .im-statusbar { background: #1C1C1E; color: #fff; }
+.phone-screen.dark .im-statusbar-time { color: #fff; }
+.phone-screen.dark .im-statusbar-icons { color: #fff; }
+.phone-screen.dark .im-header { background: #1C1C1E; border-bottom-color: #38383A; }
+.phone-screen.dark .im-header-name { color: #FFFFFF; }
+.phone-screen.dark .im-header-back { color: #0A84FF; }
+.phone-screen.dark .im-header-back-count { color: #0A84FF; }
+.phone-screen.dark .im-header-actions { color: #0A84FF; }
+.phone-screen.dark .im-chat { background: #000000; }
+.phone-screen.dark .im-screen .wa-date-pill {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.5);
+}
+.phone-screen.dark .im-screen .wa-msg.outgoing { background: #0A84FF; color: #FFFFFF; }
+.phone-screen.dark .im-screen .wa-msg.incoming { background: #26252A; color: #FFFFFF; }
+.phone-screen.dark .im-screen .wa-msg.incoming .wa-msg-time { color: rgba(255,255,255,0.4); }
+.phone-screen.dark .im-screen .wa-msg.outgoing .wa-msg-time { color: rgba(255,255,255,0.6); }
+.phone-screen.dark .im-screen .wa-msg.outgoing.has-tail { border-radius: 18px 4px 18px 18px; }
+.phone-screen.dark .im-screen .wa-msg.incoming.has-tail { border-radius: 4px 18px 18px 18px; }
+.phone-screen.dark .im-delivered { color: #8E8E93; }
+.phone-screen.dark .im-input-bar { background: #1C1C1E; border-top-color: #38383A; }
+.phone-screen.dark .im-home-indicator { background: #000000; }
+.phone-screen.dark .im-home-indicator::after { background: #fff; opacity: 0.2; }
+.phone-screen.dark .im-input-field { background: #1C1C1E; color: #FFFFFF; border-color: #38383A; }
+.phone-screen.dark .im-input-send { background: #0A84FF; }
+
+
+/* ══════════════════════════════════════
+   INSTAGRAM DM — REAL iOS LOOK
+   Blue outgoing, light gray incoming, clean UI
+   ══════════════════════════════════════ */
+
+.ig-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  background: #FFFFFF;
+}
+
+/* ── Status bar — light bg, dark text ── */
+.ig-statusbar {
+  height: 54px;
+  background: #FFFFFF;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 28px 6px;
+  color: #000;
+  font-size: 15px;
+  font-weight: 600;
+  flex-shrink: 0;
+  justify-content: space-between;
+}
+.ig-statusbar-time { font-weight: 700; font-size: 15px; color: #000; }
+.ig-statusbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #000;
+}
+.ig-statusbar-icons svg { display: block; }
+
+/* ── Header — Instagram DM style ── */
+.ig-header {
+  background: #FFFFFF;
+  padding: 6px 12px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-bottom: 0.5px solid #DBDBDB;
+}
+.ig-header-back {
+  color: #262626;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.ig-header-back svg { width: 14px; height: 22px; }
+.ig-header-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.ig-header-info { flex: 1; }
+.ig-header-name {
+  color: #262626;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.ig-header-status {
+  color: #8E8E93;
+  font-size: 11px;
+  line-height: 1.3;
+}
+.ig-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: #262626;
+  flex-shrink: 0;
+}
+.ig-header-actions svg { width: 22px; height: 22px; }
+
+/* ── Chat area — plain white ── */
+.ig-chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 12px;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ── Date pill ── */
+.ig-screen .wa-date-pill {
+  align-self: center;
+  background: transparent;
+  padding: 8px 12px;
+  border-radius: 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: #8E8E93;
+  margin: 6px 0;
+  box-shadow: none;
+}
+
+/* ── Instagram DM bubbles — override wa-msg inside ig-screen ── */
+.ig-screen .wa-msg {
+  border-radius: 22px;
+  font-size: 15px;
+  line-height: 1.35;
+  padding: 10px 14px;
+  box-shadow: none;
+  margin-bottom: 2px;
+}
+.ig-screen .wa-msg.outgoing {
+  background: #3797F0;
+  color: #FFFFFF;
+  align-self: flex-end;
+}
+.ig-screen .wa-msg.incoming {
+  background: #EFEFEF;
+  color: #262626;
+  align-self: flex-start;
+}
+
+/* No tails on Instagram DM */
+.ig-screen .wa-msg.outgoing.has-tail { border-radius: 22px; margin-right: 0; }
+.ig-screen .wa-msg.outgoing.has-tail::after { display: none; }
+.ig-screen .wa-msg.incoming.has-tail { border-radius: 22px; margin-left: 0; }
+.ig-screen .wa-msg.incoming.has-tail::after { display: none; }
+
+/* Time styling */
+.ig-screen .wa-msg-time { font-size: 11px; color: rgba(255,255,255,0.7); }
+.ig-screen .wa-msg.incoming .wa-msg-time { color: rgba(0,0,0,0.35); }
+
+/* Hide checkmark ticks */
+.ig-screen .wa-msg-ticks { display: none; }
+
+/* ── Input bar — Instagram DM style ── */
+.ig-input-bar {
+  background: #FFFFFF;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-top: 0.5px solid #DBDBDB;
+}
+.ig-home-indicator {
+  background: #FFFFFF;
+  padding: 8px 0 6px;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ig-home-indicator::after {
+  content: '';
+  width: 134px;
+  height: 5px;
+  background: #000;
+  border-radius: 3px;
+  opacity: 0.2;
+}
+.ig-input-icon {
+  color: #262626;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ig-input-icon svg { width: 24px; height: 24px; }
+.ig-input-wrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.ig-input-field {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 22px;
+  border: 1px solid #DBDBDB;
+  background: #fff;
+  font-size: 15px;
+  color: #262626;
+  font-family: inherit;
+}
+.ig-input-field::placeholder { color: #8E8E93; }
+.ig-input-icons-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.ig-input-icons-right svg { width: 22px; height: 22px; color: #262626; }
+
+/* ══════════════════════════════════════
+   INSTAGRAM DM DARK MODE
+   ══════════════════════════════════════ */
+.phone-screen.dark .ig-screen { background: #000000; }
+.phone-screen.dark .ig-statusbar { background: #121212; color: #fff; }
+.phone-screen.dark .ig-statusbar-time { color: #fff; }
+.phone-screen.dark .ig-statusbar-icons { color: #fff; }
+.phone-screen.dark .ig-header { background: #121212; border-bottom-color: #262626; }
+.phone-screen.dark .ig-header-back { color: #F5F5F5; }
+.phone-screen.dark .ig-header-name { color: #F5F5F5; }
+.phone-screen.dark .ig-header-status { color: #8E8E93; }
+.phone-screen.dark .ig-header-actions { color: #F5F5F5; }
+.phone-screen.dark .ig-chat { background: #000000; }
+.phone-screen.dark .ig-screen .wa-date-pill { color: rgba(255,255,255,0.5); }
+.phone-screen.dark .ig-screen .wa-msg.outgoing { background: #3797F0; color: #FFFFFF; }
+.phone-screen.dark .ig-screen .wa-msg.incoming { background: #262626; color: #F5F5F5; }
+.phone-screen.dark .ig-screen .wa-msg.incoming .wa-msg-time { color: rgba(255,255,255,0.4); }
+.phone-screen.dark .ig-input-bar { background: #121212; border-top-color: #262626; }
+.phone-screen.dark .ig-home-indicator { background: #000000; }
+.phone-screen.dark .ig-home-indicator::after { background: #fff; opacity: 0.2; }
+.phone-screen.dark .ig-input-field { background: #121212; color: #F5F5F5; border-color: #363636; }
+.phone-screen.dark .ig-input-icons-right svg { color: #F5F5F5; }
+
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .mockup-workspace { grid-template-columns: 240px 1fr; }
+}
+@media (max-width: 900px) {
+  .mockup-workspace { grid-template-columns: 1fr; }
+  .controls-panel { position: static; }
+  .phone-frame { transform: scale(0.85); transform-origin: top center; }
+}

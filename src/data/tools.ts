@@ -840,10 +840,98 @@ export const tools: Tool[] = [
     keywords: ['utm builder', 'utm link generator', 'google analytics campaign url', 'utm parameters', 'campaign tracking url', 'utm tags'],
     live: true,
   },
+
+  // ── Mockup / Chat ──
+  {
+    slug: 'whatsapp-chat-mockup',
+    name: 'WhatsApp Chat Mockup Generator',
+    emoji: '💬',
+    description: 'Create realistic WhatsApp chat screenshots. Edit messages inline, toggle dark mode, download as PNG.',
+    category: 'Mockup',
+    subcategory: 'Chat',
+    keywords: ['whatsapp chat mockup', 'fake whatsapp chat', 'whatsapp screenshot generator', 'whatsapp conversation maker', 'whatsapp message generator'],
+    live: true,
+  },
+  {
+    slug: 'imessage-chat-mockup',
+    name: 'iMessage Chat Mockup Generator',
+    emoji: '💬',
+    description: 'Create realistic iMessage chat screenshots. Blue and gray bubbles, delivered/read receipts, download as PNG.',
+    category: 'Mockup',
+    subcategory: 'Chat',
+    keywords: ['imessage generator', 'fake imessage', 'imessage mockup', 'imessage screenshot generator', 'iphone text mockup'],
+    live: true,
+  },
+  {
+    slug: 'discord-chat-mockup',
+    name: 'Discord Chat Mockup Generator',
+    emoji: '💬',
+    description: 'Create realistic Discord chat screenshots. Server-style messages with avatars, timestamps, and reactions.',
+    category: 'Mockup',
+    subcategory: 'Chat',
+    keywords: ['discord chat mockup', 'fake discord messages', 'discord screenshot generator', 'discord conversation maker'],
+    live: true,
+  },
+  {
+    slug: 'instagram-chat-mockup',
+    name: 'Instagram DM Mockup Generator',
+    emoji: '💬',
+    description: 'Create realistic Instagram DM screenshots. Purple gradient header, heart reactions, disappearing messages.',
+    category: 'Mockup',
+    subcategory: 'Chat',
+    keywords: ['instagram dm mockup', 'fake instagram messages', 'instagram chat generator', 'instagram direct message mockup'],
+    live: true,
+  },
+
+  // ── Mockup / AI Chat ──
+  {
+    slug: 'chatgpt-mockup',
+    name: 'ChatGPT Conversation Mockup',
+    emoji: '🤖',
+    description: 'Create realistic ChatGPT conversation screenshots. User prompts and AI responses with the official ChatGPT UI.',
+    category: 'Mockup',
+    subcategory: 'AI Chat',
+    keywords: ['chatgpt mockup', 'fake chatgpt conversation', 'chatgpt screenshot generator', 'ai chat mockup', 'chatgpt conversation maker', 'ai conversation screenshot'],
+    live: true,
+  },
+
+  // ── Mockup / Posts ──
+  {
+    slug: 'instagram-post-mockup',
+    name: 'Instagram Post Mockup Generator',
+    emoji: '📸',
+    description: 'Create realistic Instagram post screenshots. Profile, caption, likes, comments, and image placeholders.',
+    category: 'Mockup',
+    subcategory: 'Posts',
+    keywords: ['instagram post mockup', 'fake instagram post', 'instagram post generator', 'instagram screenshot maker'],
+    live: true,
+  },
+  {
+    slug: 'x-post-mockup',
+    name: 'X (Twitter) Post Mockup Generator',
+    emoji: '🐦',
+    description: 'Create realistic X/Twitter post screenshots. Profile, tweet text, likes, retweets, and reply counts.',
+    category: 'Mockup',
+    subcategory: 'Posts',
+    keywords: ['fake tweet generator', 'twitter post mockup', 'x post mockup', 'tweet screenshot generator', 'fake twitter post'],
+    live: true,
+  },
+
+  // ── Mockup / Email ──
+  {
+    slug: 'gmail-mockup',
+    name: 'Gmail Email Mockup Generator',
+    emoji: '📧',
+    description: 'Create realistic Gmail email screenshots. From, to, subject, body with the official Gmail UI.',
+    category: 'Mockup',
+    subcategory: 'Email',
+    keywords: ['gmail mockup', 'fake gmail email', 'gmail screenshot generator', 'email mockup generator'],
+    live: true,
+  },
 ]
 
 // Ordered categories and their subcategories
-export const categoryOrder = ['Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing'] as const
+export const categoryOrder = ['Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Mockup'] as const
 
 export const subcategoryOrderByCategory: Record<string, string[]> = {
   Converter: ['Format', 'Unit', 'Video'],
@@ -853,6 +941,7 @@ export const subcategoryOrderByCategory: Record<string, string[]> = {
   Color: ['Generate', 'Convert', 'Check'],
   Developer: ['Crypto', 'Generate', 'Calculator', 'Reference'],
   Marketing: ['Builder'],
+  Mockup: ['Chat', 'AI Chat', 'Posts', 'Comments', 'Stories', 'Email'],
 }
 
 // Tools grouped by category → subcategory

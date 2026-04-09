@@ -2,9 +2,9 @@ import { describe, test, expect } from 'vitest'
 import { tools, categoryOrder, subcategoryOrderByCategory, toolsByCategory } from './tools'
 
 describe('tool categories', () => {
-  test('has 7 categories in correct order', () => {
+  test('has 8 categories in correct order', () => {
     expect([...categoryOrder]).toEqual([
-      'Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing',
+      'Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Mockup',
     ])
   })
 
@@ -49,6 +49,25 @@ describe('tool categories', () => {
 
   test('Marketing category has Builder subcategory', () => {
     expect(subcategoryOrderByCategory['Marketing']).toEqual(['Builder'])
+  })
+
+  test('Mockup category has Chat, AI Chat, Posts, Comments, Stories, Email subcategories', () => {
+    expect(subcategoryOrderByCategory['Mockup']).toEqual(['Chat', 'AI Chat', 'Posts', 'Comments', 'Stories', 'Email'])
+  })
+
+  test('WhatsApp Chat Mockup is in Mockup/Chat and is live', () => {
+    const wa = tools.find(t => t.slug === 'whatsapp-chat-mockup')
+    expect(wa).toBeDefined()
+    expect(wa?.category).toBe('Mockup')
+    expect(wa?.subcategory).toBe('Chat')
+    expect(wa?.live).toBe(true)
+  })
+
+  test('Mockup tools are registered (8 total, 8 live)', () => {
+    const mockupTools = tools.filter(t => t.category === 'Mockup')
+    expect(mockupTools.length).toBe(8)
+    const liveMockupTools = mockupTools.filter(t => t.live)
+    expect(liveMockupTools.length).toBe(8)
   })
 
   test('QR Code Generator is in Marketing', () => {

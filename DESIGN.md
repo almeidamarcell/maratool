@@ -42,6 +42,7 @@
   - Color: `#d4842a` (orange)
   - PDF: `#c74882` (pink)
   - Marketing: `#4a8fa8` (teal)
+  - Mockup: `#6366f1` (indigo)
 
 ## Spacing
 - **Base unit:** 4px
