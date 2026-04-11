@@ -1,0 +1,335 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Percentage Calculator Online — Calculate Percent Instantly | maratool',
+  description: 'Free online percentage calculator. Find percentages, increases, decreases, proportions, and original values. 9 calculation types, instant results, no sign-up.',
+  canonical: 'https://maratool.com/percentage-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Percentage Calculator Online',
+    url: 'https://maratool.com/percentage-calculator',
+    applicationCategory: 'UtilityApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate percentages, increases, decreases, proportions, and find original values before percentage changes.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Calculator', item: 'https://maratool.com/developer/calculator' },
+      { '@type': 'ListItem', position: 4, name: 'Percentage Calculator Online', item: 'https://maratool.com/percentage-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I calculate what percentage one number is of another?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Divide the part by the whole and multiply by 100. For example, 25 is 50% of 50 because (25 / 50) × 100 = 50%.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I calculate percentage increase or decrease?',
+        acceptedAnswer: { '@type': 'Answer', text: 'For increase: ((new - original) / original) × 100. For decrease: ((original - new) / original) × 100. For example, going from 80 to 100 is a 25% increase.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I find the original value before a percentage change?',
+        acceptedAnswer: { '@type': 'Answer', text: 'For an increase of X% that resulted in Y: original = Y / (1 + X/100). For a decrease of X% that resulted in Y: original = Y / (1 - X/100).' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my data sent to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen entirely in your browser using JavaScript. Nothing is sent to any server.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Find the calculation type that matches your problem from the 9 options below.',
+  'Enter the values in the input fields and click Calculate.',
+  'Click Copy to copy the result to your clipboard.'
+]
+
+const faq = [
+  { q: 'How do I calculate what percentage one number is of another?', a: 'Divide the part by the whole and multiply by 100. For example, 25 is 50% of 50 because (25 / 50) × 100 = 50%.' },
+  { q: 'How do I calculate percentage increase or decrease?', a: 'For increase: ((new − original) / original) × 100. For decrease: ((original − new) / original) × 100. For example, going from 80 to 100 is a 25% increase.' },
+  { q: 'How do I find the original value before a percentage change?', a: 'For an increase of X% that resulted in Y: original = Y / (1 + X/100). For a decrease of X% that resulted in Y: original = Y / (1 − X/100).' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen entirely in your browser using JavaScript. Nothing is sent to any server.' }
+]
+
+const relatedTools = [
+  { slug: 'unit-converter', name: 'Unit Converter' },
+  { slug: 'reading-time', name: 'Reading Time Calculator' },
+  { slug: 'scientific-calculator', name: 'Scientific Calculator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Calculator', href: '/developer/calculator' },
+  { label: 'Percentage Calculator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="percentage-calculator" name="Percentage Calculator Online" description="Calculate percentages, increases, decreases, proportions, and find original values. 9 calculation types covering every common percentage problem." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container">
+
+        <!-- Calc 1: What is X% of Y? -->
+        <div class="pct-calc" id="calc-percent-of">
+          <div class="pct-calc-sentence">
+            What is
+            <input type="number" class="pct-input" id="c1-percent" placeholder="10" step="any" aria-label="Percentage">
+            <span class="pct-unit">%</span>
+            of
+            <input type="number" class="pct-input" id="c1-value" placeholder="200" step="any" aria-label="Value">
+            ?
+          </div>
+          <div class="pct-calc-actions">
+            <button class="tool-button" data-calc="1">Calculate</button>
+            <span class="pct-result" id="c1-result">—</span>
+            <button class="copy-btn pct-copy" data-target="c1-result">Copy</button>
+          </div>
+        </div>
+
+        <!-- Calc 2: X is what % of Y? -->
+        <div class="pct-calc" id="calc-what-percent">
+          <div class="pct-calc-sentence">
+            <input type="number" class="pct-input" id="c2-value" placeholder="50" step="any" aria-label="Value">
+            is what percentage of
+            <input type="number" class="pct-input" id="c2-total" placeholder="200" step="any" aria-label="Total">
+            ?
+          </div>
+          <div class="pct-calc-actions">
+            <button class="tool-button" data-calc="2">Calculate</button>
+            <span class="pct-result" id="c2-result">—</span>
+            <button class="copy-btn pct-copy" data-target="c2-result">Copy</button>
+          </div>
+        </div>
+
+        <!-- Calc 3: % increase from X to Y -->
+        <div class="pct-calc" id="calc-percent-increase">
+          <div class="pct-calc-sentence">
+            A value of
+            <input type="number" class="pct-input" id="c3-original" placeholder="100" step="any" aria-label="Original value">
+            <strong>increased</strong> to
+            <input type="number" class="pct-input" id="c3-new" placeholder="150" step="any" aria-label="New value">
+            . What was the percentage increase?
+          </div>
+          <div class="pct-calc-actions">
+            <button class="tool-button" data-calc="3">Calculate</button>
+            <span class="pct-result" id="c3-result">—</span>
+            <button class="copy-btn pct-copy" data-target="c3-result">Copy</button>
+          </div>
+        </div>
+
+        <!-- Calc 4: % decrease from X to Y -->
+        <div class="pct-calc" id="calc-percent-decrease">
+          <div class="pct-calc-sentence">
+            A value of
+            <input type="number" class="pct-input" id="c4-original" placeholder="200" step="any" aria-label="Original value">
+            <strong>decreased</strong> to
+            <input type="number" class="pct-input" id="c4-new" placeholder="150" step="any" aria-label="New value">
+            . What was the percentage decrease?
+          </div>
+          <div class="pct-calc-actions">
+            <button class="tool-button" data-calc="4">Calculate</button>
+            <span class="pct-result" id="c4-result">—</span>
+            <button class="copy-btn pct-copy" data-target="c4-result">Copy</button>
+          </div>
+        </div>
+
+        <!-- Calc 5: X over Y is what %? -->
+        <div class="pct-calc" id="calc-proportion">
+          <div class="pct-calc-sentence">
+            <input type="number" class="pct-input" id="c5-part" placeholder="30" step="any" aria-label="Part">
+            over
+            <input type="number" class="pct-input" id="c5-whole" placeholder="200" step="any" aria-label="Whole">
+            is what percentage?
+          </div>
+          <div class="pct-calc-actions">
+            <button class="tool-button" data-calc="5">Calculate</button>
+            <span class="pct-result" id="c5-result">—</span>
+            <button class="copy-btn pct-copy" data-target="c5-result">Copy</button>
+          </div>
+        </div>
+
+        <!-- Calc 6: Increase X by Y% -->
+        <div class="pct-calc" id="calc-add-percent">
+          <div class="pct-calc-sentence">
+            I have a value of
+            <input type="number" class="pct-input" id="c6-value" placeholder="100" step="any" aria-label="Value">
+            and want to <strong>increase</strong> by
+            <input type="number" class="pct-input" id="c6-percent" placeholder="10" step="any" aria-label="Percentage">
+            <span class="pct-unit">%</span>
+            . What is the result?
+          </div>
+          <div class="pct-calc-actions">
+            <button class="tool-button" data-calc="6">Calculate</button>
+            <span class="pct-result" id="c6-result">—</span>
+            <button class="copy-btn pct-copy" data-target="c6-result">Copy</button>
+          </div>
+        </div>
+
+        <!-- Calc 7: Decrease X by Y% -->
+        <div class="pct-calc" id="calc-subtract-percent">
+          <div class="pct-calc-sentence">
+            I have a value of
+            <input type="number" class="pct-input" id="c7-value" placeholder="100" step="any" aria-label="Value">
+            and want to <strong>decrease</strong> by
+            <input type="number" class="pct-input" id="c7-percent" placeholder="10" step="any" aria-label="Percentage">
+            <span class="pct-unit">%</span>
+            . What is the result?
+          </div>
+          <div class="pct-calc-actions">
+            <button class="tool-button" data-calc="7">Calculate</button>
+            <span class="pct-result" id="c7-result">—</span>
+            <button class="copy-btn pct-copy" data-target="c7-result">Copy</button>
+          </div>
+        </div>
+
+        <!-- Calc 8: Original before increase -->
+        <div class="pct-calc" id="calc-original-increase">
+          <div class="pct-calc-sentence">
+            A value <strong>increased</strong> by
+            <input type="number" class="pct-input" id="c8-percent" placeholder="25" step="any" aria-label="Percentage">
+            <span class="pct-unit">%</span>
+            and became
+            <input type="number" class="pct-input" id="c8-final" placeholder="125" step="any" aria-label="Final value">
+            . What was the original value?
+          </div>
+          <div class="pct-calc-actions">
+            <button class="tool-button" data-calc="8">Calculate</button>
+            <span class="pct-result" id="c8-result">—</span>
+            <button class="copy-btn pct-copy" data-target="c8-result">Copy</button>
+          </div>
+        </div>
+
+        <!-- Calc 9: Original before decrease -->
+        <div class="pct-calc" id="calc-original-decrease">
+          <div class="pct-calc-sentence">
+            A value <strong>decreased</strong> by
+            <input type="number" class="pct-input" id="c9-percent" placeholder="25" step="any" aria-label="Percentage">
+            <span class="pct-unit">%</span>
+            and became
+            <input type="number" class="pct-input" id="c9-final" placeholder="75" step="any" aria-label="Final value">
+            . What was the original value?
+          </div>
+          <div class="pct-calc-actions">
+            <button class="tool-button" data-calc="9">Calculate</button>
+            <span class="pct-result" id="c9-result">—</span>
+            <button class="copy-btn pct-copy" data-target="c9-result">Copy</button>
+          </div>
+        </div>
+
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .pct-calc {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pct-calc:first-child {
+    padding-top: 0;
+  }
+
+  .pct-calc:last-child {
+    border-bottom: none;
+  }
+
+  .pct-calc-sentence {
+    font-size: 0.9375rem;
+    color: var(--text);
+    line-height: 2.2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .pct-input {
+    width: 100px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+    transition: border-color 0.15s;
+    text-align: right;
+  }
+
+  .pct-input:focus {
+    border-color: var(--accent);
+  }
+
+  .pct-unit {
+    color: var(--text-3);
+    font-weight: 500;
+    margin-left: -0.25rem;
+  }
+
+  .pct-calc-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .pct-result {
+    font-family: var(--font-mono);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--accent);
+    min-width: 60px;
+  }
+
+  .pct-result.error {
+    color: #c53030;
+    font-size: 0.8125rem;
+    font-weight: 400;
+  }
+
+  .pct-copy {
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .pct-calc-actions:has(.pct-result:not(:empty)) .pct-copy {
+    opacity: 1;
+  }
+
+  /* Show copy button when there's a real result */
+  .pct-copy.visible {
+    opacity: 1;
+  }
+
+  @media (max-width: 600px) {
+    .pct-input {
+      width: 80px;
+    }
+
+    .pct-calc-sentence {
+      font-size: 0.875rem;
+    }
+  }
+</style>
+
+<script src="../tools/percentage.js"></script>

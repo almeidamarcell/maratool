@@ -776,6 +776,16 @@ export const tools: Tool[] = [
     keywords: ['algebra calculator', 'solve equation online', 'simplify expression', 'factor polynomial', 'algebra solver', 'derivative calculator'],
     live: true,
   },
+  {
+    slug: 'percentage-calculator',
+    name: 'Percentage Calculator Online',
+    emoji: '🔣',
+    description: 'Calculate percentages, increases, decreases, proportions, and find original values before percentage changes. 9 calculation types.',
+    category: 'Developer',
+    subcategory: 'Calculator',
+    keywords: ['percentage calculator', 'calculate percentage', 'percent increase', 'percent decrease', 'percentage of a number', 'percentage change', 'how to calculate percentage', 'percent calculator online'],
+    live: true,
+  },
   // ── Developer / Reference ──
   {
     slug: 'paper-sizes',
