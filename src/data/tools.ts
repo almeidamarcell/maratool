@@ -417,12 +417,12 @@ export const tools: Tool[] = [
   // ── Image / Transform (new) ──
   {
     slug: 'image-converter',
-    name: 'Image Format Converter — PNG, JPEG, WebP',
+    name: 'Image Converter — HEIC to PNG, PNG to JPEG, WebP',
     emoji: '🖼️',
-    description: 'Convert images between PNG, JPEG, WebP, and AVIF formats. Resize, adjust quality, and download — all in your browser.',
+    description: 'Convert HEIC to PNG, JPEG, or WebP — plus PNG, JPEG, WebP, and AVIF. Resize, adjust quality, and download — all in your browser.',
     category: 'Image',
     subcategory: 'Transform',
-    keywords: ['image converter', 'png to jpg', 'webp to png', 'convert image format', 'jpg to webp', 'image format converter online'],
+    keywords: ['heic to png', 'heic to jpg', 'heic converter', 'image converter', 'png to jpg', 'webp to png', 'convert image format', 'jpg to webp', 'image format converter online'],
     live: true,
   },
   {

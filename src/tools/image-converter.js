@@ -1,4 +1,6 @@
-(function () {
+import { isHeic, getOutputExtension, getTargetDimension, stripExtension } from './image-converter-core.js'
+
+;(function () {
   var uploadEl = document.getElementById('ic-upload')
   var fileInput = document.getElementById('ic-file')
   var browseBtn = document.getElementById('ic-browse')
@@ -36,9 +38,68 @@
     formatSelect.appendChild(opt)
   }
 
+  var heicLoader = null
+  function loadHeicDecoder() {
+    if (heicLoader) return heicLoader
+    heicLoader = new Promise(function (resolve, reject) {
+      if (window.HeicTo) return resolve(window.HeicTo)
+      var script = document.createElement('script')
+      script.src = '/vendor/heic-to.js'
+      script.onload = function () {
+        if (window.HeicTo) resolve(window.HeicTo)
+        else reject(new Error('HEIC decoder failed to load'))
+      }
+      script.onerror = function () { reject(new Error('HEIC decoder failed to load')) }
+      document.head.appendChild(script)
+    })
+    return heicLoader
+  }
+
+  function setUploadStatus(message) {
+    var hint = uploadEl.querySelector('.ic-upload-hint')
+    if (hint) hint.textContent = message
+  }
+
   function handleFile(file) {
-    if (!file || !file.type.match(/^image\//)) return
-    currentFileName = file.name.replace(/\.[^.]+$/, '')
+    if (!file) return
+    var heic = isHeic(file)
+    if (!heic && !file.type.match(/^image\//)) return
+    currentFileName = stripExtension(file.name)
+
+    if (heic) {
+      setUploadStatus('Decoding HEIC — this can take a few seconds…')
+      uploadEl.classList.add('loading')
+      loadHeicDecoder()
+        .then(function (heicTo) {
+          return heicTo({ blob: file, type: 'image/png', quality: 1 })
+        })
+        .then(function (pngBlob) {
+          var blob = Array.isArray(pngBlob) ? pngBlob[0] : pngBlob
+          var url = URL.createObjectURL(blob)
+          var img = new Image()
+          img.onload = function () {
+            currentImg = img
+            originalWidth = img.naturalWidth
+            originalHeight = img.naturalHeight
+            aspectRatio = originalWidth / originalHeight
+            uploadEl.classList.remove('loading')
+            setUploadStatus('PNG, JPEG, WebP, HEIC, GIF, BMP — any image format')
+            showSource(img, { name: file.name, size: file.size })
+            formatSelect.value = 'image/png'
+            updateQualityVisibility()
+          }
+          img.onerror = function () {
+            uploadEl.classList.remove('loading')
+            setUploadStatus('Could not decode this HEIC file. Try a different one.')
+          }
+          img.src = url
+        })
+        .catch(function () {
+          uploadEl.classList.remove('loading')
+          setUploadStatus('HEIC decoding failed. Check your connection and try again.')
+        })
+      return
+    }
 
     var reader = new FileReader()
     reader.onload = function () {
@@ -86,13 +147,11 @@
   }
 
   function getTargetWidth() {
-    var v = parseInt(widthInput.value, 10)
-    return (v && v > 0) ? v : originalWidth
+    return getTargetDimension(widthInput.value, originalWidth)
   }
 
   function getTargetHeight() {
-    var v = parseInt(heightInput.value, 10)
-    return (v && v > 0) ? v : originalHeight
+    return getTargetDimension(heightInput.value, originalHeight)
   }
 
   function convert() {
@@ -118,8 +177,7 @@
     ctx.imageSmoothingQuality = 'high'
     ctx.drawImage(currentImg, 0, 0, w, h)
 
-    var ext = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp', 'image/avif': 'avif' }
-    var extension = ext[fmt] || 'png'
+    var extension = getOutputExtension(fmt)
 
     canvas.toBlob(function (blob) {
       if (!blob) return

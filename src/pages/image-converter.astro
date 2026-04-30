@@ -4,8 +4,8 @@ import Layout from '../components/Layout.astro'
 import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
-  title: 'Image Format Converter — PNG, JPEG, WebP Online | maratool',
-  description: 'Convert images between PNG, JPEG, WebP, and AVIF formats. Resize, adjust quality, and download instantly — runs entirely in your browser.',
+  title: 'Image Converter — HEIC to PNG, PNG to JPEG, WebP | maratool',
+  description: 'Convert HEIC to PNG, JPEG, or WebP — plus PNG, JPEG, WebP, and AVIF formats. Resize, adjust quality, and download instantly — runs entirely in your browser.',
   canonical: 'https://maratool.com/image-converter',
   schema: {
     '@context': 'https://schema.org',
@@ -15,7 +15,7 @@ const seo = {
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Convert images between PNG, JPEG, WebP, and AVIF formats.',
+    description: 'Convert HEIC to PNG and between PNG, JPEG, WebP, and AVIF formats.',
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -38,8 +38,8 @@ const seo = {
       },
       {
         '@type': 'Question',
-        name: 'Does converting to WebP reduce file size?',
-        acceptedAnswer: { '@type': 'Answer', text: 'Yes. WebP typically produces 25-35% smaller files than JPEG at equivalent visual quality. Use the quality slider to fine-tune the balance between file size and image quality.' }
+        name: 'How do I convert HEIC to PNG?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Drop a .heic or .heif file into the converter. The tool decodes the HEIC in your browser, then lets you save it as PNG, JPEG, or WebP. PNG is selected by default after a HEIC upload.' }
       },
       {
         '@type': 'Question',
@@ -56,16 +56,16 @@ const seo = {
 }
 
 const howTo = [
-  'Upload or drop an image (PNG, JPEG, WebP, GIF, or BMP).',
+  'Upload or drop an image (HEIC, PNG, JPEG, WebP, GIF, or BMP).',
   'Choose the target format and adjust quality or dimensions.',
   'Click "Convert & Download" to save the converted image.'
 ]
 
 const faq = [
   { q: 'How do I convert PNG to JPEG online?', a: 'Upload your PNG, select JPEG as the target, adjust quality, and click "Convert & Download". It runs in your browser.' },
-  { q: 'Does converting to WebP reduce file size?', a: 'Yes. WebP typically produces 25-35% smaller files than JPEG at equivalent quality.' },
+  { q: 'How do I convert HEIC to PNG?', a: 'Drop a .heic or .heif file. The tool decodes it in your browser and lets you save as PNG, JPEG, or WebP. PNG is selected by default after a HEIC upload.' },
   { q: 'Can I resize the image while converting?', a: 'Yes. Enter new dimensions with the aspect ratio lock on to scale proportionally, or unlock it for custom sizes.' },
-  { q: 'Does this tool upload my image to a server?', a: 'No. All processing uses the Canvas API in your browser. Your image never leaves your device.' }
+  { q: 'Does this tool upload my image to a server?', a: 'No. All processing happens in your browser. Your image never leaves your device.' }
 ]
 
 const relatedTools = [
@@ -83,14 +83,14 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="image-converter" name="Image Format Converter — PNG, JPEG, WebP" description="Convert images between PNG, JPEG, WebP, and AVIF formats. Resize, adjust quality, and download." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="image-converter" name="Image Converter — HEIC to PNG, PNG to JPEG, WebP" description="Convert HEIC to PNG, JPEG, or WebP — plus PNG, JPEG, WebP, and AVIF. Resize, adjust quality, and download." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container" style="min-height:300px;">
         <div class="ic-upload" id="ic-upload">
-          <input type="file" id="ic-file" accept="image/*" hidden />
+          <input type="file" id="ic-file" accept="image/*,.heic,.heif" hidden />
           <div class="ic-upload-content">
             <div class="ic-upload-icon">🖼️</div>
             <p class="ic-upload-text">Drop an image here or <button type="button" class="ic-upload-btn" id="ic-browse">browse</button></p>
-            <p class="ic-upload-hint">PNG, JPEG, WebP, GIF, BMP — any image format</p>
+            <p class="ic-upload-hint">HEIC, PNG, JPEG, WebP, GIF, BMP — any image format</p>
           </div>
         </div>
 
@@ -146,6 +146,13 @@ const breadcrumbs = [
   .ic-upload:hover, .ic-upload.dragover {
     border-color: var(--accent);
     background: var(--bg-soft);
+  }
+  .ic-upload.loading {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+    cursor: wait;
+    pointer-events: none;
+    opacity: 0.85;
   }
   .ic-upload-icon { font-size: 36px; margin-bottom: 0.75rem; }
   .ic-upload-text { color: var(--text-2); font-size: 14px; }
