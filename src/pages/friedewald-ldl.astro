@@ -1,0 +1,42 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is the Friedewald formula?', a: 'LDL (mg/dL) = Total Cholesterol − HDL − Triglycerides / 5. Valid when triglycerides ≤ 400 mg/dL.' },
+  { q: 'When is Friedewald invalid?', a: 'When triglycerides exceed 400 mg/dL, or in chylomicronemia or type III hyperlipoproteinemia. In those cases, direct LDL measurement or the Martin/Hopkins or Sampson equations are preferred.' },
+  { q: 'Why divide triglycerides by 5?', a: 'Friedewald assumed that VLDL cholesterol ≈ triglycerides / 5 (mg/dL), based on observed VLDL composition in fasting samples. This relationship breaks down at high triglyceride levels.' },
+  { q: 'Should the patient be fasting?', a: 'Friedewald was derived from fasting samples. Non-fasting samples may underestimate LDL by ~10%.' },
+]
+const references = [
+  { citation: 'Friedewald WT, Levy RI, Fredrickson DS. Estimation of the concentration of low-density lipoprotein cholesterol in plasma, without use of the preparative ultracentrifuge. <em>Clin Chem</em>. 1972;18(6):499-502.' },
+]
+const relatedTools = [
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+  { slug: 'prevent-cardiovascular-risk', name: 'PREVENT Risk Calculator' },
+  { slug: 'eag-from-hba1c', name: 'eAG from HbA1c' },
+]
+---
+<HealthCalc
+  slug="friedewald-ldl"
+  name="Friedewald LDL Cholesterol Calculator"
+  schemaName="Friedewald LDL Calculator"
+  shortDescription="Calculate LDL cholesterol using the Friedewald formula. Valid when triglycerides ≤ 400 mg/dL."
+  metaTitle="Friedewald LDL Cholesterol Calculator | maratool"
+  metaDescription="Free Friedewald LDL calculator. Compute LDL from total cholesterol, HDL, and triglycerides. Runs in your browser."
+  subcategory="Cardiology"
+  subcategorySlug="cardiology"
+  howTo={[ 'Enter total cholesterol, HDL, and triglycerides (all mg/dL).', 'LDL updates instantly.', 'If TG > 400, use a different method (Martin/Hopkins or direct LDL).' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-3">
+    <label class="hcalc-field"><span class="hcalc-label">Total Cholesterol</span><div class="hcalc-input-wrap"><input type="number" id="fw-tc" placeholder="200" step="any" min="0"><span class="hcalc-unit">mg/dL</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">HDL</span><div class="hcalc-input-wrap"><input type="number" id="fw-hdl" placeholder="50" step="any" min="0"><span class="hcalc-unit">mg/dL</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Triglycerides</span><div class="hcalc-input-wrap"><input type="number" id="fw-tg" placeholder="150" step="any" min="0"><span class="hcalc-unit">mg/dL</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">LDL Cholesterol</div><div class="hcalc-output-value" id="fw-value">—</div><button class="copy-btn" data-target="fw-value">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/general-ui.js"></script>

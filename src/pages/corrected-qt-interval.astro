@@ -1,0 +1,49 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'Which QTc formula should I use?', a: 'Bazett is the historic standard but over-corrects at high heart rates and under-corrects at low rates. Fridericia and Framingham perform better across HR; Hodges is simple and HR-linear.' },
+  { q: 'What are the QTc thresholds?', a: 'Men: normal ≤ 449 ms; borderline 450–469; prolonged ≥ 470. Women: normal ≤ 459; borderline 460–479; prolonged ≥ 480. QTc < 360 ms is considered short.' },
+  { q: 'Why is QTc clinically important?', a: 'Prolonged QTc increases the risk of torsades de pointes and sudden cardiac death — especially with drugs that further prolong QT (antiarrhythmics, antibiotics, antipsychotics, etc.).' },
+  { q: 'How is QT measured?', a: 'QT is measured from the start of the Q wave to the end of the T wave on a 12-lead ECG. Use leads II, V5, or V6 by convention.' },
+]
+const references = [
+  { citation: 'Bazett HC. An analysis of the time-relations of electrocardiograms. <em>Heart</em>. 1920;7:353-370.' },
+  { citation: 'Fridericia LS. Die Systolendauer im Elektrokardiogramm bei normalen Menschen und bei Herzkranken. <em>Acta Med Scand</em>. 1920;53:469-486.' },
+  { citation: 'Sagie A, Larson MG, Goldberg RJ, et al. An improved method for adjusting the QT interval for heart rate (the Framingham Heart Study). <em>Am J Cardiol</em>. 1992;70(7):797-801.' },
+  { citation: 'Hodges M, Salerno D, Erlien D. Bazett\'s QT correction reviewed. <em>J Am Coll Cardiol</em>. 1983;1:694.' },
+]
+const relatedTools = [
+  { slug: 'mean-arterial-pressure', name: 'Mean Arterial Pressure' },
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+  { slug: 'cha2ds2-vasc', name: 'CHA2DS2-VASc Score' },
+]
+---
+<HealthCalc
+  slug="corrected-qt-interval"
+  name="Corrected QT Interval (QTc) Calculator"
+  schemaName="QTc Calculator"
+  shortDescription="Calculate corrected QT interval (QTc) using Bazett, Fridericia, Framingham, and Hodges formulas."
+  metaTitle="QTc Calculator (Bazett, Fridericia, Framingham, Hodges) | maratool"
+  metaDescription="Corrected QT interval (QTc) calculator with all four major formulas. Free, instant, runs in your browser."
+  subcategory="Cardiology"
+  subcategorySlug="cardiology"
+  howTo={[ 'Enter measured QT interval (ms) and heart rate (bpm).', 'All four QTc formulas update instantly.', 'Classification follows AHA/HRS criteria.' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-3">
+    <label class="hcalc-field"><span class="hcalc-label">QT interval</span><div class="hcalc-input-wrap"><input type="number" id="qtc-qt" placeholder="400" step="any" min="0"><span class="hcalc-unit">ms</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Heart rate</span><div class="hcalc-input-wrap"><input type="number" id="qtc-hr" placeholder="60" step="any" min="0"><span class="hcalc-unit">bpm</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Sex</span><div class="hcalc-input-wrap"><select id="qtc-sex"><option value="male">Male</option><option value="female">Female</option></select></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">QTc — Bazett</div><div class="hcalc-output-value" id="qtc-bazett">—</div><button class="copy-btn" data-target="qtc-bazett">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">QTc — Fridericia</div><div class="hcalc-output-value" id="qtc-fridericia">—</div><button class="copy-btn" data-target="qtc-fridericia">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">QTc — Framingham</div><div class="hcalc-output-value" id="qtc-framingham">—</div><button class="copy-btn" data-target="qtc-framingham">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">QTc — Hodges</div><div class="hcalc-output-value" id="qtc-hodges">—</div><button class="copy-btn" data-target="qtc-hodges">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Classification (Bazett)</div><div class="hcalc-output-value" id="qtc-class">—</div><button class="copy-btn" data-target="qtc-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/general-ui.js"></script>

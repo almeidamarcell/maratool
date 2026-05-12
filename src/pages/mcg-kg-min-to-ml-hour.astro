@@ -1,0 +1,34 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+const faq = [
+  { q: 'Formula?', a: 'mL/h = (dose mcg/kg/min × weight kg × 60) / concentration mcg/mL.' },
+  { q: 'When used?', a: 'For vasoactive drug infusions (norepinephrine, dopamine, dobutamine, epinephrine, etc.) where dose is titrated in mcg/kg/min.' },
+  { q: 'How to derive concentration?', a: 'Concentration (mcg/mL) = total drug mass (mcg) / total volume (mL). Example: 4 mg in 250 mL → 4000/250 = 16 mcg/mL.' },
+  { q: 'Always double-check?', a: 'Yes — independent two-person verification is standard before starting vasoactive infusions.' },
+]
+const references = [
+  { citation: 'Surviving Sepsis Campaign. International Guidelines for Management of Sepsis and Septic Shock 2021. <em>Crit Care Med</em>. 2021;49(11):e1063-e1143.' },
+]
+const relatedTools = [
+  { slug: 'drops-to-ml-per-hour', name: 'Drops/min to mL/h' },
+  { slug: 'mean-arterial-pressure', name: 'Mean Arterial Pressure' },
+  { slug: 'pediatric-infusion-mcg-kg-min', name: 'Pediatric Infusion (mcg/kg/min)' },
+]
+---
+<HealthCalc slug="mcg-kg-min-to-ml-hour" name="mcg/kg/min to mL/hour Converter" schemaName="mcg/kg/min Converter"
+  shortDescription="Convert vasoactive drug dose from mcg/kg/min to mL/hour."
+  metaTitle="mcg/kg/min to mL/h Converter (Vasoactive Drugs) | maratool"
+  metaDescription="Convert mcg/kg/min to mL/h for vasoactive drug infusions. Free, runs in your browser."
+  subcategory="Infusion" subcategorySlug="infusion"
+  howTo={[ 'Enter dose (mcg/kg/min), weight (kg), and concentration (mcg/mL).', 'Infusion rate (mL/h) updates instantly.', 'Always perform independent verification.' ]}
+  faq={faq} relatedTools={relatedTools} references={references}>
+  <div class="hcalc-inputs cols-3">
+    <label class="hcalc-field"><span class="hcalc-label">Dose</span><div class="hcalc-input-wrap"><input type="number" id="vaso-dose" placeholder="5" step="any" min="0"><span class="hcalc-unit">mcg/kg/min</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Weight</span><div class="hcalc-input-wrap"><input type="number" id="vaso-weight" placeholder="70" step="any" min="0"><span class="hcalc-unit">kg</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Concentration</span><div class="hcalc-input-wrap"><input type="number" id="vaso-conc" placeholder="400" step="any" min="0"><span class="hcalc-unit">mcg/mL</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Infusion rate</div><div class="hcalc-output-value" id="vaso-mlh">—</div><button class="copy-btn" data-target="vaso-mlh">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/wave5-ui.js"></script>

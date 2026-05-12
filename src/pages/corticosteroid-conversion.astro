@@ -1,0 +1,52 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+const faq = [
+  { q: 'Equivalence basis?', a: 'Anti-inflammatory equivalence: cortisone 25 = hydrocortisone 20 = prednisone 5 = prednisolone 5 = methylprednisolone 4 = triamcinolone 4 = dexamethasone 0.75 = betamethasone 0.6 (mg).' },
+  { q: 'Does this account for mineralocorticoid effects?', a: 'No. Hydrocortisone and cortisone have significant mineralocorticoid activity; dexamethasone has almost none. Choice depends on whether mineralocorticoid effects are desired.' },
+  { q: 'Half-life differences?', a: 'Hydrocortisone (short, 8–12h), prednisone/methylprednisolone (intermediate, 18–36h), dexamethasone/betamethasone (long, 36–54h). Dosing frequency depends on this.' },
+  { q: 'When to use this calculator?', a: 'For switching steroids in transplant patients, asthma, COPD, IBD, autoimmune disease, or adrenal insufficiency.' },
+]
+const references = [
+  { citation: 'Liu D, Ahmet A, Ward L, et al. A practical guide to the monitoring and management of the complications of systemic corticosteroid therapy. <em>Allergy Asthma Clin Immunol</em>. 2013;9(1):30.' },
+]
+const relatedTools = [
+  { slug: 'opioid-conversion', name: 'Opioid Conversion' },
+  { slug: 'benzodiazepine-conversion', name: 'Benzodiazepine Conversion' },
+  { slug: 'rsi-doses', name: 'RSI Dose Calculator' },
+]
+---
+<HealthCalc slug="corticosteroid-conversion" name="Corticosteroid Conversion Calculator" schemaName="Corticosteroid Conversion"
+  shortDescription="Convert between corticosteroid doses (anti-inflammatory equivalents)."
+  metaTitle="Corticosteroid Conversion Calculator (Prednisone Equivalent) | maratool"
+  metaDescription="Convert between corticosteroids (prednisone, dexamethasone, hydrocortisone, etc.). Free, runs in your browser."
+  subcategory="Drug" subcategorySlug="drug"
+  howTo={[ 'Select source corticosteroid + dose and target corticosteroid.', 'Equivalent dose appears instantly.', 'Account for mineralocorticoid activity when relevant.' ]}
+  faq={faq} relatedTools={relatedTools} references={references}>
+  <div class="hcalc-inputs cols-3">
+    <label class="hcalc-field"><span class="hcalc-label">From</span><div class="hcalc-input-wrap"><select id="ct-from">
+      <option value="cortisone">Cortisone</option>
+      <option value="hydrocortisone">Hydrocortisone</option>
+      <option value="prednisone">Prednisone</option>
+      <option value="prednisolone">Prednisolone</option>
+      <option value="methylprednisolone">Methylprednisolone</option>
+      <option value="triamcinolone">Triamcinolone</option>
+      <option value="dexamethasone">Dexamethasone</option>
+      <option value="betamethasone">Betamethasone</option>
+    </select></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Dose</span><div class="hcalc-input-wrap"><input type="number" id="ct-dose" placeholder="60" step="any" min="0"><span class="hcalc-unit">mg</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">To</span><div class="hcalc-input-wrap"><select id="ct-to">
+      <option value="cortisone">Cortisone</option>
+      <option value="hydrocortisone">Hydrocortisone</option>
+      <option value="prednisone" selected>Prednisone</option>
+      <option value="prednisolone">Prednisolone</option>
+      <option value="methylprednisolone">Methylprednisolone</option>
+      <option value="triamcinolone">Triamcinolone</option>
+      <option value="dexamethasone">Dexamethasone</option>
+      <option value="betamethasone">Betamethasone</option>
+    </select></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Equivalent dose</div><div class="hcalc-output-value" id="ct-value">—</div><button class="copy-btn" data-target="ct-value">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/wave5-ui.js"></script>

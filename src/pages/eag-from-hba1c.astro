@@ -1,0 +1,42 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'How is eAG calculated?', a: 'eAG (mg/dL) = 28.7 × HbA1c (%) − 46.7. The formula comes from the ADAG study (Nathan 2008), correlating HbA1c with continuous glucose monitoring averages.' },
+  { q: 'What is the clinical relevance of eAG?', a: 'It translates HbA1c (a 2–3 month average) into a glucose value that patients can relate to their fingerstick readings.' },
+  { q: 'What HbA1c target should patients aim for?', a: 'ADA generally recommends HbA1c < 7% for most non-pregnant adults with diabetes, with individualization for age, comorbidities, and hypoglycemia risk.' },
+  { q: 'How is mmol/L calculated?', a: 'mmol/L = mg/dL ÷ 18.018.' },
+]
+const references = [
+  { citation: 'Nathan DM, Kuenen J, Borg R, et al. Translating the A1C assay into estimated average glucose values. <em>Diabetes Care</em>. 2008;31(8):1473-1478.' },
+  { citation: 'American Diabetes Association. Standards of Medical Care in Diabetes — 2024. <em>Diabetes Care</em>. 2024;47(Suppl 1).' },
+]
+const relatedTools = [
+  { slug: 'friedewald-ldl', name: 'Friedewald LDL' },
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+  { slug: 'prevent-cardiovascular-risk', name: 'PREVENT Risk' },
+]
+---
+<HealthCalc
+  slug="eag-from-hba1c"
+  name="eAG from HbA1c Calculator"
+  schemaName="eAG from HbA1c"
+  shortDescription="Convert HbA1c (%) to estimated average glucose (eAG) in mg/dL and mmol/L."
+  metaTitle="eAG from HbA1c Calculator (Estimated Average Glucose) | maratool"
+  metaDescription="Convert HbA1c to estimated average glucose (eAG) in mg/dL and mmol/L. Free, instant, runs in your browser."
+  subcategory="Endocrine"
+  subcategorySlug="endocrine"
+  howTo={[ 'Enter HbA1c as a percentage (e.g., 7.0).', 'eAG appears instantly in mg/dL and mmol/L.', 'Use the copy button to copy any value.' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-1">
+    <label class="hcalc-field"><span class="hcalc-label">HbA1c</span><div class="hcalc-input-wrap"><input type="number" id="eag-hba1c" placeholder="7.0" step="any" min="0"><span class="hcalc-unit">%</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">eAG (mg/dL)</div><div class="hcalc-output-value" id="eag-mgdl">—</div><button class="copy-btn" data-target="eag-mgdl">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">eAG (mmol/L)</div><div class="hcalc-output-value" id="eag-mmoll">—</div><button class="copy-btn" data-target="eag-mmoll">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/general-ui.js"></script>

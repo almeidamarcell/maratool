@@ -2,10 +2,29 @@ import { describe, test, expect } from 'vitest'
 import { tools, categoryOrder, subcategoryOrderByCategory, toolsByCategory } from './tools'
 
 describe('tool categories', () => {
-  test('has 8 categories in correct order', () => {
+  test('has 9 categories in correct order', () => {
     expect([...categoryOrder]).toEqual([
-      'Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Mockup',
+      'Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Mockup', 'Health',
     ])
+  })
+
+  test('Health category has expected subcategories', () => {
+    expect(subcategoryOrderByCategory['Health']).toEqual([
+      'Anthropometric', 'Cardiology', 'Renal', 'Electrolytes', 'Endocrine', 'Hepatology', 'Ventilation', 'Obstetric', 'Pediatric', 'Drug', 'Infusion', 'Trauma', 'Screening', 'Scale', 'Prognosis', 'Score', 'General',
+    ])
+  })
+
+  test('BMI is in Anthropometric subcategory and live', () => {
+    const bmi = tools.find(t => t.slug === 'bmi-calculator')
+    expect(bmi).toBeDefined()
+    expect(bmi?.category).toBe('Health')
+    expect(bmi?.subcategory).toBe('Anthropometric')
+    expect(bmi?.live).toBe(true)
+  })
+
+  test('Health category has 130+ calculators registered', () => {
+    const healthTools = tools.filter(t => t.category === 'Health')
+    expect(healthTools.length).toBeGreaterThanOrEqual(130)
   })
 
   test('every tool has a category that exists in categoryOrder', () => {

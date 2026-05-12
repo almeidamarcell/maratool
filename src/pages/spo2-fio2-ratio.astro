@@ -1,0 +1,33 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+const faq = [
+  { q: 'Formula?', a: 'S/F ratio = SpO2 / FiO2 (FiO2 as fraction).' },
+  { q: 'How does S/F relate to P/F?', a: 'Rice 2007: S/F 235 ≈ P/F 200 (moderate ARDS); S/F 315 ≈ P/F 300 (mild ARDS). Useful when ABG is unavailable.' },
+  { q: 'When is S/F not reliable?', a: 'When SpO2 > 97% (saturation curve plateaus), in significant carboxyhemoglobinemia or methemoglobinemia, or with poor pulse oximetry signal.' },
+  { q: 'Pediatric use?', a: 'S/F ratio is widely used in pediatric ARDS (PARDS criteria, PALICC 2015).' },
+]
+const references = [
+  { citation: 'Rice TW, Wheeler AP, Bernard GR, et al. Comparison of the SpO2/FiO2 ratio and the PaO2/FiO2 ratio in patients with acute lung injury or ARDS. <em>Chest</em>. 2007;132(2):410-417.' },
+]
+const relatedTools = [
+  { slug: 'pao2-fio2-ratio', name: 'PaO2/FiO2 Ratio (P/F)' },
+  { slug: 'ideal-pao2-by-age', name: 'Ideal PaO2 by Age' },
+  { slug: 'bicarbonate-deficit', name: 'Bicarbonate Deficit' },
+]
+---
+<HealthCalc slug="spo2-fio2-ratio" name="SpO2/FiO2 Ratio (S/F)" schemaName="S/F Ratio"
+  shortDescription="Non-invasive proxy for P/F ratio. S/F 235 ≈ moderate ARDS; S/F 315 ≈ mild ARDS."
+  metaTitle="SpO2/FiO2 Ratio Calculator (Non-invasive ARDS Proxy) | maratool"
+  metaDescription="Compute SpO2/FiO2 ratio. Non-invasive proxy for P/F ratio. Free, runs in your browser."
+  subcategory="Ventilation" subcategorySlug="ventilation"
+  howTo={[ 'Enter SpO2 (%) and FiO2 (0.4 or 40).', 'S/F ratio appears instantly.', 'S/F 235 corresponds to P/F ~200; S/F 315 to P/F ~300.' ]}
+  faq={faq} relatedTools={relatedTools} references={references}>
+  <div class="hcalc-inputs">
+    <label class="hcalc-field"><span class="hcalc-label">SpO2</span><div class="hcalc-input-wrap"><input type="number" id="sf-spo2" placeholder="95" step="any" min="0" max="100"><span class="hcalc-unit">%</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">FiO2</span><div class="hcalc-input-wrap"><input type="number" id="sf-fio2" placeholder="0.4" step="any" min="0"><span class="hcalc-unit">fraction or %</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">S/F Ratio</div><div class="hcalc-output-value" id="sf-value">—</div><button class="copy-btn" data-target="sf-value">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/wave5-ui.js"></script>

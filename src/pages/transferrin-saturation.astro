@@ -1,0 +1,43 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'How is TSAT calculated?', a: 'TSAT (%) = (serum iron / TIBC) × 100.' },
+  { q: 'What is normal TSAT?', a: 'Normal range is approximately 20–45%. TSAT < 20% suggests iron deficiency; TSAT > 45% suggests iron overload (e.g., hemochromatosis).' },
+  { q: 'Why measure TSAT?', a: 'TSAT is part of the standard iron-studies panel and is more specific than ferritin alone, which is also an acute-phase reactant.' },
+  { q: 'When is TSAT misleading?', a: 'TSAT is less reliable in acute illness or inflammation, where serum iron may be transiently decreased.' },
+]
+const references = [
+  { citation: 'Camaschella C. Iron-deficiency anemia. <em>N Engl J Med</em>. 2015;372(19):1832-1843.' },
+  { citation: 'KDIGO Clinical Practice Guideline for Anemia in CKD. <em>Kidney Int Suppl</em>. 2012;2(4):279-335.' },
+]
+const relatedTools = [
+  { slug: 'iron-deficit-ganzoni', name: 'Total Iron Deficit (Ganzoni)' },
+  { slug: 'ckd-epi-creatinine', name: 'CKD-EPI 2021' },
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+]
+---
+<HealthCalc
+  slug="transferrin-saturation"
+  name="Transferrin Saturation (TSAT) Calculator"
+  schemaName="TSAT Calculator"
+  shortDescription="Calculate transferrin saturation (TSAT) from serum iron and total iron-binding capacity (TIBC)."
+  metaTitle="Transferrin Saturation (TSAT) Calculator | maratool"
+  metaDescription="Calculate transferrin saturation index from serum iron and TIBC. Free, instant, runs in your browser."
+  subcategory="Endocrine"
+  subcategorySlug="endocrine"
+  howTo={[ 'Enter serum iron (µg/dL) and TIBC (µg/dL).', 'TSAT updates instantly with iron-status interpretation.', 'Same units must be used for both values.' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs">
+    <label class="hcalc-field"><span class="hcalc-label">Serum Iron</span><div class="hcalc-input-wrap"><input type="number" id="tsat-iron" placeholder="80" step="any" min="0"><span class="hcalc-unit">µg/dL</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">TIBC</span><div class="hcalc-input-wrap"><input type="number" id="tsat-tibc" placeholder="400" step="any" min="0"><span class="hcalc-unit">µg/dL</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Transferrin Saturation</div><div class="hcalc-output-value" id="tsat-value">—</div><button class="copy-btn" data-target="tsat-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Interpretation</div><div class="hcalc-output-value" id="tsat-class">—</div><button class="copy-btn" data-target="tsat-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/general-ui.js"></script>

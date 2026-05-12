@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import References from '../components/References.astro'
+
+const seo = {
+  title: 'CKD-EPI 2021 Creatinine Calculator (Race-Free eGFR) | maratool',
+  description: 'Calculate eGFR using the 2021 race-free CKD-EPI creatinine equation. With KDIGO CKD stage classification. Runs in your browser.',
+  canonical: 'https://maratool.com/ckd-epi-creatinine',
+  schema: {
+    '@context': 'https://schema.org', '@type': 'WebApplication',
+    name: 'CKD-EPI 2021 Calculator', url: 'https://maratool.com/ckd-epi-creatinine',
+    applicationCategory: 'HealthApplication', operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Estimate glomerular filtration rate with the 2021 race-free CKD-EPI creatinine equation.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Health', item: 'https://maratool.com/health' },
+      { '@type': 'ListItem', position: 3, name: 'Renal', item: 'https://maratool.com/health/renal' },
+      { '@type': 'ListItem', position: 4, name: 'CKD-EPI 2021', item: 'https://maratool.com/ckd-epi-creatinine' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is the 2021 CKD-EPI equation?', acceptedAnswer: { '@type': 'Answer', text: 'The 2021 CKD-EPI creatinine equation is a race-free formula for estimating glomerular filtration rate, recommended by the NKF-ASN Task Force on Reassessing the Inclusion of Race in Diagnosing Kidney Disease.' } },
+      { '@type': 'Question', name: 'Why does the 2021 equation remove race?', acceptedAnswer: { '@type': 'Answer', text: 'The race coefficient in the 2009 equation was found to overestimate eGFR in Black patients, potentially delaying treatment. The 2021 equation eliminates this race coefficient.' } },
+      { '@type': 'Question', name: 'CKD-EPI or Cockcroft-Gault for drug dosing?', acceptedAnswer: { '@type': 'Answer', text: 'Most drug labels still reference Cockcroft-Gault creatinine clearance for renal dose adjustment. CKD-EPI is preferred for CKD staging.' } },
+      { '@type': 'Question', name: 'What are the KDIGO eGFR categories?', acceptedAnswer: { '@type': 'Answer', text: 'G1: ≥ 90 (normal/high); G2: 60–89 (mildly decreased); G3a: 45–59; G3b: 30–44; G4: 15–29; G5: < 15 (kidney failure).' } }
+    ]
+  }
+}
+const howTo = ['Enter age, serum creatinine, and sex.', 'eGFR and KDIGO CKD stage update instantly.', 'Use the copy button to copy results.']
+const faq = [
+  { q: 'What is the 2021 CKD-EPI equation?', a: 'A race-free formula for estimating glomerular filtration rate (eGFR), recommended by the NKF-ASN Task Force.' },
+  { q: 'Why was race removed?', a: 'The race coefficient in the 2009 equation was found to overestimate eGFR in Black patients. The 2021 equation eliminates that coefficient.' },
+  { q: 'CKD-EPI or Cockcroft-Gault for drug dosing?', a: 'Most drug labels still reference Cockcroft-Gault for renal dose adjustment. CKD-EPI is preferred for CKD staging and prognosis.' },
+  { q: 'What are the KDIGO eGFR categories?', a: 'G1: ≥ 90 • G2: 60–89 • G3a: 45–59 • G3b: 30–44 • G4: 15–29 • G5: &lt; 15 mL/min/1.73 m².' },
+]
+const relatedTools = [
+  { slug: 'cockcroft-gault', name: 'Cockcroft-Gault' },
+  { slug: 'mdrd-gfr', name: 'MDRD GFR' },
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' }, { label: 'Health', href: '/health' },
+  { label: 'Renal', href: '/health/renal' }, { label: 'CKD-EPI 2021' },
+]
+const references = [
+  { citation: 'Inker LA, Eneanya ND, Coresh J, et al. New Creatinine- and Cystatin C-Based Equations to Estimate GFR without Race. <em>N Engl J Med</em>. 2021;385(19):1737-1749.', url: 'https://doi.org/10.1056/NEJMoa2102953' },
+  { citation: 'Delgado C, Baweja M, Crews DC, et al. A Unifying Approach for GFR Estimation: Recommendations of the NKF-ASN Task Force on Reassessing the Inclusion of Race in Diagnosing Kidney Disease. <em>Am J Kidney Dis</em>. 2022;79(2):268-288.' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="ckd-epi-creatinine" name="CKD-EPI 2021 Creatinine eGFR" description="Estimate glomerular filtration rate (eGFR) using the 2021 race-free CKD-EPI creatinine equation. Output classified by KDIGO CKD stage." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container hcalc-container">
+        <div class="hcalc-disclaimer">For educational and clinical reference. Not a substitute for medical judgment.</div>
+        <div class="hcalc-inputs cols-3">
+          <label class="hcalc-field"><span class="hcalc-label">Age</span><div class="hcalc-input-wrap"><input type="number" id="ckd-age" placeholder="60" step="1" min="18" aria-label="Age in years"><span class="hcalc-unit">years</span></div></label>
+          <label class="hcalc-field"><span class="hcalc-label">Creatinine</span><div class="hcalc-input-wrap"><input type="number" id="ckd-cr" placeholder="1.0" step="any" min="0" aria-label="Serum creatinine mg/dL"><span class="hcalc-unit">mg/dL</span></div></label>
+          <label class="hcalc-field"><span class="hcalc-label">Sex</span><div class="hcalc-input-wrap"><select id="ckd-sex" aria-label="Biological sex"><option value="male">Male</option><option value="female">Female</option></select></div></label>
+        </div>
+        <div class="hcalc-outputs">
+          <div class="hcalc-output"><div class="hcalc-output-label">eGFR</div><div class="hcalc-output-value" id="ckd-value">—</div><button class="copy-btn" data-target="ckd-value">Copy</button></div>
+          <div class="hcalc-output"><div class="hcalc-output-label">KDIGO Stage</div><div class="hcalc-output-value" id="ckd-class">—</div><button class="copy-btn" data-target="ckd-class">Copy</button></div>
+        </div>
+      </div>
+      <References references={references} />
+    </ToolShell>
+  </Layout>
+</Base>
+<script src="../tools/health/ckd-epi-ui.js"></script>

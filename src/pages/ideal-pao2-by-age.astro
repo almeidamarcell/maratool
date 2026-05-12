@@ -1,0 +1,32 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+const faq = [
+  { q: 'Formula?', a: 'Sorbini: PaO2 (mmHg) = 109 − 0.43 × age (years). Approximates expected PaO2 at sea level on room air.' },
+  { q: 'When useful?', a: 'For evaluating A–a gradient or whether measured PaO2 is "low for age" in elderly patients.' },
+  { q: 'Limitations?', a: 'Approximation. Other formulas exist (e.g., 100.1 − 0.323 × age); discrepancies within ~5 mmHg.' },
+  { q: 'Altitude correction?', a: 'Formula is for sea level. Adjust expected PaO2 down at higher altitudes (~3 mmHg per 1000 ft).' },
+]
+const references = [
+  { citation: 'Sorbini CA, Grassi V, Solinas E, Muiesan G. Arterial oxygen tension in relation to age in healthy subjects. <em>Respiration</em>. 1968;25(1):3-13.' },
+]
+const relatedTools = [
+  { slug: 'pao2-fio2-ratio', name: 'PaO2/FiO2 Ratio (P/F)' },
+  { slug: 'spo2-fio2-ratio', name: 'SpO2/FiO2 (S/F)' },
+  { slug: 'bicarbonate-deficit', name: 'Bicarbonate Deficit' },
+]
+---
+<HealthCalc slug="ideal-pao2-by-age" name="Ideal PaO2 by Age" schemaName="Ideal PaO2 by Age"
+  shortDescription="Estimate expected normal PaO2 based on patient age (sea level, room air)."
+  metaTitle="Ideal PaO2 by Age Calculator (Sorbini) | maratool"
+  metaDescription="Estimate expected PaO2 by age using Sorbini formula. Free, runs in your browser."
+  subcategory="Ventilation" subcategorySlug="ventilation"
+  howTo={[ 'Enter age in years.', 'Expected normal PaO2 appears instantly.', 'Compare to measured arterial blood gas PaO2.' ]}
+  faq={faq} relatedTools={relatedTools} references={references}>
+  <div class="hcalc-inputs cols-1">
+    <label class="hcalc-field"><span class="hcalc-label">Age</span><div class="hcalc-input-wrap"><input type="number" id="pao2age-age" placeholder="60" step="any" min="0"><span class="hcalc-unit">years</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Expected PaO2</div><div class="hcalc-output-value" id="pao2age-value">—</div><button class="copy-btn" data-target="pao2age-value">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/wave5-ui.js"></script>

@@ -1,0 +1,36 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+const faq = [
+  { q: 'Formula?', a: 'Sheiner-Tozer: Corrected level = Measured / (0.2 × albumin + 0.1). In ESRD/CrCl < 20: divisor uses 0.1 × albumin + 0.1.' },
+  { q: 'Why correct?', a: 'Phenytoin is ~90% albumin-bound. In hypoalbuminemia, the total (measured) level underestimates the free (active) level, risking subtherapeutic decisions when free level is actually adequate.' },
+  { q: 'Therapeutic range?', a: 'Total phenytoin: 10–20 mcg/mL. Free phenytoin: 1–2 mcg/mL (when available).' },
+  { q: 'Limitations?', a: 'Sheiner-Tozer over-estimates in some populations. Direct measurement of free phenytoin is preferred when feasible.' },
+]
+const references = [
+  { citation: 'Sheiner LB, Tozer TN. Clinical pharmacokinetics: the use of plasma concentrations of drugs. In: <em>Clinical Pharmacology: Basic Principles in Therapeutics</em>. 1973.' },
+]
+const relatedTools = [
+  { slug: 'calcium-correction-albumin', name: 'Calcium Correction (Albumin)' },
+  { slug: 'cockcroft-gault', name: 'Cockcroft-Gault' },
+  { slug: 'rsi-doses', name: 'RSI Doses' },
+]
+---
+<HealthCalc slug="phenytoin-level-correction" name="Phenytoin Level Correction (Sheiner-Tozer)" schemaName="Phenytoin Corrected"
+  shortDescription="Correct measured phenytoin level for hypoalbuminemia and/or renal failure."
+  metaTitle="Phenytoin Level Correction Calculator (Sheiner-Tozer) | maratool"
+  metaDescription="Correct phenytoin total level for albumin and renal function (Sheiner-Tozer). Free, runs in your browser."
+  subcategory="Drug" subcategorySlug="drug"
+  howTo={[ 'Enter measured total phenytoin level and serum albumin.', 'Check the ESRD box if CrCl < 20 mL/min.', 'Corrected level appears instantly.' ]}
+  faq={faq} relatedTools={relatedTools} references={references}>
+  <div class="hcalc-inputs">
+    <label class="hcalc-field"><span class="hcalc-label">Measured phenytoin</span><div class="hcalc-input-wrap"><input type="number" id="phen-level" placeholder="10" step="any" min="0"><span class="hcalc-unit">mcg/mL</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Albumin</span><div class="hcalc-input-wrap"><input type="number" id="phen-alb" placeholder="2.0" step="any" min="0"><span class="hcalc-unit">g/dL</span></div></label>
+  </div>
+  <label class="hcalc-field" style="margin-bottom:1rem;display:block;">
+    <input type="checkbox" id="phen-esrd"> ESRD or CrCl &lt; 20 mL/min
+  </label>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Corrected phenytoin level</div><div class="hcalc-output-value" id="phen-value">—</div><button class="copy-btn" data-target="phen-value">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/wave5-ui.js"></script>

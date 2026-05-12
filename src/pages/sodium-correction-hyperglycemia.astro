@@ -1,0 +1,35 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+const faq = [
+  { q: 'Formula?', a: 'Katz: Corrected Na = Measured Na + 1.6 × ((Glucose − 100) / 100).' },
+  { q: 'Why correct sodium?', a: 'Hyperglycemia draws water from cells into the extracellular space, diluting serum sodium. Correction reveals the true sodium balance.' },
+  { q: 'Katz vs Hillier?', a: 'Katz (1.6 factor) is the classical correction. Hillier 2004 proposed a factor of 2.4 based on euglycemic clamp studies. Clinical guidelines still commonly cite Katz; some sources prefer Hillier in severe hyperglycemia.' },
+  { q: 'When useful?', a: 'In diabetic ketoacidosis (DKA), HHS, and other hyperglycemic crises with hyponatremia.' },
+]
+const references = [
+  { citation: 'Katz MA. Hyperglycemia-induced hyponatremia — calculation of expected serum sodium depression. <em>N Engl J Med</em>. 1973;289(16):843-844.' },
+  { citation: 'Hillier TA, Abbott RD, Barrett EJ. Hyponatremia: evaluating the correction factor for hyperglycemia. <em>Am J Med</em>. 1999;106(4):399-403.' },
+]
+const relatedTools = [
+  { slug: 'calcium-correction-albumin', name: 'Calcium Correction' },
+  { slug: 'serum-osmolality', name: 'Serum Osmolality' },
+  { slug: 'eag-from-hba1c', name: 'eAG from HbA1c' },
+]
+---
+<HealthCalc slug="sodium-correction-hyperglycemia" name="Sodium Correction for Hyperglycemia"
+  schemaName="Sodium Correction for Hyperglycemia"
+  shortDescription="Correct serum sodium for hyperglycemia using the Katz formula."
+  metaTitle="Sodium Correction for Hyperglycemia (Katz) | maratool"
+  metaDescription="Correct serum sodium for hyperglycemia using the Katz formula. Free, runs in your browser."
+  subcategory="Electrolytes" subcategorySlug="electrolytes"
+  howTo={[ 'Enter measured sodium and current glucose.', 'Corrected sodium appears instantly.', 'Useful in DKA, HHS, and severe hyperglycemia.' ]}
+  faq={faq} relatedTools={relatedTools} references={references}>
+  <div class="hcalc-inputs">
+    <label class="hcalc-field"><span class="hcalc-label">Measured Sodium</span><div class="hcalc-input-wrap"><input type="number" id="csn-na" placeholder="130" step="any" min="0"><span class="hcalc-unit">mEq/L</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Glucose</span><div class="hcalc-input-wrap"><input type="number" id="csn-glc" placeholder="400" step="any" min="0"><span class="hcalc-unit">mg/dL</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Corrected Sodium</div><div class="hcalc-output-value" id="csn-value">—</div><button class="copy-btn" data-target="csn-value">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/wave5-ui.js"></script>

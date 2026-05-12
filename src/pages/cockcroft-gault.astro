@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import References from '../components/References.astro'
+
+const seo = {
+  title: 'Cockcroft-Gault Creatinine Clearance Calculator | maratool',
+  description: 'Calculate creatinine clearance using the Cockcroft-Gault formula. Free, instant, with KDIGO CKD staging. Runs in your browser.',
+  canonical: 'https://maratool.com/cockcroft-gault',
+  schema: {
+    '@context': 'https://schema.org', '@type': 'WebApplication',
+    name: 'Cockcroft-Gault Calculator', url: 'https://maratool.com/cockcroft-gault',
+    applicationCategory: 'HealthApplication', operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Estimate creatinine clearance with the Cockcroft-Gault equation, with KDIGO CKD stage classification.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Health', item: 'https://maratool.com/health' },
+      { '@type': 'ListItem', position: 3, name: 'Renal', item: 'https://maratool.com/health/renal' },
+      { '@type': 'ListItem', position: 4, name: 'Cockcroft-Gault', item: 'https://maratool.com/cockcroft-gault' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is the Cockcroft-Gault formula?', acceptedAnswer: { '@type': 'Answer', text: 'CrCl (mL/min) = ((140 − age) × weight in kg) / (72 × serum creatinine in mg/dL). For females, multiply by 0.85.' } },
+      { '@type': 'Question', name: 'When should I use Cockcroft-Gault vs CKD-EPI?', acceptedAnswer: { '@type': 'Answer', text: 'Cockcroft-Gault is still recommended by the FDA for drug dosing in renal impairment. CKD-EPI provides a more accurate eGFR for CKD staging and prognosis.' } },
+      { '@type': 'Question', name: 'Should I use actual or ideal body weight?', acceptedAnswer: { '@type': 'Answer', text: 'For underweight patients use actual weight; for overweight or obese patients many clinicians use ideal or adjusted body weight to avoid overestimating clearance.' } },
+      { '@type': 'Question', name: 'What units does this calculator use?', acceptedAnswer: { '@type': 'Answer', text: 'Weight in kilograms, serum creatinine in mg/dL, age in years. Output is mL/min.' } }
+    ]
+  }
+}
+const howTo = ['Enter age, weight, serum creatinine, and sex.', 'CrCl and KDIGO CKD stage update instantly.', 'Use the copy button to copy results.']
+const faq = [
+  { q: 'What is the Cockcroft-Gault formula?', a: 'CrCl (mL/min) = ((140 − age) × weight in kg) / (72 × Cr in mg/dL). Multiply by 0.85 for females.' },
+  { q: 'When should I use Cockcroft-Gault vs CKD-EPI?', a: 'Cockcroft-Gault is still recommended by the FDA for drug dosing in renal impairment. CKD-EPI is preferred for CKD staging.' },
+  { q: 'Should I use actual or ideal body weight?', a: 'Use actual weight for underweight patients; consider ideal or adjusted weight in obesity to avoid overestimating clearance.' },
+  { q: 'What units does this calculator use?', a: 'Weight in kg, creatinine in mg/dL, age in years. Output is mL/min.' },
+]
+const relatedTools = [
+  { slug: 'ckd-epi-creatinine', name: 'CKD-EPI 2021' },
+  { slug: 'mdrd-gfr', name: 'MDRD GFR' },
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' }, { label: 'Health', href: '/health' },
+  { label: 'Renal', href: '/health/renal' }, { label: 'Cockcroft-Gault' },
+]
+const references = [
+  { citation: 'Cockcroft DW, Gault MH. Prediction of creatinine clearance from serum creatinine. <em>Nephron</em>. 1976;16(1):31-41.' },
+  { citation: 'KDIGO 2024 Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease. <em>Kidney Int</em>. 2024;105(4S):S117-S314.' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="cockcroft-gault" name="Cockcroft-Gault Creatinine Clearance" description="Estimate creatinine clearance using the Cockcroft-Gault formula. Output classified by KDIGO CKD stage." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container hcalc-container">
+        <div class="hcalc-disclaimer">For educational and clinical reference. Not a substitute for medical judgment.</div>
+        <div class="hcalc-inputs cols-4">
+          <label class="hcalc-field"><span class="hcalc-label">Age</span><div class="hcalc-input-wrap"><input type="number" id="cg-age" placeholder="65" step="1" min="0" aria-label="Age in years"><span class="hcalc-unit">years</span></div></label>
+          <label class="hcalc-field"><span class="hcalc-label">Weight</span><div class="hcalc-input-wrap"><input type="number" id="cg-weight" placeholder="70" step="any" min="0" aria-label="Weight in kg"><span class="hcalc-unit">kg</span></div></label>
+          <label class="hcalc-field"><span class="hcalc-label">Creatinine</span><div class="hcalc-input-wrap"><input type="number" id="cg-cr" placeholder="1.0" step="any" min="0" aria-label="Serum creatinine mg/dL"><span class="hcalc-unit">mg/dL</span></div></label>
+          <label class="hcalc-field"><span class="hcalc-label">Sex</span><div class="hcalc-input-wrap"><select id="cg-sex" aria-label="Biological sex"><option value="male">Male</option><option value="female">Female</option></select></div></label>
+        </div>
+        <div class="hcalc-outputs">
+          <div class="hcalc-output"><div class="hcalc-output-label">Creatinine Clearance</div><div class="hcalc-output-value" id="cg-value">—</div><button class="copy-btn" data-target="cg-value">Copy</button></div>
+          <div class="hcalc-output"><div class="hcalc-output-label">KDIGO Stage</div><div class="hcalc-output-value" id="cg-class">—</div><button class="copy-btn" data-target="cg-class">Copy</button></div>
+        </div>
+      </div>
+      <References references={references} />
+    </ToolShell>
+  </Layout>
+</Base>
+<script src="../tools/health/cockcroft-gault-ui.js"></script>

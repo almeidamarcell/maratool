@@ -1,0 +1,50 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+const faq = [
+  { q: 'Reference dose?', a: '10 mg diazepam is the baseline. Equivalents: alprazolam 1 mg ≈ lorazepam 2 mg ≈ clonazepam 1 mg ≈ oxazepam 30 mg ≈ temazepam 20 mg ≈ midazolam 7.5 mg.' },
+  { q: 'Why convert benzodiazepines?', a: 'Most commonly for tapering: convert short-acting benzos (alprazolam, lorazepam) to long-acting diazepam to smooth out withdrawal symptoms.' },
+  { q: 'Are equivalents exact?', a: 'No — published ratios vary. The Ashton Manual is widely cited but other sources (UK CSM, UpToDate) provide slightly different ratios.' },
+  { q: 'How fast to taper?', a: 'Typical withdrawal taper: reduce dose by 5–10% every 2–4 weeks (Ashton). Slower for long-term use.' },
+]
+const references = [
+  { citation: 'Ashton CH. <em>Benzodiazepines: How They Work and How to Withdraw</em> (The Ashton Manual). 2002.' },
+]
+const relatedTools = [
+  { slug: 'opioid-conversion', name: 'Opioid Conversion' },
+  { slug: 'corticosteroid-conversion', name: 'Corticosteroid Conversion' },
+  { slug: 'rsi-doses', name: 'RSI Dose Calculator' },
+]
+---
+<HealthCalc slug="benzodiazepine-conversion" name="Benzodiazepine Equivalence Calculator" schemaName="Benzodiazepine Conversion"
+  shortDescription="Convert between benzodiazepine doses for switching or tapering."
+  metaTitle="Benzodiazepine Conversion Calculator (Ashton) | maratool"
+  metaDescription="Convert between benzodiazepines (diazepam, alprazolam, lorazepam, etc.). Free, runs in your browser."
+  subcategory="Drug" subcategorySlug="drug"
+  howTo={[ 'Select source benzodiazepine + dose and target benzodiazepine.', 'Equivalent dose appears instantly.', 'Confirm with a current pharmacology reference before clinical use.' ]}
+  faq={faq} relatedTools={relatedTools} references={references}>
+  <div class="hcalc-inputs cols-3">
+    <label class="hcalc-field"><span class="hcalc-label">From</span><div class="hcalc-input-wrap"><select id="bz-from">
+      <option value="diazepam">Diazepam</option>
+      <option value="alprazolam">Alprazolam</option>
+      <option value="lorazepam">Lorazepam</option>
+      <option value="clonazepam">Clonazepam</option>
+      <option value="oxazepam">Oxazepam</option>
+      <option value="temazepam">Temazepam</option>
+      <option value="midazolam">Midazolam</option>
+    </select></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Dose</span><div class="hcalc-input-wrap"><input type="number" id="bz-dose" placeholder="10" step="any" min="0"><span class="hcalc-unit">mg</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">To</span><div class="hcalc-input-wrap"><select id="bz-to">
+      <option value="diazepam">Diazepam</option>
+      <option value="alprazolam">Alprazolam</option>
+      <option value="lorazepam">Lorazepam</option>
+      <option value="clonazepam">Clonazepam</option>
+      <option value="oxazepam">Oxazepam</option>
+      <option value="temazepam">Temazepam</option>
+      <option value="midazolam">Midazolam</option>
+    </select></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Equivalent dose</div><div class="hcalc-output-value" id="bz-value">—</div><button class="copy-btn" data-target="bz-value">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/wave5-ui.js"></script>

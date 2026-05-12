@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import References from '../components/References.astro'
+
+const seo = {
+  title: 'Gestational Age by LMP Calculator + Due Date | maratool',
+  description: 'Calculate gestational age from last menstrual period (LMP) and estimated due date by the Naegele rule. Free, instant, runs in your browser.',
+  canonical: 'https://maratool.com/gestational-age-lmp',
+  schema: {
+    '@context': 'https://schema.org', '@type': 'WebApplication',
+    name: 'Gestational Age by LMP', url: 'https://maratool.com/gestational-age-lmp',
+    applicationCategory: 'HealthApplication', operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate gestational age and due date from last menstrual period using the Naegele rule.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Health', item: 'https://maratool.com/health' },
+      { '@type': 'ListItem', position: 3, name: 'Obstetric', item: 'https://maratool.com/health/obstetric' },
+      { '@type': 'ListItem', position: 4, name: 'Gestational Age by LMP', item: 'https://maratool.com/gestational-age-lmp' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is the Naegele rule?', acceptedAnswer: { '@type': 'Answer', text: 'EDD = LMP + 280 days (40 weeks). It assumes a regular 28-day cycle and ovulation on day 14.' } },
+      { '@type': 'Question', name: 'How accurate is dating by LMP?', acceptedAnswer: { '@type': 'Answer', text: 'LMP dating assumes a 28-day cycle with ovulation on day 14. Ultrasound dating (especially in the first trimester) is more accurate when LMP is uncertain.' } },
+      { '@type': 'Question', name: 'Why is gestational age in weeks and days?', acceptedAnswer: { '@type': 'Answer', text: 'Pregnancy is conventionally counted in completed weeks plus extra days (e.g., 12w4d means 12 completed weeks and 4 additional days).' } },
+      { '@type': 'Question', name: 'When does the first trimester end?', acceptedAnswer: { '@type': 'Answer', text: 'The first trimester ends at the completion of week 13 (13w6d). Second trimester: 14w0d–27w6d. Third trimester: 28w0d–delivery.' } }
+    ]
+  }
+}
+const howTo = ['Enter the date of the first day of the last menstrual period (LMP).', 'Reference date defaults to today (change if calculating for a past visit).', 'Gestational age and estimated due date appear instantly.']
+const faq = [
+  { q: 'What is the Naegele rule?', a: 'EDD = LMP + 280 days (40 weeks). Assumes a regular 28-day cycle with ovulation on day 14.' },
+  { q: 'How accurate is dating by LMP?', a: 'LMP dating assumes a 28-day cycle. First-trimester ultrasound dating is more accurate when LMP is uncertain or cycles are irregular.' },
+  { q: 'Why is GA in weeks + days?', a: 'Pregnancy is conventionally counted as completed weeks plus extra days (e.g., 12w4d = 12 completed weeks + 4 days).' },
+  { q: 'When does the first trimester end?', a: 'First: ends at 13w6d. Second: 14w0d–27w6d. Third: 28w0d to delivery.' },
+]
+const relatedTools = [
+  { slug: 'gestational-age-ultrasound', name: 'Gestational Age by Ultrasound' },
+  { slug: 'bishop-score', name: 'Bishop Score' },
+  { slug: 'apgar-score', name: 'APGAR Score' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' }, { label: 'Health', href: '/health' },
+  { label: 'Obstetric', href: '/health/obstetric' }, { label: 'Gestational Age by LMP' },
+]
+const references = [
+  { citation: 'ACOG Committee Opinion No. 700: Methods for Estimating the Due Date. <em>Obstet Gynecol</em>. 2017;129(5):e150-e154.' },
+  { citation: 'Naegele FK. <em>Lehrbuch der Geburtshilfe</em>. 1830.' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="gestational-age-lmp" name="Gestational Age by LMP" description="Estimate gestational age and due date from last menstrual period (LMP) using the Naegele rule (EDD = LMP + 280 days)." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container hcalc-container">
+        <div class="hcalc-disclaimer">For educational and clinical reference. Not a substitute for medical judgment.</div>
+        <div class="hcalc-inputs">
+          <label class="hcalc-field"><span class="hcalc-label">First day of last menstrual period</span><div class="hcalc-input-wrap"><input type="date" id="ga-lmp" aria-label="LMP date"></div></label>
+          <label class="hcalc-field"><span class="hcalc-label">Reference date</span><div class="hcalc-input-wrap"><input type="date" id="ga-ref" aria-label="Reference date"></div></label>
+        </div>
+        <div class="hcalc-outputs">
+          <div class="hcalc-output"><div class="hcalc-output-label">Gestational Age</div><div class="hcalc-output-value" id="ga-value">—</div><button class="copy-btn" data-target="ga-value">Copy</button></div>
+          <div class="hcalc-output"><div class="hcalc-output-label">Estimated Due Date</div><div class="hcalc-output-value" id="ga-edd">—</div><button class="copy-btn" data-target="ga-edd">Copy</button></div>
+        </div>
+      </div>
+      <References references={references} />
+    </ToolShell>
+  </Layout>
+</Base>
+<script src="../tools/health/gestational-age-lmp-ui.js"></script>

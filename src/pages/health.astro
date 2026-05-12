@@ -1,0 +1,109 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import Breadcrumb from '../components/Breadcrumb.astro'
+import { toolsFlatByCategory } from '../data/tools'
+
+const tools = toolsFlatByCategory.Health ?? []
+
+const seo = {
+  title: 'Medical Calculators — maratool',
+  description: 'Free medical calculators, clinical scores, and scales. BMI, MELD, CHA2DS2-VASc, qSOFA, Glasgow, CKD-EPI, and 140+ more. Educational use, runs in your browser.',
+  canonical: 'https://maratool.com/health',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Medical Calculators',
+    url: 'https://maratool.com/health',
+    description: 'Free medical calculators, clinical scores, and scales for healthcare professionals.',
+    hasPart: tools.filter(t => t.live).map(tool => ({
+      '@type': 'SoftwareApplication',
+      name: tool.name,
+      url: `https://maratool.com/${tool.slug}`,
+      applicationCategory: 'HealthApplication',
+    })),
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Health', item: 'https://maratool.com/health' },
+    ],
+  },
+}
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Who are these medical calculators for?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'These calculators are intended for healthcare professionals (physicians, nurses, residents, students) as a quick clinical reference. They are educational tools and do not replace clinical judgment.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Are these calculators a substitute for medical evaluation?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'No. The calculators are for educational and reference purposes only. They do not substitute for individual clinical assessment, professional medical advice, diagnosis, or treatment.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Where do the formulas and references come from?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Formulas and clinical references follow Whitebook (PEBMED) and primary literature where applicable. Each calculator page lists the specific reference used.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Do these calculators store my data?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'No. All calculations run entirely in your browser. No patient data is sent to any server or stored anywhere.'
+      }
+    },
+  ]
+}
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Health' },
+]
+---
+<Base {...seo} faqSchema={faqSchema}>
+  <Layout>
+    <Breadcrumb crumbs={breadcrumbs} />
+    <div class="hero">
+      <h1>Medical Calculators</h1>
+      <p>Free medical calculators, clinical scores, and bedside scales. For educational use by healthcare professionals — runs in your browser, nothing is sent to any server.</p>
+    </div>
+
+    <div class="tools-grid">
+      {tools.map(tool => (
+        tool.live
+          ? (
+            <a href={`/${tool.slug}`} class="tool-card">
+              <span class="tool-card-emoji">{tool.emoji}</span>
+              <div class="tool-card-name">{tool.name}</div>
+              <div class="tool-card-desc">{tool.description}</div>
+            </a>
+          )
+          : (
+            <div class="tool-card" style="opacity:0.5;cursor:default;">
+              <span class="tool-card-emoji">{tool.emoji}</span>
+              <div class="tool-card-name">{tool.name}</div>
+              <div class="tool-card-desc">{tool.description}</div>
+              <span class="tool-card-badge">Coming Soon</span>
+            </div>
+          )
+      ))}
+    </div>
+  </Layout>
+</Base>

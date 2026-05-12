@@ -1,0 +1,34 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+const faq = [
+  { q: 'Formula?', a: 'P/F ratio = PaO2 / FiO2 (FiO2 as a fraction, e.g., 0.5 for 50%).' },
+  { q: 'Berlin ARDS classification?', a: 'Mild ARDS: 200 < P/F ≤ 300. Moderate: 100 < P/F ≤ 200. Severe: P/F ≤ 100. Requires PEEP ≥ 5 cmH₂O.' },
+  { q: 'P/F vs A-a gradient?', a: 'P/F is simpler and used in ARDS criteria; A-a gradient requires FiO2 and barometric pressure calculations and is more useful at room air.' },
+  { q: 'What about altitude?', a: 'Berlin criteria recommend altitude correction: P/F × (PB / 760) for elevations > 1000 m.' },
+]
+const references = [
+  { citation: 'ARDS Definition Task Force. Acute respiratory distress syndrome: the Berlin Definition. <em>JAMA</em>. 2012;307(23):2526-2533.' },
+]
+const relatedTools = [
+  { slug: 'spo2-fio2-ratio', name: 'SpO2/FiO2 (S/F)' },
+  { slug: 'ideal-pao2-by-age', name: 'Ideal PaO2 by Age' },
+  { slug: 'bicarbonate-deficit', name: 'Bicarbonate Deficit' },
+]
+---
+<HealthCalc slug="pao2-fio2-ratio" name="PaO2/FiO2 Ratio (P/F)" schemaName="P/F Ratio"
+  shortDescription="Calculate PaO2/FiO2 ratio and classify ARDS severity by Berlin 2012 criteria."
+  metaTitle="PaO2/FiO2 Ratio Calculator (ARDS Berlin) | maratool"
+  metaDescription="Compute P/F ratio and ARDS severity. Berlin 2012 criteria. Free, runs in your browser."
+  subcategory="Ventilation" subcategorySlug="ventilation"
+  howTo={[ 'Enter PaO2 (mmHg) and FiO2 (as 0.4 or 40 — auto-detected).', 'P/F ratio and ARDS classification appear instantly.', 'Berlin requires PEEP ≥ 5 cmH₂O for ARDS classification.' ]}
+  faq={faq} relatedTools={relatedTools} references={references}>
+  <div class="hcalc-inputs">
+    <label class="hcalc-field"><span class="hcalc-label">PaO2</span><div class="hcalc-input-wrap"><input type="number" id="pf-pao2" placeholder="80" step="any" min="0"><span class="hcalc-unit">mmHg</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">FiO2</span><div class="hcalc-input-wrap"><input type="number" id="pf-fio2" placeholder="0.4" step="any" min="0"><span class="hcalc-unit">fraction or %</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">P/F Ratio</div><div class="hcalc-output-value" id="pf-value">—</div><button class="copy-btn" data-target="pf-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">ARDS Class (Berlin)</div><div class="hcalc-output-value" id="pf-class">—</div><button class="copy-btn" data-target="pf-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/wave5-ui.js"></script>

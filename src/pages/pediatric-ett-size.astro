@@ -1,0 +1,44 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'How is pediatric ETT size estimated?', a: 'Cole formula. Uncuffed: (age in years / 4) + 4 mm. Cuffed: (age in years / 4) + 3.5 mm. For age ≥ 1 year.' },
+  { q: 'How is insertion depth estimated?', a: 'Insertion depth (cm at the lip) ≈ 3 × ETT internal diameter (mm).' },
+  { q: 'Should cuffed or uncuffed tubes be used?', a: 'Modern pediatric practice favors cuffed tubes (microcuff design), which reduce reintubation and aspiration risk while maintaining safety.' },
+  { q: 'What about neonates and infants?', a: 'These formulas are for children ≥ 1 year. Term neonates typically use a 3.0–3.5 mm tube; preterm < 1000 g use 2.5 mm.' },
+]
+const references = [
+  { citation: 'Cole F. Pediatric formulas for the anesthesiologist. <em>Am J Dis Child</em>. 1957;94(6):672-673.' },
+  { citation: 'American Heart Association. 2020 Guidelines for CPR and ECC — Pediatric Advanced Life Support. <em>Circulation</em>. 2020;142(16_suppl_2):S469-S523.' },
+]
+const relatedTools = [
+  { slug: 'apgar-score', name: 'APGAR Score' },
+  { slug: 'pediatric-infusion-mcg-kg-min', name: 'Pediatric Infusion (mcg/kg/min)' },
+  { slug: 'rsi-doses', name: 'Rapid Sequence Intubation Doses' },
+]
+---
+<HealthCalc
+  slug="pediatric-ett-size"
+  name="Pediatric Endotracheal Tube Size Calculator"
+  schemaName="Pediatric ETT Size"
+  shortDescription="Estimate uncuffed and cuffed ETT size and insertion depth by age (Cole formula, age ≥ 1 year)."
+  metaTitle="Pediatric Endotracheal Tube Size Calculator | maratool"
+  metaDescription="Calculate pediatric ETT (endotracheal tube) size and insertion depth by age. Cole formula. Free, runs in your browser."
+  subcategory="Pediatric"
+  subcategorySlug="pediatric"
+  howTo={[ 'Enter the child\'s age in years (≥ 1).', 'Uncuffed and cuffed ETT sizes plus insertion depth update instantly.', 'For neonates, use standard age-specific tube sizes instead.' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-1">
+    <label class="hcalc-field"><span class="hcalc-label">Age</span><div class="hcalc-input-wrap"><input type="number" id="ett-age" placeholder="4" step="any" min="1"><span class="hcalc-unit">years</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Uncuffed ETT size</div><div class="hcalc-output-value" id="ett-uncuffed">—</div><button class="copy-btn" data-target="ett-uncuffed">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Cuffed ETT size</div><div class="hcalc-output-value" id="ett-cuffed">—</div><button class="copy-btn" data-target="ett-cuffed">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Insertion depth (uncuffed)</div><div class="hcalc-output-value" id="ett-depth-u">—</div><button class="copy-btn" data-target="ett-depth-u">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Insertion depth (cuffed)</div><div class="hcalc-output-value" id="ett-depth-c">—</div><button class="copy-btn" data-target="ett-depth-c">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/pediatric-ui.js"></script>

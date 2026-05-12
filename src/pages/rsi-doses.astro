@@ -1,0 +1,40 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+const faq = [
+  { q: 'What is RSI?', a: 'Rapid Sequence Intubation — induction agent + paralytic given in quick succession to achieve optimal intubating conditions while minimizing aspiration risk.' },
+  { q: 'Standard doses used?', a: 'Etomidate 0.3 mg/kg, Ketamine 1.5 mg/kg, Propofol 1.5 mg/kg, Midazolam 0.2 mg/kg, Succinylcholine 1.5 mg/kg, Rocuronium 1.2 mg/kg.' },
+  { q: 'Which induction agent?', a: 'Etomidate for hemodynamic instability; ketamine for asthma/bronchospasm or shock; propofol if hemodynamically stable. Adjust for comorbidities.' },
+  { q: 'Succinylcholine vs rocuronium?', a: 'Succinylcholine acts faster (~45s vs ~60s) and wears off quickly. Rocuronium is preferred when succinylcholine is contraindicated (hyperkalemia, neuromuscular disease, burns > 24h).' },
+]
+const references = [
+  { citation: 'Walls RM, Murphy MF. <em>Manual of Emergency Airway Management</em>. 5th ed. Wolters Kluwer; 2017.' },
+  { citation: 'American College of Emergency Physicians (ACEP) Clinical Policy: RSI Protocols.' },
+]
+const relatedTools = [
+  { slug: 'opioid-conversion', name: 'Opioid Conversion' },
+  { slug: 'pediatric-ett-size', name: 'Pediatric ETT Size' },
+  { slug: 'mean-arterial-pressure', name: 'Mean Arterial Pressure' },
+]
+---
+<HealthCalc slug="rsi-doses" name="RSI Dose Calculator" schemaName="RSI Doses"
+  shortDescription="Calculate weight-based induction and paralytic doses for Rapid Sequence Intubation."
+  metaTitle="Rapid Sequence Intubation (RSI) Dose Calculator | maratool"
+  metaDescription="Weight-based RSI doses for induction agents and paralytics. Free, runs in your browser."
+  subcategory="Drug" subcategorySlug="drug"
+  howTo={[ 'Enter patient weight in kg.', 'All RSI agent doses appear instantly.', 'Choose induction + paralytic based on patient physiology.' ]}
+  faq={faq} relatedTools={relatedTools} references={references}>
+  <div class="hcalc-inputs cols-1">
+    <label class="hcalc-field"><span class="hcalc-label">Weight</span><div class="hcalc-input-wrap"><input type="number" id="rsi-weight" placeholder="70" step="any" min="0"><span class="hcalc-unit">kg</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Etomidate (0.3 mg/kg)</div><div class="hcalc-output-value" id="rsi-etomidate">—</div><button class="copy-btn" data-target="rsi-etomidate">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Ketamine (1.5 mg/kg)</div><div class="hcalc-output-value" id="rsi-ketamine">—</div><button class="copy-btn" data-target="rsi-ketamine">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Propofol (1.5 mg/kg)</div><div class="hcalc-output-value" id="rsi-propofol">—</div><button class="copy-btn" data-target="rsi-propofol">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Midazolam (0.2 mg/kg)</div><div class="hcalc-output-value" id="rsi-midazolam">—</div><button class="copy-btn" data-target="rsi-midazolam">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Succinylcholine (1.5 mg/kg)</div><div class="hcalc-output-value" id="rsi-succinylcholine">—</div><button class="copy-btn" data-target="rsi-succinylcholine">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Rocuronium (1.2 mg/kg)</div><div class="hcalc-output-value" id="rsi-rocuronium">—</div><button class="copy-btn" data-target="rsi-rocuronium">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Fentanyl (3 mcg/kg)</div><div class="hcalc-output-value" id="rsi-fentanyl">—</div><button class="copy-btn" data-target="rsi-fentanyl">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Lidocaine (1.5 mg/kg)</div><div class="hcalc-output-value" id="rsi-lidocaine">—</div><button class="copy-btn" data-target="rsi-lidocaine">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/wave5-ui.js"></script>

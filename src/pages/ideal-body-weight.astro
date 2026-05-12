@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import References from '../components/References.astro'
+
+const seo = {
+  title: 'Ideal Body Weight Calculator (Devine, Robinson, Miller, Hamwi) | maratool',
+  description: 'Calculate ideal body weight by height and sex using the Devine, Robinson, Miller, and Hamwi formulas. Free, instant, runs in your browser.',
+  canonical: 'https://maratool.com/ideal-body-weight',
+  schema: {
+    '@context': 'https://schema.org', '@type': 'WebApplication',
+    name: 'Ideal Body Weight Calculator', url: 'https://maratool.com/ideal-body-weight',
+    applicationCategory: 'HealthApplication', operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Compute Devine, Robinson, Miller, and Hamwi ideal body weight from height and sex.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Health', item: 'https://maratool.com/health' },
+      { '@type': 'ListItem', position: 3, name: 'Anthropometric', item: 'https://maratool.com/health/anthropometric' },
+      { '@type': 'ListItem', position: 4, name: 'Ideal Body Weight', item: 'https://maratool.com/ideal-body-weight' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is the Devine formula for ideal body weight?', acceptedAnswer: { '@type': 'Answer', text: 'Men: IBW (kg) = 50 + 2.3 × (height in inches − 60). Women: IBW (kg) = 45.5 + 2.3 × (height in inches − 60). The Devine formula is most commonly used for drug dosing calculations.' } },
+      { '@type': 'Question', name: 'Why are there multiple IBW formulas?', acceptedAnswer: { '@type': 'Answer', text: 'Different formulas (Devine, Robinson, Miller, Hamwi) were derived for different populations and use cases. They produce slightly different values; the Devine formula is the most widely used in clinical pharmacy.' } },
+      { '@type': 'Question', name: 'Is IBW the same as ideal weight for health?', acceptedAnswer: { '@type': 'Answer', text: 'No. IBW formulas are mathematical estimates derived in the 1970s–80s, primarily for drug dosing. BMI is more commonly used to assess healthy weight ranges.' } },
+      { '@type': 'Question', name: 'What is the minimum height for these formulas?', acceptedAnswer: { '@type': 'Answer', text: 'The classical IBW formulas are defined for height > 60 inches (152.4 cm). Below that, they yield non-meaningful values and other height-based methods should be used.' } }
+    ]
+  }
+}
+
+const howTo = ['Enter height in centimeters.', 'Select biological sex.', 'All four formulas update instantly.']
+const faq = [
+  { q: 'What is the Devine formula?', a: 'Men: IBW (kg) = 50 + 2.3 × (height in inches − 60). Women: IBW (kg) = 45.5 + 2.3 × (height in inches − 60). Most commonly used for drug dosing.' },
+  { q: 'Why are there multiple IBW formulas?', a: 'Different formulas were derived for different populations and clinical use cases. Devine is the most widely used in pharmacy, Robinson and Miller produce slightly different estimates, and Hamwi is the oldest of the four.' },
+  { q: 'Is IBW the same as healthy weight?', a: 'No. IBW is a mathematical estimate used primarily for drug dosing. BMI is more commonly used to assess healthy weight ranges.' },
+  { q: 'What is the minimum height for these formulas?', a: 'Defined for height > 60 inches (152.4 cm). Below that, results are not meaningful.' },
+]
+const relatedTools = [
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+  { slug: 'mean-arterial-pressure', name: 'Mean Arterial Pressure' },
+  { slug: 'cockcroft-gault', name: 'Cockcroft-Gault' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' }, { label: 'Health', href: '/health' },
+  { label: 'Anthropometric', href: '/health/anthropometric' }, { label: 'Ideal Body Weight' },
+]
+const references = [
+  { citation: 'Devine BJ. Gentamicin therapy. <em>Drug Intell Clin Pharm</em>. 1974;8:650-655.' },
+  { citation: 'Robinson JD, Lupkiewicz SM, Palenik L, et al. Determination of ideal body weight for drug dosage calculations. <em>Am J Hosp Pharm</em>. 1983;40(6):1016-1019.' },
+  { citation: 'Miller DR, Carlson JD, Loyd BJ, Day BJ. Determining ideal body weight (and mass). <em>Am J Hosp Pharm</em>. 1983;40(10):1622.' },
+  { citation: 'Hamwi GJ. Therapy: changing dietary concepts. In: Danowski TS, ed. <em>Diabetes Mellitus: Diagnosis and Treatment</em>. New York: ADA; 1964.' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="ideal-body-weight" name="Ideal Body Weight Calculator" description="Calculate ideal body weight (IBW) by height and sex using the Devine, Robinson, Miller, and Hamwi formulas." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container hcalc-container">
+        <div class="hcalc-disclaimer">For educational and clinical reference. Not a substitute for medical judgment.</div>
+
+        <div class="hcalc-inputs">
+          <label class="hcalc-field">
+            <span class="hcalc-label">Height</span>
+            <div class="hcalc-input-wrap"><input type="number" id="ibw-height" placeholder="175" step="any" min="0" aria-label="Height in cm"><span class="hcalc-unit">cm</span></div>
+          </label>
+          <label class="hcalc-field">
+            <span class="hcalc-label">Sex</span>
+            <div class="hcalc-input-wrap"><select id="ibw-sex" aria-label="Biological sex"><option value="male">Male</option><option value="female">Female</option></select></div>
+          </label>
+        </div>
+
+        <div class="hcalc-outputs">
+          <div class="hcalc-output"><div class="hcalc-output-label">Devine</div><div class="hcalc-output-value" id="ibw-devine">—</div><button class="copy-btn" data-target="ibw-devine">Copy</button></div>
+          <div class="hcalc-output"><div class="hcalc-output-label">Robinson</div><div class="hcalc-output-value" id="ibw-robinson">—</div><button class="copy-btn" data-target="ibw-robinson">Copy</button></div>
+          <div class="hcalc-output"><div class="hcalc-output-label">Miller</div><div class="hcalc-output-value" id="ibw-miller">—</div><button class="copy-btn" data-target="ibw-miller">Copy</button></div>
+          <div class="hcalc-output"><div class="hcalc-output-label">Hamwi</div><div class="hcalc-output-value" id="ibw-hamwi">—</div><button class="copy-btn" data-target="ibw-hamwi">Copy</button></div>
+        </div>
+      </div>
+      <References references={references} />
+    </ToolShell>
+  </Layout>
+</Base>
+<script src="../tools/health/ibw-ui.js"></script>

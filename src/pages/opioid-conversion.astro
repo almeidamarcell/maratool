@@ -1,0 +1,55 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+const faq = [
+  { q: 'What is MME?', a: 'Morphine Milligram Equivalents — a common unit normalizing opioid dose to oral morphine for comparison and total daily MME calculations.' },
+  { q: 'Conversion ratios used?', a: '30 mg oral morphine = 10 mg IV morphine = 20 mg oral oxycodone = 7.5 mg oral hydromorphone = 1.5 mg IV hydromorphone ≈ 100 mcg IV fentanyl ≈ 200 mg oral codeine ≈ 200 mg oral tramadol.' },
+  { q: 'About methadone?', a: 'Methadone conversion is non-linear and dose-dependent (chronic use changes conversion ratios). Always consult specialty references; this tool gives a conservative chronic-use estimate only.' },
+  { q: 'Why reduce dose when switching?', a: 'Cross-tolerance between opioids is incomplete. Most guidelines recommend reducing the calculated equivalent by 25–50% when switching opioids.' },
+]
+const references = [
+  { citation: 'CDC Clinical Practice Guideline for Prescribing Opioids for Pain — United States, 2022. <em>MMWR Recomm Rep</em>. 2022;71(3):1-95.' },
+  { citation: 'McPherson ML. <em>Demystifying Opioid Conversion Calculations</em>. ASHP; 2018.' },
+]
+const relatedTools = [
+  { slug: 'benzodiazepine-conversion', name: 'Benzodiazepine Conversion' },
+  { slug: 'corticosteroid-conversion', name: 'Corticosteroid Conversion' },
+  { slug: 'rsi-doses', name: 'RSI Dose Calculator' },
+]
+---
+<HealthCalc slug="opioid-conversion" name="Opioid Conversion Calculator" schemaName="Opioid Conversion"
+  shortDescription="Convert between opioid doses (oral & IV). Reduce calculated dose by 25–50% when switching."
+  metaTitle="Opioid Conversion Calculator (MME) | maratool"
+  metaDescription="Convert opioid doses to morphine milligram equivalents and between drugs. Free, runs in your browser."
+  subcategory="Drug" subcategorySlug="drug"
+  howTo={[ 'Select source opioid + dose and target opioid.', 'Equivalent dose appears instantly.', 'Reduce by 25–50% for incomplete cross-tolerance.' ]}
+  faq={faq} relatedTools={relatedTools} references={references}>
+  <div class="hcalc-inputs cols-3">
+    <label class="hcalc-field"><span class="hcalc-label">From</span><div class="hcalc-input-wrap"><select id="opi-from">
+      <option value="morphine-po">Morphine PO (mg)</option>
+      <option value="morphine-iv">Morphine IV (mg)</option>
+      <option value="oxycodone-po">Oxycodone PO (mg)</option>
+      <option value="hydromorphone-po">Hydromorphone PO (mg)</option>
+      <option value="hydromorphone-iv">Hydromorphone IV (mg)</option>
+      <option value="fentanyl-iv-mcg">Fentanyl IV (mcg)</option>
+      <option value="codeine-po">Codeine PO (mg)</option>
+      <option value="tramadol-po">Tramadol PO (mg)</option>
+      <option value="methadone-po">Methadone PO (mg)</option>
+    </select></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Dose</span><div class="hcalc-input-wrap"><input type="number" id="opi-dose" placeholder="30" step="any" min="0"></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">To</span><div class="hcalc-input-wrap"><select id="opi-to">
+      <option value="morphine-po">Morphine PO (mg)</option>
+      <option value="morphine-iv">Morphine IV (mg)</option>
+      <option value="oxycodone-po">Oxycodone PO (mg)</option>
+      <option value="hydromorphone-po">Hydromorphone PO (mg)</option>
+      <option value="hydromorphone-iv">Hydromorphone IV (mg)</option>
+      <option value="fentanyl-iv-mcg">Fentanyl IV (mcg)</option>
+      <option value="codeine-po">Codeine PO (mg)</option>
+      <option value="tramadol-po">Tramadol PO (mg)</option>
+      <option value="methadone-po">Methadone PO (mg)</option>
+    </select></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Equivalent dose</div><div class="hcalc-output-value" id="opi-value">—</div><button class="copy-btn" data-target="opi-value">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/wave5-ui.js"></script>

@@ -1,0 +1,45 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is the Parkland formula?', a: 'Total fluid resuscitation (mL) over 24h = 4 × weight (kg) × %TBSA burned. Half is given in the first 8 hours from the time of burn, the rest over the next 16 hours.' },
+  { q: 'Which fluid is used?', a: 'Lactated Ringer is the standard crystalloid for burn resuscitation per ATLS and ABA guidelines.' },
+  { q: 'Which burns count toward TBSA?', a: 'Only partial-thickness (second-degree) and full-thickness (third-degree) burns. First-degree (erythema) burns are excluded.' },
+  { q: 'Is Parkland still the standard?', a: 'It remains widely used. Modern practice titrates resuscitation to urine output (0.5 mL/kg/h adults, 1 mL/kg/h children) to avoid over- or under-resuscitation ("fluid creep").' },
+]
+const references = [
+  { citation: 'Baxter CR, Shires T. Physiological response to crystalloid resuscitation of severe burns. <em>Ann N Y Acad Sci</em>. 1968;150(3):874-894.' },
+  { citation: 'American Burn Association. Advanced Burn Life Support Course Provider Manual. ABA; 2018.' },
+]
+const relatedTools = [
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+  { slug: 'mean-arterial-pressure', name: 'Mean Arterial Pressure' },
+  { slug: 'estimated-blood-volume', name: 'Estimated Blood Volume' },
+]
+---
+<HealthCalc
+  slug="parkland-burn-formula"
+  name="Parkland Burn Formula Calculator"
+  schemaName="Parkland Burn Formula"
+  shortDescription="Calculate 24-hour fluid resuscitation volume for burn patients using the Parkland formula (4 mL × kg × %TBSA)."
+  metaTitle="Parkland Burn Formula Calculator (Fluid Resuscitation) | maratool"
+  metaDescription="Calculate IV fluid resuscitation for burn patients using the Parkland formula. Free, instant, runs in your browser."
+  subcategory="Trauma"
+  subcategorySlug="trauma"
+  howTo={[ 'Enter weight (kg) and %TBSA burned (2nd- and 3rd-degree only).', 'Total 24-h volume, first 8-h volume, and infusion rates appear instantly.', 'Titrate to urine output 0.5 mL/kg/h (adults).' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs">
+    <label class="hcalc-field"><span class="hcalc-label">Weight</span><div class="hcalc-input-wrap"><input type="number" id="pk-weight" placeholder="70" step="any" min="0"><span class="hcalc-unit">kg</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">%TBSA burned</span><div class="hcalc-input-wrap"><input type="number" id="pk-tbsa" placeholder="30" step="any" min="0" max="100"><span class="hcalc-unit">%</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Total 24-hour volume</div><div class="hcalc-output-value" id="pk-total">—</div><button class="copy-btn" data-target="pk-total">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">First 8 hours</div><div class="hcalc-output-value" id="pk-8h">—</div><button class="copy-btn" data-target="pk-8h">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Rate (first 8h)</div><div class="hcalc-output-value" id="pk-rate1">—</div><button class="copy-btn" data-target="pk-rate1">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Rate (next 16h)</div><div class="hcalc-output-value" id="pk-rate2">—</div><button class="copy-btn" data-target="pk-rate2">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/general-ui.js"></script>

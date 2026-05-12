@@ -1,0 +1,44 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+const faq = [
+  { q: 'Macrodrop vs microdrop?', a: 'Standard macrodrop sets deliver 20 drops/mL. Microdrop (pediatric) sets deliver 60 drops/mL.' },
+  { q: 'Formula?', a: 'mL/h = (drops/min × 60) / drops_per_mL. Drops/min = (mL/h × drops_per_mL) / 60.' },
+  { q: 'Why use drops/min?', a: 'When an IV is regulated manually without a pump (gravity infusion), counting drops/min is the only way to control rate.' },
+  { q: 'Pediatric tip?', a: 'Always use microdrop (60 gtt/mL) sets for children to avoid accidental rapid infusion.' },
+]
+const references = [
+  { citation: 'Institute for Safe Medication Practices (ISMP). Safe practice guidelines for IV infusion administration.' },
+]
+const relatedTools = [
+  { slug: 'mcg-kg-min-to-ml-hour', name: 'mcg/kg/min → mL/h' },
+  { slug: 'pediatric-infusion-mcg-kg-min', name: 'Pediatric Infusion (mcg/kg/min)' },
+  { slug: 'pediatric-infusion-mg-kg-hour', name: 'Pediatric Infusion (mg/kg/h)' },
+]
+---
+<HealthCalc slug="drops-to-ml-per-hour" name="Drops/min to mL/hour Converter" schemaName="Drops to mL/h"
+  shortDescription="Convert IV drip rate from drops/min (gtt/min) to mL/hour and vice versa."
+  metaTitle="Drops/min to mL/h Converter (Macrodrop & Microdrop) | maratool"
+  metaDescription="Convert IV drip rates between drops/min (gtt/min) and mL/hour. Free, runs in your browser."
+  subcategory="Infusion" subcategorySlug="infusion"
+  howTo={[ 'Select drop factor (20 = macro / 60 = micro).', 'Enter either drops/min OR mL/hour.', 'The other value updates instantly.' ]}
+  faq={faq} relatedTools={relatedTools} references={references}>
+  <div class="hcalc-inputs cols-1">
+    <label class="hcalc-field"><span class="hcalc-label">Drop factor</span>
+      <div class="hcalc-input-wrap"><select id="drops-factor">
+        <option value="20">20 gtt/mL (macrodrop)</option>
+        <option value="60">60 gtt/mL (microdrop)</option>
+        <option value="10">10 gtt/mL</option>
+        <option value="15">15 gtt/mL</option>
+      </select></div>
+    </label>
+  </div>
+  <div class="hcalc-inputs">
+    <label class="hcalc-field"><span class="hcalc-label">Drops per minute (gtt/min)</span><div class="hcalc-input-wrap"><input type="number" id="drops-gtt" placeholder="20" step="any" min="0"><span class="hcalc-unit">gtt/min</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">mL/hour (reverse)</span><div class="hcalc-input-wrap"><input type="number" id="drops-mlh-in" placeholder="60" step="any" min="0"><span class="hcalc-unit">mL/h</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">→ mL/h</div><div class="hcalc-output-value" id="drops-mlh">—</div><button class="copy-btn" data-target="drops-mlh">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">→ drops/min</div><div class="hcalc-output-value" id="drops-gtt-out">—</div><button class="copy-btn" data-target="drops-gtt-out">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/wave5-ui.js"></script>

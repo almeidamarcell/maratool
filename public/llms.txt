@@ -107,6 +107,45 @@ maratool.com is a growing collection of free developer tools that run entirely i
 - [X (Twitter) Post Mockup Generator](https://maratool.com/x-post-mockup): Create realistic X/Twitter post screenshots with profile, tweet text, likes, and retweets.
 - [Gmail Email Mockup Generator](https://maratool.com/gmail-mockup): Create realistic Gmail email screenshots with from, to, subject, and body.
 
+### Health
+- [BMI Calculator](https://maratool.com/bmi-calculator): Calculate Body Mass Index (BMI) and body surface area from weight and height. Includes BMI classification.
+- [Mean Arterial Pressure (MAP) Calculator](https://maratool.com/mean-arterial-pressure): Calculate mean arterial pressure (MAP) from systolic and diastolic blood pressure.
+- [Ideal Body Weight Calculator](https://maratool.com/ideal-body-weight): Calculate ideal body weight by height using the Devine, Robinson, Miller, and Hamwi formulas.
+- [Cockcroft-Gault Creatinine Clearance Calculator](https://maratool.com/cockcroft-gault): Estimate creatinine clearance using the Cockcroft-Gault formula.
+- [CKD-EPI Creatinine Clearance Calculator](https://maratool.com/ckd-epi-creatinine): Estimate glomerular filtration rate (eGFR) using the 2021 CKD-EPI creatinine equation.
+- [Gestational Age by LMP Calculator](https://maratool.com/gestational-age-lmp): Calculate gestational age and estimated due date from last menstrual period (Naegele rule).
+- [MDRD GFR Calculator](https://maratool.com/mdrd-gfr): Estimate glomerular filtration rate using the 4-variable MDRD equation.
+- [Fractional Excretion of Sodium (FENa)](https://maratool.com/fractional-excretion-sodium): Differentiate prerenal from intrinsic acute kidney injury using FENa.
+- [Fractional Excretion of Urea (FEUrea)](https://maratool.com/fractional-excretion-urea): FEUrea for AKI workup in patients on diuretics where FENa is unreliable.
+- [Urine Protein-to-Creatinine Ratio (UPCR)](https://maratool.com/urine-protein-creatinine-ratio): Calculate UPCR from a single urine sample to estimate 24-hour protein excretion.
+- [Bicarbonate Deficit Calculator](https://maratool.com/bicarbonate-deficit): Calculate bicarbonate replacement dose for severe metabolic acidosis.
+- [Corrected QT Interval (QTc) Calculator](https://maratool.com/corrected-qt-interval): Calculate corrected QT (QTc) using Bazett, Fridericia, Framingham, and Hodges formulas.
+- [Friedewald LDL Cholesterol Calculator](https://maratool.com/friedewald-ldl): Calculate LDL cholesterol using the Friedewald formula from total cholesterol, HDL, and triglycerides.
+- [Parkland Burn Formula Calculator](https://maratool.com/parkland-burn-formula): Calculate fluid resuscitation volume for burn patients using the Parkland formula.
+- [Estimated Average Glucose (eAG) from HbA1c](https://maratool.com/eag-from-hba1c): Convert HbA1c percentage to estimated average glucose (eAG) in mg/dL and mmol/L.
+- [Serum-Ascites Albumin Gradient (SAAG)](https://maratool.com/saag-albumin-gradient): Calculate SAAG to differentiate portal hypertensive from non-portal hypertensive ascites.
+- [Transferrin Saturation (TSAT) Calculator](https://maratool.com/transferrin-saturation): Calculate transferrin saturation index from serum iron and total iron-binding capacity (TIBC).
+- [Estimated Blood Volume Calculator](https://maratool.com/estimated-blood-volume): Estimate total blood volume by weight, height, and sex (Nadler formula).
+- [APGAR Score Calculator](https://maratool.com/apgar-score): Calculate the APGAR score at 1 and 5 minutes for newborn assessment.
+- [Pediatric Endotracheal Tube Size Calculator](https://maratool.com/pediatric-ett-size): Estimate uncuffed and cuffed ETT size and depth by age in children.
+- [Pediatric Infusion Calculator (mcg/kg/min)](https://maratool.com/pediatric-infusion-mcg-kg-min): Pediatric drug infusion rate calculator in mcg/kg/min.
+- [Pediatric Infusion Calculator (mg/kg/hour)](https://maratool.com/pediatric-infusion-mg-kg-hour): Pediatric drug infusion rate calculator in mg/kg/hour.
+- [Gestational Age by Ultrasound Calculator](https://maratool.com/gestational-age-ultrasound): Calculate gestational age and due date from ultrasound biometry.
+- [Serum Osmolality Calculator](https://maratool.com/serum-osmolality): Calculate serum osmolality from sodium, glucose, and BUN.
+- [Calcium Correction for Albumin](https://maratool.com/calcium-correction-albumin): Correct total serum calcium for hypoalbuminemia (Payne formula).
+- [Sodium Correction for Hyperglycemia](https://maratool.com/sodium-correction-hyperglycemia): Correct serum sodium for hyperglycemia (Katz).
+- [Iron Deficit (Ganzoni)](https://maratool.com/iron-deficit-ganzoni): Total body iron deficit for IV iron replacement.
+- [Ideal PaO2 by Age](https://maratool.com/ideal-pao2-by-age): Expected normal PaO2 by patient age (Sorbini).
+- [PaO2/FiO2 Ratio](https://maratool.com/pao2-fio2-ratio): P/F ratio with ARDS Berlin classification.
+- [SpO2/FiO2 Ratio](https://maratool.com/spo2-fio2-ratio): Non-invasive proxy for P/F ratio.
+- [Drops/min to mL/h Converter](https://maratool.com/drops-to-ml-per-hour): Convert IV drip rate between gtt/min and mL/h.
+- [mcg/kg/min to mL/h Converter](https://maratool.com/mcg-kg-min-to-ml-hour): Convert vasoactive drug dose to infusion rate.
+- [Opioid Conversion Calculator](https://maratool.com/opioid-conversion): Convert between opioid doses (MME).
+- [Benzodiazepine Conversion](https://maratool.com/benzodiazepine-conversion): Switch or taper benzodiazepines (Ashton).
+- [Corticosteroid Conversion](https://maratool.com/corticosteroid-conversion): Convert between corticosteroids (prednisone equivalent).
+- [RSI Dose Calculator](https://maratool.com/rsi-doses): Weight-based RSI induction + paralytic doses.
+- [Phenytoin Level Correction (Sheiner-Tozer)](https://maratool.com/phenytoin-level-correction): Correct phenytoin for albumin and renal function.
+
 ## Site pages
 
 - [Blog](https://maratool.com/blog): Release notes and tool updates.

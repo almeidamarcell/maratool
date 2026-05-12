@@ -1,0 +1,45 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is FENa used for?', a: 'FENa helps differentiate prerenal AKI from intrinsic (ATN) AKI in oliguric patients.' },
+  { q: 'How is FENa calculated?', a: 'FENa (%) = (Urine Na × Plasma Cr) / (Plasma Na × Urine Cr) × 100.' },
+  { q: 'What thresholds matter?', a: 'FENa < 1% suggests prerenal AKI; FENa > 2% suggests intrinsic AKI (ATN). Values between 1–2% are indeterminate.' },
+  { q: 'What limits FENa interpretation?', a: 'FENa is unreliable if the patient is on diuretics, has CKD, glycosuria, or contrast nephropathy. In those cases, FEUrea is preferred.' },
+]
+const references = [
+  { citation: 'Espinel CH. The FENa test. Use in the differential diagnosis of acute renal failure. <em>JAMA</em>. 1976;236(6):579-581.' },
+  { citation: 'Carvounis CP, Nisar S, Guro-Razuman S. Significance of the fractional excretion of urea in the differential diagnosis of acute renal failure. <em>Kidney Int</em>. 2002;62(6):2223-2229.' },
+]
+const relatedTools = [
+  { slug: 'fractional-excretion-urea', name: 'Fractional Excretion of Urea' },
+  { slug: 'ckd-epi-creatinine', name: 'CKD-EPI 2021' },
+  { slug: 'cockcroft-gault', name: 'Cockcroft-Gault' },
+]
+---
+<HealthCalc
+  slug="fractional-excretion-sodium"
+  name="Fractional Excretion of Sodium (FENa)"
+  schemaName="FENa Calculator"
+  shortDescription="Differentiate prerenal from intrinsic acute kidney injury (ATN). FENa < 1% suggests prerenal; > 2% suggests intrinsic AKI."
+  metaTitle="Fractional Excretion of Sodium (FENa) Calculator | maratool"
+  metaDescription="Calculate FENa to differentiate prerenal AKI from intrinsic AKI. Free, instant, runs in your browser."
+  subcategory="Renal"
+  subcategorySlug="renal"
+  howTo={[ 'Enter urine and plasma sodium and creatinine.', 'FENa and interpretation update instantly.', 'Use FEUrea instead if patient is on diuretics.' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-4">
+    <label class="hcalc-field"><span class="hcalc-label">Urine Sodium</span><div class="hcalc-input-wrap"><input type="number" id="fena-una" placeholder="20" step="any" min="0"><span class="hcalc-unit">mEq/L</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Plasma Creatinine</span><div class="hcalc-input-wrap"><input type="number" id="fena-pcr" placeholder="2.0" step="any" min="0"><span class="hcalc-unit">mg/dL</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Plasma Sodium</span><div class="hcalc-input-wrap"><input type="number" id="fena-pna" placeholder="140" step="any" min="0"><span class="hcalc-unit">mEq/L</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Urine Creatinine</span><div class="hcalc-input-wrap"><input type="number" id="fena-ucr" placeholder="100" step="any" min="0"><span class="hcalc-unit">mg/dL</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">FENa</div><div class="hcalc-output-value" id="fena-value">—</div><button class="copy-btn" data-target="fena-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Interpretation</div><div class="hcalc-output-value" id="fena-class">—</div><button class="copy-btn" data-target="fena-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/renal-ui.js"></script>

@@ -1,0 +1,46 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'When is the APGAR score performed?', a: 'At 1 and 5 minutes after birth. If the 5-minute score is < 7, additional scores are obtained every 5 minutes up to 20 minutes.' },
+  { q: 'What does each letter stand for?', a: 'A — Appearance (color); P — Pulse (heart rate); G — Grimace (reflex irritability); A — Activity (muscle tone); R — Respiration.' },
+  { q: 'How is the score interpreted?', a: '7–10: reassuring; 4–6: moderately depressed (may need stimulation, supplemental O₂); 0–3: severely depressed (immediate resuscitation).' },
+  { q: 'Is APGAR predictive of long-term outcomes?', a: 'A low 1-minute score does not predict long-term outcomes; a 5-minute score < 7 in the presence of acidosis correlates with greater neurologic risk.' },
+]
+const references = [
+  { citation: 'Apgar V. A proposal for a new method of evaluation of the newborn infant. <em>Curr Res Anesth Analg</em>. 1953;32(4):260-267.' },
+  { citation: 'American Academy of Pediatrics, ACOG. The Apgar Score. <em>Pediatrics</em>. 2015;136(4):819-822.' },
+]
+const relatedTools = [
+  { slug: 'gestational-age-lmp', name: 'Gestational Age by LMP' },
+  { slug: 'gestational-age-ultrasound', name: 'Gestational Age by Ultrasound' },
+  { slug: 'pediatric-ett-size', name: 'Pediatric ETT Size' },
+]
+---
+<HealthCalc
+  slug="apgar-score"
+  name="APGAR Score Calculator"
+  schemaName="APGAR Score"
+  shortDescription="Calculate the APGAR score for newborn assessment at 1 and 5 minutes."
+  metaTitle="APGAR Score Calculator (Newborn Assessment) | maratool"
+  metaDescription="Free APGAR score calculator for newborn assessment. 5 criteria, instant total and interpretation."
+  subcategory="Pediatric"
+  subcategorySlug="pediatric"
+  howTo={[ 'Score each of the 5 items (0, 1, or 2).', 'Total APGAR score (0–10) and interpretation update instantly.', 'Score at 1 minute, then 5 minutes (and every 5 min until ≥ 7).' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-1">
+    <label class="hcalc-field"><span class="hcalc-label">Appearance (color)</span><div class="hcalc-input-wrap"><select id="apgar-appearance"><option value="0">0 — Blue or pale all over</option><option value="1">1 — Acrocyanosis (extremities blue)</option><option value="2" selected>2 — Completely pink</option></select></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Pulse (heart rate)</span><div class="hcalc-input-wrap"><select id="apgar-pulse"><option value="0">0 — Absent</option><option value="1">1 — &lt; 100 bpm</option><option value="2" selected>2 — ≥ 100 bpm</option></select></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Grimace (reflex irritability)</span><div class="hcalc-input-wrap"><select id="apgar-grimace"><option value="0">0 — No response</option><option value="1">1 — Grimace / weak cry</option><option value="2" selected>2 — Cough, sneeze, vigorous cry</option></select></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Activity (muscle tone)</span><div class="hcalc-input-wrap"><select id="apgar-activity"><option value="0">0 — Limp / no movement</option><option value="1">1 — Some flexion</option><option value="2" selected>2 — Active motion</option></select></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Respiration</span><div class="hcalc-input-wrap"><select id="apgar-respiration"><option value="0">0 — Absent</option><option value="1">1 — Slow, irregular, weak cry</option><option value="2" selected>2 — Good, strong cry</option></select></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">APGAR Score</div><div class="hcalc-output-value" id="apgar-value">—</div><button class="copy-btn" data-target="apgar-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Interpretation</div><div class="hcalc-output-value" id="apgar-class">—</div><button class="copy-btn" data-target="apgar-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/pediatric-ui.js"></script>

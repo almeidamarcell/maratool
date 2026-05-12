@@ -1,0 +1,42 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'How is the infusion rate calculated?', a: 'Rate (mL/h) = (dose mg/kg/h × weight kg) / drug concentration (mg/mL).' },
+  { q: 'When is mg/kg/h dosing used?', a: 'For continuous infusions where the dose is naturally expressed per hour — for example, certain sedatives, antiarrhythmics, and continuous insulin protocols.' },
+  { q: 'How do I derive the concentration?', a: 'Concentration (mg/mL) = total drug (mg) ÷ total volume (mL). Example: 250 mg in 50 mL → 5 mg/mL.' },
+  { q: 'How do I double-check?', a: 'Independent two-person verification of all pediatric infusions is best practice. Use the result here as a sanity check against your pump programming.' },
+]
+const references = [
+  { citation: 'Institute for Safe Medication Practices (ISMP). Guidelines for Standard Order Sets and Safe Pediatric Infusion Practices.' },
+]
+const relatedTools = [
+  { slug: 'pediatric-infusion-mcg-kg-min', name: 'Pediatric Infusion (mcg/kg/min)' },
+  { slug: 'pediatric-ett-size', name: 'Pediatric ETT Size' },
+  { slug: 'apgar-score', name: 'APGAR Score' },
+]
+---
+<HealthCalc
+  slug="pediatric-infusion-mg-kg-hour"
+  name="Pediatric Infusion Calculator (mg/kg/hour)"
+  schemaName="Pediatric Infusion mg/kg/hour"
+  shortDescription="Calculate IV infusion rate in mL/h from a dose in mg/kg/h, weight, and drug concentration."
+  metaTitle="Pediatric Infusion Calculator (mg/kg/h → mL/h) | maratool"
+  metaDescription="Convert pediatric drug dose in mg/kg/hour to infusion rate in mL/h. Free, runs in your browser."
+  subcategory="Pediatric"
+  subcategorySlug="pediatric"
+  howTo={[ 'Enter desired dose (mg/kg/h), weight (kg), and drug concentration (mg/mL).', 'Infusion rate (mL/h) updates instantly.', 'Always perform independent verification before administering.' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-3">
+    <label class="hcalc-field"><span class="hcalc-label">Dose</span><div class="hcalc-input-wrap"><input type="number" id="pinfh-dose" placeholder="2" step="any" min="0"><span class="hcalc-unit">mg/kg/h</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Weight</span><div class="hcalc-input-wrap"><input type="number" id="pinfh-weight" placeholder="25" step="any" min="0"><span class="hcalc-unit">kg</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Concentration</span><div class="hcalc-input-wrap"><input type="number" id="pinfh-conc" placeholder="10" step="any" min="0"><span class="hcalc-unit">mg/mL</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Infusion rate</div><div class="hcalc-output-value" id="pinfh-rate">—</div><button class="copy-btn" data-target="pinfh-rate">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/pediatric-ui.js"></script>

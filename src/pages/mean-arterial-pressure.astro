@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import References from '../components/References.astro'
+
+const seo = {
+  title: 'Mean Arterial Pressure (MAP) Calculator | maratool',
+  description: 'Calculate Mean Arterial Pressure (MAP) from systolic and diastolic blood pressure. Free, instant, runs in your browser.',
+  canonical: 'https://maratool.com/mean-arterial-pressure',
+  schema: {
+    '@context': 'https://schema.org', '@type': 'WebApplication',
+    name: 'Mean Arterial Pressure Calculator', url: 'https://maratool.com/mean-arterial-pressure',
+    applicationCategory: 'HealthApplication', operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate Mean Arterial Pressure (MAP) from systolic and diastolic blood pressure values.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Health', item: 'https://maratool.com/health' },
+      { '@type': 'ListItem', position: 3, name: 'Cardiology', item: 'https://maratool.com/health/cardiology' },
+      { '@type': 'ListItem', position: 4, name: 'Mean Arterial Pressure', item: 'https://maratool.com/mean-arterial-pressure' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How is Mean Arterial Pressure calculated?', acceptedAnswer: { '@type': 'Answer', text: 'MAP = (SBP + 2 × DBP) / 3. It approximates the average pressure during the cardiac cycle, weighted to reflect that diastole lasts roughly twice as long as systole.' } },
+      { '@type': 'Question', name: 'What is the minimum MAP for organ perfusion?', acceptedAnswer: { '@type': 'Answer', text: 'A MAP ≥ 65 mmHg is generally considered necessary for adequate tissue perfusion in critically ill patients, per the Surviving Sepsis Campaign guidelines.' } },
+      { '@type': 'Question', name: 'When should I use MAP instead of systolic blood pressure?', acceptedAnswer: { '@type': 'Answer', text: 'MAP better reflects organ perfusion pressure than systolic blood pressure alone. It is the preferred target in shock, sepsis, neurocritical care, and during anesthesia.' } },
+      { '@type': 'Question', name: 'Is this a substitute for clinical judgment?', acceptedAnswer: { '@type': 'Answer', text: 'No. This calculator is for educational and clinical reference only.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter systolic blood pressure (SBP) and diastolic blood pressure (DBP) in mmHg.',
+  'The calculator shows MAP and perfusion classification immediately.',
+  'Use the copy button to copy the value.',
+]
+const faq = [
+  { q: 'How is Mean Arterial Pressure calculated?', a: 'MAP = (SBP + 2 × DBP) / 3. It approximates the average pressure during the cardiac cycle, since diastole lasts about twice as long as systole.' },
+  { q: 'What is the minimum MAP for organ perfusion?', a: 'MAP ≥ 65 mmHg is generally considered the minimum for adequate end-organ perfusion in shock and sepsis (Surviving Sepsis Campaign).' },
+  { q: 'When should I use MAP instead of SBP?', a: 'MAP is preferred for guiding therapy in shock, sepsis, neurocritical care, and anesthesia, since it better reflects perfusion pressure.' },
+  { q: 'Is this a substitute for clinical judgment?', a: 'No. This calculator is for educational and clinical reference only.' },
+]
+const relatedTools = [
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+  { slug: 'cockcroft-gault', name: 'Cockcroft-Gault Creatinine Clearance' },
+  { slug: 'ideal-body-weight', name: 'Ideal Body Weight' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' }, { label: 'Health', href: '/health' },
+  { label: 'Cardiology', href: '/health/cardiology' }, { label: 'Mean Arterial Pressure' },
+]
+const references = [
+  { citation: 'Evans L, Rhodes A, Alhazzani W, et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2021. <em>Crit Care Med</em>. 2021;49(11):e1063-e1143.' },
+  { citation: 'Magder SA. The highs and lows of blood pressure: toward meaningful clinical targets in patients with shock. <em>Crit Care Med</em>. 2014;42(5):1241-1251.' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="mean-arterial-pressure" name="Mean Arterial Pressure (MAP) Calculator" description="Calculate Mean Arterial Pressure (MAP) from systolic and diastolic blood pressure. MAP ≥ 65 mmHg is generally accepted as the threshold for adequate end-organ perfusion." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container hcalc-container">
+        <div class="hcalc-disclaimer">For educational and clinical reference. Not a substitute for medical judgment.</div>
+
+        <div class="hcalc-inputs">
+          <label class="hcalc-field">
+            <span class="hcalc-label">Systolic Blood Pressure</span>
+            <div class="hcalc-input-wrap"><input type="number" id="map-sbp" placeholder="120" step="any" min="0" aria-label="Systolic blood pressure mmHg"><span class="hcalc-unit">mmHg</span></div>
+          </label>
+          <label class="hcalc-field">
+            <span class="hcalc-label">Diastolic Blood Pressure</span>
+            <div class="hcalc-input-wrap"><input type="number" id="map-dbp" placeholder="80" step="any" min="0" aria-label="Diastolic blood pressure mmHg"><span class="hcalc-unit">mmHg</span></div>
+          </label>
+        </div>
+
+        <div class="hcalc-outputs">
+          <div class="hcalc-output">
+            <div class="hcalc-output-label">Mean Arterial Pressure</div>
+            <div class="hcalc-output-value" id="map-value">—</div>
+            <button class="copy-btn" data-target="map-value">Copy</button>
+          </div>
+          <div class="hcalc-output">
+            <div class="hcalc-output-label">Perfusion</div>
+            <div class="hcalc-output-value" id="map-class">—</div>
+            <button class="copy-btn" data-target="map-class">Copy</button>
+          </div>
+        </div>
+      </div>
+      <References references={references} />
+    </ToolShell>
+  </Layout>
+</Base>
+<script src="../tools/health/map-ui.js"></script>

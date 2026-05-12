@@ -1,0 +1,43 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is SAAG?', a: 'Serum-Ascites Albumin Gradient: SAAG = serum albumin − ascitic fluid albumin. It classifies ascites better than the older transudate/exudate concept.' },
+  { q: 'How is SAAG interpreted?', a: 'SAAG ≥ 1.1 g/dL: ascites due to portal hypertension (cirrhosis, heart failure, Budd-Chiari, etc.). SAAG < 1.1 g/dL: non-portal hypertensive ascites (peritoneal carcinomatosis, TB, pancreatitis, nephrotic syndrome).' },
+  { q: 'When should I tap ascites?', a: 'Diagnostic paracentesis is indicated in all new-onset ascites and on admission for cirrhotic patients with ascites to rule out spontaneous bacterial peritonitis.' },
+  { q: 'Should samples be drawn simultaneously?', a: 'Yes — serum and ascitic fluid albumin should be drawn at the same time to ensure an accurate gradient.' },
+]
+const references = [
+  { citation: 'Runyon BA, Montano AA, Akriviadis EA, et al. The serum-ascites albumin gradient is superior to the exudate-transudate concept in the differential diagnosis of ascites. <em>Ann Intern Med</em>. 1992;117(3):215-220.' },
+  { citation: 'AASLD Practice Guidelines: Management of Adult Patients With Ascites Due to Cirrhosis. 2021 update.' },
+]
+const relatedTools = [
+  { slug: 'meld-meldna', name: 'MELD/MELD-Na' },
+  { slug: 'child-pugh', name: 'Child-Pugh' },
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+]
+---
+<HealthCalc
+  slug="saag-albumin-gradient"
+  name="Serum-Ascites Albumin Gradient (SAAG)"
+  schemaName="SAAG Calculator"
+  shortDescription="Calculate the SAAG to classify ascites as portal hypertensive (≥ 1.1 g/dL) or non-portal hypertensive (< 1.1 g/dL)."
+  metaTitle="Serum-Ascites Albumin Gradient (SAAG) Calculator | maratool"
+  metaDescription="Calculate the SAAG to differentiate portal hypertensive from non-portal hypertensive ascites. Free, runs in your browser."
+  subcategory="Hepatology"
+  subcategorySlug="hepatology"
+  howTo={[ 'Enter serum albumin and ascitic fluid albumin (both g/dL).', 'SAAG and interpretation update instantly.', 'Always draw both samples at the same time.' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs">
+    <label class="hcalc-field"><span class="hcalc-label">Serum albumin</span><div class="hcalc-input-wrap"><input type="number" id="saag-serum" placeholder="3.5" step="any" min="0"><span class="hcalc-unit">g/dL</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Ascitic fluid albumin</span><div class="hcalc-input-wrap"><input type="number" id="saag-ascitic" placeholder="1.3" step="any" min="0"><span class="hcalc-unit">g/dL</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">SAAG</div><div class="hcalc-output-value" id="saag-value">—</div><button class="copy-btn" data-target="saag-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Interpretation</div><div class="hcalc-output-value" id="saag-class">—</div><button class="copy-btn" data-target="saag-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/general-ui.js"></script>

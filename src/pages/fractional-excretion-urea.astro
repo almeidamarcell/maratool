@@ -1,0 +1,44 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'When should I use FEUrea instead of FENa?', a: 'FEUrea is preferred over FENa in patients on diuretics, since diuretics increase urinary sodium and falsely elevate FENa.' },
+  { q: 'How is FEUrea calculated?', a: 'FEUrea (%) = (Urine Urea × Plasma Cr) / (Plasma Urea × Urine Cr) × 100.' },
+  { q: 'What thresholds matter?', a: 'FEUrea < 35% suggests prerenal AKI; > 50% suggests intrinsic AKI (ATN). Values between are indeterminate.' },
+  { q: 'Is FEUrea always reliable?', a: 'FEUrea has limitations and should be interpreted alongside the clinical picture, urinalysis, and FENa where applicable.' },
+]
+const references = [
+  { citation: 'Carvounis CP, Nisar S, Guro-Razuman S. Significance of the fractional excretion of urea in the differential diagnosis of acute renal failure. <em>Kidney Int</em>. 2002;62(6):2223-2229.' },
+]
+const relatedTools = [
+  { slug: 'fractional-excretion-sodium', name: 'Fractional Excretion of Sodium (FENa)' },
+  { slug: 'ckd-epi-creatinine', name: 'CKD-EPI 2021' },
+  { slug: 'cockcroft-gault', name: 'Cockcroft-Gault' },
+]
+---
+<HealthCalc
+  slug="fractional-excretion-urea"
+  name="Fractional Excretion of Urea (FEUrea)"
+  schemaName="FEUrea Calculator"
+  shortDescription="Differentiate prerenal from intrinsic AKI when patient is on diuretics. FEUrea < 35% suggests prerenal; > 50% suggests intrinsic AKI."
+  metaTitle="Fractional Excretion of Urea (FEUrea) Calculator | maratool"
+  metaDescription="Calculate FEUrea — the preferred test for prerenal vs intrinsic AKI when diuretics are in use. Free, runs in your browser."
+  subcategory="Renal"
+  subcategorySlug="renal"
+  howTo={[ 'Enter urine and plasma urea and creatinine.', 'FEUrea and interpretation update instantly.', 'Use the copy button to copy results.' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-4">
+    <label class="hcalc-field"><span class="hcalc-label">Urine Urea</span><div class="hcalc-input-wrap"><input type="number" id="feu-uurea" placeholder="300" step="any" min="0"><span class="hcalc-unit">mg/dL</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Plasma Creatinine</span><div class="hcalc-input-wrap"><input type="number" id="feu-pcr" placeholder="2.0" step="any" min="0"><span class="hcalc-unit">mg/dL</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Plasma Urea (BUN)</span><div class="hcalc-input-wrap"><input type="number" id="feu-purea" placeholder="60" step="any" min="0"><span class="hcalc-unit">mg/dL</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Urine Creatinine</span><div class="hcalc-input-wrap"><input type="number" id="feu-ucr" placeholder="100" step="any" min="0"><span class="hcalc-unit">mg/dL</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">FEUrea</div><div class="hcalc-output-value" id="feu-value">—</div><button class="copy-btn" data-target="feu-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Interpretation</div><div class="hcalc-output-value" id="feu-class">—</div><button class="copy-btn" data-target="feu-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/renal-ui.js"></script>

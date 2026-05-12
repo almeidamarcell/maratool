@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from './Layout.astro'
+import ToolShell from './ToolShell.astro'
+import References from './References.astro'
+
+interface FAQItem { q: string; a: string }
+interface Reference { citation: string; url?: string }
+interface RelatedTool { slug: string; name: string }
+
+interface Props {
+  slug: string
+  name: string
+  shortDescription: string  // appears under H1
+  metaTitle: string
+  metaDescription: string
+  subcategory: string       // 'General' | 'Renal' | etc.
+  subcategorySlug: string   // lowercase slug
+  schemaName: string        // for WebApplication JSON-LD
+  howTo: string[]
+  faq: FAQItem[]
+  relatedTools: RelatedTool[]
+  references: Reference[]
+}
+
+const {
+  slug, name, shortDescription, metaTitle, metaDescription,
+  subcategory, subcategorySlug, schemaName, howTo, faq, relatedTools, references,
+} = Astro.props
+
+const seo = {
+  title: metaTitle,
+  description: metaDescription,
+  canonical: `https://maratool.com/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: schemaName,
+    url: `https://maratool.com/${slug}`,
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: metaDescription,
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Health', item: 'https://maratool.com/health' },
+      { '@type': 'ListItem', position: 3, name: subcategory, item: `https://maratool.com/health/${subcategorySlug}` },
+      { '@type': 'ListItem', position: 4, name: schemaName, item: `https://maratool.com/${slug}` },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map(item => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a.replace(/<[^>]+>/g, '') },
+    })),
+  },
+}
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Health', href: '/health' },
+  { label: subcategory, href: `/health/${subcategorySlug}` },
+  { label: name },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell
+      slug={slug}
+      name={name}
+      description={shortDescription}
+      howTo={howTo}
+      faq={faq}
+      relatedTools={relatedTools}
+      breadcrumbs={breadcrumbs}
+    >
+      <div class="tool-container hcalc-container">
+        <div class="hcalc-disclaimer">For educational and clinical reference. Not a substitute for medical judgment.</div>
+        <slot />
+      </div>
+      <References references={references} />
+    </ToolShell>
+  </Layout>
+</Base>

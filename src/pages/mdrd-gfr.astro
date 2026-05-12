@@ -1,0 +1,44 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is the MDRD equation?', a: 'The 4-variable Modification of Diet in Renal Disease (MDRD) Study equation: eGFR = 175 × Cr^−1.154 × Age^−0.203 × (0.742 if female). Race-free version.' },
+  { q: 'Why use MDRD vs CKD-EPI?', a: 'MDRD was the standard from 1999–2009. CKD-EPI (2009/2021) is more accurate at eGFR > 60 mL/min/1.73 m² and is now preferred for routine reporting.' },
+  { q: 'Is the race coefficient included?', a: 'No. This calculator uses the race-free version of MDRD, in line with the 2021 NKF-ASN Task Force recommendation.' },
+  { q: 'What units does this use?', a: 'Creatinine in mg/dL, age in years. Output in mL/min/1.73 m².' },
+]
+const references = [
+  { citation: 'Levey AS, Bosch JP, Lewis JB, et al. A more accurate method to estimate glomerular filtration rate from serum creatinine. <em>Ann Intern Med</em>. 1999;130(6):461-470.' },
+  { citation: 'Delgado C, Baweja M, Crews DC, et al. A Unifying Approach for GFR Estimation. <em>Am J Kidney Dis</em>. 2022;79(2):268-288.' },
+]
+const relatedTools = [
+  { slug: 'ckd-epi-creatinine', name: 'CKD-EPI 2021' },
+  { slug: 'cockcroft-gault', name: 'Cockcroft-Gault' },
+  { slug: 'fractional-excretion-sodium', name: 'FENa' },
+]
+---
+<HealthCalc
+  slug="mdrd-gfr"
+  name="MDRD GFR Calculator"
+  schemaName="MDRD GFR Calculator"
+  shortDescription="Estimate eGFR using the 4-variable MDRD equation (race-free). Output classified by KDIGO CKD stage."
+  metaTitle="MDRD GFR Calculator (Race-Free 4-variable) | maratool"
+  metaDescription="Calculate eGFR using the race-free 4-variable MDRD equation. With KDIGO CKD staging. Free, runs in your browser."
+  subcategory="Renal"
+  subcategorySlug="renal"
+  howTo={[ 'Enter age, serum creatinine, and sex.', 'eGFR and KDIGO stage update instantly.', 'Use the copy button to copy results.' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-3">
+    <label class="hcalc-field"><span class="hcalc-label">Age</span><div class="hcalc-input-wrap"><input type="number" id="mdrd-age" placeholder="60" step="1" min="0"><span class="hcalc-unit">years</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Creatinine</span><div class="hcalc-input-wrap"><input type="number" id="mdrd-cr" placeholder="1.0" step="any" min="0"><span class="hcalc-unit">mg/dL</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Sex</span><div class="hcalc-input-wrap"><select id="mdrd-sex"><option value="male">Male</option><option value="female">Female</option></select></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">eGFR (MDRD)</div><div class="hcalc-output-value" id="mdrd-value">—</div><button class="copy-btn" data-target="mdrd-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">KDIGO Stage</div><div class="hcalc-output-value" id="mdrd-class">—</div><button class="copy-btn" data-target="mdrd-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/renal-ui.js"></script>

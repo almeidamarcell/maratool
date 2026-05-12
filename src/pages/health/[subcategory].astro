@@ -1,0 +1,183 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import Breadcrumb from '../../components/Breadcrumb.astro'
+import { toolsByCategory, subcategoryOrderByCategory } from '../../data/tools'
+
+export function getStaticPaths() {
+  const subs = subcategoryOrderByCategory.Health ?? []
+  const catTools = toolsByCategory.Health ?? {}
+
+  const descriptions: Record<string, { title: string; description: string; intro: string }> = {
+    anthropometric: {
+      title: 'Anthropometric Calculators — maratool',
+      description: 'BMI, body surface area, ideal body weight, estimated blood volume — calculators for body composition.',
+      intro: 'Body size, composition, and volume estimates used across clinical care.',
+    },
+    cardiology: {
+      title: 'Cardiology Calculators — maratool',
+      description: 'MAP, QTc (Bazett/Fridericia/Framingham/Hodges), Friedewald LDL, and other cardiovascular calculators.',
+      intro: 'Bedside cardiology calculators for hemodynamics, ECG, and lipids.',
+    },
+    endocrine: {
+      title: 'Endocrine & Metabolic Calculators — maratool',
+      description: 'eAG from HbA1c, transferrin saturation, free testosterone — endocrine and metabolic calculators.',
+      intro: 'Diabetes, iron-status, and hormonal calculators.',
+    },
+    hepatology: {
+      title: 'Hepatology Calculators — maratool',
+      description: 'SAAG, Lille model, MELD, Child-Pugh — calculators for chronic and acute liver disease.',
+      intro: 'Cirrhosis, ascites, and alcoholic hepatitis calculators.',
+    },
+    trauma: {
+      title: 'Trauma & Burn Calculators — maratool',
+      description: 'Parkland fluid resuscitation, ISS, TASH — calculators for trauma and burn management.',
+      intro: 'Trauma severity, burn resuscitation, and bleeding risk calculators.',
+    },
+    screening: {
+      title: 'Clinical Screening Tools — maratool',
+      description: 'MMSE, CAGE, Fagerström, CAM-ICU, GINA asthma — bedside screening questionnaires.',
+      intro: 'Cognitive, addiction, delirium and chronic disease screening questionnaires.',
+    },
+    general: {
+      title: 'Other Health Calculators — maratool',
+      description: 'Miscellaneous medical calculators that do not fit a single specialty.',
+      intro: 'Calculators across specialties.',
+    },
+    renal: {
+      title: 'Renal Function Calculators — maratool',
+      description: 'CKD-EPI, Cockcroft-Gault, MDRD, FENa, urinary protein-to-creatinine, and other renal function calculators.',
+      intro: 'Kidney function estimation and urinary indices.',
+    },
+    obstetric: {
+      title: 'Obstetric Calculators — maratool',
+      description: 'Gestational age by LMP and ultrasound. Free obstetric calculators that run in your browser.',
+      intro: 'Pregnancy dating and obstetric calculators.',
+    },
+    pediatric: {
+      title: 'Pediatric Calculators — maratool',
+      description: 'APGAR, pediatric Glasgow, BP percentiles, ETT size, pediatric infusion, and other pediatric calculators.',
+      intro: 'Calculators for newborn, infant, and pediatric patients.',
+    },
+    electrolytes: {
+      title: 'Electrolyte & Serum Calculators — maratool',
+      description: 'Serum osmolality, corrected calcium, corrected sodium, iron deficit and other electrolyte calculators.',
+      intro: 'Electrolyte corrections and serum index calculators.',
+    },
+    drug: {
+      title: 'Drug Dosing Calculators — maratool',
+      description: 'Vancomycin dosing, opioid conversion, corticosteroid conversion, benzodiazepine equivalence, RSI doses, and phenytoin level correction.',
+      intro: 'Drug dosing, conversion, and equivalence calculators.',
+    },
+    infusion: {
+      title: 'IV Infusion Calculators — maratool',
+      description: 'Drops/min to mL/h, mcg/kg/min to mL/h converters. Free IV infusion calculators.',
+      intro: 'Drip rate and IV infusion conversions.',
+    },
+    ventilation: {
+      title: 'Ventilation & Blood Gas Calculators — maratool',
+      description: 'ABG interpreter, PaO2/FiO2 ratio, SpO2/FiO2 ratio, expected PaO2 by age and other ventilation calculators.',
+      intro: 'Blood gas analysis and ventilation calculators.',
+    },
+    scale: {
+      title: 'Clinical Scales — maratool',
+      description: 'FOUR coma scale, RASS, Ramsay, SAS, Glasgow Coma Scale, Lawton IADL, and other clinical scales.',
+      intro: 'Bedside clinical scales for sedation, consciousness, and function.',
+    },
+    prognosis: {
+      title: 'Prognostic Scores — maratool',
+      description: 'ECOG, Karnofsky, Palliative Performance Scale, Tokuhashi, Tomita, PaP and PPI for oncologic and palliative prognosis.',
+      intro: 'Functional and prognostic scores for oncology and palliative care.',
+    },
+    score: {
+      title: 'Clinical Scores — maratool',
+      description: 'CHA2DS2-VASc, HAS-BLED, HEART, qSOFA, SOFA, APACHE II, MELD, Wells, CURB-65 and dozens of other clinical risk scores.',
+      intro: 'Risk-stratification scores across cardiology, ICU, GI, infectious disease, and more.',
+    },
+  }
+
+  return subs.map(sub => {
+    const slug = sub.toLowerCase()
+    const meta = descriptions[slug] ?? {
+      title: `${sub} Tools — maratool`,
+      description: `Free browser-based ${sub.toLowerCase()} medical calculators — no sign-up.`,
+      intro: `${sub} calculators that run locally in your browser.`,
+    }
+    return {
+      params: { subcategory: slug },
+      props: {
+        sub,
+        tools: catTools[sub] ?? [],
+        ...meta,
+      },
+    }
+  })
+}
+
+const { subcategory } = Astro.params
+const { sub, tools, title, description, intro } = Astro.props
+
+const seo = {
+  title,
+  description,
+  canonical: `https://maratool.com/health/${subcategory}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `${sub} Calculators`,
+    url: `https://maratool.com/health/${subcategory}`,
+    description,
+    hasPart: tools.filter((tool: { live: boolean }) => tool.live).map((tool: { name: string; slug: string }) => ({
+      '@type': 'SoftwareApplication',
+      name: tool.name,
+      url: `https://maratool.com/${tool.slug}`,
+      applicationCategory: 'HealthApplication',
+    })),
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Health', item: 'https://maratool.com/health' },
+      { '@type': 'ListItem', position: 3, name: sub, item: `https://maratool.com/health/${subcategory}` },
+    ],
+  },
+}
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Health', href: '/health' },
+  { label: sub },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <Breadcrumb crumbs={breadcrumbs} />
+    <div class="hero">
+      <h1>{sub} Calculators</h1>
+      <p>{intro}</p>
+    </div>
+
+    <div class="tools-grid">
+      {tools.map((tool: { live: boolean; slug: string; emoji: string; name: string; description: string }) => (
+        tool.live
+          ? (
+            <a href={`/${tool.slug}`} class="tool-card">
+              <span class="tool-card-emoji">{tool.emoji}</span>
+              <div class="tool-card-name">{tool.name}</div>
+              <div class="tool-card-desc">{tool.description}</div>
+            </a>
+          )
+          : (
+            <div class="tool-card" style="opacity:0.5;cursor:default;">
+              <span class="tool-card-emoji">{tool.emoji}</span>
+              <div class="tool-card-name">{tool.name}</div>
+              <div class="tool-card-desc">{tool.description}</div>
+              <span class="tool-card-badge">Coming Soon</span>
+            </div>
+          )
+      ))}
+    </div>
+  </Layout>
+</Base>

@@ -1,0 +1,43 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'How is bicarbonate deficit calculated?', a: 'Deficit (mEq) = 0.5 × weight (kg) × (target HCO₃ − current HCO₃). The 0.5 factor represents the apparent distribution volume of bicarbonate.' },
+  { q: 'What is the usual target HCO₃?', a: 'A common conservative target is 12–15 mEq/L initially (avoid over-correction), then gradually toward normal (22–24 mEq/L) over hours.' },
+  { q: 'When is bicarbonate replacement indicated?', a: 'IV sodium bicarbonate is generally considered for severe metabolic acidosis (pH < 7.1 or HCO₃ < 10–12 mEq/L) or specific scenarios (severe hyperkalemia, certain intoxications, severe AKI).' },
+  { q: 'What risks are associated with over-replacement?', a: 'Over-correction can cause metabolic alkalosis, hypernatremia, volume overload, hypokalemia, paradoxical intracellular acidosis, and reduced ionized calcium.' },
+]
+const references = [
+  { citation: 'Adrogué HJ, Madias NE. Management of life-threatening acid-base disorders. First of two parts. <em>N Engl J Med</em>. 1998;338(1):26-34.' },
+  { citation: 'Adrogué HJ, Madias NE. Management of life-threatening acid-base disorders. Second of two parts. <em>N Engl J Med</em>. 1998;338(2):107-111.' },
+]
+const relatedTools = [
+  { slug: 'ckd-epi-creatinine', name: 'CKD-EPI 2021' },
+  { slug: 'cockcroft-gault', name: 'Cockcroft-Gault' },
+  { slug: 'fractional-excretion-sodium', name: 'FENa' },
+]
+---
+<HealthCalc
+  slug="bicarbonate-deficit"
+  name="Bicarbonate Deficit Calculator"
+  schemaName="Bicarbonate Deficit Calculator"
+  shortDescription="Calculate the total IV sodium bicarbonate dose needed to correct metabolic acidosis."
+  metaTitle="Bicarbonate Deficit Calculator (IV HCO₃ Replacement) | maratool"
+  metaDescription="Calculate IV sodium bicarbonate replacement dose for metabolic acidosis. Free, instant, runs in your browser."
+  subcategory="Renal"
+  subcategorySlug="renal"
+  howTo={[ 'Enter weight, current HCO₃, and target HCO₃.', 'Deficit (mEq) updates instantly.', 'Replace gradually, avoiding over-correction.' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-3">
+    <label class="hcalc-field"><span class="hcalc-label">Weight</span><div class="hcalc-input-wrap"><input type="number" id="hco3-weight" placeholder="70" step="any" min="0"><span class="hcalc-unit">kg</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Current HCO₃</span><div class="hcalc-input-wrap"><input type="number" id="hco3-current" placeholder="14" step="any" min="0"><span class="hcalc-unit">mEq/L</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Target HCO₃</span><div class="hcalc-input-wrap"><input type="number" id="hco3-target" placeholder="22" step="any" min="0" value="22"><span class="hcalc-unit">mEq/L</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Bicarbonate Deficit</div><div class="hcalc-output-value" id="hco3-value">—</div><button class="copy-btn" data-target="hco3-value">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/renal-ui.js"></script>

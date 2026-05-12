@@ -1,0 +1,41 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'When is CRL most accurate for dating?', a: 'CRL is most accurate between 7 0/7 and 13 6/7 weeks of gestation, with a precision of ±5–7 days.' },
+  { q: 'What formula does this use?', a: 'Robinson-Fleming: GA (days) = 8.052 × √(CRL_mm × 1.037) + 23.73.' },
+  { q: 'Why is ultrasound dating preferred over LMP?', a: 'First-trimester ultrasound is more reliable than LMP when menstrual cycles are irregular, when LMP is uncertain, or in pregnancies conceived with assisted reproduction.' },
+  { q: 'When should I switch from CRL to other measurements?', a: 'After 14 weeks, CRL becomes unreliable. Use biometry (BPD, HC, FL, AC) for dating in the second and third trimesters.' },
+]
+const references = [
+  { citation: 'Robinson HP, Fleming JE. A critical evaluation of sonar "crown-rump length" measurements. <em>Br J Obstet Gynaecol</em>. 1975;82(9):702-710.' },
+  { citation: 'ACOG Committee Opinion No. 700: Methods for Estimating the Due Date. <em>Obstet Gynecol</em>. 2017;129(5):e150-e154.' },
+]
+const relatedTools = [
+  { slug: 'gestational-age-lmp', name: 'Gestational Age by LMP' },
+  { slug: 'bishop-score', name: 'Bishop Score' },
+  { slug: 'apgar-score', name: 'APGAR Score' },
+]
+---
+<HealthCalc
+  slug="gestational-age-ultrasound"
+  name="Gestational Age by Ultrasound (CRL)"
+  schemaName="Gestational Age by Ultrasound"
+  shortDescription="Estimate gestational age from crown-rump length (CRL) using the Robinson-Fleming formula. Most accurate at 7–13 6/7 weeks."
+  metaTitle="Gestational Age by Ultrasound (CRL) Calculator | maratool"
+  metaDescription="Calculate gestational age from crown-rump length (CRL) using the Robinson-Fleming formula. Free, runs in your browser."
+  subcategory="Obstetric"
+  subcategorySlug="obstetric"
+  howTo={[ 'Enter crown-rump length (CRL) in mm.', 'Gestational age (weeks + days) updates instantly.', 'Most accurate between 7 0/7 and 13 6/7 weeks.' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-1">
+    <label class="hcalc-field"><span class="hcalc-label">Crown-Rump Length (CRL)</span><div class="hcalc-input-wrap"><input type="number" id="gausg-crl" placeholder="50" step="any" min="0"><span class="hcalc-unit">mm</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Gestational Age</div><div class="hcalc-output-value" id="gausg-value">—</div><button class="copy-btn" data-target="gausg-value">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/pediatric-ui.js"></script>

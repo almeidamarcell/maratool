@@ -1,0 +1,43 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is UPCR used for?', a: 'A random ("spot") urine protein-to-creatinine ratio (UPCR) estimates 24-hour proteinuria without requiring a timed urine collection.' },
+  { q: 'How is UPCR interpreted?', a: 'UPCR < 0.15 g/g is normal; 0.15–0.5 g/g is mild proteinuria; 0.5–3.5 g/g is moderate; > 3.5 g/g is nephrotic-range proteinuria.' },
+  { q: 'What are the units?', a: 'When protein and creatinine are both expressed in mg/dL, the ratio is dimensionless (mg/mg ≈ g/g) and roughly estimates 24-hour proteinuria in g/day.' },
+  { q: 'Is UPCR as accurate as a 24-hour urine?', a: 'UPCR correlates well with 24-hour proteinuria but is less accurate at high values and in patients with very low or very high muscle mass.' },
+]
+const references = [
+  { citation: 'Ginsberg JM, Chang BS, Matarese RA, Garella S. Use of single voided urine samples to estimate quantitative proteinuria. <em>N Engl J Med</em>. 1983;309(25):1543-1546.' },
+  { citation: 'KDIGO 2024 Clinical Practice Guideline for the Evaluation and Management of CKD. <em>Kidney Int</em>. 2024;105(4S):S117-S314.' },
+]
+const relatedTools = [
+  { slug: 'ckd-epi-creatinine', name: 'CKD-EPI 2021' },
+  { slug: 'cockcroft-gault', name: 'Cockcroft-Gault' },
+  { slug: 'fractional-excretion-sodium', name: 'FENa' },
+]
+---
+<HealthCalc
+  slug="urine-protein-creatinine-ratio"
+  name="Urine Protein-to-Creatinine Ratio (UPCR)"
+  schemaName="UPCR Calculator"
+  shortDescription="Estimate 24-hour proteinuria from a spot urine sample using the protein-to-creatinine ratio."
+  metaTitle="Urine Protein-to-Creatinine Ratio (UPCR) Calculator | maratool"
+  metaDescription="Estimate 24-hour proteinuria from spot urine protein-to-creatinine ratio. Free, instant, runs in your browser."
+  subcategory="Renal"
+  subcategorySlug="renal"
+  howTo={[ 'Enter urine protein and urine creatinine (both mg/dL).', 'UPCR and proteinuria category update instantly.', 'Result approximates 24-hour proteinuria in g/day.' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs">
+    <label class="hcalc-field"><span class="hcalc-label">Urine Protein</span><div class="hcalc-input-wrap"><input type="number" id="upcr-protein" placeholder="100" step="any" min="0"><span class="hcalc-unit">mg/dL</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Urine Creatinine</span><div class="hcalc-input-wrap"><input type="number" id="upcr-cr" placeholder="100" step="any" min="0"><span class="hcalc-unit">mg/dL</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">UPCR</div><div class="hcalc-output-value" id="upcr-value">—</div><button class="copy-btn" data-target="upcr-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Category</div><div class="hcalc-output-value" id="upcr-class">—</div><button class="copy-btn" data-target="upcr-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/renal-ui.js"></script>

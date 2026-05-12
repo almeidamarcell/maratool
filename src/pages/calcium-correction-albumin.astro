@@ -1,0 +1,33 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+const faq = [
+  { q: 'Formula?', a: 'Corrected Ca = Total Ca + 0.8 × (4 − Albumin). Reference albumin = 4 g/dL.' },
+  { q: 'When to correct?', a: 'In hypoalbuminemia (cirrhosis, malnutrition, nephrotic syndrome), total calcium underestimates ionized (physiologically active) calcium. Correction is an estimate; direct ionized calcium is preferred when critical.' },
+  { q: 'Normal range?', a: 'Total calcium normal range: 8.5–10.5 mg/dL.' },
+  { q: 'Limitations?', a: 'The Payne correction is approximate and may be inaccurate in critical illness, end-stage renal disease, and acid–base disturbances. Ionized Ca is the gold standard.' },
+]
+const references = [
+  { citation: 'Payne RB, Little AJ, Williams RB, Milner JR. Interpretation of serum calcium in patients with abnormal serum proteins. <em>BMJ</em>. 1973;4(5893):643-646.' },
+]
+const relatedTools = [
+  { slug: 'sodium-correction-hyperglycemia', name: 'Sodium Correction (Hyperglycemia)' },
+  { slug: 'serum-osmolality', name: 'Serum Osmolality' },
+  { slug: 'ckd-epi-creatinine', name: 'CKD-EPI 2021' },
+]
+---
+<HealthCalc slug="calcium-correction-albumin" name="Calcium Correction for Albumin" schemaName="Calcium Correction"
+  shortDescription="Correct total serum calcium for hypoalbuminemia (Payne formula)."
+  metaTitle="Calcium Correction for Albumin Calculator (Payne) | maratool"
+  metaDescription="Correct total serum calcium for hypoalbuminemia using the Payne formula. Free, runs in your browser."
+  subcategory="Electrolytes" subcategorySlug="electrolytes"
+  howTo={[ 'Enter total calcium and albumin.', 'Corrected calcium appears instantly.', 'Use direct ionized calcium when precision is critical.' ]}
+  faq={faq} relatedTools={relatedTools} references={references}>
+  <div class="hcalc-inputs">
+    <label class="hcalc-field"><span class="hcalc-label">Total Calcium</span><div class="hcalc-input-wrap"><input type="number" id="cca-ca" placeholder="8.0" step="any" min="0"><span class="hcalc-unit">mg/dL</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Albumin</span><div class="hcalc-input-wrap"><input type="number" id="cca-alb" placeholder="2.0" step="any" min="0"><span class="hcalc-unit">g/dL</span></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Corrected Calcium</div><div class="hcalc-output-value" id="cca-value">—</div><button class="copy-btn" data-target="cca-value">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/wave5-ui.js"></script>

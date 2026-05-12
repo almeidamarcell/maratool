@@ -1,0 +1,42 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'How is blood volume estimated?', a: 'The Nadler formula uses height, weight, and sex: Male: (0.3669 × H_m³ + 0.03219 × W + 0.6041) × 1000 mL. Female: (0.3561 × H_m³ + 0.03308 × W + 0.1833) × 1000 mL.' },
+  { q: 'When is this useful clinically?', a: 'Estimated blood volume is used in transfusion planning, plasmapheresis dosing, blood salvage calculations, and to assess significance of acute blood loss.' },
+  { q: 'How does this differ from typical "70 mL/kg"?', a: 'The 70 mL/kg rule is a simple estimate. Nadler is more accurate because it accounts for height (and therefore body composition), not just weight.' },
+  { q: 'Does this work for children?', a: 'Nadler is validated for adults. Pediatric blood volume estimates vary by age: neonate ~85 mL/kg, infant ~80 mL/kg, child ~75 mL/kg.' },
+]
+const references = [
+  { citation: 'Nadler SB, Hidalgo JU, Bloch T. Prediction of blood volume in normal human adults. <em>Surgery</em>. 1962;51(2):224-232.' },
+]
+const relatedTools = [
+  { slug: 'parkland-burn-formula', name: 'Parkland Burn Formula' },
+  { slug: 'tash-massive-transfusion', name: 'TASH Score' },
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+]
+---
+<HealthCalc
+  slug="estimated-blood-volume"
+  name="Estimated Blood Volume (Nadler)"
+  schemaName="Estimated Blood Volume Calculator"
+  shortDescription="Estimate total blood volume from weight, height, and sex using the Nadler formula."
+  metaTitle="Estimated Blood Volume Calculator (Nadler) | maratool"
+  metaDescription="Calculate estimated total blood volume by Nadler formula from weight, height, and sex. Free, runs in your browser."
+  subcategory="Anthropometric"
+  subcategorySlug="anthropometric"
+  howTo={[ 'Enter weight (kg), height (cm), and sex.', 'Total blood volume is shown in mL and L.', 'Useful for transfusion and plasmapheresis planning.' ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-3">
+    <label class="hcalc-field"><span class="hcalc-label">Weight</span><div class="hcalc-input-wrap"><input type="number" id="bv-weight" placeholder="70" step="any" min="0"><span class="hcalc-unit">kg</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Height</span><div class="hcalc-input-wrap"><input type="number" id="bv-height" placeholder="175" step="any" min="0"><span class="hcalc-unit">cm</span></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Sex</span><div class="hcalc-input-wrap"><select id="bv-sex"><option value="male">Male</option><option value="female">Female</option></select></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Estimated Blood Volume</div><div class="hcalc-output-value" id="bv-value">—</div><button class="copy-btn" data-target="bv-value">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/general-ui.js"></script>
