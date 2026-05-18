@@ -1,0 +1,397 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'Health: 131 free medical calculators & clinical scores | maratool',
+  description: 'maratool now has a Health category with 131 free medical calculators and clinical scores — eGFR, MELD, CHA2DS2-VASc, APACHE II, qSOFA, Framingham, and many more. Every tool runs in your browser.',
+  canonical: 'https://maratool.com/blog/may-2026-health-calculators',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'Health: 131 free medical calculators & clinical scores',
+    datePublished: '2026-05-18',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'http://marcell.com.br/' },
+    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
+    url: 'https://maratool.com/blog/may-2026-health-calculators',
+    description: 'maratool launched a Health category with 131 free, browser-based medical calculators and clinical scores.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Health: 131 free medical calculators & clinical scores', item: 'https://maratool.com/blog/may-2026-health-calculators' },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">← Blog</a>
+          <time datetime="2026-05-18" class="blog-post-date">May 18, 2026</time>
+          <span class="blog-post-author">by <a href="http://marcell.com.br/" target="_blank" rel="noopener">Marcell Almeida</a></span>
+        </div>
+        <h1 class="blog-post-title">Health: 131 free medical calculators &amp; clinical scores</h1>
+        <p class="blog-post-lead">A whole new <a href="/health">Health</a> category — 131 calculators across 17 clinical areas. Every formula is implemented from the primary literature, every page cites its source, and everything runs in your browser. No accounts, no uploads.</p>
+      </header>
+
+      <div class="blog-body">
+        <p>This is the biggest single release maratool has shipped. The new <a href="/health">Health</a> category collects the calculators and clinical scores clinicians actually reach for at the bedside — kidney function, liver prognosis, sepsis screening, stroke and bleeding risk, ICU severity, oncology performance status, and much more.</p>
+        <p>Every additive score and formula was implemented from its original paper or guideline, unit-tested against published worked examples, and ships with a medical disclaimer, references, and an FAQ. Here is everything that is now live, by area.</p>
+
+        <hr class="blog-divider" />
+
+        <h2><a href="/health/anthropometric">Anthropometric</a></h2>
+        <ul>
+          <li><a href="/bmi-calculator">BMI Calculator</a> — body mass index, classification, and body surface area.</li>
+          <li><a href="/ideal-body-weight">Ideal Body Weight</a> — Devine, Robinson, Miller, and Hamwi formulas.</li>
+          <li><a href="/estimated-blood-volume">Estimated Blood Volume</a> — total blood volume by the Nadler formula.</li>
+        </ul>
+
+        <h2><a href="/health/cardiology">Cardiology</a></h2>
+        <ul>
+          <li><a href="/mean-arterial-pressure">Mean Arterial Pressure (MAP)</a> — from systolic and diastolic pressure.</li>
+          <li><a href="/corrected-qt-interval">Corrected QT (QTc)</a> — Bazett, Fridericia, Framingham, and Hodges.</li>
+          <li><a href="/friedewald-ldl">Friedewald LDL Cholesterol</a> — LDL from total cholesterol, HDL, and triglycerides.</li>
+        </ul>
+
+        <h2><a href="/health/renal">Renal</a></h2>
+        <ul>
+          <li><a href="/ckd-epi-creatinine">CKD-EPI eGFR (2021)</a> — race-free creatinine equation.</li>
+          <li><a href="/cockcroft-gault">Cockcroft-Gault</a> — creatinine clearance for drug dosing.</li>
+          <li><a href="/mdrd-gfr">MDRD GFR</a> — 4-variable estimate.</li>
+          <li><a href="/fractional-excretion-sodium">FENa</a> — prerenal vs intrinsic AKI.</li>
+          <li><a href="/fractional-excretion-urea">FEUrea</a> — AKI workup on diuretics.</li>
+          <li><a href="/urine-protein-creatinine-ratio">Urine Protein-to-Creatinine Ratio</a> — spot-sample proteinuria.</li>
+          <li><a href="/bicarbonate-deficit">Bicarbonate Deficit</a> — replacement dose in metabolic acidosis.</li>
+        </ul>
+
+        <h2><a href="/health/electrolytes">Electrolytes</a></h2>
+        <ul>
+          <li><a href="/serum-osmolality">Serum Osmolality</a> — from sodium, glucose, and BUN.</li>
+          <li><a href="/calcium-correction-albumin">Calcium Correction for Albumin</a> — corrected total calcium.</li>
+          <li><a href="/sodium-correction-hyperglycemia">Sodium Correction for Hyperglycemia</a> — Katz / Hillier.</li>
+          <li><a href="/iron-deficit-ganzoni">Total Iron Deficit (Ganzoni)</a> — IV iron replacement dose.</li>
+        </ul>
+
+        <h2><a href="/health/endocrine">Endocrine</a></h2>
+        <ul>
+          <li><a href="/eag-from-hba1c">Estimated Average Glucose (eAG)</a> — HbA1c to mg/dL and mmol/L.</li>
+          <li><a href="/transferrin-saturation">Transferrin Saturation (TSAT)</a> — from serum iron and TIBC.</li>
+        </ul>
+
+        <h2><a href="/health/hepatology">Hepatology</a></h2>
+        <ul>
+          <li><a href="/saag-albumin-gradient">Serum-Ascites Albumin Gradient (SAAG)</a> — portal vs non-portal ascites.</li>
+          <li><a href="/lille-model">Lille Model</a> — day-7 steroid response in alcoholic hepatitis.</li>
+        </ul>
+
+        <h2><a href="/health/ventilation">Ventilation</a></h2>
+        <ul>
+          <li><a href="/ideal-pao2-by-age">Ideal PaO₂ by Age</a> — expected normal PaO₂.</li>
+          <li><a href="/pao2-fio2-ratio">PaO₂/FiO₂ Ratio</a> — ARDS severity by Berlin criteria.</li>
+          <li><a href="/spo2-fio2-ratio">SpO₂/FiO₂ Ratio</a> — non-invasive ARDS surrogate.</li>
+        </ul>
+
+        <h2><a href="/health/obstetric">Obstetric</a></h2>
+        <ul>
+          <li><a href="/gestational-age-lmp">Gestational Age by LMP</a> — Naegele rule and due date.</li>
+          <li><a href="/gestational-age-ultrasound">Gestational Age by Ultrasound</a> — from biometry.</li>
+        </ul>
+
+        <h2><a href="/health/pediatric">Pediatric</a></h2>
+        <ul>
+          <li><a href="/apgar-score">APGAR Score</a> — newborn assessment at 1 and 5 minutes.</li>
+          <li><a href="/pediatric-glasgow">Pediatric Glasgow Coma Scale</a> — GCS adapted for infants and children.</li>
+          <li><a href="/pediatric-ett-size">Pediatric ETT Size</a> — tube size and depth by age.</li>
+          <li><a href="/pediatric-infusion-mcg-kg-min">Pediatric Infusion (mcg/kg/min)</a> — drug infusion rate.</li>
+          <li><a href="/pediatric-infusion-mg-kg-hour">Pediatric Infusion (mg/kg/hour)</a> — drug infusion rate.</li>
+          <li><a href="/finnegan-score">Finnegan Neonatal Abstinence Score</a> — NAS severity.</li>
+          <li><a href="/raimondi-coma-scale">Raimondi Coma Scale</a> — pediatric consciousness.</li>
+          <li><a href="/rodwell-neonatal-sepsis">Rodwell Neonatal Sepsis Score</a> — hematologic sepsis screen.</li>
+          <li><a href="/capurro-somatic">Capurro Gestational Age (Somatic)</a> — newborn maturity.</li>
+          <li><a href="/capurro-neurological">Capurro Gestational Age (Neurological)</a> — newborn maturity.</li>
+        </ul>
+
+        <h2><a href="/health/drug">Drug dosing</a></h2>
+        <ul>
+          <li><a href="/benzodiazepine-conversion">Benzodiazepine Equivalence</a> — diazepam, lorazepam, alprazolam, and more.</li>
+          <li><a href="/corticosteroid-conversion">Corticosteroid Conversion</a> — prednisone-equivalent dosing.</li>
+          <li><a href="/opioid-conversion">Opioid Conversion (MME)</a> — morphine milligram equivalents.</li>
+          <li><a href="/rsi-doses">RSI Dose Calculator</a> — weight-based induction and paralytic doses.</li>
+          <li><a href="/phenytoin-level-correction">Phenytoin Level Correction</a> — Sheiner-Tozer for albumin and renal function.</li>
+        </ul>
+
+        <h2><a href="/health/infusion">Infusion</a></h2>
+        <ul>
+          <li><a href="/drops-to-ml-per-hour">Drops/min ↔ mL/hour</a> — IV drip rate conversion.</li>
+          <li><a href="/mcg-kg-min-to-ml-hour">mcg/kg/min ↔ mL/hour</a> — vasoactive drug infusion.</li>
+        </ul>
+
+        <h2><a href="/health/trauma">Trauma</a></h2>
+        <ul>
+          <li><a href="/parkland-burn-formula">Parkland Burn Formula</a> — fluid resuscitation for burns.</li>
+        </ul>
+
+        <h2><a href="/health/screening">Screening</a></h2>
+        <ul>
+          <li><a href="/cam-icu-delirium">CAM-ICU</a> — delirium assessment in critically ill patients.</li>
+          <li><a href="/gina-asthma-control">GINA Asthma Control (2025)</a> — well / partly / uncontrolled.</li>
+          <li><a href="/cage-alcohol-screening">CAGE</a> — 4-item alcohol use disorder screen.</li>
+          <li><a href="/mmse-mini-mental">MMSE</a> — 30-point cognitive screen.</li>
+          <li><a href="/fagerstrom-nicotine">Fagerström Test</a> — nicotine dependence severity.</li>
+        </ul>
+
+        <h2><a href="/health/scale">Scales</a></h2>
+        <ul>
+          <li><a href="/four-coma-scale">FOUR Score</a> — coma assessment (0–16).</li>
+          <li><a href="/fisher-scale">Fisher Scale</a> — SAH vasospasm risk by CT.</li>
+          <li><a href="/glasgow-coma-pupil">Glasgow Coma Scale with Pupils (GCS-P)</a> — GCS adjusted for pupil reactivity.</li>
+          <li><a href="/lawton-iadl">Lawton IADL Scale</a> — instrumental activities of daily living.</li>
+          <li><a href="/ramsay-sedation">Ramsay Sedation Scale</a> — sedation level 1–6.</li>
+          <li><a href="/rass-scale">RASS</a> — Richmond Agitation-Sedation Scale.</li>
+          <li><a href="/sas-scale">SAS (Riker)</a> — Sedation-Agitation Scale.</li>
+          <li><a href="/ccs-angina-grade">CCS Angina Grade</a> — Canadian Cardiovascular Society class.</li>
+          <li><a href="/aldrete-recovery">Aldrete Recovery Score</a> — post-anesthesia recovery.</li>
+        </ul>
+
+        <h2><a href="/health/prognosis">Prognosis</a></h2>
+        <ul>
+          <li><a href="/ecog-performance">ECOG Performance Status</a> — oncology functional status (0–5).</li>
+          <li><a href="/karnofsky-performance">Karnofsky Performance Status</a> — function 0–100.</li>
+          <li><a href="/palliative-performance-scale">Palliative Performance Scale (PPS)</a> — hospice prognosis.</li>
+          <li><a href="/tokuhashi-score">Tokuhashi Score</a> — spinal metastasis prognosis.</li>
+          <li><a href="/tomita-score">Tomita Score</a> — surgical strategy for spinal metastasis.</li>
+          <li><a href="/pap-palliative-prognostic">Palliative Prognostic Score (PaP)</a> — 30-day survival.</li>
+          <li><a href="/ppi-palliative-prognostic">Palliative Prognostic Index (PPI)</a> — terminal-cancer survival.</li>
+        </ul>
+
+        <hr class="blog-divider" />
+
+        <h2><a href="/health/score">Clinical scores</a></h2>
+        <p>Sixty-five validated clinical scores, grouped by what you are reasoning about.</p>
+
+        <h3>Cardiac risk &amp; ACS</h3>
+        <ul>
+          <li><a href="/chads2-score">CHADS2</a> and <a href="/cha2ds2-vasc">CHA2DS2-VASc</a> — AF stroke risk.</li>
+          <li><a href="/has-bled">HAS-BLED</a> — bleeding risk on anticoagulation.</li>
+          <li><a href="/heart-score">HEART Score</a> — chest-pain MACE risk.</li>
+          <li><a href="/timi-stemi">TIMI (STEMI)</a> and <a href="/timi-nstemi-ua">TIMI (NSTEMI/UA)</a> — ACS risk.</li>
+          <li><a href="/grace-acs">GRACE</a> — ACS in-hospital and 6-month mortality.</li>
+          <li><a href="/crusade-bleeding">CRUSADE</a> — major bleeding after NSTEMI.</li>
+          <li><a href="/lee-rcri">Lee RCRI</a>, <a href="/detsky-cardiac-risk">Detsky</a>, and <a href="/goldman-cardiac-risk">Goldman</a> — preoperative cardiac risk.</li>
+          <li><a href="/gwtg-hf-risk">GWTG-HF</a> — acute heart-failure mortality.</li>
+          <li><a href="/nyha-classification">NYHA Class</a> — heart-failure functional class.</li>
+          <li><a href="/framingham-risk">Framingham Risk Score</a> — 10-year CHD risk.</li>
+        </ul>
+
+        <h3>Stroke &amp; neurology</h3>
+        <ul>
+          <li><a href="/abcd2-tia">ABCD2</a> — stroke risk after TIA.</li>
+          <li><a href="/aspects-score">ASPECTS</a> — early ischemic change on stroke CT.</li>
+          <li><a href="/nihss-stroke">NIHSS</a> — stroke severity scale.</li>
+          <li><a href="/rope-paradoxical-embolism">RoPE Score</a> — PFO-related cryptogenic stroke.</li>
+        </ul>
+
+        <h3>VTE &amp; pulmonary embolism</h3>
+        <ul>
+          <li><a href="/wells-pe">Wells (PE)</a> and <a href="/wells-dvt">Wells (DVT)</a> — pretest probability.</li>
+          <li><a href="/perc-rule">PERC Rule</a> — safely exclude PE.</li>
+          <li><a href="/pesi-pe-severity">PESI</a> and <a href="/pesi-simplified">Simplified PESI</a> — PE 30-day mortality.</li>
+          <li><a href="/padua-prediction">Padua Prediction</a> — VTE risk in medical inpatients.</li>
+          <li><a href="/caprini-dvt-risk">Caprini</a> — surgical VTE risk.</li>
+          <li><a href="/khorana-vte">Khorana</a> — chemotherapy-associated VTE.</li>
+        </ul>
+
+        <h3>Sepsis &amp; critical care</h3>
+        <ul>
+          <li><a href="/qsofa">qSOFA</a> and <a href="/sofa-score">SOFA</a> — sepsis screening and organ dysfunction.</li>
+          <li><a href="/apache-ii">APACHE II</a> — ICU severity and predicted mortality.</li>
+          <li><a href="/news-2">NEWS 2</a> — clinical deterioration.</li>
+          <li><a href="/sic-coagulopathy">SIC Score</a> — sepsis-induced coagulopathy.</li>
+          <li><a href="/cpis-score">CPIS</a> — ventilator-associated pneumonia.</li>
+          <li><a href="/candida-score">Candida Score</a> — invasive candidiasis risk in ICU.</li>
+        </ul>
+
+        <h3>Pneumonia &amp; infection</h3>
+        <ul>
+          <li><a href="/curb-65">CURB-65</a> and <a href="/psi-port">PSI / PORT</a> — community-acquired pneumonia severity.</li>
+          <li><a href="/centor-modified">Modified Centor</a> — strep pharyngitis probability.</li>
+        </ul>
+
+        <h3>Gastroenterology &amp; hepatology</h3>
+        <ul>
+          <li><a href="/child-pugh">Child-Pugh</a> and <a href="/meld-meldna">MELD / MELD-Na</a> — cirrhosis prognosis.</li>
+          <li><a href="/maddrey-discriminant">Maddrey Discriminant Function</a> and <a href="/lille-model">Lille Model</a> — alcoholic hepatitis.</li>
+          <li><a href="/fib-4">FIB-4</a> and <a href="/nafld-fibrosis">NAFLD Fibrosis Score</a> — non-invasive fibrosis.</li>
+          <li><a href="/mayo-uc">Mayo Score</a> and <a href="/uceis-uc">UCEIS</a> — ulcerative colitis activity.</li>
+          <li><a href="/harvey-bradshaw">Harvey-Bradshaw Index</a> and <a href="/cdai-crohns">CDAI</a> — Crohn's disease activity.</li>
+          <li><a href="/ranson-pancreatitis">Ranson Criteria</a>, <a href="/bisap-score">BISAP</a> — acute pancreatitis severity.</li>
+          <li><a href="/aims65-score">AIMS65</a> and <a href="/rockall-score">Rockall</a> — upper GI bleeding mortality.</li>
+        </ul>
+
+        <h3>Surgery &amp; trauma</h3>
+        <ul>
+          <li><a href="/iss-injury-severity">Injury Severity Score (ISS)</a> — anatomical trauma severity.</li>
+          <li><a href="/tash-massive-transfusion">TASH Score</a> — massive transfusion prediction.</li>
+          <li><a href="/alvarado-appendicitis">Alvarado Score</a> — appendicitis probability.</li>
+        </ul>
+
+        <h3>Oncology &amp; hematology</h3>
+        <ul>
+          <li><a href="/gelf-criteria">GELF Criteria</a> — follicular lymphoma tumor burden.</li>
+          <li><a href="/r-iss-myeloma">R-ISS</a> — multiple myeloma staging.</li>
+          <li><a href="/mascc-febrile-neutropenia">MASCC Risk Index</a> — low-risk febrile neutropenia.</li>
+        </ul>
+
+        <h3>Rheumatology &amp; dermatology</h3>
+        <ul>
+          <li><a href="/das28-crp">DAS-28 CRP</a> and <a href="/das28-esr">DAS-28 ESR</a> — rheumatoid arthritis activity.</li>
+          <li><a href="/scorad-atopic-dermatitis">SCORAD</a> — atopic dermatitis severity.</li>
+          <li><a href="/pasi-psoriasis">PASI</a> — psoriasis area and severity.</li>
+        </ul>
+
+        <h3>Other</h3>
+        <ul>
+          <li><a href="/dka-severity">DKA Severity</a> — diabetic ketoacidosis grading.</li>
+          <li><a href="/malignant-hyperthermia">Malignant Hyperthermia Score</a> — clinical grading scale.</li>
+          <li><a href="/bishop-score">Bishop Score</a> — cervical ripening for labor induction.</li>
+          <li><a href="/san-francisco-syncope">San Francisco Syncope Rule</a> — serious-outcome risk.</li>
+          <li><a href="/pediatric-dehydration">Pediatric Dehydration Severity</a> — guides rehydration.</li>
+          <li><a href="/pack-year">Pack-Year Calculator</a> — cumulative smoking exposure.</li>
+        </ul>
+
+        <hr class="blog-divider" />
+
+        <h2><a href="/covid-19-severity">And one more</a></h2>
+        <p><a href="/covid-19-severity">COVID-19 Severity</a> stratifies SARS-CoV-2 illness across the clinical spectrum from asymptomatic to critical, with the general management direction for each tier.</p>
+
+        <hr class="blog-divider" />
+
+        <h2>How these were built</h2>
+        <p>Each calculator implements the canonical formula from its source paper or guideline — Cockcroft &amp; Gault 1976, the 2021 CKD-EPI equation, Kamath's MELD, the Sepsis-3 SOFA/qSOFA, Knaus' APACHE II, the NCEP ATP III Framingham tables, and so on. The pure formula functions are unit-tested against published worked examples, the simpler categorical scores were validated side-by-side against an established reference, and every page carries its references and a clinical-use disclaimer.</p>
+        <p>A handful of complex regression models that require proprietary or large published coefficient sets (for example EuroSCORE II, the PREVENT equations, and pediatric BMI/BP percentile tables) are intentionally not shipped yet, rather than approximated — an inaccurate medical calculator is worse than none.</p>
+
+        <hr class="blog-divider" />
+
+        <p class="blog-footer-note">These tools are for licensed healthcare professionals and do not replace clinical judgment. All of <a href="/">maratool.com</a> is free, runs in your browser, and needs no sign-up. Browse everything in the <a href="/health">Health category</a>, and if a formula looks off, <a href="/contact">tell me</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>
+<style is:global>
+  .blog-post {
+    max-width: 680px;
+    padding: 2.5rem 2rem;
+  }
+  .blog-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .blog-back {
+    font-size: 13px;
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  .blog-back:hover { color: var(--accent); }
+  .blog-post-date {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+  .blog-post-author {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+  .blog-post-author a {
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  .blog-post-author a:hover { color: var(--accent); }
+  .blog-post-header { margin-bottom: 2rem; }
+  .blog-post-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.02em;
+  }
+  .blog-post-lead {
+    font-size: 16px;
+    color: var(--text-2);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .blog-post-lead a { color: var(--accent); text-decoration: none; }
+  .blog-post-lead a:hover { text-decoration: underline; }
+  .blog-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .blog-body p { margin: 0 0 1rem; }
+  .blog-body h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 2rem 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .blog-body h2 a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .blog-body h2 a:hover { color: var(--accent); }
+  .blog-body h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 1.5rem 0 0.375rem;
+  }
+  .blog-body ul {
+    margin: 0.5rem 0 1rem 1.25rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+  .blog-body li { line-height: 1.6; }
+  .blog-body code {
+    font-family: var(--font-mono, monospace);
+    font-size: 13px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: var(--text);
+  }
+  .blog-body a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .blog-body a:hover { text-decoration: underline; }
+  .blog-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+  .blog-footer-note {
+    font-size: 14px;
+    color: var(--text-2);
+    padding: 1rem;
+    background: var(--bg-soft);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 600px) {
+    .blog-post { padding: 1.5rem 1rem; }
+    .blog-post-title { font-size: 1.5rem; }
+  }
+</style>
