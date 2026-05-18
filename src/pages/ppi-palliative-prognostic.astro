@@ -1,0 +1,71 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'pps', label: 'Palliative Performance Scale', options: [
+      { label: 'PPS ≥ 60 (0)', points: 0, default: true },
+      { label: 'PPS 30–50 (2.5)', points: 2.5 },
+      { label: 'PPS ≤ 20 (4.0)', points: 4.0 },
+    ]},
+    { id: 'intake', label: 'Oral intake', options: [
+      { label: 'Normal (0)', points: 0, default: true },
+      { label: 'Moderately reduced (1.0)', points: 1.0 },
+      { label: 'Severely reduced — mouthfuls or less (2.5)', points: 2.5 },
+    ]},
+    { id: 'edema', label: 'Edema', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (1.0)', points: 1.0 },
+    ]},
+    { id: 'dyspnea', label: 'Dyspnea at rest', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (3.5)', points: 3.5 },
+    ]},
+    { id: 'delirium', label: 'Delirium', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (4.0)', points: 4.0 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 4, label: 'PPI ≤ 4 — survival > 6 weeks likely', cls: 'cls-normal' },
+    { min: 4.1, max: 6, label: 'PPI > 4 — likely < 6 weeks survival', cls: 'cls-warn' },
+    { min: 6.1, max: 15, label: 'PPI > 6 — likely < 3 weeks survival', cls: 'cls-danger' },
+  ],
+  max: 15,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the PPI?', a: 'The Palliative Prognostic Index (PPI) is a clinical-only prognostic tool for advanced cancer patients, requiring no laboratory data — useful at the bedside or in hospice settings.' },
+  { q: 'PPI vs PaP?', a: 'PPI is purely clinical (no labs); PaP includes WBC and lymphocyte counts. Both are validated in palliative cancer populations.' },
+  { q: 'What do the thresholds mean?', a: 'PPI > 6: predicts survival < 3 weeks (positive predictive value ~ 80%). PPI > 4: predicts survival < 6 weeks. PPI ≤ 4: survival > 6 weeks more likely.' },
+  { q: 'When should PPI be reassessed?', a: 'Daily to weekly in inpatient palliative care, or after any significant clinical change.' },
+]
+const references = [
+  { citation: 'Morita T, Tsunoda J, Inoue S, Chihara S. The Palliative Prognostic Index: a scoring system for survival prediction of terminally ill cancer patients. <em>Support Care Cancer</em>. 1999;7(3):128-133.' },
+]
+const relatedTools = [
+  { slug: 'pap-palliative-prognostic', name: 'Palliative Prognostic Score (PaP)' },
+  { slug: 'palliative-performance-scale', name: 'Palliative Performance Scale (PPS)' },
+  { slug: 'karnofsky-performance', name: 'Karnofsky Performance Scale' },
+]
+---
+<ScoreCalc
+  slug="ppi-palliative-prognostic"
+  name="Palliative Prognostic Index (PPI) Calculator"
+  schemaName="Palliative Prognostic Index (PPI)"
+  shortDescription="Palliative Prognostic Index for predicting survival in terminal cancer patients."
+  metaTitle="Palliative Prognostic Index (PPI) Calculator | maratool"
+  metaDescription="Free PPI (Palliative Prognostic Index) calculator. Bedside survival prediction for terminal cancer patients using purely clinical variables."
+  subcategory="Prognosis"
+  subcategorySlug="prognosis"
+  howTo={[
+    'Enter PPS level, oral intake, edema, rest dyspnea, and delirium.',
+    'The PPI score and survival category update instantly.',
+    'Re-assess daily or after any significant change.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

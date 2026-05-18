@@ -1,0 +1,62 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'chf', label: 'C — History of congestive heart failure', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'hct', label: 'H — Hematocrit < 30%', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'ecg', label: 'E — Abnormal ECG (new change or non-sinus rhythm)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'sob', label: 'S — Shortness of breath', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'sbp', label: 'S — Triage systolic BP < 90 mmHg', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 0, label: 'CHESS negative — low risk for serious 7-day outcome', cls: 'cls-normal' },
+    { min: 1, max: 5, label: 'CHESS positive — high risk; admit / further evaluation', cls: 'cls-danger' },
+  ],
+  max: 5,
+}
+
+const faq = [
+  { q: 'What is the San Francisco Syncope Rule?', a: 'A decision rule (mnemonic CHESS) that identifies emergency-department syncope patients at risk of a serious outcome within 7 days. Any one positive factor classifies the patient as high risk.' },
+  { q: 'What counts as a serious outcome?', a: 'Death, myocardial infarction, arrhythmia, pulmonary embolism, stroke, subarachnoid hemorrhage, significant hemorrhage, or any condition causing return ED visit and hospitalization.' },
+  { q: 'How sensitive is the rule?', a: 'Original derivation reported ≈ 96% sensitivity for serious outcomes, but external validation has shown lower sensitivity — use clinical judgment alongside it.' },
+  { q: 'Does a negative rule allow discharge?', a: 'A CHESS-negative result supports lower risk but does not replace assessment for cardiac syncope or a structured disposition decision.' },
+]
+const references = [
+  { citation: 'Quinn JV, Stiell IG, McDermott DA, et al. Derivation of the San Francisco Syncope Rule to predict patients with short-term serious outcomes. <em>Ann Emerg Med</em>. 2004;43(2):224-232.' },
+]
+const relatedTools = [
+  { slug: 'heart-score', name: 'HEART Score' },
+  { slug: 'curb-65', name: 'CURB-65' },
+  { slug: 'news-2', name: 'NEWS-2' },
+]
+---
+<ScoreCalc
+  slug="san-francisco-syncope"
+  name="San Francisco Syncope Rule Calculator"
+  schemaName="San Francisco Syncope Rule"
+  shortDescription="San Francisco Syncope Rule (CHESS) for 7-day serious-outcome risk after syncope."
+  metaTitle="San Francisco Syncope Rule Calculator (CHESS) | maratool"
+  metaDescription="Free San Francisco Syncope Rule calculator. Risk-stratify ED syncope patients for serious 7-day outcomes using the CHESS criteria."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select each of the five CHESS factors that is present.',
+    'Any single positive factor classifies the patient as high risk.',
+    'Use as an adjunct to clinical judgment for syncope disposition.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

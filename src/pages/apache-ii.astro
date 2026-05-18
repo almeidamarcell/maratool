@@ -1,0 +1,180 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'temp', label: 'Temperature — core (°C)', options: [
+      { label: '≥ 41 (4)', points: 4 },
+      { label: '39–40.9 (3)', points: 3 },
+      { label: '38.5–38.9 (1)', points: 1 },
+      { label: '36–38.4 (0)', points: 0, default: true },
+      { label: '34–35.9 (1)', points: 1 },
+      { label: '32–33.9 (2)', points: 2 },
+      { label: '30–31.9 (3)', points: 3 },
+      { label: '≤ 29.9 (4)', points: 4 },
+    ]},
+    { id: 'map', label: 'Mean arterial pressure (mmHg)', options: [
+      { label: '≥ 160 (4)', points: 4 },
+      { label: '130–159 (3)', points: 3 },
+      { label: '110–129 (2)', points: 2 },
+      { label: '70–109 (0)', points: 0, default: true },
+      { label: '50–69 (2)', points: 2 },
+      { label: '≤ 49 (4)', points: 4 },
+    ]},
+    { id: 'hr', label: 'Heart rate (bpm)', options: [
+      { label: '≥ 180 (4)', points: 4 },
+      { label: '140–179 (3)', points: 3 },
+      { label: '110–139 (2)', points: 2 },
+      { label: '70–109 (0)', points: 0, default: true },
+      { label: '55–69 (2)', points: 2 },
+      { label: '40–54 (3)', points: 3 },
+      { label: '≤ 39 (4)', points: 4 },
+    ]},
+    { id: 'rr', label: 'Respiratory rate (breaths/min)', options: [
+      { label: '≥ 50 (4)', points: 4 },
+      { label: '35–49 (3)', points: 3 },
+      { label: '25–34 (1)', points: 1 },
+      { label: '12–24 (0)', points: 0, default: true },
+      { label: '10–11 (1)', points: 1 },
+      { label: '6–9 (2)', points: 2 },
+      { label: '≤ 5 (4)', points: 4 },
+    ]},
+    { id: 'oxy', label: 'Oxygenation (A-aDO₂ if FiO₂ ≥ 0.5; else PaO₂)', options: [
+      { label: 'A-aDO₂ ≥ 500 (4)', points: 4 },
+      { label: 'A-aDO₂ 350–499 (3)', points: 3 },
+      { label: 'A-aDO₂ 200–349 (2)', points: 2 },
+      { label: 'A-aDO₂ < 200, or PaO₂ > 70 (0)', points: 0, default: true },
+      { label: 'PaO₂ 61–70 (1)', points: 1 },
+      { label: 'PaO₂ 55–60 (3)', points: 3 },
+      { label: 'PaO₂ < 55 (4)', points: 4 },
+    ]},
+    { id: 'ph', label: 'Arterial pH', options: [
+      { label: '≥ 7.7 (4)', points: 4 },
+      { label: '7.6–7.69 (3)', points: 3 },
+      { label: '7.5–7.59 (1)', points: 1 },
+      { label: '7.33–7.49 (0)', points: 0, default: true },
+      { label: '7.25–7.32 (2)', points: 2 },
+      { label: '7.15–7.24 (3)', points: 3 },
+      { label: '< 7.15 (4)', points: 4 },
+    ]},
+    { id: 'na', label: 'Serum sodium (mmol/L)', options: [
+      { label: '≥ 180 (4)', points: 4 },
+      { label: '160–179 (3)', points: 3 },
+      { label: '155–159 (2)', points: 2 },
+      { label: '150–154 (1)', points: 1 },
+      { label: '130–149 (0)', points: 0, default: true },
+      { label: '120–129 (2)', points: 2 },
+      { label: '111–119 (3)', points: 3 },
+      { label: '≤ 110 (4)', points: 4 },
+    ]},
+    { id: 'k', label: 'Serum potassium (mmol/L)', options: [
+      { label: '≥ 7 (4)', points: 4 },
+      { label: '6–6.9 (3)', points: 3 },
+      { label: '5.5–5.9 (1)', points: 1 },
+      { label: '3.5–5.4 (0)', points: 0, default: true },
+      { label: '3–3.4 (1)', points: 1 },
+      { label: '2.5–2.9 (2)', points: 2 },
+      { label: '< 2.5 (4)', points: 4 },
+    ]},
+    { id: 'creat', label: 'Serum creatinine (mg/dL) — doubled in acute renal failure', options: [
+      { label: '≥ 3.5, acute renal failure (8)', points: 8 },
+      { label: '2–3.4, acute renal failure (6)', points: 6 },
+      { label: '≥ 3.5, chronic (4)', points: 4 },
+      { label: '1.5–1.9, acute renal failure (4)', points: 4 },
+      { label: '2–3.4, chronic (3)', points: 3 },
+      { label: '< 0.6 (2)', points: 2 },
+      { label: '1.5–1.9, chronic (2)', points: 2 },
+      { label: '0.6–1.4 (0)', points: 0, default: true },
+    ]},
+    { id: 'hct', label: 'Hematocrit (%)', options: [
+      { label: '≥ 60 (4)', points: 4 },
+      { label: '50–59.9 (2)', points: 2 },
+      { label: '46–49.9 (1)', points: 1 },
+      { label: '30–45.9 (0)', points: 0, default: true },
+      { label: '20–29.9 (2)', points: 2 },
+      { label: '< 20 (4)', points: 4 },
+    ]},
+    { id: 'wbc', label: 'White blood count (×10³/mm³)', options: [
+      { label: '≥ 40 (4)', points: 4 },
+      { label: '20–39.9 (2)', points: 2 },
+      { label: '15–19.9 (1)', points: 1 },
+      { label: '3–14.9 (0)', points: 0, default: true },
+      { label: '1–2.9 (2)', points: 2 },
+      { label: '< 1 (4)', points: 4 },
+    ]},
+    { id: 'gcs', label: 'Glasgow Coma Scale (points = 15 − GCS)', options: [
+      { label: 'GCS 15 (0)', points: 0, default: true },
+      { label: 'GCS 14 (1)', points: 1 },
+      { label: 'GCS 13 (2)', points: 2 },
+      { label: 'GCS 12 (3)', points: 3 },
+      { label: 'GCS 11 (4)', points: 4 },
+      { label: 'GCS 10 (5)', points: 5 },
+      { label: 'GCS 9 (6)', points: 6 },
+      { label: 'GCS 8 (7)', points: 7 },
+      { label: 'GCS 7 (8)', points: 8 },
+      { label: 'GCS 6 (9)', points: 9 },
+      { label: 'GCS 5 (10)', points: 10 },
+      { label: 'GCS 4 (11)', points: 11 },
+      { label: 'GCS 3 (12)', points: 12 },
+    ]},
+    { id: 'age', label: 'Age (years)', options: [
+      { label: '≤ 44 (0)', points: 0, default: true },
+      { label: '45–54 (2)', points: 2 },
+      { label: '55–64 (3)', points: 3 },
+      { label: '65–74 (5)', points: 5 },
+      { label: '≥ 75 (6)', points: 6 },
+    ]},
+    { id: 'chronic', label: 'Chronic health (severe organ insufficiency or immunocompromise)', options: [
+      { label: 'None (0)', points: 0, default: true },
+      { label: 'Elective postoperative (2)', points: 2 },
+      { label: 'Non-operative or emergency postoperative (5)', points: 5 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 4, label: 'Score 0–4 — predicted mortality ≈ 4%', cls: 'cls-normal' },
+    { min: 5, max: 9, label: 'Score 5–9 — predicted mortality ≈ 8%', cls: 'cls-normal' },
+    { min: 10, max: 14, label: 'Score 10–14 — predicted mortality ≈ 15%', cls: 'cls-warn' },
+    { min: 15, max: 19, label: 'Score 15–19 — predicted mortality ≈ 25%', cls: 'cls-warn' },
+    { min: 20, max: 24, label: 'Score 20–24 — predicted mortality ≈ 40%', cls: 'cls-danger' },
+    { min: 25, max: 29, label: 'Score 25–29 — predicted mortality ≈ 55%', cls: 'cls-danger' },
+    { min: 30, max: 34, label: 'Score 30–34 — predicted mortality ≈ 75%', cls: 'cls-danger' },
+    { min: 35, max: 71, label: 'Score ≥ 35 — predicted mortality ≈ 85%', cls: 'cls-danger' },
+  ],
+  max: 71,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is APACHE II?', a: 'Acute Physiology and Chronic Health Evaluation II — an ICU severity-of-disease score (0–71) from 12 acute physiologic variables, age, and chronic health status.' },
+  { q: 'When is APACHE II measured?', a: 'Using the worst values during the first 24 hours of ICU admission.' },
+  { q: 'How is mortality estimated?', a: 'Higher scores predict higher hospital mortality; the precise prediction also incorporates the principal diagnosis via a disease-specific weight in the full model.' },
+  { q: 'Why is creatinine sometimes doubled?', a: 'The creatinine point value is doubled in the presence of acute renal failure, reflecting its stronger prognostic weight.' },
+]
+const references = [
+  { citation: 'Knaus WA, Draper EA, Wagner DP, Zimmerman JE. APACHE II: a severity of disease classification system. <em>Crit Care Med</em>. 1985;13(10):818-829.' },
+]
+const relatedTools = [
+  { slug: 'sofa-score', name: 'SOFA Score' },
+  { slug: 'saps-ii', name: 'SAPS II' },
+  { slug: 'qsofa', name: 'qSOFA' },
+]
+---
+<ScoreCalc
+  slug="apache-ii"
+  name="APACHE II Score Calculator"
+  schemaName="APACHE II Score"
+  shortDescription="APACHE II ICU severity-of-illness score with predicted mortality (0–71)."
+  metaTitle="APACHE II Score Calculator (ICU Mortality) | maratool"
+  metaDescription="Free APACHE II calculator. Compute ICU severity of illness and predicted mortality from 12 physiologic variables, age, and chronic health status."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select the worst value in the first 24 h for each physiologic variable.',
+    'Add the GCS-derived points, age, and chronic-health category.',
+    'The total APACHE II (0–71) and predicted mortality update instantly.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

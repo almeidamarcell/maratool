@@ -1,0 +1,77 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'dilation', label: 'Cervical dilation', options: [
+      { label: '0 cm — closed (0)', points: 0, default: true },
+      { label: '1–2 cm (1)', points: 1 },
+      { label: '3–4 cm (2)', points: 2 },
+      { label: '≥ 5 cm (3)', points: 3 },
+    ]},
+    { id: 'effacement', label: 'Cervical effacement', options: [
+      { label: '0–30 % (0)', points: 0, default: true },
+      { label: '40–50 % (1)', points: 1 },
+      { label: '60–70 % (2)', points: 2 },
+      { label: '≥ 80 % (3)', points: 3 },
+    ]},
+    { id: 'station', label: 'Fetal station', options: [
+      { label: '−3 (0)', points: 0, default: true },
+      { label: '−2 (1)', points: 1 },
+      { label: '−1 / 0 (2)', points: 2 },
+      { label: '+1 / +2 (3)', points: 3 },
+    ]},
+    { id: 'consistency', label: 'Cervical consistency', options: [
+      { label: 'Firm (0)', points: 0, default: true },
+      { label: 'Medium (1)', points: 1 },
+      { label: 'Soft (2)', points: 2 },
+    ]},
+    { id: 'position', label: 'Cervical position', options: [
+      { label: 'Posterior (0)', points: 0, default: true },
+      { label: 'Mid (1)', points: 1 },
+      { label: 'Anterior (2)', points: 2 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 5, label: '0–5 — Unfavorable cervix (consider ripening agent)', cls: 'cls-danger' },
+    { min: 6, max: 7, label: '6–7 — Intermediate', cls: 'cls-warn' },
+    { min: 8, max: 13, label: '≥ 8 — Favorable (high likelihood of successful induction)', cls: 'cls-normal' },
+  ],
+  max: 13,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the Bishop score?', a: 'A pre-induction cervical scoring system (0–13) that predicts likelihood of successful labor induction and need for cervical ripening.' },
+  { q: 'What score favors induction?', a: 'Bishop ≥ 8 (some use ≥ 6 in multiparous patients) — labor induction is likely successful without ripening agents.' },
+  { q: 'What is a modified Bishop score?', a: 'Several modifications exist (e.g., Burnett, simplified Bishop using dilation, effacement, station only). The original 5-component score remains most common.' },
+  { q: 'What should be done if Bishop is low?', a: 'Use cervical ripening (prostaglandins, mechanical methods) before initiating active labor induction with oxytocin.' },
+]
+const references = [
+  { citation: 'Bishop EH. Pelvic scoring for elective induction. <em>Obstet Gynecol</em>. 1964;24:266-268.' },
+]
+const relatedTools = [
+  { slug: 'gestational-age-lmp', name: 'GA by LMP' },
+  { slug: 'gestational-age-ultrasound', name: 'GA by Ultrasound' },
+  { slug: 'apgar-score', name: 'APGAR Score' },
+]
+---
+<ScoreCalc
+  slug="bishop-score"
+  name="Bishop Score Calculator (Cervical Ripening)"
+  schemaName="Bishop Score"
+  shortDescription="Bishop score (0–13) for cervical ripening assessment and labor induction success."
+  metaTitle="Bishop Score Calculator (Cervical Ripening) | maratool"
+  metaDescription="Free Bishop score calculator. Pre-induction cervical assessment predicting successful labor induction."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Score each of the 5 cervical and fetal parameters.',
+    'The Bishop total (0–13) and induction favorability update instantly.',
+    'Score < 6 → consider cervical ripening prior to active induction.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

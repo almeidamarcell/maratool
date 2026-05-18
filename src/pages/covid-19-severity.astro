@@ -1,0 +1,58 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'severity', label: 'Clinical presentation', options: [
+      { label: 'Positive test, no symptoms (asymptomatic/presymptomatic)', points: 0, default: true },
+      { label: 'Symptoms but no dyspnea or abnormal chest imaging (mild)', points: 1 },
+      { label: 'Lower respiratory disease, SpO₂ ≥ 94% on room air (moderate)', points: 2 },
+      { label: 'SpO₂ < 94%, RR > 30, PaO₂/FiO₂ < 300, or infiltrates > 50% (severe)', points: 3 },
+      { label: 'Respiratory failure, septic shock, or multi-organ dysfunction (critical)', points: 4 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 0, label: 'Asymptomatic / presymptomatic infection', cls: 'cls-normal' },
+    { min: 1, max: 1, label: 'Mild illness — supportive care, monitor for progression', cls: 'cls-normal' },
+    { min: 2, max: 2, label: 'Moderate illness — assess oxygenation; consider admission', cls: 'cls-warn' },
+    { min: 3, max: 3, label: 'Severe illness — hospitalize, oxygen, consider antivirals/steroids', cls: 'cls-danger' },
+    { min: 4, max: 4, label: 'Critical illness — ICU-level organ support', cls: 'cls-danger' },
+  ],
+  max: 4,
+  scoreLabel: 'Severity tier',
+}
+
+const faq = [
+  { q: 'How is COVID-19 severity classified?', a: 'By clinical spectrum: asymptomatic, mild, moderate, severe, and critical illness, primarily driven by oxygenation and organ dysfunction.' },
+  { q: 'What defines severe COVID-19?', a: 'SpO₂ < 94% on room air, respiratory rate > 30/min, PaO₂/FiO₂ < 300, or lung infiltrates > 50%.' },
+  { q: 'What defines critical COVID-19?', a: 'Respiratory failure, septic shock, and/or multiple organ dysfunction requiring intensive support.' },
+  { q: 'Does this tool recommend treatment?', a: 'It maps the severity tier to general management direction; specific therapy follows current guideline recommendations and individual factors.' },
+]
+const references = [
+  { citation: 'National Institutes of Health. COVID-19 Treatment Guidelines: Clinical Spectrum of SARS-CoV-2 Infection. NIH; 2023.' },
+]
+const relatedTools = [
+  { slug: 'curb-65', name: 'CURB-65' },
+  { slug: 'news-2', name: 'NEWS-2' },
+  { slug: 'qsofa', name: 'qSOFA' },
+]
+---
+<ScoreCalc
+  slug="covid-19-severity"
+  name="COVID-19 Severity Classification Calculator"
+  schemaName="COVID-19 Severity"
+  shortDescription="COVID-19 clinical severity classification (asymptomatic to critical)."
+  metaTitle="COVID-19 Severity Calculator (Clinical Spectrum) | maratool"
+  metaDescription="Free COVID-19 severity calculator. Classify SARS-CoV-2 illness as asymptomatic, mild, moderate, severe, or critical to guide disposition."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select the clinical presentation that best matches the patient.',
+    'The severity tier and general management direction update instantly.',
+    'Follow current treatment guidelines for tier-specific therapy.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

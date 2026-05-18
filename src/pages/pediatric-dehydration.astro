@@ -1,0 +1,69 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'appearance', label: 'General appearance', options: [
+      { label: 'Normal (0)', points: 0, default: true },
+      { label: 'Thirsty, restless, or lethargic but irritable when touched (1)', points: 1 },
+      { label: 'Drowsy, limp, cold, sweaty, or comatose (2)', points: 2 },
+    ]},
+    { id: 'eyes', label: 'Eyes', options: [
+      { label: 'Normal (0)', points: 0, default: true },
+      { label: 'Slightly sunken (1)', points: 1 },
+      { label: 'Very sunken (2)', points: 2 },
+    ]},
+    { id: 'mucous', label: 'Mucous membranes', options: [
+      { label: 'Moist (0)', points: 0, default: true },
+      { label: 'Sticky (1)', points: 1 },
+      { label: 'Dry (2)', points: 2 },
+    ]},
+    { id: 'tears', label: 'Tears', options: [
+      { label: 'Present (0)', points: 0, default: true },
+      { label: 'Decreased (1)', points: 1 },
+      { label: 'Absent (2)', points: 2 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 0, label: 'Score 0 — no dehydration', cls: 'cls-normal' },
+    { min: 1, max: 4, label: 'Score 1–4 — some dehydration', cls: 'cls-warn' },
+    { min: 5, max: 8, label: 'Score 5–8 — moderate to severe dehydration', cls: 'cls-danger' },
+  ],
+  max: 8,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the Clinical Dehydration Scale?', a: 'A validated 4-item paediatric scale (general appearance, eyes, mucous membranes, tears) scoring 0–8 to estimate dehydration severity in children 1 month–5 years with gastroenteritis.' },
+  { q: 'How is the CDS interpreted?', a: '0 = no dehydration, 1–4 = some dehydration, 5–8 = moderate/severe dehydration. Higher scores predict longer stay and need for IV fluids.' },
+  { q: 'Does this replace weight-based assessment?', a: 'No — comparing current to pre-illness weight remains the reference standard; the CDS is a practical bedside adjunct.' },
+  { q: 'Which children was it validated in?', a: 'Children aged 1 month to 5 years presenting with vomiting and/or diarrhea.' },
+]
+const references = [
+  { citation: 'Goldman RD, Friedman JN, Parkin PC. Validation of the clinical dehydration scale for children with acute gastroenteritis. <em>Pediatrics</em>. 2008;122(3):545-549.' },
+]
+const relatedTools = [
+  { slug: 'pediatric-glasgow', name: 'Pediatric Glasgow Coma Scale' },
+  { slug: 'apgar-score', name: 'APGAR Score' },
+  { slug: 'news-2', name: 'NEWS-2' },
+]
+---
+<ScoreCalc
+  slug="pediatric-dehydration"
+  name="Pediatric Dehydration (Clinical Dehydration Scale) Calculator"
+  schemaName="Clinical Dehydration Scale"
+  shortDescription="Clinical Dehydration Scale (CDS) for severity of dehydration in young children (0–8)."
+  metaTitle="Pediatric Dehydration Calculator (CDS) | maratool"
+  metaDescription="Free pediatric Clinical Dehydration Scale calculator. Grade dehydration severity in children with gastroenteritis from 4 bedside signs."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select the finding for general appearance, eyes, mucous membranes, and tears.',
+    'The total CDS (0–8) and dehydration severity update instantly.',
+    'Confirm with pre-illness weight where available.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

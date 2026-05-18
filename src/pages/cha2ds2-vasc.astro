@@ -1,0 +1,73 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'chf', label: 'Congestive heart failure / LV dysfunction', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'htn', label: 'Hypertension', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'age', label: 'Age', options: [
+      { label: '< 65 (0)', points: 0, default: true },
+      { label: '65–74 (1)', points: 1 },
+      { label: '≥ 75 (2)', points: 2 },
+    ]},
+    { id: 'dm', label: 'Diabetes mellitus', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'stroke', label: 'Prior stroke / TIA / thromboembolism', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (2)', points: 2 },
+    ]},
+    { id: 'vasc', label: 'Vascular disease (prior MI, PAD, aortic plaque)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'sex', label: 'Sex category (female)', options: [
+      { label: 'No / male (0)', points: 0, default: true }, { label: 'Female (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 0, label: '0 — Low (annual stroke ~ 0.2%)', cls: 'cls-normal' },
+    { min: 1, max: 1, label: '1 — Low-moderate (~ 0.6%/yr)', cls: 'cls-warn' },
+    { min: 2, max: 3, label: '2–3 — Moderate-high (~ 2.2–3.2%/yr)', cls: 'cls-warn' },
+    { min: 4, max: 9, label: '≥ 4 — High (≥ 4.8%/yr)', cls: 'cls-danger' },
+  ],
+  max: 9,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'Why is CHA2DS2-VASc preferred over CHADS2?', a: 'CHA2DS2-VASc is more sensitive at identifying truly low-risk patients (score 0) who do not benefit from anticoagulation, and incorporates additional risk factors (sex, vascular disease, broader age strata).' },
+  { q: 'When should anticoagulation be started?', a: 'Guidelines (2024 ACC/AHA) recommend anticoagulation when CHA2DS2-VASc ≥ 2 in men or ≥ 3 in women. Consider for score ≥ 1 in men / ≥ 2 in women.' },
+  { q: 'Does sex category alone justify anticoagulation?', a: 'No — female sex alone (score = 1 for a woman with no other risk factors) does not require anticoagulation per current guidelines.' },
+  { q: 'How does CHA2DS2-VASc interact with HAS-BLED?', a: 'Use CHA2DS2-VASc to assess stroke risk; use HAS-BLED to identify modifiable bleeding risks. A high HAS-BLED is not a contraindication — it flags risks to address.' },
+]
+const references = [
+  { citation: 'Lip GY, Nieuwlaat R, Pisters R, Lane DA, Crijns HJ. Refining clinical risk stratification for predicting stroke and thromboembolism in atrial fibrillation. <em>Chest</em>. 2010;137(2):263-272.' },
+]
+const relatedTools = [
+  { slug: 'chads2-score', name: 'CHADS2 Score' },
+  { slug: 'has-bled', name: 'HAS-BLED' },
+  { slug: 'heart-score', name: 'HEART Score' },
+]
+---
+<ScoreCalc
+  slug="cha2ds2-vasc"
+  name="CHA2DS2-VASc Score Calculator"
+  schemaName="CHA2DS2-VASc Score"
+  shortDescription="CHA2DS2-VASc score for stroke risk in non-valvular atrial fibrillation (0–9)."
+  metaTitle="CHA2DS2-VASc Score Calculator (AF Stroke Risk) | maratool"
+  metaDescription="Free CHA2DS2-VASc calculator. Estimate annual stroke risk in atrial fibrillation to guide anticoagulation."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Check each risk factor that applies.',
+    'The score (0–9) and annual stroke risk update instantly.',
+    'Combine with HAS-BLED to guide anticoagulation decisions.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

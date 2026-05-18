@@ -1,0 +1,59 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    {
+      id: 'ccs',
+      label: 'CCS class',
+      options: [
+        { label: 'I — Ordinary physical activity does not cause angina (only with strenuous, rapid, or prolonged exertion)', points: 1, default: true },
+        { label: 'II — Slight limitation of ordinary activity (e.g., walking >2 blocks on level, climbing >1 flight at normal pace)', points: 2 },
+        { label: 'III — Marked limitation of ordinary activity (walking 1–2 blocks on level, climbing 1 flight at normal pace causes angina)', points: 3 },
+        { label: 'IV — Inability to carry out any physical activity without discomfort; angina may be present at rest', points: 4 },
+      ],
+    },
+  ],
+  bands: [
+    { min: 1, max: 1, label: 'Class I — mild', cls: 'cls-normal' },
+    { min: 2, max: 2, label: 'Class II — mild–moderate', cls: 'cls-normal' },
+    { min: 3, max: 3, label: 'Class III — moderate–severe', cls: 'cls-warn' },
+    { min: 4, max: 4, label: 'Class IV — severe / rest angina', cls: 'cls-danger' },
+  ],
+  max: 4,
+}
+
+const faq = [
+  { q: 'What is the CCS angina classification?', a: 'The Canadian Cardiovascular Society functional classification grades angina severity from I (minimal limitation) to IV (rest angina), guiding therapy intensity and prognosis.' },
+  { q: 'How does CCS relate to NYHA?', a: 'CCS is specific to angina; NYHA classifies heart failure symptoms. Both use a I–IV framework but assess different conditions.' },
+  { q: 'When should CCS class be reassessed?', a: 'At every cardiology follow-up and after any change in anti-anginal therapy or revascularization.' },
+  { q: 'Does CCS class predict outcomes?', a: 'Higher CCS class correlates with worse functional status, higher event rates, and often dictates escalation to PCI or CABG in stable coronary disease.' },
+]
+const references = [
+  { citation: 'Campeau L. Grading of angina pectoris (letter). <em>Circulation</em>. 1976;54(3):522-523.' },
+]
+const relatedTools = [
+  { slug: 'heart-score', name: 'HEART Score' },
+  { slug: 'nyha-classification', name: 'NYHA Classification' },
+  { slug: 'cha2ds2-vasc', name: 'CHA2DS2-VASc' },
+]
+---
+<ScoreCalc
+  slug="ccs-angina-grade"
+  name="CCS Angina Classification Calculator"
+  schemaName="CCS Angina Class"
+  shortDescription="Canadian Cardiovascular Society (CCS) functional classification of angina pectoris (I–IV)."
+  metaTitle="CCS Angina Classification Calculator (I–IV) | maratool"
+  metaDescription="Free Canadian Cardiovascular Society (CCS) angina classification calculator. 4-class grading of angina severity."
+  subcategory="Scale"
+  subcategorySlug="scale"
+  howTo={[
+    'Select the activity level that triggers angina.',
+    'The CCS class and severity interpretation update instantly.',
+    'Document class at each visit to track response to therapy.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

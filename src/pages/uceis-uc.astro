@@ -1,0 +1,66 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'vascular', label: 'Vascular pattern', options: [
+      { label: 'Normal (0)', points: 0, default: true },
+      { label: 'Patchy obliteration (1)', points: 1 },
+      { label: 'Obliterated (2)', points: 2 },
+    ]},
+    { id: 'bleeding', label: 'Bleeding', options: [
+      { label: 'None (0)', points: 0, default: true },
+      { label: 'Mucosal (1)', points: 1 },
+      { label: 'Luminal mild (2)', points: 2 },
+      { label: 'Luminal moderate or severe (3)', points: 3 },
+    ]},
+    { id: 'erosions', label: 'Erosions and ulcers', options: [
+      { label: 'None (0)', points: 0, default: true },
+      { label: 'Erosions (1)', points: 1 },
+      { label: 'Superficial ulcer (2)', points: 2 },
+      { label: 'Deep ulcer (3)', points: 3 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 1, label: 'Score 0–1 — endoscopic remission', cls: 'cls-normal' },
+    { min: 2, max: 4, label: 'Score 2–4 — mild endoscopic activity', cls: 'cls-warn' },
+    { min: 5, max: 6, label: 'Score 5–6 — moderate endoscopic activity', cls: 'cls-danger' },
+    { min: 7, max: 8, label: 'Score 7–8 — severe endoscopic activity', cls: 'cls-danger' },
+  ],
+  max: 8,
+}
+
+const faq = [
+  { q: 'What is the UCEIS?', a: 'The Ulcerative Colitis Endoscopic Index of Severity scores three descriptors — vascular pattern, bleeding, and erosions/ulcers — for a total of 0–8 at the most severe segment.' },
+  { q: 'What UCEIS defines remission?', a: 'A UCEIS of 0–1 corresponds to endoscopic remission; higher scores indicate increasing activity and predict worse outcomes.' },
+  { q: 'UCEIS vs Mayo endoscopic subscore?', a: 'The UCEIS is more granular and has better inter-observer reliability than the single Mayo endoscopic subscore, especially for moderate disease.' },
+  { q: 'Which bowel segment is scored?', a: 'The single most severely affected area visualised at endoscopy is used to assign each descriptor.' },
+]
+const references = [
+  { citation: 'Travis SP, Schnell D, Krzeski P, et al. Developing an instrument to assess the endoscopic severity of ulcerative colitis: the UCEIS. <em>Gut</em>. 2012;61(4):535-542.' },
+]
+const relatedTools = [
+  { slug: 'mayo-uc', name: 'Mayo Score (UC)' },
+  { slug: 'harvey-bradshaw', name: 'Harvey-Bradshaw Index' },
+  { slug: 'cdai-crohns', name: 'CDAI (Crohn’s)' },
+]
+---
+<ScoreCalc
+  slug="uceis-uc"
+  name="UCEIS Calculator (Ulcerative Colitis Endoscopic Index)"
+  schemaName="UCEIS"
+  shortDescription="Ulcerative Colitis Endoscopic Index of Severity (UCEIS) for endoscopic disease activity (0–8)."
+  metaTitle="UCEIS Calculator (UC Endoscopic Severity) | maratool"
+  metaDescription="Free UCEIS calculator. Grade ulcerative colitis endoscopic severity from vascular pattern, bleeding, and erosions/ulcers (0–8)."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'At the most severely affected segment, select each of the three endoscopic descriptors.',
+    'The total UCEIS (0–8) and activity band update instantly.',
+    'A UCEIS of 0–1 indicates endoscopic remission.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

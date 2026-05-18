@@ -1,0 +1,70 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const noFactor = (label) => [
+  { label: `Yes — factor present (0)`, points: 0 },
+  { label: `No — ${label} (1)`, points: 1, default: true },
+]
+
+const spec = {
+  items: [
+    { id: 'htn', label: 'No history of hypertension', options: noFactor('no hypertension') },
+    { id: 'dm', label: 'No history of diabetes', options: noFactor('no diabetes') },
+    { id: 'stroke', label: 'No history of prior stroke or TIA', options: noFactor('no prior stroke/TIA') },
+    { id: 'smoke', label: 'Non-smoker', options: noFactor('non-smoker') },
+    { id: 'cortical', label: 'Cortical infarct on imaging', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'age', label: 'Age', options: [
+      { label: '≥ 70 years (0)', points: 0 },
+      { label: '60–69 years (1)', points: 1 },
+      { label: '50–59 years (2)', points: 2 },
+      { label: '40–49 years (3)', points: 3 },
+      { label: '30–39 years (4)', points: 4 },
+      { label: '18–29 years (5)', points: 5, default: true },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 3, label: 'Score 0–3 — low PFO-attributable fraction (≈ 0–23%)', cls: 'cls-warn' },
+    { min: 4, max: 5, label: 'Score 4–5 — intermediate (≈ 38–34%)', cls: 'cls-warn' },
+    { min: 6, max: 7, label: 'Score 6–7 — high PFO-attributable fraction (≈ 62–72%)', cls: 'cls-normal' },
+    { min: 8, max: 10, label: 'Score 8–10 — very high (≈ 84–88%)', cls: 'cls-normal' },
+  ],
+  max: 10,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the RoPE score?', a: 'The Risk of Paradoxical Embolism score estimates the probability that a patent foramen ovale (PFO) found in a cryptogenic-stroke patient is causally related to the stroke.' },
+  { q: 'How is the RoPE score interpreted?', a: 'Higher scores (younger patients with few vascular risk factors and a cortical infarct) indicate a higher PFO-attributable fraction, supporting that the PFO is pathogenic.' },
+  { q: 'Does a high RoPE score mean PFO closure is indicated?', a: 'It supports a causal role and identifies patients more likely to benefit, but closure decisions also use anatomic features (shunt size, atrial septal aneurysm) and shared decision-making.' },
+  { q: 'Why do risk factors lower the score?', a: 'Conventional vascular risk factors make a competing stroke mechanism more likely, reducing the probability that the PFO is the cause.' },
+]
+const references = [
+  { citation: 'Kent DM, Ruthazer R, Weimar C, et al. An index to identify stroke-related vs incidental patent foramen ovale in cryptogenic stroke. <em>Neurology</em>. 2013;81(7):619-625.' },
+]
+const relatedTools = [
+  { slug: 'cha2ds2-vasc', name: 'CHA2DS2-VASc' },
+  { slug: 'abcd2-tia', name: 'ABCD2 Score' },
+  { slug: 'nihss-stroke', name: 'NIHSS' },
+]
+---
+<ScoreCalc
+  slug="rope-paradoxical-embolism"
+  name="RoPE Score Calculator (Paradoxical Embolism)"
+  schemaName="RoPE Score"
+  shortDescription="Risk of Paradoxical Embolism (RoPE) score for PFO-attributable cryptogenic stroke (0–10)."
+  metaTitle="RoPE Score Calculator (PFO / Cryptogenic Stroke) | maratool"
+  metaDescription="Free RoPE score calculator. Estimate the probability that a patent foramen ovale is causally related to a cryptogenic stroke."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select each vascular risk factor (absence scores a point), cortical infarct, and age band.',
+    'The total RoPE score (0–10) and PFO-attributable fraction update instantly.',
+    'Use to inform causal attribution and PFO-closure discussions in cryptogenic stroke.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

@@ -1,0 +1,65 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'cranial', label: 'Ocular response (cranial nerves)', options: [
+      { label: '4 — Pupils reactive, doll’s eyes / extraocular movements intact', points: 4, default: true },
+      { label: '3 — Anisocoria or paralytic strabismus', points: 3 },
+      { label: '2 — Bilaterally fixed pupils or cranial nerve palsy', points: 2 },
+      { label: '1 — No eye movements / fixed dilated pupils', points: 1 },
+    ]},
+    { id: 'motor', label: 'Motor response', options: [
+      { label: '4 — Flexion and extension of extremities', points: 4, default: true },
+      { label: '3 — Localizes pain', points: 3 },
+      { label: '2 — Flexion to pain (decorticate)', points: 2 },
+      { label: '1 — Extension to pain (decerebrate) or none', points: 1 },
+    ]},
+    { id: 'verbal', label: 'Verbal / respiratory response', options: [
+      { label: '3 — Cries (infants) or oriented (older child)', points: 3, default: true },
+      { label: '2 — Spontaneous respirations or disoriented/agitated', points: 2 },
+      { label: '1 — Apneic or no response', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 8, max: 11, label: 'Mild — favorable outcome likely', cls: 'cls-normal' },
+    { min: 5, max: 7, label: 'Moderate impairment', cls: 'cls-warn' },
+    { min: 3, max: 4, label: 'Severe — poor prognosis', cls: 'cls-danger' },
+  ],
+  max: 11,
+}
+
+const faq = [
+  { q: 'What is the Raimondi coma scale?', a: 'A 3-item coma scale (range 3–11) designed for pediatric and infant patients where standard GCS components are difficult to apply.' },
+  { q: 'Raimondi vs Pediatric GCS?', a: 'Both adapt the Glasgow framework for children. Raimondi is simpler (3 items) while Pediatric GCS preserves the 3 GCS components with age-modified verbal scoring.' },
+  { q: 'When is it most useful?', a: 'Pre-verbal infants, those with neurosurgical conditions, or where intubation prevents verbal assessment.' },
+  { q: 'Does Raimondi predict outcome?', a: 'Yes — lower scores correlate with worse outcomes in pediatric TBI and post-neurosurgical recovery, though predictive accuracy is modest.' },
+]
+const references = [
+  { citation: 'Raimondi AJ, Hirschauer J. Head injury in the infant and toddler. Coma scoring and outcome scale. <em>Childs Brain</em>. 1984;11(1):12-35.' },
+]
+const relatedTools = [
+  { slug: 'pediatric-glasgow', name: 'Pediatric Glasgow Coma Scale' },
+  { slug: 'glasgow-coma-pupil', name: 'GCS-P (Adult)' },
+  { slug: 'four-coma-scale', name: 'FOUR Score Coma Scale' },
+]
+---
+<ScoreCalc
+  slug="raimondi-coma-scale"
+  name="Raimondi Pediatric Coma Scale Calculator"
+  schemaName="Raimondi Coma Scale"
+  shortDescription="Pediatric coma scale by Raimondi for infants and young children (3–11)."
+  metaTitle="Raimondi Pediatric Coma Scale Calculator (3–11) | maratool"
+  metaDescription="Free Raimondi pediatric coma scale calculator. 3-component coma assessment for infants and young children."
+  subcategory="Pediatric"
+  subcategorySlug="pediatric"
+  howTo={[
+    'Assess ocular, motor, and verbal/respiratory responses.',
+    'The Raimondi score (3–11) and interpretation update instantly.',
+    'Re-assess at intervals — trend matters more than a single point.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

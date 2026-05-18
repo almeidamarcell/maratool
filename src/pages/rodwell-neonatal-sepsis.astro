@@ -1,0 +1,77 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'wbc', label: 'Abnormal total leukocyte count', options: [
+      { label: 'Normal (0)', points: 0, default: true },
+      { label: 'Abnormal — see age-specific reference (1)', points: 1 },
+    ]},
+    { id: 'pmn', label: 'Abnormal total PMN (neutrophil) count', options: [
+      { label: 'Normal (0)', points: 0, default: true },
+      { label: 'Abnormal (1)', points: 1 },
+    ]},
+    { id: 'imm_pmn', label: 'Elevated immature PMN count', options: [
+      { label: 'Normal (0)', points: 0, default: true },
+      { label: 'Elevated (1)', points: 1 },
+    ]},
+    { id: 'it', label: 'I:T ratio (immature : total neutrophils)', options: [
+      { label: '≤ 0.2 (0)', points: 0, default: true },
+      { label: '> 0.2 (1)', points: 1 },
+    ]},
+    { id: 'im', label: 'I:M ratio (immature : mature neutrophils)', options: [
+      { label: '≤ 0.3 (0)', points: 0, default: true },
+      { label: '> 0.3 (1)', points: 1 },
+    ]},
+    { id: 'degen', label: 'Degenerative changes in PMN (vacuolization, toxic granulation, Döhle bodies)', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'plt', label: 'Platelet count', options: [
+      { label: '≥ 150 000 (0)', points: 0, default: true },
+      { label: '< 150 000 (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 2, label: 'Sepsis unlikely', cls: 'cls-normal' },
+    { min: 3, max: 4, label: 'Possible sepsis — consider broader workup', cls: 'cls-warn' },
+    { min: 5, max: 7, label: 'High probability of sepsis — empiric antibiotics', cls: 'cls-danger' },
+  ],
+  max: 7,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the Rodwell score?', a: 'A 7-item hematologic scoring system to screen for neonatal sepsis using CBC parameters. Score ≥ 3 has good sensitivity for sepsis.' },
+  { q: 'How does it compare to blood culture?', a: 'Blood culture remains the gold standard. Rodwell helps to risk-stratify when culture results are pending, especially in well-appearing infants.' },
+  { q: 'Should it replace empiric antibiotics in suspected sepsis?', a: 'No — empiric antibiotics should still be started in any neonate with strong clinical suspicion or unstable vital signs, regardless of Rodwell score.' },
+  { q: 'When are I:T and I:M ratios reliable?', a: 'After 4 hours of life, when leukocyte counts have stabilized post-birth.' },
+]
+const references = [
+  { citation: 'Rodwell RL, Leslie AL, Tudehope DI. Early diagnosis of neonatal sepsis using a hematologic scoring system. <em>J Pediatr</em>. 1988;112(5):761-767.' },
+]
+const relatedTools = [
+  { slug: 'apgar-score', name: 'APGAR Score' },
+  { slug: 'capurro-somatic', name: 'Capurro Somatic' },
+  { slug: 'pediatric-glasgow', name: 'Pediatric Glasgow Coma Scale' },
+]
+---
+<ScoreCalc
+  slug="rodwell-neonatal-sepsis"
+  name="Rodwell Score Calculator (Neonatal Sepsis)"
+  schemaName="Rodwell Score"
+  shortDescription="Hematologic scoring system for screening neonatal sepsis."
+  metaTitle="Rodwell Score for Neonatal Sepsis Calculator | maratool"
+  metaDescription="Free Rodwell hematologic score calculator for screening neonatal sepsis. 7 CBC criteria with risk interpretation."
+  subcategory="Pediatric"
+  subcategorySlug="pediatric"
+  howTo={[
+    'Review the CBC and tick each abnormal criterion.',
+    'The Rodwell score (0–7) and sepsis risk update instantly.',
+    'Use alongside clinical findings and blood cultures.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

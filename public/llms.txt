@@ -146,6 +146,111 @@ maratool.com is a growing collection of free developer tools that run entirely i
 - [RSI Dose Calculator](https://maratool.com/rsi-doses): Weight-based RSI induction + paralytic doses.
 - [Phenytoin Level Correction (Sheiner-Tozer)](https://maratool.com/phenytoin-level-correction): Correct phenytoin for albumin and renal function.
 
+### Health / Scale
+- [FOUR Score Coma Scale](https://maratool.com/four-coma-scale): Full Outline of UnResponsiveness coma score (0–16).
+- [Fisher Scale for Subarachnoid Hemorrhage](https://maratool.com/fisher-scale): Modified Fisher scale for SAH vasospasm risk.
+- [Glasgow Coma Scale with Pupils (GCS-P)](https://maratool.com/glasgow-coma-pupil): GCS adjusted for pupil reactivity (1–15).
+- [Lawton IADL Scale](https://maratool.com/lawton-iadl): Instrumental activities of daily living (0–8).
+- [Ramsay Sedation Scale](https://maratool.com/ramsay-sedation): ICU sedation level 1–6.
+- [RASS Scale](https://maratool.com/rass-scale): Richmond Agitation-Sedation Scale (−5 to +4).
+- [SAS Sedation Scale (Riker)](https://maratool.com/sas-scale): Riker Sedation-Agitation Scale (1–7).
+- [CCS Angina Class](https://maratool.com/ccs-angina-grade): Canadian Cardiovascular Society angina I–IV.
+- [Aldrete Recovery Score](https://maratool.com/aldrete-recovery): Post-anesthesia recovery (0–10).
+
+### Health / Prognosis
+- [ECOG Performance Status](https://maratool.com/ecog-performance): Oncology performance status 0–5.
+- [Karnofsky Performance Scale](https://maratool.com/karnofsky-performance): KPS 0–100.
+- [Palliative Performance Scale (PPS)](https://maratool.com/palliative-performance-scale): Hospice functional assessment 0–100.
+- [Tokuhashi Score](https://maratool.com/tokuhashi-score): Spinal metastasis prognosis 0–15.
+- [Tomita Score](https://maratool.com/tomita-score): Surgical strategy for spinal metastases.
+- [Palliative Prognostic Score (PaP)](https://maratool.com/pap-palliative-prognostic): 30-day survival in advanced cancer.
+- [Palliative Prognostic Index (PPI)](https://maratool.com/ppi-palliative-prognostic): Clinical-only survival index.
+
+### Health / Pediatric (additions)
+- [Capurro Somatic GA](https://maratool.com/capurro-somatic): Newborn gestational age from 5 physical features.
+- [Capurro Neurological GA](https://maratool.com/capurro-neurological): Newborn GA combining somatic + neurological features.
+- [Finnegan NAS Score](https://maratool.com/finnegan-score): Neonatal abstinence syndrome severity.
+- [Rodwell Score (Neonatal Sepsis)](https://maratool.com/rodwell-neonatal-sepsis): Hematologic sepsis screen.
+- [Raimondi Pediatric Coma Scale](https://maratool.com/raimondi-coma-scale): Pediatric coma scale (3–11).
+- [Pediatric Glasgow Coma Scale](https://maratool.com/pediatric-glasgow): Age-adapted GCS (3–15).
+
+### Health / Score (clinical scores)
+- [qSOFA](https://maratool.com/qsofa): Quick Sepsis-Related Organ Failure Assessment.
+- [CHADS2 Score](https://maratool.com/chads2-score): Stroke risk in non-valvular AF.
+- [CHA2DS2-VASc Score](https://maratool.com/cha2ds2-vasc): Stroke risk in AF (preferred over CHADS2).
+- [HEART Score](https://maratool.com/heart-score): Chest pain 6-week MACE risk.
+- [CURB-65](https://maratool.com/curb-65): Community-acquired pneumonia severity.
+- [Modified Centor Score](https://maratool.com/centor-modified): Streptococcal pharyngitis probability.
+- [Bishop Score](https://maratool.com/bishop-score): Cervical ripening and labor induction success.
+- [Padua Prediction Score](https://maratool.com/padua-prediction): VTE risk in hospitalized medical patients.
+- [Wells Score for PE](https://maratool.com/wells-pe): Pulmonary embolism pre-test probability.
+- [Wells Score for DVT](https://maratool.com/wells-dvt): DVT pre-test probability.
+- [HAS-BLED Score](https://maratool.com/has-bled): Bleeding risk on AF anticoagulation.
+- [NEWS 2](https://maratool.com/news-2): National Early Warning Score 2.
+- [NIHSS Stroke Scale](https://maratool.com/nihss-stroke): NIH Stroke Scale 0–42.
+- [MELD & MELD-Na](https://maratool.com/meld-meldna): Cirrhosis 3-month mortality and transplant priority.
+- [Pack-Year Smoking](https://maratool.com/pack-year): Cumulative cigarette exposure.
+
+### Health / Score (clinical scores — additions)
+
+- [ABCD2 Score for TIA](https://maratool.com/abcd2-tia): 2-day stroke risk after TIA.
+- [Alvarado Score](https://maratool.com/alvarado-appendicitis): Probability of acute appendicitis.
+- [Child-Pugh Score](https://maratool.com/child-pugh): Cirrhosis severity Class A/B/C.
+- [Ranson Criteria](https://maratool.com/ranson-pancreatitis): Acute pancreatitis mortality.
+- [BISAP Score](https://maratool.com/bisap-score): Pancreatitis mortality within 24 h.
+- [AIMS65 Score](https://maratool.com/aims65-score): Upper GI bleed mortality.
+- [San Francisco Syncope Rule](https://maratool.com/san-francisco-syncope): 7-day serious-outcome risk.
+- [PERC Rule](https://maratool.com/perc-rule): Pulmonary embolism rule-out criteria.
+- [SOFA Score](https://maratool.com/sofa-score): Sequential Organ Failure Assessment.
+- [NYHA Classification](https://maratool.com/nyha-classification): Heart-failure functional class.
+- [TIMI Score (UA/NSTEMI)](https://maratool.com/timi-nstemi-ua): 14-day ischemic risk.
+- [TIMI Score (STEMI)](https://maratool.com/timi-stemi): 30-day STEMI mortality.
+- [Rockall Score](https://maratool.com/rockall-score): Upper GI bleed rebleed/mortality.
+- [Khorana Score](https://maratool.com/khorana-vte): Chemotherapy-associated VTE risk.
+- [Caprini VTE Risk](https://maratool.com/caprini-dvt-risk): VTE risk and prophylaxis guidance.
+- [Lee RCRI](https://maratool.com/lee-rcri): Revised Cardiac Risk Index.
+- [MASCC Risk Index](https://maratool.com/mascc-febrile-neutropenia): Febrile neutropenia low-risk.
+- [Harvey-Bradshaw Index](https://maratool.com/harvey-bradshaw): Crohn's disease activity.
+- [Mayo Score](https://maratool.com/mayo-uc): Ulcerative colitis activity.
+- [UCEIS](https://maratool.com/uceis-uc): UC endoscopic severity index.
+- [Simplified PESI](https://maratool.com/pesi-simplified): 30-day PE mortality (sPESI).
+- [Candida Score](https://maratool.com/candida-score): Invasive candidiasis risk in ICU.
+- [GELF Criteria](https://maratool.com/gelf-criteria): Follicular lymphoma tumor burden.
+- [SIC Score](https://maratool.com/sic-coagulopathy): Sepsis-induced coagulopathy.
+- [Goldman Cardiac Risk Index](https://maratool.com/goldman-cardiac-risk): Perioperative cardiac risk.
+- [Detsky Cardiac Risk Index](https://maratool.com/detsky-cardiac-risk): Preoperative cardiac risk.
+- [RoPE Score](https://maratool.com/rope-paradoxical-embolism): PFO-attributable cryptogenic stroke.
+- [ASPECTS Score](https://maratool.com/aspects-score): Early ischemic change on stroke CT.
+- [FIB-4 Index](https://maratool.com/fib-4): Non-invasive liver fibrosis estimate.
+- [Maddrey Discriminant Function](https://maratool.com/maddrey-discriminant): Alcoholic hepatitis severity.
+- [NAFLD Fibrosis Score](https://maratool.com/nafld-fibrosis): Advanced fibrosis in fatty liver.
+- [DAS28-ESR](https://maratool.com/das28-esr): Rheumatoid arthritis activity (ESR).
+- [DAS28-CRP](https://maratool.com/das28-crp): Rheumatoid arthritis activity (CRP).
+- [Lille Model](https://maratool.com/lille-model): Steroid response in alcoholic hepatitis.
+- [Injury Severity Score](https://maratool.com/iss-injury-severity): Anatomical trauma severity.
+- [PESI Score](https://maratool.com/pesi-pe-severity): Pulmonary embolism severity index.
+- [DKA Severity](https://maratool.com/dka-severity): Diabetic ketoacidosis grading.
+- [R-ISS](https://maratool.com/r-iss-myeloma): Multiple myeloma staging.
+- [CDAI](https://maratool.com/cdai-crohns): Crohn's Disease Activity Index.
+- [CAGE Questionnaire](https://maratool.com/cage-alcohol-screening): Alcohol use disorder screen.
+- [Fagerström Test](https://maratool.com/fagerstrom-nicotine): Nicotine dependence score.
+- [MMSE](https://maratool.com/mmse-mini-mental): Mini-Mental State Examination.
+- [GINA Asthma Control](https://maratool.com/gina-asthma-control): Asthma symptom control.
+- [COVID-19 Severity](https://maratool.com/covid-19-severity): SARS-CoV-2 clinical spectrum.
+- [Pediatric Dehydration](https://maratool.com/pediatric-dehydration): Clinical Dehydration Scale.
+- [CRUSADE Bleeding Score](https://maratool.com/crusade-bleeding): NSTE-ACS major bleeding risk.
+- [MH Clinical Grading Scale](https://maratool.com/malignant-hyperthermia): Malignant hyperthermia likelihood.
+- [CAM-ICU](https://maratool.com/cam-icu-delirium): ICU delirium assessment.
+- [CPIS](https://maratool.com/cpis-score): Clinical Pulmonary Infection Score (VAP).
+- [APACHE II](https://maratool.com/apache-ii): ICU severity and predicted mortality.
+- [GRACE Score](https://maratool.com/grace-acs): ACS in-hospital/6-month mortality.
+- [GWTG-HF Risk](https://maratool.com/gwtg-hf-risk): Acute heart-failure in-hospital mortality.
+- [TASH Score](https://maratool.com/tash-massive-transfusion): Massive transfusion probability.
+- [SCORAD Index](https://maratool.com/scorad-atopic-dermatitis): Atopic dermatitis severity.
+- [PASI Score](https://maratool.com/pasi-psoriasis): Psoriasis Area and Severity Index.
+- [PSI / PORT Score](https://maratool.com/psi-port): Pneumonia Severity Index class I–V.
+- [Framingham Risk Score](https://maratool.com/framingham-risk): 10-year hard CHD risk (ATP III).
+
 ## Site pages
 
 - [Blog](https://maratool.com/blog): Release notes and tool updates.

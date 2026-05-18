@@ -1,0 +1,65 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'chf', label: 'Congestive heart failure', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'htn', label: 'Hypertension', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'age', label: 'Age ≥ 75 years', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'dm', label: 'Diabetes mellitus', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'stroke', label: 'Prior stroke / TIA', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (2)', points: 2 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 0, label: '0 — Low risk (~ 1.9%/yr stroke)', cls: 'cls-normal' },
+    { min: 1, max: 1, label: '1 — Low-moderate (~ 2.8%/yr)', cls: 'cls-warn' },
+    { min: 2, max: 3, label: '2–3 — Moderate-high (~ 4.0–5.9%/yr)', cls: 'cls-warn' },
+    { min: 4, max: 6, label: '4–6 — High (~ 8.5–18.2%/yr)', cls: 'cls-danger' },
+  ],
+  max: 6,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'Should I use CHADS2 or CHA2DS2-VASc?', a: 'CHA2DS2-VASc is preferred in current guidelines (AHA/ACC/ESC) because CHADS2 may under-estimate stroke risk in patients scored "low".' },
+  { q: 'What CHADS2 score warrants anticoagulation?', a: 'Most guidelines recommend anticoagulation when CHADS2 ≥ 2; CHADS2 = 1 is borderline (consider).' },
+  { q: 'Does CHADS2 apply to valvular AF?', a: 'No. Valvular AF (mechanical valves, moderate-to-severe mitral stenosis) requires anticoagulation regardless of CHADS2.' },
+  { q: 'Is the stroke rate the same with anticoagulation?', a: 'No — CHADS2 estimates baseline (untreated) annual stroke risk. Warfarin reduces stroke by ~ 64%; DOACs slightly more.' },
+]
+const references = [
+  { citation: 'Gage BF, Waterman AD, Shannon W, et al. Validation of clinical classification schemes for predicting stroke. <em>JAMA</em>. 2001;285(22):2864-2870.' },
+]
+const relatedTools = [
+  { slug: 'cha2ds2-vasc', name: 'CHA2DS2-VASc' },
+  { slug: 'has-bled', name: 'HAS-BLED' },
+  { slug: 'nyha-classification', name: 'NYHA Class' },
+]
+---
+<ScoreCalc
+  slug="chads2-score"
+  name="CHADS2 Score Calculator"
+  schemaName="CHADS2 Score"
+  shortDescription="CHADS2 score for stroke risk in non-valvular atrial fibrillation (0–6)."
+  metaTitle="CHADS2 Score Calculator (AF Stroke Risk) | maratool"
+  metaDescription="Free CHADS2 score calculator. Estimate annual stroke risk in non-valvular atrial fibrillation."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Check each risk factor that applies.',
+    'The CHADS2 score (0–6) and annual stroke risk update instantly.',
+    'For modern AF management, CHA2DS2-VASc is preferred.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

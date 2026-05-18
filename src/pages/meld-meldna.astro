@@ -1,0 +1,56 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is the MELD score?', a: 'Model for End-Stage Liver Disease — predicts 3-month mortality in patients with chronic liver disease using bilirubin, INR, and creatinine. Used for liver transplant allocation.' },
+  { q: 'MELD vs MELD-Na?', a: 'MELD-Na (UNOS 2016) adds serum sodium, improving mortality prediction in hyponatremic cirrhotics. UNOS uses MELD-Na for organ allocation since 2016.' },
+  { q: 'What is the MELD floor/ceiling?', a: 'Floor 6, ceiling 40. All lab values < 1 are set to 1 before logarithm; creatinine is capped at 4 (or set to 4 if dialysis ≥ 2× in last 7 days).' },
+  { q: 'When is MELD used?', a: 'Liver transplant listing/prioritization, prognosis discussions, and risk stratification before non-transplant surgery in cirrhotics.' },
+]
+const references = [
+  { citation: 'Kamath PS, Wiesner RH, Malinchoc M, et al. A model to predict survival in patients with end-stage liver disease. <em>Hepatology</em>. 2001;33(2):464-470.' },
+  { citation: 'Kim WR, Biggins SW, Kremers WK, et al. Hyponatremia and mortality among patients on the liver-transplant waiting list. <em>N Engl J Med</em>. 2008;359(10):1018-1026.' },
+]
+const relatedTools = [
+  { slug: 'child-pugh', name: 'Child-Pugh Score' },
+  { slug: 'maddrey-discriminant', name: 'Maddrey Discriminant Function' },
+  { slug: 'fib-4', name: 'FIB-4 Index' },
+]
+---
+<HealthCalc
+  slug="meld-meldna"
+  name="MELD & MELD-Na Score Calculator"
+  schemaName="MELD / MELD-Na"
+  shortDescription="Model for End-Stage Liver Disease (MELD) and MELD-Na scores for cirrhosis prognosis."
+  metaTitle="MELD & MELD-Na Score Calculator | maratool"
+  metaDescription="Free MELD and MELD-Na score calculator. Cirrhosis 3-month mortality and liver transplant priority."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Enter bilirubin (mg/dL), INR, and creatinine (mg/dL); optionally sodium (mEq/L) for MELD-Na.',
+    'Check the dialysis box if the patient has had ≥ 2 dialysis sessions in the past 7 days.',
+    'MELD, MELD-Na, and 3-month mortality update instantly.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Bilirubin (mg/dL)</span>
+      <div class="hcalc-input-wrap"><input id="meld-bili" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 2.0" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">INR</span>
+      <div class="hcalc-input-wrap"><input id="meld-inr" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 1.5" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Creatinine (mg/dL)</span>
+      <div class="hcalc-input-wrap"><input id="meld-cr" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 1.2" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Sodium (mEq/L) — optional for MELD-Na</span>
+      <div class="hcalc-input-wrap"><input id="meld-na" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 135" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Dialysis ≥ 2× in last 7 days</span>
+      <div class="hcalc-input-wrap"><input id="meld-dial" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">MELD</div><div class="hcalc-output-value" id="meld-value">—</div><button class="copy-btn" data-target="meld-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">MELD-Na</div><div class="hcalc-output-value" id="meld-na-value">—</div><button class="copy-btn" data-target="meld-na-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">3-month mortality estimate</div><div class="hcalc-output-value" id="meld-class">—</div><button class="copy-btn" data-target="meld-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

@@ -1,0 +1,65 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    {
+      id: 'kps',
+      label: 'Karnofsky Performance Status',
+      options: [
+        { label: '100 — Normal; no complaints; no evidence of disease', points: 100, default: true },
+        { label: '90 — Able to carry on normal activity; minor signs/symptoms', points: 90 },
+        { label: '80 — Normal activity with effort; some signs/symptoms', points: 80 },
+        { label: '70 — Cares for self; unable to carry on normal activity or work', points: 70 },
+        { label: '60 — Requires occasional assistance but cares for most needs', points: 60 },
+        { label: '50 — Requires considerable assistance and frequent medical care', points: 50 },
+        { label: '40 — Disabled; requires special care and assistance', points: 40 },
+        { label: '30 — Severely disabled; hospitalization indicated (death not imminent)', points: 30 },
+        { label: '20 — Very sick; hospitalization needed; active supportive care needed', points: 20 },
+        { label: '10 — Moribund; fatal process progressing rapidly', points: 10 },
+        { label: '0 — Dead', points: 0 },
+      ],
+    },
+  ],
+  bands: [
+    { min: 80, max: 100, label: 'Independent — able to carry on normal activity', cls: 'cls-normal' },
+    { min: 50, max: 79, label: 'Some assistance required', cls: 'cls-warn' },
+    { min: 0, max: 49, label: 'Severely disabled / unable to care for self', cls: 'cls-danger' },
+  ],
+  max: 100,
+}
+
+const faq = [
+  { q: 'What is the Karnofsky Performance Scale?', a: 'An 11-level (0–100, step 10) scale for assessing functional status in cancer patients and other chronic illnesses. Higher = more functional.' },
+  { q: 'KPS vs ECOG?', a: 'KPS has finer granularity (11 levels) but ECOG (0–5) has higher inter-rater reliability and is more common in modern oncology trials. They map approximately: KPS 100→ECOG 0, 80–90→ECOG 1, 60–70→ECOG 2, 40–50→ECOG 3, 10–30→ECOG 4.' },
+  { q: 'How is KPS used clinically?', a: 'KPS guides chemotherapy eligibility, hospice eligibility (KPS ≤ 70 is one criterion), and clinical trial inclusion criteria.' },
+  { q: 'Does KPS predict survival?', a: 'Yes — lower KPS strongly correlates with shorter survival across many cancer types and in end-of-life care.' },
+]
+const references = [
+  { citation: 'Karnofsky DA, Burchenal JH. The clinical evaluation of chemotherapeutic agents in cancer. In: MacLeod CM, ed. <em>Evaluation of Chemotherapeutic Agents</em>. New York: Columbia University Press; 1949:191-205.' },
+]
+const relatedTools = [
+  { slug: 'ecog-performance', name: 'ECOG Performance Status' },
+  { slug: 'palliative-performance-scale', name: 'Palliative Performance Scale' },
+  { slug: 'pap-palliative-prognostic', name: 'Palliative Prognostic Score (PaP)' },
+]
+---
+<ScoreCalc
+  slug="karnofsky-performance"
+  name="Karnofsky Performance Scale (KPS) Calculator"
+  schemaName="Karnofsky Performance Scale"
+  shortDescription="Karnofsky Performance Status (KPS) scale 0–100 for assessing functional status."
+  metaTitle="Karnofsky Performance Scale Calculator (0–100) | maratool"
+  metaDescription="Free Karnofsky Performance Scale (KPS) calculator. 11-level assessment of patient functional status in oncology and chronic illness."
+  subcategory="Prognosis"
+  subcategorySlug="prognosis"
+  howTo={[
+    'Select the descriptor that best matches the patient.',
+    'The KPS score (0–100) and interpretation update instantly.',
+    'Re-assess at each visit; KPS decline often signals worsening disease.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

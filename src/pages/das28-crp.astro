@@ -1,0 +1,52 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is DAS28-CRP?', a: 'The Disease Activity Score on 28 joints using CRP — a composite rheumatoid arthritis activity measure from tender/swollen joint counts, CRP, and patient global health.' },
+  { q: 'What are the DAS28 thresholds?', a: '< 2.6 remission, 2.6–3.2 low activity, > 3.2–5.1 moderate, > 5.1 high disease activity.' },
+  { q: 'Is DAS28-CRP interchangeable with DAS28-ESR?', a: 'No — DAS28-CRP generally yields slightly lower values and may misclassify some patients; use the same variant consistently for monitoring.' },
+  { q: 'What CRP units does this use?', a: 'CRP in mg/L. The formula adds a fixed constant (0.96) absent from the ESR version.' },
+]
+const references = [
+  { citation: 'Wells G, Becker JC, Teng J, et al. Validation of the DAS28 (CRP) and EULAR response criteria. <em>Ann Rheum Dis</em>. 2009;68(6):954-960.' },
+]
+const relatedTools = [
+  { slug: 'das28-esr', name: 'DAS28-ESR' },
+  { slug: 'harvey-bradshaw', name: 'Harvey-Bradshaw Index' },
+  { slug: 'ecog-performance', name: 'ECOG Performance Status' },
+]
+---
+<HealthCalc
+  slug="das28-crp"
+  name="DAS28-CRP Calculator (Rheumatoid Arthritis)"
+  schemaName="DAS28-CRP"
+  shortDescription="DAS28-CRP composite disease-activity score for rheumatoid arthritis."
+  metaTitle="DAS28-CRP Calculator (Rheumatoid Arthritis) | maratool"
+  metaDescription="Free DAS28-CRP calculator. Quantify rheumatoid arthritis disease activity from joint counts, CRP, and patient global health."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Enter the 28-joint tender and swollen counts, CRP (mg/L), and patient global health (0–100 mm).',
+    'The DAS28-CRP and activity category update instantly.',
+    'Use the same DAS28 variant (ESR or CRP) consistently for follow-up.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Tender joint count (0–28)</span>
+      <div class="hcalc-input-wrap"><input id="das28c-tjc" type="number" inputmode="numeric" min="0" max="28" step="1" placeholder="e.g. 5" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Swollen joint count (0–28)</span>
+      <div class="hcalc-input-wrap"><input id="das28c-sjc" type="number" inputmode="numeric" min="0" max="28" step="1" placeholder="e.g. 3" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">CRP (mg/L)</span>
+      <div class="hcalc-input-wrap"><input id="das28c-crp" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 10" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Patient global health (0–100 mm)</span>
+      <div class="hcalc-input-wrap"><input id="das28c-gh" type="number" inputmode="numeric" min="0" max="100" step="1" placeholder="e.g. 50" /></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">DAS28-CRP</div><div class="hcalc-output-value" id="das28c-value">—</div><button class="copy-btn" data-target="das28c-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Disease activity</div><div class="hcalc-output-value" id="das28c-class">—</div><button class="copy-btn" data-target="das28c-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

@@ -1,0 +1,65 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const intensity = [
+  ['scorad-ery', 'Erythema'],
+  ['scorad-edema', 'Edema / papulation'],
+  ['scorad-ooze', 'Oozing / crusting'],
+  ['scorad-exc', 'Excoriation'],
+  ['scorad-lich', 'Lichenification'],
+  ['scorad-dry', 'Dryness (uninvolved skin)'],
+]
+
+const faq = [
+  { q: 'What is SCORAD?', a: 'SCORAD (SCORing Atopic Dermatitis) combines disease extent (A), intensity of 6 signs (B), and subjective symptoms (C): SCORAD = A/5 + 7B/2 + C.' },
+  { q: 'How is SCORAD interpreted?', a: 'Roughly: < 25 mild, 25–50 moderate, > 50 severe atopic dermatitis (maximum ≈ 103).' },
+  { q: 'How is extent estimated?', a: 'Percentage of body surface affected using the rule of nines (head/neck 9%, each arm 9%, etc.).' },
+  { q: 'What is objective SCORAD?', a: 'Objective SCORAD omits the subjective component C (itch and sleep loss), useful when patient-reported symptoms are unavailable.' },
+]
+const references = [
+  { citation: 'European Task Force on Atopic Dermatitis. Severity scoring of atopic dermatitis: the SCORAD index. <em>Dermatology</em>. 1993;186(1):23-31.' },
+]
+const relatedTools = [
+  { slug: 'pasi-psoriasis', name: 'PASI Score' },
+  { slug: 'ecog-performance', name: 'ECOG Performance Status' },
+  { slug: 'karnofsky-performance', name: 'Karnofsky Performance Status' },
+]
+---
+<HealthCalc
+  slug="scorad-atopic-dermatitis"
+  name="SCORAD Calculator (Atopic Dermatitis)"
+  schemaName="SCORAD Index"
+  shortDescription="SCORAD index for atopic dermatitis severity (extent, intensity, symptoms)."
+  metaTitle="SCORAD Calculator (Atopic Dermatitis Severity) | maratool"
+  metaDescription="Free SCORAD calculator. Grade atopic dermatitis severity from extent, six intensity signs, itch, and sleep loss."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Enter the % body surface affected and rate the 6 intensity signs (0–3).',
+    'Enter itch and sleep-loss visual analogue scores (0–10).',
+    'The SCORAD value and severity band update instantly.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Extent — % body surface (A)</span>
+      <div class="hcalc-input-wrap"><input id="scorad-extent" type="number" inputmode="decimal" min="0" max="100" step="1" placeholder="e.g. 40" /></div></label>
+    {intensity.map(([id, label]) => (
+      <label class="hcalc-field"><span class="hcalc-label">{label} (0–3)</span>
+        <div class="hcalc-input-wrap">
+          <select id={id}>{[0,1,2,3].map(n => <option value={n} selected={n===0}>{n}</option>)}</select>
+        </div></label>
+    ))}
+    <label class="hcalc-field"><span class="hcalc-label">Pruritus — VAS (0–10)</span>
+      <div class="hcalc-input-wrap"><input id="scorad-pruritus" type="number" inputmode="decimal" min="0" max="10" step="1" placeholder="e.g. 5" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Sleep loss — VAS (0–10)</span>
+      <div class="hcalc-input-wrap"><input id="scorad-sleep" type="number" inputmode="decimal" min="0" max="10" step="1" placeholder="e.g. 5" /></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">SCORAD</div><div class="hcalc-output-value" id="scorad-value">—</div><button class="copy-btn" data-target="scorad-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Severity</div><div class="hcalc-output-value" id="scorad-class">—</div><button class="copy-btn" data-target="scorad-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

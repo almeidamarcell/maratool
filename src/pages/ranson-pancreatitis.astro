@@ -1,0 +1,83 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'age', label: 'Admission: Age > 55 years', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'wbc', label: 'Admission: WBC > 16,000/µL', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'glucose', label: 'Admission: Glucose > 200 mg/dL', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'ast', label: 'Admission: AST > 250 U/L', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'ldh', label: 'Admission: LDH > 350 U/L', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'hct', label: '48 h: Hematocrit fall > 10%', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'bun', label: '48 h: BUN rise > 5 mg/dL', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'calcium', label: '48 h: Calcium < 8 mg/dL', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'pao2', label: '48 h: PaO₂ < 60 mmHg', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'base', label: '48 h: Base deficit > 4 mEq/L', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'fluid', label: '48 h: Fluid sequestration > 6 L', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 2, label: 'Score 0–2 — mortality ≈ 1%', cls: 'cls-normal' },
+    { min: 3, max: 4, label: 'Score 3–4 — mortality ≈ 15%', cls: 'cls-warn' },
+    { min: 5, max: 6, label: 'Score 5–6 — mortality ≈ 40%', cls: 'cls-danger' },
+    { min: 7, max: 11, label: 'Score ≥ 7 — mortality ≈ 100%', cls: 'cls-danger' },
+  ],
+  max: 11,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What are the Ranson criteria?', a: 'Eleven prognostic criteria for acute (non-gallstone) pancreatitis — five at admission and six at 48 hours — that estimate mortality risk.' },
+  { q: 'When is the Ranson score complete?', a: 'It can only be fully calculated at 48 hours, since six of the criteria require 48-hour data. This is a recognised limitation versus BISAP/APACHE-II.' },
+  { q: 'What Ranson score is severe?', a: 'A score ≥ 3 predicts severe pancreatitis; mortality rises sharply above 5 criteria.' },
+  { q: 'Are the gallstone criteria different?', a: 'Yes — the original gallstone-pancreatitis cut-offs differ slightly (e.g., WBC > 18,000, glucose > 220). This calculator uses the classic non-gallstone criteria.' },
+]
+const references = [
+  { citation: 'Ranson JH, Rifkind KM, Roses DF, et al. Prognostic signs and the role of operative management in acute pancreatitis. <em>Surg Gynecol Obstet</em>. 1974;139(1):69-81.' },
+]
+const relatedTools = [
+  { slug: 'bisap-score', name: 'BISAP Score' },
+  { slug: 'apache-ii', name: 'APACHE II' },
+  { slug: 'qsofa', name: 'qSOFA' },
+]
+---
+<ScoreCalc
+  slug="ranson-pancreatitis"
+  name="Ranson Criteria for Acute Pancreatitis Calculator"
+  schemaName="Ranson Criteria"
+  shortDescription="Ranson criteria for predicting mortality in acute pancreatitis (0–11)."
+  metaTitle="Ranson Criteria Calculator (Acute Pancreatitis) | maratool"
+  metaDescription="Free Ranson criteria calculator. Predict mortality in acute pancreatitis using the 5 admission and 6 forty-eight-hour prognostic signs."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select the admission criteria, then the 48-hour criteria once available.',
+    'The total Ranson score (0–11) and estimated mortality update instantly.',
+    'A score ≥ 3 indicates severe pancreatitis — escalate monitoring.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

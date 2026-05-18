@@ -1,0 +1,66 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const upTo = (max, label) => ({
+  label,
+  options: Array.from({ length: max + 1 }, (_, n) => ({
+    label: `${n} / ${max}`,
+    points: n,
+    default: n === max,
+  })),
+})
+
+const spec = {
+  items: [
+    { id: 'time', ...upTo(5, 'Orientation to time (year, season, date, day, month)') },
+    { id: 'place', ...upTo(5, 'Orientation to place (state, county, town, building, floor)') },
+    { id: 'registration', ...upTo(3, 'Registration (repeat 3 named objects)') },
+    { id: 'attention', ...upTo(5, 'Attention & calculation (serial 7s or spell “world” backward)') },
+    { id: 'recall', ...upTo(3, 'Recall (the 3 objects after a delay)') },
+    { id: 'language', ...upTo(8, 'Language (naming, repetition, 3-stage command, reading, writing)') },
+    { id: 'copying', ...upTo(1, 'Visuospatial (copy intersecting pentagons)') },
+  ],
+  bands: [
+    { min: 24, max: 30, label: 'Score 24–30 — no cognitive impairment', cls: 'cls-normal' },
+    { min: 19, max: 23, label: 'Score 19–23 — mild cognitive impairment', cls: 'cls-warn' },
+    { min: 10, max: 18, label: 'Score 10–18 — moderate cognitive impairment', cls: 'cls-danger' },
+    { min: 0, max: 9, label: 'Score ≤ 9 — severe cognitive impairment', cls: 'cls-danger' },
+  ],
+  max: 30,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the MMSE?', a: 'The Mini-Mental State Examination is a 30-point bedside cognitive screen covering orientation, registration, attention, recall, language, and visuospatial ability.' },
+  { q: 'What MMSE score is abnormal?', a: 'Commonly ≤ 23 suggests impairment, but cut-offs vary with age and education; 24–30 normal, 19–23 mild, 10–18 moderate, ≤ 9 severe.' },
+  { q: 'Does the MMSE diagnose dementia?', a: 'No — it is a screening and tracking tool. Diagnosis requires history, functional assessment, and often further cognitive testing.' },
+  { q: 'What affects MMSE interpretation?', a: 'Low education, sensory impairment, language, and delirium can lower scores independently of dementia; adjust thresholds accordingly.' },
+]
+const references = [
+  { citation: 'Folstein MF, Folstein SE, McHugh PR. “Mini-mental state”. A practical method for grading the cognitive state of patients for the clinician. <em>J Psychiatr Res</em>. 1975;12(3):189-198.' },
+]
+const relatedTools = [
+  { slug: 'lawton-iadl', name: 'Lawton IADL' },
+  { slug: 'cam-icu-delirium', name: 'CAM-ICU' },
+  { slug: 'cage-alcohol-screening', name: 'CAGE Questionnaire' },
+]
+---
+<ScoreCalc
+  slug="mmse-mini-mental"
+  name="Mini-Mental State Examination (MMSE) Calculator"
+  schemaName="MMSE"
+  shortDescription="Mini-Mental State Examination (MMSE) — 30-point cognitive screening score."
+  metaTitle="MMSE Calculator (Mini-Mental State Exam) | maratool"
+  metaDescription="Free MMSE calculator. Score the 30-point Mini-Mental State Examination across orientation, recall, attention, language, and visuospatial domains."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Enter the points scored in each MMSE domain.',
+    'The total MMSE (0–30) and impairment band update instantly.',
+    'Interpret in the context of age, education, and language.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

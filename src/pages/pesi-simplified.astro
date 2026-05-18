@@ -1,0 +1,59 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const yn1 = [
+  { label: 'No (0)', points: 0, default: true },
+  { label: 'Yes (1)', points: 1 },
+]
+
+const spec = {
+  items: [
+    { id: 'age', label: 'Age > 80 years', options: yn1 },
+    { id: 'cancer', label: 'History of cancer', options: yn1 },
+    { id: 'cardiopulm', label: 'Chronic cardiopulmonary disease (chronic heart failure or chronic lung disease)', options: yn1 },
+    { id: 'hr', label: 'Heart rate ≥ 110 bpm', options: yn1 },
+    { id: 'sbp', label: 'Systolic BP < 100 mmHg', options: yn1 },
+    { id: 'sao2', label: 'Arterial oxygen saturation < 90%', options: yn1 },
+  ],
+  bands: [
+    { min: 0, max: 0, label: 'Score 0 — low risk (30-day mortality ≈ 1.0%); consider outpatient management', cls: 'cls-normal' },
+    { min: 1, max: 6, label: 'Score ≥ 1 — high risk (30-day mortality ≈ 10.9%)', cls: 'cls-danger' },
+  ],
+  max: 6,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the simplified PESI?', a: 'The simplified Pulmonary Embolism Severity Index (sPESI) is a 6-criteria score that predicts 30-day mortality after acute pulmonary embolism.' },
+  { q: 'What sPESI score is low risk?', a: 'A score of 0 identifies low-risk PE (≈ 1% 30-day mortality), supporting consideration of early discharge or outpatient treatment in suitable patients.' },
+  { q: 'sPESI vs full PESI?', a: 'The original PESI uses 11 weighted variables and stratifies into 5 classes; sPESI is dichotomous (0 vs ≥ 1) and easier to apply with comparable prognostic performance.' },
+  { q: 'Is sPESI = 0 sufficient for home treatment?', a: 'It is necessary but not sufficient — also require hemodynamic stability, no RV dysfunction concerns, good social support, and absence of other reasons for admission.' },
+]
+const references = [
+  { citation: 'Jiménez D, Aujesky D, Moores L, et al. Simplification of the Pulmonary Embolism Severity Index for prognostication in acute symptomatic PE. <em>Arch Intern Med</em>. 2010;170(15):1383-1389.' },
+]
+const relatedTools = [
+  { slug: 'pesi-pe-severity', name: 'PESI Score' },
+  { slug: 'wells-pe', name: 'Wells Score (PE)' },
+  { slug: 'perc-rule', name: 'PERC Rule' },
+]
+---
+<ScoreCalc
+  slug="pesi-simplified"
+  name="Simplified PESI Score Calculator"
+  schemaName="Simplified PESI"
+  shortDescription="Simplified Pulmonary Embolism Severity Index (sPESI) for 30-day PE mortality (0–6)."
+  metaTitle="Simplified PESI Calculator (PE Mortality) | maratool"
+  metaDescription="Free sPESI calculator. Predict 30-day mortality after acute pulmonary embolism and identify low-risk patients for early discharge."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select each of the six sPESI criteria that is present.',
+    'The total score and risk band update instantly.',
+    'A score of 0 identifies low-risk PE — consider outpatient management if otherwise appropriate.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

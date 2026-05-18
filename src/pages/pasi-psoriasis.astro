@@ -1,0 +1,70 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const regions = [
+  ['head', 'Head & neck (×0.1)'],
+  ['arms', 'Upper limbs (×0.2)'],
+  ['trunk', 'Trunk (×0.3)'],
+  ['legs', 'Lower limbs (×0.4)'],
+]
+const signs = [['e', 'Erythema'], ['i', 'Induration'], ['d', 'Desquamation']]
+const areaOpts = [
+  ['0', '0% (0)'], ['1', '< 10% (1)'], ['2', '10–29% (2)'], ['3', '30–49% (3)'],
+  ['4', '50–69% (4)'], ['5', '70–89% (5)'], ['6', '90–100% (6)'],
+]
+
+const faq = [
+  { q: 'What is the PASI?', a: 'The Psoriasis Area and Severity Index combines erythema, induration, and desquamation (each 0–4) with the area involved (0–6) across four body regions, weighted by region.' },
+  { q: 'How is the PASI interpreted?', a: 'Range 0–72. Commonly < 5 mild, 5–10 moderate, > 10 severe; PASI > 10 typically indicates a candidate for systemic/biologic therapy.' },
+  { q: 'What are PASI 75/90/100?', a: 'Treatment-response metrics — the percentage of patients achieving a ≥ 75%, ≥ 90%, or 100% reduction in PASI from baseline.' },
+  { q: 'What is the regional weighting?', a: 'Head ×0.1, upper limbs ×0.2, trunk ×0.3, lower limbs ×0.4, reflecting each region’s share of body surface area.' },
+]
+const references = [
+  { citation: 'Fredriksson T, Pettersson U. Severe psoriasis — oral therapy with a new retinoid. <em>Dermatologica</em>. 1978;157(4):238-244.' },
+]
+const relatedTools = [
+  { slug: 'scorad-atopic-dermatitis', name: 'SCORAD Index' },
+  { slug: 'ecog-performance', name: 'ECOG Performance Status' },
+  { slug: 'das28-crp', name: 'DAS28-CRP' },
+]
+---
+<HealthCalc
+  slug="pasi-psoriasis"
+  name="PASI Calculator (Psoriasis Area and Severity Index)"
+  schemaName="PASI Score"
+  shortDescription="PASI score for psoriasis severity across four body regions (0–72)."
+  metaTitle="PASI Calculator (Psoriasis Severity) | maratool"
+  metaDescription="Free PASI calculator. Grade psoriasis severity from erythema, induration, desquamation, and area across head, arms, trunk, and legs."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'For each region, rate erythema, induration, and desquamation (0–4).',
+    'Select the area-involvement band (0–6) for each region.',
+    'The weighted PASI (0–72) and severity band update instantly.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    {regions.map(([rid, rlabel]) => (
+      <>
+        {signs.map(([sid, slabel]) => (
+          <label class="hcalc-field"><span class="hcalc-label">{rlabel} — {slabel} (0–4)</span>
+            <div class="hcalc-input-wrap">
+              <select id={`pasi-${rid}-${sid}`}>{[0,1,2,3,4].map(n => <option value={n} selected={n===0}>{n}</option>)}</select>
+            </div></label>
+        ))}
+        <label class="hcalc-field"><span class="hcalc-label">{rlabel} — Area involved</span>
+          <div class="hcalc-input-wrap">
+            <select id={`pasi-${rid}-a`}>{areaOpts.map(([v, l]) => <option value={v} selected={v==='0'}>{l}</option>)}</select>
+          </div></label>
+      </>
+    ))}
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">PASI</div><div class="hcalc-output-value" id="pasi-value">—</div><button class="copy-btn" data-target="pasi-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Severity</div><div class="hcalc-output-value" id="pasi-class">—</div><button class="copy-btn" data-target="pasi-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

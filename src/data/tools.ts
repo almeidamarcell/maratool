@@ -1034,7 +1034,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Screening',
     keywords: ['cam-icu', 'delirium assessment', 'icu delirium', 'confusion assessment'],
-    live: false,
+    live: true,
   },
   {
     slug: 'gina-asthma-control',
@@ -1044,7 +1044,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Screening',
     keywords: ['gina asthma', 'asthma control', 'gina 2025', 'asthma classification'],
-    live: false,
+    live: true,
   },
   {
     slug: 'cage-alcohol-screening',
@@ -1054,7 +1054,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Screening',
     keywords: ['cage questionnaire', 'alcohol screening', 'cage test', 'alcoholism screening'],
-    live: false,
+    live: true,
   },
   {
     slug: 'saag-albumin-gradient',
@@ -1084,7 +1084,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Screening',
     keywords: ['mmse', 'mini mental', 'cognitive screening', 'dementia screening'],
-    live: false,
+    live: true,
   },
   {
     slug: 'lille-model',
@@ -1094,7 +1094,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Hepatology',
     keywords: ['lille model', 'alcoholic hepatitis', 'lille score', 'steroid response'],
-    live: false,
+    live: true,
   },
   {
     slug: 'covid-19-severity',
@@ -1104,7 +1104,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'General',
     keywords: ['covid-19 severity', 'covid protocol', 'sars-cov-2 severity', 'coronavirus'],
-    live: false,
+    live: true,
   },
   {
     slug: 'fagerstrom-nicotine',
@@ -1114,7 +1114,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Screening',
     keywords: ['fagerstrom test', 'nicotine dependence', 'smoking addiction', 'fagerstrom score'],
-    live: false,
+    live: true,
   },
   {
     slug: 'free-testosterone',
@@ -1260,7 +1260,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Pediatric',
     keywords: ['pediatric glasgow', 'pediatric gcs', 'child coma scale', 'infant glasgow'],
-    live: false,
+    live: true,
   },
   {
     slug: 'pediatric-blood-pressure',
@@ -1320,7 +1320,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Pediatric',
     keywords: ['finnegan score', 'neonatal abstinence', 'nas score', 'opioid withdrawal newborn'],
-    live: false,
+    live: true,
   },
   {
     slug: 'raimondi-coma-scale',
@@ -1330,7 +1330,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Pediatric',
     keywords: ['raimondi scale', 'pediatric coma scale', 'infant consciousness scale'],
-    live: false,
+    live: true,
   },
   {
     slug: 'rodwell-neonatal-sepsis',
@@ -1340,7 +1340,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Pediatric',
     keywords: ['rodwell score', 'neonatal sepsis', 'newborn sepsis screening'],
-    live: false,
+    live: true,
   },
   {
     slug: 'capurro-somatic',
@@ -1350,7 +1350,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Pediatric',
     keywords: ['capurro somatic', 'newborn gestational age', 'capurro method'],
-    live: false,
+    live: true,
   },
   {
     slug: 'capurro-neurological',
@@ -1360,7 +1360,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Pediatric',
     keywords: ['capurro neurological', 'newborn gestational age', 'capurro method'],
-    live: false,
+    live: true,
   },
 
   // ── Health / Electrolytes ──
@@ -1540,7 +1540,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Scale',
     keywords: ['four score', 'coma scale', 'full outline unresponsiveness', 'icu coma'],
-    live: false,
+    live: true,
   },
   {
     slug: 'fisher-scale',
@@ -1550,7 +1550,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Scale',
     keywords: ['fisher scale', 'subarachnoid hemorrhage', 'sah grading', 'modified fisher'],
-    live: false,
+    live: true,
   },
   {
     slug: 'glasgow-coma-pupil',
@@ -1560,7 +1560,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Scale',
     keywords: ['glasgow coma scale', 'gcs-p', 'glasgow pupil', 'gcs calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'lawton-iadl',
@@ -1570,7 +1570,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Scale',
     keywords: ['lawton iadl', 'instrumental activities daily living', 'geriatric assessment', 'functional scale'],
-    live: false,
+    live: true,
   },
   {
     slug: 'ramsay-sedation',
@@ -1580,7 +1580,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Scale',
     keywords: ['ramsay scale', 'sedation scale', 'icu sedation', 'ramsay sedation'],
-    live: false,
+    live: true,
   },
   {
     slug: 'rass-scale',
@@ -1590,7 +1590,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Scale',
     keywords: ['rass scale', 'richmond agitation sedation', 'icu sedation scale', 'rass calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'sas-scale',
@@ -1600,7 +1600,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Scale',
     keywords: ['sas scale', 'riker sedation agitation', 'icu sedation', 'sas calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'ccs-angina-grade',
@@ -1610,7 +1610,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Scale',
     keywords: ['ccs angina', 'angina classification', 'canadian cardiovascular society', 'ccs grading'],
-    live: false,
+    live: true,
   },
   {
     slug: 'aldrete-recovery',
@@ -1620,7 +1620,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Scale',
     keywords: ['aldrete score', 'aldrete kroulik', 'post anesthesia recovery', 'pacu score'],
-    live: false,
+    live: true,
   },
 
   // ── Health / Prognosis ──
@@ -1632,7 +1632,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Prognosis',
     keywords: ['ecog performance', 'ecog scale', 'oncology performance status', 'ecog ps'],
-    live: false,
+    live: true,
   },
   {
     slug: 'karnofsky-performance',
@@ -1642,7 +1642,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Prognosis',
     keywords: ['karnofsky scale', 'kps calculator', 'karnofsky performance', 'oncology functional status'],
-    live: false,
+    live: true,
   },
   {
     slug: 'palliative-performance-scale',
@@ -1652,7 +1652,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Prognosis',
     keywords: ['palliative performance scale', 'pps scale', 'hospice prognosis', 'palliative functional'],
-    live: false,
+    live: true,
   },
   {
     slug: 'tokuhashi-score',
@@ -1662,7 +1662,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Prognosis',
     keywords: ['tokuhashi score', 'spinal metastasis prognosis', 'revised tokuhashi'],
-    live: false,
+    live: true,
   },
   {
     slug: 'tomita-score',
@@ -1672,7 +1672,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Prognosis',
     keywords: ['tomita score', 'spinal metastasis surgery', 'metastatic spine'],
-    live: false,
+    live: true,
   },
   {
     slug: 'pap-palliative-prognostic',
@@ -1682,7 +1682,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Prognosis',
     keywords: ['pap score', 'palliative prognostic', 'cancer 30 day survival', 'palliative care prognosis'],
-    live: false,
+    live: true,
   },
   {
     slug: 'ppi-palliative-prognostic',
@@ -1692,7 +1692,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Prognosis',
     keywords: ['ppi calculator', 'palliative prognostic index', 'terminal cancer prognosis'],
-    live: false,
+    live: true,
   },
 
   // ── Health / Score (clinical scores — implemented last) ──
@@ -1704,7 +1704,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['pack year calculator', 'smoking history', 'pack years', 'carga tabagica'],
-    live: false,
+    live: true,
   },
   {
     slug: 'candida-score',
@@ -1714,7 +1714,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['candida score', 'icu candidemia', 'invasive candidiasis'],
-    live: false,
+    live: true,
   },
   {
     slug: 'chads2-score',
@@ -1724,7 +1724,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['chads2 score', 'atrial fibrillation stroke risk', 'chads2 calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'nyha-classification',
@@ -1734,7 +1734,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['nyha classification', 'heart failure class', 'nyha functional class'],
-    live: false,
+    live: true,
   },
   {
     slug: 'gelf-criteria',
@@ -1744,7 +1744,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['gelf criteria', 'follicular lymphoma', 'tumor burden lymphoma'],
-    live: false,
+    live: true,
   },
   {
     slug: 'das28-crp',
@@ -1754,7 +1754,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['das28 crp', 'rheumatoid arthritis activity', 'das-28', 'ra disease activity'],
-    live: false,
+    live: true,
   },
   {
     slug: 'das28-esr',
@@ -1764,7 +1764,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['das28 esr', 'rheumatoid arthritis activity', 'das-28', 'ra disease activity'],
-    live: false,
+    live: true,
   },
   {
     slug: 'abcd2-tia',
@@ -1774,7 +1774,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['abcd2 score', 'tia stroke risk', 'transient ischemic attack', 'abcd2 calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'aims65-score',
@@ -1784,7 +1784,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['aims65 score', 'upper gi bleed', 'gi bleeding mortality'],
-    live: false,
+    live: true,
   },
   {
     slug: 'apache-ii',
@@ -1794,7 +1794,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['apache ii', 'icu mortality score', 'apache 2 calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'bisap-score',
@@ -1804,7 +1804,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['bisap score', 'pancreatitis mortality', 'acute pancreatitis severity'],
-    live: false,
+    live: true,
   },
   {
     slug: 'cpis-score',
@@ -1814,7 +1814,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['cpis score', 'ventilator associated pneumonia', 'vap diagnosis'],
-    live: false,
+    live: true,
   },
   {
     slug: 'crusade-bleeding',
@@ -1824,7 +1824,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['crusade score', 'bleeding risk nstemi', 'post mi bleeding'],
-    live: false,
+    live: true,
   },
   {
     slug: 'curb-65',
@@ -1834,7 +1834,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['curb-65', 'pneumonia severity', 'cap severity score', 'curb 65 calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'alvarado-appendicitis',
@@ -1844,7 +1844,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['alvarado score', 'appendicitis score', 'acute appendicitis probability'],
-    live: false,
+    live: true,
   },
   {
     slug: 'caprini-dvt-risk',
@@ -1854,7 +1854,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['caprini score', 'dvt risk', 'vte risk surgery', 'caprini calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'centor-modified',
@@ -1864,7 +1864,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['centor score', 'strep throat score', 'pharyngitis score', 'mclsaac score'],
-    live: false,
+    live: true,
   },
   {
     slug: 'cha2ds2-vasc',
@@ -1874,7 +1874,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['cha2ds2 vasc', 'atrial fibrillation stroke risk', 'chads vasc calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'child-pugh',
@@ -1884,7 +1884,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['child pugh', 'cirrhosis prognosis', 'child turcotte pugh', 'liver disease score'],
-    live: false,
+    live: true,
   },
   {
     slug: 'nafld-fibrosis',
@@ -1894,7 +1894,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['nafld fibrosis score', 'fatty liver fibrosis', 'nash fibrosis'],
-    live: false,
+    live: true,
   },
   {
     slug: 'framingham-risk',
@@ -1904,7 +1904,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['framingham risk', 'cardiovascular risk', 'framingham calculator', '10 year cvd risk'],
-    live: false,
+    live: true,
   },
   {
     slug: 'khorana-vte',
@@ -1914,7 +1914,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['khorana score', 'cancer vte risk', 'chemotherapy thrombosis'],
-    live: false,
+    live: true,
   },
   {
     slug: 'lee-rcri',
@@ -1924,7 +1924,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['lee score', 'rcri calculator', 'cardiac risk surgery', 'preoperative cardiac risk'],
-    live: false,
+    live: true,
   },
   {
     slug: 'lee-vasc',
@@ -1944,7 +1944,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['maddrey score', 'alcoholic hepatitis severity', 'discriminant function'],
-    live: false,
+    live: true,
   },
   {
     slug: 'mayo-uc',
@@ -1954,7 +1954,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['mayo score', 'ulcerative colitis activity', 'uc disease activity'],
-    live: false,
+    live: true,
   },
   {
     slug: 'padua-prediction',
@@ -1964,7 +1964,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['padua score', 'medical vte risk', 'hospitalized vte', 'padua prediction'],
-    live: false,
+    live: true,
   },
   {
     slug: 'ranson-pancreatitis',
@@ -1974,7 +1974,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['ranson criteria', 'pancreatitis mortality', 'acute pancreatitis severity'],
-    live: false,
+    live: true,
   },
   {
     slug: 'ventricular-arrhythmia-risk',
@@ -1994,7 +1994,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['rope score', 'paradoxical embolism', 'pfo cryptogenic stroke', 'rope calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'rockall-score',
@@ -2004,7 +2004,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['rockall score', 'upper gi bleed mortality', 'hda rockall'],
-    live: false,
+    live: true,
   },
   {
     slug: 'san-francisco-syncope',
@@ -2014,7 +2014,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['san francisco syncope', 'syncope rule', 'sfsr calculator', 'syncope risk'],
-    live: false,
+    live: true,
   },
   {
     slug: 'sevilla-candidemia',
@@ -2034,7 +2034,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['aspects score', 'stroke ct', 'early ischemic changes', 'alberta stroke program'],
-    live: false,
+    live: true,
   },
   {
     slug: 'wells-pe',
@@ -2044,7 +2044,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['wells score pe', 'pulmonary embolism probability', 'wells criteria pe'],
-    live: false,
+    live: true,
   },
   {
     slug: 'wells-dvt',
@@ -2054,7 +2054,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['wells score dvt', 'dvt probability', 'wells criteria dvt'],
-    live: false,
+    live: true,
   },
   {
     slug: 'euroscore-ii',
@@ -2074,7 +2074,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['fib-4 index', 'liver fibrosis score', 'fib4 calculator', 'non-invasive fibrosis'],
-    live: false,
+    live: true,
   },
   {
     slug: 'has-bled',
@@ -2084,7 +2084,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['has-bled score', 'bleeding risk anticoagulation', 'af bleeding score'],
-    live: false,
+    live: true,
   },
   {
     slug: 'heart-score',
@@ -2094,7 +2094,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['heart score', 'chest pain risk', 'mace risk', 'heart calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'maggic-hf',
@@ -2114,7 +2114,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['meld score', 'meld na', 'cirrhosis prognosis', 'liver transplant score'],
-    live: false,
+    live: true,
   },
   {
     slug: 'news-2',
@@ -2124,7 +2124,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['news 2 score', 'national early warning score', 'clinical deterioration', 'news2'],
-    live: false,
+    live: true,
   },
   {
     slug: 'nihss-stroke',
@@ -2134,7 +2134,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['nihss', 'stroke scale', 'stroke severity score', 'nih stroke scale'],
-    live: false,
+    live: true,
   },
   {
     slug: 'psi-port',
@@ -2144,7 +2144,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['psi score', 'port score', 'pneumonia severity index', 'cap mortality'],
-    live: false,
+    live: true,
   },
   {
     slug: 'qsofa',
@@ -2154,7 +2154,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['qsofa', 'quick sofa', 'sepsis screening', 'qsofa calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'sic-coagulopathy',
@@ -2164,7 +2164,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['sic score', 'sepsis coagulopathy', 'sepsis induced coagulopathy'],
-    live: false,
+    live: true,
   },
   {
     slug: 'sofa-score',
@@ -2174,7 +2174,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['sofa score', 'organ failure assessment', 'icu sepsis score', 'sequential organ failure'],
-    live: false,
+    live: true,
   },
   {
     slug: 'timi-stemi',
@@ -2184,7 +2184,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['timi stemi', 'timi score stemi', 'stemi risk score'],
-    live: false,
+    live: true,
   },
   {
     slug: 'timi-nstemi-ua',
@@ -2194,7 +2194,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['timi nstemi', 'timi unstable angina', 'nstemi risk score'],
-    live: false,
+    live: true,
   },
   {
     slug: 'hcm-risk-scd',
@@ -2214,7 +2214,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['grace score', 'acs mortality', 'acute coronary syndrome', 'grace acs calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'dka-severity',
@@ -2224,7 +2224,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['dka severity', 'diabetic ketoacidosis severity', 'dka grading'],
-    live: false,
+    live: true,
   },
   {
     slug: 'scorad-atopic-dermatitis',
@@ -2234,7 +2234,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['scorad', 'atopic dermatitis severity', 'eczema severity', 'scorad calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'pasi-psoriasis',
@@ -2244,7 +2244,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['pasi score', 'psoriasis severity', 'psoriasis area severity index'],
-    live: false,
+    live: true,
   },
   {
     slug: 'pesi-pe-severity',
@@ -2254,7 +2254,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['pesi score', 'pulmonary embolism severity', 'pe mortality', 'pesi calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'pediatric-dehydration',
@@ -2264,7 +2264,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['pediatric dehydration', 'child dehydration severity', 'pediatric rehydration'],
-    live: false,
+    live: true,
   },
   {
     slug: 'malignant-hyperthermia',
@@ -2274,7 +2274,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['malignant hyperthermia', 'mh grading scale', 'anesthesia complication'],
-    live: false,
+    live: true,
   },
   {
     slug: 'cdai-crohns',
@@ -2284,7 +2284,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['cdai score', 'crohns disease activity', 'crohns activity index'],
-    live: false,
+    live: true,
   },
   {
     slug: 'bishop-score',
@@ -2294,7 +2294,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['bishop score', 'cervical ripening', 'labor induction', 'bishop calculator'],
-    live: false,
+    live: true,
   },
   {
     slug: 'uceis-uc',
@@ -2304,7 +2304,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['uceis score', 'ulcerative colitis endoscopy', 'uc endoscopic severity'],
-    live: false,
+    live: true,
   },
   {
     slug: 'detsky-cardiac-risk',
@@ -2314,7 +2314,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['detsky score', 'detsky cardiac risk', 'cardiac risk surgery'],
-    live: false,
+    live: true,
   },
   {
     slug: 'goldman-cardiac-risk',
@@ -2324,7 +2324,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['goldman score', 'goldman cardiac risk', 'cardiac risk index'],
-    live: false,
+    live: true,
   },
   {
     slug: 'harvey-bradshaw',
@@ -2334,7 +2334,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['harvey bradshaw', 'crohns disease activity', 'hbi score'],
-    live: false,
+    live: true,
   },
   {
     slug: 'iss-injury-severity',
@@ -2344,7 +2344,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['iss score', 'injury severity score', 'trauma severity'],
-    live: false,
+    live: true,
   },
   {
     slug: 'pesi-simplified',
@@ -2354,7 +2354,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['spesi', 'simplified pesi', 'pulmonary embolism mortality'],
-    live: false,
+    live: true,
   },
   {
     slug: 'r-iss-myeloma',
@@ -2364,7 +2364,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['r-iss', 'multiple myeloma staging', 'revised iss myeloma'],
-    live: false,
+    live: true,
   },
   {
     slug: 'perc-rule',
@@ -2374,7 +2374,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['perc rule', 'pulmonary embolism rule out', 'perc criteria'],
-    live: false,
+    live: true,
   },
   {
     slug: 'gwtg-hf-risk',
@@ -2384,7 +2384,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['gwtg hf', 'heart failure mortality', 'gwtg score'],
-    live: false,
+    live: true,
   },
   {
     slug: 'mascc-febrile-neutropenia',
@@ -2394,7 +2394,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['mascc score', 'febrile neutropenia risk', 'cancer infection risk'],
-    live: false,
+    live: true,
   },
   {
     slug: 'saps-ii',
@@ -2414,7 +2414,7 @@ export const tools: Tool[] = [
     category: 'Health',
     subcategory: 'Score',
     keywords: ['tash score', 'massive transfusion prediction', 'trauma hemorrhage'],
-    live: false,
+    live: true,
   },
 ]
 

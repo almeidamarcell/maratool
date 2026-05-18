@@ -1,0 +1,58 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is the Framingham Risk Score?', a: 'This calculator uses the NCEP ATP III point system to estimate 10-year risk of hard coronary heart disease (myocardial infarction and coronary death).' },
+  { q: 'How is the risk categorised?', a: 'ATP III categories: low (< 10%), intermediate (10–20%), and high (> 20%) 10-year hard-CHD risk.' },
+  { q: 'Who should not use this?', a: 'It is for primary prevention in adults 20–79 without known CHD or CHD-equivalents (diabetes, established atherosclerotic disease are treated as high risk regardless).' },
+  { q: 'Framingham vs pooled cohort equations?', a: 'The ACC/AHA pooled cohort equations estimate 10-year ASCVD (including stroke) and are now widely used; the ATP III Framingham score remains common for hard-CHD estimation.' },
+]
+const references = [
+  { citation: 'Expert Panel on Detection, Evaluation, and Treatment of High Blood Cholesterol in Adults. Executive summary of the Third Report (NCEP ATP III). <em>JAMA</em>. 2001;285(19):2486-2497.' },
+]
+const relatedTools = [
+  { slug: 'cha2ds2-vasc', name: 'CHA2DS2-VASc' },
+  { slug: 'heart-score', name: 'HEART Score' },
+  { slug: 'grace-acs', name: 'GRACE Score' },
+]
+---
+<HealthCalc
+  slug="framingham-risk"
+  name="Framingham Risk Score Calculator (10-year CHD)"
+  schemaName="Framingham Risk Score"
+  shortDescription="Framingham (NCEP ATP III) 10-year hard coronary heart disease risk estimate."
+  metaTitle="Framingham Risk Score Calculator (10-Year CHD) | maratool"
+  metaDescription="Free Framingham Risk Score calculator. Estimate 10-year hard coronary heart disease risk using the NCEP ATP III point system."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select sex and enter age, total cholesterol, and HDL.',
+    'Enter systolic BP, mark whether it is treated, and whether the patient smokes.',
+    'The ATP III points, 10-year CHD risk, and risk category update instantly.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Sex</span>
+      <div class="hcalc-input-wrap"><select id="fram-sex"><option value="male" selected>Male</option><option value="female">Female</option></select></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Age (years, 20–79)</span>
+      <div class="hcalc-input-wrap"><input id="fram-age" type="number" inputmode="numeric" min="20" max="79" step="1" placeholder="e.g. 55" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Total cholesterol (mg/dL)</span>
+      <div class="hcalc-input-wrap"><input id="fram-tc" type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 250" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">HDL cholesterol (mg/dL)</span>
+      <div class="hcalc-input-wrap"><input id="fram-hdl" type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 45" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Systolic BP (mmHg)</span>
+      <div class="hcalc-input-wrap"><input id="fram-sbp" type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 140" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Systolic BP is treated</span>
+      <div class="hcalc-input-wrap"><input id="fram-treated" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Current smoker</span>
+      <div class="hcalc-input-wrap"><input id="fram-smoker" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">10-year CHD risk</div><div class="hcalc-output-value" id="fram-value">—</div><button class="copy-btn" data-target="fram-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Risk category</div><div class="hcalc-output-value" id="fram-class">—</div><button class="copy-btn" data-target="fram-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

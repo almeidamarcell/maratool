@@ -1,0 +1,61 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const aisOptions = ['0 — none', '1 — minor', '2 — moderate', '3 — serious', '4 — severe', '5 — critical', '6 — maximal/unsurvivable']
+
+const faq = [
+  { q: 'What is the Injury Severity Score?', a: 'The ISS summarises overall anatomical trauma severity: the sum of the squares of the highest Abbreviated Injury Scale (AIS) grade in the three most severely injured of six body regions.' },
+  { q: 'What ISS defines major trauma?', a: 'An ISS > 15 is the conventional definition of major (polytrauma) and is associated with markedly increased mortality.' },
+  { q: 'Why does any AIS of 6 give ISS 75?', a: 'An AIS of 6 denotes an essentially unsurvivable injury, so the ISS is automatically set to its maximum value of 75.' },
+  { q: 'What are the six ISS body regions?', a: 'Head/neck, face, chest, abdomen/pelvic contents, extremities/pelvic girdle, and external/skin.' },
+]
+const references = [
+  { citation: 'Baker SP, O’Neill B, Haddon W, Long WB. The Injury Severity Score: a method for describing patients with multiple injuries and evaluating emergency care. <em>J Trauma</em>. 1974;14(3):187-196.' },
+]
+const relatedTools = [
+  { slug: 'four-coma-scale', name: 'FOUR Score' },
+  { slug: 'glasgow-coma-pupil', name: 'GCS-Pupil' },
+  { slug: 'nihss-stroke', name: 'NIHSS' },
+]
+---
+<HealthCalc
+  slug="iss-injury-severity"
+  name="Injury Severity Score (ISS) Calculator"
+  schemaName="Injury Severity Score"
+  shortDescription="Injury Severity Score (ISS) — anatomical trauma severity from AIS body-region grades (0–75)."
+  metaTitle="Injury Severity Score Calculator (ISS) | maratool"
+  metaDescription="Free Injury Severity Score calculator. Compute ISS from Abbreviated Injury Scale grades across six body regions to grade trauma severity."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select the highest AIS grade (0–6) for each of the six body regions.',
+    'The ISS (sum of squares of the three highest, or 75 if any region is 6) updates instantly.',
+    'An ISS > 15 defines major trauma.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    {[
+      ['iss-head', 'Head / neck'],
+      ['iss-face', 'Face'],
+      ['iss-chest', 'Chest'],
+      ['iss-abdomen', 'Abdomen / pelvic contents'],
+      ['iss-extremity', 'Extremities / pelvic girdle'],
+      ['iss-external', 'External / skin'],
+    ].map(([id, label]) => (
+      <label class="hcalc-field"><span class="hcalc-label">{label} — AIS</span>
+        <div class="hcalc-input-wrap">
+          <select id={id}>
+            {aisOptions.map((o, i) => <option value={i} selected={i === 0}>{o}</option>)}
+          </select>
+        </div></label>
+    ))}
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Injury Severity Score</div><div class="hcalc-output-value" id="iss-value">—</div><button class="copy-btn" data-target="iss-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Interpretation</div><div class="hcalc-output-value" id="iss-class">—</div><button class="copy-btn" data-target="iss-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

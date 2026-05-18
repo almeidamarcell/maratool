@@ -1,0 +1,78 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const comorbid = [
+  ['psi-neoplasm', 'Neoplastic disease (+30)'],
+  ['psi-liver', 'Liver disease (+20)'],
+  ['psi-chf', 'Congestive heart failure (+10)'],
+  ['psi-cva', 'Cerebrovascular disease (+10)'],
+  ['psi-renal', 'Renal disease (+10)'],
+]
+const exam = [
+  ['psi-ams', 'Altered mental status (+20)'],
+  ['psi-rr', 'Respiratory rate ≥ 30/min (+20)'],
+  ['psi-sbp', 'Systolic BP < 90 mmHg (+20)'],
+  ['psi-temp', 'Temperature < 35 °C or ≥ 40 °C (+15)'],
+  ['psi-pulse', 'Pulse ≥ 125 bpm (+10)'],
+]
+const labs = [
+  ['psi-ph', 'Arterial pH < 7.35 (+30)'],
+  ['psi-bun', 'BUN ≥ 30 mg/dL (+20)'],
+  ['psi-na', 'Sodium < 130 mmol/L (+20)'],
+  ['psi-glucose', 'Glucose ≥ 250 mg/dL (+10)'],
+  ['psi-hct', 'Hematocrit < 30% (+10)'],
+  ['psi-pao2', 'PaO₂ < 60 mmHg or SaO₂ < 90% (+10)'],
+  ['psi-effusion', 'Pleural effusion (+10)'],
+]
+
+const faq = [
+  { q: 'What is the PSI / PORT score?', a: 'The Pneumonia Severity Index stratifies community-acquired pneumonia into risk classes I–V to guide the inpatient vs outpatient decision.' },
+  { q: 'How are PSI classes interpreted?', a: 'Class I–II low risk (outpatient candidates), III intermediate (brief observation), IV–V high risk (inpatient, consider ICU for V).' },
+  { q: 'How is Class I assigned?', a: 'By step 1: patients ≤ 50 years with no listed comorbidity and no examination abnormality are Class I without point calculation.' },
+  { q: 'PSI vs CURB-65?', a: 'PSI is more granular and better identifies low-risk patients; CURB-65 is simpler. Both support, but do not replace, clinical judgment and social factors.' },
+]
+const references = [
+  { citation: 'Fine MJ, Auble TE, Yealy DM, et al. A prediction rule to identify low-risk patients with community-acquired pneumonia. <em>N Engl J Med</em>. 1997;336(4):243-250.' },
+]
+const relatedTools = [
+  { slug: 'curb-65', name: 'CURB-65' },
+  { slug: 'qsofa', name: 'qSOFA' },
+  { slug: 'news-2', name: 'NEWS-2' },
+]
+---
+<HealthCalc
+  slug="psi-port"
+  name="Pneumonia Severity Index (PSI/PORT) Calculator"
+  schemaName="Pneumonia Severity Index"
+  shortDescription="Pneumonia Severity Index (PSI/PORT) risk class I–V for community-acquired pneumonia."
+  metaTitle="PSI / PORT Score Calculator (Pneumonia) | maratool"
+  metaDescription="Free PSI/PORT calculator. Stratify community-acquired pneumonia into risk classes I–V to guide admission decisions."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Enter age and sex, then tick each comorbidity, exam, and laboratory finding present.',
+    'The PSI points and risk class (I–V) with 30-day mortality update instantly.',
+    'Class I–II patients are typical outpatient candidates; IV–V need admission.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Age (years)</span>
+      <div class="hcalc-input-wrap"><input id="psi-age" type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 65" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Sex</span>
+      <div class="hcalc-input-wrap"><select id="psi-sex"><option value="female" selected>Female</option><option value="male">Male</option></select></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Nursing home resident (+10)</span>
+      <div class="hcalc-input-wrap"><input id="psi-nh" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+    {[...comorbid, ...exam, ...labs].map(([id, label]) => (
+      <label class="hcalc-field"><span class="hcalc-label">{label}</span>
+        <div class="hcalc-input-wrap"><input id={id} type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+    ))}
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">PSI class</div><div class="hcalc-output-value" id="psi-value">—</div><button class="copy-btn" data-target="psi-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Risk / disposition</div><div class="hcalc-output-value" id="psi-class">—</div><button class="copy-btn" data-target="psi-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

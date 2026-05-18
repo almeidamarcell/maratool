@@ -1,0 +1,57 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const yn1 = [
+  { label: 'No (0)', points: 0, default: true },
+  { label: 'Yes (1)', points: 1 },
+]
+
+const spec = {
+  items: [
+    { id: 'daytime', label: 'Daytime asthma symptoms more than twice per week', options: yn1 },
+    { id: 'night', label: 'Any night waking due to asthma', options: yn1 },
+    { id: 'reliever', label: 'Reliever needed for symptoms more than twice per week', options: yn1 },
+    { id: 'activity', label: 'Any activity limitation due to asthma', options: yn1 },
+  ],
+  bands: [
+    { min: 0, max: 0, label: 'None of these — well-controlled asthma', cls: 'cls-normal' },
+    { min: 1, max: 2, label: '1–2 of these — partly controlled asthma', cls: 'cls-warn' },
+    { min: 3, max: 4, label: '3–4 of these — uncontrolled asthma', cls: 'cls-danger' },
+  ],
+  max: 4,
+}
+
+const faq = [
+  { q: 'What is the GINA asthma control assessment?', a: 'The Global Initiative for Asthma symptom-control tool: four yes/no questions about the past 4 weeks classify control as well-, partly-, or uncontrolled.' },
+  { q: 'How is GINA control classified?', a: 'None of the four = well-controlled; 1–2 = partly controlled; 3–4 = uncontrolled.' },
+  { q: 'Is symptom control the same as risk?', a: 'No — GINA separately assesses future risk (exacerbations, fixed airflow limitation, medication side-effects), which should also be evaluated.' },
+  { q: 'How does control guide therapy?', a: 'Poor control prompts checking adherence/technique and stepping up treatment; sustained good control may allow step-down.' },
+]
+const references = [
+  { citation: 'Global Initiative for Asthma. Global Strategy for Asthma Management and Prevention, 2025. Available from www.ginasthma.org.' },
+]
+const relatedTools = [
+  { slug: 'curb-65', name: 'CURB-65' },
+  { slug: 'news-2', name: 'NEWS-2' },
+  { slug: 'qsofa', name: 'qSOFA' },
+]
+---
+<ScoreCalc
+  slug="gina-asthma-control"
+  name="GINA Asthma Control Calculator"
+  schemaName="GINA Asthma Control"
+  shortDescription="GINA symptom-control assessment classifying asthma as well/partly/uncontrolled."
+  metaTitle="GINA Asthma Control Calculator (2025) | maratool"
+  metaDescription="Free GINA asthma control calculator. Classify asthma symptom control over the past 4 weeks as well-controlled, partly controlled, or uncontrolled."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Answer the four GINA symptom-control questions for the past 4 weeks.',
+    'The control category updates instantly.',
+    'Also assess future-risk factors separately per GINA guidance.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

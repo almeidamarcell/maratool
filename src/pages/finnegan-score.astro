@@ -1,0 +1,142 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'cry', label: 'Crying', options: [
+      { label: 'Normal (0)', points: 0, default: true },
+      { label: 'High-pitched cry (2)', points: 2 },
+      { label: 'Continuous high-pitched cry (3)', points: 3 },
+    ]},
+    { id: 'sleep', label: 'Sleeps after feeding', options: [
+      { label: '> 3 h (0)', points: 0, default: true },
+      { label: '< 3 h (1)', points: 1 },
+      { label: '< 2 h (2)', points: 2 },
+      { label: '< 1 h (3)', points: 3 },
+    ]},
+    { id: 'moro', label: 'Moro reflex', options: [
+      { label: 'Normal (0)', points: 0, default: true },
+      { label: 'Hyperactive (2)', points: 2 },
+      { label: 'Markedly hyperactive (3)', points: 3 },
+    ]},
+    { id: 'tremors_d', label: 'Tremors when disturbed', options: [
+      { label: 'None (0)', points: 0, default: true },
+      { label: 'Mild (1)', points: 1 },
+      { label: 'Moderate–severe (2)', points: 2 },
+    ]},
+    { id: 'tremors_u', label: 'Tremors when undisturbed', options: [
+      { label: 'None (0)', points: 0, default: true },
+      { label: 'Mild (3)', points: 3 },
+      { label: 'Moderate–severe (4)', points: 4 },
+    ]},
+    { id: 'tone', label: 'Increased muscle tone', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (2)', points: 2 },
+    ]},
+    { id: 'excor', label: 'Excoriation (chin/knees/elbows)', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'myoclonic', label: 'Myoclonic jerks', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (3)', points: 3 },
+    ]},
+    { id: 'seizure', label: 'Generalized convulsions', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (5)', points: 5 },
+    ]},
+    { id: 'sweat', label: 'Sweating', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'fever', label: 'Fever', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: '37.2–38.3 °C (1)', points: 1 },
+      { label: '> 38.4 °C (2)', points: 2 },
+    ]},
+    { id: 'yawn', label: 'Frequent yawning (> 3–4 /interval)', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'mottle', label: 'Mottling', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'nasal_stuff', label: 'Nasal stuffiness', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'sneeze', label: 'Sneezing (> 3–4 /interval)', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'flaring', label: 'Nasal flaring', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (2)', points: 2 },
+    ]},
+    { id: 'rr', label: 'Respiratory rate', options: [
+      { label: '< 60/min (0)', points: 0, default: true },
+      { label: '> 60/min (1)', points: 1 },
+      { label: '> 60/min with retractions (2)', points: 2 },
+    ]},
+    { id: 'suck', label: 'Excessive sucking', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'feed', label: 'Poor feeding', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (2)', points: 2 },
+    ]},
+    { id: 'regurg', label: 'Regurgitation / vomiting', options: [
+      { label: 'None (0)', points: 0, default: true },
+      { label: 'Regurgitation (2)', points: 2 },
+      { label: 'Projectile vomiting (3)', points: 3 },
+    ]},
+    { id: 'stool', label: 'Stools', options: [
+      { label: 'Normal (0)', points: 0, default: true },
+      { label: 'Loose (2)', points: 2 },
+      { label: 'Watery (3)', points: 3 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 7, label: 'Mild — no pharmacologic treatment indicated', cls: 'cls-normal' },
+    { min: 8, max: 11, label: 'Borderline — consider treatment if persistent', cls: 'cls-warn' },
+    { min: 12, max: 50, label: 'Severe — pharmacologic treatment indicated', cls: 'cls-danger' },
+  ],
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the Finnegan score used for?', a: 'It quantifies the severity of neonatal abstinence syndrome (NAS) to guide initiation and titration of pharmacologic treatment in opioid-exposed infants.' },
+  { q: 'When is treatment indicated?', a: 'Most protocols start pharmacologic therapy when the Finnegan score is ≥ 8 on three consecutive assessments or ≥ 12 on two consecutive assessments.' },
+  { q: 'How often is the score assessed?', a: 'Every 3–4 hours, typically before feeding to standardize conditions.' },
+  { q: 'Finnegan vs ESC (Eat, Sleep, Console)?', a: 'ESC is a newer function-based approach that may reduce length of stay and morphine use. Many institutions are transitioning from Finnegan to ESC.' },
+]
+const references = [
+  { citation: 'Finnegan LP, Connaughton JF, Kron RE, Emich JP. Neonatal abstinence syndrome: assessment and management. <em>Addict Dis</em>. 1975;2(1-2):141-158.' },
+]
+const relatedTools = [
+  { slug: 'apgar-score', name: 'APGAR Score' },
+  { slug: 'capurro-somatic', name: 'Capurro Somatic' },
+  { slug: 'pediatric-glasgow', name: 'Pediatric Glasgow Coma Scale' },
+]
+---
+<ScoreCalc
+  slug="finnegan-score"
+  name="Finnegan Neonatal Abstinence Score Calculator"
+  schemaName="Finnegan NAS Score"
+  shortDescription="Score severity of neonatal abstinence syndrome using the Finnegan scale."
+  metaTitle="Finnegan Neonatal Abstinence Score Calculator | maratool"
+  metaDescription="Free Finnegan neonatal abstinence syndrome score calculator. 21-item assessment to guide opioid withdrawal treatment in newborns."
+  subcategory="Pediatric"
+  subcategorySlug="pediatric"
+  howTo={[
+    'Score each of the 21 NAS signs every 3–4 hours.',
+    'The total and treatment guidance update instantly.',
+    'Start pharmacologic therapy when score is persistently ≥ 8 (3 consecutive) or ≥ 12 (2 consecutive).',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

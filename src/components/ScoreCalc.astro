@@ -1,0 +1,80 @@
+---
+import HealthCalc from './HealthCalc.astro'
+
+interface ScoreOption { label: string; points: number; default?: boolean }
+interface ScoreItem { id: string; label: string; options: ScoreOption[] }
+interface ScoreBand { min: number; max?: number; label: string; cls?: string }
+interface ScoreSpec {
+  items: ScoreItem[]
+  bands: ScoreBand[]
+  max?: number
+  prefix?: string
+  bonus?: number
+  format?: 'default' | 'gestational' | 'percent'
+  scoreLabel?: string
+  cols?: 1 | 2 | 3 | 4
+}
+
+interface FAQItem { q: string; a: string }
+interface Reference { citation: string; url?: string }
+interface RelatedTool { slug: string; name: string }
+
+interface Props {
+  slug: string
+  name: string
+  shortDescription: string
+  metaTitle: string
+  metaDescription: string
+  subcategory: string
+  subcategorySlug: string
+  schemaName: string
+  howTo: string[]
+  faq: FAQItem[]
+  relatedTools: RelatedTool[]
+  references: Reference[]
+  spec: ScoreSpec
+}
+
+const { spec, ...calcProps } = Astro.props
+const cols = spec.cols ?? 1
+const colClass = `cols-${cols}`
+
+// Strip behavioral keys from the runtime JSON — UI is already rendered server-side.
+const runtimeSpec = {
+  bands: spec.bands,
+  max: spec.max,
+  prefix: spec.prefix,
+  bonus: spec.bonus,
+  format: spec.format,
+}
+---
+<HealthCalc {...calcProps}>
+  <div class={`hcalc-inputs ${colClass}`}>
+    {spec.items.map(item => (
+      <label class="hcalc-field">
+        <span class="hcalc-label">{item.label}</span>
+        <div class="hcalc-input-wrap">
+          <select id={`score-${item.id}`} data-score-input>
+            {item.options.map(opt => (
+              <option value={opt.points} selected={opt.default}>{opt.label}</option>
+            ))}
+          </select>
+        </div>
+      </label>
+    ))}
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output">
+      <div class="hcalc-output-label">{spec.scoreLabel || 'Score'}</div>
+      <div class="hcalc-output-value" id="score-total">—</div>
+      <button class="copy-btn" data-target="score-total">Copy</button>
+    </div>
+    <div class="hcalc-output">
+      <div class="hcalc-output-label">Interpretation</div>
+      <div class="hcalc-output-value" id="score-class">—</div>
+      <button class="copy-btn" data-target="score-class">Copy</button>
+    </div>
+  </div>
+  <script type="application/json" id="score-spec" set:html={JSON.stringify(runtimeSpec)} is:inline></script>
+  <script src="../tools/health/score-runtime.js"></script>
+</HealthCalc>

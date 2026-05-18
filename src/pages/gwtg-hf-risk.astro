@@ -1,0 +1,125 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'sbp', label: 'Systolic blood pressure (mmHg)', options: [
+      { label: '≥ 200 (0)', points: 0 },
+      { label: '190–199 (2)', points: 2 },
+      { label: '180–189 (4)', points: 4 },
+      { label: '170–179 (6)', points: 6 },
+      { label: '160–169 (8)', points: 8 },
+      { label: '150–159 (10)', points: 10 },
+      { label: '140–149 (12)', points: 12, default: true },
+      { label: '130–139 (14)', points: 14 },
+      { label: '120–129 (16)', points: 16 },
+      { label: '110–119 (18)', points: 18 },
+      { label: '100–109 (20)', points: 20 },
+      { label: '90–99 (22)', points: 22 },
+      { label: '80–89 (24)', points: 24 },
+      { label: '70–79 (26)', points: 26 },
+      { label: '≤ 69 (28)', points: 28 },
+    ]},
+    { id: 'bun', label: 'Blood urea nitrogen (mg/dL)', options: [
+      { label: '≤ 9 (0)', points: 0 },
+      { label: '10–19 (2)', points: 2, default: true },
+      { label: '20–29 (4)', points: 4 },
+      { label: '30–39 (6)', points: 6 },
+      { label: '40–49 (8)', points: 8 },
+      { label: '50–59 (10)', points: 10 },
+      { label: '60–69 (12)', points: 12 },
+      { label: '70–79 (15)', points: 15 },
+      { label: '80–89 (17)', points: 17 },
+      { label: '90–99 (19)', points: 19 },
+      { label: '100–109 (21)', points: 21 },
+      { label: '110–119 (23)', points: 23 },
+      { label: '120–129 (25)', points: 25 },
+      { label: '130–139 (27)', points: 27 },
+      { label: '≥ 140 (28)', points: 28 },
+    ]},
+    { id: 'na', label: 'Serum sodium (mmol/L)', options: [
+      { label: '≥ 139 (0)', points: 0, default: true },
+      { label: '137–138 (1)', points: 1 },
+      { label: '134–136 (2)', points: 2 },
+      { label: '131–133 (3)', points: 3 },
+      { label: '≤ 130 (4)', points: 4 },
+    ]},
+    { id: 'age', label: 'Age (years)', options: [
+      { label: '≤ 19 (0)', points: 0 },
+      { label: '20–29 (3)', points: 3 },
+      { label: '30–39 (6)', points: 6 },
+      { label: '40–49 (8)', points: 8 },
+      { label: '50–59 (11)', points: 11 },
+      { label: '60–69 (14)', points: 14, default: true },
+      { label: '70–79 (17)', points: 17 },
+      { label: '80–89 (19)', points: 19 },
+      { label: '90–99 (22)', points: 22 },
+      { label: '≥ 100 (25)', points: 25 },
+    ]},
+    { id: 'hr', label: 'Heart rate (bpm)', options: [
+      { label: '≤ 79 (0)', points: 0, default: true },
+      { label: '80–84 (1)', points: 1 },
+      { label: '85–89 (3)', points: 3 },
+      { label: '90–94 (4)', points: 4 },
+      { label: '95–99 (5)', points: 5 },
+      { label: '100–104 (6)', points: 6 },
+      { label: '≥ 105 (8)', points: 8 },
+    ]},
+    { id: 'race', label: 'Black race', options: [
+      { label: 'Yes (0)', points: 0 },
+      { label: 'No (3)', points: 3, default: true },
+    ]},
+    { id: 'copd', label: 'History of COPD', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (2)', points: 2 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 33, label: 'Score ≤ 33 — in-hospital mortality < 1%', cls: 'cls-normal' },
+    { min: 34, max: 50, label: 'Score 34–50 — in-hospital mortality 1–5%', cls: 'cls-normal' },
+    { min: 51, max: 57, label: 'Score 51–57 — in-hospital mortality 5–10%', cls: 'cls-warn' },
+    { min: 58, max: 61, label: 'Score 58–61 — in-hospital mortality 10–15%', cls: 'cls-warn' },
+    { min: 62, max: 65, label: 'Score 62–65 — in-hospital mortality 15–20%', cls: 'cls-danger' },
+    { min: 66, max: 70, label: 'Score 66–70 — in-hospital mortality 20–30%', cls: 'cls-danger' },
+    { min: 71, max: 74, label: 'Score 71–74 — in-hospital mortality 30–40%', cls: 'cls-danger' },
+    { min: 75, max: 78, label: 'Score 75–78 — in-hospital mortality 40–50%', cls: 'cls-danger' },
+    { min: 79, max: 100, label: 'Score ≥ 79 — in-hospital mortality > 50%', cls: 'cls-danger' },
+  ],
+  max: 100,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the GWTG-HF risk score?', a: 'The Get With The Guidelines–Heart Failure score predicts in-hospital mortality in patients admitted with acute heart failure (preserved or reduced ejection fraction).' },
+  { q: 'Which variables are used?', a: 'Systolic BP, BUN, serum sodium, age, heart rate, race, and history of COPD.' },
+  { q: 'How is it interpreted?', a: 'Risk rises continuously with the total points; bands map the total to estimated in-hospital mortality from < 1% to > 50%.' },
+  { q: 'Does it apply to HFpEF?', a: 'Yes — the score was validated in both reduced and preserved ejection-fraction acute heart failure.' },
+]
+const references = [
+  { citation: 'Peterson PN, Rumsfeld JS, Liang L, et al. A validated risk score for in-hospital mortality in patients with heart failure from the American Heart Association Get With The Guidelines program. <em>Circ Cardiovasc Qual Outcomes</em>. 2010;3(1):25-32.' },
+]
+const relatedTools = [
+  { slug: 'nyha-classification', name: 'NYHA Class' },
+  { slug: 'cha2ds2-vasc', name: 'CHA2DS2-VASc' },
+  { slug: 'curb-65', name: 'CURB-65' },
+]
+---
+<ScoreCalc
+  slug="gwtg-hf-risk"
+  name="GWTG-HF Risk Score Calculator"
+  schemaName="GWTG-HF Risk Score"
+  shortDescription="GWTG-HF score for in-hospital mortality risk in acute heart failure."
+  metaTitle="GWTG-HF Risk Score Calculator (Heart Failure) | maratool"
+  metaDescription="Free GWTG-HF risk score calculator. Predict in-hospital mortality in acute heart failure from BP, BUN, sodium, age, heart rate, race, and COPD."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select the band for each of the seven GWTG-HF variables.',
+    'The total score and in-hospital mortality band update instantly.',
+    'Use for risk stratification at heart-failure admission.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

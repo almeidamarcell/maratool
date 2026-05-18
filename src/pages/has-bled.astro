@@ -1,0 +1,75 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'h', label: 'Hypertension (uncontrolled, SBP > 160)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'a_renal', label: 'Abnormal renal function (Cr > 2.26 mg/dL or dialysis/transplant)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'a_liver', label: 'Abnormal liver function (cirrhosis or bili > 2× / AST/ALT/AP > 3× ULN)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 's', label: 'Stroke history', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'b', label: 'Bleeding history or predisposition (anemia, hemophilia)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'l', label: 'Labile INR (TTR < 60%)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'e', label: 'Elderly (age > 65)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'd_drugs', label: 'Drugs (antiplatelets or NSAIDs)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'd_alc', label: 'Alcohol use (≥ 8 drinks/week)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 2, label: '0–2 — Low risk of major bleeding', cls: 'cls-normal' },
+    { min: 3, max: 9, label: '≥ 3 — High risk — address modifiable factors', cls: 'cls-danger' },
+  ],
+  max: 9,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is HAS-BLED for?', a: 'It estimates 1-year risk of major bleeding in patients with atrial fibrillation on anticoagulation, identifying modifiable risk factors to address.' },
+  { q: 'Should HAS-BLED ≥ 3 stop anticoagulation?', a: 'No. A high HAS-BLED is a flag to address modifiable risks (BP, alcohol, NSAIDs, labile INR), not a contraindication to anticoagulation.' },
+  { q: 'HAS-BLED vs ATRIA vs ORBIT?', a: 'HAS-BLED remains the most widely used. ORBIT and ATRIA are alternatives with similar performance. ESC/AHA guidelines accept HAS-BLED for routine use.' },
+  { q: 'Does HAS-BLED apply to DOACs?', a: 'It was derived in warfarin-treated patients but has been validated in DOAC users with similar predictive performance for major bleeding.' },
+]
+const references = [
+  { citation: 'Pisters R, Lane DA, Nieuwlaat R, de Vos CB, Crijns HJ, Lip GY. A novel user-friendly score (HAS-BLED) to assess 1-year risk of major bleeding in patients with atrial fibrillation. <em>Chest</em>. 2010;138(5):1093-1100.' },
+]
+const relatedTools = [
+  { slug: 'cha2ds2-vasc', name: 'CHA2DS2-VASc' },
+  { slug: 'chads2-score', name: 'CHADS2 Score' },
+  { slug: 'crusade-bleeding', name: 'CRUSADE Bleeding Score' },
+]
+---
+<ScoreCalc
+  slug="has-bled"
+  name="HAS-BLED Score Calculator"
+  schemaName="HAS-BLED Score"
+  shortDescription="HAS-BLED score for major bleeding risk on anticoagulation for AF."
+  metaTitle="HAS-BLED Score Calculator (AF Bleeding Risk) | maratool"
+  metaDescription="Free HAS-BLED score calculator. Bleeding risk in atrial fibrillation patients on anticoagulation with modifiable risk identification."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Check each risk factor.',
+    'The HAS-BLED score and bleeding risk category update instantly.',
+    'Use to identify and address modifiable factors — not to withhold anticoagulation.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

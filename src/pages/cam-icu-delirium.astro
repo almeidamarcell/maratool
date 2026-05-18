@@ -1,0 +1,52 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is the CAM-ICU?', a: 'The Confusion Assessment Method for the ICU is a validated bedside tool to detect delirium in critically ill patients, including those who are mechanically ventilated.' },
+  { q: 'When is the CAM-ICU positive?', a: 'When Feature 1 (acute change or fluctuating mental status) AND Feature 2 (inattention) are present, together with either Feature 3 (altered level of consciousness, RASS ≠ 0) OR Feature 4 (disorganized thinking).' },
+  { q: 'Should I assess sedation first?', a: 'Yes — assess RASS first. If the patient is deeply sedated or unarousable (RASS −4/−5), the CAM-ICU cannot be performed; reassess when arousable.' },
+  { q: 'Does a negative CAM-ICU exclude delirium?', a: 'A single negative assessment does not rule out delirium over time — perform it at least once per shift because delirium fluctuates.' },
+]
+const references = [
+  { citation: 'Ely EW, Inouye SK, Bernard GR, et al. Delirium in mechanically ventilated patients: validity and reliability of the Confusion Assessment Method for the ICU (CAM-ICU). <em>JAMA</em>. 2001;286(21):2703-2710.' },
+]
+const relatedTools = [
+  { slug: 'rass-scale', name: 'RASS' },
+  { slug: 'mmse-mini-mental', name: 'MMSE' },
+  { slug: 'ramsay-sedation', name: 'Ramsay Sedation Scale' },
+]
+---
+<HealthCalc
+  slug="cam-icu-delirium"
+  name="CAM-ICU Delirium Assessment Calculator"
+  schemaName="CAM-ICU"
+  shortDescription="Confusion Assessment Method for the ICU (CAM-ICU) for delirium detection."
+  metaTitle="CAM-ICU Calculator (ICU Delirium) | maratool"
+  metaDescription="Free CAM-ICU calculator. Detect delirium in critically ill patients using the four CAM-ICU features."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Assess RASS first; if arousable, evaluate the four CAM-ICU features.',
+    'Tick each feature that is present.',
+    'CAM-ICU is positive when Feature 1 and 2 plus Feature 3 or 4 are present.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-1">
+    <label class="hcalc-field"><span class="hcalc-label">Feature 1 — Acute change or fluctuating course of mental status</span>
+      <div class="hcalc-input-wrap"><input id="cam-f1" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Feature 2 — Inattention (e.g., errors on letter/attention task)</span>
+      <div class="hcalc-input-wrap"><input id="cam-f2" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Feature 3 — Altered level of consciousness (current RASS ≠ 0)</span>
+      <div class="hcalc-input-wrap"><input id="cam-f3" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Feature 4 — Disorganized thinking (errors on yes/no &amp; command questions)</span>
+      <div class="hcalc-input-wrap"><input id="cam-f4" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">CAM-ICU</div><div class="hcalc-output-value" id="cam-value">—</div><button class="copy-btn" data-target="cam-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Interpretation</div><div class="hcalc-output-value" id="cam-class">—</div><button class="copy-btn" data-target="cam-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

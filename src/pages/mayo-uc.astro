@@ -1,0 +1,74 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'stool', label: 'Stool frequency (relative to normal for this patient)', options: [
+      { label: 'Normal (0)', points: 0, default: true },
+      { label: '1–2 stools/day more than normal (1)', points: 1 },
+      { label: '3–4 stools/day more than normal (2)', points: 2 },
+      { label: '≥ 5 stools/day more than normal (3)', points: 3 },
+    ]},
+    { id: 'bleeding', label: 'Rectal bleeding', options: [
+      { label: 'None (0)', points: 0, default: true },
+      { label: 'Streaks of blood < half the time (1)', points: 1 },
+      { label: 'Obvious blood most of the time (2)', points: 2 },
+      { label: 'Blood passed alone (3)', points: 3 },
+    ]},
+    { id: 'endoscopy', label: 'Endoscopic findings', options: [
+      { label: 'Normal or inactive disease (0)', points: 0, default: true },
+      { label: 'Mild — erythema, decreased vascular pattern (1)', points: 1 },
+      { label: 'Moderate — marked erythema, no vascular pattern, friability, erosions (2)', points: 2 },
+      { label: 'Severe — spontaneous bleeding, ulceration (3)', points: 3 },
+    ]},
+    { id: 'pga', label: 'Physician global assessment', options: [
+      { label: 'Normal (0)', points: 0, default: true },
+      { label: 'Mild (1)', points: 1 },
+      { label: 'Moderate (2)', points: 2 },
+      { label: 'Severe (3)', points: 3 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 2, label: 'Score 0–2 — clinical remission', cls: 'cls-normal' },
+    { min: 3, max: 5, label: 'Score 3–5 — mild disease', cls: 'cls-warn' },
+    { min: 6, max: 10, label: 'Score 6–10 — moderate disease', cls: 'cls-danger' },
+    { min: 11, max: 12, label: 'Score 11–12 — severe disease', cls: 'cls-danger' },
+  ],
+  max: 12,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the Mayo score?', a: 'A 0–12 composite index of ulcerative colitis activity combining stool frequency, rectal bleeding, endoscopic findings, and physician global assessment.' },
+  { q: 'What is the partial Mayo score?', a: 'The partial (non-invasive) Mayo score omits endoscopy (0–9) and is used for clinic follow-up when colonoscopy is not repeated.' },
+  { q: 'What defines remission and response?', a: 'Clinical remission is typically a total Mayo ≤ 2 with no subscore > 1; clinical response is a decrease ≥ 3 points and ≥ 30%, with a bleeding subscore of 0–1.' },
+  { q: 'Why include endoscopy?', a: 'Endoscopic activity (mucosal healing) is a key treatment target predicting better long-term outcomes, so the full Mayo score is preferred for trial endpoints.' },
+]
+const references = [
+  { citation: 'Schroeder KW, Tremaine WJ, Ilstrup DM. Coated oral 5-aminosalicylic acid therapy for mildly to moderately active ulcerative colitis. <em>N Engl J Med</em>. 1987;317(26):1625-1629.' },
+]
+const relatedTools = [
+  { slug: 'uceis-uc', name: 'UCEIS' },
+  { slug: 'harvey-bradshaw', name: 'Harvey-Bradshaw Index' },
+  { slug: 'cdai-crohns', name: 'CDAI (Crohn’s)' },
+]
+---
+<ScoreCalc
+  slug="mayo-uc"
+  name="Mayo Score for Ulcerative Colitis Calculator"
+  schemaName="Mayo Score"
+  shortDescription="Full Mayo score for ulcerative colitis disease activity (0–12)."
+  metaTitle="Mayo Score Calculator (Ulcerative Colitis) | maratool"
+  metaDescription="Free Mayo score calculator for ulcerative colitis. Grade disease activity from stool frequency, bleeding, endoscopy, and physician global assessment."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select stool frequency, rectal bleeding, endoscopic findings, and physician global assessment.',
+    'The total Mayo score (0–12) and activity band update instantly.',
+    'For follow-up without endoscopy, use only the first, second, and fourth items (partial Mayo).',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

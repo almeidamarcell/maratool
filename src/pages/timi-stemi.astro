@@ -1,0 +1,76 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'age', label: 'Age', options: [
+      { label: '< 65 years (0)', points: 0, default: true },
+      { label: '65–74 years (2)', points: 2 },
+      { label: '≥ 75 years (3)', points: 3 },
+    ]},
+    { id: 'history', label: 'Diabetes, hypertension, or history of angina', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'sbp', label: 'Systolic BP < 100 mmHg', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (3)', points: 3 },
+    ]},
+    { id: 'hr', label: 'Heart rate > 100 bpm', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (2)', points: 2 },
+    ]},
+    { id: 'killip', label: 'Killip class II–IV', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (2)', points: 2 },
+    ]},
+    { id: 'weight', label: 'Weight < 67 kg', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'ecg', label: 'Anterior ST elevation or LBBB', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'time', label: 'Time to treatment > 4 hours', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 2, label: 'Score 0–2 — low 30-day mortality (≈ 0.8–2.2%)', cls: 'cls-normal' },
+    { min: 3, max: 4, label: 'Score 3–4 — moderate (≈ 4–7%)', cls: 'cls-warn' },
+    { min: 5, max: 6, label: 'Score 5–6 — high (≈ 12–16%)', cls: 'cls-danger' },
+    { min: 7, max: 14, label: 'Score ≥ 7 — very high (≈ 23–36%)', cls: 'cls-danger' },
+  ],
+  max: 14,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the TIMI score for STEMI?', a: 'A weighted score (0–14) that predicts 30-day mortality in ST-elevation myocardial infarction treated with fibrinolysis.' },
+  { q: 'How does it differ from the UA/NSTEMI TIMI score?', a: 'The STEMI version uses weighted points (e.g., SBP < 100 = 3 points) and predicts mortality; the UA/NSTEMI version is a 7-point equal-weight score predicting a composite ischemic outcome.' },
+  { q: 'What is Killip class?', a: 'A bedside classification of heart failure in acute MI: I = none, II = rales/S3, III = pulmonary edema, IV = cardiogenic shock.' },
+  { q: 'Was this score validated for primary PCI?', a: 'It was derived in fibrinolysis-treated patients (InTIME-II); it still risk-stratifies PCI-treated STEMI but absolute mortality estimates differ with modern reperfusion.' },
+]
+const references = [
+  { citation: 'Morrow DA, Antman EM, Charlesworth A, et al. TIMI risk score for ST-elevation myocardial infarction. <em>Circulation</em>. 2000;102(17):2031-2037.' },
+]
+const relatedTools = [
+  { slug: 'timi-nstemi-ua', name: 'TIMI Score (UA/NSTEMI)' },
+  { slug: 'heart-score', name: 'HEART Score' },
+  { slug: 'grace-acs', name: 'GRACE Score' },
+]
+---
+<ScoreCalc
+  slug="timi-stemi"
+  name="TIMI Risk Score for STEMI Calculator"
+  schemaName="TIMI Risk Score (STEMI)"
+  shortDescription="TIMI risk score for 30-day mortality in ST-elevation myocardial infarction (0–14)."
+  metaTitle="TIMI Score Calculator (STEMI Mortality) | maratool"
+  metaDescription="Free TIMI risk score calculator for STEMI. Estimate 30-day mortality after ST-elevation MI from 8 weighted clinical variables."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select each clinical variable for your STEMI patient.',
+    'The weighted total score (0–14) and 30-day mortality estimate update instantly.',
+    'Use for prognosis and triage intensity, alongside reperfusion strategy.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

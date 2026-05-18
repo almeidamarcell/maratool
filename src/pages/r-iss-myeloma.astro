@@ -1,0 +1,56 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is the R-ISS?', a: 'The Revised International Staging System for multiple myeloma combines the ISS stage (albumin, β2-microglobulin), high-risk FISH cytogenetics, and serum LDH into three prognostic stages.' },
+  { q: 'How are the R-ISS stages defined?', a: 'Stage I = ISS I + standard-risk cytogenetics + normal LDH; Stage III = ISS III + (high-risk cytogenetics or high LDH); Stage II = all other combinations.' },
+  { q: 'What is high-risk cytogenetics?', a: 'Presence of del(17p), t(4;14), or t(14;16) by interphase FISH.' },
+  { q: 'What is the ISS stage based on?', a: 'ISS I: β2-microglobulin < 3.5 mg/L and albumin ≥ 3.5 g/dL; ISS III: β2-microglobulin ≥ 5.5 mg/L; ISS II: neither I nor III.' },
+]
+const references = [
+  { citation: 'Palumbo A, Avet-Loiseau H, Oliva S, et al. Revised International Staging System for multiple myeloma. <em>J Clin Oncol</em>. 2015;33(26):2863-2869.' },
+]
+const relatedTools = [
+  { slug: 'gelf-criteria', name: 'GELF Criteria' },
+  { slug: 'ecog-performance', name: 'ECOG Performance Status' },
+  { slug: 'karnofsky-performance', name: 'Karnofsky Performance Status' },
+]
+---
+<HealthCalc
+  slug="r-iss-myeloma"
+  name="R-ISS Calculator (Multiple Myeloma)"
+  schemaName="R-ISS"
+  shortDescription="Revised International Staging System (R-ISS) for multiple myeloma prognosis (Stage I–III)."
+  metaTitle="R-ISS Calculator (Multiple Myeloma Staging) | maratool"
+  metaDescription="Free R-ISS calculator. Stage multiple myeloma prognosis from ISS stage, FISH cytogenetics, and serum LDH."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select the ISS stage, then mark high-risk cytogenetics and elevated LDH if present.',
+    'The R-ISS stage and prognosis update instantly.',
+    'Use for prognostic counselling and trial stratification.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">ISS stage</span>
+      <div class="hcalc-input-wrap">
+        <select id="riss-iss">
+          <option value="1" selected>ISS I (β2M &lt; 3.5 and albumin ≥ 3.5)</option>
+          <option value="2">ISS II (neither I nor III)</option>
+          <option value="3">ISS III (β2M ≥ 5.5)</option>
+        </select>
+      </div></label>
+    <label class="hcalc-field"><span class="hcalc-label">High-risk cytogenetics — del(17p), t(4;14), or t(14;16)</span>
+      <div class="hcalc-input-wrap"><input id="riss-cyto" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Serum LDH above the upper limit of normal</span>
+      <div class="hcalc-input-wrap"><input id="riss-ldh" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">R-ISS stage</div><div class="hcalc-output-value" id="riss-value">—</div><button class="copy-btn" data-target="riss-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Prognosis</div><div class="hcalc-output-value" id="riss-class">—</div><button class="copy-btn" data-target="riss-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

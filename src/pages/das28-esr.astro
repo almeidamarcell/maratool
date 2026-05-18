@@ -1,0 +1,52 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is DAS28-ESR?', a: 'The Disease Activity Score on 28 joints using ESR — a composite measure of rheumatoid arthritis activity from tender/swollen joint counts, ESR, and patient global health.' },
+  { q: 'What are the DAS28 thresholds?', a: '< 2.6 remission, 2.6–3.2 low activity, > 3.2–5.1 moderate, > 5.1 high disease activity.' },
+  { q: 'How is global health measured?', a: 'Patient global assessment of disease activity on a 0–100 mm visual analogue scale (0 = best, 100 = worst).' },
+  { q: 'DAS28-ESR vs DAS28-CRP?', a: 'They use different acute-phase reactants and are not interchangeable — DAS28-CRP tends to give slightly lower values; use the same one for longitudinal follow-up.' },
+]
+const references = [
+  { citation: 'Prevoo ML, van ’t Hof MA, Kuper HH, et al. Modified disease activity scores that include twenty-eight-joint counts. <em>Arthritis Rheum</em>. 1995;38(1):44-48.' },
+]
+const relatedTools = [
+  { slug: 'das28-crp', name: 'DAS28-CRP' },
+  { slug: 'harvey-bradshaw', name: 'Harvey-Bradshaw Index' },
+  { slug: 'ecog-performance', name: 'ECOG Performance Status' },
+]
+---
+<HealthCalc
+  slug="das28-esr"
+  name="DAS28-ESR Calculator (Rheumatoid Arthritis)"
+  schemaName="DAS28-ESR"
+  shortDescription="DAS28-ESR composite disease-activity score for rheumatoid arthritis."
+  metaTitle="DAS28-ESR Calculator (Rheumatoid Arthritis) | maratool"
+  metaDescription="Free DAS28-ESR calculator. Quantify rheumatoid arthritis disease activity from joint counts, ESR, and patient global health."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Enter the 28-joint tender and swollen counts, ESR, and patient global health (0–100 mm).',
+    'The DAS28-ESR and activity category update instantly.',
+    'Use the same DAS28 variant (ESR or CRP) consistently for follow-up.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Tender joint count (0–28)</span>
+      <div class="hcalc-input-wrap"><input id="das28e-tjc" type="number" inputmode="numeric" min="0" max="28" step="1" placeholder="e.g. 5" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Swollen joint count (0–28)</span>
+      <div class="hcalc-input-wrap"><input id="das28e-sjc" type="number" inputmode="numeric" min="0" max="28" step="1" placeholder="e.g. 3" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">ESR (mm/h)</span>
+      <div class="hcalc-input-wrap"><input id="das28e-esr" type="number" inputmode="decimal" min="1" step="1" placeholder="e.g. 30" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Patient global health (0–100 mm)</span>
+      <div class="hcalc-input-wrap"><input id="das28e-gh" type="number" inputmode="numeric" min="0" max="100" step="1" placeholder="e.g. 50" /></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">DAS28-ESR</div><div class="hcalc-output-value" id="das28e-value">—</div><button class="copy-btn" data-target="das28e-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Disease activity</div><div class="hcalc-output-value" id="das28e-class">—</div><button class="copy-btn" data-target="das28e-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

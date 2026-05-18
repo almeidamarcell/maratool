@@ -1,0 +1,63 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'primary', label: 'Primary tumor', options: [
+      { label: '1 — Slow growth (breast, thyroid, prostate, testicular)', points: 1, default: true },
+      { label: '2 — Moderate growth (kidney, uterus)', points: 2 },
+      { label: '4 — Rapid growth (lung, stomach, esophagus, liver, pancreas, others)', points: 4 },
+    ]},
+    { id: 'visceral', label: 'Visceral metastases', options: [
+      { label: '0 — No visceral metastases', points: 0, default: true },
+      { label: '2 — Treatable visceral metastases', points: 2 },
+      { label: '4 — Untreatable visceral metastases', points: 4 },
+    ]},
+    { id: 'bone', label: 'Bone metastases', options: [
+      { label: '1 — Solitary or isolated bone metastasis', points: 1, default: true },
+      { label: '2 — Multiple bone metastases', points: 2 },
+    ]},
+  ],
+  bands: [
+    { min: 2, max: 3, label: 'Long-term local control — wide or marginal excision', cls: 'cls-normal' },
+    { min: 4, max: 5, label: 'Mid-term local control — marginal or intralesional excision', cls: 'cls-warn' },
+    { min: 6, max: 7, label: 'Short-term palliation — palliative surgery', cls: 'cls-warn' },
+    { min: 8, max: 10, label: 'Terminal care — supportive care', cls: 'cls-danger' },
+  ],
+  max: 10,
+}
+
+const faq = [
+  { q: 'What is the Tomita score used for?', a: 'It guides the surgical strategy for spinal metastases, ranging from wide excision (best prognosis) to terminal supportive care (worst prognosis).' },
+  { q: 'How does the Tomita score complement Tokuhashi?', a: 'Tokuhashi predicts survival; Tomita translates that to a surgical strategy. Many centers use both together.' },
+  { q: 'What is the score range?', a: '2 to 10. Lower scores favor curative-intent surgery; higher scores favor palliation.' },
+  { q: 'Should modern systemic therapies change interpretation?', a: 'Yes — improved targeted/immune therapies for kidney, breast, and lung cancers may extend survival beyond historical Tomita predictions. Use clinical judgment.' },
+]
+const references = [
+  { citation: 'Tomita K, Kawahara N, Kobayashi T, Yoshida A, Murakami H, Akamaru T. Surgical strategy for spinal metastases. <em>Spine</em>. 2001;26(3):298-306.' },
+]
+const relatedTools = [
+  { slug: 'tokuhashi-score', name: 'Revised Tokuhashi Score' },
+  { slug: 'karnofsky-performance', name: 'Karnofsky Performance Scale' },
+  { slug: 'ecog-performance', name: 'ECOG Performance Status' },
+]
+---
+<ScoreCalc
+  slug="tomita-score"
+  name="Tomita Score Calculator (Spinal Metastasis)"
+  schemaName="Tomita Score"
+  shortDescription="Tomita score for surgical strategy in spinal metastasis (2–10)."
+  metaTitle="Tomita Score Calculator (Spinal Metastasis) | maratool"
+  metaDescription="Free Tomita score calculator. Guides surgical strategy for spinal metastases based on primary tumor, visceral and bone disease."
+  subcategory="Prognosis"
+  subcategorySlug="prognosis"
+  howTo={[
+    'Select the primary tumor growth pattern, visceral mets, and bone mets.',
+    'The total (2–10) and strategy recommendation update instantly.',
+    'Combine with Tokuhashi for survival prognostication.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

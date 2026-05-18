@@ -1,0 +1,90 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'hb', label: 'Hemoglobin (g/dL)', options: [
+      { label: '≥ 12 (0)', points: 0, default: true },
+      { label: '11–< 12 (2)', points: 2 },
+      { label: '10–< 11 (3)', points: 3 },
+      { label: '9–< 10 (4)', points: 4 },
+      { label: '7–< 9 (6)', points: 6 },
+      { label: '< 7 (8)', points: 8 },
+    ]},
+    { id: 'be', label: 'Base excess (mmol/L)', options: [
+      { label: '≥ −2 (0)', points: 0, default: true },
+      { label: '−6 to < −2 (1)', points: 1 },
+      { label: '−10 to < −6 (3)', points: 3 },
+      { label: '< −10 (4)', points: 4 },
+    ]},
+    { id: 'sbp', label: 'Systolic blood pressure (mmHg)', options: [
+      { label: '≥ 120 (0)', points: 0, default: true },
+      { label: '100–< 120 (1)', points: 1 },
+      { label: '< 100 (4)', points: 4 },
+    ]},
+    { id: 'hr', label: 'Heart rate (bpm)', options: [
+      { label: '≤ 120 (0)', points: 0, default: true },
+      { label: '> 120 (2)', points: 2 },
+    ]},
+    { id: 'fast', label: 'Positive FAST (free intra-abdominal fluid)', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (3)', points: 3 },
+    ]},
+    { id: 'pelvis', label: 'Clinically unstable pelvic fracture', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (6)', points: 6 },
+    ]},
+    { id: 'femur', label: 'Open or dislocated femur fracture', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (3)', points: 3 },
+    ]},
+    { id: 'sex', label: 'Sex', options: [
+      { label: 'Female (0)', points: 0, default: true },
+      { label: 'Male (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 8, label: 'Score ≤ 8 — low probability of massive transfusion (< 5%)', cls: 'cls-normal' },
+    { min: 9, max: 11, label: 'Score 9–11 — moderate probability (≈ 6–10%)', cls: 'cls-warn' },
+    { min: 12, max: 15, label: 'Score 12–15 — high probability (≈ 15–30%)', cls: 'cls-danger' },
+    { min: 16, max: 17, label: 'Score 16–17 — very high probability (≈ 40–50%)', cls: 'cls-danger' },
+    { min: 18, max: 31, label: 'Score ≥ 18 — extreme probability (≥ 50%); activate MTP', cls: 'cls-danger' },
+  ],
+  max: 31,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the TASH score?', a: 'The Trauma Associated Severe Hemorrhage score predicts the probability that a severely injured patient will require massive transfusion.' },
+  { q: 'How is the TASH score used?', a: 'Higher scores prompt early activation of the massive transfusion protocol and balanced blood-product resuscitation.' },
+  { q: 'Which variables drive the score?', a: 'Hemoglobin, base excess, systolic BP, heart rate, positive FAST, unstable pelvic fracture, femur fracture, and male sex.' },
+  { q: 'Is the relationship between score and risk linear?', a: 'No — the probability of massive transfusion rises steeply (sigmoidally); the bands here summarise the validated probability ranges.' },
+]
+const references = [
+  { citation: 'Yücel N, Lefering R, Maegele M, et al. Trauma Associated Severe Hemorrhage (TASH)-Score: probability of mass transfusion as surrogate for life threatening hemorrhage after multiple trauma. <em>J Trauma</em>. 2006;60(6):1228-1236.' },
+]
+const relatedTools = [
+  { slug: 'iss-injury-severity', name: 'Injury Severity Score' },
+  { slug: 'four-coma-scale', name: 'FOUR Score' },
+  { slug: 'glasgow-coma-pupil', name: 'GCS-Pupil' },
+]
+---
+<ScoreCalc
+  slug="tash-massive-transfusion"
+  name="TASH Score Calculator (Massive Transfusion)"
+  schemaName="TASH Score"
+  shortDescription="Trauma Associated Severe Hemorrhage (TASH) score for massive transfusion probability."
+  metaTitle="TASH Score Calculator (Massive Transfusion) | maratool"
+  metaDescription="Free TASH score calculator. Predict the probability of massive transfusion after major trauma from hemoglobin, base excess, vitals, FAST, and fractures."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select the band for each of the eight TASH variables.',
+    'The total score (0–31) and massive-transfusion probability band update instantly.',
+    'High scores warrant early massive transfusion protocol activation.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

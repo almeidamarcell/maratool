@@ -1,0 +1,138 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'loc', label: '1a. Level of consciousness', options: [
+      { label: '0 — Alert', points: 0, default: true },
+      { label: '1 — Drowsy, but rousable', points: 1 },
+      { label: '2 — Obtunded, requires repeated stimulation', points: 2 },
+      { label: '3 — Coma / responds only with reflex effects', points: 3 },
+    ]},
+    { id: 'loc_q', label: '1b. LOC questions (current month, age)', options: [
+      { label: '0 — Both correct', points: 0, default: true },
+      { label: '1 — One correct', points: 1 },
+      { label: '2 — Neither correct', points: 2 },
+    ]},
+    { id: 'loc_c', label: '1c. LOC commands (open/close eyes; grip)', options: [
+      { label: '0 — Both correct', points: 0, default: true },
+      { label: '1 — One correct', points: 1 },
+      { label: '2 — Neither correct', points: 2 },
+    ]},
+    { id: 'gaze', label: '2. Best gaze', options: [
+      { label: '0 — Normal', points: 0, default: true },
+      { label: '1 — Partial gaze palsy', points: 1 },
+      { label: '2 — Forced deviation / total gaze paresis', points: 2 },
+    ]},
+    { id: 'visual', label: '3. Visual fields', options: [
+      { label: '0 — No visual loss', points: 0, default: true },
+      { label: '1 — Partial hemianopia', points: 1 },
+      { label: '2 — Complete hemianopia', points: 2 },
+      { label: '3 — Bilateral hemianopia / blind', points: 3 },
+    ]},
+    { id: 'face', label: '4. Facial palsy', options: [
+      { label: '0 — Normal', points: 0, default: true },
+      { label: '1 — Minor paralysis', points: 1 },
+      { label: '2 — Partial paralysis (lower face)', points: 2 },
+      { label: '3 — Complete unilateral or bilateral', points: 3 },
+    ]},
+    { id: 'arm_l', label: '5a. Left arm motor', options: [
+      { label: '0 — No drift', points: 0, default: true },
+      { label: '1 — Drift', points: 1 },
+      { label: '2 — Some effort against gravity', points: 2 },
+      { label: '3 — No effort against gravity', points: 3 },
+      { label: '4 — No movement', points: 4 },
+    ]},
+    { id: 'arm_r', label: '5b. Right arm motor', options: [
+      { label: '0 — No drift', points: 0, default: true },
+      { label: '1 — Drift', points: 1 },
+      { label: '2 — Some effort against gravity', points: 2 },
+      { label: '3 — No effort against gravity', points: 3 },
+      { label: '4 — No movement', points: 4 },
+    ]},
+    { id: 'leg_l', label: '6a. Left leg motor', options: [
+      { label: '0 — No drift', points: 0, default: true },
+      { label: '1 — Drift', points: 1 },
+      { label: '2 — Some effort against gravity', points: 2 },
+      { label: '3 — No effort against gravity', points: 3 },
+      { label: '4 — No movement', points: 4 },
+    ]},
+    { id: 'leg_r', label: '6b. Right leg motor', options: [
+      { label: '0 — No drift', points: 0, default: true },
+      { label: '1 — Drift', points: 1 },
+      { label: '2 — Some effort against gravity', points: 2 },
+      { label: '3 — No effort against gravity', points: 3 },
+      { label: '4 — No movement', points: 4 },
+    ]},
+    { id: 'ataxia', label: '7. Limb ataxia', options: [
+      { label: '0 — Absent', points: 0, default: true },
+      { label: '1 — One limb', points: 1 },
+      { label: '2 — Two limbs', points: 2 },
+    ]},
+    { id: 'sensory', label: '8. Sensory', options: [
+      { label: '0 — Normal', points: 0, default: true },
+      { label: '1 — Mild-to-moderate sensory loss', points: 1 },
+      { label: '2 — Severe / total sensory loss', points: 2 },
+    ]},
+    { id: 'language', label: '9. Best language', options: [
+      { label: '0 — No aphasia', points: 0, default: true },
+      { label: '1 — Mild-to-moderate aphasia', points: 1 },
+      { label: '2 — Severe aphasia', points: 2 },
+      { label: '3 — Mute / global aphasia', points: 3 },
+    ]},
+    { id: 'dysarthria', label: '10. Dysarthria', options: [
+      { label: '0 — Normal', points: 0, default: true },
+      { label: '1 — Mild-to-moderate', points: 1 },
+      { label: '2 — Severe / unintelligible / mute', points: 2 },
+    ]},
+    { id: 'neglect', label: '11. Extinction / inattention (neglect)', options: [
+      { label: '0 — No abnormality', points: 0, default: true },
+      { label: '1 — Visual, tactile, auditory, spatial, or personal inattention', points: 1 },
+      { label: '2 — Profound hemi-inattention / extinction to > 1 modality', points: 2 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 0, label: '0 — No stroke symptoms', cls: 'cls-normal' },
+    { min: 1, max: 4, label: '1–4 — Minor stroke', cls: 'cls-normal' },
+    { min: 5, max: 15, label: '5–15 — Moderate stroke', cls: 'cls-warn' },
+    { min: 16, max: 20, label: '16–20 — Moderate–severe stroke', cls: 'cls-warn' },
+    { min: 21, max: 42, label: '21–42 — Severe stroke', cls: 'cls-danger' },
+  ],
+  max: 42,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the NIHSS?', a: 'The National Institutes of Health Stroke Scale is a 15-item neurologic exam quantifying stroke severity from 0 (no symptoms) to 42 (severe).' },
+  { q: 'How does NIHSS guide treatment?', a: 'NIHSS helps decide on IV thrombolysis and endovascular therapy. Higher scores generally support more aggressive therapy in eligible patients; very mild deficits (NIHSS < 5) may not benefit from thrombolysis.' },
+  { q: 'When should NIHSS be reassessed?', a: 'At arrival, post-treatment, 24 hours, and at discharge — and after any clinical change. Trends are more informative than absolute values.' },
+  { q: 'Limitations?', a: 'NIHSS underweights posterior circulation strokes and right-hemisphere syndromes. A "low NIHSS" does not always mean a non-disabling stroke.' },
+]
+const references = [
+  { citation: 'Brott T, Adams HP Jr, Olinger CP, et al. Measurements of acute cerebral infarction: a clinical examination scale. <em>Stroke</em>. 1989;20(7):864-870.' },
+]
+const relatedTools = [
+  { slug: 'aspects-score', name: 'ASPECTS Score' },
+  { slug: 'abcd2-tia', name: 'ABCD2 Score (TIA)' },
+  { slug: 'rope-paradoxical-embolism', name: 'RoPE Score' },
+]
+---
+<ScoreCalc
+  slug="nihss-stroke"
+  name="NIHSS Stroke Scale Calculator"
+  schemaName="NIHSS"
+  shortDescription="NIH Stroke Scale (NIHSS) for stroke severity (0–42)."
+  metaTitle="NIHSS Stroke Scale Calculator (0–42) | maratool"
+  metaDescription="Free NIH Stroke Scale (NIHSS) calculator. 15-item exam for stroke severity assessment to guide treatment."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Examine each of the 15 NIHSS items.',
+    'The total (0–42) and severity category update instantly.',
+    'Re-score on arrival, post-treatment, at 24 h, and at discharge.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

@@ -1,0 +1,59 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'mental', label: 'Altered mental status (GCS < 15)', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'rr', label: 'Respiratory rate ≥ 22/min', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'sbp', label: 'Systolic BP ≤ 100 mmHg', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 1, label: 'Low risk — sepsis less likely', cls: 'cls-normal' },
+    { min: 2, max: 3, label: 'High risk — increased mortality, evaluate for sepsis', cls: 'cls-danger' },
+  ],
+  max: 3,
+}
+
+const faq = [
+  { q: 'What is qSOFA?', a: 'Quick Sepsis-Related Organ Failure Assessment — a bedside score (0–3) to identify non-ICU patients at high risk of poor outcomes from suspected infection.' },
+  { q: 'When is qSOFA positive?', a: '≥ 2 of 3 criteria. A positive qSOFA in suspected infection is associated with 3- to 14-fold higher mortality.' },
+  { q: 'Should qSOFA be used for sepsis screening?', a: 'qSOFA is a prompt to evaluate for sepsis, not a screening tool. NEWS-2 and SIRS criteria may detect at-risk patients earlier.' },
+  { q: 'qSOFA vs SOFA?', a: 'Full SOFA requires lab/ventilator parameters and is used in ICU. qSOFA is a bedside surrogate without labs, suitable for ED/ward triage.' },
+]
+const references = [
+  { citation: 'Singer M, Deutschman CS, Seymour CW, et al. The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3). <em>JAMA</em>. 2016;315(8):801-810.' },
+]
+const relatedTools = [
+  { slug: 'sofa-score', name: 'SOFA Score' },
+  { slug: 'news-2', name: 'NEWS-2' },
+  { slug: 'curb-65', name: 'CURB-65' },
+]
+---
+<ScoreCalc
+  slug="qsofa"
+  name="qSOFA Score Calculator"
+  schemaName="qSOFA Score"
+  shortDescription="Quick Sepsis-Related Organ Failure Assessment (qSOFA) for sepsis screening (0–3)."
+  metaTitle="qSOFA Score Calculator (Sepsis Screening) | maratool"
+  metaDescription="Free qSOFA calculator. Bedside Quick Sepsis-Related Organ Failure Assessment with mortality interpretation."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Check the 3 bedside criteria: mental status, RR, SBP.',
+    'A score ≥ 2 in suspected infection identifies high mortality risk.',
+    'Use to trigger sepsis workup; do not use as the sole sepsis screen.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

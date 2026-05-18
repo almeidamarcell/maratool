@@ -1,0 +1,99 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'hct', label: 'Baseline hematocrit (%)', options: [
+      { label: '< 31 (9)', points: 9 },
+      { label: '31–33.9 (7)', points: 7 },
+      { label: '34–36.9 (3)', points: 3 },
+      { label: '37–39.9 (2)', points: 2 },
+      { label: '≥ 40 (0)', points: 0, default: true },
+    ]},
+    { id: 'crcl', label: 'Creatinine clearance (mL/min)', options: [
+      { label: '≤ 15 (39)', points: 39 },
+      { label: '> 15–30 (35)', points: 35 },
+      { label: '> 30–60 (28)', points: 28 },
+      { label: '> 60–90 (17)', points: 17 },
+      { label: '> 90–120 (7)', points: 7 },
+      { label: '> 120 (0)', points: 0, default: true },
+    ]},
+    { id: 'hr', label: 'Heart rate (bpm)', options: [
+      { label: '≤ 70 (0)', points: 0, default: true },
+      { label: '71–80 (1)', points: 1 },
+      { label: '81–90 (3)', points: 3 },
+      { label: '91–100 (6)', points: 6 },
+      { label: '101–110 (8)', points: 8 },
+      { label: '111–120 (10)', points: 10 },
+      { label: '≥ 121 (11)', points: 11 },
+    ]},
+    { id: 'sex', label: 'Sex', options: [
+      { label: 'Male (0)', points: 0, default: true },
+      { label: 'Female (8)', points: 8 },
+    ]},
+    { id: 'chf', label: 'Signs of CHF at presentation', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (7)', points: 7 },
+    ]},
+    { id: 'vascular', label: 'Prior vascular disease', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (6)', points: 6 },
+    ]},
+    { id: 'dm', label: 'Diabetes mellitus', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (6)', points: 6 },
+    ]},
+    { id: 'sbp', label: 'Systolic blood pressure (mmHg)', options: [
+      { label: '≤ 90 (10)', points: 10 },
+      { label: '91–100 (8)', points: 8 },
+      { label: '101–120 (5)', points: 5 },
+      { label: '121–180 (1)', points: 1, default: true },
+      { label: '181–200 (3)', points: 3 },
+      { label: '≥ 201 (5)', points: 5 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 20, label: 'Very low risk — major bleeding ≈ 3.1%', cls: 'cls-normal' },
+    { min: 21, max: 30, label: 'Low risk — major bleeding ≈ 5.5%', cls: 'cls-normal' },
+    { min: 31, max: 40, label: 'Moderate risk — major bleeding ≈ 8.6%', cls: 'cls-warn' },
+    { min: 41, max: 50, label: 'High risk — major bleeding ≈ 11.9%', cls: 'cls-danger' },
+    { min: 51, max: 100, label: 'Very high risk — major bleeding ≈ 19.5%', cls: 'cls-danger' },
+  ],
+  max: 100,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the CRUSADE bleeding score?', a: 'A score predicting the risk of major in-hospital bleeding in patients with non-ST-elevation acute coronary syndrome.' },
+  { q: 'How is the CRUSADE score interpreted?', a: 'Risk bands: ≤ 20 very low, 21–30 low, 31–40 moderate, 41–50 high, > 50 very high probability of major bleeding.' },
+  { q: 'How is it used clinically?', a: 'It informs the bleeding-risk side of the ischemia–bleeding trade-off, e.g., choice and intensity of antithrombotics and access site.' },
+  { q: 'Was CRUSADE validated for STEMI?', a: 'It was derived in NSTE-ACS; performance in STEMI and with radial access / contemporary therapy is less well established.' },
+]
+const references = [
+  { citation: 'Subherwal S, Bach RG, Chen AY, et al. Baseline risk of major bleeding in non-ST-segment-elevation myocardial infarction: the CRUSADE bleeding score. <em>Circulation</em>. 2009;119(14):1873-1882.' },
+]
+const relatedTools = [
+  { slug: 'has-bled', name: 'HAS-BLED' },
+  { slug: 'timi-nstemi-ua', name: 'TIMI Score (NSTEMI/UA)' },
+  { slug: 'heart-score', name: 'HEART Score' },
+]
+---
+<ScoreCalc
+  slug="crusade-bleeding"
+  name="CRUSADE Bleeding Score Calculator"
+  schemaName="CRUSADE Bleeding Score"
+  shortDescription="CRUSADE bleeding score for major in-hospital bleeding risk in NSTE-ACS (0–100)."
+  metaTitle="CRUSADE Bleeding Score Calculator (NSTE-ACS) | maratool"
+  metaDescription="Free CRUSADE bleeding score calculator. Estimate major in-hospital bleeding risk in non-ST-elevation acute coronary syndrome."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select the band for each of the eight CRUSADE variables.',
+    'The total score (0–100) and bleeding-risk band update instantly.',
+    'Weigh against ischemic risk when choosing antithrombotic strategy.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

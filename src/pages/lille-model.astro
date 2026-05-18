@@ -1,0 +1,56 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is the Lille model?', a: 'A model that predicts 6-month survival in severe alcoholic hepatitis by assessing response to corticosteroids after 7 days of treatment.' },
+  { q: 'What Lille score is a non-responder?', a: 'A score ≥ 0.45 indicates corticosteroid non-response, with ~25% 6-month survival — supports stopping steroids and considering other options.' },
+  { q: 'What inputs are needed?', a: 'Age, day-0 albumin, day-0 and day-7 bilirubin, prothrombin time, and presence of renal insufficiency.' },
+  { q: 'When is the Lille model applied?', a: 'On day 7 of corticosteroid therapy for severe alcohol-associated hepatitis (typically those with a Maddrey DF ≥ 32).' },
+]
+const references = [
+  { citation: 'Louvet A, Naveau S, Abdelnour M, et al. The Lille model: a new tool for therapeutic strategy in patients with severe alcoholic hepatitis treated with steroids. <em>Hepatology</em>. 2007;45(6):1348-1354.' },
+]
+const relatedTools = [
+  { slug: 'maddrey-discriminant', name: 'Maddrey Discriminant Function' },
+  { slug: 'meld-meldna', name: 'MELD / MELD-Na' },
+  { slug: 'child-pugh', name: 'Child-Pugh' },
+]
+---
+<HealthCalc
+  slug="lille-model"
+  name="Lille Model Calculator (Alcoholic Hepatitis)"
+  schemaName="Lille Model"
+  shortDescription="Lille model for day-7 corticosteroid response in severe alcoholic hepatitis."
+  metaTitle="Lille Model Calculator (Alcoholic Hepatitis) | maratool"
+  metaDescription="Free Lille model calculator. Predict corticosteroid response and 6-month survival in severe alcohol-associated hepatitis."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Enter age, day-0 albumin, day-0 and day-7 bilirubin, prothrombin time, and renal status.',
+    'The Lille score (0–1) and responder/non-responder interpretation update instantly.',
+    'Apply on day 7 of corticosteroids — a score ≥ 0.45 indicates non-response.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Age (years)</span>
+      <div class="hcalc-input-wrap"><input id="lille-age" type="number" inputmode="decimal" min="0" step="1" placeholder="e.g. 50" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Albumin at day 0 (g/L)</span>
+      <div class="hcalc-input-wrap"><input id="lille-alb" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 30" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Bilirubin at day 0 (mg/dL)</span>
+      <div class="hcalc-input-wrap"><input id="lille-bili0" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 10" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Bilirubin at day 7 (mg/dL)</span>
+      <div class="hcalc-input-wrap"><input id="lille-bili7" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 6" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Prothrombin time (s)</span>
+      <div class="hcalc-input-wrap"><input id="lille-pt" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 20" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Renal insufficiency (creatinine &gt; 1.3 mg/dL)</span>
+      <div class="hcalc-input-wrap"><input id="lille-renal" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Lille score</div><div class="hcalc-output-value" id="lille-value">—</div><button class="copy-btn" data-target="lille-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Interpretation</div><div class="hcalc-output-value" id="lille-class">—</div><button class="copy-btn" data-target="lille-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

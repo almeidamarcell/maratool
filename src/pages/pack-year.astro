@@ -1,0 +1,48 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is a pack-year?', a: 'One pack (20 cigarettes) per day for one year = 1 pack-year. Pack-years quantify cumulative cigarette smoke exposure.' },
+  { q: 'Why does pack-year history matter?', a: 'It correlates with risk of lung cancer, COPD, and cardiovascular disease and is a primary criterion for lung cancer screening eligibility.' },
+  { q: 'What thresholds qualify for lung cancer screening?', a: 'USPSTF (2021) recommends annual low-dose CT screening for adults age 50–80 with a ≥ 20 pack-year history who currently smoke or quit within the past 15 years.' },
+  { q: 'How do I count for someone who quit?', a: 'Multiply average cigarettes per day during the smoking period by the years smoked, then divide by 20. Pack-years do not decline after quitting — they reflect lifetime exposure.' },
+]
+const references = [
+  { citation: 'US Preventive Services Task Force. Screening for Lung Cancer: Recommendation Statement. <em>JAMA</em>. 2021;325(10):962-970.' },
+]
+const relatedTools = [
+  { slug: 'curb-65', name: 'CURB-65' },
+  { slug: 'psi-port', name: 'Pneumonia Severity Index' },
+  { slug: 'heart-score', name: 'HEART Score' },
+]
+---
+<HealthCalc
+  slug="pack-year"
+  name="Pack-Year Smoking Calculator"
+  schemaName="Pack-Year Smoking Calculator"
+  shortDescription="Cumulative cigarette smoking exposure in pack-years."
+  metaTitle="Pack-Year Smoking Calculator | maratool"
+  metaDescription="Free pack-year smoking calculator. Quantify cumulative cigarette exposure with lung cancer screening guidance."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Enter average cigarettes per day and total years smoked.',
+    'Pack-years = (cigarettes/day × years) ÷ 20.',
+    'Use the result to assess lung cancer screening eligibility (≥ 20 py per USPSTF).',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Cigarettes per day</span>
+      <div class="hcalc-input-wrap"><input id="py-cpd" type="number" inputmode="decimal" min="0" step="1" placeholder="e.g. 20" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Years smoked</span>
+      <div class="hcalc-input-wrap"><input id="py-years" type="number" inputmode="decimal" min="0" step="1" placeholder="e.g. 25" /></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Pack-years</div><div class="hcalc-output-value" id="py-value">—</div><button class="copy-btn" data-target="py-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Interpretation</div><div class="hcalc-output-value" id="py-class">—</div><button class="copy-btn" data-target="py-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

@@ -1,0 +1,74 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'activity', label: 'Activity (voluntary movement)', options: [
+      { label: '2 — Moves all 4 extremities', points: 2, default: true },
+      { label: '1 — Moves 2 extremities', points: 1 },
+      { label: '0 — Unable to move extremities', points: 0 },
+    ]},
+    { id: 'respiration', label: 'Respiration', options: [
+      { label: '2 — Breathes deeply and coughs freely', points: 2, default: true },
+      { label: '1 — Dyspnea or limited breathing', points: 1 },
+      { label: '0 — Apneic', points: 0 },
+    ]},
+    { id: 'circulation', label: 'Circulation (BP)', options: [
+      { label: '2 — BP within 20% of pre-anesthetic level', points: 2, default: true },
+      { label: '1 — BP within 20–50% of pre-anesthetic level', points: 1 },
+      { label: '0 — BP > 50% off pre-anesthetic level', points: 0 },
+    ]},
+    { id: 'consciousness', label: 'Consciousness', options: [
+      { label: '2 — Fully awake', points: 2, default: true },
+      { label: '1 — Arousable on calling', points: 1 },
+      { label: '0 — Not responding', points: 0 },
+    ]},
+    { id: 'oxygenation', label: 'Oxygen saturation', options: [
+      { label: '2 — SpO₂ > 92% on room air', points: 2, default: true },
+      { label: '1 — Supplemental O₂ required to maintain SpO₂ > 90%', points: 1 },
+      { label: '0 — SpO₂ < 90% even with supplemental O₂', points: 0 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 8, label: 'Not ready for discharge', cls: 'cls-danger' },
+    { min: 9, max: 9, label: 'Borderline — reassess shortly', cls: 'cls-warn' },
+    { min: 10, max: 10, label: 'Ready for discharge from PACU', cls: 'cls-normal' },
+  ],
+  max: 10,
+}
+
+const faq = [
+  { q: 'What is the Aldrete score?', a: 'The Aldrete (or modified Aldrete) score evaluates post-anesthesia recovery across 5 domains, each 0–2, totaling 0–10. A score ≥ 9 typically meets PACU discharge criteria.' },
+  { q: 'What is the modified Aldrete score?', a: 'The modified version replaces "color" with "oxygen saturation" measured by pulse oximetry — used in nearly all modern PACUs.' },
+  { q: 'When is the patient ready to leave PACU?', a: 'Most institutions require Aldrete ≥ 9 plus a stable score for 15–30 minutes, in addition to other discharge criteria (pain controlled, no active bleeding, etc.).' },
+  { q: 'Does Aldrete apply to ambulatory surgery?', a: 'Yes, but additional criteria (PADSS — Post-Anesthesia Discharge Scoring System) are typically used for discharge to home.' },
+]
+const references = [
+  { citation: 'Aldrete JA, Kroulik D. A postanesthetic recovery score. <em>Anesth Analg</em>. 1970;49(6):924-934.' },
+  { citation: 'Aldrete JA. The post-anesthesia recovery score revisited. <em>J Clin Anesth</em>. 1995;7(1):89-91.' },
+]
+const relatedTools = [
+  { slug: 'rass-scale', name: 'RASS Scale' },
+  { slug: 'ramsay-sedation', name: 'Ramsay Sedation Scale' },
+  { slug: 'glasgow-coma-pupil', name: 'GCS-P' },
+]
+---
+<ScoreCalc
+  slug="aldrete-recovery"
+  name="Aldrete Recovery Score Calculator"
+  schemaName="Aldrete Recovery Score"
+  shortDescription="Modified Aldrete score for post-anesthesia recovery (0–10)."
+  metaTitle="Aldrete Post-Anesthesia Recovery Score | maratool"
+  metaDescription="Free modified Aldrete recovery score calculator. Five domains evaluating readiness for PACU discharge."
+  subcategory="Scale"
+  subcategorySlug="scale"
+  howTo={[
+    'Score each of the 5 recovery domains (0–2).',
+    'The total (0–10) and discharge readiness update instantly.',
+    'Re-assess every 5–15 minutes until score ≥ 9 and stable.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

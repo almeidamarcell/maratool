@@ -1,0 +1,56 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'class', label: 'Functional limitation due to heart failure', options: [
+      { label: 'No limitation — ordinary activity causes no symptoms (Class I)', points: 1, default: true },
+      { label: 'Slight limitation — comfortable at rest, ordinary activity causes symptoms (Class II)', points: 2 },
+      { label: 'Marked limitation — comfortable at rest, less than ordinary activity causes symptoms (Class III)', points: 3 },
+      { label: 'Symptoms at rest — unable to do any activity without discomfort (Class IV)', points: 4 },
+    ]},
+  ],
+  bands: [
+    { min: 1, max: 1, label: 'NYHA Class I — no symptomatic limitation', cls: 'cls-normal' },
+    { min: 2, max: 2, label: 'NYHA Class II — mild symptoms with ordinary activity', cls: 'cls-warn' },
+    { min: 3, max: 3, label: 'NYHA Class III — marked limitation with minimal activity', cls: 'cls-danger' },
+    { min: 4, max: 4, label: 'NYHA Class IV — symptoms at rest', cls: 'cls-danger' },
+  ],
+  max: 4,
+  scoreLabel: 'NYHA Class',
+}
+
+const faq = [
+  { q: 'What is the NYHA classification?', a: 'The New York Heart Association functional classification grades heart-failure symptom severity from Class I (no limitation) to Class IV (symptoms at rest).' },
+  { q: 'How does NYHA differ from ACC/AHA stages?', a: 'ACC/AHA stages (A–D) describe disease progression and are not reversible; NYHA class describes current functional status and can change with treatment.' },
+  { q: 'Why does NYHA class matter?', a: 'It guides therapy intensity, eligibility for device/transplant referral, and is a strong predictor of mortality and hospitalization.' },
+  { q: 'Is NYHA class subjective?', a: 'Yes — it relies on clinician assessment of reported symptoms, which contributes to inter-observer variability; objective measures (e.g., peak VO₂) can supplement it.' },
+]
+const references = [
+  { citation: 'The Criteria Committee of the New York Heart Association. Nomenclature and Criteria for Diagnosis of Diseases of the Heart and Great Vessels. 9th ed. Boston: Little, Brown &amp; Co; 1994:253-256.' },
+]
+const relatedTools = [
+  { slug: 'chads2-score', name: 'CHADS2 Score' },
+  { slug: 'cha2ds2-vasc', name: 'CHA2DS2-VASc' },
+  { slug: 'has-bled', name: 'HAS-BLED' },
+]
+---
+<ScoreCalc
+  slug="nyha-classification"
+  name="NYHA Functional Classification Calculator"
+  schemaName="NYHA Functional Classification"
+  shortDescription="New York Heart Association (NYHA) functional class for heart-failure symptom severity (I–IV)."
+  metaTitle="NYHA Classification Calculator (Heart Failure) | maratool"
+  metaDescription="Free NYHA functional classification tool. Determine heart-failure functional class I–IV from the patient's symptomatic limitation."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select the description that best matches the patient’s current symptomatic limitation.',
+    'The NYHA functional class (I–IV) updates instantly.',
+    'Reassess after treatment changes — NYHA class can improve or worsen over time.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

@@ -1,0 +1,74 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'bili', label: 'Total bilirubin', options: [
+      { label: '< 2 mg/dL (1)', points: 1, default: true },
+      { label: '2–3 mg/dL (2)', points: 2 },
+      { label: '> 3 mg/dL (3)', points: 3 },
+    ]},
+    { id: 'albumin', label: 'Serum albumin', options: [
+      { label: '> 3.5 g/dL (1)', points: 1, default: true },
+      { label: '2.8–3.5 g/dL (2)', points: 2 },
+      { label: '< 2.8 g/dL (3)', points: 3 },
+    ]},
+    { id: 'inr', label: 'INR', options: [
+      { label: '< 1.7 (1)', points: 1, default: true },
+      { label: '1.7–2.3 (2)', points: 2 },
+      { label: '> 2.3 (3)', points: 3 },
+    ]},
+    { id: 'ascites', label: 'Ascites', options: [
+      { label: 'None (1)', points: 1, default: true },
+      { label: 'Mild / diuretic-responsive (2)', points: 2 },
+      { label: 'Moderate–severe / refractory (3)', points: 3 },
+    ]},
+    { id: 'enceph', label: 'Hepatic encephalopathy', options: [
+      { label: 'None (1)', points: 1, default: true },
+      { label: 'Grade 1–2 (2)', points: 2 },
+      { label: 'Grade 3–4 (3)', points: 3 },
+    ]},
+  ],
+  bands: [
+    { min: 5, max: 6, label: 'Class A — well-compensated (1-yr survival ≈ 100%, 2-yr ≈ 85%)', cls: 'cls-normal' },
+    { min: 7, max: 9, label: 'Class B — significant functional compromise (1-yr ≈ 80%, 2-yr ≈ 60%)', cls: 'cls-warn' },
+    { min: 10, max: 15, label: 'Class C — decompensated (1-yr ≈ 45%, 2-yr ≈ 35%)', cls: 'cls-danger' },
+  ],
+  max: 15,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the Child-Pugh score?', a: 'A 5–15 point score that grades the severity of chronic liver disease (cirrhosis) from bilirubin, albumin, INR, ascites, and encephalopathy, mapped to Class A, B, or C.' },
+  { q: 'How are Child-Pugh classes defined?', a: 'Class A = 5–6 points, Class B = 7–9, Class C = 10–15. Higher class means worse hepatic reserve and prognosis.' },
+  { q: 'Child-Pugh vs MELD?', a: 'MELD is objective (labs only) and used for transplant allocation; Child-Pugh adds clinical assessment of ascites and encephalopathy and is widely used for surgical risk and prognosis.' },
+  { q: 'Why does Child-Pugh class matter before surgery?', a: 'Operative mortality rises steeply with class — non-transplant surgery in Class C cirrhosis carries very high perioperative risk.' },
+]
+const references = [
+  { citation: 'Pugh RN, Murray-Lyon IM, Dawson JL, et al. Transection of the oesophagus for bleeding oesophageal varices. <em>Br J Surg</em>. 1973;60(8):646-649.' },
+]
+const relatedTools = [
+  { slug: 'meld-meldna', name: 'MELD / MELD-Na' },
+  { slug: 'maddrey-discriminant', name: 'Maddrey Discriminant Function' },
+  { slug: 'fib-4', name: 'FIB-4 Index' },
+]
+---
+<ScoreCalc
+  slug="child-pugh"
+  name="Child-Pugh Score Calculator"
+  schemaName="Child-Pugh Score"
+  shortDescription="Child-Pugh (Child-Turcotte-Pugh) score for cirrhosis severity and prognosis (Class A/B/C)."
+  metaTitle="Child-Pugh Score Calculator (Cirrhosis) | maratool"
+  metaDescription="Free Child-Pugh score calculator. Grade cirrhosis severity (Class A, B, C) and estimate survival from bilirubin, albumin, INR, ascites, and encephalopathy."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select the bracket for bilirubin, albumin, INR, ascites, and encephalopathy.',
+    'The total score (5–15) and Child-Pugh class with survival estimates update instantly.',
+    'Use for prognosis and to assess perioperative risk in cirrhotic patients.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

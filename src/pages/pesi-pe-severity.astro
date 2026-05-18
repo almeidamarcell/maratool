@@ -1,0 +1,67 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const cb = (id, label) => ({ id, label })
+const items = [
+  cb('pesi-cancer', 'History of cancer'),
+  cb('pesi-hf', 'Chronic heart failure'),
+  cb('pesi-lung', 'Chronic lung disease'),
+  cb('pesi-hr', 'Heart rate ≥ 110 bpm'),
+  cb('pesi-sbp', 'Systolic BP < 100 mmHg'),
+  cb('pesi-rr', 'Respiratory rate ≥ 30/min'),
+  cb('pesi-temp', 'Temperature < 36 °C'),
+  cb('pesi-mental', 'Altered mental status'),
+  cb('pesi-sao2', 'Arterial O₂ saturation < 90%'),
+]
+
+const faq = [
+  { q: 'What is the PESI?', a: 'The Pulmonary Embolism Severity Index predicts 30-day mortality after acute PE using age, sex, and 9 clinical variables, classifying patients into 5 risk classes.' },
+  { q: 'How are PESI classes interpreted?', a: 'Class I–II is low risk (consider outpatient management); Class III–V indicates progressively higher 30-day mortality.' },
+  { q: 'PESI vs simplified PESI?', a: 'The original PESI is more granular (5 classes); sPESI is a dichotomous simplification (0 vs ≥ 1) that is easier to apply with similar performance.' },
+  { q: 'Why is age weighted so heavily?', a: 'Age in years is added directly as points, so it dominates the score — older patients reach higher risk classes even with few other findings.' },
+]
+const references = [
+  { citation: 'Aujesky D, Obrosky DS, Stone RA, et al. Derivation and validation of a prognostic model for pulmonary embolism. <em>Am J Respir Crit Care Med</em>. 2005;172(8):1041-1046.' },
+]
+const relatedTools = [
+  { slug: 'pesi-simplified', name: 'Simplified PESI' },
+  { slug: 'wells-pe', name: 'Wells Score (PE)' },
+  { slug: 'perc-rule', name: 'PERC Rule' },
+]
+---
+<HealthCalc
+  slug="pesi-pe-severity"
+  name="PESI Score Calculator (Pulmonary Embolism Severity)"
+  schemaName="PESI Score"
+  shortDescription="Pulmonary Embolism Severity Index (PESI) for 30-day mortality risk class after acute PE."
+  metaTitle="PESI Score Calculator (Pulmonary Embolism) | maratool"
+  metaDescription="Free PESI calculator. Predict 30-day mortality after acute pulmonary embolism and assign risk class I–V."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Enter age and sex, then tick each clinical criterion that is present.',
+    'The PESI total and risk class (I–V) update instantly.',
+    'Class I–II identifies low-risk PE potentially suitable for early discharge.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Age (years)</span>
+      <div class="hcalc-input-wrap"><input id="pesi-age" type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 70" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Sex</span>
+      <div class="hcalc-input-wrap">
+        <select id="pesi-sex"><option value="female" selected>Female</option><option value="male">Male (+10)</option></select>
+      </div></label>
+    {items.map(it => (
+      <label class="hcalc-field"><span class="hcalc-label">{it.label}</span>
+        <div class="hcalc-input-wrap"><input id={it.id} type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+    ))}
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">PESI total</div><div class="hcalc-output-value" id="pesi-value">—</div><button class="copy-btn" data-target="pesi-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Risk class</div><div class="hcalc-output-value" id="pesi-class">—</div><button class="copy-btn" data-target="pesi-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

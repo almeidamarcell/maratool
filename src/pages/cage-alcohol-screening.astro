@@ -1,0 +1,56 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const yn1 = [
+  { label: 'No (0)', points: 0, default: true },
+  { label: 'Yes (1)', points: 1 },
+]
+
+const spec = {
+  items: [
+    { id: 'cut', label: 'C — Have you ever felt you should Cut down on your drinking?', options: yn1 },
+    { id: 'annoyed', label: 'A — Have people Annoyed you by criticising your drinking?', options: yn1 },
+    { id: 'guilty', label: 'G — Have you ever felt bad or Guilty about your drinking?', options: yn1 },
+    { id: 'eye', label: 'E — Have you ever had a drink first thing in the morning (Eye-opener)?', options: yn1 },
+  ],
+  bands: [
+    { min: 0, max: 1, label: 'Score 0–1 — screen negative for problem drinking', cls: 'cls-normal' },
+    { min: 2, max: 4, label: 'Score ≥ 2 — clinically significant; assess for alcohol use disorder', cls: 'cls-danger' },
+  ],
+  max: 4,
+}
+
+const faq = [
+  { q: 'What is the CAGE questionnaire?', a: 'A 4-item screening tool for alcohol use disorder. The name is a mnemonic: Cut down, Annoyed, Guilty, Eye-opener.' },
+  { q: 'What CAGE score is positive?', a: 'A score of ≥ 2 is considered clinically significant and warrants further assessment; some settings use ≥ 1 for higher sensitivity.' },
+  { q: 'What are CAGE limitations?', a: 'It is less sensitive for binge drinking and early problem drinking, and does not quantify consumption. AUDIT-C is preferred for at-risk drinking screening.' },
+  { q: 'Does a negative CAGE rule out a problem?', a: 'No — recent heavy or hazardous drinking can be missed. Combine with a consumption history.' },
+]
+const references = [
+  { citation: 'Ewing JA. Detecting alcoholism: the CAGE questionnaire. <em>JAMA</em>. 1984;252(14):1905-1907.' },
+]
+const relatedTools = [
+  { slug: 'fagerstrom-nicotine', name: 'Fagerström Test' },
+  { slug: 'pack-year', name: 'Pack-Year Calculator' },
+  { slug: 'mmse-mini-mental', name: 'MMSE' },
+]
+---
+<ScoreCalc
+  slug="cage-alcohol-screening"
+  name="CAGE Alcohol Screening Calculator"
+  schemaName="CAGE Questionnaire"
+  shortDescription="CAGE questionnaire — 4-item screen for alcohol use disorder (0–4)."
+  metaTitle="CAGE Questionnaire Calculator (Alcohol Screening) | maratool"
+  metaDescription="Free CAGE questionnaire calculator. Screen for alcohol use disorder with the 4-item Cut-down, Annoyed, Guilty, Eye-opener tool."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Answer each of the four CAGE questions yes or no.',
+    'The total score (0–4) and screen result update instantly.',
+    'A score ≥ 2 warrants a fuller alcohol-use assessment.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

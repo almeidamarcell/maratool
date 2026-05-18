@@ -1,0 +1,62 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'inr', label: 'Prothrombin time — INR', options: [
+      { label: '≤ 1.2 (0)', points: 0, default: true },
+      { label: '> 1.2 to 1.4 (1)', points: 1 },
+      { label: '> 1.4 (2)', points: 2 },
+    ]},
+    { id: 'platelets', label: 'Platelet count (×10⁹/L)', options: [
+      { label: '≥ 150 (0)', points: 0, default: true },
+      { label: '100 to < 150 (1)', points: 1 },
+      { label: '< 100 (2)', points: 2 },
+    ]},
+    { id: 'sofa', label: 'Total SOFA (sum of respiratory, cardiovascular, hepatic, renal subscores, capped at 2)', options: [
+      { label: '0 (0)', points: 0, default: true },
+      { label: '1 (1)', points: 1 },
+      { label: '≥ 2 (2)', points: 2 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 3, label: 'Score < 4 — sepsis-induced coagulopathy not diagnosed', cls: 'cls-normal' },
+    { min: 4, max: 6, label: 'Score ≥ 4 — sepsis-induced coagulopathy (SIC) present', cls: 'cls-danger' },
+  ],
+  max: 6,
+}
+
+const faq = [
+  { q: 'What is the SIC score?', a: 'The ISTH Sepsis-Induced Coagulopathy score uses PT-INR, platelet count, and a capped SOFA subscore to identify early sepsis-associated coagulopathy preceding overt DIC.' },
+  { q: 'What SIC score makes the diagnosis?', a: 'A total score ≥ 4 (with the platelet and PT items contributing) defines SIC under the ISTH 2017 criteria.' },
+  { q: 'How is the SOFA component scored?', a: 'Sum the respiratory, cardiovascular, hepatic, and renal SOFA subscores; the SIC item is 0 if that sum is 0, 1 if 1, and 2 if ≥ 2 (capped at 2 points).' },
+  { q: 'SIC vs overt DIC?', a: 'SIC detects coagulopathy earlier than the ISTH overt-DIC score; many SIC-positive patients progress to DIC if untreated.' },
+]
+const references = [
+  { citation: 'Iba T, Nisio MD, Levy JH, et al. New criteria for sepsis-induced coagulopathy (SIC) following the revised sepsis definition: a retrospective analysis. <em>BMJ Open</em>. 2017;7(9):e017046.' },
+]
+const relatedTools = [
+  { slug: 'sofa-score', name: 'SOFA Score' },
+  { slug: 'qsofa', name: 'qSOFA' },
+  { slug: 'curb-65', name: 'CURB-65' },
+]
+---
+<ScoreCalc
+  slug="sic-coagulopathy"
+  name="Sepsis-Induced Coagulopathy (SIC) Score Calculator"
+  schemaName="SIC Score"
+  shortDescription="ISTH Sepsis-Induced Coagulopathy (SIC) score for early sepsis-associated coagulopathy (0–6)."
+  metaTitle="SIC Score Calculator (Sepsis Coagulopathy) | maratool"
+  metaDescription="Free SIC score calculator. Diagnose sepsis-induced coagulopathy from PT-INR, platelet count, and SOFA subscore using ISTH criteria."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select the INR band, platelet band, and capped SOFA category.',
+    'The total SIC score (0–6) and interpretation update instantly.',
+    'A total ≥ 4 diagnoses sepsis-induced coagulopathy.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

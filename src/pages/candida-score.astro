@@ -1,0 +1,59 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'sepsis', label: 'Severe sepsis', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (2)', points: 2 },
+    ]},
+    { id: 'tpn', label: 'Total parenteral nutrition', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'surgery', label: 'Surgery (on ICU admission)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'colonization', label: 'Multifocal Candida colonization', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 2, label: 'Score < 3 — invasive candidiasis unlikely (high negative predictive value)', cls: 'cls-normal' },
+    { min: 3, max: 5, label: 'Score ≥ 3 — high probability of invasive candidiasis; consider empiric antifungal work-up', cls: 'cls-danger' },
+  ],
+  max: 5,
+}
+
+const faq = [
+  { q: 'What is the Candida score?', a: 'A bedside score for non-neutropenic critically ill patients that estimates the probability of invasive candidiasis from four ICU risk factors.' },
+  { q: 'What Candida score is significant?', a: 'A score ≥ 3 markedly increases the likelihood of proven invasive candidiasis and should prompt further evaluation and consideration of empiric antifungal therapy.' },
+  { q: 'What is multifocal colonization?', a: 'Candida isolated from two or more non-contiguous body sites (e.g., urine and respiratory secretions), reflecting colonization burden.' },
+  { q: 'Does it apply to neutropenic patients?', a: 'No — the Candida score was derived and validated in non-neutropenic ICU patients; other tools should be used for neutropenic hosts.' },
+]
+const references = [
+  { citation: 'León C, Ruiz-Santana S, Saavedra P, et al. A bedside scoring system (“Candida score”) for early antifungal treatment in nonneutropenic critically ill patients with Candida colonization. <em>Crit Care Med</em>. 2006;34(3):730-737.' },
+]
+const relatedTools = [
+  { slug: 'qsofa', name: 'qSOFA' },
+  { slug: 'sofa-score', name: 'SOFA Score' },
+  { slug: 'apache-ii', name: 'APACHE II' },
+]
+---
+<ScoreCalc
+  slug="candida-score"
+  name="Candida Score Calculator"
+  schemaName="Candida Score"
+  shortDescription="Candida score for invasive candidiasis risk in non-neutropenic ICU patients (0–5)."
+  metaTitle="Candida Score Calculator (Invasive Candidiasis) | maratool"
+  metaDescription="Free Candida score calculator. Estimate invasive candidiasis probability in non-neutropenic critically ill patients from 4 ICU risk factors."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select the four Candida-score factors that are present.',
+    'The total score (0–5) and risk band update instantly.',
+    'A score ≥ 3 supports further work-up and consideration of empiric antifungal therapy.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

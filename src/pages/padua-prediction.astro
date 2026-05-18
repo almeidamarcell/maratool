@@ -1,0 +1,80 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'cancer', label: 'Active cancer (local or distant metastases or chemo/radiotherapy within 6 mo)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (3)', points: 3 },
+    ]},
+    { id: 'vte', label: 'Previous VTE (excluding superficial vein thrombosis)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (3)', points: 3 },
+    ]},
+    { id: 'mobility', label: 'Reduced mobility (bedrest ≥ 3 days)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (3)', points: 3 },
+    ]},
+    { id: 'thrombo', label: 'Known thrombophilic condition', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (3)', points: 3 },
+    ]},
+    { id: 'trauma', label: 'Recent trauma or surgery (≤ 1 month)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (2)', points: 2 },
+    ]},
+    { id: 'age', label: 'Age ≥ 70 years', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'hf_resp', label: 'Heart and/or respiratory failure', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'ami_stroke', label: 'Acute MI or ischemic stroke', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'infect', label: 'Acute infection or rheumatologic disorder', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'bmi', label: 'BMI ≥ 30', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'hormone', label: 'Ongoing hormonal therapy', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 3, label: 'Low VTE risk — pharmacologic prophylaxis not routinely indicated', cls: 'cls-normal' },
+    { min: 4, max: 20, label: 'High VTE risk — pharmacologic prophylaxis indicated', cls: 'cls-danger' },
+  ],
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the Padua Prediction Score?', a: 'A risk assessment model for venous thromboembolism in hospitalized medical patients. Score ≥ 4 identifies high-risk patients who benefit from pharmacologic prophylaxis.' },
+  { q: 'Padua vs Caprini?', a: 'Padua is for medical inpatients; Caprini is for surgical patients. Both are recommended in respective populations by ACCP guidelines.' },
+  { q: 'What prophylaxis is indicated at Padua ≥ 4?', a: 'LMWH (e.g., enoxaparin 40 mg SC daily), UFH 5 000 U SC q8–12h, or fondaparinux — duration typically until discharge.' },
+  { q: 'When is Padua not applicable?', a: 'Patients with active bleeding, recent intracranial hemorrhage, or other absolute contraindications to anticoagulation — use mechanical prophylaxis instead.' },
+]
+const references = [
+  { citation: 'Barbar S, Noventa F, Rossetto V, et al. A risk assessment model for the identification of hospitalized medical patients at risk for venous thromboembolism: the Padua Prediction Score. <em>J Thromb Haemost</em>. 2010;8(11):2450-2457.' },
+]
+const relatedTools = [
+  { slug: 'caprini-dvt-risk', name: 'Caprini DVT Risk' },
+  { slug: 'wells-dvt', name: 'Wells Score for DVT' },
+  { slug: 'has-bled', name: 'HAS-BLED' },
+]
+---
+<ScoreCalc
+  slug="padua-prediction"
+  name="Padua Prediction Score Calculator"
+  schemaName="Padua Prediction Score"
+  shortDescription="Padua score for VTE risk in hospitalized medical patients."
+  metaTitle="Padua Prediction Score Calculator (VTE Risk) | maratool"
+  metaDescription="Free Padua Prediction Score calculator for VTE risk in hospitalized medical patients with prophylaxis guidance."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Check each risk factor that applies to the patient.',
+    'The Padua score and VTE risk update instantly.',
+    'Score ≥ 4 → start pharmacologic prophylaxis unless contraindicated.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

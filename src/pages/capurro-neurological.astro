@@ -1,0 +1,88 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'nipple', label: 'Nipple formation', options: [
+      { label: 'Barely visible, no areola (0)', points: 0 },
+      { label: 'Well-defined nipple, no areola (5)', points: 5 },
+      { label: 'Areola flat, < 7.5 mm (10)', points: 10, default: true },
+      { label: 'Areola raised, > 7.5 mm (15)', points: 15 },
+    ]},
+    { id: 'skin', label: 'Skin texture', options: [
+      { label: 'Very thin, gelatinous (0)', points: 0 },
+      { label: 'Thin, smooth (5)', points: 5 },
+      { label: 'Slightly thicker, slight peeling (10)', points: 10, default: true },
+      { label: 'Thicker, peeling of hands and feet (15)', points: 15 },
+      { label: 'Parchment-like, deep cracks, peels easily (20)', points: 20 },
+    ]},
+    { id: 'ear', label: 'Ear form (cartilage and curving)', options: [
+      { label: 'Flat, shapeless, no incurving (0)', points: 0 },
+      { label: 'Partly incurving margin, slight cartilage (8)', points: 8, default: true },
+      { label: 'Upper pinna fully incurved, soft cartilage (16)', points: 16 },
+      { label: 'Upper pinna fully incurved, firm cartilage (24)', points: 24 },
+    ]},
+    { id: 'plantar', label: 'Plantar creases', options: [
+      { label: 'No creases (0)', points: 0 },
+      { label: 'Only anterior crease (5)', points: 5 },
+      { label: 'Creases over anterior 2/3 (10)', points: 10 },
+      { label: 'Creases on whole sole (15)', points: 15, default: true },
+      { label: 'Many deep creases — anterior 1/3 (20)', points: 20 },
+    ]},
+    { id: 'arm', label: 'Arm flexion (scarf sign)', options: [
+      { label: 'No resistance (0)', points: 0 },
+      { label: 'Partial flexion (6)', points: 6, default: true },
+      { label: 'Strong flexion (12)', points: 12 },
+    ]},
+    { id: 'head', label: 'Head lag', options: [
+      { label: 'Head falls back, no resistance (0)', points: 0 },
+      { label: 'Partial head control (4)', points: 4, default: true },
+      { label: 'Maintains head in line (8)', points: 8 },
+      { label: 'Anticipates posture (12)', points: 12 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 259, label: 'Pre-term (< 37 weeks)', cls: 'cls-warn' },
+    { min: 260, max: 293, label: 'Term (37–41 weeks)', cls: 'cls-normal' },
+    { min: 294, max: 400, label: 'Post-term (≥ 42 weeks)', cls: 'cls-warn' },
+  ],
+  bonus: 200,
+  format: 'gestational',
+  scoreLabel: 'Gestational age',
+  cols: 2,
+}
+
+const faq = [
+  { q: 'When is the Capurro neurological method preferred?', a: 'After the first 24 hours of life, when neurological responses become reliable and somatic features alone may be insufficient.' },
+  { q: 'How is the score interpreted?', a: 'GA (days) = sum of points + 200. Convert to weeks + days.' },
+  { q: 'What if the newborn is sedated?', a: 'Use the Capurro somatic method instead, since neurological responses will be unreliable.' },
+  { q: 'How accurate is this method?', a: 'Generally within ± 7 days of the true gestational age in healthy term newborns.' },
+]
+const references = [
+  { citation: 'Capurro H, Konichezky S, Fonseca D, Caldeyro-Barcia R. A simplified method for diagnosis of gestational age in the newborn infant. <em>J Pediatr</em>. 1978;93(1):120-122.' },
+]
+const relatedTools = [
+  { slug: 'capurro-somatic', name: 'Capurro Somatic' },
+  { slug: 'apgar-score', name: 'APGAR Score' },
+  { slug: 'gestational-age-ultrasound', name: 'GA by Ultrasound' },
+]
+---
+<ScoreCalc
+  slug="capurro-neurological"
+  name="Capurro Gestational Age Calculator (Neurological)"
+  schemaName="Capurro Neurological"
+  shortDescription="Estimate newborn gestational age using somatic + neurological features (Capurro)."
+  metaTitle="Capurro Neurological Gestational Age Calculator | maratool"
+  metaDescription="Free Capurro neurological gestational age calculator. Estimate newborn GA using physical and neurological features."
+  subcategory="Pediatric"
+  subcategorySlug="pediatric"
+  howTo={[
+    'Examine the newborn and select the matching option for each of the 6 features.',
+    'Estimated GA in weeks + days updates instantly (sum + 200 days).',
+    'Use after the first 24 hours of life for best reliability.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

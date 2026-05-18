@@ -1,0 +1,82 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'general', label: 'General condition (Karnofsky)', options: [
+      { label: '0 — Poor (KPS 10–40)', points: 0 },
+      { label: '1 — Moderate (KPS 50–70)', points: 1 },
+      { label: '2 — Good (KPS 80–100)', points: 2, default: true },
+    ]},
+    { id: 'extraspinal', label: 'Number of extraspinal bone metastases foci', options: [
+      { label: '0 — ≥ 3', points: 0 },
+      { label: '1 — 1–2', points: 1 },
+      { label: '2 — 0', points: 2, default: true },
+    ]},
+    { id: 'vertebral', label: 'Number of metastases in vertebral body', options: [
+      { label: '0 — ≥ 3', points: 0 },
+      { label: '1 — 2', points: 1 },
+      { label: '2 — 1', points: 2, default: true },
+    ]},
+    { id: 'visceral', label: 'Metastases to major internal organs', options: [
+      { label: '0 — Unremovable', points: 0 },
+      { label: '1 — Removable', points: 1 },
+      { label: '2 — None', points: 2, default: true },
+    ]},
+    { id: 'primary', label: 'Primary site of cancer', options: [
+      { label: '0 — Lung, esophagus, stomach, bladder, pancreas, osteosarcoma', points: 0 },
+      { label: '1 — Liver, gallbladder, unidentified primary', points: 1 },
+      { label: '2 — Others', points: 2 },
+      { label: '3 — Kidney, uterus', points: 3 },
+      { label: '4 — Rectum', points: 4 },
+      { label: '5 — Thyroid, breast, prostate, carcinoid tumor', points: 5, default: true },
+    ]},
+    { id: 'palsy', label: 'Spinal cord palsy (Frankel)', options: [
+      { label: '0 — Complete (Frankel A, B)', points: 0 },
+      { label: '1 — Incomplete (Frankel C, D)', points: 1 },
+      { label: '2 — None (Frankel E)', points: 2, default: true },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 8, label: '< 6 months survival — conservative / palliative treatment', cls: 'cls-danger' },
+    { min: 9, max: 11, label: '≥ 6 months survival — consider palliative surgery', cls: 'cls-warn' },
+    { min: 12, max: 15, label: '> 1 year survival — consider excisional surgery', cls: 'cls-normal' },
+  ],
+  max: 15,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the revised Tokuhashi score?', a: 'A 6-parameter prognostic score (0–15) for patients with metastatic spinal disease, used to guide whether excisional, palliative, or conservative treatment is appropriate.' },
+  { q: 'What is the difference from the original Tokuhashi?', a: 'The revised (2005) version refines the primary site category and improves accuracy. Most centers use the revised version.' },
+  { q: 'How accurate is the Tokuhashi score?', a: 'External validation shows ~ 60–75% concordance between predicted and actual survival. Newer modern primary tumor therapies may shift survival upward.' },
+  { q: 'Tokuhashi vs Tomita?', a: 'Tokuhashi focuses on survival prognostication; Tomita focuses on surgical strategy (en bloc vs intralesional). They complement each other.' },
+]
+const references = [
+  { citation: 'Tokuhashi Y, Matsuzaki H, Oda H, Oshima M, Ryu J. A revised scoring system for preoperative evaluation of metastatic spine tumor prognosis. <em>Spine</em>. 2005;30(19):2186-2191.' },
+]
+const relatedTools = [
+  { slug: 'tomita-score', name: 'Tomita Score' },
+  { slug: 'karnofsky-performance', name: 'Karnofsky Performance Scale' },
+  { slug: 'ecog-performance', name: 'ECOG Performance Status' },
+]
+---
+<ScoreCalc
+  slug="tokuhashi-score"
+  name="Revised Tokuhashi Score Calculator"
+  schemaName="Revised Tokuhashi Score"
+  shortDescription="Revised Tokuhashi score for prognosis in metastatic spinal disease."
+  metaTitle="Revised Tokuhashi Score Calculator (Spinal Metastasis) | maratool"
+  metaDescription="Free revised Tokuhashi score calculator. 6-parameter prognostic tool for metastatic spinal disease to guide treatment strategy."
+  subcategory="Prognosis"
+  subcategorySlug="prognosis"
+  howTo={[
+    'Score each of the 6 parameters.',
+    'The total (0–15) and survival prediction update instantly.',
+    'Use the score to guide treatment intensity in conjunction with the Tomita score.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

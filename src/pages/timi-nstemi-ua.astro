@@ -1,0 +1,70 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'age', label: 'Age ≥ 65 years', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'risk', label: '≥ 3 CAD risk factors (HTN, DM, smoking, hyperlipidemia, family history)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'cad', label: 'Known CAD (coronary stenosis ≥ 50%)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'asa', label: 'Aspirin use in the past 7 days', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'angina', label: '≥ 2 anginal episodes in the past 24 h', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'st', label: 'ST deviation ≥ 0.5 mm on ECG', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'marker', label: 'Positive cardiac biomarker (troponin / CK-MB)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 2, label: 'Score 0–2 — low risk (14-day death/MI/urgent revasc ≈ 5–8%)', cls: 'cls-normal' },
+    { min: 3, max: 4, label: 'Score 3–4 — intermediate risk (≈ 13–20%)', cls: 'cls-warn' },
+    { min: 5, max: 7, label: 'Score 5–7 — high risk (≈ 26–41%)', cls: 'cls-danger' },
+  ],
+  max: 7,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the TIMI score for UA/NSTEMI?', a: 'A 7-point score predicting 14-day risk of death, new/recurrent MI, or urgent revascularization in unstable angina / non-ST-elevation MI.' },
+  { q: 'How does the TIMI UA/NSTEMI score guide management?', a: 'Higher scores favour an early invasive strategy and more intensive antithrombotic therapy; low scores may be managed conservatively initially.' },
+  { q: 'Is this the same TIMI score as for STEMI?', a: 'No — the STEMI TIMI score uses different, weighted variables. Use the STEMI calculator for ST-elevation MI.' },
+  { q: 'What composite outcome does it predict?', a: 'All-cause mortality, new or recurrent myocardial infarction, and severe recurrent ischemia requiring urgent revascularization within 14 days.' },
+]
+const references = [
+  { citation: 'Antman EM, Cohen M, Bernink PJ, et al. The TIMI risk score for unstable angina/non-ST elevation MI. <em>JAMA</em>. 2000;284(7):835-842.' },
+]
+const relatedTools = [
+  { slug: 'timi-stemi', name: 'TIMI Score (STEMI)' },
+  { slug: 'heart-score', name: 'HEART Score' },
+  { slug: 'grace-acs', name: 'GRACE Score' },
+]
+---
+<ScoreCalc
+  slug="timi-nstemi-ua"
+  name="TIMI Risk Score for UA/NSTEMI Calculator"
+  schemaName="TIMI Risk Score (UA/NSTEMI)"
+  shortDescription="TIMI risk score for unstable angina / NSTEMI 14-day adverse-event risk (0–7)."
+  metaTitle="TIMI Score Calculator (NSTEMI / Unstable Angina) | maratool"
+  metaDescription="Free TIMI risk score calculator for UA/NSTEMI. Estimate 14-day risk of death, MI, or urgent revascularization from 7 clinical criteria."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select each of the seven TIMI criteria that is present.',
+    'The total score (0–7) and 14-day composite risk update instantly.',
+    'Use to choose between an early invasive and a conservative strategy.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

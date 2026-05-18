@@ -1,0 +1,103 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'age', label: 'Age (years)', options: [
+      { label: '< 30 (0)', points: 0, default: true },
+      { label: '30–39 (8)', points: 8 },
+      { label: '40–49 (25)', points: 25 },
+      { label: '50–59 (41)', points: 41 },
+      { label: '60–69 (58)', points: 58 },
+      { label: '70–79 (75)', points: 75 },
+      { label: '80–89 (91)', points: 91 },
+      { label: '≥ 90 (100)', points: 100 },
+    ]},
+    { id: 'hr', label: 'Heart rate (bpm)', options: [
+      { label: '< 50 (0)', points: 0, default: true },
+      { label: '50–69 (3)', points: 3 },
+      { label: '70–89 (9)', points: 9 },
+      { label: '90–109 (15)', points: 15 },
+      { label: '110–149 (24)', points: 24 },
+      { label: '150–199 (38)', points: 38 },
+      { label: '≥ 200 (46)', points: 46 },
+    ]},
+    { id: 'sbp', label: 'Systolic blood pressure (mmHg)', options: [
+      { label: '< 80 (58)', points: 58 },
+      { label: '80–99 (53)', points: 53 },
+      { label: '100–119 (43)', points: 43 },
+      { label: '120–139 (34)', points: 34 },
+      { label: '140–159 (24)', points: 24 },
+      { label: '160–199 (10)', points: 10 },
+      { label: '≥ 200 (0)', points: 0, default: true },
+    ]},
+    { id: 'creat', label: 'Serum creatinine (mg/dL)', options: [
+      { label: '0–0.39 (1)', points: 1 },
+      { label: '0.4–0.79 (4)', points: 4 },
+      { label: '0.8–1.19 (7)', points: 7, default: true },
+      { label: '1.2–1.59 (10)', points: 10 },
+      { label: '1.6–1.99 (13)', points: 13 },
+      { label: '2.0–3.99 (21)', points: 21 },
+      { label: '≥ 4.0 (28)', points: 28 },
+    ]},
+    { id: 'killip', label: 'Killip class', options: [
+      { label: 'Class I — no CHF (0)', points: 0, default: true },
+      { label: 'Class II — rales / JVD (20)', points: 20 },
+      { label: 'Class III — pulmonary edema (39)', points: 39 },
+      { label: 'Class IV — cardiogenic shock (59)', points: 59 },
+    ]},
+    { id: 'arrest', label: 'Cardiac arrest at admission', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (39)', points: 39 },
+    ]},
+    { id: 'st', label: 'ST-segment deviation', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (28)', points: 28 },
+    ]},
+    { id: 'enzymes', label: 'Elevated cardiac enzymes / biomarkers', options: [
+      { label: 'No (0)', points: 0, default: true },
+      { label: 'Yes (14)', points: 14 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 108, label: 'Low risk — in-hospital mortality < 1%', cls: 'cls-normal' },
+    { min: 109, max: 140, label: 'Intermediate risk — in-hospital mortality 1–3%', cls: 'cls-warn' },
+    { min: 141, max: 372, label: 'High risk — in-hospital mortality > 3%', cls: 'cls-danger' },
+  ],
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the GRACE score?', a: 'The Global Registry of Acute Coronary Events score estimates in-hospital and post-discharge mortality across the ACS spectrum (STEMI, NSTEMI, unstable angina).' },
+  { q: 'How is in-hospital risk classified?', a: 'Score ≤ 108 low (< 1%), 109–140 intermediate (1–3%), > 140 high (> 3%) in-hospital mortality.' },
+  { q: 'What about 6-month mortality?', a: 'Using the same point total, ≤ 88 = low, 89–118 = intermediate, > 118 = high 6-month mortality risk.' },
+  { q: 'How does GRACE guide management?', a: 'A high GRACE score in NSTE-ACS supports an early invasive strategy; it also informs prognosis discussions and intensity of monitoring.' },
+]
+const references = [
+  { citation: 'Granger CB, Goldberg RJ, Dabbous O, et al. Predictors of hospital mortality in the Global Registry of Acute Coronary Events. <em>Arch Intern Med</em>. 2003;163(19):2345-2353.' },
+]
+const relatedTools = [
+  { slug: 'timi-nstemi-ua', name: 'TIMI Score (UA/NSTEMI)' },
+  { slug: 'timi-stemi', name: 'TIMI Score (STEMI)' },
+  { slug: 'heart-score', name: 'HEART Score' },
+]
+---
+<ScoreCalc
+  slug="grace-acs"
+  name="GRACE Score Calculator (ACS)"
+  schemaName="GRACE Score"
+  shortDescription="GRACE score for in-hospital and 6-month mortality in acute coronary syndrome."
+  metaTitle="GRACE Score Calculator (ACS Mortality) | maratool"
+  metaDescription="Free GRACE score calculator. Estimate in-hospital and 6-month mortality across the acute coronary syndrome spectrum from 8 variables."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select the band for age, heart rate, systolic BP, creatinine, and Killip class.',
+    'Mark cardiac arrest, ST deviation, and elevated biomarkers if present.',
+    'The total GRACE points and mortality-risk band update instantly.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

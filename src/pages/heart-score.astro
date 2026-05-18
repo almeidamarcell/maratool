@@ -1,0 +1,75 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'history', label: 'History', options: [
+      { label: 'Slightly suspicious (0)', points: 0, default: true },
+      { label: 'Moderately suspicious (1)', points: 1 },
+      { label: 'Highly suspicious (2)', points: 2 },
+    ]},
+    { id: 'ecg', label: 'ECG', options: [
+      { label: 'Normal (0)', points: 0, default: true },
+      { label: 'Non-specific repolarization disturbance (1)', points: 1 },
+      { label: 'Significant ST deviation (2)', points: 2 },
+    ]},
+    { id: 'age', label: 'Age', options: [
+      { label: '< 45 (0)', points: 0, default: true },
+      { label: '45–64 (1)', points: 1 },
+      { label: '≥ 65 (2)', points: 2 },
+    ]},
+    { id: 'risk', label: 'Risk factors (HTN, hyperlipidemia, DM, obesity BMI > 30, smoking, family history of CAD, known atherosclerotic disease)', options: [
+      { label: 'None (0)', points: 0, default: true },
+      { label: '1–2 (1)', points: 1 },
+      { label: '≥ 3 or known CAD (2)', points: 2 },
+    ]},
+    { id: 'troponin', label: 'Initial troponin', options: [
+      { label: '≤ normal limit (0)', points: 0, default: true },
+      { label: '1–3× normal limit (1)', points: 1 },
+      { label: '> 3× normal limit (2)', points: 2 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 3, label: '0–3 — Low risk (~ 0.9–1.7% MACE) — consider discharge', cls: 'cls-normal' },
+    { min: 4, max: 6, label: '4–6 — Moderate risk (~ 12–17% MACE) — admit / observe', cls: 'cls-warn' },
+    { min: 7, max: 10, label: '7–10 — High risk (~ 50–65% MACE) — early invasive strategy', cls: 'cls-danger' },
+  ],
+  max: 10,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What does HEART stand for?', a: 'History, ECG, Age, Risk factors, Troponin — a 5-domain score for 6-week risk of major adverse cardiac events (MACE) in undifferentiated chest pain.' },
+  { q: 'What MACE rate is considered safe for discharge?', a: 'A HEART score 0–3 corresponds to a 6-week MACE rate of < 2%, generally accepted as safe for outpatient follow-up without admission.' },
+  { q: 'HEART vs TIMI vs GRACE?', a: 'HEART has higher discrimination for undifferentiated chest pain in the ED than TIMI/GRACE (which were derived from confirmed ACS populations).' },
+  { q: 'Does HEART include high-sensitivity troponin?', a: 'The original HEART used conventional troponin. Newer pathways (HEART Pathway, EDACS) integrate hs-cTn for faster rule-out.' },
+]
+const references = [
+  { citation: 'Six AJ, Backus BE, Kelder JC. Chest pain in the emergency room: value of the HEART score. <em>Neth Heart J</em>. 2008;16(6):191-196.' },
+  { citation: 'Mahler SA, Riley RF, Hiestand BC, et al. The HEART Pathway randomized trial: identifying emergency department patients with acute chest pain for early discharge. <em>Circ Cardiovasc Qual Outcomes</em>. 2015;8(2):195-203.' },
+]
+const relatedTools = [
+  { slug: 'timi-nstemi-ua', name: 'TIMI Risk Score (NSTEMI/UA)' },
+  { slug: 'grace-acs', name: 'GRACE Score' },
+  { slug: 'cha2ds2-vasc', name: 'CHA2DS2-VASc' },
+]
+---
+<ScoreCalc
+  slug="heart-score"
+  name="HEART Score Calculator"
+  schemaName="HEART Score"
+  shortDescription="HEART Score for major adverse cardiac events in chest pain (0–10)."
+  metaTitle="HEART Score Calculator (Chest Pain Risk) | maratool"
+  metaDescription="Free HEART score calculator for chest pain. 5-domain risk stratification for 6-week MACE with discharge guidance."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Score history, ECG, age, risk factors, and troponin (0–2 each).',
+    'The HEART score (0–10) and MACE risk update instantly.',
+    'Use the HEART Pathway with serial troponins for safe ED disposition.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

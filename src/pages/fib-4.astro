@@ -1,0 +1,52 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is the FIB-4 index?', a: 'A non-invasive estimate of hepatic fibrosis using age, AST, ALT, and platelet count. It helps decide who needs further fibrosis assessment.' },
+  { q: 'How is FIB-4 interpreted?', a: '< 1.45 makes advanced fibrosis (F3–F4) unlikely; > 3.25 makes it likely; 1.45–3.25 is indeterminate and warrants elastography or biopsy.' },
+  { q: 'In which diseases is FIB-4 used?', a: 'Originally HIV/HCV co-infection; now widely used in NAFLD/MASLD, chronic hepatitis B/C, and alcohol-related liver disease.' },
+  { q: 'What are FIB-4 limitations?', a: 'Lower specificity in patients > 65 years (age-adjusted cut-offs are recommended) and unreliable with acute hepatitis or thrombocytopenia from other causes.' },
+]
+const references = [
+  { citation: 'Sterling RK, Lissen E, Clumeck N, et al. Development of a simple noninvasive index to predict significant fibrosis in patients with HIV/HCV coinfection. <em>Hepatology</em>. 2006;43(6):1317-1325.' },
+]
+const relatedTools = [
+  { slug: 'nafld-fibrosis', name: 'NAFLD Fibrosis Score' },
+  { slug: 'meld-meldna', name: 'MELD / MELD-Na' },
+  { slug: 'child-pugh', name: 'Child-Pugh' },
+]
+---
+<HealthCalc
+  slug="fib-4"
+  name="FIB-4 Index Calculator"
+  schemaName="FIB-4 Index"
+  shortDescription="FIB-4 index for non-invasive estimation of advanced liver fibrosis."
+  metaTitle="FIB-4 Index Calculator (Liver Fibrosis) | maratool"
+  metaDescription="Free FIB-4 calculator. Non-invasively estimate advanced liver fibrosis from age, AST, ALT, and platelet count."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Enter age, AST, ALT, and platelet count.',
+    'The FIB-4 index and fibrosis risk band update instantly.',
+    'Use age-adjusted cut-offs in patients over 65 years.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Age (years)</span>
+      <div class="hcalc-input-wrap"><input id="fib4-age" type="number" inputmode="decimal" min="0" step="1" placeholder="e.g. 55" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">AST (U/L)</span>
+      <div class="hcalc-input-wrap"><input id="fib4-ast" type="number" inputmode="decimal" min="0" step="1" placeholder="e.g. 60" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">ALT (U/L)</span>
+      <div class="hcalc-input-wrap"><input id="fib4-alt" type="number" inputmode="decimal" min="0" step="1" placeholder="e.g. 40" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Platelets (×10⁹/L)</span>
+      <div class="hcalc-input-wrap"><input id="fib4-plt" type="number" inputmode="decimal" min="0" step="1" placeholder="e.g. 150" /></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">FIB-4 Index</div><div class="hcalc-output-value" id="fib4-value">—</div><button class="copy-btn" data-target="fib4-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Interpretation</div><div class="hcalc-output-value" id="fib4-class">—</div><button class="copy-btn" data-target="fib4-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

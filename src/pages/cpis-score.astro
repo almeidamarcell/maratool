@@ -1,0 +1,81 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'temp', label: 'Temperature (°C)', options: [
+      { label: '36.5–38.4 (0)', points: 0, default: true },
+      { label: '38.5–38.9 (1)', points: 1 },
+      { label: '≥ 39.0 or ≤ 36.0 (2)', points: 2 },
+    ]},
+    { id: 'wbc', label: 'Blood leukocytes (/mm³)', options: [
+      { label: '4,000–11,000 (0)', points: 0, default: true },
+      { label: '< 4,000 or > 11,000 (1)', points: 1 },
+      { label: '< 4,000 or > 11,000 with ≥ 50% band forms (2)', points: 2 },
+    ]},
+    { id: 'secretions', label: 'Tracheal secretions', options: [
+      { label: 'Absent (0)', points: 0, default: true },
+      { label: 'Present, non-purulent (1)', points: 1 },
+      { label: 'Present, purulent (2)', points: 2 },
+    ]},
+    { id: 'oxygenation', label: 'Oxygenation — PaO₂/FiO₂ (mmHg)', options: [
+      { label: '> 240 or ARDS (0)', points: 0, default: true },
+      { label: '≤ 240 and no ARDS (2)', points: 2 },
+    ]},
+    { id: 'xray', label: 'Pulmonary radiography', options: [
+      { label: 'No infiltrate (0)', points: 0, default: true },
+      { label: 'Diffuse or patchy infiltrate (1)', points: 1 },
+      { label: 'Localized infiltrate (2)', points: 2 },
+    ]},
+    { id: 'culture', label: 'Tracheal aspirate culture (semi-quantitative)', options: [
+      { label: 'No growth or ≤ 1+ (0)', points: 0, default: true },
+      { label: '> 1+ (1)', points: 1 },
+      { label: '> 1+ and same pathogen on Gram stain > 1+ (2)', points: 2 },
+    ]},
+    { id: 'progression', label: 'Progression of pulmonary infiltrate (at 72 h)', options: [
+      { label: 'No progression (0)', points: 0, default: true },
+      { label: 'Radiographic progression (not CHF/ARDS) (2)', points: 2 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 6, label: 'CPIS ≤ 6 — ventilator-associated pneumonia less likely', cls: 'cls-normal' },
+    { min: 7, max: 12, label: 'CPIS > 6 — pneumonia likely; pursue cultures and treat', cls: 'cls-danger' },
+  ],
+  max: 12,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the CPIS?', a: 'The Clinical Pulmonary Infection Score combines clinical, radiographic, physiologic, and microbiologic data to estimate the likelihood of ventilator-associated pneumonia.' },
+  { q: 'What CPIS suggests pneumonia?', a: 'A score > 6 supports the diagnosis of VAP and the decision to start or continue antibiotics.' },
+  { q: 'When is the score recalculated?', a: 'A baseline CPIS uses the first six items; the seventh (infiltrate progression) and follow-up culture data allow a 72-hour reassessment to guide antibiotic continuation.' },
+  { q: 'What are CPIS limitations?', a: 'Moderate sensitivity/specificity and inter-observer variability — it should support, not replace, overall clinical judgment and culture results.' },
+]
+const references = [
+  { citation: 'Pugin J, Auckenthaler R, Mili N, et al. Diagnosis of ventilator-associated pneumonia by bacteriologic analysis of bronchoscopic and nonbronchoscopic blind bronchoalveolar lavage fluid. <em>Am Rev Respir Dis</em>. 1991;143(5 Pt 1):1121-1129.' },
+]
+const relatedTools = [
+  { slug: 'curb-65', name: 'CURB-65' },
+  { slug: 'sofa-score', name: 'SOFA Score' },
+  { slug: 'qsofa', name: 'qSOFA' },
+]
+---
+<ScoreCalc
+  slug="cpis-score"
+  name="Clinical Pulmonary Infection Score (CPIS) Calculator"
+  schemaName="CPIS"
+  shortDescription="Clinical Pulmonary Infection Score (CPIS) for ventilator-associated pneumonia (0–12)."
+  metaTitle="CPIS Calculator (Ventilator-Associated Pneumonia) | maratool"
+  metaDescription="Free CPIS calculator. Estimate the likelihood of ventilator-associated pneumonia from temperature, leukocytes, secretions, oxygenation, imaging, and cultures."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select each clinical, radiographic, and microbiologic item.',
+    'The total CPIS (0–12) and interpretation update instantly.',
+    'A score > 6 supports a diagnosis of ventilator-associated pneumonia.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

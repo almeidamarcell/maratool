@@ -1,0 +1,69 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'dvt', label: 'Clinical signs and symptoms of DVT', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (3.0)', points: 3 },
+    ]},
+    { id: 'alt_dx', label: 'PE is the #1 diagnosis (or equally likely)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (3.0)', points: 3 },
+    ]},
+    { id: 'hr', label: 'Heart rate > 100 bpm', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1.5)', points: 1.5 },
+    ]},
+    { id: 'immob', label: 'Immobilization ≥ 3 days or surgery in past 4 weeks', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1.5)', points: 1.5 },
+    ]},
+    { id: 'prior', label: 'Previous DVT or PE', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1.5)', points: 1.5 },
+    ]},
+    { id: 'hemop', label: 'Hemoptysis', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'malig', label: 'Malignancy (treatment within 6 mo or palliative)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 1.5, label: 'Low probability (≤ 1.5) — consider PERC', cls: 'cls-normal' },
+    { min: 2, max: 6, label: 'Moderate probability (2–6) — D-dimer / CTA', cls: 'cls-warn' },
+    { min: 6.5, max: 25, label: 'High probability (> 6) — CTA / VQ', cls: 'cls-danger' },
+  ],
+  cols: 2,
+}
+
+const faq = [
+  { q: 'When should I use Wells for PE?', a: 'When a patient presents with possible pulmonary embolism (dyspnea, pleuritic chest pain, hemoptysis, leg swelling). It risk-stratifies before deciding on D-dimer vs imaging.' },
+  { q: '3-tier vs 2-tier Wells?', a: 'The 3-tier version uses < 2 / 2–6 / > 6 cutoffs. The 2-tier uses ≤ 4 (unlikely) vs > 4 (likely). The 2-tier is often used with high-sensitivity D-dimer.' },
+  { q: 'What if Wells is low and D-dimer is negative?', a: 'Low Wells (or PE unlikely) + negative D-dimer effectively rules out PE without imaging in most patients.' },
+  { q: 'When to apply PERC?', a: 'When the clinician’s pre-test probability is low (Wells < 2 OR clinical gestalt < 15%) and the patient meets all 8 PERC criteria, imaging and D-dimer can be safely avoided.' },
+]
+const references = [
+  { citation: 'Wells PS, Anderson DR, Rodger M, et al. Derivation of a simple clinical model to categorize patients probability of pulmonary embolism. <em>Thromb Haemost</em>. 2000;83(3):416-420.' },
+]
+const relatedTools = [
+  { slug: 'perc-rule', name: 'PERC Rule' },
+  { slug: 'wells-dvt', name: 'Wells Score for DVT' },
+  { slug: 'pesi-pe-severity', name: 'PESI Score' },
+]
+---
+<ScoreCalc
+  slug="wells-pe"
+  name="Wells Score Calculator for Pulmonary Embolism"
+  schemaName="Wells Score for PE"
+  shortDescription="Wells criteria for clinical probability of pulmonary embolism."
+  metaTitle="Wells Score for PE Calculator | maratool"
+  metaDescription="Free Wells score calculator for pulmonary embolism. Pre-test probability with D-dimer and imaging guidance."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Check each criterion.',
+    'The Wells score and probability category update instantly.',
+    'Combine with D-dimer (low/moderate probability) or proceed to CTA (high probability).',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

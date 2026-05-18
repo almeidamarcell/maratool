@@ -1,0 +1,74 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'migration', label: 'Migration of pain to right lower quadrant', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'anorexia', label: 'Anorexia', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'nausea', label: 'Nausea or vomiting', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'tenderness', label: 'Tenderness in right lower quadrant', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (2)', points: 2 },
+    ]},
+    { id: 'rebound', label: 'Rebound tenderness', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'temp', label: 'Elevated temperature ≥ 37.3 °C', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'leukocytosis', label: 'Leukocytosis > 10,000/µL', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (2)', points: 2 },
+    ]},
+    { id: 'shift', label: 'Neutrophil left shift (> 75% neutrophils)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 4, label: 'Appendicitis unlikely — consider discharge / alternative diagnosis', cls: 'cls-normal' },
+    { min: 5, max: 6, label: 'Compatible with appendicitis — observation / imaging', cls: 'cls-warn' },
+    { min: 7, max: 8, label: 'Probable appendicitis — surgical consultation', cls: 'cls-danger' },
+    { min: 9, max: 10, label: 'Very probable appendicitis — surgical consultation', cls: 'cls-danger' },
+  ],
+  max: 10,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the Alvarado score?', a: 'A 10-point clinical score (mnemonic MANTRELS) that estimates the probability of acute appendicitis from symptoms, signs, and labs.' },
+  { q: 'What Alvarado score indicates appendicitis?', a: 'A score ≥ 7 makes appendicitis probable; 5–6 is equivocal (observe or image); ≤ 4 makes it unlikely.' },
+  { q: 'Is the Alvarado score reliable in women and children?', a: 'It performs less well in women of reproductive age (gynecologic mimics) and in young children; imaging is often added in these groups.' },
+  { q: 'Does a low score rule out appendicitis?', a: 'A score ≤ 4 has good but not perfect negative predictive value — persistent or worsening symptoms still warrant reassessment.' },
+]
+const references = [
+  { citation: 'Alvarado A. A practical score for the early diagnosis of acute appendicitis. <em>Ann Emerg Med</em>. 1986;15(5):557-564.' },
+]
+const relatedTools = [
+  { slug: 'curb-65', name: 'CURB-65' },
+  { slug: 'qsofa', name: 'qSOFA' },
+  { slug: 'centor-modified', name: 'Centor (Modified)' },
+]
+---
+<ScoreCalc
+  slug="alvarado-appendicitis"
+  name="Alvarado Score for Appendicitis Calculator"
+  schemaName="Alvarado Score"
+  shortDescription="Alvarado (MANTRELS) score for the probability of acute appendicitis (0–10)."
+  metaTitle="Alvarado Score Calculator (Appendicitis) | maratool"
+  metaDescription="Free Alvarado score calculator. Estimate the likelihood of acute appendicitis from the MANTRELS clinical and laboratory criteria."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select each symptom, sign, and laboratory finding that is present.',
+    'The total Alvarado score (0–10) and interpretation update instantly.',
+    'Use to guide observation, imaging, or surgical referral — not as a sole rule-out.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

@@ -1,0 +1,50 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is the Maddrey Discriminant Function?', a: 'The mDF estimates short-term prognosis in alcohol-associated hepatitis using prothrombin time and total bilirubin.' },
+  { q: 'What mDF value is severe?', a: 'A discriminant function ≥ 32 defines severe alcoholic hepatitis with high 28-day mortality, the threshold for considering corticosteroids.' },
+  { q: 'What prothrombin times should I enter?', a: 'Use the patient’s PT and the laboratory’s control (reference) PT in seconds — the difference drives the score.' },
+  { q: 'How does mDF guide treatment?', a: 'mDF ≥ 32 (often with hepatic encephalopathy) supports corticosteroid therapy after excluding contraindications; the Lille model at day 7 then assesses response.' },
+]
+const references = [
+  { citation: 'Maddrey WC, Boitnott JK, Bedine MS, et al. Corticosteroid therapy of alcoholic hepatitis. <em>Gastroenterology</em>. 1978;75(2):193-199.' },
+]
+const relatedTools = [
+  { slug: 'lille-model', name: 'Lille Model' },
+  { slug: 'meld-meldna', name: 'MELD / MELD-Na' },
+  { slug: 'child-pugh', name: 'Child-Pugh' },
+]
+---
+<HealthCalc
+  slug="maddrey-discriminant"
+  name="Maddrey Discriminant Function Calculator"
+  schemaName="Maddrey Discriminant Function"
+  shortDescription="Maddrey Discriminant Function (mDF) for severity and prognosis of alcoholic hepatitis."
+  metaTitle="Maddrey Discriminant Function Calculator | maratool"
+  metaDescription="Free Maddrey Discriminant Function calculator. Assess severity of alcohol-associated hepatitis and the threshold for corticosteroid therapy."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Enter the patient prothrombin time, the laboratory control PT, and total bilirubin.',
+    'The discriminant function and severity interpretation update instantly.',
+    'A value ≥ 32 indicates severe disease — consider corticosteroids.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Patient prothrombin time (s)</span>
+      <div class="hcalc-input-wrap"><input id="mdf-pt" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 20" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Control prothrombin time (s)</span>
+      <div class="hcalc-input-wrap"><input id="mdf-control" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 12" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Total bilirubin (mg/dL)</span>
+      <div class="hcalc-input-wrap"><input id="mdf-bili" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 5.0" /></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">Discriminant Function</div><div class="hcalc-output-value" id="mdf-value">—</div><button class="copy-btn" data-target="mdf-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Interpretation</div><div class="hcalc-output-value" id="mdf-class">—</div><button class="copy-btn" data-target="mdf-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

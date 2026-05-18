@@ -1,0 +1,56 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'How is DKA severity classified?', a: 'By the worst of arterial pH, serum bicarbonate, and mental status — mild (pH 7.25–7.30, HCO₃ 15–18, alert), moderate (pH 7.00–7.24, HCO₃ 10–<15, alert/drowsy), severe (pH < 7.00, HCO₃ < 10, stupor/coma).' },
+  { q: 'Why use the worst parameter?', a: 'Severity is graded by the most abnormal category, not an average — a very low pH alone classifies the episode as severe.' },
+  { q: 'What does severity change clinically?', a: 'It guides monitoring intensity and disposition; severe DKA generally warrants ICU-level care with frequent labs and protocolised insulin/fluids.' },
+  { q: 'Does this diagnose DKA?', a: 'No — DKA diagnosis also requires hyperglycemia and ketosis/ketonuria. This tool grades severity once DKA is established.' },
+]
+const references = [
+  { citation: 'Kitabchi AE, Umpierrez GE, Miles JM, Fisher JN. Hyperglycemic crises in adult patients with diabetes. <em>Diabetes Care</em>. 2009;32(7):1335-1343.' },
+]
+const relatedTools = [
+  { slug: 'abg-interpreter', name: 'ABG Interpreter' },
+  { slug: 'qsofa', name: 'qSOFA' },
+  { slug: 'news-2', name: 'NEWS-2' },
+]
+---
+<HealthCalc
+  slug="dka-severity"
+  name="DKA Severity Calculator"
+  schemaName="DKA Severity"
+  shortDescription="Diabetic ketoacidosis severity grading (mild / moderate / severe) per ADA criteria."
+  metaTitle="DKA Severity Calculator (Diabetic Ketoacidosis) | maratool"
+  metaDescription="Free DKA severity calculator. Grade diabetic ketoacidosis as mild, moderate, or severe from arterial pH, bicarbonate, and mental status."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Enter arterial pH and serum bicarbonate, and select mental status.',
+    'Severity is graded by the worst of the three parameters.',
+    'Severe DKA generally warrants ICU-level monitoring.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Arterial pH</span>
+      <div class="hcalc-input-wrap"><input id="dka-ph" type="number" inputmode="decimal" min="6" max="8" step="0.01" placeholder="e.g. 7.10" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Serum bicarbonate (mEq/L)</span>
+      <div class="hcalc-input-wrap"><input id="dka-hco3" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 12" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Mental status</span>
+      <div class="hcalc-input-wrap">
+        <select id="dka-mental">
+          <option value="alert" selected>Alert</option>
+          <option value="drowsy">Drowsy / obtunded</option>
+          <option value="stupor">Stupor / coma</option>
+        </select>
+      </div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">DKA severity</div><div class="hcalc-output-value" id="dka-value">—</div><button class="copy-btn" data-target="dka-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Management note</div><div class="hcalc-output-value" id="dka-class">—</div><button class="copy-btn" data-target="dka-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

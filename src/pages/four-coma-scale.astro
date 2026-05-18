@@ -1,0 +1,92 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    {
+      id: 'eye',
+      label: 'Eye response',
+      options: [
+        { label: '4 — Eyelids open, tracking, or blinking to command', points: 4, default: true },
+        { label: '3 — Eyelids open but not tracking', points: 3 },
+        { label: '2 — Eyelids closed but open to loud voice', points: 2 },
+        { label: '1 — Eyelids closed but open to pain', points: 1 },
+        { label: '0 — Eyelids remain closed with pain', points: 0 },
+      ],
+    },
+    {
+      id: 'motor',
+      label: 'Motor response',
+      options: [
+        { label: '4 — Thumbs-up, fist, or peace sign to command', points: 4, default: true },
+        { label: '3 — Localizing to pain', points: 3 },
+        { label: '2 — Flexion to pain', points: 2 },
+        { label: '1 — Extensor posturing', points: 1 },
+        { label: '0 — No response or myoclonus status epilepticus', points: 0 },
+      ],
+    },
+    {
+      id: 'brainstem',
+      label: 'Brainstem reflexes',
+      options: [
+        { label: '4 — Pupil + corneal reflexes present', points: 4, default: true },
+        { label: '3 — One pupil wide and fixed', points: 3 },
+        { label: '2 — Pupil OR corneal reflexes absent', points: 2 },
+        { label: '1 — Pupil AND corneal reflexes absent', points: 1 },
+        { label: '0 — Absent pupil, corneal, and cough reflex', points: 0 },
+      ],
+    },
+    {
+      id: 'respiration',
+      label: 'Respiration',
+      options: [
+        { label: '4 — Not intubated, regular breathing pattern', points: 4, default: true },
+        { label: '3 — Not intubated, Cheyne-Stokes breathing', points: 3 },
+        { label: '2 — Not intubated, irregular breathing', points: 2 },
+        { label: '1 — Breathes above ventilator rate', points: 1 },
+        { label: '0 — Breathes at ventilator rate or apnea', points: 0 },
+      ],
+    },
+  ],
+  bands: [
+    { min: 13, max: 16, label: 'Mild — low mortality risk', cls: 'cls-normal' },
+    { min: 8, max: 12, label: 'Moderate impairment', cls: 'cls-warn' },
+    { min: 0, max: 7, label: 'Severe — high mortality risk', cls: 'cls-danger' },
+  ],
+  max: 16,
+}
+
+const faq = [
+  { q: 'What is the FOUR Score used for?', a: 'The Full Outline of UnResponsiveness (FOUR) Score assesses level of consciousness in critically ill patients, including those who are intubated where the verbal component of the Glasgow Coma Scale cannot be assessed.' },
+  { q: 'Why use FOUR instead of GCS?', a: 'FOUR includes brainstem reflexes and respiration, making it sensitive to deeper coma and herniation. It can be used in intubated patients where GCS verbal score is unobtainable.' },
+  { q: 'What range is the FOUR Score?', a: '0 (worst) to 16 (best). Each of the 4 components scores 0–4.' },
+  { q: 'How does FOUR predict mortality?', a: 'A FOUR score of 0 has been associated with very high in-hospital mortality. Scores ≤ 7 indicate severe brain dysfunction and increased mortality.' },
+]
+const references = [
+  { citation: 'Wijdicks EFM, Bamlet WR, Maramattom BV, et al. Validation of a new coma scale: the FOUR score. <em>Ann Neurol</em>. 2005;58(4):585-593.' },
+]
+const relatedTools = [
+  { slug: 'glasgow-coma-pupil', name: 'Glasgow Coma Scale (GCS-P)' },
+  { slug: 'rass-scale', name: 'RASS Sedation Scale' },
+  { slug: 'fisher-scale', name: 'Fisher Scale (SAH)' },
+]
+---
+<ScoreCalc
+  slug="four-coma-scale"
+  name="FOUR Score Coma Scale Calculator"
+  schemaName="FOUR Score Coma Scale"
+  shortDescription="Full Outline of UnResponsiveness (FOUR) Score for coma assessment (0–16)."
+  metaTitle="FOUR Score Coma Scale Calculator (0–16) | maratool"
+  metaDescription="Free FOUR Score Coma Scale calculator. Four-component assessment of consciousness in critically ill patients, including intubated."
+  subcategory="Scale"
+  subcategorySlug="scale"
+  howTo={[
+    'Score eye response, motor response, brainstem reflexes, and respiration (0–4 each).',
+    'The total (0–16) and interpretation update instantly.',
+    'Re-assess at intervals — trend matters more than a single reading.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

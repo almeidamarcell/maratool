@@ -1,0 +1,58 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is the NAFLD Fibrosis Score?', a: 'A non-invasive score (NFS) estimating the probability of advanced fibrosis (F3–F4) in non-alcoholic fatty liver disease from 6 routine variables.' },
+  { q: 'How is the NFS interpreted?', a: '< −1.455 makes advanced fibrosis unlikely; > 0.675 makes it likely; values between are indeterminate.' },
+  { q: 'NFS vs FIB-4?', a: 'Both are validated first-line non-invasive tests in NAFLD/MASLD; they are often used together, with concordant low values reliably excluding advanced fibrosis.' },
+  { q: 'What counts as impaired fasting glucose / diabetes here?', a: 'Tick the box if the patient has impaired fasting glucose or established diabetes mellitus — it contributes a fixed term to the score.' },
+]
+const references = [
+  { citation: 'Angulo P, Hui JM, Marchesini G, et al. The NAFLD fibrosis score: a noninvasive system that identifies liver fibrosis in patients with NAFLD. <em>Hepatology</em>. 2007;45(4):846-854.' },
+]
+const relatedTools = [
+  { slug: 'fib-4', name: 'FIB-4 Index' },
+  { slug: 'meld-meldna', name: 'MELD / MELD-Na' },
+  { slug: 'child-pugh', name: 'Child-Pugh' },
+]
+---
+<HealthCalc
+  slug="nafld-fibrosis"
+  name="NAFLD Fibrosis Score Calculator"
+  schemaName="NAFLD Fibrosis Score"
+  shortDescription="NAFLD Fibrosis Score (NFS) for non-invasive prediction of advanced liver fibrosis."
+  metaTitle="NAFLD Fibrosis Score Calculator | maratool"
+  metaDescription="Free NAFLD Fibrosis Score calculator. Predict advanced fibrosis in fatty liver disease from age, BMI, glucose status, AST/ALT, platelets, and albumin."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Enter age, BMI, AST, ALT, platelets, albumin, and tick the diabetes/IFG box if present.',
+    'The NAFLD Fibrosis Score and probability band update instantly.',
+    'Combine with FIB-4 — concordant low values reliably exclude advanced fibrosis.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Age (years)</span>
+      <div class="hcalc-input-wrap"><input id="nfs-age" type="number" inputmode="decimal" min="0" step="1" placeholder="e.g. 60" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">BMI (kg/m²)</span>
+      <div class="hcalc-input-wrap"><input id="nfs-bmi" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 30" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">AST (U/L)</span>
+      <div class="hcalc-input-wrap"><input id="nfs-ast" type="number" inputmode="decimal" min="0" step="1" placeholder="e.g. 50" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">ALT (U/L)</span>
+      <div class="hcalc-input-wrap"><input id="nfs-alt" type="number" inputmode="decimal" min="0" step="1" placeholder="e.g. 25" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Platelets (×10⁹/L)</span>
+      <div class="hcalc-input-wrap"><input id="nfs-plt" type="number" inputmode="decimal" min="0" step="1" placeholder="e.g. 200" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Albumin (g/dL)</span>
+      <div class="hcalc-input-wrap"><input id="nfs-alb" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 4.0" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Impaired fasting glucose or diabetes</span>
+      <div class="hcalc-input-wrap"><input id="nfs-dm" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">NAFLD Fibrosis Score</div><div class="hcalc-output-value" id="nfs-value">—</div><button class="copy-btn" data-target="nfs-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Interpretation</div><div class="hcalc-output-value" id="nfs-class">—</div><button class="copy-btn" data-target="nfs-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

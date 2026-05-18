@@ -1,0 +1,65 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    {
+      id: 'rass',
+      label: 'RASS level',
+      options: [
+        { label: '+4 — Combative (immediate danger to staff)', points: 4 },
+        { label: '+3 — Very agitated (pulls tubes/catheters, aggressive)', points: 3 },
+        { label: '+2 — Agitated (frequent non-purposeful movement)', points: 2 },
+        { label: '+1 — Restless (anxious but movement not aggressive)', points: 1 },
+        { label: ' 0 — Alert and calm', points: 0, default: true },
+        { label: '−1 — Drowsy (sustained awakening with eye contact ≥ 10 s)', points: -1 },
+        { label: '−2 — Light sedation (brief awakening, eye contact < 10 s)', points: -2 },
+        { label: '−3 — Moderate sedation (movement / eye opening to voice, no eye contact)', points: -3 },
+        { label: '−4 — Deep sedation (no response to voice; movement to physical stimulus)', points: -4 },
+        { label: '−5 — Unarousable (no response to voice or physical stimulus)', points: -5 },
+      ],
+    },
+  ],
+  bands: [
+    { min: 1, max: 4, label: 'Agitated', cls: 'cls-warn' },
+    { min: 0, max: 0, label: 'Alert and calm — target for most ICU patients', cls: 'cls-normal' },
+    { min: -2, max: -1, label: 'Lightly sedated — appropriate for many ventilated patients', cls: 'cls-normal' },
+    { min: -5, max: -3, label: 'Deeply sedated — usually excessive', cls: 'cls-danger' },
+  ],
+}
+
+const faq = [
+  { q: 'What is RASS?', a: 'The Richmond Agitation-Sedation Scale is a 10-point scale (−5 to +4) used to assess agitation and sedation in ICU patients, especially those who are mechanically ventilated.' },
+  { q: 'What RASS target is recommended?', a: 'Most guidelines target RASS 0 to −2 (calm to lightly sedated) to minimize delirium, ventilator days, and ICU length of stay.' },
+  { q: 'How is RASS performed?', a: 'Observe the patient first; if not alert, speak the patient’s name; if no response, physically stimulate (shake shoulder, then rub sternum).' },
+  { q: 'RASS vs Ramsay vs SAS?', a: 'RASS has higher inter-rater reliability and is now the preferred scale in most ICUs, recommended by the SCCM PADIS guidelines.' },
+]
+const references = [
+  { citation: 'Sessler CN, Gosnell MS, Grap MJ, et al. The Richmond Agitation-Sedation Scale: validity and reliability in adult intensive care unit patients. <em>Am J Respir Crit Care Med</em>. 2002;166(10):1338-1344.' },
+  { citation: 'Devlin JW, Skrobik Y, Gélinas C, et al. Clinical Practice Guidelines for the Prevention and Management of Pain, Agitation/Sedation, Delirium, Immobility, and Sleep Disruption in Adult Patients in the ICU. <em>Crit Care Med</em>. 2018;46(9):e825-e873.' },
+]
+const relatedTools = [
+  { slug: 'ramsay-sedation', name: 'Ramsay Sedation Scale' },
+  { slug: 'sas-scale', name: 'SAS Sedation Scale' },
+  { slug: 'glasgow-coma-pupil', name: 'GCS-P' },
+]
+---
+<ScoreCalc
+  slug="rass-scale"
+  name="RASS Scale Calculator (Richmond Agitation-Sedation)"
+  schemaName="RASS Scale"
+  shortDescription="Richmond Agitation-Sedation Scale (−5 to +4) for ICU sedation."
+  metaTitle="RASS Scale Calculator (Richmond Agitation-Sedation) | maratool"
+  metaDescription="Free RASS scale calculator. Richmond Agitation-Sedation Scale (−5 to +4) for ICU patients with target range guidance."
+  subcategory="Scale"
+  subcategorySlug="scale"
+  howTo={[
+    'Observe the patient and select the matching RASS level.',
+    'The score and interpretation update instantly.',
+    'Use repeated assessments to titrate sedation toward RASS 0 to −2.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

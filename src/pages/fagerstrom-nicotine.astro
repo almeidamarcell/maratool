@@ -1,0 +1,76 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'first', label: 'How soon after waking do you smoke your first cigarette?', options: [
+      { label: 'After 60 minutes (0)', points: 0, default: true },
+      { label: '31–60 minutes (1)', points: 1 },
+      { label: '6–30 minutes (2)', points: 2 },
+      { label: 'Within 5 minutes (3)', points: 3 },
+    ]},
+    { id: 'refrain', label: 'Is it difficult to refrain from smoking where it is forbidden?', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'hate', label: 'Which cigarette would you most hate to give up?', options: [
+      { label: 'Any other (0)', points: 0, default: true },
+      { label: 'The first one in the morning (1)', points: 1 },
+    ]},
+    { id: 'cpd', label: 'How many cigarettes per day do you smoke?', options: [
+      { label: '10 or fewer (0)', points: 0, default: true },
+      { label: '11–20 (1)', points: 1 },
+      { label: '21–30 (2)', points: 2 },
+      { label: '31 or more (3)', points: 3 },
+    ]},
+    { id: 'morning', label: 'Do you smoke more frequently in the first hours after waking?', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'ill', label: 'Do you smoke even when so ill you are in bed most of the day?', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 2, label: 'Score 0–2 — very low nicotine dependence', cls: 'cls-normal' },
+    { min: 3, max: 4, label: 'Score 3–4 — low dependence', cls: 'cls-normal' },
+    { min: 5, max: 5, label: 'Score 5 — medium dependence', cls: 'cls-warn' },
+    { min: 6, max: 7, label: 'Score 6–7 — high dependence', cls: 'cls-danger' },
+    { min: 8, max: 10, label: 'Score 8–10 — very high dependence', cls: 'cls-danger' },
+  ],
+  max: 10,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the Fagerström Test?', a: 'The Fagerström Test for Nicotine Dependence (FTND) is a 6-item questionnaire (0–10) measuring physical dependence on nicotine.' },
+  { q: 'How is the FTND interpreted?', a: '0–2 very low, 3–4 low, 5 medium, 6–7 high, 8–10 very high dependence. Higher scores predict more difficulty quitting and support pharmacotherapy.' },
+  { q: 'Which item matters most?', a: 'Time to first cigarette and cigarettes per day are the strongest predictors of dependence and cessation difficulty.' },
+  { q: 'How does the score guide treatment?', a: 'Higher dependence supports combination nicotine replacement or varenicline and more intensive behavioural support.' },
+]
+const references = [
+  { citation: 'Heatherton TF, Kozlowski LT, Frecker RC, Fagerström KO. The Fagerström Test for Nicotine Dependence. <em>Br J Addict</em>. 1991;86(9):1119-1127.' },
+]
+const relatedTools = [
+  { slug: 'pack-year', name: 'Pack-Year Calculator' },
+  { slug: 'cage-alcohol-screening', name: 'CAGE Questionnaire' },
+  { slug: 'curb-65', name: 'CURB-65' },
+]
+---
+<ScoreCalc
+  slug="fagerstrom-nicotine"
+  name="Fagerström Test for Nicotine Dependence Calculator"
+  schemaName="Fagerström Test"
+  shortDescription="Fagerström Test for Nicotine Dependence (FTND) — 6-item dependence score (0–10)."
+  metaTitle="Fagerström Test Calculator (Nicotine Dependence) | maratool"
+  metaDescription="Free Fagerström Test calculator. Measure physical nicotine dependence (0–10) to guide smoking-cessation pharmacotherapy."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Answer the six questions about the patient’s smoking pattern.',
+    'The FTND total (0–10) and dependence level update instantly.',
+    'Higher dependence supports more intensive cessation pharmacotherapy.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

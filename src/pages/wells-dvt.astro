@@ -1,0 +1,78 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'cancer', label: 'Active cancer (treatment within 6 mo or palliative)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'paralysis', label: 'Paralysis, paresis, or recent plaster immobilization of legs', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'bedridden', label: 'Bedridden ≥ 3 days or major surgery within 12 weeks', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'tender', label: 'Localized tenderness along the deep venous system', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'swell_leg', label: 'Entire leg swollen', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'calf', label: 'Calf swelling ≥ 3 cm larger than asymptomatic side', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'edema', label: 'Pitting edema confined to symptomatic leg', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'collateral', label: 'Collateral superficial veins (non-varicose)', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'prior_dvt', label: 'Previously documented DVT', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'alt', label: 'Alternative diagnosis as likely or more likely than DVT', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (−2)', points: -2 },
+    ]},
+  ],
+  bands: [
+    { min: -2, max: 0, label: 'Low probability (~ 5%) — D-dimer can rule out', cls: 'cls-normal' },
+    { min: 1, max: 2, label: 'Moderate (~ 17%) — D-dimer or ultrasound', cls: 'cls-warn' },
+    { min: 3, max: 10, label: 'High (~ 53%) — proceed to ultrasound', cls: 'cls-danger' },
+  ],
+  cols: 2,
+}
+
+const faq = [
+  { q: 'When to use Wells DVT?', a: 'For patients with unilateral leg swelling, pain, or other clinical features suggestive of deep vein thrombosis, to risk-stratify the pre-test probability.' },
+  { q: '2-tier vs 3-tier?', a: 'The 2-tier version uses ≤ 1 (unlikely) and ≥ 2 (likely). The 3-tier (above) gives sharper graded probabilities and pairs well with D-dimer thresholds.' },
+  { q: 'What if Wells is low and D-dimer is negative?', a: 'Low Wells + negative high-sensitivity D-dimer effectively rules out DVT and avoids ultrasound.' },
+  { q: 'Can ultrasound replace Wells?', a: 'In high-probability patients, a single negative ultrasound may miss isolated calf DVT; repeat ultrasound at 1 week or a negative D-dimer is recommended for definitive exclusion.' },
+]
+const references = [
+  { citation: 'Wells PS, Anderson DR, Bormanis J, et al. Value of assessment of pretest probability of deep-vein thrombosis in clinical management. <em>Lancet</em>. 1997;350(9094):1795-1798.' },
+]
+const relatedTools = [
+  { slug: 'wells-pe', name: 'Wells Score for PE' },
+  { slug: 'padua-prediction', name: 'Padua Prediction Score' },
+  { slug: 'caprini-dvt-risk', name: 'Caprini DVT Risk' },
+]
+---
+<ScoreCalc
+  slug="wells-dvt"
+  name="Wells Score Calculator for DVT"
+  schemaName="Wells Score for DVT"
+  shortDescription="Wells criteria for clinical probability of deep vein thrombosis."
+  metaTitle="Wells Score for DVT Calculator | maratool"
+  metaDescription="Free Wells score calculator for DVT. Pre-test probability with D-dimer and ultrasound guidance."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Check each clinical criterion.',
+    'The Wells DVT score and probability update instantly.',
+    'Pair with D-dimer testing; ultrasound for moderate–high probability.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

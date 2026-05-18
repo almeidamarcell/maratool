@@ -1,0 +1,68 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'age', label: 'Age ≥ 60 years', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'bp', label: 'BP ≥ 140/90 mmHg at first assessment', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+    { id: 'clinical', label: 'Clinical features of the TIA', options: [
+      { label: 'Other symptom (0)', points: 0, default: true },
+      { label: 'Speech disturbance without weakness (1)', points: 1 },
+      { label: 'Unilateral weakness (2)', points: 2 },
+    ]},
+    { id: 'duration', label: 'Duration of symptoms', options: [
+      { label: '< 10 minutes (0)', points: 0, default: true },
+      { label: '10–59 minutes (1)', points: 1 },
+      { label: '≥ 60 minutes (2)', points: 2 },
+    ]},
+    { id: 'dm', label: 'Diabetes mellitus', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (1)', points: 1 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 3, label: 'Low risk — 2-day stroke risk ≈ 1.0%', cls: 'cls-normal' },
+    { min: 4, max: 5, label: 'Moderate risk — 2-day stroke risk ≈ 4.1%', cls: 'cls-warn' },
+    { min: 6, max: 7, label: 'High risk — 2-day stroke risk ≈ 8.1%', cls: 'cls-danger' },
+  ],
+  max: 7,
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the ABCD² score?', a: 'A 7-point score that estimates short-term stroke risk after a transient ischemic attack (TIA), using Age, Blood pressure, Clinical features, Duration, and Diabetes.' },
+  { q: 'What ABCD² score needs admission?', a: 'Many guidelines admit or urgently work up patients with a score ≥ 4 (or any patient with crescendo TIA, AF, or carotid stenosis regardless of score).' },
+  { q: 'What is the 2-day stroke risk by band?', a: 'Score 0–3 ≈ 1.0%, 4–5 ≈ 4.1%, 6–7 ≈ 8.1% risk of stroke within 2 days of the TIA.' },
+  { q: 'Is ABCD² still recommended?', a: 'It is a useful triage adjunct but should not replace urgent specialist assessment and imaging; some guidelines now favour rapid TIA-clinic pathways for all patients.' },
+]
+const references = [
+  { citation: 'Johnston SC, Rothwell PM, Nguyen-Huynh MN, et al. Validation and refinement of scores to predict very early stroke risk after transient ischaemic attack. <em>Lancet</em>. 2007;369(9558):283-292.' },
+]
+const relatedTools = [
+  { slug: 'nihss-stroke', name: 'NIHSS' },
+  { slug: 'cha2ds2-vasc', name: 'CHA2DS2-VASc' },
+  { slug: 'curb-65', name: 'CURB-65' },
+]
+---
+<ScoreCalc
+  slug="abcd2-tia"
+  name="ABCD2 Score for TIA Calculator"
+  schemaName="ABCD2 Score"
+  shortDescription="ABCD² score for short-term stroke risk after a transient ischemic attack (0–7)."
+  metaTitle="ABCD2 Score Calculator (TIA Stroke Risk) | maratool"
+  metaDescription="Free ABCD2 score calculator. Estimate 2-day stroke risk after a TIA from age, blood pressure, clinical features, duration, and diabetes."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select each of the five ABCD² components for your patient.',
+    'The total score (0–7) and 2-day stroke risk update instantly.',
+    'Use alongside urgent TIA work-up — do not delay imaging based on a low score.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

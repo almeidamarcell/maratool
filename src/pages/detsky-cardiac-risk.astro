@@ -1,0 +1,84 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    { id: 'mi', label: 'Myocardial infarction', options: [
+      { label: 'None (0)', points: 0, default: true },
+      { label: 'MI > 6 months ago (5)', points: 5 },
+      { label: 'MI within 6 months (10)', points: 10 },
+    ]},
+    { id: 'angina', label: 'Canadian Cardiovascular Society angina', options: [
+      { label: 'None or Class I–II (0)', points: 0, default: true },
+      { label: 'Class III (10)', points: 10 },
+      { label: 'Class IV (20)', points: 20 },
+    ]},
+    { id: 'unstable', label: 'Unstable angina within 3 months', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (10)', points: 10 },
+    ]},
+    { id: 'edema', label: 'Pulmonary edema', options: [
+      { label: 'Never (0)', points: 0, default: true },
+      { label: 'Ever (5)', points: 5 },
+      { label: 'Within 1 week (10)', points: 10 },
+    ]},
+    { id: 'as', label: 'Suspected critical aortic stenosis', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (20)', points: 20 },
+    ]},
+    { id: 'rhythm', label: 'Rhythm other than sinus, or sinus plus atrial premature beats on last ECG', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (5)', points: 5 },
+    ]},
+    { id: 'pvc', label: '> 5 premature ventricular beats/min at any time before surgery', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (5)', points: 5 },
+    ]},
+    { id: 'status', label: 'Poor general medical status', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (5)', points: 5 },
+    ]},
+    { id: 'age', label: 'Age > 70 years', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (5)', points: 5 },
+    ]},
+    { id: 'emergency', label: 'Emergency operation', options: [
+      { label: 'No (0)', points: 0, default: true }, { label: 'Yes (10)', points: 10 },
+    ]},
+  ],
+  bands: [
+    { min: 0, max: 15, label: 'Class I (≤ 15) — low cardiac risk', cls: 'cls-normal' },
+    { min: 16, max: 30, label: 'Class II (20–30) — intermediate cardiac risk', cls: 'cls-warn' },
+    { min: 31, max: 120, label: 'Class III (> 30) — high cardiac risk', cls: 'cls-danger' },
+  ],
+  cols: 2,
+}
+
+const faq = [
+  { q: 'What is the Detsky Modified Cardiac Risk Index?', a: 'A modification of the Goldman index adding angina class and unstable angina, used as the preoperative cardiac risk component in older ACP guidelines.' },
+  { q: 'How are Detsky classes defined?', a: 'Class I ≤ 15 points (low risk), Class II 20–30 (intermediate), Class III > 30 (high risk).' },
+  { q: 'How was Detsky used clinically?', a: 'It was combined with surgery-specific risk and likelihood ratios in the ACP perioperative algorithm to estimate post-test probability of cardiac complications.' },
+  { q: 'Detsky vs RCRI?', a: 'The Lee RCRI is simpler and now preferred for routine use; Detsky retains value where angina severity is a prominent factor.' },
+]
+const references = [
+  { citation: 'Detsky AS, Abrams HB, McLaughlin JR, et al. Predicting cardiac complications in patients undergoing non-cardiac surgery. <em>J Gen Intern Med</em>. 1986;1(4):211-219.' },
+]
+const relatedTools = [
+  { slug: 'lee-rcri', name: 'Revised Cardiac Risk Index' },
+  { slug: 'goldman-cardiac-risk', name: 'Goldman Cardiac Risk Index' },
+  { slug: 'heart-score', name: 'HEART Score' },
+]
+---
+<ScoreCalc
+  slug="detsky-cardiac-risk"
+  name="Detsky Modified Cardiac Risk Index Calculator"
+  schemaName="Detsky Cardiac Risk Index"
+  shortDescription="Detsky Modified Cardiac Risk Index for preoperative cardiac risk in non-cardiac surgery."
+  metaTitle="Detsky Cardiac Risk Index Calculator | maratool"
+  metaDescription="Free Detsky Modified Cardiac Risk Index calculator. Estimate preoperative cardiac risk class from MI, angina, pulmonary edema, and other factors."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select each cardiac and perioperative factor for the patient.',
+    'The weighted total and Detsky risk class update instantly.',
+    'Combine with surgery-specific risk for the full ACP perioperative estimate.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

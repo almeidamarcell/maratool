@@ -1,0 +1,74 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is the CDAI?', a: 'The Crohn’s Disease Activity Index is the classic research index of Crohn’s disease activity, combining a 7-day symptom diary with examination, complications, hematocrit, and weight.' },
+  { q: 'How is the CDAI interpreted?', a: '< 150 = clinical remission, 150–220 = mild, 221–450 = moderate, > 450 = severe disease activity.' },
+  { q: 'What are the weekly sums?', a: 'Add the daily values over 7 days: number of liquid/very soft stools, abdominal-pain rating (0–3/day), and general well-being rating (0–4/day).' },
+  { q: 'How are complications counted?', a: 'Count the number present of: arthralgia/arthritis, iritis/uveitis, erythema nodosum/pyoderma/aphthous stomatitis, anal fissure/fistula/abscess, other fistula, and fever > 37.8 °C.' },
+]
+const references = [
+  { citation: 'Best WR, Becktel JM, Singleton JW, Kern F Jr. Development of a Crohn’s disease activity index. National Cooperative Crohn’s Disease Study. <em>Gastroenterology</em>. 1976;70(3):439-444.' },
+]
+const relatedTools = [
+  { slug: 'harvey-bradshaw', name: 'Harvey-Bradshaw Index' },
+  { slug: 'mayo-uc', name: 'Mayo Score (UC)' },
+  { slug: 'uceis-uc', name: 'UCEIS' },
+]
+---
+<HealthCalc
+  slug="cdai-crohns"
+  name="CDAI Calculator (Crohn's Disease Activity Index)"
+  schemaName="CDAI"
+  shortDescription="Crohn’s Disease Activity Index (CDAI) for disease-activity grading."
+  metaTitle="CDAI Calculator (Crohn's Disease Activity) | maratool"
+  metaDescription="Free CDAI calculator. Grade Crohn’s disease activity from the 7-day symptom diary, complications, hematocrit, and weight."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Enter the 7-day sums for stools, abdominal pain, and well-being.',
+    'Add complications, antidiarrheal use, abdominal mass, hematocrit, and weights.',
+    'The CDAI and activity category update instantly (remission < 150).',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Liquid/soft stools — 7-day total</span>
+      <div class="hcalc-input-wrap"><input id="cdai-stools" type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 14" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Abdominal pain — 7-day sum (0–3/day)</span>
+      <div class="hcalc-input-wrap"><input id="cdai-pain" type="number" inputmode="numeric" min="0" max="21" step="1" placeholder="e.g. 7" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">General well-being — 7-day sum (0–4/day)</span>
+      <div class="hcalc-input-wrap"><input id="cdai-wb" type="number" inputmode="numeric" min="0" max="28" step="1" placeholder="e.g. 7" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Number of complications (0–6)</span>
+      <div class="hcalc-input-wrap">
+        <select id="cdai-comp">{[0,1,2,3,4,5,6].map(n => <option value={n} selected={n===0}>{n}</option>)}</select>
+      </div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Antidiarrheal / opiate use for diarrhea</span>
+      <div class="hcalc-input-wrap"><input id="cdai-antidiarrheal" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Abdominal mass</span>
+      <div class="hcalc-input-wrap">
+        <select id="cdai-mass">
+          <option value="0" selected>None (0)</option>
+          <option value="2">Questionable (2)</option>
+          <option value="5">Definite (5)</option>
+        </select>
+      </div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Hematocrit (%)</span>
+      <div class="hcalc-input-wrap"><input id="cdai-hct" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 42" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Sex (for hematocrit reference)</span>
+      <div class="hcalc-input-wrap">
+        <select id="cdai-sex"><option value="male" selected>Male (ref 47)</option><option value="female">Female (ref 42)</option></select>
+      </div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Current weight (kg)</span>
+      <div class="hcalc-input-wrap"><input id="cdai-weight" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g. 65" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Standard (ideal) weight (kg)</span>
+      <div class="hcalc-input-wrap"><input id="cdai-stdweight" type="number" inputmode="decimal" min="1" step="0.1" placeholder="e.g. 70" /></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">CDAI</div><div class="hcalc-output-value" id="cdai-value">—</div><button class="copy-btn" data-target="cdai-value">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Disease activity</div><div class="hcalc-output-value" id="cdai-class">—</div><button class="copy-btn" data-target="cdai-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/score-formula-ui.js"></script>

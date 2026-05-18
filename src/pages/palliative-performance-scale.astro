@@ -1,0 +1,65 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    {
+      id: 'pps',
+      label: 'PPS level',
+      options: [
+        { label: '100 — Full ambulation, normal activity & work, no evidence of disease, full intake, full consciousness', points: 100, default: true },
+        { label: '90 — Full ambulation, normal activity & work, some evidence of disease, full intake, full consciousness', points: 90 },
+        { label: '80 — Full ambulation, normal activity with effort, some disease, normal or reduced intake, full consciousness', points: 80 },
+        { label: '70 — Reduced ambulation, unable to do normal job/work, some disease, normal or reduced intake, full consciousness', points: 70 },
+        { label: '60 — Reduced ambulation, unable to do hobby/housework, significant disease, normal or reduced intake, full or confusion', points: 60 },
+        { label: '50 — Mainly sit/lie, unable to do any work, extensive disease, normal or reduced intake, full or confusion', points: 50 },
+        { label: '40 — Mainly in bed, unable to do most activity, extensive disease, normal or reduced intake, full/drowsy/confusion', points: 40 },
+        { label: '30 — Totally bed bound, unable to do any activity, extensive disease, reduced intake, full/drowsy/confusion', points: 30 },
+        { label: '20 — Totally bed bound, unable to do any activity, extensive disease, minimal sips, full/drowsy/confusion', points: 20 },
+        { label: '10 — Totally bed bound, unable to do any activity, extensive disease, mouth care only, drowsy/coma', points: 10 },
+        { label: '0 — Death', points: 0 },
+      ],
+    },
+  ],
+  bands: [
+    { min: 70, max: 100, label: 'Stable — typical prognosis months to years', cls: 'cls-normal' },
+    { min: 40, max: 60, label: 'Transitional — typical prognosis weeks to months', cls: 'cls-warn' },
+    { min: 0, max: 30, label: 'End of life — typical prognosis days to weeks', cls: 'cls-danger' },
+  ],
+  max: 100,
+}
+
+const faq = [
+  { q: 'What is the PPS scale?', a: 'The Palliative Performance Scale (PPSv2) is an 11-level (0–100, step 10) functional assessment tool used in hospice and palliative care to guide prognosis and resource allocation.' },
+  { q: 'How does PPS predict survival?', a: 'In hospice populations, PPS ≤ 30 has been associated with median survival of days to weeks; PPS 40–60 weeks to months; PPS ≥ 70 months or longer. Always use alongside clinical judgment.' },
+  { q: 'PPS vs Karnofsky?', a: 'PPS extends the Karnofsky scale with additional dimensions (ambulation, intake, consciousness) that better capture decline in palliative populations.' },
+  { q: 'When is PPS assessed?', a: 'At hospice admission, after major changes in condition, and at regular intervals (often weekly or with each visit).' },
+]
+const references = [
+  { citation: 'Anderson F, Downing GM, Hill J, Casorso L, Lerch N. Palliative Performance Scale (PPS): a new tool. <em>J Palliat Care</em>. 1996;12(1):5-11.' },
+]
+const relatedTools = [
+  { slug: 'karnofsky-performance', name: 'Karnofsky Performance Scale' },
+  { slug: 'ecog-performance', name: 'ECOG Performance Status' },
+  { slug: 'ppi-palliative-prognostic', name: 'Palliative Prognostic Index (PPI)' },
+]
+---
+<ScoreCalc
+  slug="palliative-performance-scale"
+  name="Palliative Performance Scale (PPS) Calculator"
+  schemaName="Palliative Performance Scale"
+  shortDescription="Palliative Performance Scale (PPS) for hospice and palliative care prognosis."
+  metaTitle="Palliative Performance Scale (PPS) Calculator | maratool"
+  metaDescription="Free Palliative Performance Scale (PPS) calculator. Hospice and palliative care functional assessment from 0 (death) to 100 (full)."
+  subcategory="Prognosis"
+  subcategorySlug="prognosis"
+  howTo={[
+    'Select the PPS level that best matches the patient across ambulation, activity, self-care, intake, and consciousness.',
+    'The score (0–100) and survival category update instantly.',
+    'Re-assess regularly — declining PPS over days is an important prognostic signal.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>

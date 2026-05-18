@@ -1,0 +1,61 @@
+---
+import ScoreCalc from '../components/ScoreCalc.astro'
+
+const spec = {
+  items: [
+    {
+      id: 'sas',
+      label: 'SAS level',
+      options: [
+        { label: '7 — Dangerous agitation (pulling at endotracheal tube/catheters; climbing rails; striking staff)', points: 7 },
+        { label: '6 — Very agitated (frequent non-purposeful movement; requires restraint, biting tube)', points: 6 },
+        { label: '5 — Agitated (anxious or mildly agitated; calms to verbal instructions)', points: 5 },
+        { label: '4 — Calm and cooperative (calm, awakens easily, follows commands)', points: 4, default: true },
+        { label: '3 — Sedated (difficult to arouse; awakens to verbal stimuli or gentle shaking)', points: 3 },
+        { label: '2 — Very sedated (arouses to physical stimuli; does not communicate or follow commands)', points: 2 },
+        { label: '1 — Unarousable (minimal or no response to noxious stimuli)', points: 1 },
+      ],
+    },
+  ],
+  bands: [
+    { min: 5, max: 7, label: 'Agitated', cls: 'cls-warn' },
+    { min: 3, max: 4, label: 'Adequate sedation — typical target', cls: 'cls-normal' },
+    { min: 1, max: 2, label: 'Over-sedated', cls: 'cls-danger' },
+  ],
+  max: 7,
+}
+
+const faq = [
+  { q: 'What is the SAS scale?', a: 'The Riker Sedation-Agitation Scale (SAS) is a 7-point scale validated for assessing agitation and sedation in adult ICU patients.' },
+  { q: 'SAS target?', a: '3–4 (sedated to calm and cooperative) is the typical goal. SAS 1–2 indicates over-sedation; SAS 5–7 indicates under-sedation/agitation.' },
+  { q: 'SAS vs RASS?', a: 'Both are validated and recommended by SCCM PADIS guidelines. RASS is more widely used; SAS is preferred in some institutions.' },
+  { q: 'How often should SAS be assessed?', a: 'At least every 4 hours and after each sedative dose change.' },
+]
+const references = [
+  { citation: 'Riker RR, Picard JT, Fraser GL. Prospective evaluation of the Sedation-Agitation Scale for adult critically ill patients. <em>Crit Care Med</em>. 1999;27(7):1325-1329.' },
+]
+const relatedTools = [
+  { slug: 'rass-scale', name: 'RASS Scale' },
+  { slug: 'ramsay-sedation', name: 'Ramsay Sedation Scale' },
+  { slug: 'glasgow-coma-pupil', name: 'GCS-P' },
+]
+---
+<ScoreCalc
+  slug="sas-scale"
+  name="SAS Sedation Scale Calculator (Riker)"
+  schemaName="SAS Scale"
+  shortDescription="Riker Sedation-Agitation Scale (1–7) for ICU sedation assessment."
+  metaTitle="SAS (Riker) Sedation-Agitation Scale Calculator | maratool"
+  metaDescription="Free Riker SAS scale calculator. 7-point Sedation-Agitation Scale for ICU patients with target range guidance."
+  subcategory="Scale"
+  subcategorySlug="scale"
+  howTo={[
+    'Select the SAS level that best matches the patient.',
+    'The score and interpretation update instantly.',
+    'Target SAS 3–4 for most ventilated patients; titrate sedation accordingly.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  spec={spec}
+/>
