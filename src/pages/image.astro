@@ -1,10 +1,11 @@
 ---
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
-import Breadcrumb from '../components/Breadcrumb.astro'
-import { toolsFlatByCategory } from '../data/tools'
+import HubPage from '../components/HubPage.astro'
+import { toolsFlatByCategory, subcategoryOrderByCategory } from '../data/tools'
 
-const tools = toolsFlatByCategory.Image ?? []
+const categoryTools = toolsFlatByCategory.Image ?? []
+const subcategories = subcategoryOrderByCategory.Image ?? []
 
 const seo = {
   title: 'Image Tools — maratool',
@@ -16,7 +17,7 @@ const seo = {
     name: 'Image Tools',
     url: 'https://maratool.com/image',
     description: 'Free browser-based image tools. Remove backgrounds, optimize SVGs, generate favicons, preview Base64 images, and generate alt text — no upload required.',
-    hasPart: tools.map(tool => ({
+    hasPart: categoryTools.filter(t => t.live).map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
@@ -71,39 +72,17 @@ const faqSchema = {
     },
   ]
 }
-
-const breadcrumbs = [
-  { label: 'Home', href: '/' },
-  { label: 'Image' },
-]
 ---
 <Base {...seo} faqSchema={faqSchema}>
-  <Layout>
-    <Breadcrumb crumbs={breadcrumbs} />
-    <div class="hero">
-      <h1>Image Tools</h1>
-      <p>Free, browser-based image tools — remove backgrounds, optimize SVGs, generate favicons, and more, all running locally.</p>
-    </div>
-
-    <div class="tools-grid">
-      {tools.map(tool => (
-        tool.live
-          ? (
-            <a href={`/${tool.slug}`} class="tool-card">
-              <span class="tool-card-emoji">{tool.emoji}</span>
-              <div class="tool-card-name">{tool.name}</div>
-              <div class="tool-card-desc">{tool.description}</div>
-            </a>
-          )
-          : (
-            <div class="tool-card" style="opacity:0.5;cursor:default;">
-              <span class="tool-card-emoji">{tool.emoji}</span>
-              <div class="tool-card-name">{tool.name}</div>
-              <div class="tool-card-desc">{tool.description}</div>
-              <span class="tool-card-badge">Coming Soon</span>
-            </div>
-          )
-      ))}
-    </div>
+  <Layout scope="hub">
+    <HubPage
+      category="Image"
+      categorySlug="image"
+      title="Image tools"
+      subtitle="Remove backgrounds, optimize SVGs, generate favicons, convert formats — all running locally in your browser."
+      tools={categoryTools}
+      subcategories={subcategories}
+      basePath="/image"
+    />
   </Layout>
 </Base>

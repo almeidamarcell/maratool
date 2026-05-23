@@ -1,10 +1,11 @@
 ---
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
-import Breadcrumb from '../components/Breadcrumb.astro'
-import { toolsFlatByCategory } from '../data/tools'
+import HubPage from '../components/HubPage.astro'
+import { toolsFlatByCategory, subcategoryOrderByCategory } from '../data/tools'
 
-const tools = toolsFlatByCategory.Marketing ?? []
+const categoryTools = toolsFlatByCategory.Marketing ?? []
+const subcategories = subcategoryOrderByCategory.Marketing ?? []
 
 const seo = {
   title: 'Marketing Tools — maratool',
@@ -16,7 +17,7 @@ const seo = {
     name: 'Marketing Tools',
     url: 'https://maratool.com/marketing',
     description: 'Free browser-based marketing tools. Generate QR codes, build UTM-tagged URLs for campaign tracking — no sign-up, runs in your browser.',
-    hasPart: tools.map(tool => ({
+    hasPart: categoryTools.filter(t => t.live).map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
@@ -71,39 +72,17 @@ const faqSchema = {
     },
   ]
 }
-
-const breadcrumbs = [
-  { label: 'Home', href: '/' },
-  { label: 'Marketing' },
-]
 ---
 <Base {...seo} faqSchema={faqSchema}>
-  <Layout>
-    <Breadcrumb crumbs={breadcrumbs} />
-    <div class="hero">
-      <h1>Marketing Tools</h1>
-      <p>Free, browser-based marketing tools — UTM builders and campaign helpers, all running locally in your browser.</p>
-    </div>
-
-    <div class="tools-grid">
-      {tools.map(tool => (
-        tool.live
-          ? (
-            <a href={`/${tool.slug}`} class="tool-card">
-              <span class="tool-card-emoji">{tool.emoji}</span>
-              <div class="tool-card-name">{tool.name}</div>
-              <div class="tool-card-desc">{tool.description}</div>
-            </a>
-          )
-          : (
-            <div class="tool-card" style="opacity:0.5;cursor:default;">
-              <span class="tool-card-emoji">{tool.emoji}</span>
-              <div class="tool-card-name">{tool.name}</div>
-              <div class="tool-card-desc">{tool.description}</div>
-              <span class="tool-card-badge">Coming Soon</span>
-            </div>
-          )
-      ))}
-    </div>
+  <Layout scope="hub">
+    <HubPage
+      category="Marketing"
+      categorySlug="marketing"
+      title="Marketing tools"
+      subtitle="QR codes, UTM-tagged URLs, barcodes — built in your browser, no sign-up."
+      tools={categoryTools}
+      subcategories={subcategories}
+      basePath="/marketing"
+    />
   </Layout>
 </Base>

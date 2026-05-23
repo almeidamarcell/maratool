@@ -1,8 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
-import Breadcrumb from '../../components/Breadcrumb.astro'
-import { toolsByCategory, subcategoryOrderByCategory } from '../../data/tools'
+import HubPage from '../../components/HubPage.astro'
+import { toolsByCategory, toolsFlatByCategory, subcategoryOrderByCategory } from '../../data/tools'
 
 export function getStaticPaths() {
   const subs = subcategoryOrderByCategory.Health ?? []
@@ -107,7 +107,7 @@ export function getStaticPaths() {
       params: { subcategory: slug },
       props: {
         sub,
-        tools: catTools[sub] ?? [],
+        subTools: catTools[sub] ?? [],
         ...meta,
       },
     }
@@ -115,7 +115,9 @@ export function getStaticPaths() {
 }
 
 const { subcategory } = Astro.params
-const { sub, tools, title, description, intro } = Astro.props
+const { sub, subTools, title, description, intro } = Astro.props
+const allTools = toolsFlatByCategory.Health ?? []
+const subcategories = subcategoryOrderByCategory.Health ?? []
 
 const seo = {
   title,
@@ -127,7 +129,7 @@ const seo = {
     name: `${sub} Calculators`,
     url: `https://maratool.com/health/${subcategory}`,
     description,
-    hasPart: tools.filter((tool: { live: boolean }) => tool.live).map((tool: { name: string; slug: string }) => ({
+    hasPart: subTools.filter((tool: { live: boolean }) => tool.live).map((tool: { name: string; slug: string }) => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
@@ -144,40 +146,18 @@ const seo = {
     ],
   },
 }
-
-const breadcrumbs = [
-  { label: 'Home', href: '/' },
-  { label: 'Health', href: '/health' },
-  { label: sub },
-]
 ---
 <Base {...seo}>
-  <Layout>
-    <Breadcrumb crumbs={breadcrumbs} />
-    <div class="hero">
-      <h1>{sub} Calculators</h1>
-      <p>{intro}</p>
-    </div>
-
-    <div class="tools-grid">
-      {tools.map((tool: { live: boolean; slug: string; emoji: string; name: string; description: string }) => (
-        tool.live
-          ? (
-            <a href={`/${tool.slug}`} class="tool-card">
-              <span class="tool-card-emoji">{tool.emoji}</span>
-              <div class="tool-card-name">{tool.name}</div>
-              <div class="tool-card-desc">{tool.description}</div>
-            </a>
-          )
-          : (
-            <div class="tool-card" style="opacity:0.5;cursor:default;">
-              <span class="tool-card-emoji">{tool.emoji}</span>
-              <div class="tool-card-name">{tool.name}</div>
-              <div class="tool-card-desc">{tool.description}</div>
-              <span class="tool-card-badge">Coming Soon</span>
-            </div>
-          )
-      ))}
-    </div>
+  <Layout scope="subcategory">
+    <HubPage
+      category="Health"
+      categorySlug="health"
+      title={`${sub} calculators`}
+      subtitle={intro}
+      tools={allTools}
+      subcategories={subcategories}
+      activeSubcategory={sub}
+      basePath="/health"
+    />
   </Layout>
 </Base>

@@ -1,0 +1,470 @@
+---
+import Breadcrumb from './Breadcrumb.astro'
+import { getSpecialty, getPurpose } from '../data/tools'
+import type { Tool } from '../data/tools'
+
+interface SecondaryAxisOption {
+  value: string
+  label: string
+  count: number
+}
+
+interface SecondaryAxis {
+  label: string         // e.g. "Specialty" or "Purpose"
+  paramKey: string      // e.g. "specialty" — used in URL query
+  options: SecondaryAxisOption[]
+  // Which tool property this axis filters by ('specialty' | 'purpose' | custom)
+  source: 'specialty' | 'purpose'
+}
+
+interface Props {
+  category: string
+  categorySlug: string
+  title: string
+  subtitle: string
+  tools: Tool[]
+  subcategories: string[]
+  activeSubcategory?: string | null
+  basePath: string
+  secondaryAxis?: SecondaryAxis | null
+}
+
+const {
+  category,
+  categorySlug,
+  title,
+  subtitle,
+  tools,
+  subcategories,
+  activeSubcategory = null,
+  basePath,
+  secondaryAxis = null,
+} = Astro.props
+
+const liveTools = tools.filter(t => t.live)
+
+const breadcrumbs = activeSubcategory
+  ? [
+      { label: 'Home', href: '/' },
+      { label: category, href: `/${categorySlug}` },
+      { label: activeSubcategory },
+    ]
+  : [
+      { label: 'Home', href: '/' },
+      { label: category },
+    ]
+
+// Per-subcategory counts (for facet chip badges)
+const subCounts: Record<string, number> = {}
+for (const sub of subcategories) {
+  subCounts[sub] = liveTools.filter(t => t.subcategory === sub).length
+}
+
+// Active filter (primary, by subcategory path)
+const primaryFilteredTools = activeSubcategory
+  ? liveTools.filter(t => t.subcategory.toLowerCase() === activeSubcategory.toLowerCase())
+  : liveTools
+
+// Compute axis values per tool (rendered as data attributes for JS filtering)
+function axisValueFor(tool: Tool, source: 'specialty' | 'purpose'): string {
+  if (source === 'specialty') return (getSpecialty(tool) ?? '').toLowerCase()
+  if (source === 'purpose') return (getPurpose(tool) ?? '').toLowerCase()
+  return ''
+}
+---
+<div class="hub-hero">
+  <Breadcrumb crumbs={breadcrumbs} />
+  <h1>{title}</h1>
+  <p class="hub-sub">{subtitle}</p>
+
+  <div class="hub-search-wrap">
+    <svg class="hub-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input
+      type="search"
+      class="hub-search-input"
+      id="hub-search-input"
+      placeholder={`Search ${liveTools.length} ${category} tools…`}
+      aria-label={`Search ${category} tools`}
+      autocomplete="off"
+      data-base-path={basePath}
+    />
+  </div>
+
+  {subcategories.length > 1 && (
+    <div class="facet-row">
+      <div class="facet-group">
+        <span class="facet-label">{secondaryAxis ? 'Subcategory' : 'Filter'}</span>
+        <a href={basePath} class:list={['facet-pill', { active: !activeSubcategory }]}>
+          All<span class="count">{liveTools.length}</span>
+        </a>
+        {subcategories.filter(sub => subCounts[sub] > 0).map(sub => (
+          <a
+            href={`${basePath}/${sub.toLowerCase()}`}
+            class:list={[
+              'facet-pill',
+              { active: activeSubcategory?.toLowerCase() === sub.toLowerCase() }
+            ]}
+          >
+            {sub}<span class="count">{subCounts[sub]}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+
+  {secondaryAxis && secondaryAxis.options.length > 1 && (
+    <div class="facet-row" id="secondary-facet-row" data-param-key={secondaryAxis.paramKey} data-source={secondaryAxis.source}>
+      <div class="facet-group">
+        <span class="facet-label">{secondaryAxis.label}</span>
+        <button type="button" class="facet-pill secondary-facet-btn active" data-value="">
+          All
+        </button>
+        {secondaryAxis.options.map(opt => (
+          <button type="button" class="facet-pill secondary-facet-btn" data-value={opt.value.toLowerCase()}>
+            {opt.label}<span class="count">{opt.count}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )}
+</div>
+
+{primaryFilteredTools.length === 0 ? (
+  <div class="hub-empty">No tools in this category yet.</div>
+) : (
+  <>
+    <div class="hub-tool-list" id="hub-tool-list" data-page-size="30">
+      {primaryFilteredTools.map(tool => (
+        <a
+          href={`/${tool.slug}`}
+          class="hub-tool-row"
+          data-tool-name={tool.name.toLowerCase()}
+          data-tool-desc={tool.description.toLowerCase()}
+          data-secondary={secondaryAxis ? axisValueFor(tool, secondaryAxis.source) : null}
+        >
+          <div>
+            <div class="tool-row-name">{tool.name}</div>
+            <div class="tool-row-desc">{tool.description}</div>
+          </div>
+          <span class="purpose-badge" data-purpose={tool.subcategory.toLowerCase().replace(/\s+/g, '-')}>
+            {tool.subcategory}
+          </span>
+          <span class="star-btn" data-tool-slug={tool.slug} aria-label="Pin tool" role="button" tabindex="0">☆</span>
+        </a>
+      ))}
+    </div>
+    <nav class="hub-pagination" id="hub-pagination" aria-label="Pagination" hidden>
+      <div class="hub-pagination-info" id="hub-pagination-info"></div>
+    </nav>
+  </>
+)}
+
+<script>
+  ;(function () {
+    var input = document.getElementById('hub-search-input') as HTMLInputElement | null
+    var list = document.getElementById('hub-tool-list')
+    var secondaryRow = document.getElementById('secondary-facet-row')
+    var pagination = document.getElementById('hub-pagination')
+    var paginationInfo = document.getElementById('hub-pagination-info')
+    if (!list) return
+
+    var rows = Array.prototype.slice.call(list.querySelectorAll('.hub-tool-row')) as HTMLElement[]
+    var paramKey = secondaryRow ? secondaryRow.dataset.paramKey || '' : ''
+    var pageSize = parseInt(list.dataset.pageSize || '30', 10) || 30
+    var currentPage = 1
+
+    function getSecondaryValue(): string {
+      if (!paramKey) return ''
+      try {
+        var params = new URLSearchParams(window.location.search)
+        return (params.get(paramKey) || '').toLowerCase()
+      } catch (e) { return '' }
+    }
+
+    function setSecondaryValue(value: string) {
+      if (!paramKey) return
+      try {
+        var params = new URLSearchParams(window.location.search)
+        if (value) params.set(paramKey, value)
+        else params.delete(paramKey)
+        // Reset page when filter changes
+        params.delete('page')
+        var qs = params.toString()
+        var newUrl = window.location.pathname + (qs ? '?' + qs : '') + window.location.hash
+        window.history.replaceState({}, '', newUrl)
+      } catch (e) {}
+    }
+
+    function getPageFromUrl(): number {
+      try {
+        var params = new URLSearchParams(window.location.search)
+        var p = parseInt(params.get('page') || '1', 10)
+        return p > 0 ? p : 1
+      } catch (e) { return 1 }
+    }
+
+    function setPageInUrl(page: number, replace: boolean) {
+      try {
+        var params = new URLSearchParams(window.location.search)
+        if (page > 1) params.set('page', String(page))
+        else params.delete('page')
+        var qs = params.toString()
+        var newUrl = window.location.pathname + (qs ? '?' + qs : '') + window.location.hash
+        if (replace) window.history.replaceState({}, '', newUrl)
+        else window.history.pushState({}, '', newUrl)
+      } catch (e) {}
+    }
+
+    function rowMatchesFilters(row: HTMLElement, q: string, secondary: string): boolean {
+      var name = row.dataset.toolName || ''
+      var desc = row.dataset.toolDesc || ''
+      var matchSearch = !q || name.indexOf(q) !== -1 || desc.indexOf(q) !== -1
+      var matchSecondary = true
+      if (secondary && paramKey) {
+        var val = (row.dataset.secondary || '').toLowerCase()
+        matchSecondary = val === secondary
+      }
+      return matchSearch && matchSecondary
+    }
+
+    function renderPagination(totalMatching: number) {
+      if (!pagination || !paginationInfo) return
+      var totalPages = Math.max(1, Math.ceil(totalMatching / pageSize))
+      if (totalMatching <= pageSize) {
+        pagination.hidden = true
+        return
+      }
+      pagination.hidden = false
+      var page = Math.min(Math.max(currentPage, 1), totalPages)
+
+      // Info text
+      var startN = (page - 1) * pageSize + 1
+      var endN = Math.min(page * pageSize, totalMatching)
+      paginationInfo.textContent = startN + '–' + endN + ' of ' + totalMatching
+      paginationInfo.style.display = ''
+
+      // Build buttons
+      var existing = pagination.querySelectorAll('.hub-page-btn, .hub-page-ellipsis')
+      existing.forEach(function (el) { el.remove() })
+
+      var frag = document.createDocumentFragment()
+
+      function btn(label: string, page: number | null, opts: { current?: boolean; disabled?: boolean; aria?: string } = {}) {
+        var b = document.createElement('button')
+        b.type = 'button'
+        b.className = 'hub-page-btn' + (opts.current ? ' current' : '')
+        b.textContent = label
+        if (opts.aria) b.setAttribute('aria-label', opts.aria)
+        if (opts.current) b.setAttribute('aria-current', 'page')
+        if (opts.disabled) b.disabled = true
+        else if (page !== null) {
+          b.addEventListener('click', function () { goToPage(page!) })
+        }
+        return b
+      }
+
+      function ellipsis() {
+        var s = document.createElement('span')
+        s.className = 'hub-page-ellipsis'
+        s.textContent = '…'
+        s.setAttribute('aria-hidden', 'true')
+        return s
+      }
+
+      // Prev
+      frag.appendChild(btn('‹ Prev', page > 1 ? page - 1 : null, { disabled: page === 1, aria: 'Previous page' }))
+
+      // Page numbers with ellipsis
+      var pagesToShow: (number | 'ellipsis')[] = []
+      if (totalPages <= 7) {
+        for (var i = 1; i <= totalPages; i++) pagesToShow.push(i)
+      } else {
+        pagesToShow.push(1)
+        if (page > 4) pagesToShow.push('ellipsis')
+        var start = Math.max(2, page - 1)
+        var end = Math.min(totalPages - 1, page + 1)
+        for (var j = start; j <= end; j++) pagesToShow.push(j)
+        if (page < totalPages - 3) pagesToShow.push('ellipsis')
+        pagesToShow.push(totalPages)
+      }
+
+      for (var k = 0; k < pagesToShow.length; k++) {
+        var item = pagesToShow[k]
+        if (item === 'ellipsis') {
+          frag.appendChild(ellipsis())
+        } else {
+          frag.appendChild(btn(String(item), item, { current: item === page, aria: 'Page ' + item }))
+        }
+      }
+
+      // Next
+      frag.appendChild(btn('Next ›', page < totalPages ? page + 1 : null, { disabled: page === totalPages, aria: 'Next page' }))
+
+      pagination.appendChild(frag)
+    }
+
+    function applyFilters(resetPage: boolean = false) {
+      if (resetPage) currentPage = 1
+      var q = input ? input.value.toLowerCase().trim() : ''
+      var secondary = getSecondaryValue()
+
+      // Pass 1: determine which rows match filters
+      var matchingRows: HTMLElement[] = []
+      for (var i = 0; i < rows.length; i++) {
+        if (rowMatchesFilters(rows[i], q, secondary)) {
+          matchingRows.push(rows[i])
+        }
+      }
+
+      var totalMatching = matchingRows.length
+      var totalPages = Math.max(1, Math.ceil(totalMatching / pageSize))
+      if (currentPage > totalPages) currentPage = totalPages
+
+      // Pass 2: show only matching rows within current page; hide everything else
+      var pageStart = (currentPage - 1) * pageSize
+      var pageEnd = pageStart + pageSize
+      var matchSet: Record<string, boolean> = {}
+      for (var m = pageStart; m < Math.min(pageEnd, matchingRows.length); m++) {
+        matchSet[matchingRows[m].dataset.toolName || (String(m))] = true
+        ;(matchingRows[m] as any)._show = true
+      }
+      for (var r = 0; r < rows.length; r++) {
+        if ((rows[r] as any)._show) {
+          rows[r].style.display = ''
+          ;(rows[r] as any)._show = false
+        } else {
+          rows[r].style.display = 'none'
+        }
+      }
+
+      var empty = document.getElementById('hub-empty-search')
+      if (totalMatching === 0 && !empty) {
+        var div = document.createElement('div')
+        div.id = 'hub-empty-search'
+        div.className = 'hub-empty'
+        div.textContent = 'No tools match these filters.'
+        list!.parentNode!.insertBefore(div, list!.nextSibling)
+        list!.setAttribute('hidden', '')
+      } else if (totalMatching > 0 && empty) {
+        empty.remove()
+        list!.removeAttribute('hidden')
+      }
+
+      renderPagination(totalMatching)
+    }
+
+    function goToPage(p: number) {
+      currentPage = p
+      setPageInUrl(p, false)
+      applyFilters(false)
+      // Scroll to top of list
+      if (list) {
+        var rect = list.getBoundingClientRect()
+        var topbarHeight = 60
+        if (rect.top < topbarHeight || rect.top > window.innerHeight) {
+          window.scrollTo({
+            top: window.pageYOffset + rect.top - topbarHeight - 16,
+            behavior: 'smooth',
+          })
+        }
+      }
+    }
+
+    function syncSecondaryPills() {
+      if (!secondaryRow) return
+      var active = getSecondaryValue()
+      var pills = secondaryRow.querySelectorAll('.secondary-facet-btn')
+      pills.forEach(function (pill) {
+        var v = ((pill as HTMLElement).dataset.value || '').toLowerCase()
+        pill.classList.toggle('active', v === active)
+      })
+    }
+
+    if (input) {
+      input.addEventListener('input', function () { applyFilters(true) })
+    }
+
+    if (secondaryRow) {
+      var pills = secondaryRow.querySelectorAll('.secondary-facet-btn')
+      pills.forEach(function (pill) {
+        pill.addEventListener('click', function () {
+          var v = ((pill as HTMLElement).dataset.value || '').toLowerCase()
+          setSecondaryValue(v)
+          syncSecondaryPills()
+          applyFilters(true)
+        })
+      })
+      syncSecondaryPills()
+    }
+
+    // Initial render: read page from URL, apply filters
+    currentPage = getPageFromUrl()
+    applyFilters(false)
+
+    // Handle back/forward navigation
+    window.addEventListener('popstate', function () {
+      currentPage = getPageFromUrl()
+      syncSecondaryPills()
+      applyFilters(false)
+    })
+  })()
+
+  // Star button: stop link click, toggle pin in localStorage
+  ;(function () {
+    var PINNED_KEY = 'maratool_pinned'
+    var stars = document.querySelectorAll('.hub-tool-row .star-btn[data-tool-slug]')
+
+    function getPinned() {
+      try {
+        var raw = localStorage.getItem(PINNED_KEY)
+        return raw ? JSON.parse(raw) : []
+      } catch (e) { return [] }
+    }
+
+    function setPinned(items: any[]) {
+      try { localStorage.setItem(PINNED_KEY, JSON.stringify(items)) } catch (e) {}
+    }
+
+    function syncStars() {
+      var items = getPinned()
+      var pinnedSlugs: Record<string, boolean> = {}
+      for (var i = 0; i < items.length; i++) pinnedSlugs[items[i].slug] = true
+      stars.forEach(function (star) {
+        var slug = (star as HTMLElement).dataset.toolSlug || ''
+        if (pinnedSlugs[slug]) {
+          star.classList.add('starred')
+          star.textContent = '★'
+        } else {
+          star.classList.remove('starred')
+          star.textContent = '☆'
+        }
+      })
+    }
+
+    stars.forEach(function (star) {
+      star.addEventListener('click', function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+        var slug = (star as HTMLElement).dataset.toolSlug || ''
+        var name = (star as HTMLElement).closest('.hub-tool-row')?.querySelector('.tool-row-name')?.textContent || ''
+        var items = getPinned()
+        var idx = -1
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].slug === slug) { idx = i; break }
+        }
+        if (idx >= 0) {
+          items.splice(idx, 1)
+        } else {
+          items.unshift({ slug: slug, name: name.trim() })
+          if (items.length > 12) items = items.slice(0, 12)
+        }
+        setPinned(items)
+        syncStars()
+      })
+    })
+
+    syncStars()
+  })()
+</script>

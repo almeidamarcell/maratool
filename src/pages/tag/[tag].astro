@@ -1,0 +1,192 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import Breadcrumb from '../../components/Breadcrumb.astro'
+import { getAllTags, getToolsByTag } from '../../data/tools'
+
+export function getStaticPaths() {
+  return getAllTags().map(({ tag, count }) => ({
+    params: { tag },
+    props: { tag, count, tools: getToolsByTag(tag) },
+  }))
+}
+
+interface PageTool {
+  slug: string
+  name: string
+  description: string
+  category: string
+  subcategory: string
+  emoji: string
+}
+
+const { tag, count, tools: tagTools } = Astro.props as { tag: string; count: number; tools: PageTool[] }
+
+const tagDescriptions: Record<string, { title: string; subtitle: string; metaDesc: string }> = {
+  instant: {
+    title: 'Instant tools',
+    subtitle: 'Tools that update as you type — no buttons to press, no waiting.',
+    metaDesc: 'Free instant browser-based tools that update as you type. JSON formatters, calculators, diff checkers and more.',
+  },
+  'no-upload': {
+    title: 'No-upload tools',
+    subtitle: 'Tools that work entirely in your browser. Nothing is sent to any server.',
+    metaDesc: 'Free browser-based tools that run 100% client-side. Your data never leaves your device.',
+  },
+  'file-upload': {
+    title: 'File-upload tools',
+    subtitle: 'Tools that accept files — images, PDFs, video. All processing stays in your browser.',
+    metaDesc: 'Free browser-based file tools. Upload images, PDFs, or video and convert, edit, or extract — without sending to any server.',
+  },
+  realtime: {
+    title: 'Real-time tools',
+    subtitle: 'Tools with live updates — calculations, formatting, and validation as you type.',
+    metaDesc: 'Free real-time browser tools. Calculators, formatters, and converters that update instantly.',
+  },
+  beta: {
+    title: 'Beta tools',
+    subtitle: 'Newer experimental tools — still being refined.',
+    metaDesc: 'Beta-stage tools on maratool. Try them and let us know what works.',
+  },
+  mobile: {
+    title: 'Mobile-friendly tools',
+    subtitle: 'Tools that work great on phones and tablets.',
+    metaDesc: 'Free mobile-friendly browser tools. Use them on any device.',
+  },
+  clinical: {
+    title: 'Clinical tools',
+    subtitle: 'Medical calculators, scores, and scales for healthcare professionals.',
+    metaDesc: 'Free clinical calculators and scores. Educational use, runs in your browser.',
+  },
+}
+
+const meta = tagDescriptions[tag] ?? {
+  title: `Tools tagged "${tag}"`,
+  subtitle: `Tools across maratool with the "${tag}" tag.`,
+  metaDesc: `Free browser-based tools tagged "${tag}".`,
+}
+
+const seo = {
+  title: `${meta.title} — maratool`,
+  description: meta.metaDesc,
+  canonical: `https://maratool.com/tag/${tag}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: meta.title,
+    url: `https://maratool.com/tag/${tag}`,
+    description: meta.metaDesc,
+    hasPart: tagTools.map(tool => ({
+      '@type': 'SoftwareApplication',
+      name: tool.name,
+      url: `https://maratool.com/${tool.slug}`,
+    })),
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Tags', item: 'https://maratool.com/all' },
+      { '@type': 'ListItem', position: 3, name: meta.title, item: `https://maratool.com/tag/${tag}` },
+    ],
+  },
+}
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'All tools', href: '/all' },
+  { label: meta.title },
+]
+
+// Group by category for sectioned display
+const byCategory: Record<string, PageTool[]> = {}
+const categoryOrderLocal: string[] = []
+for (const tool of tagTools) {
+  if (!byCategory[tool.category]) {
+    byCategory[tool.category] = []
+    categoryOrderLocal.push(tool.category)
+  }
+  byCategory[tool.category].push(tool)
+}
+categoryOrderLocal.sort((a, b) => byCategory[b].length - byCategory[a].length)
+---
+<Base {...seo}>
+  <Layout scope="page">
+    <div class="hub-hero">
+      <Breadcrumb crumbs={breadcrumbs} />
+      <h1>{meta.title}</h1>
+      <p class="hub-sub">{meta.subtitle} <strong>{count}</strong> tools across {categoryOrderLocal.length} {categoryOrderLocal.length === 1 ? 'category' : 'categories'}.</p>
+    </div>
+
+    {categoryOrderLocal.map(cat => {
+      const items = byCategory[cat]
+      const catSlug = cat.toLowerCase()
+      return (
+        <section style="margin-top: 1.5rem;">
+          <h2 style="font-family: var(--font-heading); font-style: italic; font-weight: 400; font-size: 1.375rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px;">
+            <span class="cat-dot" data-cat={catSlug}></span>
+            {cat}
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-3); font-weight: 400;">{items.length}</span>
+          </h2>
+          <div class="hub-tool-list">
+            {items.map((tool: PageTool) => (
+              <a href={`/${tool.slug}`} class="hub-tool-row">
+                <div>
+                  <div class="tool-row-name">{tool.name}</div>
+                  <div class="tool-row-desc">{tool.description}</div>
+                </div>
+                <span class="purpose-badge" data-purpose={tool.subcategory.toLowerCase().replace(/\s+/g, '-')}>
+                  {tool.subcategory}
+                </span>
+                <span class="star-btn" data-tool-slug={tool.slug} aria-label="Pin tool" role="button" tabindex="0">☆</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    })}
+  </Layout>
+</Base>
+
+<script>
+  ;(function () {
+    var PINNED_KEY = 'maratool_pinned'
+    var stars = document.querySelectorAll('.hub-tool-row .star-btn[data-tool-slug]')
+
+    function load() {
+      try { var raw = localStorage.getItem(PINNED_KEY); return raw ? JSON.parse(raw) : [] } catch (e) { return [] }
+    }
+    function save(items: any[]) {
+      try { localStorage.setItem(PINNED_KEY, JSON.stringify(items)) } catch (e) {}
+    }
+    function sync() {
+      var items = load()
+      var pinned: Record<string, boolean> = {}
+      for (var i = 0; i < items.length; i++) pinned[items[i].slug] = true
+      stars.forEach(function (star) {
+        var slug = (star as HTMLElement).dataset.toolSlug || ''
+        if (pinned[slug]) { star.classList.add('starred'); star.textContent = '★' }
+        else { star.classList.remove('starred'); star.textContent = '☆' }
+      })
+    }
+    stars.forEach(function (star) {
+      star.addEventListener('click', function (e) {
+        e.preventDefault(); e.stopPropagation()
+        var slug = (star as HTMLElement).dataset.toolSlug || ''
+        var name = (star as HTMLElement).closest('.hub-tool-row')?.querySelector('.tool-row-name')?.textContent || ''
+        var items = load()
+        var idx = -1
+        for (var i = 0; i < items.length; i++) if (items[i].slug === slug) { idx = i; break }
+        if (idx >= 0) items.splice(idx, 1)
+        else {
+          items.unshift({ slug: slug, name: name.trim() })
+          if (items.length > 12) items = items.slice(0, 12)
+        }
+        save(items)
+        sync()
+      })
+    })
+    sync()
+  })()
+</script>

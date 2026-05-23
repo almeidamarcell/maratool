@@ -1,10 +1,11 @@
 ---
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
-import Breadcrumb from '../components/Breadcrumb.astro'
-import { toolsFlatByCategory } from '../data/tools'
+import HubPage from '../components/HubPage.astro'
+import { toolsFlatByCategory, subcategoryOrderByCategory } from '../data/tools'
 
-const tools = toolsFlatByCategory.Text ?? []
+const categoryTools = toolsFlatByCategory.Text ?? []
+const subcategories = subcategoryOrderByCategory.Text ?? []
 
 const seo = {
   title: 'Text Tools — maratool',
@@ -16,7 +17,7 @@ const seo = {
     name: 'Text Tools',
     url: 'https://maratool.com/text',
     description: 'Free browser-based text tools. Compare text, test regex, edit Markdown, format JSON, generate placeholder text — no sign-up, runs in your browser.',
-    hasPart: tools.map(tool => ({
+    hasPart: categoryTools.filter(t => t.live).map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
@@ -71,39 +72,17 @@ const faqSchema = {
     },
   ]
 }
-
-const breadcrumbs = [
-  { label: 'Home', href: '/' },
-  { label: 'Text' },
-]
 ---
 <Base {...seo} faqSchema={faqSchema}>
-  <Layout>
-    <Breadcrumb crumbs={breadcrumbs} />
-    <div class="hero">
-      <h1>Text Tools</h1>
-      <p>Free, browser-based text tools — compare, analyze, edit, format, and generate text, all running locally in your browser.</p>
-    </div>
-
-    <div class="tools-grid">
-      {tools.map(tool => (
-        tool.live
-          ? (
-            <a href={`/${tool.slug}`} class="tool-card">
-              <span class="tool-card-emoji">{tool.emoji}</span>
-              <div class="tool-card-name">{tool.name}</div>
-              <div class="tool-card-desc">{tool.description}</div>
-            </a>
-          )
-          : (
-            <div class="tool-card" style="opacity:0.5;cursor:default;">
-              <span class="tool-card-emoji">{tool.emoji}</span>
-              <div class="tool-card-name">{tool.name}</div>
-              <div class="tool-card-desc">{tool.description}</div>
-              <span class="tool-card-badge">Coming Soon</span>
-            </div>
-          )
-      ))}
-    </div>
+  <Layout scope="hub">
+    <HubPage
+      category="Text"
+      categorySlug="text"
+      title="Text tools"
+      subtitle="Compare, analyze, edit, format, and generate text — all running locally in your browser."
+      tools={categoryTools}
+      subcategories={subcategories}
+      basePath="/text"
+    />
   </Layout>
 </Base>

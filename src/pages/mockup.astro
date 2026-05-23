@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import HubPage from '../components/HubPage.astro'
+import { toolsFlatByCategory, subcategoryOrderByCategory } from '../data/tools'
+
+const categoryTools = toolsFlatByCategory.Mockup ?? []
+const subcategories = subcategoryOrderByCategory.Mockup ?? []
+
+const seo = {
+  title: 'Mockup Generators — maratool',
+  description: 'Free browser-based mockup generators. Create realistic WhatsApp, iMessage, Discord, Instagram, X, Gmail, and ChatGPT chat and post screenshots — no sign-up.',
+  canonical: 'https://maratool.com/mockup',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Mockup Generators',
+    url: 'https://maratool.com/mockup',
+    description: 'Free browser-based mockup generators. Create realistic chat, post, and conversation screenshots.',
+    hasPart: categoryTools.filter(t => t.live).map(tool => ({
+      '@type': 'SoftwareApplication',
+      name: tool.name,
+      url: `https://maratool.com/${tool.slug}`,
+      applicationCategory: 'DesignApplication',
+    })),
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Mockup', item: 'https://maratool.com/mockup' },
+    ],
+  },
+}
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Can I create realistic chat screenshots online?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. maratool\'s mockup generators produce realistic WhatsApp, iMessage, Discord, Instagram DM, and ChatGPT chat screenshots. Customize messages, avatars, timestamps, and download as PNG — all in your browser, no sign-up.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Are these mockup tools free?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, every mockup generator on maratool is completely free with no watermarks, no usage limits, and no account required.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I generate fake tweets or Instagram posts?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. maratool offers fake tweet generators (X Post Mockup) and Instagram post mockups with profile pictures, captions, likes, and comments. Use them for design previews, presentations, or social-media planning.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Do these tools store the screenshots I create?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'No. Mockup screenshots are generated entirely in your browser and never uploaded to any server. Your content stays on your device.'
+      }
+    },
+  ]
+}
+---
+<Base {...seo} faqSchema={faqSchema}>
+  <Layout scope="hub">
+    <HubPage
+      category="Mockup"
+      categorySlug="mockup"
+      title="Mockup generators"
+      subtitle="Create realistic chat, post, and conversation screenshots for WhatsApp, iMessage, Discord, Instagram, X, Gmail, and ChatGPT — all running locally."
+      tools={categoryTools}
+      subcategories={subcategories}
+      basePath="/mockup"
+    />
+  </Layout>
+</Base>

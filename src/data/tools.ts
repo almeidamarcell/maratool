@@ -3,10 +3,11 @@ export interface Tool {
   name: string
   emoji: string
   description: string
-  category: string       // "Converter" | "PDF" | "Text" | "Image" | "Color" | "Developer" | "Marketing"
+  category: string       // "Converter" | "PDF" | "Text" | "Image" | "Color" | "Developer" | "Marketing" | "Mockup" | "Health"
   subcategory: string    // e.g. "Format", "Extract", "Analyze", "Transform", "Generate", "Crypto", "Builder"
   keywords: string[]
   live: boolean
+  tags?: string[]        // optional cross-cutting tags: 'instant', 'no-upload', 'file-upload', 'realtime', 'beta', 'mobile'
 }
 
 export const tools: Tool[] = [
@@ -2452,3 +2453,228 @@ export const toolsFlatByCategory: Record<string, Tool[]> = categoryOrder.reduce<
 // Legacy: subcategory order for Developer (kept for developer/[subcategory] page)
 export const subcategoryOrder = subcategoryOrderByCategory.Developer
 export const toolsBySubcategory = toolsByCategory.Developer ?? {}
+
+// ════════════════════════════════════════════════════════════════════════
+// Discovery helpers — derived signals for ranking, tags, and Health facets
+// ════════════════════════════════════════════════════════════════════════
+
+// File-position index = recency. Earlier entries = older tools, later = newer.
+// We use this as a "newest" proxy since we have no addedAt field.
+const toolIndex: Record<string, number> = {}
+tools.forEach((t, i) => { toolIndex[t.slug] = i })
+
+const totalTools = tools.length
+
+// Manual boost map — tools we know are popular regardless of heuristic.
+// Keep this small; it's the curation lever on top of the algorithm.
+const manualBoost: Record<string, number> = {
+  // Cross-vertical SEO winners
+  'json-formatter': 8,
+  'jwt-decoder': 8,
+  'cha2ds2-vasc': 9,
+  'cockcroft-gault': 8,
+  'qr-code-generator': 7,
+  'contrast-checker': 7,
+  'background-remover': 7,
+  'csv-to-json': 6,
+  'unix-timestamp': 6,
+  'diff-checker': 6,
+  'uuid-generator': 6,
+  'hash-generator': 6,
+  'image-converter': 6,
+  'bmi-calculator': 7,
+  'whatsapp-chat-mockup': 6,
+}
+
+/** Heuristic popularity score for a tool. Deterministic given the data. */
+export function popularityScore(tool: Tool): number {
+  if (!tool.live) return 0
+  const boost = manualBoost[tool.slug] ?? 0
+  const keywordScore = tool.keywords.length * 0.5
+  const categorySize = (toolsFlatByCategory[tool.category] ?? []).length
+  const categorySizeScore = Math.log2(categorySize + 1) // diminishing returns
+  // Recency: tools added more recently (higher index) get a small lift
+  const recencyScore = (toolIndex[tool.slug] / totalTools) * 1.5
+  return boost * 5 + keywordScore + categorySizeScore + recencyScore
+}
+
+/** Top N tools by popularity score, across all categories. */
+export function getPopularTools(n: number = 6): Tool[] {
+  return tools
+    .filter(t => t.live)
+    .map(t => ({ tool: t, score: popularityScore(t) }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, n)
+    .map(x => x.tool)
+}
+
+/** Newest N tools (highest file-position index). Uses tools.ts entry order as recency proxy. */
+export function getRecentlyAddedTools(n: number = 3): Tool[] {
+  return tools
+    .filter(t => t.live)
+    .slice()
+    .sort((a, b) => toolIndex[b.slug] - toolIndex[a.slug])
+    .slice(0, n)
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// Tag layer — algorithmic derivation
+// ════════════════════════════════════════════════════════════════════════
+
+/**
+ * Derive cross-cutting tags from existing tool metadata.
+ * Strategy: use known patterns in name/description/keywords to infer tags.
+ * Override with tool.tags if explicitly set.
+ */
+function deriveTags(tool: Tool): string[] {
+  if (tool.tags && tool.tags.length > 0) return tool.tags
+  const tags: string[] = []
+  const haystack = (tool.name + ' ' + tool.description + ' ' + tool.keywords.join(' ')).toLowerCase()
+
+  // file-upload: tool consumes files
+  const fileUploadHints = ['upload', 'pdf', 'image', 'video', 'heic', 'webm', 'mp4', 'mov', 'svg', 'csv file', 'json file', '.pdf', 'browser-based pdf', 'extract from pdf']
+  const hasFileUpload =
+    tool.category === 'PDF' ||
+    tool.category === 'Image' ||
+    tool.subcategory === 'Video' ||
+    fileUploadHints.some(h => haystack.includes(h))
+
+  if (hasFileUpload) {
+    tags.push('file-upload')
+  } else {
+    tags.push('no-upload')
+  }
+
+  // instant: pure-compute tools that update live (default for most)
+  const slowTools = ['background-remover', 'video-to-gif', 'fps-converter', 'alt-text-generator', 'pdf-merge-split', 'image-converter']
+  if (!slowTools.includes(tool.slug)) {
+    tags.push('instant')
+  }
+
+  // realtime: explicitly real-time updating
+  if (tool.subcategory === 'Score' || tool.subcategory === 'Calculator' || tool.subcategory === 'Scale') {
+    tags.push('realtime')
+  }
+  if (/^(diff|json|color|contrast|hash|uuid|jwt)/i.test(tool.slug)) {
+    tags.push('realtime')
+  }
+
+  // clinical: medical tools (Health category)
+  if (tool.category === 'Health') {
+    tags.push('clinical')
+  }
+
+  return Array.from(new Set(tags))
+}
+
+/** Get effective tags for a tool — uses explicit tags or derives from data. */
+export function getTagsForTool(tool: Tool): string[] {
+  return deriveTags(tool)
+}
+
+/** All tags that appear across the catalog, with counts. */
+export function getAllTags(): { tag: string; count: number }[] {
+  const counts: Record<string, number> = {}
+  for (const tool of tools) {
+    if (!tool.live) continue
+    for (const tag of getTagsForTool(tool)) {
+      counts[tag] = (counts[tag] ?? 0) + 1
+    }
+  }
+  return Object.entries(counts)
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => b.count - a.count)
+}
+
+/** Tools with a given tag, across all verticals. */
+export function getToolsByTag(tag: string): Tool[] {
+  return tools.filter(t => t.live && getTagsForTool(t).includes(tag))
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// Health-specific: Specialty × Purpose dual axis
+// ════════════════════════════════════════════════════════════════════════
+
+// Subcategories that are PURPOSES (the "what does this calculator do" axis)
+const HEALTH_PURPOSE_SUBS = new Set([
+  'Score', 'Scale', 'Screening', 'Prognosis', 'Reference', 'General',
+])
+
+// Subcategories that are SPECIALTIES (the medical-area axis)
+const HEALTH_SPECIALTY_SUBS = new Set([
+  'Anthropometric', 'Cardiology', 'Renal', 'Electrolytes', 'Endocrine',
+  'Hepatology', 'Ventilation', 'Obstetric', 'Pediatric', 'Drug', 'Infusion', 'Trauma',
+])
+
+// Specialty inference from tool name/description keywords for tools whose
+// subcategory is a "purpose" (Score, Scale, etc.) and lacks an explicit specialty.
+const SPECIALTY_KEYWORDS: Record<string, string[]> = {
+  Cardiology: ['heart', 'cardiac', 'cardio', 'coronary', 'stroke', 'afib', 'atrial', 'ischemic', 'mi ', 'qt', 'lvef', 'hf ', 'ascvd', 'wells dvt', 'wells pe', 'pulmonary embolism', 'pe ', 'aortic', 'chads', 'cha2ds2', 'heart rate', 'blood pressure', 'hypertension'],
+  Renal: ['gfr', 'creatinine', 'kidney', 'renal', 'ckd', 'aki', 'mdrd', 'cockcroft', 'urinary', 'urea', 'dialysis', 'fena'],
+  Hepatology: ['hepatic', 'liver', 'cirrhosis', 'meld', 'child-pugh', 'maddrey', 'lille', 'apri', 'fib-4', 'saag', 'bilirubin', 'ascites', 'hepatitis'],
+  Pediatric: ['apgar', 'pediatric', 'neonatal', 'newborn', 'capurro', 'ballard', 'pews ', 'phox', 'gestational age', 'infant', 'children'],
+  Obstetric: ['pregnancy', 'gestation', 'obstetric', 'fetal', 'bishop', 'preeclampsia', 'gestational age', 'lmp '],
+  Endocrine: ['diabetes', 'thyroid', 'tsh', 'a1c', 'glucose', 'insulin', 'cortisol', 'testosterone', 'transferrin', 'endocrine', 'hba1c'],
+  Trauma: ['trauma', 'burn', 'parkland', 'iss', 'glasgow coma', 'gcs', 'tash', 'massive transfusion', 'tbi', 'shock index'],
+  Pulmonary: ['pao2', 'fio2', 'spo2', 'oxygen', 'ventilation', 'respiratory', 'abg', 'curb-65', 'pneumonia', 'asthma', 'gina '],
+  Neurology: ['stroke', 'nihss', 'aspects', 'icb', 'cam-icu', 'rass', 'sas', 'four', 'ramsay', 'delirium', 'cerebral', 'tia', 'seizure'],
+  Oncology: ['cancer', 'tumor', 'myeloma', 'lymphoma', 'leukemia', 'oncology', 'r-iss', 'ecog', 'karnofsky', 'palliative', 'metasta', 'tokuhashi', 'tomita', 'mascc'],
+  GI: ['gastro', 'gi ', 'bleeding', 'rockall', 'blatchford', 'bisap', 'pancreatitis', 'ranson', 'crohn', 'colitis', 'ibs', 'ibd', 'uceis', 'cdai'],
+  Hematology: ['dvt', 'bleeding', 'transfusion', 'anemia', 'thrombo', 'iron deficit', 'sic ', 'coagulopathy', 'thrombosis'],
+  Infectious: ['sepsis', 'qsofa', 'sofa', 'pneumonia', 'curb-65', 'candida', 'centor', 'mascc', 'febrile neutropenia', 'infection'],
+  Psych: ['depression', 'anxiety', 'cage', 'fagerstrom', 'mmse', 'mental', 'cognitive', 'addiction', 'screening'],
+  ICU: ['icu', 'apache', 'sofa', 'saps', 'critical', 'sedation', 'rass', 'cam-icu'],
+}
+
+/** Infer specialty for a Health tool. Returns null if tool is not Health. */
+export function getSpecialty(tool: Tool): string | null {
+  if (tool.category !== 'Health') return null
+  // If subcategory is a specialty, that's our answer
+  if (HEALTH_SPECIALTY_SUBS.has(tool.subcategory)) return tool.subcategory
+  // Otherwise infer from keywords
+  const haystack = (tool.name + ' ' + tool.description + ' ' + tool.keywords.join(' ')).toLowerCase()
+  for (const [specialty, kws] of Object.entries(SPECIALTY_KEYWORDS)) {
+    if (kws.some(kw => haystack.includes(kw))) return specialty
+  }
+  return 'General'
+}
+
+/** Infer purpose for a Health tool. */
+export function getPurpose(tool: Tool): string | null {
+  if (tool.category !== 'Health') return null
+  if (HEALTH_PURPOSE_SUBS.has(tool.subcategory)) return tool.subcategory
+  // Specialty subcategories → infer purpose from name
+  const name = tool.name.toLowerCase()
+  if (/score|index/.test(name)) return 'Score'
+  if (/scale|grade/.test(name)) return 'Scale'
+  if (/screen/.test(name)) return 'Screening'
+  if (/prognos|surviv|mortality/.test(name)) return 'Prognosis'
+  if (/conversion|dosing|equivalence/.test(name)) return 'Drug'
+  return 'Calculator'
+}
+
+/** All Health specialties with counts (for dual-axis filter). */
+export function getHealthSpecialties(): { name: string; count: number }[] {
+  const counts: Record<string, number> = {}
+  for (const tool of toolsFlatByCategory.Health ?? []) {
+    if (!tool.live) continue
+    const sp = getSpecialty(tool)
+    if (sp) counts[sp] = (counts[sp] ?? 0) + 1
+  }
+  return Object.entries(counts)
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count)
+}
+
+/** All Health purposes with counts. */
+export function getHealthPurposes(): { name: string; count: number }[] {
+  const counts: Record<string, number> = {}
+  for (const tool of toolsFlatByCategory.Health ?? []) {
+    if (!tool.live) continue
+    const pp = getPurpose(tool)
+    if (pp) counts[pp] = (counts[pp] ?? 0) + 1
+  }
+  return Object.entries(counts)
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count)
+}

@@ -1,121 +1,205 @@
 ---
-import { tools, toolsByCategory, toolsFlatByCategory, categoryOrder, subcategoryOrderByCategory } from '../data/tools'
+import {
+  tools,
+  toolsByCategory,
+  toolsFlatByCategory,
+  categoryOrder,
+  subcategoryOrderByCategory,
+} from '../data/tools'
+
+interface Props {
+  scope?: 'home' | 'hub' | 'subcategory' | 'tool' | 'all' | 'page'
+}
+
+const { scope = 'page' } = Astro.props
 
 const currentPath = Astro.url.pathname
 
-// Determine which category is active from the URL
+// Identify the active tool, category, subcategory from the URL
 const activeTool = tools.find(t => currentPath === `/${t.slug}` || currentPath === `/${t.slug}/`)
+
 const categorySlugMap: Record<string, string> = {}
 for (const cat of categoryOrder) {
   categorySlugMap[cat.toLowerCase()] = cat
 }
 
-// Check if we're on a category or subcategory page
 const categoryPageMatch = currentPath.match(/^\/([^/]+)\/?$/)
 const subcategoryPageMatch = currentPath.match(/^\/([^/]+)\/([^/]+)\/?$/)
 const activeCategoryFromPage = categoryPageMatch ? categorySlugMap[categoryPageMatch[1]] : null
 const activeCategoryFromSubPage = subcategoryPageMatch ? categorySlugMap[subcategoryPageMatch[1]] : null
 const activeCategory = activeTool?.category ?? activeCategoryFromPage ?? activeCategoryFromSubPage ?? null
+const activeCategorySlug = activeCategory ? activeCategory.toLowerCase() : null
 
 const activeSubcategorySlug = subcategoryPageMatch ? subcategoryPageMatch[2] : null
 const activeSubcategoryFromTool = activeTool?.subcategory?.toLowerCase() ?? null
 const activeSubcategory = activeSubcategorySlug ?? activeSubcategoryFromTool
 
-// Count live tools per category
+// Counts
 const catCounts: Record<string, number> = {}
 for (const cat of categoryOrder) {
   catCounts[cat] = (toolsFlatByCategory[cat] ?? []).filter(t => t.live).length
 }
+
+// Auto-detect effective scope from URL when not provided explicitly
+let effectiveScope: 'home' | 'hub' | 'subcategory' | 'tool' | 'all' | 'page' = scope
+if (scope === 'page') {
+  if (currentPath === '/' || currentPath === '/index') effectiveScope = 'home'
+  else if (currentPath === '/all' || currentPath === '/all/') effectiveScope = 'all'
+  else if (activeTool) effectiveScope = 'tool'
+  else if (subcategoryPageMatch && activeCategory) effectiveScope = 'subcategory'
+  else if (categoryPageMatch && activeCategory) effectiveScope = 'hub'
+}
+
+const isHubScope = effectiveScope === 'hub' || effectiveScope === 'subcategory'
+const showVerticalsList = effectiveScope === 'home' || effectiveScope === 'all' || effectiveScope === 'page'
+
+// For hub scope: subcategories of the active hub
+const hubSubs = isHubScope && activeCategory
+  ? (subcategoryOrderByCategory[activeCategory] ?? []).filter(sub => {
+      const toolsInSub = (toolsByCategory[activeCategory]?.[sub] ?? []).filter(t => t.live)
+      return toolsInSub.length > 0
+    })
+  : []
+
+const hubSubCounts: Record<string, number> = {}
+if (isHubScope && activeCategory) {
+  for (const sub of hubSubs) {
+    hubSubCounts[sub] = (toolsByCategory[activeCategory]?.[sub] ?? []).filter(t => t.live).length
+  }
+}
+
+// For tool scope: sibling tools in same subcategory
+const siblingTools = effectiveScope === 'tool' && activeTool
+  ? (toolsByCategory[activeTool.category]?.[activeTool.subcategory] ?? [])
+      .filter(t => t.live && t.slug !== activeTool.slug)
+      .slice(0, 10)
+  : []
 ---
 <nav class="sidebar" aria-label="Tools navigation">
+
+  <!-- Pinned (rendered by JS from localStorage) -->
+  <div id="sidebar-pinned" class="sidebar-pinned" hidden>
+    <div class="sidebar-pinned-title"><span class="pin-mark">★</span> Pinned</div>
+    <div id="sidebar-pinned-list"></div>
+    <div class="sidebar-divider"></div>
+  </div>
+
   <!-- Recently used (rendered by JS from localStorage) -->
   <div id="sidebar-recent" class="sidebar-recent" hidden>
     <div class="sidebar-recent-title">Recently used</div>
     <div id="sidebar-recent-list"></div>
+    <div class="sidebar-divider" id="sidebar-recent-divider"></div>
   </div>
-  <div id="sidebar-recent-divider" class="sidebar-recent-divider" hidden></div>
 
-  {categoryOrder.map(cat => {
-    const subs = subcategoryOrderByCategory[cat] ?? []
-    const catTools = toolsByCategory[cat] ?? {}
-    const catSlug = cat.toLowerCase()
-    const isOpen = activeCategory === cat
+  {showVerticalsList && (
+    <div class="sidebar-verticals">
+      <div class="sidebar-pinned-title" style="color: var(--text-3); font-size: 0.875rem;">Verticals</div>
+      {categoryOrder.map(cat => {
+        const catSlug = cat.toLowerCase()
+        return (
+          <a
+            href={`/${catSlug}`}
+            class:list={['sidebar-vertical-link', { active: activeCategory === cat && !activeSubcategory && !activeTool }]}
+          >
+            <span class="cat-dot" data-cat={catSlug}></span>
+            {cat}
+            <span class="count">{catCounts[cat]}</span>
+          </a>
+        )
+      })}
+      <div class="sidebar-divider"></div>
+      <a
+        href="/all"
+        class:list={['sidebar-vertical-link', { active: effectiveScope === 'all' }]}
+      >
+        All tools
+        <span class="count">{tools.filter(t => t.live).length}</span>
+      </a>
+    </div>
+  )}
 
-    // Only include subcategories that have at least one live tool
-    const liveSubs = subs.filter(sub => (catTools[sub] ?? []).some(t => t.live))
-    if (liveSubs.length === 0) return null
+  {isHubScope && activeCategory && (
+    <div class="sidebar-hub-subs">
+      <div class="sidebar-pinned-title" style="color: var(--text-3); font-size: 0.875rem;">{activeCategory} filters</div>
+      <a
+        href={`/${activeCategorySlug}`}
+        class:list={['sidebar-hub-sub', { active: !activeSubcategory }]}
+      >
+        <span class="cat-dot" data-cat={activeCategorySlug}></span>
+        All {activeCategory}
+        <span class="count">{catCounts[activeCategory]}</span>
+      </a>
+      {hubSubs.map(sub => (
+        <a
+          href={`/${activeCategorySlug}/${sub.toLowerCase()}`}
+          class:list={['sidebar-hub-sub', { active: activeSubcategory === sub.toLowerCase() }]}
+        >
+          {sub}
+          <span class="count">{hubSubCounts[sub]}</span>
+        </a>
+      ))}
+      <div class="sidebar-divider"></div>
+      <a href="/" class="sidebar-back-link">← Back to maratool</a>
+    </div>
+  )}
 
-    return (
-      <details class="sidebar-group" open={isOpen}>
-        <summary class="sidebar-category">
-          <a href={`/${catSlug}`} class="sidebar-category-label">{cat}</a>
-          <span class="sidebar-count-badge">{catCounts[cat]}</span>
-          <svg class="sidebar-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </summary>
-
-        <!-- Subcategory tag pills -->
-        <div class="sidebar-tag-pills">
-          {liveSubs.map(sub => (
-            <a
-              href={`/${catSlug}/${sub.toLowerCase()}`}
-              class:list={['sidebar-tag', { active: activeCategory === cat && activeSubcategory === sub.toLowerCase() }]}
-            >{sub}</a>
-          ))}
-        </div>
-
-        {liveSubs.map(sub => (
-          <div class="sidebar-subcategory-group">
-            <a
-              href={`/${catSlug}/${sub.toLowerCase()}`}
-              class:list={['sidebar-subcategory', { active: activeCategory === cat && activeSubcategory === sub.toLowerCase() }]}
-            >{sub}</a>
-            {(catTools[sub] ?? []).map(tool => (
-              <a
-                href={tool.live ? `/${tool.slug}` : undefined}
-                class:list={[
-                  'sidebar-link',
-                  { active: currentPath === `/${tool.slug}` || currentPath === `/${tool.slug}/` },
-                  { 'coming-soon': !tool.live }
-                ]}
-                aria-current={currentPath === `/${tool.slug}` ? 'page' : undefined}
-              >
-                <span class="sidebar-link-emoji">{tool.emoji}</span>
-                <span>{tool.name}</span>
-              </a>
-            ))}
-          </div>
-        ))}
-      </details>
-    )
-  })}
+  {effectiveScope === 'tool' && activeTool && (
+    <div class="sidebar-hub-subs">
+      <div class="sidebar-pinned-title" style="color: var(--text-3); font-size: 0.875rem;">
+        In {activeTool.subcategory}
+      </div>
+      {siblingTools.map(tool => (
+        <a
+          href={`/${tool.slug}`}
+          class="sidebar-hub-sub"
+        >
+          <span class="sidebar-link-emoji">{tool.emoji}</span>
+          {tool.name}
+        </a>
+      ))}
+      <div class="sidebar-divider"></div>
+      <a href={`/${activeCategorySlug}`} class="sidebar-back-link">← All {activeCategory}</a>
+      <a href="/" class="sidebar-back-link">← maratool home</a>
+    </div>
+  )}
 </nav>
 
 <script>
-  // Clicking the category label navigates without toggling <details>
-  document.querySelectorAll('.sidebar-category-label').forEach(a => {
-    a.addEventListener('click', e => e.stopPropagation())
-  })
-
-  // Sidebar recently used
   ;(function () {
-    var key = 'maratool_recent'
-    var max = 5
-    var container = document.getElementById('sidebar-recent')
-    var list = document.getElementById('sidebar-recent-list')
-    var divider = document.getElementById('sidebar-recent-divider')
-    try {
-      var raw = localStorage.getItem(key)
-      if (!raw) return
-      var items = JSON.parse(raw)
-      if (!Array.isArray(items) || items.length === 0) return
-      items = items.slice(0, max)
-      list.innerHTML = items.map(function (item) {
-        return '<a href="/' + item.slug + '" class="sidebar-link"><span class="sidebar-link-emoji">' + (item.emoji || '') + '</span><span>' + item.name + '</span></a>'
-      }).join('')
-      container.hidden = false
-      divider.hidden = false
-    } catch (e) {}
+    var pinnedKey = 'maratool_pinned'
+    var recentKey = 'maratool_recent'
+    var maxRecent = 5
+    var maxPinned = 8
+
+    var pinnedEl = document.getElementById('sidebar-pinned')
+    var pinnedList = document.getElementById('sidebar-pinned-list')
+    var recentEl = document.getElementById('sidebar-recent')
+    var recentList = document.getElementById('sidebar-recent-list')
+
+    function load(key: string) {
+      try {
+        var raw = localStorage.getItem(key)
+        if (!raw) return []
+        var parsed = JSON.parse(raw)
+        return Array.isArray(parsed) ? parsed : []
+      } catch (e) { return [] }
+    }
+
+    function renderRow(item: any) {
+      var emoji = item.emoji ? '<span class="sidebar-link-emoji">' + item.emoji + '</span>' : ''
+      return '<a href="/' + item.slug + '" class="sidebar-hub-sub">' + emoji + item.name + '</a>'
+    }
+
+    var pinned = load(pinnedKey).slice(0, maxPinned)
+    if (pinned.length > 0 && pinnedList && pinnedEl) {
+      pinnedList.innerHTML = pinned.map(renderRow).join('')
+      pinnedEl.hidden = false
+    }
+
+    var recent = load(recentKey).slice(0, maxRecent)
+    if (recent.length > 0 && recentList && recentEl) {
+      recentList.innerHTML = recent.map(renderRow).join('')
+      recentEl.hidden = false
+    }
   })()
 </script>

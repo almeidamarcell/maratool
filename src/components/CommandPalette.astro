@@ -1,0 +1,284 @@
+---
+import { tools } from '../data/tools'
+
+const paletteTools = tools.filter(t => t.live).map(t => ({
+  slug: t.slug,
+  name: t.name,
+  emoji: t.emoji,
+  category: t.category,
+  subcategory: t.subcategory,
+  keywords: t.keywords,
+  description: t.description,
+}))
+---
+<div id="cmd-overlay" class="cmd-overlay" hidden role="dialog" aria-modal="true" aria-label="Search tools">
+  <div id="cmd-backdrop" class="cmd-backdrop"></div>
+  <div class="cmd-panel">
+    <div class="cmd-input-wrap">
+      <svg class="cmd-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input
+        type="search"
+        id="cmd-input"
+        class="cmd-input"
+        placeholder="Search 235+ tools…"
+        aria-label="Search tools"
+        autocomplete="off"
+      />
+      <span class="cmd-esc">ESC</span>
+    </div>
+    <div id="cmd-results" class="cmd-results"></div>
+    <div class="cmd-footer">
+      <span><span class="kbd">↑↓</span>Navigate</span>
+      <span><span class="kbd">↵</span>Open</span>
+      <span><span class="kbd">⌘↵</span>New tab</span>
+      <span><span class="kbd">esc</span>Close</span>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ paletteTools }}>
+(function () {
+  var overlay = document.getElementById('cmd-overlay')
+  var backdrop = document.getElementById('cmd-backdrop')
+  var input = document.getElementById('cmd-input')
+  var results = document.getElementById('cmd-results')
+  if (!overlay || !input || !results || !backdrop) return
+
+  var activeIndex = -1
+  var currentResults = []
+  var lastFocused = null
+  var debounceTimer = null
+
+  function escapeHtml(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+  }
+
+  function highlight(text, q) {
+    var escaped = escapeHtml(text)
+    if (!q) return escaped
+    var lower = String(text).toLowerCase()
+    var idx = lower.indexOf(q.toLowerCase())
+    if (idx === -1) return escaped
+    return escapeHtml(text.slice(0, idx)) +
+      '<b>' + escapeHtml(text.slice(idx, idx + q.length)) + '</b>' +
+      escapeHtml(text.slice(idx + q.length))
+  }
+
+  function scoreFor(tool, q) {
+    var name = tool.name.toLowerCase()
+    var desc = tool.description.toLowerCase()
+    if (name === q) return 6
+    if (name.startsWith(q)) return 5
+    if (name.includes(q)) return 4
+    for (var i = 0; i < tool.keywords.length; i++) {
+      var kw = tool.keywords[i].toLowerCase()
+      if (kw === q) return 3
+      if (kw.includes(q)) return 2
+    }
+    if (desc.includes(q)) return 1
+    return 0
+  }
+
+  function search(q) {
+    q = q.toLowerCase().trim()
+    if (!q) return []
+    var scored = []
+    for (var i = 0; i < paletteTools.length; i++) {
+      var s = scoreFor(paletteTools[i], q)
+      if (s > 0) scored.push({ tool: paletteTools[i], score: s })
+    }
+    scored.sort(function (a, b) { return b.score - a.score })
+    return scored.slice(0, 30).map(function (x) { return x.tool })
+  }
+
+  function getPinned() {
+    try {
+      var raw = localStorage.getItem('maratool_pinned')
+      return raw ? JSON.parse(raw) : []
+    } catch (e) { return [] }
+  }
+
+  function getRecent() {
+    try {
+      var raw = localStorage.getItem('maratool_recent')
+      return raw ? JSON.parse(raw) : []
+    } catch (e) { return [] }
+  }
+
+  function findTool(slug) {
+    for (var i = 0; i < paletteTools.length; i++) {
+      if (paletteTools[i].slug === slug) return paletteTools[i]
+    }
+    return null
+  }
+
+  function renderRow(tool, idx, query) {
+    return '<a class="cmd-row" href="/' + tool.slug + '" data-index="' + idx + '" data-slug="' + tool.slug + '">' +
+      '<span class="cmd-row-emoji">' + escapeHtml(tool.emoji) + '</span>' +
+      '<span class="cmd-row-body">' +
+        '<span class="cmd-row-name">' + highlight(tool.name, query) + '</span>' +
+        '<span class="cmd-row-desc">' + escapeHtml(tool.description) + '</span>' +
+      '</span>' +
+      '<span class="cmd-row-cat">' + escapeHtml(tool.category) + '</span>' +
+    '</a>'
+  }
+
+  function renderResults(items, query) {
+    activeIndex = -1
+    currentResults = items
+    if (items.length === 0) {
+      results.innerHTML = '<div class="cmd-empty">No tools found for &ldquo;' + escapeHtml(query) + '&rdquo;</div>'
+      return
+    }
+    // Group by category
+    var byCategory = {}
+    var order = []
+    for (var i = 0; i < items.length; i++) {
+      var cat = items[i].category
+      if (!byCategory[cat]) { byCategory[cat] = []; order.push(cat) }
+      byCategory[cat].push(items[i])
+    }
+    var html = ''
+    var idx = 0
+    for (var j = 0; j < order.length; j++) {
+      var cat = order[j]
+      var group = byCategory[cat]
+      html += '<div class="cmd-section-label">' + escapeHtml(cat) + ' <span class="count">' + group.length + ' match' + (group.length === 1 ? '' : 'es') + '</span></div>'
+      for (var k = 0; k < group.length; k++) {
+        html += renderRow(group[k], idx, query)
+        idx++
+      }
+    }
+    results.innerHTML = html
+    setActive(0)
+  }
+
+  function renderEmpty() {
+    activeIndex = -1
+    currentResults = []
+    var pinned = getPinned()
+    var recent = getRecent()
+    var html = ''
+    var idx = 0
+
+    if (pinned.length > 0) {
+      html += '<div class="cmd-section-label">★ Pinned <span class="count">' + pinned.length + '</span></div>'
+      for (var i = 0; i < pinned.length; i++) {
+        var t = findTool(pinned[i].slug)
+        if (t) {
+          html += renderRow(t, idx, '')
+          currentResults.push(t)
+          idx++
+        }
+      }
+    }
+
+    if (recent.length > 0) {
+      html += '<div class="cmd-section-label">Recent <span class="count">' + recent.length + '</span></div>'
+      for (var r = 0; r < recent.length; r++) {
+        var rt = findTool(recent[r].slug)
+        if (rt) {
+          html += renderRow(rt, idx, '')
+          currentResults.push(rt)
+          idx++
+        }
+      }
+    }
+
+    if (!html) {
+      html = '<div class="cmd-empty">Type to search 235+ tools — try &ldquo;json&rdquo;, &ldquo;cha2ds2&rdquo;, or &ldquo;qr&rdquo;.</div>'
+    }
+    results.innerHTML = html
+    if (currentResults.length > 0) setActive(0)
+  }
+
+  function setActive(i) {
+    var rows = results.querySelectorAll('.cmd-row')
+    if (activeIndex >= 0 && activeIndex < rows.length) {
+      rows[activeIndex].classList.remove('active')
+    }
+    activeIndex = i
+    if (activeIndex >= 0 && activeIndex < rows.length) {
+      rows[activeIndex].classList.add('active')
+      rows[activeIndex].scrollIntoView({ block: 'nearest' })
+    }
+  }
+
+  function open() {
+    lastFocused = document.activeElement
+    overlay.hidden = false
+    document.body.style.overflow = 'hidden'
+    setTimeout(function () { input.focus() }, 0)
+    if (input.value) {
+      renderResults(search(input.value), input.value.trim())
+    } else {
+      renderEmpty()
+    }
+  }
+
+  function close() {
+    overlay.hidden = true
+    document.body.style.overflow = ''
+    if (lastFocused && lastFocused.focus) lastFocused.focus()
+  }
+
+  input.addEventListener('input', function () {
+    clearTimeout(debounceTimer)
+    debounceTimer = setTimeout(function () {
+      var q = input.value.trim()
+      if (!q) { renderEmpty(); return }
+      renderResults(search(q), q)
+    }, 100)
+  })
+
+  input.addEventListener('keydown', function (e) {
+    var rows = results.querySelectorAll('.cmd-row')
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActive(Math.min(activeIndex + 1, rows.length - 1))
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActive(Math.max(activeIndex - 1, 0))
+    } else if (e.key === 'Enter') {
+      e.preventDefault()
+      if (activeIndex >= 0 && activeIndex < rows.length) {
+        var href = rows[activeIndex].getAttribute('href')
+        if (e.metaKey || e.ctrlKey) {
+          window.open(href, '_blank')
+        } else {
+          window.location.href = href
+        }
+      }
+    } else if (e.key === 'Escape') {
+      e.preventDefault()
+      close()
+    }
+  })
+
+  backdrop.addEventListener('click', close)
+
+  // Global ⌘K / Ctrl+K
+  document.addEventListener('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault()
+      if (overlay.hidden) {
+        open()
+      } else {
+        close()
+      }
+    }
+    // Slash also opens (when not focused in an input)
+    if (e.key === '/' && document.activeElement && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+      if (overlay.hidden) {
+        e.preventDefault()
+        open()
+      }
+    }
+  })
+
+  // Expose for trigger buttons (topbar search field, hero search button)
+  window.maratoolOpenCmdPalette = open
+})()
+</script>

@@ -3,13 +3,21 @@ import Topbar from './Topbar.astro'
 import Sidebar from './Sidebar.astro'
 import AdColumn from './AdColumn.astro'
 import Footer from './Footer.astro'
+import CommandPalette from './CommandPalette.astro'
+
+interface Props {
+  scope?: 'home' | 'hub' | 'subcategory' | 'tool' | 'all' | 'page'
+}
+
+const { scope = 'page' } = Astro.props
 ---
 <Topbar />
 <div class="page-grid">
-  <Sidebar />
+  <Sidebar scope={scope} />
   <main class="main-content">
     <slot />
   </main>
   <AdColumn />
 </div>
 <Footer />
+<CommandPalette />

@@ -1,0 +1,109 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import HubPage from '../../components/HubPage.astro'
+import { toolsByCategory, toolsFlatByCategory, subcategoryOrderByCategory } from '../../data/tools'
+
+export function getStaticPaths() {
+  const subs = subcategoryOrderByCategory.Mockup ?? []
+  const catTools = toolsByCategory.Mockup ?? {}
+
+  const descriptions: Record<string, { title: string; description: string; intro: string }> = {
+    chat: {
+      title: 'Chat Mockup Generators — maratool',
+      description: 'Free browser-based chat mockup generators. Create realistic WhatsApp, iMessage, Discord, and Instagram DM screenshots — no sign-up.',
+      intro: 'Realistic chat conversation screenshots for WhatsApp, iMessage, Discord, and Instagram DM.',
+    },
+    'ai-chat': {
+      title: 'AI Chat Mockups — maratool',
+      description: 'Free browser-based AI chat mockup generators. Create realistic ChatGPT conversation screenshots — no sign-up.',
+      intro: 'Realistic ChatGPT and AI conversation screenshots for presentations and design.',
+    },
+    posts: {
+      title: 'Social Post Mockups — maratool',
+      description: 'Free browser-based social post mockup generators. Create realistic Instagram, X (Twitter) post screenshots — no sign-up.',
+      intro: 'Realistic Instagram and X (Twitter) post screenshots for social planning and design.',
+    },
+    email: {
+      title: 'Email Mockup Generators — maratool',
+      description: 'Free browser-based email mockup generators. Create realistic Gmail email screenshots — no sign-up.',
+      intro: 'Realistic email screenshots for presentations, training, and design.',
+    },
+    comments: {
+      title: 'Comment Mockup Generators — maratool',
+      description: 'Free browser-based comment mockup generators — no sign-up.',
+      intro: 'Realistic comment thread screenshots for presentations and design.',
+    },
+    stories: {
+      title: 'Story Mockup Generators — maratool',
+      description: 'Free browser-based story mockup generators — no sign-up.',
+      intro: 'Realistic Instagram/Snapchat story screenshots for presentations and design.',
+    },
+  }
+
+  return subs.map(sub => {
+    // Normalize subcategory name to slug (lowercase + dashes for spaces)
+    const slug = sub.toLowerCase().replace(/\s+/g, '-')
+    const meta = descriptions[slug] ?? {
+      title: `${sub} Mockup Generators — maratool`,
+      description: `Free browser-based ${sub.toLowerCase()} mockup generators — no sign-up.`,
+      intro: `${sub} mockup generators that run locally in your browser.`,
+    }
+    return {
+      params: { subcategory: slug },
+      props: {
+        sub,
+        subTools: catTools[sub] ?? [],
+        ...meta,
+      },
+    }
+  })
+}
+
+const { subcategory } = Astro.params
+const { sub, subTools, title, description, intro } = Astro.props
+const allTools = toolsFlatByCategory.Mockup ?? []
+const subcategories = subcategoryOrderByCategory.Mockup ?? []
+
+const seo = {
+  title,
+  description,
+  canonical: `https://maratool.com/mockup/${subcategory}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `${sub} Mockup Generators`,
+    url: `https://maratool.com/mockup/${subcategory}`,
+    description,
+    hasPart: subTools.filter((tool: { live: boolean }) => tool.live).map((tool: { name: string; slug: string }) => ({
+      '@type': 'SoftwareApplication',
+      name: tool.name,
+      url: `https://maratool.com/${tool.slug}`,
+      applicationCategory: 'DesignApplication',
+    })),
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Mockup', item: 'https://maratool.com/mockup' },
+      { '@type': 'ListItem', position: 3, name: sub, item: `https://maratool.com/mockup/${subcategory}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout scope="subcategory">
+    <HubPage
+      category="Mockup"
+      categorySlug="mockup"
+      title={`${sub} mockup generators`}
+      subtitle={intro}
+      tools={allTools}
+      subcategories={subcategories}
+      activeSubcategory={sub}
+      basePath="/mockup"
+    />
+  </Layout>
+</Base>

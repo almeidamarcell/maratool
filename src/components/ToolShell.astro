@@ -27,9 +27,23 @@ const { name, slug, description, howTo, faq, relatedTools, breadcrumbs = [] } = 
 ---
 <article>
   {breadcrumbs.length > 0 && <Breadcrumb crumbs={breadcrumbs} />}
-  <div class="tool-header" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
-    <h1>{name}</h1>
-    <EmbedButton slug={slug} />
+  <div class="tool-header" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+    <h1 style="margin: 0; flex: 1; min-width: 0;">{name}</h1>
+    <div style="display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0;">
+      <button
+        type="button"
+        class="tool-pin"
+        id="tool-pin-btn"
+        data-tool-slug={slug}
+        data-tool-name={name}
+        aria-pressed="false"
+        aria-label="Pin this tool"
+      >
+        <span class="star-icon" id="tool-pin-star">☆</span>
+        <span id="tool-pin-label">Pin</span>
+      </button>
+      <EmbedButton slug={slug} />
+    </div>
   </div>
   <p class="tool-description">{description}</p>
 
@@ -76,14 +90,67 @@ const { name, slug, description, howTo, faq, relatedTools, breadcrumbs = [] } = 
     if (!Array.isArray(items)) items = []
     // Remove existing entry for this tool
     items = items.filter(function (item) { return item.slug !== slug })
-    // Find emoji from the sidebar link for this tool
-    var link = document.querySelector('.sidebar-link[href="/' + slug + '"] .sidebar-link-emoji')
+    // Find emoji — first try sidebar, then a data attribute we could set
+    var link = document.querySelector('a[href="/' + slug + '"] .sidebar-link-emoji')
     var emoji = link ? link.textContent.trim() : ''
-    // Add to front
     items.unshift({ slug: slug, name: name, emoji: emoji })
-    // Keep max items
     if (items.length > max) items = items.slice(0, max)
     localStorage.setItem(key, JSON.stringify(items))
   } catch (e) {}
+})()
+
+// Pin toggle
+;(function () {
+  var pinnedKey = 'maratool_pinned'
+  var maxPinned = 12
+  var btn = document.getElementById('tool-pin-btn')
+  var star = document.getElementById('tool-pin-star')
+  var label = document.getElementById('tool-pin-label')
+  if (!btn) return
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(pinnedKey)
+      return raw ? JSON.parse(raw) : []
+    } catch (e) { return [] }
+  }
+
+  function save(items) {
+    try { localStorage.setItem(pinnedKey, JSON.stringify(items)) } catch (e) {}
+  }
+
+  function isPinned(items) {
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].slug === slug) return true
+    }
+    return false
+  }
+
+  function sync() {
+    var items = load()
+    var pinned = isPinned(items)
+    btn.classList.toggle('pinned', pinned)
+    btn.setAttribute('aria-pressed', pinned ? 'true' : 'false')
+    if (star) star.textContent = pinned ? '★' : '☆'
+    if (label) label.textContent = pinned ? 'Pinned' : 'Pin'
+  }
+
+  btn.addEventListener('click', function () {
+    var items = load()
+    var idx = -1
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].slug === slug) { idx = i; break }
+    }
+    if (idx >= 0) {
+      items.splice(idx, 1)
+    } else {
+      items.unshift({ slug: slug, name: name })
+      if (items.length > maxPinned) items = items.slice(0, maxPinned)
+    }
+    save(items)
+    sync()
+  })
+
+  sync()
 })()
 </script>

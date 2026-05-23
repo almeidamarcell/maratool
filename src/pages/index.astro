@@ -1,48 +1,85 @@
 ---
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
-import { tools, categoryOrder, toolsFlatByCategory } from '../data/tools'
+import { tools, categoryOrder, toolsFlatByCategory, getPopularTools, getRecentlyAddedTools } from '../data/tools'
 
 const liveTools = tools.filter(t => t.live)
 
-// Task-oriented labels for each category
-const taskLabels: Record<string, string> = {
-  Converter: 'Convert formats',
-  PDF: 'Work with PDFs',
-  Text: 'Work with text',
-  Image: 'Work with images',
-  Color: 'Pick colors',
-  Developer: 'Inspect & debug',
-  Marketing: 'Marketing tools',
-  Mockup: 'Create mockups',
+// Per-vertical descriptions + popular tool slugs (manual curation)
+const verticalMeta: Record<string, { description: string; popularSlugs: string[] }> = {
+  Health: {
+    description: 'Medical calculators, scores, scales, references',
+    popularSlugs: ['bmi-calculator', 'mean-arterial-pressure', 'cha2ds2-vasc', 'corrected-qt-interval'],
+  },
+  Developer: {
+    description: 'Inspect, decode, generate, hash, parse',
+    popularSlugs: ['jwt-decoder', 'cron-expression', 'uuid-generator', 'hash-generator'],
+  },
+  Image: {
+    description: 'Convert, compress, remove background, optimize',
+    popularSlugs: ['background-remover', 'svg-optimizer', 'image-converter', 'favicon-generator'],
+  },
+  Converter: {
+    description: 'CSV, JSON, YAML, XML, units, base',
+    popularSlugs: ['csv-to-json', 'yaml-to-json', 'unit-converter', 'unix-timestamp'],
+  },
+  Text: {
+    description: 'Diff, format, extract, transform, count',
+    popularSlugs: ['diff-checker', 'json-formatter', 'reading-time', 'lorem-ipsum'],
+  },
+  Color: {
+    description: 'Pick, convert, contrast, palette, harmony',
+    popularSlugs: ['contrast-checker', 'color-converter', 'color-shades', 'color-harmony-generator'],
+  },
+  PDF: {
+    description: 'Merge, split, extract text, metadata',
+    popularSlugs: ['pdf-to-text', 'pdf-merge-split', 'pdf-to-markdown', 'pdf-metadata'],
+  },
+  Mockup: {
+    description: 'Generate fake chats, posts, screenshots',
+    popularSlugs: ['whatsapp-chat-mockup', 'imessage-chat-mockup', 'x-post-mockup', 'chatgpt-mockup'],
+  },
+  Marketing: {
+    description: 'QR codes, UTM links, barcodes',
+    popularSlugs: ['qr-code-generator', 'utm-builder', 'barcode-generator'],
+  },
 }
 
-// Category color CSS variable names
-const catColors: Record<string, string> = {
-  Converter: 'var(--cat-converter)',
-  PDF: 'var(--cat-pdf)',
-  Text: 'var(--cat-text)',
-  Image: 'var(--cat-image)',
-  Color: 'var(--cat-color)',
-  Developer: 'var(--cat-developer)',
-  Marketing: 'var(--cat-marketing)',
-  Mockup: 'var(--cat-mockup)',
-}
+const verticals = categoryOrder.map(cat => {
+  const catTools = (toolsFlatByCategory[cat] ?? []).filter(t => t.live)
+  const meta = verticalMeta[cat] ?? { description: '', popularSlugs: [] }
+  const popularTools = meta.popularSlugs
+    .map(slug => catTools.find(t => t.slug === slug))
+    .filter((t): t is typeof tools[number] => !!t)
+    .slice(0, 3)
+  // Fallback to first 3 if not enough matches
+  const display = popularTools.length >= 3
+    ? popularTools
+    : [...popularTools, ...catTools.filter(t => !popularTools.includes(t)).slice(0, 3 - popularTools.length)]
+  return {
+    name: cat,
+    slug: cat.toLowerCase(),
+    count: catTools.length,
+    description: meta.description,
+    popular: display,
+  }
+}).filter(v => v.count > 0).sort((a, b) => b.count - a.count) // largest verticals first
 
-// Newest tools (last 3 added — based on recent commits)
-const newToolSlugs = ['instagram-video-downloader', 'gif-bg-remover', 'svg-optimizer']
-const newTools = newToolSlugs
-  .map(slug => tools.find(t => t.slug === slug && t.live))
-  .filter((t): t is typeof tools[number] => !!t)
+// Popular this week — deterministic heuristic ranking (see tools.ts popularityScore)
+const popularThisWeek = getPopularTools(6)
 
-// Tools data for hero search (same as Topbar)
-const searchTools = liveTools.map(t => ({
-  slug: t.slug,
-  name: t.name,
-  emoji: t.emoji,
-  keywords: t.keywords,
-  description: t.description,
-}))
+// New tools — derived from tools.ts file position (last-added first)
+const newTools = getRecentlyAddedTools(3)
+
+// Hero query chips — pre-canned popular searches
+const heroQueryChips = [
+  { label: 'JSON formatter', slug: 'json-formatter' },
+  { label: 'CHA2DS2-VASc', slug: 'cha2ds2-vasc' },
+  { label: 'QR generator', slug: 'qr-code-generator' },
+  { label: 'JWT decoder', slug: 'jwt-decoder' },
+  { label: 'cron parser', slug: 'cron-parser' },
+  { label: 'contrast checker', slug: 'contrast-checker' },
+]
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -77,22 +114,22 @@ const faqSchema = {
       name: 'What tools are available on maratool?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'maratool offers 80+ tools across 7 categories: converters (CSV, JSON, Base64, XML), PDF tools (extract, merge, accessibility), text tools (diff, regex, markdown, JSON formatter), image tools (background remover, GIF maker, SVG optimizer), color tools (gradients, palettes, contrast checker), developer tools (JWT decoder, hash generator, UUID, cron), and marketing tools (QR codes, UTM builder, barcodes).'
+        text: `maratool offers ${liveTools.length}+ tools across 9 categories: converters, PDF, text, image, color, developer, marketing, mockups, and medical calculators (Health). Every tool runs in your browser.`
       }
     }
   ]
 }
 
 const seo = {
-  title: 'maratool — 80+ Free Browser-Based Tools | No Sign-Up',
-  description: 'Free, instant, browser-based tools for developers, designers, and writers. JSON formatter, color picker, JWT decoder, Base64, PDF tools and more — no sign-up, no tracking, nothing installed.',
+  title: `maratool — ${liveTools.length}+ Free Browser-Based Tools | No Sign-Up`,
+  description: 'Free, instant, browser-based tools for developers, designers, writers, and clinicians. JSON formatter, color picker, JWT decoder, medical calculators, PDF tools and more — no sign-up, no tracking, nothing installed.',
   canonical: 'https://maratool.com/',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'maratool',
     url: 'https://maratool.com',
-    description: 'Free browser-based tools for developers, designers, and writers',
+    description: 'Free browser-based tools for developers, designers, writers, and clinicians',
   }
 }
 
@@ -100,7 +137,7 @@ const itemListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: 'Free Online Tools',
-  description: 'A collection of free browser-based utilities for developers, designers, and writers',
+  description: 'A collection of free browser-based utilities',
   url: 'https://maratool.com',
   numberOfItems: liveTools.length,
   itemListElement: liveTools.map((t, i) => ({
@@ -112,7 +149,7 @@ const itemListSchema = {
 }
 ---
 <Base {...seo} faqSchema={faqSchema}>
-  <Layout>
+  <Layout scope="home">
     <!-- Hero -->
     <div class="hero">
       <h1>Free online tools</h1>
@@ -121,21 +158,28 @@ const itemListSchema = {
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
         <input
-          id="hero-search"
+          id="hero-search-trigger"
           class="hero-search"
           type="search"
-          placeholder="What do you need? Try 'convert csv' or 'color picker'..."
+          placeholder="What do you need? Try 'CHA2DS2-VASc' or 'convert csv'…"
           aria-label="Search tools"
           autocomplete="off"
+          readonly
         />
+        <span class="hero-search-kbd" id="hero-search-kbd">⌘K</span>
       </div>
-      <p>Fast, browser-based utilities for developers, designers, and writers. Everything runs locally — your data never leaves your device.</p>
+      <div class="home-query-chips">
+        {heroQueryChips.map(chip => (
+          <a href={`/${chip.slug}`} class="home-query-chip">{chip.label}</a>
+        ))}
+      </div>
       <p class="hero-tagline">No accounts. No installs. Nothing leaves your browser.</p>
     </div>
 
-    <!-- Hero search results -->
-    <div id="hero-search-overlay" class="hero-search-results" hidden>
-      <div id="hero-search-results-list"></div>
+    <!-- Pinned (rendered by JS from localStorage) -->
+    <div id="home-pinned" class="recently-used" hidden style="background: transparent; padding: 0; border: 0;">
+      <div class="recently-used-title"><span style="color: var(--accent);">★</span> Pinned</div>
+      <div id="home-pinned-grid" class="pinned-strip"></div>
     </div>
 
     <!-- Recently Used (rendered by JS from localStorage) -->
@@ -144,65 +188,83 @@ const itemListSchema = {
       <div id="recently-used-grid" class="recently-used-grid"></div>
     </div>
 
-    <!-- New tools -->
-    {newTools.length > 0 && (
-      <section class="task-section">
-        <div class="task-header">
-          <h2>✨ New</h2>
-        </div>
-        <div class="home-grid">
-          {newTools.map(tool => (
-            <a href={`/${tool.slug}`} class="home-card" data-cat={tool.category.toLowerCase()}>
-              <span class="home-card-emoji">{tool.emoji}</span>
-              <div class="home-card-body">
-                <div class="home-card-name">{tool.name}<span class="badge-new">New</span></div>
-                <div class="home-card-desc">{tool.description}</div>
+    <!-- Verticals grid -->
+    <h2 class="home-section-h2">
+      Browse by vertical
+      <span class="h2-count">9 categories · {liveTools.length} tools</span>
+    </h2>
+    <div class="verticals-grid">
+      {verticals.map(v => (
+        <a href={`/${v.slug}`} class="vertical-card" data-cat={v.slug}>
+          <div class="vertical-card-head">
+            <span class="vertical-card-name">{v.name}</span>
+            <span class="vertical-card-count">{v.count} {v.count === 1 ? 'tool' : 'tools'}</span>
+          </div>
+          <p class="vertical-card-desc">{v.description}</p>
+          <div class="vertical-card-tools">
+            {v.popular.map(tool => (
+              <span>{tool.name}</span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Popular this week -->
+    {popularThisWeek.length > 0 && (
+      <>
+        <h2 class="home-section-h2">
+          Popular this week
+          <a href="/all" class="h2-see-all">All tools →</a>
+        </h2>
+        <div class="popular-grid">
+          {popularThisWeek.map(tool => (
+            <a href={`/${tool.slug}`} class="pop-card" data-cat={tool.category.toLowerCase()}>
+              <span class="pop-card-emoji">{tool.emoji}</span>
+              <div class="pop-card-body">
+                <div class="pop-card-name">{tool.name}</div>
+                <div class="pop-card-meta">
+                  <span class="cat-dot" data-cat={tool.category.toLowerCase()}></span>
+                  {tool.category} · {tool.subcategory}
+                </div>
               </div>
             </a>
           ))}
         </div>
-      </section>
+      </>
     )}
 
-    <!-- Task-oriented category groups -->
-    {categoryOrder.map(cat => {
-      const catTools = (toolsFlatByCategory[cat] ?? []).filter(t => t.live)
-      if (catTools.length === 0) return null
-      const previewTools = catTools.slice(0, 3)
-      const label = taskLabels[cat] ?? cat
-      const color = catColors[cat] ?? 'var(--accent)'
-      return (
-        <section class="task-section">
-          <div class="task-header">
-            <h2>
-              <span class="task-color-bar" style={`background: ${color}`}></span>
-              {label}
-            </h2>
-            <a href={`/${cat.toLowerCase()}`} class="task-see-all">
-              See all {catTools.length} tools &rarr;
-            </a>
-          </div>
-          <div class="home-grid">
-            {previewTools.map(tool => (
-              <a href={`/${tool.slug}`} class="home-card" data-cat={tool.category.toLowerCase()}>
-                <span class="home-card-emoji">{tool.emoji}</span>
-                <div class="home-card-body">
-                  <div class="home-card-name">{tool.name}</div>
-                  <div class="home-card-desc">{tool.description}</div>
+    <!-- New -->
+    {newTools.length > 0 && (
+      <>
+        <h2 class="home-section-h2">
+          ✨ New
+        </h2>
+        <div class="popular-grid">
+          {newTools.map(tool => (
+            <a href={`/${tool.slug}`} class="pop-card" data-cat={tool.category.toLowerCase()}>
+              <span class="pop-card-emoji">{tool.emoji}</span>
+              <div class="pop-card-body">
+                <div class="pop-card-name">{tool.name}</div>
+                <div class="pop-card-meta">
+                  <span class="cat-dot" data-cat={tool.category.toLowerCase()}></span>
+                  {tool.category} · {tool.subcategory}
                 </div>
-              </a>
-            ))}
-          </div>
-        </section>
-      )
-    })}
+              </div>
+            </a>
+          ))}
+        </div>
+      </>
+    )}
 
-    <section style="margin-top:2rem;">
+    <section style="margin-top: 3rem;">
       <h2>Why maratool?</h2>
-      <p style="color:var(--text-2);line-height:1.7;margin-top:0.75rem;max-width:560px;">No sign-ups. No "free tier" limits. No waiting for a server. maratool runs +80 tools directly in your browser. Your files stay on your device. Results appear instantly.</p>
+      <p style="color: var(--text-2); line-height: 1.7; margin-top: 0.75rem; max-width: 560px;">
+        No sign-ups. No "free tier" limits. No waiting for a server. maratool runs {liveTools.length}+ tools directly in your browser. Your files stay on your device. Results appear instantly.
+      </p>
     </section>
 
-    <section class="faq" style="margin-top:2rem;">
+    <section class="faq" style="margin-top: 2rem;">
       <h2>Frequently asked questions</h2>
       <div class="faq-item">
         <h3 class="faq-question">Are these tools really free?</h3>
@@ -218,7 +280,7 @@ const itemListSchema = {
       </div>
       <div class="faq-item">
         <h3 class="faq-question">What tools are available on maratool?</h3>
-        <p class="faq-answer">maratool offers 80+ tools across 7 categories: converters (CSV, JSON, Base64, XML), PDF tools (extract, merge, accessibility), text tools (diff, regex, markdown, JSON formatter), image tools (background remover, GIF maker, SVG optimizer), color tools (gradients, palettes, contrast checker), developer tools (JWT decoder, hash generator, UUID, cron), and marketing tools (QR codes, UTM builder, barcodes).</p>
+        <p class="faq-answer">maratool offers {liveTools.length}+ tools across 9 categories: converters, PDF, text, image, color, developer, marketing, mockups, and medical calculators (Health). Every tool runs in your browser.</p>
       </div>
     </section>
 
@@ -226,258 +288,69 @@ const itemListSchema = {
   </Layout>
 </Base>
 
-<script define:vars={{ searchTools }}>
-(function () {
-  // ── Recently Used ──
-  var recentKey = 'maratool_recent'
-  var maxRecent = 8
-  var recentEl = document.getElementById('recently-used')
-  var recentGrid = document.getElementById('recently-used-grid')
-
-  function loadRecent() {
-    try {
-      var raw = localStorage.getItem(recentKey)
-      if (!raw) return []
-      var parsed = JSON.parse(raw)
-      return Array.isArray(parsed) ? parsed.slice(0, maxRecent) : []
-    } catch (e) { return [] }
-  }
-
-  function renderRecent() {
-    var items = loadRecent()
-    if (items.length === 0) { recentEl.hidden = true; return }
-    recentEl.hidden = false
-    recentGrid.innerHTML = items.map(function (item) {
-      return '<a href="/' + item.slug + '" class="recently-used-chip"><span>' + item.emoji + '</span>' + item.name + '</a>'
-    }).join('')
-  }
-
-  renderRecent()
-
-  // ── Track tool visits (for other pages to call) ──
-  // This runs on the homepage; individual tool pages add themselves to localStorage
-  // via a small inline script in ToolShell.astro
-
-  // ── Hero Search ──
-  var heroInput = document.getElementById('hero-search')
-  var heroOverlay = document.getElementById('hero-search-overlay')
-  var heroResultsList = document.getElementById('hero-search-results-list')
-  var heroActiveIndex = -1
-  var heroResults = []
-  var heroDebounce = null
-
-  function escapeHtml(str) {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-  }
-
-  function highlightMatch(text, query) {
-    var escaped = escapeHtml(text)
-    if (!query) return escaped
-    var lower = text.toLowerCase()
-    var idx = lower.indexOf(query.toLowerCase())
-    if (idx === -1) return escaped
-    return escapeHtml(text.slice(0, idx)) +
-      '<strong>' + escapeHtml(text.slice(idx, idx + query.length)) + '</strong>' +
-      escapeHtml(text.slice(idx + query.length))
-  }
-
-  function score(tool, q) {
-    var name = tool.name.toLowerCase()
-    var desc = tool.description.toLowerCase()
-    if (name === q) return 5
-    if (name.startsWith(q)) return 4
-    if (name.includes(q)) return 3
-    for (var i = 0; i < tool.keywords.length; i++) {
-      if (tool.keywords[i].includes(q)) return 2
+<script>
+  ;(function () {
+    // Hero search → open command palette (same fuzzy search, just centered modal)
+    var trigger = document.getElementById('hero-search-trigger')
+    var kbdEl = document.getElementById('hero-search-kbd')
+    if (kbdEl) {
+      var isMac = /Mac|iPod|iPhone|iPad/.test(navigator.platform)
+      if (!isMac) kbdEl.textContent = 'Ctrl K'
     }
-    if (desc.includes(q)) return 1
-    return 0
-  }
-
-  function heroSearch(q) {
-    q = q.toLowerCase().trim()
-    if (!q) return []
-    var scored = []
-    for (var i = 0; i < searchTools.length; i++) {
-      var s = score(searchTools[i], q)
-      if (s > 0) scored.push({ tool: searchTools[i], score: s })
+    if (trigger) {
+      trigger.addEventListener('click', function () {
+        if ((window as any).maratoolOpenCmdPalette) {
+          ;(window as any).maratoolOpenCmdPalette()
+        }
+      })
+      trigger.addEventListener('focus', function () {
+        if ((window as any).maratoolOpenCmdPalette) {
+          ;(trigger as HTMLInputElement).blur()
+          ;(window as any).maratoolOpenCmdPalette()
+        }
+      })
     }
-    scored.sort(function (a, b) { return b.score - a.score })
-    return scored.slice(0, 8).map(function (x) { return x.tool })
-  }
+  })()
 
-  function renderHeroResults(items, query) {
-    heroActiveIndex = -1
-    heroResults = items
-    if (!query) { heroOverlay.hidden = true; return }
-    if (items.length === 0) {
-      heroResultsList.innerHTML = '<div class="search-no-results">No tools found for &ldquo;' + escapeHtml(query) + '&rdquo;</div>'
-    } else {
-      heroResultsList.innerHTML = items.map(function (t, i) {
-        return '<a href="/' + t.slug + '" class="search-result" data-index="' + i + '">' +
-          '<span class="search-result-emoji">' + t.emoji + '</span>' +
-          '<div class="search-result-body">' +
-            '<div class="search-result-name">' + highlightMatch(t.name, query) + '</div>' +
-            '<div class="search-result-desc">' + escapeHtml(t.description) + '</div>' +
-          '</div></a>'
+  ;(function () {
+    var recentKey = 'maratool_recent'
+    var pinnedKey = 'maratool_pinned'
+
+    function load(key: string) {
+      try {
+        var raw = localStorage.getItem(key)
+        if (!raw) return []
+        var parsed = JSON.parse(raw)
+        return Array.isArray(parsed) ? parsed : []
+      } catch (e) { return [] }
+    }
+
+    function renderRecent() {
+      var items = load(recentKey).slice(0, 8)
+      var el = document.getElementById('recently-used')
+      var grid = document.getElementById('recently-used-grid')
+      if (!el || !grid) return
+      if (items.length === 0) { el.hidden = true; return }
+      el.hidden = false
+      grid.innerHTML = items.map(function (item: any) {
+        var emoji = item.emoji ? '<span>' + item.emoji + '</span>' : ''
+        return '<a href="/' + item.slug + '" class="recently-used-chip">' + emoji + item.name + '</a>'
       }).join('')
     }
-    heroOverlay.hidden = false
-  }
 
-  function setHeroActive(idx) {
-    var items = heroResultsList.querySelectorAll('.search-result')
-    if (heroActiveIndex >= 0 && heroActiveIndex < items.length) {
-      items[heroActiveIndex].classList.remove('active')
+    function renderPinned() {
+      var items = load(pinnedKey).slice(0, 8)
+      var el = document.getElementById('home-pinned')
+      var grid = document.getElementById('home-pinned-grid')
+      if (!el || !grid) return
+      if (items.length === 0) { el.hidden = true; return }
+      el.hidden = false
+      grid.innerHTML = items.map(function (item: any) {
+        return '<a href="/' + item.slug + '" class="pinned-chip"><span class="pin-icon">★</span>' + item.name + '</a>'
+      }).join('')
     }
-    heroActiveIndex = idx
-    if (heroActiveIndex >= 0 && heroActiveIndex < items.length) {
-      items[heroActiveIndex].classList.add('active')
-      items[heroActiveIndex].scrollIntoView({ block: 'nearest' })
-    }
-  }
 
-  heroInput.addEventListener('input', function () {
-    clearTimeout(heroDebounce)
-    heroDebounce = setTimeout(function () {
-      var q = heroInput.value.trim()
-      if (!q) { heroOverlay.hidden = true; return }
-      renderHeroResults(heroSearch(q), q)
-    }, 150)
-  })
-
-  heroInput.addEventListener('keydown', function (e) {
-    if (heroOverlay.hidden) return
-    var items = heroResultsList.querySelectorAll('.search-result')
-    if (e.key === 'ArrowDown') {
-      e.preventDefault()
-      setHeroActive(Math.min(heroActiveIndex + 1, items.length - 1))
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault()
-      setHeroActive(Math.max(heroActiveIndex - 1, 0))
-    } else if (e.key === 'Enter') {
-      e.preventDefault()
-      if (heroActiveIndex >= 0 && heroActiveIndex < items.length) {
-        window.location.href = items[heroActiveIndex].href
-      } else if (heroResults.length > 0) {
-        window.location.href = '/' + heroResults[0].slug
-      }
-    } else if (e.key === 'Escape') {
-      heroInput.value = ''
-      heroOverlay.hidden = true
-      heroInput.blur()
-    }
-  })
-
-  // Close hero search on click outside
-  document.addEventListener('click', function (e) {
-    if (!heroInput.contains(e.target) && !heroOverlay.contains(e.target)) {
-      heroOverlay.hidden = true
-    }
-  })
-
-  heroInput.addEventListener('focus', function () {
-    var q = heroInput.value.trim()
-    if (q) renderHeroResults(heroSearch(q), q)
-  })
-})()
+    renderRecent()
+    renderPinned()
+  })()
 </script>
-
-<style is:global>
-  .hero-search-results {
-    max-width: 560px;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    margin-top: -0.5rem;
-    margin-bottom: 2rem;
-    overflow: hidden;
-    max-height: 420px;
-    overflow-y: auto;
-  }
-
-  /* ── Hero search icon visibility ── */
-  .hero-search-icon {
-    color: var(--text-2);
-  }
-
-  /* ── Homepage compact cards ── */
-  .home-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-  }
-
-  .home-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.625rem;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--bg);
-    text-decoration: none;
-    transition: background 0.15s, border-color 0.15s, transform 0.15s;
-    position: relative;
-  }
-
-  .home-card:hover {
-    background: var(--bg-soft);
-    border-color: var(--accent);
-    text-decoration: none;
-    transform: translateY(-1px);
-  }
-
-  /* Category color left borders */
-  .home-card[data-cat="converter"] { border-left: 3px solid var(--cat-converter); }
-  .home-card[data-cat="image"]     { border-left: 3px solid var(--cat-image); }
-  .home-card[data-cat="text"]      { border-left: 3px solid var(--cat-text); }
-  .home-card[data-cat="developer"] { border-left: 3px solid var(--cat-developer); }
-  .home-card[data-cat="color"]     { border-left: 3px solid var(--cat-color); }
-  .home-card[data-cat="pdf"]       { border-left: 3px solid var(--cat-pdf); }
-  .home-card[data-cat="marketing"] { border-left: 3px solid var(--cat-marketing); }
-
-  .home-card-emoji {
-    font-size: 1.25rem;
-    line-height: 1;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .home-card-body {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .home-card-name {
-    font-family: var(--font);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 0.125rem;
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    flex-wrap: wrap;
-  }
-
-  .home-card-desc {
-    font-family: var(--font);
-    font-size: 12px;
-    color: var(--text-2);
-    line-height: 1.45;
-  }
-
-  @media (max-width: 900px) {
-    .home-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 480px) {
-    .home-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

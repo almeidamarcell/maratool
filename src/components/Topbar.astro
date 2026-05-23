@@ -1,12 +1,4 @@
 ---
-import { tools, categoryOrder } from '../data/tools'
-const liveTools = tools.filter(t => t.live).map(t => ({
-  slug: t.slug,
-  name: t.name,
-  emoji: t.emoji,
-  keywords: t.keywords,
-  description: t.description,
-}))
 ---
 <header class="topbar">
   <a href="/" class="topbar-logo">
@@ -17,195 +9,38 @@ const liveTools = tools.filter(t => t.live).map(t => ({
     <a href="/blog" class:list={['topbar-nav-link', { active: Astro.url.pathname.startsWith('/blog') }]}>Blog</a>
     <a href="/about" class:list={['topbar-nav-link', { active: Astro.url.pathname === '/about' || Astro.url.pathname === '/about/' }]}>About</a>
     <a href="/contact" class:list={['topbar-nav-link', { active: Astro.url.pathname === '/contact' || Astro.url.pathname === '/contact/' }]}>Contact</a>
+    <span class="topbar-nav-sep" aria-hidden="true"></span>
+    <a href="/all" class:list={['topbar-nav-link', { active: Astro.url.pathname === '/all' || Astro.url.pathname === '/all/' }]}>All tools</a>
   </nav>
-  <div class="search-wrap">
+  <button
+    type="button"
+    id="topbar-search-trigger"
+    class="topbar-search-trigger"
+    aria-label="Open search palette"
+  >
     <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="11" cy="11" r="8"/>
       <line x1="21" y1="21" x2="16.65" y2="16.65"/>
     </svg>
-    <input
-      id="topbar-search"
-      class="topbar-search"
-      type="search"
-      placeholder="Search tools..."
-      aria-label="Search tools"
-      autocomplete="off"
-    />
+    <span class="topbar-search-placeholder">Search tools…</span>
     <kbd class="search-kbd" id="search-kbd">⌘K</kbd>
-  </div>
+  </button>
 </header>
 
-<div id="search-overlay" class="search-overlay" hidden>
-  <div id="search-backdrop" class="search-backdrop"></div>
-  <div class="search-panel">
-    <div id="search-results" class="search-results-list"></div>
-    <div class="search-panel-footer">
-      <span>↑↓ navigate</span>
-      <span>↵ open</span>
-      <span>esc close</span>
-    </div>
-  </div>
-</div>
-
-<script define:vars={{ liveTools }}>
-(function () {
-  var input = document.getElementById('topbar-search')
-  var overlay = document.getElementById('search-overlay')
-  var backdrop = document.getElementById('search-backdrop')
-  var resultsEl = document.getElementById('search-results')
-  var kbd = document.getElementById('search-kbd')
-  var activeIndex = -1
-  var results = []
-  var debounceTimer = null
-  var currentQuery = ''
-
-  var isMac = /Mac|iPod|iPhone|iPad/.test(navigator.platform)
-  if (!isMac) kbd.textContent = 'Ctrl K'
-
-  function escapeHtml(str) {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-  }
-
-  function highlightMatch(text, query) {
-    var escaped = escapeHtml(text)
-    if (!query) return escaped
-    var lower = text.toLowerCase()
-    var idx = lower.indexOf(query.toLowerCase())
-    if (idx === -1) return escaped
-    return escapeHtml(text.slice(0, idx)) +
-      '<strong>' + escapeHtml(text.slice(idx, idx + query.length)) + '</strong>' +
-      escapeHtml(text.slice(idx + query.length))
-  }
-
-  function score(tool, q) {
-    var name = tool.name.toLowerCase()
-    var desc = tool.description.toLowerCase()
-    if (name === q) return 5
-    if (name.startsWith(q)) return 4
-    if (name.includes(q)) return 3
-    for (var i = 0; i < tool.keywords.length; i++) {
-      if (tool.keywords[i].includes(q)) return 2
+<script>
+  ;(function () {
+    var trigger = document.getElementById('topbar-search-trigger')
+    var kbd = document.getElementById('search-kbd')
+    if (kbd) {
+      var isMac = /Mac|iPod|iPhone|iPad/.test(navigator.platform)
+      if (!isMac) kbd.textContent = 'Ctrl K'
     }
-    if (desc.includes(q)) return 1
-    return 0
-  }
-
-  function search(q) {
-    q = q.toLowerCase().trim()
-    if (!q) return []
-    var scored = []
-    for (var i = 0; i < liveTools.length; i++) {
-      var s = score(liveTools[i], q)
-      if (s > 0) scored.push({ tool: liveTools[i], score: s })
+    if (trigger) {
+      trigger.addEventListener('click', function () {
+        if ((window as any).maratoolOpenCmdPalette) {
+          ;(window as any).maratoolOpenCmdPalette()
+        }
+      })
     }
-    scored.sort(function (a, b) { return b.score - a.score })
-    return scored.slice(0, 8).map(function (x) { return x.tool })
-  }
-
-  function render(items, query) {
-    activeIndex = -1
-    results = items
-    if (items.length === 0) {
-      resultsEl.innerHTML = '<div class="search-no-results">No tools found for &ldquo;' + escapeHtml(query) + '&rdquo;</div>'
-    } else {
-      resultsEl.innerHTML = items.map(function (t, i) {
-        return '<a href="/' + t.slug + '" class="search-result" data-index="' + i + '">' +
-          '<span class="search-result-emoji">' + t.emoji + '</span>' +
-          '<div class="search-result-body">' +
-            '<div class="search-result-name">' + highlightMatch(t.name, currentQuery) + '</div>' +
-            '<div class="search-result-desc">' + escapeHtml(t.description) + '</div>' +
-          '</div>' +
-        '</a>'
-      }).join('')
-    }
-    overlay.hidden = false
-  }
-
-  function openEmpty() {
-    resultsEl.innerHTML = ''
-    overlay.hidden = false
-  }
-
-  function close() {
-    overlay.hidden = true
-    activeIndex = -1
-    results = []
-  }
-
-  function setActive(idx) {
-    var items = resultsEl.querySelectorAll('.search-result')
-    if (activeIndex >= 0 && activeIndex < items.length) {
-      items[activeIndex].classList.remove('active')
-    }
-    activeIndex = idx
-    if (activeIndex >= 0 && activeIndex < items.length) {
-      items[activeIndex].classList.add('active')
-      items[activeIndex].scrollIntoView({ block: 'nearest' })
-    }
-  }
-
-  function updateKbd() {
-    kbd.hidden = input.value.length > 0 || document.activeElement === input
-  }
-
-  input.addEventListener('focus', function () {
-    updateKbd()
-    if (!input.value.trim()) openEmpty()
-  })
-
-  input.addEventListener('blur', function () {
-    setTimeout(updateKbd, 150)
-  })
-
-  input.addEventListener('input', function () {
-    clearTimeout(debounceTimer)
-    updateKbd()
-    debounceTimer = setTimeout(function () {
-      var q = input.value.trim()
-      currentQuery = q
-      if (!q) { openEmpty(); return }
-      render(search(q), q)
-    }, 150)
-  })
-
-  input.addEventListener('keydown', function (e) {
-    if (overlay.hidden) return
-    var items = resultsEl.querySelectorAll('.search-result')
-    if (e.key === 'ArrowDown') {
-      e.preventDefault()
-      setActive(Math.min(activeIndex + 1, items.length - 1))
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault()
-      setActive(Math.max(activeIndex - 1, 0))
-    } else if (e.key === 'Enter') {
-      e.preventDefault()
-      if (activeIndex >= 0 && activeIndex < items.length) {
-        window.location.href = items[activeIndex].href
-      } else if (results.length > 0) {
-        window.location.href = '/' + results[0].slug
-      }
-    } else if (e.key === 'Escape') {
-      input.value = ''
-      close()
-      input.blur()
-      updateKbd()
-    }
-  })
-
-  // Close on backdrop click
-  backdrop.addEventListener('click', function () {
-    close()
-    input.value = ''
-    updateKbd()
-  })
-
-  // ⌘K / Ctrl+K shortcut
-  document.addEventListener('keydown', function (e) {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-      e.preventDefault()
-      input.focus()
-      input.select()
-    }
-  })
-})()
+  })()
 </script>

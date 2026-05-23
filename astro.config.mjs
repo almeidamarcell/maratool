@@ -4,9 +4,9 @@ import cloudflare from '@astrojs/cloudflare'
 import sitemap from '@astrojs/sitemap'
 
 const CATEGORY_PAGES = [
-  '/converter/', '/pdf/', '/text/', '/image/', '/color/', '/developer/', '/marketing/',
+  '/converter/', '/pdf/', '/text/', '/image/', '/color/', '/developer/', '/marketing/', '/health/', '/mockup/',
 ]
-const SUBCATEGORY_RE = /\/(converter|pdf|text|image|color|developer|marketing)\/[^/]+\/$/
+const SUBCATEGORY_RE = /\/(converter|pdf|text|image|color|developer|marketing|health|mockup)\/[^/]+\/$/
 
 /**
  * Get the last git commit date for a page's source file.

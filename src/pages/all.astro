@@ -1,0 +1,124 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import Breadcrumb from '../components/Breadcrumb.astro'
+import { tools, getAllTags } from '../data/tools'
+
+const liveTools = tools.filter(t => t.live)
+const tagList = getAllTags()
+
+// Sort alphabetically by name (strip numbers, articles for sorting key)
+function sortKey(name: string): string {
+  return name.toLowerCase().replace(/^[\d\s]+/, '')
+}
+
+const sorted = [...liveTools].sort((a, b) => sortKey(a.name).localeCompare(sortKey(b.name)))
+
+// Group by first letter (0-9 for digit-starting names)
+const groups: Record<string, typeof liveTools> = {}
+const letters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+const groupOrder = ['0-9', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')]
+
+groups['0-9'] = []
+for (const L of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')) {
+  groups[L] = []
+}
+
+for (const tool of sorted) {
+  const first = sortKey(tool.name).charAt(0).toUpperCase()
+  if (/[0-9]/.test(first)) {
+    groups['0-9'].push(tool)
+  } else if (/[A-Z]/.test(first)) {
+    groups[first].push(tool)
+  } else {
+    groups['0-9'].push(tool)
+  }
+}
+
+const lettersWithCounts = groupOrder.map(L => ({ letter: L, count: groups[L].length }))
+
+const seo = {
+  title: `All ${liveTools.length}+ Tools — maratool`,
+  description: `Browse the full library of ${liveTools.length}+ free browser-based tools. Alphabetical A-Z index with category filter — find any tool fast.`,
+  canonical: 'https://maratool.com/all',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'All Tools',
+    url: 'https://maratool.com/all',
+    description: `Browse the full library of ${liveTools.length}+ free browser-based tools.`,
+    hasPart: liveTools.map(tool => ({
+      '@type': 'SoftwareApplication',
+      name: tool.name,
+      url: `https://maratool.com/${tool.slug}`,
+    })),
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'All tools', item: 'https://maratool.com/all' },
+    ],
+  },
+}
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'All tools' },
+]
+---
+<Base {...seo}>
+  <Layout scope="all">
+    <Breadcrumb crumbs={breadcrumbs} />
+    <div class="hub-hero" style="border-bottom: 0; padding-bottom: 0; margin-bottom: 0.75rem;">
+      <h1 style="font-size: 2rem;">All tools</h1>
+      <p class="hub-sub">Every tool on maratool, A–Z. {liveTools.length} tools across 9 verticals.</p>
+    </div>
+
+    <div class="all-alphabet">
+      {lettersWithCounts.map(({ letter, count }) => (
+        <a
+          href={count > 0 ? `#letter-${letter.replace(/-/g, '')}` : '#'}
+          class:list={['all-alphabet-btn', { 'has-tools': count > 0, disabled: count === 0 }]}
+          aria-disabled={count === 0}
+        >{letter}</a>
+      ))}
+    </div>
+
+    {tagList.length > 0 && (
+      <div class="facet-row" style="margin-bottom: 1.5rem;">
+        <div class="facet-group">
+          <span class="facet-label">Tags</span>
+          {tagList.map(({ tag, count }) => (
+            <a href={`/tag/${tag}`} class="facet-pill">{tag}<span class="count">{count}</span></a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {groupOrder.map(L => {
+      const items = groups[L]
+      if (items.length === 0) return null
+      const anchorId = `letter-${L.replace(/-/g, '')}`
+      return (
+        <section>
+          <h2 class="all-letter-head" id={anchorId}>{L}</h2>
+          {items.map(tool => (
+            <a href={`/${tool.slug}`} class="all-row">
+              <div>
+                <div class="all-row-name">{tool.name}</div>
+                <div class="all-row-desc">{tool.description}</div>
+              </div>
+              <div class="all-row-cat">
+                <span class="cat-dot" data-cat={tool.category.toLowerCase()}></span>
+                {tool.category}
+              </div>
+              <div class="all-row-purpose">{tool.subcategory}</div>
+            </a>
+          ))}
+        </section>
+      )
+    })}
+  </Layout>
+</Base>
