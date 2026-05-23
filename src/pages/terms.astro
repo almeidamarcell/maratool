@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+
+const seo = {
+  title: 'Terms of use — maratool',
+  description: 'Plain-language terms of use for maratool.com. Tools are free to use, provided as-is with no warranty. Don’t abuse the service. Medical tools are not medical advice.',
+  canonical: 'https://maratool.com/terms',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Terms of use',
+    url: 'https://maratool.com/terms',
+    description: 'Terms of use for maratool.com.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Terms of use', item: 'https://maratool.com/terms' },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="trust-page">
+      <header class="trust-header">
+        <p class="trust-eyebrow">Last updated 2026-05-23</p>
+        <h1 class="trust-title">Terms of use</h1>
+        <p class="trust-lead">Plain English. Read these before relying on the tools. By using maratool.com you agree to the following.</p>
+      </header>
+
+      <div class="trust-body">
+        <h2>The tools are free</h2>
+        <p>Every tool on maratool.com is free to use without an account. You may use them personally or professionally, including in commercial work. Output you create with the tools (formatted JSON, generated UUIDs, calculated scores, etc.) is yours.</p>
+
+        <h2>No warranty — use at your own risk</h2>
+        <p>maratool.com is provided "as is" and "as available", without warranty of any kind, express or implied. We do not guarantee that any specific tool is error-free, suitable for your particular use, or will be available at any given time.</p>
+        <p>We make a good-faith effort to implement tools correctly — see <a href="/methodology/">methodology</a> — but the user is responsible for verifying any output against authoritative sources before relying on it in production, regulated, or safety-critical contexts.</p>
+
+        <h2>Medical tools are not medical advice</h2>
+        <p>The Health category contains educational calculators for use by licensed healthcare professionals. They are not a substitute for clinical judgement, do not constitute medical advice, and must not be used as the sole basis for clinical decisions. See the full <a href="/medical-disclaimer/">medical disclaimer</a>.</p>
+
+        <h2>Acceptable use</h2>
+        <p>Don’t do things that would obviously harm the service or other users:</p>
+        <ul>
+          <li>No automated abuse — scripting tools at a rate that degrades service for other users.</li>
+          <li>No attempts to break, exploit, or reverse-engineer the site’s security.</li>
+          <li>No scraping the entire site contents for republication elsewhere as your own.</li>
+        </ul>
+        <p>AI assistants (ChatGPT, Claude, Perplexity, Gemini, etc.) are explicitly welcome to read pages and cite tools — see our <a href="/robots.txt">robots.txt</a>.</p>
+
+        <h2>Intellectual property</h2>
+        <p>The maratool name, logo, and site design are © Marcell Almeida. Tool source code is not currently published; please link to the live tool rather than re-implementing it. Formulas implemented in clinical tools are from public scientific literature and are not owned by maratool.</p>
+
+        <h2>Changes &amp; termination</h2>
+        <p>We may add, change, or remove tools at any time. We may update these terms; material changes will be reflected in the "Last updated" date. You can stop using the site at any time — there is nothing to cancel.</p>
+
+        <h2>Contact</h2>
+        <p>Operated by Marcell Almeida (Brazil). Contact: <a href="mailto:maratool@marcell.com.br">maratool@marcell.com.br</a>. See <a href="/contact/">contact page</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>
+<style is:global>
+  .trust-page { max-width: 680px; padding: 2.5rem 2rem; }
+  .trust-header { margin-bottom: 2rem; }
+  .trust-eyebrow { font-size: 12px; color: var(--text-3); margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .trust-title { font-size: 1.875rem; font-weight: 700; color: var(--text); line-height: 1.2; margin: 0 0 0.75rem; letter-spacing: -0.02em; }
+  .trust-lead { font-size: 16px; color: var(--text-2); line-height: 1.5; margin: 0; }
+  .trust-body { font-size: 15px; color: var(--text); line-height: 1.7; }
+  .trust-body p { margin: 0 0 1rem; }
+  .trust-body h2 { font-size: 1.125rem; font-weight: 700; color: var(--text); margin: 1.75rem 0 0.5rem; letter-spacing: -0.01em; }
+  .trust-body ul { margin: 0.5rem 0 1rem 1.25rem; padding: 0; display: flex; flex-direction: column; gap: 0.375rem; }
+  .trust-body li { line-height: 1.6; }
+  .trust-body a { color: var(--accent); text-decoration: none; }
+  .trust-body a:hover { text-decoration: underline; }
+  @media (max-width: 600px) { .trust-page { padding: 1.5rem 1rem; } .trust-title { font-size: 1.5rem; } }
+</style>

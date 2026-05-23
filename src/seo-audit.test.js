@@ -28,7 +28,8 @@ describe('SEO audit — Group 1: Critical', () => {
   test('homepage title does not reference non-existent tools', () => {
     const homepage = readSrc('src/pages/index.astro')
     expect(homepage).not.toContain('Word Counter')
-    const titleMatch = homepage.match(/title:\s*['"]([^'"]+)['"]/)
+    // Title can be a string literal (single/double quote) or a template literal (backtick)
+    const titleMatch = homepage.match(/title:\s*['"`]([^'"`]+)['"`]/)
     expect(titleMatch).not.toBeNull()
     expect(titleMatch[1]).toContain('maratool')
   })
@@ -72,6 +73,7 @@ describe('SEO audit — Group 2: High Impact', () => {
       Developer: 'DeveloperApplication',
       Converter: 'UtilitiesApplication',
       Mockup: 'DesignApplication',
+      Health: 'HealthApplication',
     }
     // Calculator subcategory in Developer should be UtilitiesApplication
     const calculatorSlugs = tools

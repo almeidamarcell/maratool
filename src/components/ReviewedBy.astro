@@ -1,0 +1,100 @@
+---
+// Surfaces authorship and review status for YMYL (medical) tool pages.
+// Honest disclosure pattern: when no clinician of record exists,
+// state that explicitly rather than leaving the page unsigned.
+//
+// Props:
+//   author        — who built/maintains the tool (default: site-wide author)
+//   lastReviewed  — ISO date string (YYYY-MM-DD) of last clinical review,
+//                   or null/undefined if not yet reviewed
+//   reviewer      — name of the clinical reviewer, or null if not yet reviewed
+
+interface Props {
+  author?: string
+  authorUrl?: string
+  lastReviewed?: string | null
+  reviewer?: string | null
+  reviewerCredentials?: string | null
+}
+
+const {
+  author = 'Marcell Almeida',
+  authorUrl = 'https://marcell.com.br',
+  lastReviewed = null,
+  reviewer = null,
+  reviewerCredentials = null,
+} = Astro.props
+
+const formattedDate = lastReviewed
+  ? new Date(lastReviewed + 'T00:00:00Z').toLocaleDateString('en-US', {
+      year: 'numeric', month: 'long', day: 'numeric',
+    })
+  : null
+---
+<aside class="reviewed-by" aria-label="Authorship and review status">
+  <div class="reviewed-by-row">
+    <span class="reviewed-by-label">Built by</span>
+    <span class="reviewed-by-value">
+      <a href={authorUrl} target="_blank" rel="noopener" class="reviewed-by-link">{author}</a>
+      <span class="reviewed-by-meta">— software engineer (not a clinician)</span>
+    </span>
+  </div>
+  {reviewer ? (
+    <div class="reviewed-by-row">
+      <span class="reviewed-by-label">Reviewed by</span>
+      <span class="reviewed-by-value">
+        {reviewer}{reviewerCredentials && <span class="reviewed-by-meta">, {reviewerCredentials}</span>}
+      </span>
+    </div>
+  ) : (
+    <div class="reviewed-by-row">
+      <span class="reviewed-by-label">Clinical review</span>
+      <span class="reviewed-by-value reviewed-by-warn">Not yet reviewed by a clinician — verify independently. See <a href="/medical-disclaimer/" class="reviewed-by-link">medical disclaimer</a>.</span>
+    </div>
+  )}
+  {formattedDate && (
+    <div class="reviewed-by-row">
+      <span class="reviewed-by-label">Last reviewed</span>
+      <time datetime={lastReviewed} class="reviewed-by-value">{formattedDate}</time>
+    </div>
+  )}
+  <div class="reviewed-by-row">
+    <span class="reviewed-by-label">Methodology</span>
+    <span class="reviewed-by-value"><a href="/methodology/" class="reviewed-by-link">How this tool was built</a></span>
+  </div>
+</aside>
+
+<style is:global>
+  .reviewed-by {
+    margin: 1.5rem 0 0;
+    padding: 0.875rem 1rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-2);
+  }
+  .reviewed-by-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0.75rem;
+    padding: 0.25rem 0;
+  }
+  .reviewed-by-label {
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 11px;
+    font-weight: 600;
+    padding-top: 2px;
+  }
+  .reviewed-by-value { color: var(--text); }
+  .reviewed-by-meta { color: var(--text-3); }
+  .reviewed-by-warn { color: var(--text-2); }
+  .reviewed-by-link { color: var(--accent); text-decoration: none; }
+  .reviewed-by-link:hover { text-decoration: underline; }
+  @media (max-width: 600px) {
+    .reviewed-by-row { grid-template-columns: 1fr; gap: 0.125rem; }
+  }
+</style>

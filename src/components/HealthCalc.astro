@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro'
 import Layout from './Layout.astro'
 import ToolShell from './ToolShell.astro'
 import References from './References.astro'
+import ReviewedBy from './ReviewedBy.astro'
 
 interface FAQItem { q: string; a: string }
 interface Reference { citation: string; url?: string }
@@ -21,11 +22,17 @@ interface Props {
   faq: FAQItem[]
   relatedTools: RelatedTool[]
   references: Reference[]
+  // YMYL E-E-A-T fields (optional). When clinician reviewer is unknown,
+  // ReviewedBy renders an explicit "not yet reviewed" notice.
+  lastReviewed?: string | null
+  reviewer?: string | null
+  reviewerCredentials?: string | null
 }
 
 const {
   slug, name, shortDescription, metaTitle, metaDescription,
   subcategory, subcategorySlug, schemaName, howTo, faq, relatedTools, references,
+  lastReviewed = null, reviewer = null, reviewerCredentials = null,
 } = Astro.props
 
 const seo = {
@@ -34,7 +41,7 @@ const seo = {
   canonical: `https://maratool.com/${slug}`,
   schema: {
     '@context': 'https://schema.org',
-    '@type': 'WebApplication',
+    '@type': ['MedicalRiskCalculator', 'WebApplication'],
     name: schemaName,
     url: `https://maratool.com/${slug}`,
     applicationCategory: 'HealthApplication',
@@ -82,9 +89,14 @@ const breadcrumbs = [
       breadcrumbs={breadcrumbs}
     >
       <div class="tool-container hcalc-container">
-        <div class="hcalc-disclaimer">For educational and clinical reference. Not a substitute for medical judgment.</div>
+        <div class="hcalc-disclaimer">For educational and clinical reference. Not a substitute for medical judgment. See the <a href="/medical-disclaimer/">medical disclaimer</a>.</div>
         <slot />
       </div>
+      <ReviewedBy
+        lastReviewed={lastReviewed}
+        reviewer={reviewer}
+        reviewerCredentials={reviewerCredentials}
+      />
       <References references={references} />
     </ToolShell>
   </Layout>

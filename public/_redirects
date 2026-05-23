@@ -1,0 +1,4 @@
+# Historical / misspelled slugs — preserve incoming SEO equity by 301'ing
+# to the real tool URL. Add new entries as we rename or consolidate tools.
+/color-picker       /color-converter       301
+/pdf-merger         /pdf-merge-split       301

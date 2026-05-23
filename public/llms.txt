@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of free developer tools that run entirely in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No data is sent to any server. No sign-up required for any tool.
+maratool.com is a growing collection of 219 free tools that run entirely in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No data is sent to any server. No sign-up required for any tool.
 
 ## Tools
 
@@ -22,15 +22,24 @@ maratool.com is a growing collection of free developer tools that run entirely i
 - [FPS Converter — Change Video Frame Rate](https://maratool.com/fps-converter): Change video frame rate (FPS) online — convert between 24, 30, 60 fps and more. Runs entirely in your browser.
 - [Video to GIF Converter — MP4 to GIF Online](https://maratool.com/video-to-gif): Convert MP4, WebM, and MOV videos to animated GIFs in your browser. Trim start/end, set FPS, adjust size — no upload to servers.
 
-### PDF
-- [Extract Text from PDF](https://maratool.com/pdf-to-text): Extract text from any PDF file instantly in your browser. No upload to servers — runs 100% locally.
-- [Convert PDF to Markdown](https://maratool.com/pdf-to-markdown): Convert PDF files to clean Markdown with heading detection. Ideal for LLM context and documentation.
-- [Merge and Split PDF Pages](https://maratool.com/pdf-merge-split): Merge multiple PDF files or extract specific pages into a new PDF. Runs entirely in your browser.
-- [PDF Page Imposer for Booklet Printing](https://maratool.com/print-imposer): Arrange PDF pages for booklet, saddle-stitch, or N-up printing. Runs entirely in your browser — no upload required.
-- [Zine Layout Generator — 8-Page Mini-Zine](https://maratool.com/zine-imposer): Create an 8-page mini-zine imposition layout from a single sheet of paper. Upload a PDF and download the print-ready layout.
-- [PDF Page Counter & Metadata Viewer](https://maratool.com/pdf-metadata): View PDF page count, file size, author, creation date, and other metadata instantly in your browser.
-- [PDF Accessibility Checker](https://maratool.com/pdf-accessibility-checker): Check if your PDF has accessibility tags, document title, language, and other a11y requirements.
-- [PDF Preflight Checker](https://maratool.com/pdf-preflight): Analyze PDF files for print-readiness issues — check page sizes, fonts, color spaces, and image resolution.
+### Developer
+- [Generate MD5 SHA-256 Hash Online](https://maratool.com/hash-generator): Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text input instantly.
+- [Decode JWT Token Online](https://maratool.com/jwt-decoder): Decode and inspect JWT tokens instantly — view header, payload, and signature.
+- [Bcrypt Generator](https://maratool.com/bcrypt-generator): Hash passwords with bcrypt in your browser. Choose cost factor, generate secure hashes, and verify passwords. No upload — runs locally.
+- [Password Generator](https://maratool.com/password-generator): Generate cryptographically secure passwords with custom length, character sets, and strength check. Fully offline — no data ever leaves your browser.
+- [Meta Tag Generator](https://maratool.com/meta-tag-generator): Generate HTML meta tags for SEO and social sharing. Covers title, description, canonical, Open Graph, and Twitter Card tags.
+- [Robots.txt Generator](https://maratool.com/robots-txt-generator): Generate a valid robots.txt file for your website. Control which bots can crawl your pages, block AI scrapers, and add your sitemap URL.
+- [Schema Markup Generator](https://maratool.com/schema-markup-generator): Generate JSON-LD structured data for Article, Product, FAQ, HowTo, LocalBusiness, and more. Copy and paste into your HTML head.
+- [API Key Generator](https://maratool.com/api-key-generator): Generate cryptographically secure API keys in hex, base64, or alphanumeric formats. Runs offline in your browser.
+- [Generate UUID v4 Online](https://maratool.com/uuid-generator): Generate one or many UUIDs instantly — supports v1, v4, and v5.
+- [Cron Expression Builder & Decoder](https://maratool.com/cron-expression): Build and decode cron expressions with a visual editor.
+- [Number Base Converter](https://maratool.com/base-converter): Convert numbers between decimal, hexadecimal, binary, and octal instantly. Supports integers and fractions.
+- [Scientific Calculator Online](https://maratool.com/scientific-calculator): Full-featured scientific calculator with trigonometry, logarithms, exponents, and expression history.
+- [Graph Calculator — Plot Functions](https://maratool.com/graph-calculator): Plot mathematical functions on an interactive graph. Supports multiple equations, zoom, pan, and real-time updates.
+- [Algebra Calculator — Solve & Simplify](https://maratool.com/algebra-calculator): Simplify expressions, factor polynomials, solve equations, and compute derivatives. Renders math with LaTeX.
+- [Percentage Calculator Online](https://maratool.com/percentage-calculator): Calculate percentages, increases, decreases, proportions, and find original values before percentage changes. 9 calculation types.
+- [Paper Sizes Reference](https://maratool.com/paper-sizes): Complete reference for paper sizes — A series, US Letter, Legal, Tabloid, and more. Search and filter by name or dimensions.
+- [Tailwind CSS Cheat Sheet](https://maratool.com/tailwind-cheatsheet): Quick reference for Tailwind CSS classes — spacing, typography, colors, flexbox, grid, and more. Search and copy any class.
 
 ### Text
 - [Compare Two Texts Online](https://maratool.com/diff-checker): Compare two blocks of text and highlight added, removed, and unchanged lines.
@@ -53,7 +62,7 @@ maratool.com is a growing collection of free developer tools that run entirely i
 - [GIF Background Remover](https://maratool.com/gif-bg-remover): Remove the background from any GIF and make it transparent. Pick a color, adjust tolerance, download — 100% in your browser.
 - [SVG Optimizer](https://maratool.com/svg-optimizer): Optimize and minify SVG files in the browser. Remove metadata, clean attributes, and reduce file size instantly.
 - [Favicon Generator](https://maratool.com/favicon-generator): Generate favicons in all sizes from a single image. Download as ICO, PNG, or a complete ZIP with all sizes.
-- [Image Format Converter — PNG, JPEG, WebP](https://maratool.com/image-converter): Convert images between PNG, JPEG, WebP, and AVIF formats. Resize, adjust quality, and download — all in your browser.
+- [Image Converter — HEIC to PNG, PNG to JPEG, WebP](https://maratool.com/image-converter): Convert HEIC to PNG, JPEG, or WebP — plus PNG, JPEG, WebP, and AVIF. Resize, adjust quality, and download — all in your browser.
 - [Split Image Into Grid Tiles](https://maratool.com/image-splitter): Split any image into a grid of tiles. Choose rows and columns, preview the result, and download all tiles as a ZIP.
 - [Placeholder Image Generator](https://maratool.com/placeholder-generator): Generate placeholder images with custom dimensions, colors, and text. Download as PNG — no sign-up required.
 - [Add Watermark to Image](https://maratool.com/watermarker): Add text or image watermarks to photos in your browser. Adjust opacity, position, size, and rotation. No upload to servers.
@@ -76,191 +85,170 @@ maratool.com is a growing collection of free developer tools that run entirely i
 - [Color Contrast Checker (WCAG)](https://maratool.com/contrast-checker): Check color contrast ratios for WCAG AA and AAA compliance. Test foreground and background colors for accessibility.
 - [Color Blindness Simulator](https://maratool.com/color-blindness-simulator): Preview how colors and images appear to people with color blindness — protanopia, deuteranopia, tritanopia, and more.
 
-### Developer
-- [Generate MD5 SHA-256 Hash Online](https://maratool.com/hash-generator): Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text input instantly.
-- [Decode JWT Token Online](https://maratool.com/jwt-decoder): Decode and inspect JWT tokens instantly — view header, payload, and signature.
-- [Bcrypt Generator](https://maratool.com/bcrypt-generator): Hash passwords with bcrypt in your browser. Choose cost factor, generate secure hashes, and verify passwords. No upload — runs locally.
-- [Password Generator](https://maratool.com/password-generator): Generate cryptographically secure passwords with custom length, character sets, and strength check. Fully offline — no data ever leaves your browser.
-- [Meta Tag Generator](https://maratool.com/meta-tag-generator): Generate HTML meta tags for SEO and social sharing. Covers title, description, canonical, Open Graph, and Twitter Card tags.
-- [Robots.txt Generator](https://maratool.com/robots-txt-generator): Generate a valid robots.txt file for your website. Control which bots can crawl your pages, block AI scrapers, and add your sitemap URL.
-- [Schema Markup Generator](https://maratool.com/schema-markup-generator): Generate JSON-LD structured data for Article, Product, FAQ, HowTo, LocalBusiness, and more. Copy and paste into your HTML head.
-- [API Key Generator](https://maratool.com/api-key-generator): Generate cryptographically secure API keys in hex, base64, or alphanumeric formats. Runs offline in your browser.
-- [Generate UUID v4 Online](https://maratool.com/uuid-generator): Generate one or many UUIDs instantly — supports v1, v4, and v5.
-- [Cron Expression Builder & Decoder](https://maratool.com/cron-expression): Build and decode cron expressions with a visual editor.
-- [Number Base Converter](https://maratool.com/base-converter): Convert numbers between decimal, hexadecimal, binary, and octal instantly. Supports integers and fractions.
-- [Scientific Calculator Online](https://maratool.com/scientific-calculator): Full-featured scientific calculator with trigonometry, logarithms, exponents, and expression history.
-- [Graph Calculator — Plot Functions](https://maratool.com/graph-calculator): Plot mathematical functions on an interactive graph. Supports multiple equations, zoom, pan, and real-time updates.
-- [Algebra Calculator — Solve & Simplify](https://maratool.com/algebra-calculator): Simplify expressions, factor polynomials, solve equations, and compute derivatives. Renders math with LaTeX.
-- [Paper Sizes Reference](https://maratool.com/paper-sizes): Complete reference for paper sizes — A series, US Letter, Legal, Tabloid, and more. Search and filter by name or dimensions.
-- [Tailwind CSS Cheat Sheet](https://maratool.com/tailwind-cheatsheet): Quick reference for Tailwind CSS classes — spacing, typography, colors, flexbox, grid, and more. Search and copy any class.
+### PDF
+- [Extract Text from PDF](https://maratool.com/pdf-to-text): Extract text from any PDF file instantly in your browser. No upload to servers — runs 100% locally.
+- [Convert PDF to Markdown](https://maratool.com/pdf-to-markdown): Convert PDF files to clean Markdown with heading detection. Ideal for LLM context and documentation.
+- [Merge and Split PDF Pages](https://maratool.com/pdf-merge-split): Merge multiple PDF files or extract specific pages into a new PDF. Runs entirely in your browser.
+- [PDF Page Imposer for Booklet Printing](https://maratool.com/print-imposer): Arrange PDF pages for booklet, saddle-stitch, or N-up printing. Runs entirely in your browser — no upload required.
+- [Zine Layout Generator — 8-Page Mini-Zine](https://maratool.com/zine-imposer): Create an 8-page mini-zine imposition layout from a single sheet of paper. Upload a PDF and download the print-ready layout.
+- [PDF Page Counter & Metadata Viewer](https://maratool.com/pdf-metadata): View PDF page count, file size, author, creation date, and other metadata instantly in your browser.
+- [PDF Accessibility Checker](https://maratool.com/pdf-accessibility-checker): Check if your PDF has accessibility tags, document title, language, and other a11y requirements.
+- [PDF Preflight Checker](https://maratool.com/pdf-preflight): Analyze PDF files for print-readiness issues — check page sizes, fonts, color spaces, and image resolution.
 
 ### Marketing
 - [Barcode Generator — Code128, EAN-13 & More](https://maratool.com/barcode-generator): Generate barcodes in Code 128, EAN-13, UPC-A, QR, Data Matrix, and more. Download as PNG or SVG.
 - [QR Code Generator](https://maratool.com/qr-code-generator): Generate styled QR codes with custom colors, shapes, and logos. Download as PNG or SVG.
 - [UTM Builder](https://maratool.com/utm-builder): Build UTM-tagged URLs for Google Analytics campaign tracking. Add source, medium, and campaign parameters to any link.
+
+### Mockup
 - [WhatsApp Chat Mockup Generator](https://maratool.com/whatsapp-chat-mockup): Create realistic WhatsApp chat screenshots. Edit messages inline, toggle dark mode, download as PNG.
-- [iMessage Chat Mockup Generator](https://maratool.com/imessage-chat-mockup): Create realistic iMessage chat screenshots with blue and gray bubbles, delivered/read receipts.
-- [Discord Chat Mockup Generator](https://maratool.com/discord-chat-mockup): Create realistic Discord chat screenshots with server-style messages, avatars, and timestamps.
-- [Instagram DM Mockup Generator](https://maratool.com/instagram-chat-mockup): Create realistic Instagram DM screenshots with purple gradient header and heart reactions.
-- [ChatGPT Conversation Mockup](https://maratool.com/chatgpt-mockup): Create realistic ChatGPT conversation screenshots with user prompts and AI responses.
-- [Instagram Post Mockup Generator](https://maratool.com/instagram-post-mockup): Create realistic Instagram post screenshots with profile, caption, likes, and comments.
-- [X (Twitter) Post Mockup Generator](https://maratool.com/x-post-mockup): Create realistic X/Twitter post screenshots with profile, tweet text, likes, and retweets.
-- [Gmail Email Mockup Generator](https://maratool.com/gmail-mockup): Create realistic Gmail email screenshots with from, to, subject, and body.
+- [iMessage Chat Mockup Generator](https://maratool.com/imessage-chat-mockup): Create realistic iMessage chat screenshots. Blue and gray bubbles, delivered/read receipts, download as PNG.
+- [Discord Chat Mockup Generator](https://maratool.com/discord-chat-mockup): Create realistic Discord chat screenshots. Server-style messages with avatars, timestamps, and reactions.
+- [Instagram DM Mockup Generator](https://maratool.com/instagram-chat-mockup): Create realistic Instagram DM screenshots. Purple gradient header, heart reactions, disappearing messages.
+- [ChatGPT Conversation Mockup](https://maratool.com/chatgpt-mockup): Create realistic ChatGPT conversation screenshots. User prompts and AI responses with the official ChatGPT UI.
+- [Instagram Post Mockup Generator](https://maratool.com/instagram-post-mockup): Create realistic Instagram post screenshots. Profile, caption, likes, comments, and image placeholders.
+- [X (Twitter) Post Mockup Generator](https://maratool.com/x-post-mockup): Create realistic X/Twitter post screenshots. Profile, tweet text, likes, retweets, and reply counts.
+- [Gmail Email Mockup Generator](https://maratool.com/gmail-mockup): Create realistic Gmail email screenshots. From, to, subject, body with the official Gmail UI.
 
 ### Health
 - [BMI Calculator](https://maratool.com/bmi-calculator): Calculate Body Mass Index (BMI) and body surface area from weight and height. Includes BMI classification.
 - [Mean Arterial Pressure (MAP) Calculator](https://maratool.com/mean-arterial-pressure): Calculate mean arterial pressure (MAP) from systolic and diastolic blood pressure.
 - [Ideal Body Weight Calculator](https://maratool.com/ideal-body-weight): Calculate ideal body weight by height using the Devine, Robinson, Miller, and Hamwi formulas.
-- [Cockcroft-Gault Creatinine Clearance Calculator](https://maratool.com/cockcroft-gault): Estimate creatinine clearance using the Cockcroft-Gault formula.
+- [Corrected QT Interval (QTc) Calculator](https://maratool.com/corrected-qt-interval): Calculate corrected QT (QTc) using Bazett, Fridericia, Framingham, and Hodges formulas.
+- [Friedewald LDL Cholesterol Calculator](https://maratool.com/friedewald-ldl): Calculate LDL cholesterol using the Friedewald formula from total cholesterol, HDL, and triglycerides.
+- [Parkland Burn Formula Calculator](https://maratool.com/parkland-burn-formula): Calculate fluid resuscitation volume for burn patients using the Parkland formula.
+- [Estimated Average Glucose (eAG) from HbA1c](https://maratool.com/eag-from-hba1c): Convert HbA1c percentage to estimated average glucose (eAG) in mg/dL and mmol/L.
+- [CAM-ICU Delirium Assessment](https://maratool.com/cam-icu-delirium): Confusion Assessment Method for the ICU (CAM-ICU) for delirium screening in critically ill patients.
+- [GINA Asthma Control Classification (2025)](https://maratool.com/gina-asthma-control): Classify asthma control using the GINA 2025 criteria (well-controlled, partly controlled, uncontrolled).
+- [CAGE Alcohol Screening Test](https://maratool.com/cage-alcohol-screening): CAGE questionnaire for alcohol use disorder screening (4 questions).
+- [Serum-Ascites Albumin Gradient (SAAG)](https://maratool.com/saag-albumin-gradient): Calculate SAAG to differentiate portal hypertensive from non-portal hypertensive ascites.
+- [Transferrin Saturation (TSAT) Calculator](https://maratool.com/transferrin-saturation): Calculate transferrin saturation index from serum iron and total iron-binding capacity (TIBC).
+- [Mini-Mental State Examination (MMSE)](https://maratool.com/mmse-mini-mental): Score cognitive function with the 30-point Mini-Mental State Examination.
+- [Lille Model for Alcoholic Hepatitis](https://maratool.com/lille-model): Predict 6-month mortality in alcoholic hepatitis patients on steroid therapy using the Lille model.
+- [Covid-19 Severity Protocol](https://maratool.com/covid-19-severity): Stratify Covid-19 severity by clinical and laboratory criteria.
+- [Fagerström Test for Nicotine Dependence](https://maratool.com/fagerstrom-nicotine): Assess nicotine dependence severity with the Fagerström Test (6 questions).
+- [Estimated Blood Volume Calculator](https://maratool.com/estimated-blood-volume): Estimate total blood volume by weight, height, and sex (Nadler formula).
 - [CKD-EPI Creatinine Clearance Calculator](https://maratool.com/ckd-epi-creatinine): Estimate glomerular filtration rate (eGFR) using the 2021 CKD-EPI creatinine equation.
-- [Gestational Age by LMP Calculator](https://maratool.com/gestational-age-lmp): Calculate gestational age and estimated due date from last menstrual period (Naegele rule).
+- [Cockcroft-Gault Creatinine Clearance Calculator](https://maratool.com/cockcroft-gault): Estimate creatinine clearance using the Cockcroft-Gault formula.
 - [MDRD GFR Calculator](https://maratool.com/mdrd-gfr): Estimate glomerular filtration rate using the 4-variable MDRD equation.
 - [Fractional Excretion of Sodium (FENa)](https://maratool.com/fractional-excretion-sodium): Differentiate prerenal from intrinsic acute kidney injury using FENa.
 - [Fractional Excretion of Urea (FEUrea)](https://maratool.com/fractional-excretion-urea): FEUrea for AKI workup in patients on diuretics where FENa is unreliable.
 - [Urine Protein-to-Creatinine Ratio (UPCR)](https://maratool.com/urine-protein-creatinine-ratio): Calculate UPCR from a single urine sample to estimate 24-hour protein excretion.
 - [Bicarbonate Deficit Calculator](https://maratool.com/bicarbonate-deficit): Calculate bicarbonate replacement dose for severe metabolic acidosis.
-- [Corrected QT Interval (QTc) Calculator](https://maratool.com/corrected-qt-interval): Calculate corrected QT (QTc) using Bazett, Fridericia, Framingham, and Hodges formulas.
-- [Friedewald LDL Cholesterol Calculator](https://maratool.com/friedewald-ldl): Calculate LDL cholesterol using the Friedewald formula from total cholesterol, HDL, and triglycerides.
-- [Parkland Burn Formula Calculator](https://maratool.com/parkland-burn-formula): Calculate fluid resuscitation volume for burn patients using the Parkland formula.
-- [Estimated Average Glucose (eAG) from HbA1c](https://maratool.com/eag-from-hba1c): Convert HbA1c percentage to estimated average glucose (eAG) in mg/dL and mmol/L.
-- [Serum-Ascites Albumin Gradient (SAAG)](https://maratool.com/saag-albumin-gradient): Calculate SAAG to differentiate portal hypertensive from non-portal hypertensive ascites.
-- [Transferrin Saturation (TSAT) Calculator](https://maratool.com/transferrin-saturation): Calculate transferrin saturation index from serum iron and total iron-binding capacity (TIBC).
-- [Estimated Blood Volume Calculator](https://maratool.com/estimated-blood-volume): Estimate total blood volume by weight, height, and sex (Nadler formula).
+- [Gestational Age by LMP Calculator](https://maratool.com/gestational-age-lmp): Calculate gestational age and estimated due date from last menstrual period (Naegele rule).
+- [Gestational Age by Ultrasound Calculator](https://maratool.com/gestational-age-ultrasound): Calculate gestational age and due date from ultrasound biometry.
 - [APGAR Score Calculator](https://maratool.com/apgar-score): Calculate the APGAR score at 1 and 5 minutes for newborn assessment.
+- [Pediatric Glasgow Coma Scale](https://maratool.com/pediatric-glasgow): Pediatric-adapted Glasgow Coma Scale for infants and children.
 - [Pediatric Endotracheal Tube Size Calculator](https://maratool.com/pediatric-ett-size): Estimate uncuffed and cuffed ETT size and depth by age in children.
 - [Pediatric Infusion Calculator (mcg/kg/min)](https://maratool.com/pediatric-infusion-mcg-kg-min): Pediatric drug infusion rate calculator in mcg/kg/min.
 - [Pediatric Infusion Calculator (mg/kg/hour)](https://maratool.com/pediatric-infusion-mg-kg-hour): Pediatric drug infusion rate calculator in mg/kg/hour.
-- [Gestational Age by Ultrasound Calculator](https://maratool.com/gestational-age-ultrasound): Calculate gestational age and due date from ultrasound biometry.
+- [Finnegan Neonatal Abstinence Score](https://maratool.com/finnegan-score): Score severity of neonatal abstinence syndrome using the Finnegan scale.
+- [Raimondi Coma Scale (Pediatric)](https://maratool.com/raimondi-coma-scale): Pediatric coma scale by Raimondi for assessing consciousness in infants and children.
+- [Rodwell Score for Neonatal Sepsis](https://maratool.com/rodwell-neonatal-sepsis): Score for screening neonatal sepsis using hematologic criteria.
+- [Capurro Gestational Age (Somatic)](https://maratool.com/capurro-somatic): Estimate gestational age in newborns using somatic features (Capurro method).
+- [Capurro Gestational Age (Neurological)](https://maratool.com/capurro-neurological): Estimate gestational age in newborns using neurological features (Capurro method).
 - [Serum Osmolality Calculator](https://maratool.com/serum-osmolality): Calculate serum osmolality from sodium, glucose, and BUN.
-- [Calcium Correction for Albumin](https://maratool.com/calcium-correction-albumin): Correct total serum calcium for hypoalbuminemia (Payne formula).
-- [Sodium Correction for Hyperglycemia](https://maratool.com/sodium-correction-hyperglycemia): Correct serum sodium for hyperglycemia (Katz).
-- [Iron Deficit (Ganzoni)](https://maratool.com/iron-deficit-ganzoni): Total body iron deficit for IV iron replacement.
-- [Ideal PaO2 by Age](https://maratool.com/ideal-pao2-by-age): Expected normal PaO2 by patient age (Sorbini).
-- [PaO2/FiO2 Ratio](https://maratool.com/pao2-fio2-ratio): P/F ratio with ARDS Berlin classification.
-- [SpO2/FiO2 Ratio](https://maratool.com/spo2-fio2-ratio): Non-invasive proxy for P/F ratio.
-- [Drops/min to mL/h Converter](https://maratool.com/drops-to-ml-per-hour): Convert IV drip rate between gtt/min and mL/h.
-- [mcg/kg/min to mL/h Converter](https://maratool.com/mcg-kg-min-to-ml-hour): Convert vasoactive drug dose to infusion rate.
-- [Opioid Conversion Calculator](https://maratool.com/opioid-conversion): Convert between opioid doses (MME).
-- [Benzodiazepine Conversion](https://maratool.com/benzodiazepine-conversion): Switch or taper benzodiazepines (Ashton).
-- [Corticosteroid Conversion](https://maratool.com/corticosteroid-conversion): Convert between corticosteroids (prednisone equivalent).
-- [RSI Dose Calculator](https://maratool.com/rsi-doses): Weight-based RSI induction + paralytic doses.
-- [Phenytoin Level Correction (Sheiner-Tozer)](https://maratool.com/phenytoin-level-correction): Correct phenytoin for albumin and renal function.
-
-### Health / Scale
-- [FOUR Score Coma Scale](https://maratool.com/four-coma-scale): Full Outline of UnResponsiveness coma score (0–16).
-- [Fisher Scale for Subarachnoid Hemorrhage](https://maratool.com/fisher-scale): Modified Fisher scale for SAH vasospasm risk.
-- [Glasgow Coma Scale with Pupils (GCS-P)](https://maratool.com/glasgow-coma-pupil): GCS adjusted for pupil reactivity (1–15).
-- [Lawton IADL Scale](https://maratool.com/lawton-iadl): Instrumental activities of daily living (0–8).
-- [Ramsay Sedation Scale](https://maratool.com/ramsay-sedation): ICU sedation level 1–6.
-- [RASS Scale](https://maratool.com/rass-scale): Richmond Agitation-Sedation Scale (−5 to +4).
-- [SAS Sedation Scale (Riker)](https://maratool.com/sas-scale): Riker Sedation-Agitation Scale (1–7).
-- [CCS Angina Class](https://maratool.com/ccs-angina-grade): Canadian Cardiovascular Society angina I–IV.
-- [Aldrete Recovery Score](https://maratool.com/aldrete-recovery): Post-anesthesia recovery (0–10).
-
-### Health / Prognosis
-- [ECOG Performance Status](https://maratool.com/ecog-performance): Oncology performance status 0–5.
-- [Karnofsky Performance Scale](https://maratool.com/karnofsky-performance): KPS 0–100.
-- [Palliative Performance Scale (PPS)](https://maratool.com/palliative-performance-scale): Hospice functional assessment 0–100.
-- [Tokuhashi Score](https://maratool.com/tokuhashi-score): Spinal metastasis prognosis 0–15.
-- [Tomita Score](https://maratool.com/tomita-score): Surgical strategy for spinal metastases.
-- [Palliative Prognostic Score (PaP)](https://maratool.com/pap-palliative-prognostic): 30-day survival in advanced cancer.
-- [Palliative Prognostic Index (PPI)](https://maratool.com/ppi-palliative-prognostic): Clinical-only survival index.
-
-### Health / Pediatric (additions)
-- [Capurro Somatic GA](https://maratool.com/capurro-somatic): Newborn gestational age from 5 physical features.
-- [Capurro Neurological GA](https://maratool.com/capurro-neurological): Newborn GA combining somatic + neurological features.
-- [Finnegan NAS Score](https://maratool.com/finnegan-score): Neonatal abstinence syndrome severity.
-- [Rodwell Score (Neonatal Sepsis)](https://maratool.com/rodwell-neonatal-sepsis): Hematologic sepsis screen.
-- [Raimondi Pediatric Coma Scale](https://maratool.com/raimondi-coma-scale): Pediatric coma scale (3–11).
-- [Pediatric Glasgow Coma Scale](https://maratool.com/pediatric-glasgow): Age-adapted GCS (3–15).
-
-### Health / Score (clinical scores)
-- [qSOFA](https://maratool.com/qsofa): Quick Sepsis-Related Organ Failure Assessment.
-- [CHADS2 Score](https://maratool.com/chads2-score): Stroke risk in non-valvular AF.
-- [CHA2DS2-VASc Score](https://maratool.com/cha2ds2-vasc): Stroke risk in AF (preferred over CHADS2).
-- [HEART Score](https://maratool.com/heart-score): Chest pain 6-week MACE risk.
-- [CURB-65](https://maratool.com/curb-65): Community-acquired pneumonia severity.
-- [Modified Centor Score](https://maratool.com/centor-modified): Streptococcal pharyngitis probability.
-- [Bishop Score](https://maratool.com/bishop-score): Cervical ripening and labor induction success.
-- [Padua Prediction Score](https://maratool.com/padua-prediction): VTE risk in hospitalized medical patients.
-- [Wells Score for PE](https://maratool.com/wells-pe): Pulmonary embolism pre-test probability.
-- [Wells Score for DVT](https://maratool.com/wells-dvt): DVT pre-test probability.
-- [HAS-BLED Score](https://maratool.com/has-bled): Bleeding risk on AF anticoagulation.
-- [NEWS 2](https://maratool.com/news-2): National Early Warning Score 2.
-- [NIHSS Stroke Scale](https://maratool.com/nihss-stroke): NIH Stroke Scale 0–42.
-- [MELD & MELD-Na](https://maratool.com/meld-meldna): Cirrhosis 3-month mortality and transplant priority.
-- [Pack-Year Smoking](https://maratool.com/pack-year): Cumulative cigarette exposure.
-
-### Health / Score (clinical scores — additions)
-
-- [ABCD2 Score for TIA](https://maratool.com/abcd2-tia): 2-day stroke risk after TIA.
-- [Alvarado Score](https://maratool.com/alvarado-appendicitis): Probability of acute appendicitis.
-- [Child-Pugh Score](https://maratool.com/child-pugh): Cirrhosis severity Class A/B/C.
-- [Ranson Criteria](https://maratool.com/ranson-pancreatitis): Acute pancreatitis mortality.
-- [BISAP Score](https://maratool.com/bisap-score): Pancreatitis mortality within 24 h.
-- [AIMS65 Score](https://maratool.com/aims65-score): Upper GI bleed mortality.
-- [San Francisco Syncope Rule](https://maratool.com/san-francisco-syncope): 7-day serious-outcome risk.
-- [PERC Rule](https://maratool.com/perc-rule): Pulmonary embolism rule-out criteria.
-- [SOFA Score](https://maratool.com/sofa-score): Sequential Organ Failure Assessment.
-- [NYHA Classification](https://maratool.com/nyha-classification): Heart-failure functional class.
-- [TIMI Score (UA/NSTEMI)](https://maratool.com/timi-nstemi-ua): 14-day ischemic risk.
-- [TIMI Score (STEMI)](https://maratool.com/timi-stemi): 30-day STEMI mortality.
-- [Rockall Score](https://maratool.com/rockall-score): Upper GI bleed rebleed/mortality.
-- [Khorana Score](https://maratool.com/khorana-vte): Chemotherapy-associated VTE risk.
-- [Caprini VTE Risk](https://maratool.com/caprini-dvt-risk): VTE risk and prophylaxis guidance.
-- [Lee RCRI](https://maratool.com/lee-rcri): Revised Cardiac Risk Index.
-- [MASCC Risk Index](https://maratool.com/mascc-febrile-neutropenia): Febrile neutropenia low-risk.
-- [Harvey-Bradshaw Index](https://maratool.com/harvey-bradshaw): Crohn's disease activity.
-- [Mayo Score](https://maratool.com/mayo-uc): Ulcerative colitis activity.
-- [UCEIS](https://maratool.com/uceis-uc): UC endoscopic severity index.
-- [Simplified PESI](https://maratool.com/pesi-simplified): 30-day PE mortality (sPESI).
-- [Candida Score](https://maratool.com/candida-score): Invasive candidiasis risk in ICU.
-- [GELF Criteria](https://maratool.com/gelf-criteria): Follicular lymphoma tumor burden.
-- [SIC Score](https://maratool.com/sic-coagulopathy): Sepsis-induced coagulopathy.
-- [Goldman Cardiac Risk Index](https://maratool.com/goldman-cardiac-risk): Perioperative cardiac risk.
-- [Detsky Cardiac Risk Index](https://maratool.com/detsky-cardiac-risk): Preoperative cardiac risk.
-- [RoPE Score](https://maratool.com/rope-paradoxical-embolism): PFO-attributable cryptogenic stroke.
-- [ASPECTS Score](https://maratool.com/aspects-score): Early ischemic change on stroke CT.
-- [FIB-4 Index](https://maratool.com/fib-4): Non-invasive liver fibrosis estimate.
-- [Maddrey Discriminant Function](https://maratool.com/maddrey-discriminant): Alcoholic hepatitis severity.
-- [NAFLD Fibrosis Score](https://maratool.com/nafld-fibrosis): Advanced fibrosis in fatty liver.
-- [DAS28-ESR](https://maratool.com/das28-esr): Rheumatoid arthritis activity (ESR).
-- [DAS28-CRP](https://maratool.com/das28-crp): Rheumatoid arthritis activity (CRP).
-- [Lille Model](https://maratool.com/lille-model): Steroid response in alcoholic hepatitis.
-- [Injury Severity Score](https://maratool.com/iss-injury-severity): Anatomical trauma severity.
-- [PESI Score](https://maratool.com/pesi-pe-severity): Pulmonary embolism severity index.
-- [DKA Severity](https://maratool.com/dka-severity): Diabetic ketoacidosis grading.
-- [R-ISS](https://maratool.com/r-iss-myeloma): Multiple myeloma staging.
-- [CDAI](https://maratool.com/cdai-crohns): Crohn's Disease Activity Index.
-- [CAGE Questionnaire](https://maratool.com/cage-alcohol-screening): Alcohol use disorder screen.
-- [Fagerström Test](https://maratool.com/fagerstrom-nicotine): Nicotine dependence score.
-- [MMSE](https://maratool.com/mmse-mini-mental): Mini-Mental State Examination.
-- [GINA Asthma Control](https://maratool.com/gina-asthma-control): Asthma symptom control.
-- [COVID-19 Severity](https://maratool.com/covid-19-severity): SARS-CoV-2 clinical spectrum.
-- [Pediatric Dehydration](https://maratool.com/pediatric-dehydration): Clinical Dehydration Scale.
-- [CRUSADE Bleeding Score](https://maratool.com/crusade-bleeding): NSTE-ACS major bleeding risk.
-- [MH Clinical Grading Scale](https://maratool.com/malignant-hyperthermia): Malignant hyperthermia likelihood.
-- [CAM-ICU](https://maratool.com/cam-icu-delirium): ICU delirium assessment.
-- [CPIS](https://maratool.com/cpis-score): Clinical Pulmonary Infection Score (VAP).
-- [APACHE II](https://maratool.com/apache-ii): ICU severity and predicted mortality.
-- [GRACE Score](https://maratool.com/grace-acs): ACS in-hospital/6-month mortality.
-- [GWTG-HF Risk](https://maratool.com/gwtg-hf-risk): Acute heart-failure in-hospital mortality.
-- [TASH Score](https://maratool.com/tash-massive-transfusion): Massive transfusion probability.
-- [SCORAD Index](https://maratool.com/scorad-atopic-dermatitis): Atopic dermatitis severity.
-- [PASI Score](https://maratool.com/pasi-psoriasis): Psoriasis Area and Severity Index.
-- [PSI / PORT Score](https://maratool.com/psi-port): Pneumonia Severity Index class I–V.
-- [Framingham Risk Score](https://maratool.com/framingham-risk): 10-year hard CHD risk (ATP III).
-
-## Site pages
-
-- [Blog](https://maratool.com/blog): Release notes and tool updates.
-- [Contact](https://maratool.com/contact): maratool@marcell.com.br
-- [About](https://maratool.com/about): About maratool and its creator.
+- [Calcium Correction for Albumin](https://maratool.com/calcium-correction-albumin): Correct total serum calcium for hypoalbuminemia.
+- [Sodium Correction for Hyperglycemia](https://maratool.com/sodium-correction-hyperglycemia): Correct serum sodium for hyperglycemia (Katz / Hillier formulas).
+- [Total Iron Deficit Calculator (Ganzoni)](https://maratool.com/iron-deficit-ganzoni): Calculate total body iron deficit for IV iron replacement using the Ganzoni formula.
+- [Benzodiazepine Equivalence Calculator](https://maratool.com/benzodiazepine-conversion): Convert between benzodiazepine doses (diazepam, lorazepam, alprazolam, clonazepam, etc.).
+- [Corticosteroid Conversion Calculator](https://maratool.com/corticosteroid-conversion): Convert between corticosteroid doses (prednisone, dexamethasone, hydrocortisone, etc.).
+- [Opioid Conversion Calculator](https://maratool.com/opioid-conversion): Convert between opioid doses to morphine milligram equivalents (MME).
+- [Rapid Sequence Intubation (RSI) Dose Calculator](https://maratool.com/rsi-doses): Calculate induction and paralytic doses for rapid sequence intubation by weight.
+- [Phenytoin Total Serum Level Calculator](https://maratool.com/phenytoin-level-correction): Correct total phenytoin level for albumin and renal function (Sheiner-Tozer).
+- [Drops/min to mL/hour Converter](https://maratool.com/drops-to-ml-per-hour): Convert IV drip rate from drops per minute (gtt/min) to mL/hour and vice versa.
+- [mcg/kg/min to mL/hour Converter](https://maratool.com/mcg-kg-min-to-ml-hour): Convert drug infusion rate between mcg/kg/min and mL/hour for vasoactive drugs.
+- [Ideal PaO2 by Age Calculator](https://maratool.com/ideal-pao2-by-age): Estimate the expected normal PaO2 based on patient age.
+- [PaO2/FiO2 Ratio Calculator (ARDS)](https://maratool.com/pao2-fio2-ratio): Calculate the PaO2/FiO2 ratio (P/F ratio) and classify ARDS severity by Berlin criteria.
+- [SpO2/FiO2 Ratio Calculator](https://maratool.com/spo2-fio2-ratio): Calculate SpO2/FiO2 ratio and equivalence to PaO2/FiO2 for non-invasive ARDS assessment.
+- [FOUR Score Coma Scale](https://maratool.com/four-coma-scale): Full Outline of UnResponsiveness (FOUR) score for coma assessment.
+- [Fisher Scale for Subarachnoid Hemorrhage](https://maratool.com/fisher-scale): Grade subarachnoid hemorrhage by CT scan appearance using the Fisher scale.
+- [Glasgow Coma Scale with Pupil Response (GCS-P)](https://maratool.com/glasgow-coma-pupil): Glasgow Coma Scale with pupil reactivity score (GCS-P).
+- [Lawton IADL Scale](https://maratool.com/lawton-iadl): Lawton Instrumental Activities of Daily Living scale for functional assessment in elderly.
+- [Ramsay Sedation Scale](https://maratool.com/ramsay-sedation): Ramsay scale for level of sedation assessment (1–6).
+- [RASS Scale (Richmond Agitation-Sedation)](https://maratool.com/rass-scale): Richmond Agitation-Sedation Scale (RASS) for ICU sedation assessment.
+- [SAS Sedation Scale (Riker)](https://maratool.com/sas-scale): Riker Sedation-Agitation Scale (SAS) for ICU sedation.
+- [CCS Angina Grading Scale](https://maratool.com/ccs-angina-grade): Canadian Cardiovascular Society (CCS) functional classification of angina pectoris.
+- [Aldrete Recovery Score](https://maratool.com/aldrete-recovery): Aldrete and Kroulik post-anesthesia recovery score.
+- [ECOG Performance Status](https://maratool.com/ecog-performance): Eastern Cooperative Oncology Group performance status scale (0–5).
+- [Karnofsky Performance Scale (KPS)](https://maratool.com/karnofsky-performance): Karnofsky Performance Status scale (0–100) for assessing oncology patient function.
+- [Palliative Performance Scale (PPS)](https://maratool.com/palliative-performance-scale): Palliative Performance Scale (PPS) for hospice and palliative care prognosis.
+- [Tokuhashi Score for Spinal Metastasis](https://maratool.com/tokuhashi-score): Revised Tokuhashi score for prognosis in metastatic spinal disease.
+- [Tomita Score for Spinal Metastasis](https://maratool.com/tomita-score): Tomita score for surgical strategy in spinal metastasis.
+- [Palliative Prognostic Score (PaP)](https://maratool.com/pap-palliative-prognostic): PaP score for 30-day survival probability in palliative cancer patients.
+- [Palliative Prognostic Index (PPI)](https://maratool.com/ppi-palliative-prognostic): Palliative Prognostic Index for predicting survival in terminal cancer patients.
+- [Pack-Year Smoking Calculator](https://maratool.com/pack-year): Calculate cumulative cigarette smoking exposure in pack-years.
+- [Candida Score](https://maratool.com/candida-score): Candida Score for identifying ICU patients who may benefit from antifungal therapy.
+- [CHADS2 Score](https://maratool.com/chads2-score): CHADS2 score for stroke risk in non-valvular atrial fibrillation.
+- [NYHA Functional Classification](https://maratool.com/nyha-classification): New York Heart Association functional classification of heart failure.
+- [GELF Criteria for Follicular Lymphoma](https://maratool.com/gelf-criteria): GELF criteria for high tumor burden in follicular lymphoma.
+- [DAS-28 CRP (Rheumatoid Arthritis)](https://maratool.com/das28-crp): Disease Activity Score (28 joints) with CRP for rheumatoid arthritis activity.
+- [DAS-28 ESR (Rheumatoid Arthritis)](https://maratool.com/das28-esr): Disease Activity Score (28 joints) with ESR for rheumatoid arthritis activity.
+- [ABCD2 Score for TIA](https://maratool.com/abcd2-tia): ABCD2 score for stroke risk after transient ischemic attack.
+- [AIMS65 Score (Upper GI Bleed)](https://maratool.com/aims65-score): AIMS65 score for predicting in-hospital mortality in upper GI bleeding.
+- [APACHE II Score](https://maratool.com/apache-ii): Acute Physiology and Chronic Health Evaluation II (APACHE II) for ICU mortality.
+- [BISAP Score (Pancreatitis Mortality)](https://maratool.com/bisap-score): Bedside Index for Severity in Acute Pancreatitis (BISAP) for mortality risk.
+- [Clinical Pulmonary Infection Score (CPIS)](https://maratool.com/cpis-score): CPIS for diagnosis of ventilator-associated pneumonia.
+- [CRUSADE Bleeding Score](https://maratool.com/crusade-bleeding): CRUSADE score for in-hospital major bleeding risk after NSTEMI.
+- [CURB-65 Pneumonia Severity Score](https://maratool.com/curb-65): CURB-65 score for community-acquired pneumonia severity and mortality risk.
+- [Alvarado Score for Appendicitis](https://maratool.com/alvarado-appendicitis): Alvarado score for clinical probability of acute appendicitis.
+- [Caprini DVT Risk Score](https://maratool.com/caprini-dvt-risk): Caprini Risk Assessment for venous thromboembolism in surgical patients.
+- [Modified Centor Score (Strep Pharyngitis)](https://maratool.com/centor-modified): Modified Centor score for streptococcal pharyngitis probability.
+- [CHA2DS2-VASc Score](https://maratool.com/cha2ds2-vasc): CHA2DS2-VASc score for stroke risk in non-valvular atrial fibrillation.
+- [Child-Pugh Score (Cirrhosis)](https://maratool.com/child-pugh): Child-Pugh score for prognosis of chronic liver disease and cirrhosis.
+- [NAFLD Fibrosis Score](https://maratool.com/nafld-fibrosis): Non-alcoholic fatty liver disease (NAFLD) fibrosis score.
+- [Framingham Risk Score](https://maratool.com/framingham-risk): 10-year cardiovascular disease risk by Framingham equations.
+- [Khorana Score (VTE Risk in Cancer)](https://maratool.com/khorana-vte): Khorana score for predicting chemotherapy-associated VTE risk.
+- [Lee Revised Cardiac Risk Index (RCRI)](https://maratool.com/lee-rcri): Lee RCRI for preoperative cardiac risk in non-cardiac surgery.
+- [Maddrey Discriminant Function](https://maratool.com/maddrey-discriminant): Maddrey discriminant function for severity of alcoholic hepatitis.
+- [Mayo Score for Ulcerative Colitis](https://maratool.com/mayo-uc): Mayo Score for assessing ulcerative colitis disease activity.
+- [Padua Prediction Score](https://maratool.com/padua-prediction): Padua score for VTE risk in hospitalized medical patients.
+- [Ranson Criteria for Acute Pancreatitis](https://maratool.com/ranson-pancreatitis): Ranson Criteria for mortality in acute pancreatitis (admission and 48h).
+- [RoPE Score (Paradoxical Embolism)](https://maratool.com/rope-paradoxical-embolism): Risk of Paradoxical Embolism (RoPE) score for cryptogenic stroke with PFO.
+- [Rockall Score (Upper GI Bleed)](https://maratool.com/rockall-score): Rockall score for mortality risk in upper gastrointestinal bleeding.
+- [San Francisco Syncope Rule](https://maratool.com/san-francisco-syncope): San Francisco Syncope Rule for predicting serious outcomes after syncope.
+- [ASPECTS Score (Stroke CT)](https://maratool.com/aspects-score): Alberta Stroke Program Early CT Score (ASPECTS) for early ischemic changes in stroke.
+- [Wells Score for Pulmonary Embolism](https://maratool.com/wells-pe): Wells criteria for clinical probability of pulmonary embolism.
+- [Wells Score for DVT](https://maratool.com/wells-dvt): Wells criteria for clinical probability of deep vein thrombosis.
+- [FIB-4 Index](https://maratool.com/fib-4): FIB-4 index for non-invasive liver fibrosis assessment.
+- [HAS-BLED Score](https://maratool.com/has-bled): HAS-BLED bleeding risk score for patients on anticoagulation for AF.
+- [HEART Score](https://maratool.com/heart-score): HEART Score for major adverse cardiac events in chest pain patients.
+- [MELD & MELD-Na Score](https://maratool.com/meld-meldna): Model for End-Stage Liver Disease (MELD) and MELD-Na scores for cirrhosis prognosis.
+- [NEWS 2 Score](https://maratool.com/news-2): National Early Warning Score 2 (NEWS 2) for clinical deterioration detection.
+- [NIHSS Stroke Scale](https://maratool.com/nihss-stroke): National Institutes of Health Stroke Scale (NIHSS) for stroke severity.
+- [Pneumonia Severity Index (PSI/PORT)](https://maratool.com/psi-port): Pneumonia Severity Index (PSI/PORT) for mortality risk in community-acquired pneumonia.
+- [qSOFA Score](https://maratool.com/qsofa): Quick Sepsis-Related Organ Failure Assessment (qSOFA) for sepsis screening.
+- [Sepsis-Induced Coagulopathy (SIC) Score](https://maratool.com/sic-coagulopathy): SIC score for diagnosing sepsis-induced coagulopathy.
+- [SOFA Score](https://maratool.com/sofa-score): Sequential Organ Failure Assessment (SOFA) score for ICU organ dysfunction.
+- [TIMI Risk Score (STEMI)](https://maratool.com/timi-stemi): TIMI Risk Score for ST-elevation myocardial infarction (STEMI).
+- [TIMI Risk Score (NSTEMI / UA)](https://maratool.com/timi-nstemi-ua): TIMI Risk Score for non-ST-elevation MI and unstable angina.
+- [GRACE Score (ACS)](https://maratool.com/grace-acs): GRACE score for in-hospital and 6-month mortality in acute coronary syndrome.
+- [DKA Severity Calculator](https://maratool.com/dka-severity): Classify diabetic ketoacidosis severity (mild, moderate, severe).
+- [SCORAD Index (Atopic Dermatitis)](https://maratool.com/scorad-atopic-dermatitis): SCORAD Index for severity of atopic dermatitis.
+- [PASI Score (Psoriasis Severity)](https://maratool.com/pasi-psoriasis): Psoriasis Area and Severity Index (PASI) for psoriasis severity assessment.
+- [PESI Score (Pulmonary Embolism Severity)](https://maratool.com/pesi-pe-severity): Pulmonary Embolism Severity Index (PESI) for 30-day mortality.
+- [Pediatric Dehydration Severity](https://maratool.com/pediatric-dehydration): Severity assessment for dehydration in children to guide rehydration therapy.
+- [Malignant Hyperthermia Score](https://maratool.com/malignant-hyperthermia): Clinical Grading Scale for likelihood of malignant hyperthermia.
+- [CDAI (Crohn's Disease Activity Index)](https://maratool.com/cdai-crohns): Crohn's Disease Activity Index (CDAI) for assessing Crohn's disease activity.
+- [Bishop Score (Cervical Ripening)](https://maratool.com/bishop-score): Bishop score for predicting successful labor induction.
+- [UCEIS (Ulcerative Colitis Endoscopic Index)](https://maratool.com/uceis-uc): Ulcerative Colitis Endoscopic Index of Severity (UCEIS).
+- [Detsky Cardiac Risk Index](https://maratool.com/detsky-cardiac-risk): Detsky modified multifactorial cardiac risk index for non-cardiac surgery.
+- [Goldman Cardiac Risk Index](https://maratool.com/goldman-cardiac-risk): Goldman multifactorial cardiac risk index for non-cardiac surgery.
+- [Harvey-Bradshaw Index (Crohn's)](https://maratool.com/harvey-bradshaw): Harvey-Bradshaw Index for Crohn's disease activity (simplified CDAI).
+- [Injury Severity Score (ISS)](https://maratool.com/iss-injury-severity): Injury Severity Score (ISS) for trauma anatomical severity.
+- [Simplified PESI Score](https://maratool.com/pesi-simplified): Simplified PESI (sPESI) for pulmonary embolism 30-day mortality.
+- [R-ISS Score (Multiple Myeloma)](https://maratool.com/r-iss-myeloma): Revised International Staging System for multiple myeloma prognosis.
+- [PERC Rule (Pulmonary Embolism)](https://maratool.com/perc-rule): Pulmonary Embolism Rule-out Criteria (PERC) to safely exclude PE.
+- [GWTG-HF Risk Score](https://maratool.com/gwtg-hf-risk): Get With The Guidelines Heart Failure (GWTG-HF) in-hospital mortality risk.
+- [MASCC Risk Index (Febrile Neutropenia)](https://maratool.com/mascc-febrile-neutropenia): MASCC risk index for low-risk febrile neutropenia in cancer patients.
+- [TASH Score (Massive Transfusion)](https://maratool.com/tash-massive-transfusion): Trauma Associated Severe Hemorrhage (TASH) score for massive transfusion prediction.
 
 ## About
 
-maratool is built and maintained by Marcell Almeida (https://marcell.com.br). Domain registered March 2026. Tools are added regularly based on search volume and developer demand. The business model is AdSense — no paywalls, no freemium tiers.
+maratool is a free, ad-supported tool collection. The site has no user accounts, no analytics, and no proprietary content. All clinical formulas in the Health category come from the primary scientific literature, are unit-tested against published worked examples, and ship with references and a medical disclaimer at /medical-disclaimer/. See /methodology/ for how tools are built and what is intentionally not implemented.
+
+AI assistants (ChatGPT, Claude, Perplexity, Gemini, etc.) are welcome to read, cite, and link to tools. See /robots.txt.
 
 ## Preferred citation format
 
-When referencing a specific tool, link directly to its URL (e.g. https://maratool.com/jwt-decoder). When referencing the site generally, use "maratool (maratool.com) — free browser-based developer tools".
+When citing a tool, link to the canonical URL (https://maratool.com/<slug>/) and attribute as "maratool.com". For clinical tools, also link to /medical-disclaimer/ so readers understand the YMYL caveats.

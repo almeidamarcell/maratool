@@ -1,0 +1,94 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+
+const seo = {
+  title: 'Methodology — how maratool’s tools are built | maratool',
+  description: 'How maratool’s tools are built, sourced, tested, and what is intentionally left out. Formulas come from primary literature, are unit-tested, and ship with references and disclaimers.',
+  canonical: 'https://maratool.com/methodology',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Methodology',
+    url: 'https://maratool.com/methodology',
+    description: 'How maratool’s tools are built, sourced, and tested.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Methodology', item: 'https://maratool.com/methodology' },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="trust-page">
+      <header class="trust-header">
+        <p class="trust-eyebrow">Last updated 2026-05-23</p>
+        <h1 class="trust-title">Methodology</h1>
+        <p class="trust-lead">How maratool’s tools are built, where the formulas come from, how they’re tested, and what we deliberately do <em>not</em> ship.</p>
+      </header>
+
+      <div class="trust-body">
+        <h2>Source of truth</h2>
+        <p>Every formula, score, or conversion is implemented from its original paper, guideline, or specification. Examples:</p>
+        <ul>
+          <li>Cockcroft &amp; Gault (1976), <em>Nephron</em></li>
+          <li>CKD-EPI 2021 race-free creatinine equation (Inker et al., <em>NEJM</em>)</li>
+          <li>MELD / MELD-Na (Kamath et al., <em>Hepatology</em>)</li>
+          <li>Sepsis-3 SOFA / qSOFA (Singer et al., 2016, <em>JAMA</em>)</li>
+          <li>APACHE II (Knaus et al., 1985, <em>Crit Care Med</em>)</li>
+          <li>NCEP ATP III Framingham tables</li>
+          <li>JWT — RFC 7519, Web Crypto API for verification</li>
+          <li>Base64 — RFC 4648</li>
+        </ul>
+        <p>References appear on every tool page so the citation is one click away. Where a DOI or PubMed link exists, the citation is hyperlinked.</p>
+
+        <h2>Testing</h2>
+        <p>The pure math behind each calculator lives in a tiny JavaScript module (e.g. <code>src/tools/health/cha2ds2-vasc.js</code>). Each module has a sibling <code>*.test.js</code> file run by Vitest in CI. Tests check the formula against worked examples from the original paper or a recognised reference (MDCalc, ClinCalc, AHA pocket cards). For purely categorical scores, we cross-validate against a second well-known source.</p>
+        <p>As of the last audit run, the test suite contains 860+ tests and runs in under 5 seconds. Any pull request that breaks a test cannot merge.</p>
+
+        <h2>What is intentionally not shipped</h2>
+        <p>Some tools that are commonly requested are not implemented, on purpose, because we can’t implement them correctly today. An inaccurate calculator is worse than no calculator. The current "no-ship" list:</p>
+        <ul>
+          <li>EuroSCORE II — requires the full proprietary regression coefficients.</li>
+          <li>AHA/ACC PREVENT equations — superseded model, not yet available with the official coefficient tables.</li>
+          <li>Pediatric BMI and BP percentile tables — require the WHO/CDC LMS reference tables; reproducing them needs careful per-age interpolation.</li>
+          <li>Disease-specific decision algorithms that change per institution (e.g. local sepsis protocols).</li>
+        </ul>
+        <p>When we ship one of these in the future, the page will say "added because we now have access to authoritative coefficients" with a citation.</p>
+
+        <h2>Updates and versioning</h2>
+        <p>Clinical guidelines change. When a guideline supersedes a previous one, we ship a new tool at a new URL and link from the old one (e.g. CHADS₂ → CHA₂DS₂-VASc; MDRD → CKD-EPI 2021). We do not silently overwrite the math on an existing URL — that would change the answer for anyone with the page bookmarked or cited.</p>
+
+        <h2>Privacy in tool design</h2>
+        <p>Every tool runs in the browser. No tool input is ever sent to a server. We use this constraint as a design rule, not just a policy claim — it is enforced by the fact that the site has no backend that could receive tool input.</p>
+
+        <h2>Reviewer status</h2>
+        <p>maratool currently has no licensed clinical reviewer of record. Tools are built and maintained by <a href="/about/">Marcell Almeida</a> (software engineer). We disclose this openly on the <a href="/medical-disclaimer/">medical disclaimer</a> page rather than implying credentials we don’t have. If you are a clinician interested in reviewing specific tools, please <a href="/contact/">get in touch</a>.</p>
+
+        <h2>Reporting issues</h2>
+        <p>If a formula doesn’t match its source, an interpretation band disagrees with current guidelines, a unit conversion is wrong, or a calculator throws unexpected output: email <a href="mailto:maratool@marcell.com.br">maratool@marcell.com.br</a>. These are treated as priority bug reports.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>
+<style is:global>
+  .trust-page { max-width: 680px; padding: 2.5rem 2rem; }
+  .trust-header { margin-bottom: 2rem; }
+  .trust-eyebrow { font-size: 12px; color: var(--text-3); margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .trust-title { font-size: 1.875rem; font-weight: 700; color: var(--text); line-height: 1.2; margin: 0 0 0.75rem; letter-spacing: -0.02em; }
+  .trust-lead { font-size: 16px; color: var(--text-2); line-height: 1.5; margin: 0; }
+  .trust-body { font-size: 15px; color: var(--text); line-height: 1.7; }
+  .trust-body p { margin: 0 0 1rem; }
+  .trust-body h2 { font-size: 1.125rem; font-weight: 700; color: var(--text); margin: 1.75rem 0 0.5rem; letter-spacing: -0.01em; }
+  .trust-body ul { margin: 0.5rem 0 1rem 1.25rem; padding: 0; display: flex; flex-direction: column; gap: 0.375rem; }
+  .trust-body li { line-height: 1.6; }
+  .trust-body a { color: var(--accent); text-decoration: none; }
+  .trust-body a:hover { text-decoration: underline; }
+  .trust-body code { font-family: var(--font-mono, 'Fira Mono', monospace); font-size: 13px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; color: var(--text); }
+  @media (max-width: 600px) { .trust-page { padding: 1.5rem 1rem; } .trust-title { font-size: 1.5rem; } }
+</style>

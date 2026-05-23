@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+
+const seo = {
+  title: 'Medical disclaimer — maratool',
+  description: 'maratool’s 131 medical calculators are educational tools for licensed healthcare professionals. They do not provide medical advice and must not replace clinical judgement.',
+  canonical: 'https://maratool.com/medical-disclaimer',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Medical disclaimer',
+    url: 'https://maratool.com/medical-disclaimer',
+    description: 'Medical disclaimer for the Health category on maratool.com.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Medical disclaimer', item: 'https://maratool.com/medical-disclaimer' },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="trust-page">
+      <header class="trust-header">
+        <p class="trust-eyebrow">Last updated 2026-05-23</p>
+        <h1 class="trust-title">Medical disclaimer</h1>
+        <p class="trust-lead">The Health category on maratool contains educational calculators and reference tools for licensed healthcare professionals. They do not provide medical advice and must never replace your clinical judgement.</p>
+      </header>
+
+      <div class="trust-body">
+        <h2>Intended audience</h2>
+        <p>The 131 tools in the <a href="/health/">Health</a> category are designed for use by licensed clinicians, medical students under supervision, and other healthcare professionals familiar with their underlying scoring systems and clinical context. They are not intended for use by patients to self-diagnose, self-treat, or evaluate their own clinical risk.</p>
+
+        <h2>Not medical advice</h2>
+        <p>Output from these tools is not medical advice. No clinician–patient relationship is created by using the site. The tools are decision <em>support</em> — they help compute a score, classify a result, or apply a published formula. They do not decide on management for any specific patient.</p>
+
+        <h2>Verify before relying</h2>
+        <p>Every formula is implemented from the original paper or guideline cited on the tool page, and the pure math functions are unit-tested against published worked examples. Despite that, errors are possible and clinical guidelines change. <strong>Before relying on a result for patient care:</strong></p>
+        <ul>
+          <li>Verify the score against your local protocol or a second reference.</li>
+          <li>Confirm the version of the score is the one your institution uses (e.g. MDRD vs CKD-EPI, CHADS₂ vs CHA₂DS₂-VASc).</li>
+          <li>Check that the input units match (mg/dL vs µmol/L, kg vs lb, °C vs °F).</li>
+          <li>Read the page’s references for the scoring criteria and population the score was validated in.</li>
+        </ul>
+
+        <h2>What is intentionally not implemented</h2>
+        <p>Some calculators that require proprietary regression coefficients or extensive published lookup tables (e.g. EuroSCORE II, the AHA/ACC PREVENT equations, pediatric BMI and BP percentile tables) are <strong>intentionally not shipped</strong> rather than approximated. An inaccurate medical calculator is worse than none. See <a href="/methodology/">methodology</a> for the criteria we use.</p>
+
+        <h2>No reviewer of record (today)</h2>
+        <p>maratool is currently a solo project. Tools in the Health category are built and maintained by <a href="/about/">Marcell Almeida</a>, a software engineer — not a clinician. There is no licensed clinical reviewer of record at this time. We disclose this explicitly because YMYL (Your Money Your Life) content should never imply credentials it does not have.</p>
+        <p>If you are a clinician interested in helping review or endorse specific calculators, please <a href="/contact/">get in touch</a>.</p>
+
+        <h2>Report a problem</h2>
+        <p>If you find a formula that doesn’t match its cited source, a unit conversion error, an interpretation band that disagrees with current guidelines, or anything else clinically wrong, please email <a href="mailto:maratool@marcell.com.br">maratool@marcell.com.br</a>. We treat these as priority bug reports.</p>
+
+        <h2>Liability</h2>
+        <p>maratool, its operator, and contributors disclaim all liability for any decision made on the basis of output from these tools. Use is at your own professional responsibility.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>
+<style is:global>
+  .trust-page { max-width: 680px; padding: 2.5rem 2rem; }
+  .trust-header { margin-bottom: 2rem; }
+  .trust-eyebrow { font-size: 12px; color: var(--text-3); margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .trust-title { font-size: 1.875rem; font-weight: 700; color: var(--text); line-height: 1.2; margin: 0 0 0.75rem; letter-spacing: -0.02em; }
+  .trust-lead { font-size: 16px; color: var(--text-2); line-height: 1.5; margin: 0; }
+  .trust-body { font-size: 15px; color: var(--text); line-height: 1.7; }
+  .trust-body p { margin: 0 0 1rem; }
+  .trust-body h2 { font-size: 1.125rem; font-weight: 700; color: var(--text); margin: 1.75rem 0 0.5rem; letter-spacing: -0.01em; }
+  .trust-body ul { margin: 0.5rem 0 1rem 1.25rem; padding: 0; display: flex; flex-direction: column; gap: 0.375rem; }
+  .trust-body li { line-height: 1.6; }
+  .trust-body a { color: var(--accent); text-decoration: none; }
+  .trust-body a:hover { text-decoration: underline; }
+  @media (max-width: 600px) { .trust-page { padding: 1.5rem 1rem; } .trust-title { font-size: 1.5rem; } }
+</style>

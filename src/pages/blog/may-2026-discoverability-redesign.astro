@@ -1,0 +1,328 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'Scaling to 235 tools: ⌘K palette, hub pages, tags, and a new homepage | maratool',
+  description: 'maratool just shipped a full discoverability redesign — universal ⌘K command palette, hub pages with faceted filters, subcategory SEO pages, an A-Z index, cross-cutting tags, pin favorites, and a mobile pass.',
+  canonical: 'https://maratool.com/blog/may-2026-discoverability-redesign',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'Scaling to 235 tools: ⌘K palette, hub pages, tags, and a new homepage',
+    image: 'https://maratool.com/blog/may-2026-discoverability/homepage.png',
+    datePublished: '2026-05-23',
+    dateModified: '2026-05-23',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': 'https://maratool.com/blog/may-2026-discoverability-redesign',
+    },
+    url: 'https://maratool.com/blog/may-2026-discoverability-redesign',
+    description: 'A full information-architecture rebuild to make 235 tools (and counting) actually findable.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Discoverability redesign — May 2026', item: 'https://maratool.com/blog/may-2026-discoverability-redesign' },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">&larr; Blog</a>
+          <time datetime="2026-05-23" class="blog-post-date">May 23, 2026</time>
+          <span class="blog-post-author">by <a href="http://marcell.com.br/" target="_blank" rel="noopener">Marcell Almeida</a></span>
+        </div>
+        <h1 class="blog-post-title">Scaling to 235 tools: ⌘K palette, hub pages, tags, and a new homepage</h1>
+        <p class="blog-post-lead">Two months ago maratool had 79 tools and the old homepage was already getting crowded. After shipping the <a href="/health">Health category</a>, we crossed 235 tools — and the shell that worked at 8 simply stopped working at 235. This is what we rebuilt.</p>
+      </header>
+
+      <div class="blog-body">
+        <p>The brief was uncomfortable: maratool is supposed to become a huge compendium of browser-based tools. 1,000+ tools, eventually. But the homepage was per-category 3-card sections, the sidebar was a flat list of every tool, and the only thing that actually scaled was the topbar search. We needed a real information architecture.</p>
+
+        <figure class="blog-figure">
+          <img src="/blog/may-2026-discoverability/homepage.png" alt="The new maratool homepage, showing a hero search with query chips above a 'Browse by vertical' grid of 9 category cards: Health (131 tools), Developer (17), Image (16), Converter (14), Text (13), Color (9), PDF (8), Mockup (8), and Marketing (3). Sidebar lists all verticals." loading="lazy" width="1440" height="900" />
+          <figcaption>The new homepage — a compendium index instead of per-category card sections.</figcaption>
+        </figure>
+
+        <p>The redesign borrows from MDCalc (faceted filters, A-Z jump), Linear and Raycast (the command palette), and Tiny Helpers (dense tool rows). Everything below is live now.</p>
+
+        <hr class="blog-divider" />
+
+        <h2>Press ⌘K from anywhere</h2>
+        <p>The most useful change is the smallest. Press <code>⌘K</code> (or <code>Ctrl+K</code>) on any page and a command palette opens — fuzzy search across all 235 tools, sectioned by vertical, with your recently used and pinned tools showing in the empty state. Arrow keys navigate, Enter opens. It's the fastest way to get anywhere on the site.</p>
+        <p>The topbar search trigger in the header now opens this palette too. On mobile the palette becomes a full-screen sheet.</p>
+
+        <figure class="blog-figure">
+          <img src="/blog/may-2026-discoverability/command-palette.png" alt="The ⌘K command palette open as a centered modal over a dimmed Health hub. Input reads 'Search 235+ tools…' with hint text suggesting 'json', 'cha2ds2', or 'qr'. A footer shows the keyboard shortcuts: Navigate (↑↓), Open (↵), New tab (⌘↵), Close (esc)." loading="lazy" width="1440" height="900" />
+          <figcaption>The command palette — opens with ⌘K from anywhere, becomes a full-screen sheet on mobile.</figcaption>
+        </figure>
+
+        <h2>Every vertical is now a real destination</h2>
+        <p>Each category used to be a flat dump. Now <a href="/health">/health</a>, <a href="/developer">/developer</a>, <a href="/image">/image</a>, <a href="/text">/text</a>, <a href="/converter">/converter</a>, <a href="/color">/color</a>, <a href="/pdf">/pdf</a>, <a href="/marketing">/marketing</a>, and <a href="/mockup">/mockup</a> share a hub template with:</p>
+        <ul>
+          <li><strong>Scoped search</strong> — filters the list live as you type, only inside the current vertical.</li>
+          <li><strong>Faceted filter pills</strong> — click a subcategory pill to narrow down. URL syncs via query params, so links are shareable.</li>
+          <li><strong>Dense rows</strong> — name + description + subcategory badge + pin button per row. Designed to read at scale, not browse 3-up cards.</li>
+          <li><strong>Pagination</strong> — 30 tools per page, with "1–30 of 145" counter and ellipsis page picker.</li>
+        </ul>
+
+        <figure class="blog-figure">
+          <img src="/blog/may-2026-discoverability/health-hub.png" alt="The Health hub page titled 'Medical calculators' with breadcrumb, scoped search, and two rows of facet pills (subcategory and specialty). Dense tool rows below show name, description, subcategory badge in green, and a pin star at the right." loading="lazy" width="1440" height="900" />
+          <figcaption>The Health hub — dense rows, dual-axis facets (Subcategory and Specialty), and pagination at 30 per page.</figcaption>
+        </figure>
+
+        <h2>Subcategory landing pages</h2>
+        <p>Every subcategory now gets its own page — <a href="/health/cardiology">/health/cardiology</a>, <a href="/developer/crypto">/developer/crypto</a>, <a href="/image/convert">/image/convert</a>, and so on. These are auto-generated from the tool registry and exist for one reason: people search for "cardiology calculators online", not for "maratool". The subcategory page is the destination Google sends them to.</p>
+
+        <h2>New homepage: a compendium index</h2>
+        <p>The homepage used to be 3-card sections per category — fine for 7 categories, broken at 9. The new <a href="/">homepage</a> is a verticals grid: each vertical gets a card showing its name, tool count, and 3 popular tools. Health leads (145 tools), then Developer (17), Image (17), Converter (14), Text (13), Color (9), PDF (8), Mockup (8), Marketing (3).</p>
+        <p>Below the grid: "Popular this week", "New", "Recently used", and "Pinned" — only the sections that have content for you.</p>
+
+        <h2>Popular tools, derived not hardcoded</h2>
+        <p>"Popular this week" used to be whatever list I edited last. Now it's computed: a small manual boost for hand-picked tools, plus a signal from keyword count, category size, and recency in the registry. Determinístico — adding a new tool re-ranks everything, no list to maintain.</p>
+
+        <hr class="blog-divider" />
+
+        <h2>/all — alphabet jump index</h2>
+        <p><a href="/all">/all</a> lists every tool A-Z with a sticky alphabet jump at the top, MDCalc-style. If you know the name — "MELD", "Friedewald", "Pomodoro" — this is faster than scrolling categories. Letters with no tools are dimmed; tag pills above the list give cross-cutting entry points.</p>
+
+        <figure class="blog-figure">
+          <img src="/blog/may-2026-discoverability/all-index.png" alt="The /all page titled 'All tools' showing the A-Z alphabet jump row with letter '0-9' and 'J' dimmed (no tools). Below, a 'TAGS' row with pills: instant 213, no-upload 183, clinical 131, realtime 90, file-upload 36. Below that, tools sorted A-Z with vertical color dot and subcategory badge per row." loading="lazy" width="1440" height="900" />
+          <figcaption>/all — alphabet jump for known-item retrieval, with tag pills as cross-cutting entry points.</figcaption>
+        </figure>
+
+        <h2>Tags: a cross-cutting axis</h2>
+        <p>Categories answer "what kind of thing is this?". Tags answer "how does it behave?". Five tags exist today and every tool is auto-tagged from its metadata:</p>
+        <ul>
+          <li><a href="/tag/instant">instant</a> — runs in your browser with zero round trips.</li>
+          <li><a href="/tag/no-upload">no-upload</a> — never sends your data anywhere.</li>
+          <li><a href="/tag/file-upload">file-upload</a> — works on local files you drop in.</li>
+          <li><a href="/tag/realtime">realtime</a> — updates as you type, no submit button.</li>
+          <li><a href="/tag/clinical">clinical</a> — medical calculators and clinical scores.</li>
+        </ul>
+        <p>Each tag has its own page — for example, <a href="/tag/clinical">/tag/clinical</a> shows all 145 medical tools regardless of specialty, grouped by area.</p>
+
+        <figure class="blog-figure">
+          <img src="/blog/may-2026-discoverability/tag-clinical.png" alt="The /tag/clinical page titled 'Clinical tools' with breadcrumb 'Home / All tools / Clinical tools'. Description: 'Medical calculators, scores, and scales for healthcare professionals. 131 tools across 1 category.' Below, a Health section header with green dot and tool count, then dense tool rows with subcategory badges in green on the right." loading="lazy" width="1440" height="900" />
+          <figcaption>Tag pages — group tools by behavior (clinical, instant, no-upload, file-upload, realtime) across verticals.</figcaption>
+        </figure>
+
+        <h2>Pin your favorites</h2>
+        <p>Every tool page now has a <code>★ Pin</code> button next to the title. Pinned tools show up at the top of the sidebar, in the ⌘K palette empty state, and on the homepage. Stored in localStorage — nothing sent to a server. It complements the automatic "recently used" list rather than replacing it.</p>
+
+        <figure class="blog-figure">
+          <img src="/blog/may-2026-discoverability/tool-page-pin.png" alt="The CHA2DS2-VASc Score Calculator tool page. Top right of the title shows a ★ Pin button and a </> Embed button. Sidebar on the left shows 'Recently used' at the top with this tool, then 'In Score' section listing sibling tools like Pack-Year, Candida, CHADS2, NYHA, GELF, DAS-28, ABCD2, AIMS65, APACHE II. The tool itself shows the form fields and a 0/9 score result." loading="lazy" width="1440" height="900" />
+          <figcaption>Tool page with the ★ Pin button next to the title and the contextual sidebar showing sibling tools in the same subcategory.</figcaption>
+        </figure>
+
+        <h2>The sidebar is contextual now</h2>
+        <p>Showing all 235 tools in the sidebar was never going to scale. The sidebar now adapts to where you are:</p>
+        <ul>
+          <li><strong>Home</strong> — lists the 9 verticals with counts.</li>
+          <li><strong>Hub (e.g. /developer)</strong> — lists subcategories of that vertical.</li>
+          <li><strong>Subcategory (e.g. /health/cardiology)</strong> — lists sibling tools.</li>
+          <li><strong>Tool page</strong> — lists other tools in the same subcategory.</li>
+        </ul>
+        <p>Always relevant, never overwhelming.</p>
+
+        <hr class="blog-divider" />
+
+        <h2>A small thing for clinicians: dual-axis filter on Health</h2>
+        <p>Health is 62% of the site and has its own discovery problem. A cardiologist doesn't think "Score" vs "Calculator" — they think "I need a cardiology score". So <a href="/health">/health</a> gets a second axis: a Specialty dropdown layered on top of the subcategory facet. <a href="/health/?specialty=cardiology">/health/?specialty=cardiology</a> pulls MAP, QTc, Friedewald, CHA2DS2-VASc, NYHA, HAS-BLED, Killip, and the rest — across whatever subcategory bucket they happened to land in.</p>
+        <p>The specialty is inferred from each tool's keywords, so it stays accurate as tools are added.</p>
+
+        <h2>Pagination that doesn't break SEO</h2>
+        <p>The Health hub has 145 tools. Showing all of them in one DOM blob is bad UX; splitting them into <code>?page=2</code>, <code>?page=3</code> server-side fragments the internal link graph that Google uses to discover tools. The compromise: render every tool in the HTML, hide all but the current page with CSS. The full link graph is there for crawlers, the page feels light for humans.</p>
+
+        <hr class="blog-divider" />
+
+        <h2>Mobile pass</h2>
+        <p>The whole redesign got a mobile audit, copying patterns from MDCalc's mobile site:</p>
+        <ul>
+          <li><strong>Horizontal-scroll facets</strong> with a fade mask on the right edge — facet pills never wrap, never collapse into a dropdown, never hide.</li>
+          <li><strong>Full-screen palette</strong> — ⌘K becomes a full-height sheet under 640px.</li>
+          <li><strong>iOS-safe inputs</strong> — every input is at least 16px to prevent the auto-zoom on focus.</li>
+          <li><strong>Touch targets</strong> — pills 32px tall, pin button 36px, per Apple HIG.</li>
+          <li><strong>No hamburger</strong> — mobile users search, they don't browse top-nav. Nav lives in the footer.</li>
+        </ul>
+
+        <div class="blog-figure-row">
+          <figure class="blog-figure blog-figure-mobile">
+            <img src="/blog/may-2026-discoverability/mobile-homepage.png" alt="The maratool homepage on mobile (390px wide). Compact topbar with logo and search trigger only, no nav. Hero h1 'Free online tools' above a search input with placeholder hint, query chips wrapping into 3 rows. Below, a 'Pick up where you left off' section with the last-used tool, then 'Browse by vertical' as a single-column stacked grid showing Health and Developer cards." loading="lazy" width="390" height="844" />
+            <figcaption>Mobile homepage — dense single column, query chips wrap, no hamburger.</figcaption>
+          </figure>
+          <figure class="blog-figure blog-figure-mobile">
+            <img src="/blog/may-2026-discoverability/mobile-health.png" alt="The Health hub on mobile (390px wide). Breadcrumb 'Home / Health' above the 'Medical calculators' title and intro. Search input full-width. Below, a SUBCATEGORY row with horizontal-scrolling pills (All 131, Anthropometric 3, Cardiology 26 visible, fade on right edge) and a SPECIALTY row with the same pattern (All, Cardiology 26, General 13, Pediatric partially visible). Dense rows below with subcategory badge top-right and pin star bottom-right." loading="lazy" width="390" height="844" />
+            <figcaption>Mobile Health hub — facets scroll horizontally with a fade-mask on the edge.</figcaption>
+          </figure>
+        </div>
+
+        <hr class="blog-divider" />
+
+        <h2>What didn't change</h2>
+        <p>The stack is still the same. Astro, plain CSS with variables, vanilla JS, no framework inside tool logic. Static output to Cloudflare Pages. The whole IA layer is roughly 4 new Astro components, one CSS file, and a few derived fields in the tool registry. Build is 286 pages and ~7 seconds.</p>
+
+        <p>The aesthetic stayed the same too: warm beige (<code>#f5f4f1</code>), Instrument Serif italic for display, Inter for body, a single terracotta accent. Health didn't get its own visual treatment — one shell, one feel. Differentiation comes from the dual-axis filter and the colored purpose badges, not from a different color story.</p>
+
+        <hr class="blog-divider" />
+
+        <p class="blog-footer-note">Everything at <a href="/">maratool.com</a> is free, runs in your browser, and needs no sign-up. If you find something broken or have a tool to suggest, <a href="/contact">tell me</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>
+<style is:global>
+  .blog-post {
+    max-width: 680px;
+    padding: 2.5rem 2rem;
+  }
+  .blog-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .blog-back {
+    font-size: 13px;
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  .blog-back:hover { color: var(--accent); }
+  .blog-post-date {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+  .blog-post-author {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+  .blog-post-author a {
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  .blog-post-author a:hover { color: var(--accent); }
+  .blog-post-header { margin-bottom: 2rem; }
+  .blog-post-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.02em;
+  }
+  .blog-post-lead {
+    font-size: 16px;
+    color: var(--text-2);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .blog-post-lead a { color: var(--accent); text-decoration: none; }
+  .blog-post-lead a:hover { text-decoration: underline; }
+  .blog-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .blog-body p { margin: 0 0 1rem; }
+  .blog-body h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 2rem 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .blog-body h2 a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .blog-body h2 a:hover { color: var(--accent); }
+  .blog-body ul {
+    margin: 0.5rem 0 1rem 1.25rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+  .blog-body li { line-height: 1.6; }
+  .blog-body code {
+    font-family: var(--font-mono, monospace);
+    font-size: 13px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: var(--text);
+  }
+  .blog-body a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .blog-body a:hover { text-decoration: underline; }
+  .blog-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+  .blog-figure {
+    margin: 1.5rem 0;
+    padding: 0;
+  }
+  .blog-figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg-soft);
+  }
+  .blog-figure figcaption {
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.5;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  .blog-figure-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .blog-figure-row .blog-figure {
+    margin: 0;
+  }
+  .blog-figure-mobile img {
+    max-height: 600px;
+    object-fit: contain;
+    object-position: top;
+    background: var(--bg);
+  }
+  .blog-footer-note {
+    font-size: 14px;
+    color: var(--text-2);
+    padding: 1rem;
+    background: var(--bg-soft);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  @media (max-width: 600px) {
+    .blog-post { padding: 1.5rem 1rem; }
+    .blog-post-title { font-size: 1.5rem; }
+    .blog-figure-row { grid-template-columns: 1fr; }
+  }
+</style>

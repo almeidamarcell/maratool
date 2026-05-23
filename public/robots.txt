@@ -1,26 +1,18 @@
 User-agent: *
 Allow: /
 
-# Block AI scrapers that don't respect content attribution
-User-agent: GPTBot
-Disallow: /
-
+# Training-only crawlers (no citation/traffic upside) — blocked
 User-agent: CCBot
-Disallow: /
-
-User-agent: Google-Extended
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
-User-agent: ClaudeBot
 Disallow: /
 
 User-agent: Bytespider
 Disallow: /
 
-User-agent: PerplexityBot
-Disallow: /
+# AI search crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended,
+# Applebot-Extended, anthropic-ai) are intentionally ALLOWED.
+# Rationale: maratool's content is open knowledge (textbook formulas,
+# public APIs). Blocking these crawlers forfeits citation traffic in
+# AI Overviews / ChatGPT / Perplexity / Claude search without protecting
+# anything proprietary. llms.txt actively invites LLM citation.
 
 Sitemap: https://maratool.com/sitemap-index.xml

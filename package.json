@@ -4,10 +4,12 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/gen-llms.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "vitest run"
+    "test": "vitest run",
+    "gen:llms": "node scripts/gen-llms.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.12",

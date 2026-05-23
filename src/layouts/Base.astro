@@ -7,15 +7,34 @@ interface Props {
   faqSchema?: Record<string, unknown>
   breadcrumbSchema?: Record<string, unknown>
   ogImage?: string
+  noindex?: boolean
 }
 
-const { title, description, canonical, schema, faqSchema, breadcrumbSchema, ogImage } = Astro.props
+const { title, description, canonical, schema, faqSchema, breadcrumbSchema, ogImage, noindex } = Astro.props
 const resolvedOgImage = ogImage ?? 'https://maratool.com/og-image.png'
 
 const canonicalURL = new URL(
   canonical.endsWith('/') ? canonical : canonical + '/',
   Astro.site
 )
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'maratool',
+  url: 'https://maratool.com',
+  logo: 'https://maratool.com/favicon.svg',
+  founder: {
+    '@type': 'Person',
+    name: 'Marcell Almeida',
+    url: 'https://marcell.com.br',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'maratool@marcell.com.br',
+    contactType: 'customer support',
+  },
+}
 
 const normalizedBreadcrumb = breadcrumbSchema
   ? {
@@ -35,6 +54,7 @@ const normalizedBreadcrumb = breadcrumbSchema
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex,follow" />}
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -68,7 +88,7 @@ const normalizedBreadcrumb = breadcrumbSchema
     <link rel="stylesheet" href="/styles/discovery.css" />
 
     <!-- Organization JSON-LD (site-wide) -->
-    <script type="application/ld+json">{`{"@context":"https://schema.org","@type":"Organization","name":"maratool","url":"https://maratool.com","logo":"https://maratool.com/favicon.svg","founder":{"@type":"Person","name":"Marcell Almeida","url":"https://marcell.com.br"},"contactPoint":{"@type":"ContactPoint","email":"maratool@marcell.com.br","contactType":"customer support"}}`}</script>
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
 
     <!-- WebApplication JSON-LD -->
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
@@ -80,10 +100,6 @@ const normalizedBreadcrumb = breadcrumbSchema
     {normalizedBreadcrumb && <script type="application/ld+json" set:html={JSON.stringify(normalizedBreadcrumb)} />}
 
     <meta name="theme-color" content="#ffffff" />
-
-    <!-- Google Search Console verification — replace token after verifying -->
-    <meta name="google-site-verification" content="REPLACE_WITH_TOKEN" />
-
   </head>
   <body>
     <slot />
