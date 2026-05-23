@@ -83,7 +83,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="base64" name="Base64 Encode / Decode" description="Encode text to Base64 or decode Base64 back to text. Also converts images to Base64 data URLs. Bidirectional and real-time." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="base64" name="Base64 Encode / Decode" description="Encode text to Base64 or decode Base64 back to text. Also converts images to Base64 data URLs. Bidirectional and real-time." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs="Base64 is a binary-to-text encoding scheme defined in RFC 4648 that represents arbitrary byte sequences using 64 printable ASCII characters — the letters A–Z and a–z, the digits 0–9, plus <strong>+</strong> and <strong>/</strong>, with <strong>=</strong> for padding. Each group of three input bytes (24 bits) becomes four output characters (6 bits each), so encoded output is roughly 33% larger than the original. Base64 is widely used to embed binary data into text-only contexts: data URIs in HTML and CSS, attachments in MIME email, JWT segments, basic HTTP authentication headers, and JSON payloads carrying images or files. A URL-safe variant substitutes <strong>-</strong> and <strong>_</strong> for <strong>+</strong> and <strong>/</strong>.">
       <div class="tool-container">
         <div class="tool-tabs">
           <button class="tool-tab active" data-panel="tab-text">Text ↔ Base64</button>

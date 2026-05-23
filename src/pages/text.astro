@@ -2,10 +2,11 @@
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
 import HubPage from '../components/HubPage.astro'
-import { toolsFlatByCategory, subcategoryOrderByCategory } from '../data/tools'
+import { toolsFlatByCategory, subcategoryOrderByCategory, buildToolItemList } from '../data/tools'
 
 const categoryTools = toolsFlatByCategory.Text ?? []
 const subcategories = subcategoryOrderByCategory.Text ?? []
+const liveCategoryTools = categoryTools.filter(t => t.live)
 
 const seo = {
   title: 'Text Tools — maratool',
@@ -17,12 +18,13 @@ const seo = {
     name: 'Text Tools',
     url: 'https://maratool.com/text',
     description: 'Free browser-based text tools. Compare text, test regex, edit Markdown, format JSON, generate placeholder text — no sign-up, runs in your browser.',
-    hasPart: categoryTools.filter(t => t.live).map(tool => ({
+    hasPart: liveCategoryTools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
       applicationCategory: 'UtilitiesApplication',
     })),
+    mainEntity: buildToolItemList(liveCategoryTools, 'Text Tools'),
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -34,6 +36,19 @@ const seo = {
   },
 }
 
+const editorial = `
+<h2>About these text tools</h2>
+<p>This page collects utilities for working with text the way developers and writers actually use it — comparing two versions of a document, formatting structured data so it is readable, testing a regular expression against real input, estimating how long an article will take to read, and generating placeholder text for a layout. These are small jobs that come up constantly, and a fast browser tool is usually the right answer.</p>
+
+<h3>What is on this page</h3>
+<p>The tools split into four jobs. Comparison and analysis tools tell you about text you already have — the <a href="/diff-checker">diff checker</a> shows added and removed lines between two versions, useful for reviewing a paste, an exported config, or a piece of writing. The <a href="/reading-time">reading time</a> calculator reports word count, paragraph count, and reading duration at slow, average, and fast speeds. Formatting tools clean up structure — the <a href="/json-formatter">JSON formatter</a> pretty-prints messy responses, validates syntax, and collapses nodes so a long object is navigable. Pattern tools answer questions about strings — the <a href="/regex-tester">regex tester</a> highlights matches, names capture groups, and explains the meaning of each token in the expression. Generation tools produce text on demand — the <a href="/lorem-ipsum">Lorem Ipsum</a> generator gives you placeholder copy at a chosen paragraph, sentence, or word count.</p>
+
+<h3>Which to use when</h3>
+<p>Use the diff checker when reviewing a paste from a colleague, comparing two configurations, or auditing a copy edit. Use the JSON formatter when an API response arrives as one long line — most browsers do not pretty-print it. Use the regex tester when a pattern works in one engine but not another, or to inspect what a specific group matched. Use the <a href="/markdown-editor">Markdown editor</a> when you want to draft README content, blog posts, or chat messages and preview the rendered result side by side.</p>
+
+<h3>Privacy</h3>
+<p>Every text tool here runs in your browser. Pasted content — including code, contracts, drafts, log lines, and anything else — stays on your device. Nothing is sent to a server, logged, or stored remotely. This makes the tools safe for proprietary copy, confidential drafts, personal writing, and any text that should not flow through a third party.</p>
+`
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -73,7 +88,7 @@ const faqSchema = {
   ]
 }
 ---
-<Base {...seo} faqSchema={faqSchema}>
+<Base {...seo} faqSchema={faqSchema} scope="hub">
   <Layout scope="hub">
     <HubPage
       category="Text"
@@ -83,6 +98,7 @@ const faqSchema = {
       tools={categoryTools}
       subcategories={subcategories}
       basePath="/text"
+      editorial={editorial}
     />
   </Layout>
 </Base>

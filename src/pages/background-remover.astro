@@ -83,7 +83,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="background-remover" name="Background Remover" description="Remove image backgrounds instantly using AI — right in your browser. No upload, no sign-up." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="background-remover" name="Background Remover" description="Remove image backgrounds instantly using AI — right in your browser. No upload, no sign-up." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs="An AI background remover automatically separates the foreground subject of a photo — a person, product, animal, or object — from its background and exports a transparent PNG. Modern background removers run a deep neural network for image matting; in-browser implementations typically use models such as U2-Net, MODNet, or BRIA RMBG, executed client-side via WebGPU or WebAssembly so that no image is uploaded to a server. The model predicts a per-pixel alpha mask that captures soft edges like hair and translucent objects. Output PNGs are used for e-commerce product photography, social-media thumbnails, presentations, and design composites where a clean cutout is needed.">
       <div class="tool-container">
         <!-- Drop zone (initial state) -->
         <div class="br-dropzone" id="br-dropzone">

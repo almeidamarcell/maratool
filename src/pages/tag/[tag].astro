@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
 import Breadcrumb from '../../components/Breadcrumb.astro'
-import { getAllTags, getToolsByTag } from '../../data/tools'
+import { getAllTags, getToolsByTag, buildToolItemList } from '../../data/tools'
 
 export function getStaticPaths() {
   return getAllTags().map(({ tag, count }) => ({
@@ -81,6 +81,7 @@ const seo = {
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
     })),
+    mainEntity: buildToolItemList(tagTools, meta.title),
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -111,7 +112,7 @@ for (const tool of tagTools) {
 }
 categoryOrderLocal.sort((a, b) => byCategory[b].length - byCategory[a].length)
 ---
-<Base {...seo}>
+<Base {...seo} scope="page">
   <Layout scope="page">
     <div class="hub-hero">
       <Breadcrumb crumbs={breadcrumbs} />

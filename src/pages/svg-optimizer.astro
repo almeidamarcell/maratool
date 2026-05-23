@@ -83,7 +83,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="svg-optimizer" name="SVG Optimizer" description="Optimize and minify SVG files by removing metadata, comments, and default attributes." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="svg-optimizer" name="SVG Optimizer" description="Optimize and minify SVG files by removing metadata, comments, and default attributes." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs="SVG (Scalable Vector Graphics) is an XML-based vector image format standardized by the W3C, used for icons, logos, illustrations, and data visualizations because it scales losslessly and is searchable, scriptable, and CSS-styleable. Files exported from design tools like Figma, Illustrator, and Sketch frequently contain editor metadata, hidden layers, redundant transforms, default attributes, and overly precise decimals — bloat that has no visual effect. An SVG optimizer (the canonical implementation is SVGO by Kir Belevich) parses the SVG, applies a configurable plugin pipeline to strip comments, collapse groups, round path coordinates, and minify attribute values, then re-serializes the markup. Typical size reductions are 30–70% with no visual change.">
       <div class="tool-container">
         <div class="so-input-section">
           <div class="so-input-header">

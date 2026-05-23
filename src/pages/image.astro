@@ -2,10 +2,11 @@
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
 import HubPage from '../components/HubPage.astro'
-import { toolsFlatByCategory, subcategoryOrderByCategory } from '../data/tools'
+import { toolsFlatByCategory, subcategoryOrderByCategory, buildToolItemList } from '../data/tools'
 
 const categoryTools = toolsFlatByCategory.Image ?? []
 const subcategories = subcategoryOrderByCategory.Image ?? []
+const liveCategoryTools = categoryTools.filter(t => t.live)
 
 const seo = {
   title: 'Image Tools — maratool',
@@ -17,12 +18,13 @@ const seo = {
     name: 'Image Tools',
     url: 'https://maratool.com/image',
     description: 'Free browser-based image tools. Remove backgrounds, optimize SVGs, generate favicons, preview Base64 images, and generate alt text — no upload required.',
-    hasPart: categoryTools.filter(t => t.live).map(tool => ({
+    hasPart: liveCategoryTools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
       applicationCategory: 'MultimediaApplication',
     })),
+    mainEntity: buildToolItemList(liveCategoryTools, 'Image Tools'),
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -34,6 +36,19 @@ const seo = {
   },
 }
 
+const editorial = `
+<h2>About these image tools</h2>
+<p>This page collects browser-based utilities for the kinds of image work that fall between design software and a build step — removing backgrounds, optimizing SVGs, generating favicons, converting formats, and producing alt text. They are aimed at developers, designers, and content writers who do not want to open Photoshop or upload assets to a third party for a thirty-second job.</p>
+
+<h3>What is on this page</h3>
+<p>The tools group around four jobs. Editing tools modify the pixels you already have — the <a href="/background-remover">background remover</a> isolates a subject from its background and exports a transparent PNG, useful for product photos, profile shots, and design mockups. Optimization tools shrink files without visible quality loss — the <a href="/svg-optimizer">SVG optimizer</a> strips comments, redundant attributes, and editor metadata, often cutting an icon's size in half before it ever reaches your bundle. Conversion tools translate between formats: the <a href="/image-converter">image converter</a> handles PNG, JPEG, WebP, and AVIF, which matters when a CDN expects one format and your source is another. Generation tools produce new assets from inputs you supply — the <a href="/favicon-generator">favicon generator</a> creates the full set of sizes and an .ico file from a single source image.</p>
+
+<h3>Which to use when</h3>
+<p>Reach for the background remover when you need a clean cutout but do not want to mask by hand. Use the SVG optimizer before committing icons to a repo or shipping them in a design system — most icons exported from Figma or Illustrator carry a meaningful amount of unnecessary markup. Use the image converter when serving WebP or AVIF to modern browsers with a PNG or JPEG fallback. Use the alt-text generator as a starting point you can edit, not a final answer — accessibility benefits from human review.</p>
+
+<h3>Privacy</h3>
+<p>Every tool on this page runs locally in your browser. Images are read, processed, and exported on your device — they are never uploaded to a server, stored, or transmitted anywhere. This matters for screenshots of internal dashboards, product photography under embargo, personal photos, or anything else you would rather keep off third-party infrastructure.</p>
+`
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -73,7 +88,7 @@ const faqSchema = {
   ]
 }
 ---
-<Base {...seo} faqSchema={faqSchema}>
+<Base {...seo} faqSchema={faqSchema} scope="hub">
   <Layout scope="hub">
     <HubPage
       category="Image"
@@ -83,6 +98,7 @@ const faqSchema = {
       tools={categoryTools}
       subcategories={subcategories}
       basePath="/image"
+      editorial={editorial}
     />
   </Layout>
 </Base>

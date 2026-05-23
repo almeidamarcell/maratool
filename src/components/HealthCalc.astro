@@ -4,6 +4,8 @@ import Layout from './Layout.astro'
 import ToolShell from './ToolShell.astro'
 import References from './References.astro'
 import ReviewedBy from './ReviewedBy.astro'
+import { tools, getSpecialty, MEDICAL_CONDITIONS } from '../data/tools'
+import { lastmodBySlug } from '../data/lastmod-generated'
 
 interface FAQItem { q: string; a: string }
 interface Reference { citation: string; url?: string }
@@ -27,28 +29,95 @@ interface Props {
   lastReviewed?: string | null
   reviewer?: string | null
   reviewerCredentials?: string | null
+  // Optional "what is X" passage rendered above "How to use".
+  whatIs?: string
 }
 
 const {
   slug, name, shortDescription, metaTitle, metaDescription,
   subcategory, subcategorySlug, schemaName, howTo, faq, relatedTools, references,
   lastReviewed = null, reviewer = null, reviewerCredentials = null,
+  whatIs,
 } = Astro.props
+
+// Look up the tool registry entry so we can enrich JSON-LD with
+// medicalAudience and relevantSpecialty (strong YMYL E-E-A-T signal).
+const toolEntry = tools.find(t => t.slug === slug)
+const specialty = toolEntry ? getSpecialty(toolEntry) : null
+
+// Map maratool's internal specialty taxonomy → schema.org MedicalSpecialty
+// enum names. Schema.org MedicalSpecialty values use suffixes like -ic / -al.
+const SPECIALTY_TO_SCHEMA: Record<string, string> = {
+  Cardiology: 'Cardiovascular',
+  Renal: 'Renal',
+  Hepatology: 'Hepatologic',
+  Pediatric: 'Pediatric',
+  Obstetric: 'Obstetric',
+  Endocrine: 'Endocrine',
+  Trauma: 'Emergency',
+  Pulmonary: 'Pulmonary',
+  Neurology: 'Neurologic',
+  Oncology: 'Oncologic',
+  GI: 'PrimaryCare',
+  Hematology: 'Hematologic',
+  Infectious: 'Infectious',
+  Psych: 'Psychiatric',
+  ICU: 'Emergency',
+  Drug: 'PharmacySpecialty',
+  Infusion: 'Anesthesia',
+  Ventilation: 'Pulmonary',
+  Anthropometric: 'PrimaryCare',
+  Electrolytes: 'Renal',
+  General: 'PrimaryCare',
+  Scale: 'PrimaryCare',
+  Screening: 'PrimaryCare',
+  Score: 'PrimaryCare',
+  Prognosis: 'PrimaryCare',
+  Reference: 'PrimaryCare',
+}
+const schemaSpecialty = specialty ? (SPECIALTY_TO_SCHEMA[specialty] ?? 'PrimaryCare') : null
+
+const calcSchema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': ['MedicalRiskCalculator', 'WebApplication'],
+  name: schemaName,
+  url: `https://maratool.com/${slug}`,
+  applicationCategory: 'HealthApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  description: metaDescription,
+  medicalAudience: [
+    { '@type': 'MedicalAudience', audienceType: 'Physician' },
+    { '@type': 'MedicalAudience', audienceType: 'Nurse' },
+  ],
+}
+if (schemaSpecialty && specialty) {
+  calcSchema.relevantSpecialty = {
+    '@type': 'MedicalSpecialty',
+    name: schemaSpecialty,
+    alternateName: specialty,
+  }
+}
+
+const condition = MEDICAL_CONDITIONS[slug]
+if (condition) {
+  calcSchema.about = {
+    '@type': 'MedicalCondition',
+    name: condition.name,
+    ...(condition.alternateName ? { alternateName: condition.alternateName } : {}),
+  }
+}
+
+const lastmodDate = lastmodBySlug[slug]
+if (lastmodDate) {
+  calcSchema.dateModified = lastmodDate
+}
 
 const seo = {
   title: metaTitle,
   description: metaDescription,
   canonical: `https://maratool.com/${slug}`,
-  schema: {
-    '@context': 'https://schema.org',
-    '@type': ['MedicalRiskCalculator', 'WebApplication'],
-    name: schemaName,
-    url: `https://maratool.com/${slug}`,
-    applicationCategory: 'HealthApplication',
-    operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: metaDescription,
-  },
+  schema: calcSchema,
   breadcrumbSchema: {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -87,6 +156,7 @@ const breadcrumbs = [
       faq={faq}
       relatedTools={relatedTools}
       breadcrumbs={breadcrumbs}
+      whatIs={whatIs}
     >
       <div class="tool-container hcalc-container">
         <div class="hcalc-disclaimer">For educational and clinical reference. Not a substitute for medical judgment. See the <a href="/medical-disclaimer/">medical disclaimer</a>.</div>

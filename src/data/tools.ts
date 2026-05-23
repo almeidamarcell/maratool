@@ -2678,3 +2678,99 @@ export function getHealthPurposes(): { name: string; count: number }[] {
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => b.count - a.count)
 }
+
+/**
+ * MedicalCondition links for high-traffic medical calculators. The condition
+ * appears as `about` in the calculator's JSON-LD, helping search engines
+ * connect score → disease for entity-level retrieval.
+ */
+export const MEDICAL_CONDITIONS: Record<string, { name: string; alternateName?: string }> = {
+  'cha2ds2-vasc': { name: 'Atrial fibrillation', alternateName: 'AF stroke risk' },
+  'chads2-score': { name: 'Atrial fibrillation' },
+  'has-bled': { name: 'Atrial fibrillation', alternateName: 'Bleeding risk on anticoagulation' },
+  'meld-meldna': { name: 'End-stage liver disease', alternateName: 'Cirrhosis' },
+  'child-pugh': { name: 'Cirrhosis' },
+  'maddrey-discriminant': { name: 'Alcoholic hepatitis' },
+  'lille-model': { name: 'Alcoholic hepatitis' },
+  'fib-4': { name: 'Liver fibrosis' },
+  'nafld-fibrosis': { name: 'Non-alcoholic fatty liver disease' },
+  'apache-ii': { name: 'Critical illness', alternateName: 'ICU mortality' },
+  'sofa-score': { name: 'Sepsis', alternateName: 'Organ dysfunction' },
+  'qsofa': { name: 'Sepsis' },
+  'curb-65': { name: 'Community-acquired pneumonia' },
+  'psi-port': { name: 'Community-acquired pneumonia' },
+  'nihss-stroke': { name: 'Acute ischemic stroke' },
+  'aspects-score': { name: 'Acute ischemic stroke' },
+  'framingham-risk': { name: 'Cardiovascular disease' },
+  'heart-score': { name: 'Acute coronary syndrome' },
+  'timi-stemi': { name: 'ST-elevation myocardial infarction' },
+  'timi-nstemi-ua': { name: 'Non-ST-elevation acute coronary syndrome' },
+  'grace-acs': { name: 'Acute coronary syndrome' },
+  'wells-dvt': { name: 'Deep vein thrombosis' },
+  'wells-pe': { name: 'Pulmonary embolism' },
+  'perc-rule': { name: 'Pulmonary embolism' },
+  'pesi-pe-severity': { name: 'Pulmonary embolism' },
+  'pesi-simplified': { name: 'Pulmonary embolism' },
+  'padua-prediction': { name: 'Venous thromboembolism' },
+  'caprini-dvt-risk': { name: 'Venous thromboembolism' },
+  'khorana-vte': { name: 'Cancer-associated venous thromboembolism' },
+  'centor-modified': { name: 'Streptococcal pharyngitis' },
+  'four-coma-scale': { name: 'Coma' },
+  'glasgow-coma-pupil': { name: 'Traumatic brain injury' },
+  'bisap-score': { name: 'Acute pancreatitis' },
+  'ranson-pancreatitis': { name: 'Acute pancreatitis' },
+  'rockall-score': { name: 'Upper gastrointestinal bleeding' },
+  'aims65-score': { name: 'Upper gastrointestinal bleeding' },
+  'crusade-bleeding': { name: 'Acute coronary syndrome', alternateName: 'In-hospital bleeding risk' },
+  'detsky-cardiac-risk': { name: 'Perioperative cardiac risk' },
+  'goldman-cardiac-risk': { name: 'Perioperative cardiac risk' },
+  'lee-rcri': { name: 'Perioperative cardiac risk' },
+  'gwtg-hf-risk': { name: 'Acute heart failure' },
+  'mascc-febrile-neutropenia': { name: 'Febrile neutropenia' },
+  'cam-icu-delirium': { name: 'ICU delirium' },
+  'mmse-mini-mental': { name: 'Cognitive impairment', alternateName: 'Dementia screening' },
+  'cage-alcohol-screening': { name: 'Alcohol use disorder' },
+  'fagerstrom-nicotine': { name: 'Nicotine dependence' },
+  'gina-asthma-control': { name: 'Asthma' },
+  'covid-19-severity': { name: 'COVID-19' },
+  'news-2': { name: 'Clinical deterioration' },
+  'finnegan-score': { name: 'Neonatal abstinence syndrome' },
+  'r-iss-myeloma': { name: 'Multiple myeloma' },
+  'mayo-uc': { name: 'Ulcerative colitis' },
+  'uceis-uc': { name: 'Ulcerative colitis' },
+  'cdai-crohns': { name: "Crohn's disease" },
+  'harvey-bradshaw': { name: "Crohn's disease" },
+  'das28-crp': { name: 'Rheumatoid arthritis' },
+  'das28-esr': { name: 'Rheumatoid arthritis' },
+}
+
+/**
+ * Build an ItemList schema fragment for a list of tools. Unlocks Carousel rich
+ * results when nested in a CollectionPage's `mainEntity`.
+ */
+export function buildToolItemList(
+  toolsList: Pick<Tool, 'slug' | 'name' | 'description'>[],
+  listName: string,
+): {
+  '@type': 'ItemList'
+  name: string
+  numberOfItems: number
+  itemListElement: Array<{
+    '@type': 'ListItem'
+    position: number
+    name: string
+    url: string
+  }>
+} {
+  return {
+    '@type': 'ItemList',
+    name: listName,
+    numberOfItems: toolsList.length,
+    itemListElement: toolsList.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: t.name,
+      url: `https://maratool.com/${t.slug}/`,
+    })),
+  }
+}

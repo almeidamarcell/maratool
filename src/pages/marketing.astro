@@ -2,10 +2,11 @@
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
 import HubPage from '../components/HubPage.astro'
-import { toolsFlatByCategory, subcategoryOrderByCategory } from '../data/tools'
+import { toolsFlatByCategory, subcategoryOrderByCategory, buildToolItemList } from '../data/tools'
 
 const categoryTools = toolsFlatByCategory.Marketing ?? []
 const subcategories = subcategoryOrderByCategory.Marketing ?? []
+const liveCategoryTools = categoryTools.filter(t => t.live)
 
 const seo = {
   title: 'Marketing Tools — maratool',
@@ -17,12 +18,13 @@ const seo = {
     name: 'Marketing Tools',
     url: 'https://maratool.com/marketing',
     description: 'Free browser-based marketing tools. Generate QR codes, build UTM-tagged URLs for campaign tracking — no sign-up, runs in your browser.',
-    hasPart: categoryTools.filter(t => t.live).map(tool => ({
+    hasPart: liveCategoryTools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
       applicationCategory: 'BusinessApplication',
     })),
+    mainEntity: buildToolItemList(liveCategoryTools, 'Marketing Tools'),
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -34,6 +36,19 @@ const seo = {
   },
 }
 
+const editorial = `
+<h2>About these marketing tools</h2>
+<p>This page collects utilities for the small but high-leverage tasks in campaign work — generating QR codes that link a print ad or a packaging insert to a landing page, building UTM-tagged URLs that let analytics tools attribute traffic back to a specific campaign, and producing barcodes for product labels, tickets, and event check-in. They are aimed at marketers, growth teams, and anyone running campaigns who does not want a SaaS subscription for one job.</p>
+
+<h3>What is on this page</h3>
+<p>The tools split into three jobs. Scannable code generators produce a visual asset that links a physical surface to a URL — the <a href="/qr-code-generator">QR code generator</a> outputs PNG or SVG at any size, supports an embedded logo, and lets you choose error-correction level so the code still scans when a logo covers part of it. URL tagging tools attach metadata to a link so analytics platforms can attribute traffic — the <a href="/utm-builder">UTM builder</a> assembles utm_source, utm_medium, utm_campaign, utm_content, and utm_term parameters in the format Google Analytics, Adobe Analytics, and most modern attribution stacks expect. Product code generators output barcodes for retail and operations — the <a href="/barcode-generator">barcode generator</a> covers Code 128, EAN-13, UPC-A, and other formats used on packaging, shelf tags, and tickets.</p>
+
+<h3>Which to use when</h3>
+<p>Use the QR code generator when bridging the physical and digital — print collateral, packaging, conference booths, restaurant menus, business cards. Use the UTM builder before launching any paid or organic campaign: even one or two consistently named parameters lets you measure which channels actually drive traffic and revenue, and stops attribution disputes between teams. Use the barcode generator when prototyping packaging, building an internal asset-tracking system, or printing event tickets.</p>
+
+<h3>Privacy</h3>
+<p>All marketing tools on this page run in your browser. URLs, campaign parameters, and any generated assets stay on your device — nothing is uploaded, logged, or stored on any server. That matters when working with unannounced launch URLs, internal campaign drafts, or anything else that should not leak before it is public.</p>
+`
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -73,7 +88,7 @@ const faqSchema = {
   ]
 }
 ---
-<Base {...seo} faqSchema={faqSchema}>
+<Base {...seo} faqSchema={faqSchema} scope="hub">
   <Layout scope="hub">
     <HubPage
       category="Marketing"
@@ -83,6 +98,7 @@ const faqSchema = {
       tools={categoryTools}
       subcategories={subcategories}
       basePath="/marketing"
+      editorial={editorial}
     />
   </Layout>
 </Base>

@@ -83,7 +83,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="jwt-decoder" name="Decode JWT Token Online" description="Paste a JWT token to instantly decode and inspect the header, payload, and signature. Runs entirely in your browser — nothing is sent to a server." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="jwt-decoder" name="Decode JWT Token Online" description="Paste a JWT token to instantly decode and inspect the header, payload, and signature. Runs entirely in your browser — nothing is sent to a server." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs="A JSON Web Token (JWT) is a compact, URL-safe token format defined in RFC 7519 for transmitting verifiable claims between two parties. It consists of three Base64url-encoded segments separated by dots: a header describing the signing algorithm (commonly HS256 or RS256), a payload containing the claims (such as sub, iss, exp, and custom data), and a signature that authenticates the previous two segments. JWTs are widely used for stateless authentication, OAuth 2.0 bearer tokens, and OpenID Connect ID tokens. A JWT decoder splits the token, Base64url-decodes each segment, and pretty-prints the JSON so developers can inspect claims and expirations without verifying the signature.">
       <div class="tool-container">
         <div class="tool-panel">
           <label class="tool-label" for="jwt-input">JWT Token</label>

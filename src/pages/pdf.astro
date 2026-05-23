@@ -2,10 +2,11 @@
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
 import HubPage from '../components/HubPage.astro'
-import { toolsFlatByCategory, subcategoryOrderByCategory } from '../data/tools'
+import { toolsFlatByCategory, subcategoryOrderByCategory, buildToolItemList } from '../data/tools'
 
 const categoryTools = toolsFlatByCategory.PDF ?? []
 const subcategories = subcategoryOrderByCategory.PDF ?? []
+const liveCategoryTools = categoryTools.filter(t => t.live)
 
 const seo = {
   title: 'PDF Tools — maratool',
@@ -17,12 +18,13 @@ const seo = {
     name: 'PDF Tools',
     url: 'https://maratool.com/pdf',
     description: 'Free browser-based PDF tools. Extract text, convert to Markdown, merge and split pages, check accessibility — no upload, runs in your browser.',
-    hasPart: categoryTools.filter(t => t.live).map(tool => ({
+    hasPart: liveCategoryTools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
       applicationCategory: 'UtilitiesApplication',
     })),
+    mainEntity: buildToolItemList(liveCategoryTools, 'PDF Tools'),
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -34,6 +36,19 @@ const seo = {
   },
 }
 
+const editorial = `
+<h2>About these PDF tools</h2>
+<p>This page collects browser-based utilities for working with PDFs — extracting their text, splitting and reordering pages, reading and editing metadata, converting between PDF and Markdown, and checking the accessibility of a document for screen reader users. They cover the common tasks where a desktop application is overkill and uploading a confidential file to a third-party service is not acceptable.</p>
+
+<h3>What is on this page</h3>
+<p>The tools group around four jobs. Extraction tools pull content out of a PDF — the <a href="/pdf-to-text">PDF to text</a> tool gives you plain text suitable for grep, search indexing, or LLM input, and the <a href="/pdf-to-markdown">PDF to Markdown</a> tool preserves headings, lists, and basic formatting so the output is closer to a usable document. Structural tools modify the file — the <a href="/pdf-merge-split">PDF merge and split</a> tool combines several PDFs into one or extracts a range of pages, useful when assembling a report or trimming a long export. Inspection tools tell you about the file itself — the <a href="/pdf-metadata">PDF metadata</a> tool reads title, author, producer, creation date, and other embedded fields, which is handy when auditing what a document quietly reveals about how it was produced. Accessibility tools evaluate the document for screen reader compatibility — the <a href="/pdf-accessibility-checker">PDF accessibility checker</a> flags missing tags, undefined reading order, and unlabeled images, the issues that block users of assistive technology.</p>
+
+<h3>Which to use when</h3>
+<p>Use the text extractor when ingesting PDFs into search, analytics, or a language model. Use the merge and split tool when assembling a deliverable from several sources or extracting a single section from a long bundle. Use the metadata tool when preparing a document for public release — author names, software versions, and edit history embedded in a PDF can reveal more than intended. Use the accessibility checker before publishing any PDF to a public site or sharing it with users who rely on screen readers.</p>
+
+<h3>Privacy</h3>
+<p>Every PDF tool on this page runs in your browser. The file you open is parsed, manipulated, and saved on your device — it is never uploaded to a server, logged, or stored remotely. That matters for legal documents, financial statements, internal reports, medical records, and anything else that should not flow through a third-party service.</p>
+`
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -73,7 +88,7 @@ const faqSchema = {
   ]
 }
 ---
-<Base {...seo} faqSchema={faqSchema}>
+<Base {...seo} faqSchema={faqSchema} scope="hub">
   <Layout scope="hub">
     <HubPage
       category="PDF"
@@ -83,6 +98,7 @@ const faqSchema = {
       tools={categoryTools}
       subcategories={subcategories}
       basePath="/pdf"
+      editorial={editorial}
     />
   </Layout>
 </Base>

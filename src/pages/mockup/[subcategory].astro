@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
 import HubPage from '../../components/HubPage.astro'
-import { toolsByCategory, toolsFlatByCategory, subcategoryOrderByCategory } from '../../data/tools'
+import { toolsByCategory, toolsFlatByCategory, subcategoryOrderByCategory, buildToolItemList } from '../../data/tools'
 
 export function getStaticPaths() {
   const subs = subcategoryOrderByCategory.Mockup ?? []
@@ -26,7 +26,7 @@ export function getStaticPaths() {
     },
     email: {
       title: 'Email Mockup Generators — maratool',
-      description: 'Free browser-based email mockup generators. Create realistic Gmail email screenshots — no sign-up.',
+      description: 'Free browser-based email mockup generators. Create realistic Gmail screenshots with custom sender, subject, and body for presentations and design. No sign-up.',
       intro: 'Realistic email screenshots for presentations, training, and design.',
     },
     comments: {
@@ -64,6 +64,7 @@ const { subcategory } = Astro.params
 const { sub, subTools, title, description, intro } = Astro.props
 const allTools = toolsFlatByCategory.Mockup ?? []
 const subcategories = subcategoryOrderByCategory.Mockup ?? []
+const liveSubTools = subTools.filter((tool: { live: boolean }) => tool.live)
 
 const seo = {
   title,
@@ -75,12 +76,13 @@ const seo = {
     name: `${sub} Mockup Generators`,
     url: `https://maratool.com/mockup/${subcategory}`,
     description,
-    hasPart: subTools.filter((tool: { live: boolean }) => tool.live).map((tool: { name: string; slug: string }) => ({
+    hasPart: liveSubTools.map((tool: { name: string; slug: string }) => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
       applicationCategory: 'DesignApplication',
     })),
+    mainEntity: buildToolItemList(liveSubTools, `${sub} Mockup Generators`),
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -93,7 +95,7 @@ const seo = {
   },
 }
 ---
-<Base {...seo}>
+<Base {...seo} scope="subcategory">
   <Layout scope="subcategory">
     <HubPage
       category="Mockup"

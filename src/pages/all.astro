@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
 import Breadcrumb from '../components/Breadcrumb.astro'
-import { tools, getAllTags } from '../data/tools'
+import { tools, getAllTags, buildToolItemList } from '../data/tools'
 
 const liveTools = tools.filter(t => t.live)
 const tagList = getAllTags()
@@ -52,6 +52,7 @@ const seo = {
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
     })),
+    mainEntity: buildToolItemList(liveTools, 'All Tools'),
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -68,7 +69,7 @@ const breadcrumbs = [
   { label: 'All tools' },
 ]
 ---
-<Base {...seo}>
+<Base {...seo} scope="all">
   <Layout scope="all">
     <Breadcrumb crumbs={breadcrumbs} />
     <div class="hub-hero" style="border-bottom: 0; padding-bottom: 0; margin-bottom: 0.75rem;">

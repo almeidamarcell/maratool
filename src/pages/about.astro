@@ -8,10 +8,25 @@ const seo = {
   canonical: 'https://maratool.com/about',
   schema: {
     '@context': 'https://schema.org',
-    '@type': 'AboutPage',
+    '@type': 'ProfilePage',
     name: 'About maratool',
     url: 'https://maratool.com/about',
-    description: 'About maratool — free browser-based developer tools.',
+    description: 'About maratool — free browser-based developer tools, built by Marcell Almeida.',
+    mainEntity: {
+      '@type': 'Person',
+      name: 'Marcell Almeida',
+      url: 'https://marcell.com.br',
+      jobTitle: 'Software Developer',
+      worksFor: {
+        '@type': 'Organization',
+        name: 'maratool',
+        url: 'https://maratool.com',
+      },
+      sameAs: [
+        'https://marcell.com.br',
+        'https://github.com/almeidamarcell',
+      ],
+    },
   },
 }
 ---

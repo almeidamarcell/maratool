@@ -2,6 +2,7 @@
 import Breadcrumb from './Breadcrumb.astro'
 import EmbedBadge from './EmbedBadge.astro'
 import EmbedButton from './EmbedButton.astro'
+import { lastmodBySlug } from '../data/lastmod-generated'
 
 interface FAQItem {
   q: string
@@ -21,9 +22,22 @@ interface Props {
   faq: FAQItem[]
   relatedTools: RelatedTool[]
   breadcrumbs?: Array<{ label: string; href?: string }>
+  // Optional self-contained passage answering "what is X?". Renders as a
+  // bordered card before "How to use". Designed for LLM citability — one
+  // paragraph, no jargon dump, includes the tool name early.
+  whatIs?: string
 }
 
-const { name, slug, description, howTo, faq, relatedTools, breadcrumbs = [] } = Astro.props
+const { name, slug, description, howTo, faq, relatedTools, breadcrumbs = [], whatIs } = Astro.props
+const lastUpdated = lastmodBySlug[slug] ?? null
+const lastUpdatedDisplay = lastUpdated
+  ? new Date(lastUpdated + 'T00:00:00Z').toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'UTC',
+    })
+  : null
 ---
 <article>
   {breadcrumbs.length > 0 && <Breadcrumb crumbs={breadcrumbs} />}
@@ -48,6 +62,13 @@ const { name, slug, description, howTo, faq, relatedTools, breadcrumbs = [] } = 
   <p class="tool-description">{description}</p>
 
   <slot />
+
+  {whatIs && (
+    <section class="what-is" aria-labelledby="what-is-heading">
+      <h2 id="what-is-heading">What is {name.replace(/\s*(Calculator|Generator|Converter|Score|Tool|Online)\s*$/i, '')}?</h2>
+      <p set:html={whatIs} />
+    </section>
+  )}
 
   <section class="how-to" aria-labelledby="how-to-heading">
     <h2 id="how-to-heading">How to use</h2>
@@ -76,8 +97,46 @@ const { name, slug, description, howTo, faq, relatedTools, breadcrumbs = [] } = 
       </ul>
     </section>
   )}
+  {lastUpdatedDisplay && (
+    <p class="tool-lastmod">
+      <span aria-hidden="true">⟳</span> Last updated <time datetime={lastUpdated}>{lastUpdatedDisplay}</time>
+    </p>
+  )}
   <EmbedBadge toolUrl={`https://maratool.com/${slug}`} />
 </article>
+
+<style is:global>
+  .tool-lastmod {
+    font-size: 12px;
+    color: var(--text-3);
+    margin: 1.5rem 0 0.5rem;
+    font-family: var(--font-mono);
+  }
+  .tool-lastmod time {
+    color: var(--text-2);
+  }
+  .what-is {
+    margin: 2rem 0 1rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .what-is h2 {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.375rem;
+    margin: 0 0 0.5rem;
+    color: var(--text);
+  }
+  .what-is p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text);
+    margin: 0;
+  }
+</style>
 
 <script define:vars={{ slug, name }}>
 // Track this tool visit in localStorage for "Recently Used"

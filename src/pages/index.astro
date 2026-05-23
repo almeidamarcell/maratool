@@ -122,7 +122,7 @@ const faqSchema = {
 
 const seo = {
   title: `maratool — ${liveTools.length}+ Free Browser-Based Tools | No Sign-Up`,
-  description: 'Free, instant, browser-based tools for developers, designers, writers, and clinicians. JSON formatter, color picker, JWT decoder, medical calculators, PDF tools and more — no sign-up, no tracking, nothing installed.',
+  description: 'Free browser-based tools — JSON formatter, color picker, JWT decoder, medical calculators, PDF tools, and 220+ more. No sign-up, no uploads, runs locally.',
   canonical: 'https://maratool.com/',
   schema: {
     '@context': 'https://schema.org',
@@ -148,7 +148,7 @@ const itemListSchema = {
   })),
 }
 ---
-<Base {...seo} faqSchema={faqSchema}>
+<Base {...seo} faqSchema={faqSchema} scope="home">
   <Layout scope="home">
     <!-- Hero -->
     <div class="hero">

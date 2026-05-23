@@ -27,6 +27,9 @@ interface Props {
   activeSubcategory?: string | null
   basePath: string
   secondaryAxis?: SecondaryAxis | null
+  // Optional long-form editorial copy rendered after the tool list.
+  // HTML string — h2/h3/p/ul allowed. Used on category landing pages only.
+  editorial?: string
 }
 
 const {
@@ -39,6 +42,7 @@ const {
   activeSubcategory = null,
   basePath,
   secondaryAxis = null,
+  editorial = null,
 } = Astro.props
 
 const liveTools = tools.filter(t => t.live)
@@ -159,6 +163,12 @@ function axisValueFor(tool: Tool, source: 'specialty' | 'purpose'): string {
       <div class="hub-pagination-info" id="hub-pagination-info"></div>
     </nav>
   </>
+)}
+
+{editorial && (
+  <section class="hub-editorial" aria-label={`About ${category}`}>
+    <div set:html={editorial} />
+  </section>
 )}
 
 <script>

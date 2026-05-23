@@ -2,10 +2,11 @@
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
 import HubPage from '../components/HubPage.astro'
-import { toolsFlatByCategory, subcategoryOrderByCategory } from '../data/tools'
+import { toolsFlatByCategory, subcategoryOrderByCategory, buildToolItemList } from '../data/tools'
 
 const categoryTools = toolsFlatByCategory.Color ?? []
 const subcategories = subcategoryOrderByCategory.Color ?? []
+const liveCategoryTools = categoryTools.filter(t => t.live)
 
 const seo = {
   title: 'Color Tools — maratool',
@@ -17,12 +18,13 @@ const seo = {
     name: 'Color Tools',
     url: 'https://maratool.com/color',
     description: 'Free browser-based color tools. Generate CSS gradients, color shades, palettes, Tailwind palettes, and check contrast — no sign-up, runs in your browser.',
-    hasPart: categoryTools.filter(t => t.live).map(tool => ({
+    hasPart: liveCategoryTools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
       applicationCategory: 'DesignApplication',
     })),
+    mainEntity: buildToolItemList(liveCategoryTools, 'Color Tools'),
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -34,6 +36,19 @@ const seo = {
   },
 }
 
+const editorial = `
+<h2>About these color tools</h2>
+<p>This page collects utilities for the color decisions that come up in product design and front-end work — checking whether a foreground passes contrast against a background, generating a full palette from a brand color, converting a value between hex, RGB, HSL, and OKLCH, and finding harmonious accent colors that work alongside a base. They are aimed at designers, developers, and anyone who has had to ship a UI that needs to look right and meet accessibility requirements.</p>
+
+<h3>What is on this page</h3>
+<p>The tools group around four jobs. Accessibility tools answer whether a combination will work — the <a href="/contrast-checker">contrast checker</a> computes the WCAG ratio between two colors and tells you whether it passes AA or AAA for normal and large text, the standard most teams target. Conversion tools move a single color between formats — the <a href="/color-converter">color converter</a> reads hex, RGB, HSL, HSV, CMYK, and OKLCH, useful when one tool exports in one format and your code expects another. Palette tools produce sets of related colors from a starting input — the <a href="/color-shades">color shades</a> generator builds the lighter and darker steps you need for hover states, borders, and surfaces, and the <a href="/palette-generator">palette generator</a> creates a full multi-color set you can drop into a design system. Harmony tools find colors that pair well with a base — the <a href="/color-harmony-generator">harmony generator</a> outputs complementary, analogous, triadic, and split-complementary schemes from a single seed.</p>
+
+<h3>Which to use when</h3>
+<p>Use the contrast checker before locking in a text color over a background — it is the fastest way to catch an accessibility failure during design rather than during audit. Use the shades generator when you need a coherent scale for a single brand color (50 through 900, in Tailwind's convention). Use the harmony generator when you have a primary and need an accent or a secondary that does not clash. Use the converter when copying a value out of a design file and into CSS, or when working in OKLCH for perceptual uniformity.</p>
+
+<h3>Privacy</h3>
+<p>All color tools on this page run in your browser. Color values you enter, palettes you generate, and any exports stay on your device — nothing is uploaded, logged, or stored on any server.</p>
+`
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -73,7 +88,7 @@ const faqSchema = {
   ]
 }
 ---
-<Base {...seo} faqSchema={faqSchema}>
+<Base {...seo} faqSchema={faqSchema} scope="hub">
   <Layout scope="hub">
     <HubPage
       category="Color"
@@ -83,6 +98,7 @@ const faqSchema = {
       tools={categoryTools}
       subcategories={subcategories}
       basePath="/color"
+      editorial={editorial}
     />
   </Layout>
 </Base>

@@ -23,3 +23,5 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 .gstack/
+src/data/lastmod-generated.ts
+public/palette-tools.json

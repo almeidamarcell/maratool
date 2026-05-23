@@ -1,4 +1,7 @@
 ---
+import { lastmodBySlug } from '../data/lastmod-generated'
+import { tools } from '../data/tools'
+
 interface Props {
   title: string
   description: string
@@ -8,10 +11,49 @@ interface Props {
   breadcrumbSchema?: Record<string, unknown>
   ogImage?: string
   noindex?: boolean
+  // 'tool' = individual tool pages. Anything else loads the heavier
+  // discovery.css with hub/all/home-specific styles.
+  scope?: 'tool' | 'hub' | 'home' | 'all' | 'subcategory' | 'page'
 }
 
-const { title, description, canonical, schema, faqSchema, breadcrumbSchema, ogImage, noindex } = Astro.props
-const resolvedOgImage = ogImage ?? 'https://maratool.com/og-image.png'
+const { title, description, canonical, schema, faqSchema, breadcrumbSchema, ogImage, noindex, scope = 'tool' } = Astro.props
+const loadDiscoveryCSS = scope !== 'tool'
+
+// Inject dateModified into the page schema if we can match this page's URL
+// to a known tool slug. Schema can opt out by setting dateModified themselves.
+const canonicalSlug = canonical.replace(/^https?:\/\/maratool\.com\//, '').replace(/\/$/, '')
+const inferredLastmod = lastmodBySlug[canonicalSlug]
+const enrichedSchema = (
+  inferredLastmod && !('dateModified' in schema)
+    ? { ...schema, dateModified: inferredLastmod }
+    : schema
+)
+
+// Resolve OG image: explicit prop wins. Otherwise pick a per-vertical OG
+// image based on the canonical URL — covers hub pages, subcategory pages,
+// and individual tool pages (looked up via tools.ts).
+const VERTICAL_OG = [
+  'developer', 'health', 'image', 'text', 'color',
+  'converter', 'marketing', 'mockup', 'pdf',
+]
+function ogImageForCanonical(): string {
+  const path = canonicalSlug
+  // /developer, /developer/foo, /health, /health/bar, etc.
+  const first = path.split('/')[0]?.toLowerCase()
+  if (first && VERTICAL_OG.includes(first)) {
+    return `https://maratool.com/og/${first}.svg`
+  }
+  // Tool slug — look up category.
+  const tool = tools.find(t => t.slug === path)
+  if (tool) {
+    const cat = tool.category.toLowerCase()
+    if (VERTICAL_OG.includes(cat)) {
+      return `https://maratool.com/og/${cat}.svg`
+    }
+  }
+  return 'https://maratool.com/og-image.png'
+}
+const resolvedOgImage = ogImage ?? ogImageForCanonical()
 
 const canonicalURL = new URL(
   canonical.endsWith('/') ? canonical : canonical + '/',
@@ -24,6 +66,10 @@ const orgSchema = {
   name: 'maratool',
   url: 'https://maratool.com',
   logo: 'https://maratool.com/favicon.svg',
+  sameAs: [
+    'https://marcell.com.br',
+    'https://github.com/almeidamarcell/maratool',
+  ],
   founder: {
     '@type': 'Person',
     name: 'Marcell Almeida',
@@ -85,13 +131,14 @@ const normalizedBreadcrumb = breadcrumbSchema
     <link rel="stylesheet" href="/styles/layout.css" />
     <link rel="stylesheet" href="/styles/tools.css" />
     <link rel="stylesheet" href="/styles/health-tools.css" />
-    <link rel="stylesheet" href="/styles/discovery.css" />
+    <link rel="stylesheet" href="/styles/discovery-shared.css" />
+    {loadDiscoveryCSS && <link rel="stylesheet" href="/styles/discovery.css" />}
 
     <!-- Organization JSON-LD (site-wide) -->
     <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
 
     <!-- WebApplication JSON-LD -->
-    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(enrichedSchema)} />
 
     <!-- FAQPage JSON-LD (optional) -->
     {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}

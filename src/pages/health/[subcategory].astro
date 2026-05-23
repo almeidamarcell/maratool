@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
 import HubPage from '../../components/HubPage.astro'
-import { toolsByCategory, toolsFlatByCategory, subcategoryOrderByCategory } from '../../data/tools'
+import { toolsByCategory, toolsFlatByCategory, subcategoryOrderByCategory, buildToolItemList } from '../../data/tools'
 
 export function getStaticPaths() {
   const subs = subcategoryOrderByCategory.Health ?? []
@@ -11,12 +11,12 @@ export function getStaticPaths() {
   const descriptions: Record<string, { title: string; description: string; intro: string }> = {
     anthropometric: {
       title: 'Anthropometric Calculators — maratool',
-      description: 'BMI, body surface area, ideal body weight, estimated blood volume — calculators for body composition.',
+      description: 'Free anthropometric calculators — BMI, body surface area (BSA), ideal body weight, estimated blood volume, and other body composition formulas, runs in your browser.',
       intro: 'Body size, composition, and volume estimates used across clinical care.',
     },
     cardiology: {
       title: 'Cardiology Calculators — maratool',
-      description: 'MAP, QTc (Bazett/Fridericia/Framingham/Hodges), Friedewald LDL, and other cardiovascular calculators.',
+      description: 'Free bedside cardiology calculators — MAP, QTc (Bazett, Fridericia, Framingham, Hodges), Friedewald LDL, and other cardiovascular formulas, runs in your browser.',
       intro: 'Bedside cardiology calculators for hemodynamics, ECG, and lipids.',
     },
     endocrine: {
@@ -46,7 +46,7 @@ export function getStaticPaths() {
     },
     renal: {
       title: 'Renal Function Calculators — maratool',
-      description: 'CKD-EPI, Cockcroft-Gault, MDRD, FENa, urinary protein-to-creatinine, and other renal function calculators.',
+      description: 'Free renal calculators — CKD-EPI, Cockcroft-Gault, MDRD, FENa, FEUrea, urinary protein-to-creatinine, and more. Browser-based GFR estimation, no upload.',
       intro: 'Kidney function estimation and urinary indices.',
     },
     obstetric: {
@@ -56,12 +56,12 @@ export function getStaticPaths() {
     },
     pediatric: {
       title: 'Pediatric Calculators — maratool',
-      description: 'APGAR, pediatric Glasgow, BP percentiles, ETT size, pediatric infusion, and other pediatric calculators.',
+      description: 'Free pediatric calculators — APGAR, pediatric Glasgow, ETT size, pediatric infusion (mcg/kg/min, mg/kg/hr), neonatal sepsis, and more, runs in your browser.',
       intro: 'Calculators for newborn, infant, and pediatric patients.',
     },
     electrolytes: {
       title: 'Electrolyte & Serum Calculators — maratool',
-      description: 'Serum osmolality, corrected calcium, corrected sodium, iron deficit and other electrolyte calculators.',
+      description: 'Free electrolyte calculators — serum osmolality, corrected calcium, corrected sodium, iron deficit (Ganzoni), bicarbonate deficit, and more, runs in your browser.',
       intro: 'Electrolyte corrections and serum index calculators.',
     },
     drug: {
@@ -76,7 +76,7 @@ export function getStaticPaths() {
     },
     ventilation: {
       title: 'Ventilation & Blood Gas Calculators — maratool',
-      description: 'ABG interpreter, PaO2/FiO2 ratio, SpO2/FiO2 ratio, expected PaO2 by age and other ventilation calculators.',
+      description: 'Free ventilation and ABG calculators — PaO2/FiO2 (P/F) ratio, SpO2/FiO2, ideal PaO2 by age, alveolar gas equation, and more. Runs in your browser.',
       intro: 'Blood gas analysis and ventilation calculators.',
     },
     scale: {
@@ -118,6 +118,7 @@ const { subcategory } = Astro.params
 const { sub, subTools, title, description, intro } = Astro.props
 const allTools = toolsFlatByCategory.Health ?? []
 const subcategories = subcategoryOrderByCategory.Health ?? []
+const liveSubTools = subTools.filter((tool: { live: boolean }) => tool.live)
 
 const seo = {
   title,
@@ -129,12 +130,13 @@ const seo = {
     name: `${sub} Calculators`,
     url: `https://maratool.com/health/${subcategory}`,
     description,
-    hasPart: subTools.filter((tool: { live: boolean }) => tool.live).map((tool: { name: string; slug: string }) => ({
+    hasPart: liveSubTools.map((tool: { name: string; slug: string }) => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
       applicationCategory: 'HealthApplication',
     })),
+    mainEntity: buildToolItemList(liveSubTools, `${sub} Calculators`),
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -147,7 +149,7 @@ const seo = {
   },
 }
 ---
-<Base {...seo}>
+<Base {...seo} scope="subcategory">
   <Layout scope="subcategory">
     <HubPage
       category="Health"

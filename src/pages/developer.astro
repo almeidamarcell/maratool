@@ -2,10 +2,11 @@
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
 import HubPage from '../components/HubPage.astro'
-import { toolsFlatByCategory, subcategoryOrderByCategory } from '../data/tools'
+import { toolsFlatByCategory, subcategoryOrderByCategory, buildToolItemList } from '../data/tools'
 
 const categoryTools = toolsFlatByCategory.Developer ?? []
 const subcategories = subcategoryOrderByCategory.Developer ?? []
+const liveCategoryTools = categoryTools.filter(t => t.live)
 
 const seo = {
   title: 'Developer Tools — maratool',
@@ -17,12 +18,13 @@ const seo = {
     name: 'Developer Tools',
     url: 'https://maratool.com/developer',
     description: 'Free browser-based developer tools. Generate hashes, decode JWT tokens, create UUIDs, build cron expressions — no sign-up, runs in your browser.',
-    hasPart: categoryTools.filter(t => t.live).map(tool => ({
+    hasPart: liveCategoryTools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
       applicationCategory: 'DeveloperApplication',
     })),
+    mainEntity: buildToolItemList(liveCategoryTools, 'Developer Tools'),
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -34,6 +36,19 @@ const seo = {
   },
 }
 
+const editorial = `
+<h2>About these developer tools</h2>
+<p>This page collects the small utilities that come up over and over in day-to-day engineering work — encoding and decoding tokens, hashing strings, generating identifiers, building cron schedules, testing regular expressions, and producing secure random values. They are the kind of tasks that interrupt real work for thirty seconds, and a fast, browser-based tool is usually faster than writing a one-off script or opening an IDE.</p>
+
+<h3>What you can do here</h3>
+<p>The tools split roughly into four jobs. Inspection tools read structured data and show you what is inside — for example, the <a href="/jwt-decoder">JWT decoder</a> splits a token into its header, payload, and signature so you can verify claims, audience, and expiry without a debugger. Generation tools produce values on demand: the <a href="/uuid-generator">UUID generator</a> emits v1, v4, and v5 identifiers in bulk, and the <a href="/password-generator">password generator</a> uses the browser's cryptographic random source rather than Math.random. Hashing tools compute fingerprints — the <a href="/hash-generator">hash generator</a> covers MD5, SHA-1, SHA-256, and SHA-512 at once, useful for checksums, cache keys, and integrity checks. Reference tools sit alongside, like the cron expression builder and the <a href="/regex-tester">regex tester</a>, which let you preview a schedule or a pattern before you commit it to production.</p>
+
+<h3>When to use which</h3>
+<p>Reach for the JWT decoder when you need to read a token you already have. Use the hash generator when comparing file fingerprints or producing stable cache keys. Use the UUID generator when seeding a database or writing fixtures. Use the regex tester when a pattern works in one engine but not another, or to debug a backreference that is matching the wrong group. Each tool keeps state in the URL or in localStorage where it makes sense, so you can paste the page link into a ticket or come back to it later without losing context.</p>
+
+<h3>Privacy</h3>
+<p>Everything on this page runs in your browser. Tokens, plaintext, generated identifiers, and any input you paste stay on your device — nothing is sent to a server, logged, or stored remotely. That makes these safe to use on real production credentials, internal API responses, or anything else you would not want flowing through a third party.</p>
+`
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -73,7 +88,7 @@ const faqSchema = {
   ]
 }
 ---
-<Base {...seo} faqSchema={faqSchema}>
+<Base {...seo} faqSchema={faqSchema} scope="hub">
   <Layout scope="hub">
     <HubPage
       category="Developer"
@@ -83,6 +98,7 @@ const faqSchema = {
       tools={categoryTools}
       subcategories={subcategories}
       basePath="/developer"
+      editorial={editorial}
     />
   </Layout>
 </Base>

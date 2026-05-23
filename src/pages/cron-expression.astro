@@ -83,7 +83,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="cron-expression" name="Cron Expression Builder & Decoder" description="Build cron expressions visually. See a plain-English description and the next 5 scheduled run times." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="cron-expression" name="Cron Expression Builder & Decoder" description="Build cron expressions visually. See a plain-English description and the next 5 scheduled run times." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs="A cron expression is a compact string that describes a recurring schedule, used by the Unix <strong>cron</strong> daemon and adopted by Kubernetes CronJobs, GitHub Actions, AWS EventBridge, and most CI/CD platforms. The standard five-field syntax — <strong>minute hour day-of-month month day-of-week</strong> — accepts numbers, ranges (1-5), lists (1,3,5), steps (*/15), and wildcards (*). For example, <strong>0 9 * * 1-5</strong> runs every weekday at 09:00. A cron builder translates a desired schedule into the correct expression and a parser converts an existing expression back to plain English, also computing the next few execution times so engineers can confirm intent before deploying.">
       <div class="tool-container">
         <div class="cron-fields">
           <div class="cron-field">

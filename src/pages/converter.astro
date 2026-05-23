@@ -2,10 +2,11 @@
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
 import HubPage from '../components/HubPage.astro'
-import { toolsFlatByCategory, subcategoryOrderByCategory } from '../data/tools'
+import { toolsFlatByCategory, subcategoryOrderByCategory, buildToolItemList } from '../data/tools'
 
 const categoryTools = toolsFlatByCategory.Converter ?? []
 const subcategories = subcategoryOrderByCategory.Converter ?? []
+const liveCategoryTools = categoryTools.filter(t => t.live)
 
 const seo = {
   title: 'Converter Tools — maratool',
@@ -17,12 +18,13 @@ const seo = {
     name: 'Converter Tools',
     url: 'https://maratool.com/converter',
     description: 'Free browser-based converter tools. Convert CSV to JSON, HTML to Markdown, Base64 encode/decode, Unix timestamps, and more — no sign-up, runs in your browser.',
-    hasPart: categoryTools.filter(t => t.live).map(tool => ({
+    hasPart: liveCategoryTools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
       applicationCategory: 'UtilitiesApplication',
     })),
+    mainEntity: buildToolItemList(liveCategoryTools, 'Converter Tools'),
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -34,6 +36,19 @@ const seo = {
   },
 }
 
+const editorial = `
+<h2>About these converter tools</h2>
+<p>This page collects the conversions that come up over and over when moving data between systems — spreadsheets to APIs, configuration formats to each other, encoded blobs back to text, and timestamps between formats a human can read and ones a database expects. They are the kind of tasks where a fast browser tool beats writing a one-off script.</p>
+
+<h3>What is on this page</h3>
+<p>The tools group around three jobs. Data format converters translate structured data between representations — the <a href="/csv-to-json">CSV to JSON converter</a> reads a spreadsheet export and produces a JSON array suitable for an API or a fixture file, and the <a href="/yaml-to-json">YAML to JSON converter</a> moves between the formats most configuration systems alternate between (Kubernetes, GitHub Actions, OpenAPI). Markup converters move between document formats — the <a href="/html-to-markdown">HTML to Markdown</a> converter cleans up a copy from a web page or rich text editor and produces Markdown you can paste into a README, a blog post, or a documentation site. Encoding and time converters handle the lower-level transforms — Base64 encoding, URL encoding, and the <a href="/unix-timestamp">Unix timestamp</a> converter, which translates between epoch seconds and human-readable dates in your local timezone or UTC.</p>
+
+<h3>Which to use when</h3>
+<p>Use the CSV to JSON converter when migrating data into an application that does not accept spreadsheets directly, or when seeding test fixtures from a finance or marketing export. Use the YAML to JSON converter when debugging a tool that requires one format but you authored configuration in the other — it is also useful for validating that your YAML actually parses. Use the HTML to Markdown converter when capturing content from the web into a writing workflow that uses Markdown. Use the <a href="/unit-converter">unit converter</a> for the cross-cutting cases — length, weight, temperature, data size — where a quick answer beats opening a calculator.</p>
+
+<h3>Privacy</h3>
+<p>Every converter on this page runs in your browser. Inputs are parsed, transformed, and rendered on your device — they are never uploaded to a server, logged, or stored remotely. That makes the tools safe for proprietary data exports, internal configs, and anything else you would not paste into a third-party service.</p>
+`
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -73,7 +88,7 @@ const faqSchema = {
   ]
 }
 ---
-<Base {...seo} faqSchema={faqSchema}>
+<Base {...seo} faqSchema={faqSchema} scope="hub">
   <Layout scope="hub">
     <HubPage
       category="Converter"
@@ -83,6 +98,7 @@ const faqSchema = {
       tools={categoryTools}
       subcategories={subcategories}
       basePath="/converter"
+      editorial={editorial}
     />
   </Layout>
 </Base>

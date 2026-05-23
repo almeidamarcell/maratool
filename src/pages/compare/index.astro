@@ -1,0 +1,139 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import Breadcrumb from '../../components/Breadcrumb.astro'
+import { comparePairs } from '../../data/compare-pairs'
+import { tools } from '../../data/tools'
+
+const enriched = comparePairs.map(pair => {
+  const a = tools.find(t => t.slug === pair.toolA)
+  const b = tools.find(t => t.slug === pair.toolB)
+  return { pair, a, b }
+}).filter(x => x.a && x.b)
+
+const byCategory: Record<string, typeof enriched> = {}
+for (const item of enriched) {
+  const cat = item.pair.category
+  if (!byCategory[cat]) byCategory[cat] = []
+  byCategory[cat].push(item)
+}
+const categoryOrder = Object.keys(byCategory).sort((a, b) => byCategory[b].length - byCategory[a].length)
+
+const seo = {
+  title: 'Tool comparisons — head-to-head guides | maratool',
+  description: `Side-by-side comparisons of related tools — ${comparePairs.length} guides covering medical scores, developer utilities, and converters. Pick the right tool for the job.`,
+  canonical: 'https://maratool.com/compare',
+  scope: 'page' as const,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Tool Comparisons',
+    url: 'https://maratool.com/compare',
+    description: 'Head-to-head comparison guides for related tools on maratool.',
+    numberOfItems: enriched.length,
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Compare', item: 'https://maratool.com/compare' },
+    ],
+  },
+}
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Compare' },
+]
+---
+<Base {...seo}>
+  <Layout scope="page">
+    <div class="compare-index">
+      <Breadcrumb crumbs={breadcrumbs} />
+      <h1>Tool comparisons</h1>
+      <p class="compare-index-deck">
+        Side-by-side guides for related tools — when to use each, how the inputs differ,
+        and which one matches your situation.
+      </p>
+
+      {categoryOrder.map(cat => (
+        <section class="compare-cat">
+          <h2>{cat}</h2>
+          <ul class="compare-list">
+            {byCategory[cat].map(({ pair, a, b }) => (
+              <li>
+                <a href={`/compare/${pair.slug}`}>
+                  <strong>{pair.title}</strong>
+                  <span>{pair.metaDescription}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </Layout>
+</Base>
+
+<style is:global>
+  .compare-index {
+    max-width: 720px;
+    padding: 1.5rem 0 3rem;
+  }
+  .compare-index h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0.5rem 0 0.5rem;
+  }
+  .compare-index-deck {
+    font-size: 16px;
+    color: var(--text-2);
+    margin: 0 0 2rem;
+    line-height: 1.6;
+  }
+  .compare-cat {
+    margin-bottom: 2rem;
+  }
+  .compare-cat h2 {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.5rem;
+    margin: 0 0 0.625rem;
+    color: var(--text);
+  }
+  .compare-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .compare-list li a {
+    display: block;
+    padding: 0.875rem 1.125rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    background: var(--bg);
+    transition: border-color 0.1s, background 0.1s;
+  }
+  .compare-list li a:hover {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+    text-decoration: none;
+  }
+  .compare-list li a strong {
+    display: block;
+    color: var(--text);
+    font-size: 14.5px;
+    margin-bottom: 4px;
+  }
+  .compare-list li a span {
+    display: block;
+    color: var(--text-2);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+</style>

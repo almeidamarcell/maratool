@@ -2,10 +2,11 @@
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
 import HubPage from '../components/HubPage.astro'
-import { toolsFlatByCategory, subcategoryOrderByCategory } from '../data/tools'
+import { toolsFlatByCategory, subcategoryOrderByCategory, buildToolItemList } from '../data/tools'
 
 const categoryTools = toolsFlatByCategory.Mockup ?? []
 const subcategories = subcategoryOrderByCategory.Mockup ?? []
+const liveCategoryTools = categoryTools.filter(t => t.live)
 
 const seo = {
   title: 'Mockup Generators — maratool',
@@ -17,12 +18,13 @@ const seo = {
     name: 'Mockup Generators',
     url: 'https://maratool.com/mockup',
     description: 'Free browser-based mockup generators. Create realistic chat, post, and conversation screenshots.',
-    hasPart: categoryTools.filter(t => t.live).map(tool => ({
+    hasPart: liveCategoryTools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
       applicationCategory: 'DesignApplication',
     })),
+    mainEntity: buildToolItemList(liveCategoryTools, 'Mockup Generators'),
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -34,6 +36,19 @@ const seo = {
   },
 }
 
+const editorial = `
+<h2>About these mockup generators</h2>
+<p>This page collects tools that produce realistic screenshots of chat apps and social platforms — WhatsApp threads, iMessage conversations, X (Twitter) posts, Instagram posts, ChatGPT exchanges, and more. They are aimed at designers, marketers, content creators, journalists, and educators who need a clean visual without actually staging the conversation on the real platform.</p>
+
+<h3>What is on this page</h3>
+<p>The generators split by platform. Chat mockups recreate one-on-one and group conversations as they appear on the real apps — the <a href="/whatsapp-chat-mockup">WhatsApp chat mockup</a> matches the green bubbles, timestamps, and read receipts, the <a href="/imessage-chat-mockup">iMessage mockup</a> matches the blue and gray bubbles and delivery states, and similar tools exist for Discord, Telegram, and SMS. Social post mockups reproduce single-post layouts — the <a href="/x-post-mockup">X post mockup</a> produces a tweet card with profile, handle, timestamp, and engagement counts, and the <a href="/instagram-post-mockup">Instagram post mockup</a> generates a feed-style post with caption, likes, and comments. AI chat mockups recreate assistant conversations — the <a href="/chatgpt-mockup">ChatGPT mockup</a> renders a clean transcript suitable for blog posts and case studies. Each generator gives you control over avatars, names, timestamps, message bodies, and platform-specific details like read marks and verification badges.</p>
+
+<h3>Which to use when</h3>
+<p>Use a chat mockup when illustrating a hypothetical user interaction for a product spec, a marketing campaign, or an educational article — it is faster than scheduling a real conversation just for the screenshot and lets you control every detail. Use a social post mockup for ad creative, blog headers, and slide decks where you want to reference a platform's visual language without lifting a real user's content. Use the ChatGPT mockup for content that explains AI workflows when you do not want to share an actual transcript or want to clean up a long thread for readability.</p>
+
+<h3>Privacy and intent</h3>
+<p>These tools are for design, marketing, education, and entertainment. Do not use them to fabricate evidence, impersonate real people, or pass mock content off as authentic. All mockup generation happens in your browser — the names, messages, and images you enter stay on your device, are never uploaded to a server, and are not stored anywhere outside your session.</p>
+`
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -73,7 +88,7 @@ const faqSchema = {
   ]
 }
 ---
-<Base {...seo} faqSchema={faqSchema}>
+<Base {...seo} faqSchema={faqSchema} scope="hub">
   <Layout scope="hub">
     <HubPage
       category="Mockup"
@@ -83,6 +98,7 @@ const faqSchema = {
       tools={categoryTools}
       subcategories={subcategories}
       basePath="/mockup"
+      editorial={editorial}
     />
   </Layout>
 </Base>

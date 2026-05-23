@@ -1,15 +1,6 @@
 ---
-import { tools } from '../data/tools'
-
-const paletteTools = tools.filter(t => t.live).map(t => ({
-  slug: t.slug,
-  name: t.name,
-  emoji: t.emoji,
-  category: t.category,
-  subcategory: t.subcategory,
-  keywords: t.keywords,
-  description: t.description,
-}))
+// Tool registry is no longer inlined here — it's fetched from
+// /palette-tools.json on first ⌘K open. Saves ~78KB on every page.
 ---
 <div id="cmd-overlay" class="cmd-overlay" hidden role="dialog" aria-modal="true" aria-label="Search tools">
   <div id="cmd-backdrop" class="cmd-backdrop"></div>
@@ -38,24 +29,48 @@ const paletteTools = tools.filter(t => t.live).map(t => ({
   </div>
 </div>
 
-<script define:vars={{ paletteTools }}>
+<script>
 (function () {
   var overlay = document.getElementById('cmd-overlay')
   var backdrop = document.getElementById('cmd-backdrop')
-  var input = document.getElementById('cmd-input')
+  var input = document.getElementById('cmd-input') as HTMLInputElement | null
   var results = document.getElementById('cmd-results')
   if (!overlay || !input || !results || !backdrop) return
 
-  var activeIndex = -1
-  var currentResults = []
-  var lastFocused = null
-  var debounceTimer = null
+  type PaletteTool = {
+    slug: string
+    name: string
+    emoji: string
+    category: string
+    subcategory: string
+    keywords: string[]
+    description: string
+  }
 
-  function escapeHtml(str) {
+  var paletteTools: PaletteTool[] = []
+  var paletteLoadPromise: Promise<PaletteTool[]> | null = null
+  var activeIndex = -1
+  var currentResults: PaletteTool[] = []
+  var lastFocused: Element | null = null
+  var debounceTimer: ReturnType<typeof setTimeout> | null = null
+
+  function loadPalette(): Promise<PaletteTool[]> {
+    if (paletteLoadPromise) return paletteLoadPromise
+    paletteLoadPromise = fetch('/palette-tools.json', { credentials: 'omit' })
+      .then(function (r) { return r.ok ? r.json() : [] })
+      .then(function (data) {
+        paletteTools = Array.isArray(data) ? data : []
+        return paletteTools
+      })
+      .catch(function () { paletteTools = []; return paletteTools })
+    return paletteLoadPromise
+  }
+
+  function escapeHtml(str: string): string {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
   }
 
-  function highlight(text, q) {
+  function highlight(text: string, q: string): string {
     var escaped = escapeHtml(text)
     if (!q) return escaped
     var lower = String(text).toLowerCase()
@@ -66,7 +81,7 @@ const paletteTools = tools.filter(t => t.live).map(t => ({
       escapeHtml(text.slice(idx + q.length))
   }
 
-  function scoreFor(tool, q) {
+  function scoreFor(tool: PaletteTool, q: string): number {
     var name = tool.name.toLowerCase()
     var desc = tool.description.toLowerCase()
     if (name === q) return 6
@@ -81,10 +96,10 @@ const paletteTools = tools.filter(t => t.live).map(t => ({
     return 0
   }
 
-  function search(q) {
+  function search(q: string): PaletteTool[] {
     q = q.toLowerCase().trim()
     if (!q) return []
-    var scored = []
+    var scored: { tool: PaletteTool; score: number }[] = []
     for (var i = 0; i < paletteTools.length; i++) {
       var s = scoreFor(paletteTools[i], q)
       if (s > 0) scored.push({ tool: paletteTools[i], score: s })
@@ -93,28 +108,28 @@ const paletteTools = tools.filter(t => t.live).map(t => ({
     return scored.slice(0, 30).map(function (x) { return x.tool })
   }
 
-  function getPinned() {
+  function getPinned(): { slug: string }[] {
     try {
       var raw = localStorage.getItem('maratool_pinned')
       return raw ? JSON.parse(raw) : []
     } catch (e) { return [] }
   }
 
-  function getRecent() {
+  function getRecent(): { slug: string }[] {
     try {
       var raw = localStorage.getItem('maratool_recent')
       return raw ? JSON.parse(raw) : []
     } catch (e) { return [] }
   }
 
-  function findTool(slug) {
+  function findTool(slug: string): PaletteTool | null {
     for (var i = 0; i < paletteTools.length; i++) {
       if (paletteTools[i].slug === slug) return paletteTools[i]
     }
     return null
   }
 
-  function renderRow(tool, idx, query) {
+  function renderRow(tool: PaletteTool, idx: number, query: string): string {
     return '<a class="cmd-row" href="/' + tool.slug + '" data-index="' + idx + '" data-slug="' + tool.slug + '">' +
       '<span class="cmd-row-emoji">' + escapeHtml(tool.emoji) + '</span>' +
       '<span class="cmd-row-body">' +
@@ -125,16 +140,15 @@ const paletteTools = tools.filter(t => t.live).map(t => ({
     '</a>'
   }
 
-  function renderResults(items, query) {
+  function renderResults(items: PaletteTool[], query: string) {
     activeIndex = -1
     currentResults = items
     if (items.length === 0) {
-      results.innerHTML = '<div class="cmd-empty">No tools found for &ldquo;' + escapeHtml(query) + '&rdquo;</div>'
+      results!.innerHTML = '<div class="cmd-empty">No tools found for &ldquo;' + escapeHtml(query) + '&rdquo;</div>'
       return
     }
-    // Group by category
-    var byCategory = {}
-    var order = []
+    var byCategory: Record<string, PaletteTool[]> = {}
+    var order: string[] = []
     for (var i = 0; i < items.length; i++) {
       var cat = items[i].category
       if (!byCategory[cat]) { byCategory[cat] = []; order.push(cat) }
@@ -143,15 +157,15 @@ const paletteTools = tools.filter(t => t.live).map(t => ({
     var html = ''
     var idx = 0
     for (var j = 0; j < order.length; j++) {
-      var cat = order[j]
-      var group = byCategory[cat]
-      html += '<div class="cmd-section-label">' + escapeHtml(cat) + ' <span class="count">' + group.length + ' match' + (group.length === 1 ? '' : 'es') + '</span></div>'
+      var c = order[j]
+      var group = byCategory[c]
+      html += '<div class="cmd-section-label">' + escapeHtml(c) + ' <span class="count">' + group.length + ' match' + (group.length === 1 ? '' : 'es') + '</span></div>'
       for (var k = 0; k < group.length; k++) {
         html += renderRow(group[k], idx, query)
         idx++
       }
     }
-    results.innerHTML = html
+    results!.innerHTML = html
     setActive(0)
   }
 
@@ -190,51 +204,69 @@ const paletteTools = tools.filter(t => t.live).map(t => ({
     if (!html) {
       html = '<div class="cmd-empty">Type to search 235+ tools — try &ldquo;json&rdquo;, &ldquo;cha2ds2&rdquo;, or &ldquo;qr&rdquo;.</div>'
     }
-    results.innerHTML = html
+    results!.innerHTML = html
     if (currentResults.length > 0) setActive(0)
   }
 
-  function setActive(i) {
-    var rows = results.querySelectorAll('.cmd-row')
+  function setActive(i: number) {
+    var rows = results!.querySelectorAll('.cmd-row')
     if (activeIndex >= 0 && activeIndex < rows.length) {
       rows[activeIndex].classList.remove('active')
     }
     activeIndex = i
     if (activeIndex >= 0 && activeIndex < rows.length) {
       rows[activeIndex].classList.add('active')
-      rows[activeIndex].scrollIntoView({ block: 'nearest' })
+      ;(rows[activeIndex] as HTMLElement).scrollIntoView({ block: 'nearest' })
     }
   }
 
   function open() {
     lastFocused = document.activeElement
-    overlay.hidden = false
+    overlay!.hidden = false
     document.body.style.overflow = 'hidden'
-    setTimeout(function () { input.focus() }, 0)
-    if (input.value) {
-      renderResults(search(input.value), input.value.trim())
+    setTimeout(function () { input!.focus() }, 0)
+    // Lazy-load tools on first open; show a brief loading state if needed.
+    if (paletteTools.length === 0) {
+      results!.innerHTML = '<div class="cmd-empty">Loading…</div>'
+      loadPalette().then(function () {
+        // Re-render in case the user typed while loading
+        if (!overlay!.hidden) {
+          var q = input!.value.trim()
+          if (q) renderResults(search(q), q)
+          else renderEmpty()
+        }
+      })
+    } else if (input!.value) {
+      renderResults(search(input!.value), input!.value.trim())
     } else {
       renderEmpty()
     }
   }
 
   function close() {
-    overlay.hidden = true
+    overlay!.hidden = true
     document.body.style.overflow = ''
-    if (lastFocused && lastFocused.focus) lastFocused.focus()
+    if (lastFocused && (lastFocused as HTMLElement).focus) (lastFocused as HTMLElement).focus()
   }
 
   input.addEventListener('input', function () {
-    clearTimeout(debounceTimer)
+    if (debounceTimer) clearTimeout(debounceTimer)
     debounceTimer = setTimeout(function () {
-      var q = input.value.trim()
+      var q = input!.value.trim()
       if (!q) { renderEmpty(); return }
-      renderResults(search(q), q)
+      // If tools haven't loaded yet, kick off load and wait
+      if (paletteTools.length === 0) {
+        loadPalette().then(function () {
+          renderResults(search(q), q)
+        })
+      } else {
+        renderResults(search(q), q)
+      }
     }, 100)
   })
 
   input.addEventListener('keydown', function (e) {
-    var rows = results.querySelectorAll('.cmd-row')
+    var rows = results!.querySelectorAll('.cmd-row')
     if (e.key === 'ArrowDown') {
       e.preventDefault()
       setActive(Math.min(activeIndex + 1, rows.length - 1))
@@ -245,6 +277,7 @@ const paletteTools = tools.filter(t => t.live).map(t => ({
       e.preventDefault()
       if (activeIndex >= 0 && activeIndex < rows.length) {
         var href = rows[activeIndex].getAttribute('href')
+        if (!href) return
         if (e.metaKey || e.ctrlKey) {
           window.open(href, '_blank')
         } else {
@@ -259,11 +292,11 @@ const paletteTools = tools.filter(t => t.live).map(t => ({
 
   backdrop.addEventListener('click', close)
 
-  // Global ⌘K / Ctrl+K
+  // Global ⌘K / Ctrl+K — keep listener lightweight (no data loaded until opened)
   document.addEventListener('keydown', function (e) {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault()
-      if (overlay.hidden) {
+      if (overlay!.hidden) {
         open()
       } else {
         close()
@@ -271,7 +304,7 @@ const paletteTools = tools.filter(t => t.live).map(t => ({
     }
     // Slash also opens (when not focused in an input)
     if (e.key === '/' && document.activeElement && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-      if (overlay.hidden) {
+      if (overlay!.hidden) {
         e.preventDefault()
         open()
       }
@@ -279,6 +312,6 @@ const paletteTools = tools.filter(t => t.live).map(t => ({
   })
 
   // Expose for trigger buttons (topbar search field, hero search button)
-  window.maratoolOpenCmdPalette = open
+  ;(window as any).maratoolOpenCmdPalette = open
 })()
 </script>

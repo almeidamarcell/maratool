@@ -4,12 +4,15 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "node scripts/gen-llms.mjs",
+    "prebuild": "node scripts/gen-llms.mjs && node scripts/gen-palette.mjs && node scripts/gen-lastmod.mjs && node scripts/gen-og-images.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest run",
-    "gen:llms": "node scripts/gen-llms.mjs"
+    "gen:llms": "node scripts/gen-llms.mjs",
+    "gen:palette": "node scripts/gen-palette.mjs",
+    "gen:lastmod": "node scripts/gen-lastmod.mjs",
+    "gen:og": "node scripts/gen-og-images.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.12",

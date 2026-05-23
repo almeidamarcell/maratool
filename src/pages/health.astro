@@ -2,10 +2,11 @@
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
 import HubPage from '../components/HubPage.astro'
-import { toolsFlatByCategory, subcategoryOrderByCategory, getHealthSpecialties } from '../data/tools'
+import { toolsFlatByCategory, subcategoryOrderByCategory, getHealthSpecialties, buildToolItemList } from '../data/tools'
 
 const categoryTools = toolsFlatByCategory.Health ?? []
 const subcategories = subcategoryOrderByCategory.Health ?? []
+const liveCategoryTools = categoryTools.filter(t => t.live)
 
 // Dual axis: secondary = Specialty (derived from getSpecialty)
 const specialties = getHealthSpecialties()
@@ -26,12 +27,13 @@ const seo = {
     name: 'Medical Calculators',
     url: 'https://maratool.com/health',
     description: 'Free medical calculators, clinical scores, and scales for healthcare professionals.',
-    hasPart: categoryTools.filter(t => t.live).map(tool => ({
+    hasPart: liveCategoryTools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
       applicationCategory: 'HealthApplication',
     })),
+    mainEntity: buildToolItemList(liveCategoryTools, 'Medical Calculators'),
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -43,6 +45,19 @@ const seo = {
   },
 }
 
+const editorial = `
+<h2>About these medical calculators</h2>
+<p>This page collects clinical scores, scales, and equations that clinicians use at the bedside or in the office to support a decision — risk stratification, severity grading, dosing references, screening, and triage. Most are direct implementations of the original published instruments, kept faithful to the source so the output you see here matches what a colleague would compute by hand.</p>
+
+<h3>What is on this page</h3>
+<p>The calculators cover several common needs. Risk stratification scores answer "how worried should I be" for a given patient — for example, <a href="/cha2ds2-vasc">CHA2DS2-VASc</a> for stroke risk in atrial fibrillation, the <a href="/framingham-risk">Framingham risk score</a> for ten-year cardiovascular events, and <a href="/qsofa">qSOFA</a> for suspected sepsis outside the ICU. Severity and staging tools like <a href="/meld-meldna">MELD/MELD-Na</a> for end-stage liver disease and <a href="/nihss-stroke">NIHSS</a> for acute stroke help quantify how sick a patient is and inform escalation or transplant prioritization. Renal function tools like <a href="/ckd-epi-creatinine">CKD-EPI</a> estimate GFR for staging chronic kidney disease and adjusting drug doses. General-purpose calculators such as the <a href="/bmi-calculator">BMI calculator</a> are included for screening and documentation.</p>
+
+<h3>Which to use when</h3>
+<p>Calculators on this site are filtered by specialty so you can narrow to cardiology, nephrology, hepatology, neurology, infectious diseases, and so on. Use the score whose inclusion criteria match your patient — many calculators are validated only in a specific population (for example, qSOFA outside the ICU, MELD-Na in candidates already meeting transplant criteria). Each calculator page lists the underlying reference and the interpretation thresholds the original authors published.</p>
+
+<h3>Educational use and privacy</h3>
+<p>These calculators are intended for educational and reference use by clinicians, residents, and students. They do not replace clinical judgment, do not constitute medical advice, and should not be used as the sole basis for diagnostic or treatment decisions for any individual patient. All computation happens in your browser — no inputs, results, or patient identifiers are transmitted, logged, or stored on any server.</p>
+`
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -82,7 +97,7 @@ const faqSchema = {
   ]
 }
 ---
-<Base {...seo} faqSchema={faqSchema}>
+<Base {...seo} faqSchema={faqSchema} scope="hub">
   <Layout scope="hub">
     <HubPage
       category="Health"
@@ -93,6 +108,7 @@ const faqSchema = {
       subcategories={subcategories}
       basePath="/health"
       secondaryAxis={secondaryAxis}
+      editorial={editorial}
     />
   </Layout>
 </Base>

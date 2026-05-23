@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
 import HubPage from '../../components/HubPage.astro'
-import { toolsByCategory, toolsFlatByCategory, subcategoryOrderByCategory } from '../../data/tools'
+import { toolsByCategory, toolsFlatByCategory, subcategoryOrderByCategory, buildToolItemList } from '../../data/tools'
 
 export function getStaticPaths() {
   const subs = subcategoryOrderByCategory.Image ?? []
@@ -39,6 +39,7 @@ const { subcategory } = Astro.params
 const { sub, subTools, title, description, intro } = Astro.props
 const allTools = toolsFlatByCategory.Image ?? []
 const subcategories = subcategoryOrderByCategory.Image ?? []
+const liveSubTools = subTools.filter((tool: { live: boolean }) => tool.live)
 
 const seo = {
   title,
@@ -50,12 +51,13 @@ const seo = {
     name: `Image ${sub} Tools`,
     url: `https://maratool.com/image/${subcategory}`,
     description,
-    hasPart: subTools.filter((tool: { live: boolean }) => tool.live).map((tool: { name: string; slug: string }) => ({
+    hasPart: liveSubTools.map((tool: { name: string; slug: string }) => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
       url: `https://maratool.com/${tool.slug}`,
       applicationCategory: 'DesignApplication',
     })),
+    mainEntity: buildToolItemList(liveSubTools, `Image ${sub} Tools`),
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -68,7 +70,7 @@ const seo = {
   },
 }
 ---
-<Base {...seo}>
+<Base {...seo} scope="subcategory">
   <Layout scope="subcategory">
     <HubPage
       category="Image"
