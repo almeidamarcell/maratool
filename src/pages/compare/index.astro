@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
 import Breadcrumb from '../../components/Breadcrumb.astro'
-import { comparePairs } from '../../data/compare-pairs'
+import { comparePairs, categorySlug } from '../../data/compare-pairs'
 import { tools } from '../../data/tools'
 
 const enriched = comparePairs.map(pair => {
@@ -21,7 +21,7 @@ const categoryOrder = Object.keys(byCategory).sort((a, b) => byCategory[b].lengt
 
 const seo = {
   title: 'Tool comparisons — head-to-head guides | maratool',
-  description: `Side-by-side comparisons of related tools — ${comparePairs.length} guides covering medical scores, developer utilities, and converters. Pick the right tool for the job.`,
+  description: `Side-by-side comparisons of related tools — ${comparePairs.length} guides covering medical scores, developer utilities, image formats, and more. Pick the right tool for the job.`,
   canonical: 'https://maratool.com/compare',
   scope: 'page' as const,
   schema: {
@@ -31,6 +31,17 @@ const seo = {
     url: 'https://maratool.com/compare',
     description: 'Head-to-head comparison guides for related tools on maratool.',
     numberOfItems: enriched.length,
+    mainEntity: {
+      '@type': 'ItemList',
+      name: 'All Tool Comparisons',
+      numberOfItems: enriched.length,
+      itemListElement: enriched.map(({ pair }, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: pair.title,
+        url: `https://maratool.com/compare/${categorySlug(pair.category)}/${pair.slug}/`,
+      })),
+    },
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -54,24 +65,30 @@ const breadcrumbs = [
       <h1>Tool comparisons</h1>
       <p class="compare-index-deck">
         Side-by-side guides for related tools — when to use each, how the inputs differ,
-        and which one matches your situation.
+        and which one matches your situation. {enriched.length} comparisons across {categoryOrder.length} categories.
       </p>
 
-      {categoryOrder.map(cat => (
-        <section class="compare-cat">
-          <h2>{cat}</h2>
-          <ul class="compare-list">
-            {byCategory[cat].map(({ pair, a, b }) => (
-              <li>
-                <a href={`/compare/${pair.slug}`}>
-                  <strong>{pair.title}</strong>
-                  <span>{pair.metaDescription}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
+      {categoryOrder.map(cat => {
+        const catSlug = categorySlug(cat as any)
+        return (
+          <section class="compare-cat">
+            <h2>
+              <a href={`/compare/${catSlug}`}>{cat}</a>
+              <span class="compare-cat-count">{byCategory[cat].length}</span>
+            </h2>
+            <ul class="compare-list">
+              {byCategory[cat].map(({ pair }) => (
+                <li>
+                  <a href={`/compare/${catSlug}/${pair.slug}/`}>
+                    <strong>{pair.title}</strong>
+                    <span>{pair.metaDescription}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      })}
     </div>
   </Layout>
 </Base>
@@ -102,6 +119,22 @@ const breadcrumbs = [
     font-size: 1.5rem;
     margin: 0 0 0.625rem;
     color: var(--text);
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .compare-cat h2 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .compare-cat h2 a:hover {
+    color: var(--accent);
+  }
+  .compare-cat-count {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-3);
+    font-style: normal;
   }
   .compare-list {
     list-style: none;

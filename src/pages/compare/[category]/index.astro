@@ -1,0 +1,153 @@
+---
+import Base from '../../../layouts/Base.astro'
+import Layout from '../../../components/Layout.astro'
+import Breadcrumb from '../../../components/Breadcrumb.astro'
+import { comparePairs, categorySlug } from '../../../data/compare-pairs'
+import { tools } from '../../../data/tools'
+
+export function getStaticPaths() {
+  // One index page per category that has at least one comparison.
+  const cats = new Set(comparePairs.map(p => p.category))
+  return Array.from(cats).map(category => ({
+    params: { category: categorySlug(category) },
+    props: { category },
+  }))
+}
+
+const { category } = Astro.props
+const catSlug = categorySlug(category)
+
+const pairs = comparePairs
+  .filter(p => p.category === category)
+  .map(pair => {
+    const a = tools.find(t => t.slug === pair.toolA)
+    const b = tools.find(t => t.slug === pair.toolB)
+    return { pair, a, b }
+  })
+  .filter(x => x.a && x.b)
+
+const canonical = `https://maratool.com/compare/${catSlug}`
+const hubUrl = `https://maratool.com/${catSlug}`
+
+const seo = {
+  title: `${category} comparisons — side-by-side guides | maratool`,
+  description: `Head-to-head guides for ${category.toLowerCase()} tools on maratool — ${pairs.length} comparisons covering when to use which and how the inputs differ.`,
+  canonical,
+  scope: 'page' as const,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `${category} Comparisons`,
+    url: canonical,
+    description: `Head-to-head comparison guides for ${category.toLowerCase()} tools.`,
+    numberOfItems: pairs.length,
+    mainEntity: {
+      '@type': 'ItemList',
+      name: `${category} comparisons`,
+      numberOfItems: pairs.length,
+      itemListElement: pairs.map(({ pair }, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: pair.title,
+        url: `https://maratool.com/compare/${catSlug}/${pair.slug}/`,
+      })),
+    },
+    isPartOf: {
+      '@type': 'CollectionPage',
+      name: 'Tool Comparisons',
+      url: 'https://maratool.com/compare',
+    },
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Compare', item: 'https://maratool.com/compare' },
+      { '@type': 'ListItem', position: 3, name: category, item: canonical },
+    ],
+  },
+}
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Compare', href: '/compare' },
+  { label: category },
+]
+---
+<Base {...seo}>
+  <Layout scope="page">
+    <div class="compare-index">
+      <Breadcrumb crumbs={breadcrumbs} />
+      <h1>{category} comparisons</h1>
+      <p class="compare-index-deck">
+        Head-to-head guides for {category.toLowerCase()} tools — when to use each, how the inputs differ,
+        and which one fits your situation. <a href={`/${catSlug}`}>Browse all {category.toLowerCase()} tools →</a>
+      </p>
+
+      <ul class="compare-list">
+        {pairs.map(({ pair }) => (
+          <li>
+            <a href={`/compare/${catSlug}/${pair.slug}/`}>
+              <strong>{pair.title}</strong>
+              <span>{pair.metaDescription}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </Layout>
+</Base>
+
+<style is:global>
+  .compare-index {
+    max-width: 720px;
+    padding: 1.5rem 0 3rem;
+  }
+  .compare-index h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0.5rem 0 0.5rem;
+  }
+  .compare-index-deck {
+    font-size: 16px;
+    color: var(--text-2);
+    margin: 0 0 2rem;
+    line-height: 1.6;
+  }
+  .compare-index-deck a { color: var(--accent); text-decoration: none; }
+  .compare-index-deck a:hover { text-decoration: underline; }
+  .compare-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .compare-list li a {
+    display: block;
+    padding: 0.875rem 1.125rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    background: var(--bg);
+    transition: border-color 0.1s, background 0.1s;
+  }
+  .compare-list li a:hover {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+    text-decoration: none;
+  }
+  .compare-list li a strong {
+    display: block;
+    color: var(--text);
+    font-size: 14.5px;
+    margin-bottom: 4px;
+  }
+  .compare-list li a span {
+    display: block;
+    color: var(--text-2);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+</style>
