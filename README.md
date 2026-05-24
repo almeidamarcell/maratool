@@ -6,6 +6,53 @@ tracking beyond standard AdSense (eventually, because currently there is no AdSe
 
 Live at **[maratool.com](https://maratool.com)**.
 
+## Why this exists
+
+There's a class of task I kept running into. Calculate a percentage I'm
+too lazy to do in my head. Strip the background off an image or a GIF.
+Throw together a phone mockup. Stuff you don't want to install an app
+for, and definitely don't want to make an account for. For years I'd
+google whichever site did the thing, ignore the ads, copy the result,
+close the tab. Repeat next week with a different one.
+
+AI can do some of these, but not always well, and sending private data
+through an LLM just to extract text from a contract PDF is not what most
+people want. So this is the alternative: a growing pile of small
+browser-only tools where the math is right, your data stays on your
+machine, and nothing is uploaded anywhere.
+
+> **One honest exception.** The Instagram video downloader at
+> `/instagram-video-downloader` is the only tool that talks to a server.
+> Your browser sends the Instagram URL you paste to a small Cloudflare
+> Worker in [`worker/`](./worker), which proxies the request to a
+> third-party Instagram API. This is required because Instagram blocks
+> direct fetches from the browser. The [privacy policy](https://maratool.com/privacy)
+> documents exactly what that one tool does. Every other tool on the
+> site is fully client-side.
+
+![maratool homepage — sidebar with categories and a tool card grid](./public/blog/open-source/homepage.png)
+
+It used to be just for me. Now the source is here, and contributions
+are open. The full story is on the blog:
+[Why I built maratool, and why it's open source now](https://maratool.com/blog/may-2026-open-source).
+
+![Health: over a hundred clinical calculators implemented from primary literature](./public/blog/open-source/health.png)
+
+![Background Remover — the model runs locally in the browser, the image is never uploaded](./public/blog/open-source/background-remover.png)
+
+## Contributing
+
+PRs welcome. Areas that need help in particular:
+
+- **Health calculators.** Over a hundred clinical scores live under
+  `src/pages/` and `src/tools/`, each implemented from the primary
+  literature. Clinicians spotting a formula error, an outdated
+  guideline, or a missing calculator: please open an issue or PR.
+- **New tools.** If there's something you wish maratool had, see
+  `src/data/tools.ts` for the registry, copy a small existing tool
+  (e.g. `uuid-generator`) as a starting point, and open a PR.
+- **Fixes.** Bug reports with a reproduction step go in GitHub Issues.
+
 ## License
 
 This project is **source-available** under the
