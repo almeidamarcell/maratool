@@ -2,7 +2,7 @@
 
 A collection of free, browser-based developer, design, and productivity
 tools. All tools run entirely client-side — no uploads, no accounts, no
-tracking beyond standard AdSense.
+tracking beyond standard AdSense (eventually, because currently there is no AdSense).
 
 Live at **[maratool.com](https://maratool.com)**.
 
