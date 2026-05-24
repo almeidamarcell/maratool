@@ -1,0 +1,41 @@
+version: 2
+updates:
+  # Top-level Astro site
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: "America/Sao_Paulo"
+    open-pull-requests-limit: 5
+    versioning-strategy: increase
+    labels:
+      - dependencies
+    groups:
+      astro:
+        patterns:
+          - "astro"
+          - "@astrojs/*"
+
+  # Cloudflare Worker (Instagram media proxy)
+  - package-ecosystem: npm
+    directory: "/worker"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: "America/Sao_Paulo"
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - worker
+
+  # GitHub Actions (none today, but enables auto-PRs the moment a workflow is added)
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - ci
