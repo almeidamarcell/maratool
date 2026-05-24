@@ -1,0 +1,42 @@
+name: Mirror main to maratool-archive
+
+# Auto-mirrors pushes to `main` of this public repo over to the private
+# `maratool-archive` repo (which is what Cloudflare Pages deploys from).
+# Lets you merge Dependabot/contributor PRs via the GitHub UI without
+# needing to run `git fetch && git push` locally afterwards.
+#
+# See OPS.md in maratool-internal-docs for the full setup explanation.
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: mirror-to-archive
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure SSH deploy key
+        env:
+          DEPLOY_KEY: ${{ secrets.ARCHIVE_DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Push main to maratool-archive
+        run: |
+          git remote add archive git@github.com:almeidamarcell/maratool-archive.git
+          GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
+            git push archive main
