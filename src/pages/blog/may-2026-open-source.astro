@@ -1,0 +1,216 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'Why I built maratool, and why it’s open source now | maratool',
+  description: 'maratool started as a pile of small browser-based tools I built for myself. Today the source is on GitHub and contributions are open.',
+  canonical: 'https://maratool.com/blog/may-2026-open-source',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'Why I built maratool, and why it’s open source now',
+    image: 'https://maratool.com/og-image.png',
+    datePublished: '2026-05-24',
+    dateModified: '2026-05-24',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': 'https://maratool.com/blog/may-2026-open-source',
+    },
+    url: 'https://maratool.com/blog/may-2026-open-source',
+    description: 'Why maratool was built and why the source is now public on GitHub.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Why maratool is open source', item: 'https://maratool.com/blog/may-2026-open-source' },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">← Blog</a>
+          <time datetime="2026-05-24" class="blog-post-date">May 24, 2026</time>
+          <span class="blog-post-author">by <a href="http://marcell.com.br/" target="_blank" rel="noopener">Marcell Almeida</a></span>
+        </div>
+        <h1 class="blog-post-title">Why I built maratool, and why it&rsquo;s open source now</h1>
+        <p class="blog-post-lead">maratool started as a pile of small browser-based tools I kept building for myself. Today the source is on <a href="https://github.com/almeidamarcell/maratool" target="_blank" rel="noopener">GitHub</a> and contributions are open.</p>
+      </header>
+
+      <div class="blog-body">
+        <figure class="blog-figure">
+          <img src="/blog/open-source/homepage.png" alt="maratool homepage — a sidebar of verticals on the left and a grid of tool category cards" loading="lazy" width="1440" height="900" />
+          <figcaption>maratool today: 219 tools across 9 verticals, all browser-based.</figcaption>
+        </figure>
+
+        <p>There&rsquo;s a class of task I keep running into. Calculate a percentage I&rsquo;m too lazy to do in my head. Strip the background off an image or a GIF. Throw together a phone mockup. Stuff you don&rsquo;t want to install an app for, and definitely don&rsquo;t want to make an account for.</p>
+
+        <p>For years I&rsquo;d just google whatever site did the thing, click around, ignore the ads, copy the result, close the tab. Then repeat the search next week because I&rsquo;d forgotten which site I used.</p>
+
+        <p><em>&ldquo;But you can do all of that with an AI now.&rdquo;</em></p>
+
+        <p>You can, sometimes. The thing is, AI isn&rsquo;t always good at it. Background removal on a GIF comes back a little different from what you put in: tiny color shifts, soft edges, a frame that doesn&rsquo;t quite match the rest. Then there&rsquo;s the cost. Paying tokens to calculate percentages or pull text from a PDF feels insane when both are deterministic problems that ran fine on a 1995 laptop. And a lot of what you&rsquo;d paste in is private. I personally don&rsquo;t mind much, but I know plenty of people who don&rsquo;t want their data going through an OpenAI endpoint just to extract text from a contract PDF.</p>
+
+        <p>So maratool runs entirely in your browser. PDFs, images, GIFs, JSON, passwords, all of it lives on your machine, gets processed there, and stays there. Nothing is uploaded anywhere.</p>
+
+        <aside class="blog-callout">
+          <p><strong>One honest exception.</strong> The <a href="/instagram-video-downloader">Instagram video downloader</a> is the only tool on the site that talks to a server. Your browser sends the Instagram URL you paste to a small Cloudflare Worker that lives in the same repo, which then proxies the request to a third-party Instagram API. This is required because Instagram blocks direct fetches from the browser. The <a href="/privacy">privacy policy</a> walks through exactly what that one tool does. Everything else is fully client-side.</p>
+        </aside>
+
+        <figure class="blog-figure">
+          <img src="/blog/open-source/background-remover.png" alt="The Background Remover tool — a drop zone, with a note that the model and image stay in your browser" loading="lazy" width="1440" height="900" />
+          <figcaption>The Background Remover even loads the AI model into your browser. The image you drop never leaves the tab.</figcaption>
+        </figure>
+
+        <p>That&rsquo;s what the site grew out of, a pile of things I wanted for myself. At some point keeping it private stopped making sense. So today it&rsquo;s open source.</p>
+
+        <h2>The other thing that pushed me there</h2>
+
+        <p>The health calculators. There are <a href="/health">over a hundred of them on the site now</a>: eGFR, MELD, qSOFA, CHA2DS2-VASc, the Lille model, a stack of pediatric scores. I am not a doctor. The reason any of these exist is that a friend who is one mentioned a couple he&rsquo;d want at the bedside. Once I&rsquo;d built those two I figured I&rsquo;d do the rest properly. Implement each formula from the original paper, unit-test it against published worked examples, cite the source on the page.</p>
+
+        <figure class="blog-figure">
+          <img src="/blog/open-source/health.png" alt="The Health hub — a filterable list of medical calculators, scores, and scales" loading="lazy" width="1440" height="900" />
+          <figcaption>The Health hub. Every calculator implements its formula from the primary literature and cites the source on the page.</figcaption>
+        </figure>
+
+        <p>That whole category should not have come from one person. It is the kind of thing the project needs more of. Tools I would never write because I do not work in the field. Fixes from people who actually use what they touch. Calculators I have not thought of yet.</p>
+
+        <h2>Where it is now</h2>
+
+        <p>A pile of small browser-only tools, growing. The math is right, your data does not leave the tab, and the source is on <a href="https://github.com/almeidamarcell/maratool" target="_blank" rel="noopener">GitHub</a>. If there is something you wish existed, or something that is there but a bit off, the repo is open. PRs welcome.</p>
+
+        <p class="blog-footer-note">A note on the license: maratool is <a href="https://github.com/almeidamarcell/maratool/blob/main/LICENSE" target="_blank" rel="noopener">source-available under the O&rsquo;Saasy License</a>, which is MIT plus a clause preventing third parties from offering it back as a competing hosted SaaS product. You can fork it, modify it, run it yourself, and contribute. See the <a href="https://github.com/almeidamarcell/maratool/blob/main/LICENSE" target="_blank" rel="noopener">license file</a> for the precise terms.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>
+<style is:global>
+  .blog-post {
+    max-width: 680px;
+    padding: 2.5rem 2rem;
+  }
+  .blog-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .blog-back {
+    font-size: 13px;
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  .blog-back:hover { color: var(--accent); }
+  .blog-post-date {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+  .blog-post-author {
+    font-size: 12px;
+    color: var(--text-3);
+  }
+  .blog-post-author a {
+    color: var(--text-2);
+    text-decoration: none;
+  }
+  .blog-post-author a:hover { color: var(--accent); }
+  .blog-post-header { margin-bottom: 2rem; }
+  .blog-post-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.02em;
+  }
+  .blog-post-lead {
+    font-size: 16px;
+    color: var(--text-2);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .blog-post-lead a { color: var(--accent); text-decoration: none; }
+  .blog-post-lead a:hover { text-decoration: underline; }
+  .blog-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .blog-body p { margin: 0 0 1rem; }
+  .blog-body h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 2rem 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .blog-body a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .blog-body a:hover { text-decoration: underline; }
+  .blog-body em { color: var(--text-2); }
+  .blog-figure {
+    margin: 1.5rem 0 1.75rem;
+    padding: 0;
+  }
+  .blog-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+  }
+  .blog-figure figcaption {
+    font-size: 13px;
+    color: var(--text-3);
+    margin-top: 0.5rem;
+    line-height: 1.5;
+    font-style: italic;
+  }
+  .blog-callout {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    background: var(--bg-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+  }
+  .blog-callout p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+  .blog-callout strong { color: var(--text); }
+  .blog-callout a { color: var(--accent); text-decoration: none; }
+  .blog-callout a:hover { text-decoration: underline; }
+  .blog-footer-note {
+    font-size: 14px;
+    color: var(--text-2);
+    padding: 1rem;
+    background: var(--bg-soft);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .blog-footer-note a { color: var(--accent); text-decoration: none; }
+  .blog-footer-note a:hover { text-decoration: underline; }
+  @media (max-width: 600px) {
+    .blog-post { padding: 1.5rem 1rem; }
+    .blog-post-title { font-size: 1.5rem; }
+  }
+</style>
