@@ -45,6 +45,12 @@ Run unit tests:
 npm test
 ```
 
+## Deployment
+
+Production runs on Cloudflare Pages. Every merge to `main` triggers an
+automatic build and deploy — usually live on
+[maratool.com](https://maratool.com) within 1–2 minutes.
+
 ## Self-hosting
 
 The site is a pure static build — you can deploy `dist/` to any static
