@@ -392,6 +392,65 @@
 }
 
 /* ============================================================
+   Topbar search trigger (button styled like input)
+   ============================================================ */
+.topbar-search-trigger {
+  position: relative;
+  flex: 1;
+  max-width: 480px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px 0 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--text-3);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.topbar-search-trigger:hover {
+  background: var(--bg);
+  border-color: var(--text-3);
+}
+
+.topbar-search-trigger .search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-3);
+  pointer-events: none;
+}
+
+.topbar-search-trigger .topbar-search-placeholder {
+  flex: 1;
+  color: var(--text-3);
+}
+
+.topbar-search-trigger .search-kbd {
+  font-family: var(--font);
+  font-size: 11px;
+  color: var(--text-3);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .topbar-search-trigger .topbar-search-placeholder { display: none; }
+  .topbar-search-trigger { max-width: 120px; }
+}
+
+/* ============================================================
    Mobile shared bits (topbar + tool-pin + iOS no-zoom)
    ============================================================ */
 
