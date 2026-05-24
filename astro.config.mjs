@@ -1,6 +1,5 @@
 import { defineConfig } from 'astro/config'
 import { execSync } from 'child_process'
-import cloudflare from '@astrojs/cloudflare'
 import sitemap from '@astrojs/sitemap'
 
 const CATEGORY_PAGES = [
@@ -36,7 +35,11 @@ function getPageLastMod(url) {
 
 export default defineConfig({
   output: 'static',
-  adapter: cloudflare(),
+  // No adapter needed — output is pure static HTML served directly by
+  // Cloudflare Pages. The @astrojs/cloudflare adapter generated a
+  // _worker.js + _routes.json that returned 500 on /compare/* because
+  // nested dynamic routes (compare/[category]/[pair].astro) were not
+  // properly excluded from worker routing.
   site: 'https://maratool.com',
   integrations: [
     sitemap({
