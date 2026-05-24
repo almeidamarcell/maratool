@@ -31,7 +31,7 @@
     "gen:og": "node scripts/gen-og-images.mjs"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.12",
+    "@astrojs/cloudflare": "^13.5.4",
     "@astrojs/sitemap": "^3.7.0",
     "astro": "^5.17.1"
   },
