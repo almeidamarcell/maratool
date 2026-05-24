@@ -1,7 +1,23 @@
 {
   "name": "maratool",
-  "type": "module",
   "version": "0.0.1",
+  "type": "module",
+  "description": "A collection of free, browser-based developer, design, and productivity tools. All client-side, no uploads, no accounts.",
+  "homepage": "https://maratool.com",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": {
+    "name": "Marcell Almeida",
+    "email": "maratool@marcell.com.br",
+    "url": "https://marcell.com.br"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/almeidamarcell/maratool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/almeidamarcell/maratool/issues",
+    "email": "maratool@marcell.com.br"
+  },
   "scripts": {
     "dev": "astro dev",
     "prebuild": "node scripts/gen-llms.mjs && node scripts/gen-palette.mjs && node scripts/gen-lastmod.mjs && node scripts/gen-og-images.mjs",

@@ -259,18 +259,39 @@ async function handleFetch(shortcode, env, originalUrl) {
   return jsonResponse(result, 200, env)
 }
 
-function isAllowedDownloadUrl(hostname) {
-  return hostname.includes('cdninstagram.com')
-    || hostname.includes('fbcdn.net')
-    || hostname.includes('instagram.com')
-    || hostname.includes('cobalt.tools')
-    || hostname.includes('onrender.com')
+// Strict allowlist — exact match or subdomain, https only.
+// String.includes() was a substring match: `instagram.com.attacker.tld` passed.
+const ALLOWED_DOWNLOAD_HOSTS = [
+  'cdninstagram.com',
+  'fbcdn.net',
+  'instagram.com',
+  'cobalt.tools',
+  'onrender.com',
+]
+
+function isAllowedDownloadUrl(parsed) {
+  if (parsed.protocol !== 'https:') return false
+  const h = parsed.hostname
+  return ALLOWED_DOWNLOAD_HOSTS.some(allowed => h === allowed || h.endsWith('.' + allowed))
+}
+
+// Allowlist of media types we'll proxy. Blocks attacker-controlled text/html
+// from being served at the maratool.com origin (would be same-origin XSS).
+function isAllowedMediaType(contentType) {
+  if (!contentType) return false
+  const ct = contentType.split(';')[0].trim().toLowerCase()
+  return ct.startsWith('image/') || ct.startsWith('video/') || ct.startsWith('audio/')
+}
+
+// Strip CRLF + double-quote + backslash to keep Content-Disposition header well-formed.
+function sanitizeFilename(name) {
+  return (name || 'instagram-media').replace(/[\r\n"\\]/g, '_').slice(0, 200)
 }
 
 async function handleDownload(request, env) {
   const url = new URL(request.url)
   const mediaUrl = url.searchParams.get('url')
-  const filename = url.searchParams.get('filename') || 'instagram-media'
+  const filename = sanitizeFilename(url.searchParams.get('filename'))
 
   if (!mediaUrl) {
     return jsonResponse({ error: 'missing-url' }, 400, env)
@@ -281,7 +302,7 @@ async function handleDownload(request, env) {
     return jsonResponse({ error: 'invalid-url' }, 400, env)
   }
 
-  if (!isAllowedDownloadUrl(parsed.hostname)) {
+  if (!isAllowedDownloadUrl(parsed)) {
     return jsonResponse({ error: 'invalid-url' }, 400, env)
   }
 
@@ -293,15 +314,21 @@ async function handleDownload(request, env) {
     return jsonResponse({ error: 'download-failed' }, 502, env)
   }
 
-  const contentType = mediaResponse.headers.get('Content-Type') || 'application/octet-stream'
-  const contentLength = mediaResponse.headers.get('Content-Length')
-  const inline = url.searchParams.get('inline') === '1'
+  const upstreamType = mediaResponse.headers.get('Content-Type')
+  if (!isAllowedMediaType(upstreamType)) {
+    return jsonResponse({ error: 'invalid-content-type' }, 502, env)
+  }
 
+  const contentLength = mediaResponse.headers.get('Content-Length')
+
+  // Always serve as attachment — never inline. Inline + attacker-controlled
+  // Content-Type was the same-origin XSS vector.
   const responseHeaders = {
-    'Content-Type': contentType,
+    'Content-Type': upstreamType,
+    'Content-Disposition': `attachment; filename="${filename}"`,
+    'X-Content-Type-Options': 'nosniff',
     ...corsHeaders(env),
   }
-  if (!inline) responseHeaders['Content-Disposition'] = `attachment; filename="${filename}"`
   if (contentLength) responseHeaders['Content-Length'] = contentLength
 
   return new Response(mediaResponse.body, { status: 200, headers: responseHeaders })
@@ -343,7 +370,8 @@ export default {
 
       return jsonResponse({ error: 'not-found' }, 404, env)
     } catch (err) {
-      return jsonResponse({ error: 'server-error', detail: err.message }, 500, env)
+      console.error('worker error:', err)
+      return jsonResponse({ error: 'server-error' }, 500, env)
     }
   },
 }

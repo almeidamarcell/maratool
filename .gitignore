@@ -25,3 +25,14 @@ pnpm-debug.log*
 .gstack/
 src/data/lastmod-generated.ts
 public/palette-tools.json
+
+# claude code runtime state (workflow commands in commands/ are intentionally tracked)
+.claude/*.lock
+.claude/scheduled_tasks.lock
+
+# internal strategy / build notes — lives in a separate private repo (maratool-internal)
+SEO-PLAN.md
+BUILD_NOTES.md
+
+# conductor workspace scratch
+.context/
