@@ -98,7 +98,7 @@ const faqSchema = {
       name: 'Is my data safe?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Absolutely. Every tool runs entirely in your browser using JavaScript. Your files and text never leave your device — nothing is uploaded to any server.'
+        text: 'Yes. Almost every tool on maratool runs entirely in your browser — your files and text stay on your device and nothing is uploaded to any server. The one exception is the Instagram video downloader, which has to proxy through a small server because Instagram blocks direct browser fetches. The privacy policy explains exactly what that one tool does.'
       }
     },
     {
@@ -114,7 +114,7 @@ const faqSchema = {
       name: 'What tools are available on maratool?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: `maratool offers ${liveTools.length}+ tools across 9 categories: converters, PDF, text, image, color, developer, marketing, mockups, and medical calculators (Health). Every tool runs in your browser.`
+        text: `maratool offers ${liveTools.length}+ tools across 9 categories: converters, PDF, text, image, color, developer, marketing, mockups, and medical calculators (Health). Almost every tool runs in your browser.`
       }
     }
   ]
@@ -260,7 +260,7 @@ const itemListSchema = {
     <section style="margin-top: 3rem;">
       <h2>Why maratool?</h2>
       <p style="color: var(--text-2); line-height: 1.7; margin-top: 0.75rem; max-width: 560px;">
-        No sign-ups. No "free tier" limits. No waiting for a server. maratool runs {liveTools.length}+ tools directly in your browser. Your files stay on your device. Results appear instantly.
+        No sign-ups. No "free tier" limits. maratool runs {liveTools.length}+ tools directly in your browser. Your files stay on your device. Results appear instantly. The one tool that needs a server is the <a href="/instagram-video-downloader" style="color: var(--accent);">Instagram video downloader</a>, because Instagram blocks direct browser fetches; the <a href="/privacy" style="color: var(--accent);">privacy page</a> explains exactly what it does.
       </p>
     </section>
 
@@ -272,7 +272,7 @@ const itemListSchema = {
       </div>
       <div class="faq-item">
         <h3 class="faq-question">Is my data safe?</h3>
-        <p class="faq-answer">Absolutely. Every tool runs entirely in your browser using JavaScript. Your files and text never leave your device — nothing is uploaded to any server.</p>
+        <p class="faq-answer">Yes. Almost every tool runs entirely in your browser using JavaScript. Your files and text stay on your device and nothing is uploaded. The one exception is the <a href="/instagram-video-downloader" class="about-link">Instagram video downloader</a>, which has to proxy through a small server because Instagram blocks direct browser fetches. The <a href="/privacy" class="about-link">privacy policy</a> documents it in detail.</p>
       </div>
       <div class="faq-item">
         <h3 class="faq-question">Do I need to create an account?</h3>
@@ -280,7 +280,7 @@ const itemListSchema = {
       </div>
       <div class="faq-item">
         <h3 class="faq-question">What tools are available on maratool?</h3>
-        <p class="faq-answer">maratool offers {liveTools.length}+ tools across 9 categories: converters, PDF, text, image, color, developer, marketing, mockups, and medical calculators (Health). Every tool runs in your browser.</p>
+        <p class="faq-answer">maratool offers {liveTools.length}+ tools across 9 categories: converters, PDF, text, image, color, developer, marketing, mockups, and medical calculators (Health). Almost every tool runs in your browser.</p>
       </div>
     </section>
 

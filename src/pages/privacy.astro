@@ -35,7 +35,11 @@ const seo = {
       <div class="trust-body">
         <h2>What maratool does not collect</h2>
         <p>maratool does not have user accounts. There is nothing to sign up for, nothing to log into, and no profile data to leak. We do not run analytics on this site — no Google Analytics, no PostHog, no Mixpanel, no Plausible, no Fathom.</p>
-        <p>Every tool runs entirely in your browser using JavaScript and the standard Web APIs (Web Crypto, DOMParser, FileReader, Canvas, etc.). Inputs you type or files you drop into a tool stay on your device. There is no server-side processing of tool inputs.</p>
+        <p>Almost every tool runs entirely in your browser using JavaScript and the standard Web APIs (Web Crypto, DOMParser, FileReader, Canvas, etc.). Inputs you type or files you drop into a tool stay on your device. For these tools, there is no server-side processing of any input.</p>
+
+        <h2>The one exception: Instagram video downloader</h2>
+        <p>The <a href="/instagram-video-downloader">Instagram video downloader</a> is the only tool on the site that talks to a server. When you paste an Instagram URL, your browser sends that URL to a small <a href="https://github.com/almeidamarcell/maratool/tree/main/worker" target="_blank" rel="noopener">Cloudflare Worker</a> in this same repository. The worker then calls a third-party Instagram API to fetch the video — RapidAPI&rsquo;s <code>instagram120</code> by default, with public fallbacks to cobalt.tools and kohi if that fails. This indirection is required because Instagram blocks direct fetches from the browser.</p>
+        <p>The worker source is in <code>worker/src/index.js</code> on GitHub. It does not write request data to any database, KV, or analytics. It does emit an error message to Cloudflare logs if the upstream API call fails, and Cloudflare itself records standard infrastructure access logs (timestamp, requesting IP, URL path) that the project does not control. The Instagram URL you paste is also visible to whichever upstream API ends up serving the request (RapidAPI, cobalt.tools, or kohi). If you would rather not share that, skip this tool.</p>
 
         <h2>What is stored locally in your browser</h2>
         <p>Some tools use <code>localStorage</code> to persist preferences and recent activity on your own device. None of this is transmitted to any server. Specifically:</p>
