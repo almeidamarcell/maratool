@@ -18,6 +18,11 @@ concurrency:
 
 jobs:
   mirror:
+    # This workflow file gets mirrored to maratool-archive along with the
+    # rest of the repo, so without this guard it would also try to run on
+    # the archive (where there's no ARCHIVE_DEPLOY_KEY secret, and where
+    # the push target would be itself). Scope to the source repo only.
+    if: github.repository == 'almeidamarcell/maratool'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
