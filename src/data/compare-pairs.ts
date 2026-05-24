@@ -1,12 +1,12 @@
-// Comparison pages: /compare/<category-slug>/<pair-slug>/
+// Comparison pages: /vs/<category-slug>/<pair-slug>/
 // Each entry produces a head-to-head SEO page for two related tools.
 // Target queries like "CHA2DS2-VASc vs CHADS2", "Wells DVT vs Padua".
 //
-// URL structure: /compare/{category}/{pair-slug}/ — mirrors the site IA
-// so each hub also has its own comparison index at /compare/{category}/.
+// URL structure: /vs/{category}/{pair-slug}/ — mirrors the site IA
+// so each hub also has its own comparison index at /vs/{category}/.
 
 export interface ComparePair {
-  slug: string            // URL path segment under /compare/{categorySlug}/
+  slug: string            // URL path segment under /vs/{categorySlug}/
   toolA: string           // tool slug (must exist in tools.ts)
   toolB: string           // tool slug (must exist in tools.ts)
   title: string           // e.g. "CHA2DS2-VASc vs CHADS2"

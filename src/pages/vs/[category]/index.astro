@@ -26,7 +26,7 @@ const pairs = comparePairs
   })
   .filter(x => x.a && x.b)
 
-const canonical = `https://maratool.com/compare/${catSlug}`
+const canonical = `https://maratool.com/vs/${catSlug}`
 const hubUrl = `https://maratool.com/${catSlug}`
 
 const seo = {
@@ -49,13 +49,13 @@ const seo = {
         '@type': 'ListItem',
         position: i + 1,
         name: pair.title,
-        url: `https://maratool.com/compare/${catSlug}/${pair.slug}/`,
+        url: `https://maratool.com/vs/${catSlug}/${pair.slug}/`,
       })),
     },
     isPartOf: {
       '@type': 'CollectionPage',
       name: 'Tool Comparisons',
-      url: 'https://maratool.com/compare',
+      url: 'https://maratool.com/vs',
     },
   },
   breadcrumbSchema: {
@@ -63,7 +63,7 @@ const seo = {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
-      { '@type': 'ListItem', position: 2, name: 'Compare', item: 'https://maratool.com/compare' },
+      { '@type': 'ListItem', position: 2, name: 'Versus', item: 'https://maratool.com/vs' },
       { '@type': 'ListItem', position: 3, name: category, item: canonical },
     ],
   },
@@ -71,7 +71,7 @@ const seo = {
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Compare', href: '/compare' },
+  { label: 'Versus', href: '/vs' },
   { label: category },
 ]
 ---
@@ -88,7 +88,7 @@ const breadcrumbs = [
       <ul class="compare-list">
         {pairs.map(({ pair }) => (
           <li>
-            <a href={`/compare/${catSlug}/${pair.slug}/`}>
+            <a href={`/vs/${catSlug}/${pair.slug}/`}>
               <strong>{pair.title}</strong>
               <span>{pair.metaDescription}</span>
             </a>

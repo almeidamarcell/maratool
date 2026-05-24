@@ -22,13 +22,13 @@ const categoryOrder = Object.keys(byCategory).sort((a, b) => byCategory[b].lengt
 const seo = {
   title: 'Tool comparisons — head-to-head guides | maratool',
   description: `Side-by-side comparisons of related tools — ${comparePairs.length} guides covering medical scores, developer utilities, image formats, and more. Pick the right tool for the job.`,
-  canonical: 'https://maratool.com/compare',
+  canonical: 'https://maratool.com/vs',
   scope: 'page' as const,
   schema: {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'Tool Comparisons',
-    url: 'https://maratool.com/compare',
+    url: 'https://maratool.com/vs',
     description: 'Head-to-head comparison guides for related tools on maratool.',
     numberOfItems: enriched.length,
     mainEntity: {
@@ -39,7 +39,7 @@ const seo = {
         '@type': 'ListItem',
         position: i + 1,
         name: pair.title,
-        url: `https://maratool.com/compare/${categorySlug(pair.category)}/${pair.slug}/`,
+        url: `https://maratool.com/vs/${categorySlug(pair.category)}/${pair.slug}/`,
       })),
     },
   },
@@ -48,14 +48,14 @@ const seo = {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
-      { '@type': 'ListItem', position: 2, name: 'Compare', item: 'https://maratool.com/compare' },
+      { '@type': 'ListItem', position: 2, name: 'Versus', item: 'https://maratool.com/vs' },
     ],
   },
 }
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Compare' },
+  { label: 'Versus' },
 ]
 ---
 <Base {...seo}>
@@ -73,13 +73,13 @@ const breadcrumbs = [
         return (
           <section class="compare-cat">
             <h2>
-              <a href={`/compare/${catSlug}`}>{cat}</a>
+              <a href={`/vs/${catSlug}`}>{cat}</a>
               <span class="compare-cat-count">{byCategory[cat].length}</span>
             </h2>
             <ul class="compare-list">
               {byCategory[cat].map(({ pair }) => (
                 <li>
-                  <a href={`/compare/${catSlug}/${pair.slug}/`}>
+                  <a href={`/vs/${catSlug}/${pair.slug}/`}>
                     <strong>{pair.title}</strong>
                     <span>{pair.metaDescription}</span>
                   </a>

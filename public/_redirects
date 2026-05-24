@@ -3,15 +3,22 @@
 /color-picker /color-converter 301
 /pdf-merger /pdf-merge-split 301
 
-# Compare pages — flat → hub-organized structure (PR #67 → this PR).
-# Old: /compare/X-vs-Y/   New: /compare/{hub}/X-vs-Y/
-/compare/cha2ds2-vasc-vs-chads2 /compare/health/cha2ds2-vasc-vs-chads2 301
-/compare/wells-dvt-vs-padua-prediction /compare/health/wells-dvt-vs-padua-prediction 301
-/compare/wells-pe-vs-perc-rule /compare/health/wells-pe-vs-perc-rule 301
-/compare/meld-vs-child-pugh /compare/health/meld-vs-child-pugh 301
-/compare/cockcroft-gault-vs-ckd-epi /compare/health/cockcroft-gault-vs-ckd-epi 301
-/compare/qsofa-vs-sofa /compare/health/qsofa-vs-sofa 301
-/compare/timi-vs-heart-score /compare/health/timi-vs-heart-score 301
-/compare/mdrd-vs-ckd-epi /compare/health/mdrd-vs-ckd-epi 301
-/compare/apache-ii-vs-sofa /compare/health/apache-ii-vs-sofa 301
-/compare/das28-crp-vs-das28-esr /compare/health/das28-crp-vs-das28-esr 301
+# Comparison pages — renamed from /compare/ to /vs/ (Cloudflare Pages
+# returned 500 for env.ASSETS.fetch on /compare/* after PR #68 introduced
+# nested dynamic routes — see #71). /vs/ is shorter, matches "X vs Y"
+# queries directly, and avoids the broken namespace.
+
+# Catch-all hub redirects (new flat shape: 1-1 to new structure)
+/compare/cha2ds2-vasc-vs-chads2 /vs/health/cha2ds2-vasc-vs-chads2 301
+/compare/wells-dvt-vs-padua-prediction /vs/health/wells-dvt-vs-padua-prediction 301
+/compare/wells-pe-vs-perc-rule /vs/health/wells-pe-vs-perc-rule 301
+/compare/meld-vs-child-pugh /vs/health/meld-vs-child-pugh 301
+/compare/cockcroft-gault-vs-ckd-epi /vs/health/cockcroft-gault-vs-ckd-epi 301
+/compare/qsofa-vs-sofa /vs/health/qsofa-vs-sofa 301
+/compare/timi-vs-heart-score /vs/health/timi-vs-heart-score 301
+/compare/mdrd-vs-ckd-epi /vs/health/mdrd-vs-ckd-epi 301
+/compare/apache-ii-vs-sofa /vs/health/apache-ii-vs-sofa 301
+/compare/das28-crp-vs-das28-esr /vs/health/das28-crp-vs-das28-esr 301
+
+# Bulk: anything under /compare/{category}/{pair} → /vs/{category}/{pair}
+/compare/* /vs/:splat 301

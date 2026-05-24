@@ -25,7 +25,7 @@ if (!toolA || !toolB) {
   throw new Error(`compare-pair "${pair.slug}" references missing tool: ${pair.toolA} or ${pair.toolB}`)
 }
 
-const canonical = `https://maratool.com/compare/${catSlug}/${pair.slug}`
+const canonical = `https://maratool.com/vs/${catSlug}/${pair.slug}`
 const hubUrl = `https://maratool.com/${catSlug}`
 
 const seo = {
@@ -46,7 +46,7 @@ const seo = {
     isPartOf: {
       '@type': 'CollectionPage',
       name: `${pair.category} comparisons`,
-      url: `https://maratool.com/compare/${catSlug}`,
+      url: `https://maratool.com/vs/${catSlug}`,
     },
   },
   breadcrumbSchema: {
@@ -54,8 +54,8 @@ const seo = {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
-      { '@type': 'ListItem', position: 2, name: 'Compare', item: 'https://maratool.com/compare' },
-      { '@type': 'ListItem', position: 3, name: pair.category, item: `https://maratool.com/compare/${catSlug}` },
+      { '@type': 'ListItem', position: 2, name: 'Versus', item: 'https://maratool.com/vs' },
+      { '@type': 'ListItem', position: 3, name: pair.category, item: `https://maratool.com/vs/${catSlug}` },
       { '@type': 'ListItem', position: 4, name: pair.title, item: canonical },
     ],
   },
@@ -72,8 +72,8 @@ const seo = {
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Compare', href: '/compare' },
-  { label: pair.category, href: `/compare/${catSlug}` },
+  { label: 'Versus', href: '/vs' },
+  { label: pair.category, href: `/vs/${catSlug}` },
   { label: pair.title },
 ]
 
@@ -150,11 +150,11 @@ const siblings = comparePairs
           <ul>
             {siblings.map(s => (
               <li>
-                <a href={`/compare/${catSlug}/${s.slug}`}>{s.title}</a>
+                <a href={`/vs/${catSlug}/${s.slug}`}>{s.title}</a>
               </li>
             ))}
             <li>
-              <a href={`/compare/${catSlug}`}>All {pair.category} comparisons →</a>
+              <a href={`/vs/${catSlug}`}>All {pair.category} comparisons →</a>
             </li>
           </ul>
         </section>
