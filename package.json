@@ -33,7 +33,7 @@
   "dependencies": {
     "@astrojs/cloudflare": "^13.5.4",
     "@astrojs/sitemap": "^3.7.0",
-    "astro": "^5.17.1"
+    "astro": "^6.3.7"
   },
   "devDependencies": {
     "emoji.json": "^16.0.0",
