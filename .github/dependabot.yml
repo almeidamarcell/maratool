@@ -17,6 +17,14 @@ updates:
         patterns:
           - "astro"
           - "@astrojs/*"
+    ignore:
+      # @astrojs/cloudflare 13.x requires astro ^6.3.0 as a peer dep.
+      # Until this project is upgraded to Astro 6, Dependabot must stay
+      # on the 12.x line — otherwise `npm ci` hard-fails with ERESOLVE
+      # and Cloudflare Pages can't build. Remove this entry as part of
+      # the Astro 5 -> 6 upgrade.
+      - dependency-name: "@astrojs/cloudflare"
+        update-types: ["version-update:semver-major"]
 
   # Cloudflare Worker (Instagram media proxy)
   - package-ecosystem: npm
