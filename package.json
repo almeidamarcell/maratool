@@ -12,10 +12,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/almeidamarcell/maratool-public.git"
+    "url": "git+https://github.com/almeidamarcell/maratool.git"
   },
   "bugs": {
-    "url": "https://github.com/almeidamarcell/maratool-public/issues",
+    "url": "https://github.com/almeidamarcell/maratool/issues",
     "email": "maratool@marcell.com.br"
   },
   "scripts": {
