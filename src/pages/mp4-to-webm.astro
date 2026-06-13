@@ -1,0 +1,294 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Convert MP4 to WebM — Online MP4 to WebM Converter | maratool',
+  description: 'Convert MP4 to WebM online for free. VP9 + Opus codec — runs entirely in your browser, no upload, no signup, no watermark.',
+  canonical: 'https://maratool.com/mp4-to-webm',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Convert MP4 to WebM',
+    url: 'https://maratool.com/mp4-to-webm',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert MP4 video files to WebM in your browser. VP9 + Opus codec — no upload, no watermark, no signup.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Video', item: 'https://maratool.com/converter/video' },
+      { '@type': 'ListItem', position: 4, name: 'Convert MP4 to WebM', item: 'https://maratool.com/mp4-to-webm' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Why use VP9 instead of VP8 for WebM?',
+        acceptedAnswer: { '@type': 'Answer', text: 'VP9 delivers roughly 50% better compression than VP8 at the same quality. It is the current standard codec for WebM, supported by all major browsers since 2015. The WebM container technically allows VP8, but VP9 is the right choice for new files — smaller size with better quality.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Will the WebM file be smaller than the original MP4?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Often yes — VP9 is highly efficient, especially for screen recordings and animated content. For some already-compressed MP4s, the WebM may be similar in size. This tool uses a 1 Mbps target bitrate with realtime encoding speed for a good balance between speed and file size.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the maximum file size?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Up to 2 GB on desktop. Mobile browsers may struggle above 500 MB because the entire file must fit in browser memory. Nothing is uploaded to a server — your video stays on your device the whole time.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is this tool free and does it add a watermark?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Completely free, no signup, no watermark, no time limit. The FFmpeg WASM engine runs locally in your browser — no video data ever leaves your device.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop an MP4 file or click to select it from your device.',
+  'Preview the video and click "Convert to WebM".',
+  'Download the converted WebM file with VP9 + Opus encoding.'
+]
+
+const faq = [
+  { q: 'Why use VP9 instead of VP8 for WebM?', a: 'VP9 delivers roughly 50% better compression than VP8 at the same quality. It is the current standard codec for WebM, supported by all major browsers since 2015. The WebM container technically allows VP8, but VP9 is the right choice for new files — smaller size with better quality.' },
+  { q: 'Will the WebM file be smaller than the original MP4?', a: 'Often yes — VP9 is highly efficient, especially for screen recordings and animated content. For some already-compressed MP4s, the WebM may be similar in size. This tool uses a 1 Mbps target bitrate with realtime encoding speed for a good balance between speed and file size.' },
+  { q: 'What is the maximum file size?', a: 'Up to 2 GB on desktop. Mobile browsers may struggle above 500 MB because the entire file must fit in browser memory. Nothing is uploaded to a server — your video stays on your device the whole time.' },
+  { q: 'Is this tool free and does it add a watermark?', a: 'Completely free, no signup, no watermark, no time limit. The FFmpeg WASM engine runs locally in your browser — no video data ever leaves your device.' },
+]
+
+const relatedTools = [
+  { slug: 'trim-video', name: 'Trim Video Online' },
+  { slug: 'video-to-gif', name: 'Video to GIF Converter' },
+  { slug: 'fps-converter', name: 'FPS Converter' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Video', href: '/converter/video' },
+  { label: 'Convert MP4 to WebM' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="mp4-to-webm" name="Convert MP4 to WebM" description="Convert MP4 video files to WebM in your browser. VP9 + Opus codec — no upload, no watermark, no signup." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:400px;">
+        <!-- Mobile banner -->
+        <div class="mw-mobile-banner" id="mw-mobile-banner" style="display:none;">
+          <span>This works on mobile but is faster on desktop. Files above 500 MB may fail on phones.</span>
+          <button type="button" class="mw-mobile-banner-dismiss" id="mw-mobile-banner-dismiss" aria-label="Dismiss">&times;</button>
+        </div>
+
+        <!-- Drop zone -->
+        <div class="mw-dropzone" id="mw-dropzone">
+          <input type="file" id="mw-file-input" accept="video/mp4,.mp4" hidden />
+          <div class="mw-dropzone-inner">
+            <svg class="mw-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <p class="mw-dropzone-title">Drop an MP4 file here</p>
+            <p class="mw-dropzone-sub">or click to select a file</p>
+            <p class="mw-dropzone-formats">MP4 only — up to 2 GB</p>
+          </div>
+        </div>
+
+        <div class="mw-info" id="mw-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>The FFmpeg engine (~25 MB) downloads on first use and is cached by your browser. Encodes with VP9 + Opus for modern web compatibility.</span>
+        </div>
+
+        <!-- Settings / preview -->
+        <div class="mw-settings" id="mw-settings" style="display:none;">
+          <div class="mw-preview-row">
+            <div class="mw-video-wrap">
+              <video id="mw-video" controls preload="metadata"></video>
+            </div>
+            <div class="mw-metadata">
+              <div class="mw-stat">
+                <span class="mw-stat-value" id="mw-duration">—</span>
+                <span class="mw-stat-label">Duration</span>
+              </div>
+              <div class="mw-stat">
+                <span class="mw-stat-value" id="mw-dimensions">—</span>
+                <span class="mw-stat-label">Resolution</span>
+              </div>
+              <div class="mw-stat">
+                <span class="mw-stat-value" id="mw-filesize">—</span>
+                <span class="mw-stat-label">File size</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mw-actions">
+            <button class="tool-button" id="mw-convert">Convert to WebM</button>
+            <button class="copy-btn" id="mw-change">Change video</button>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="mw-progress" id="mw-progress" style="display:none;">
+          <div class="mw-progress-text" id="mw-progress-text">Loading FFmpeg...</div>
+          <div class="mw-progress-track">
+            <div class="mw-progress-fill" id="mw-progress-fill"></div>
+          </div>
+          <div class="mw-progress-detail" id="mw-progress-detail"></div>
+        </div>
+
+        <!-- Error -->
+        <div class="mw-error" id="mw-error" style="display:none;">
+          <span class="mw-error-text" id="mw-error-text"></span>
+          <button class="mw-error-retry" id="mw-error-retry">Try again</button>
+        </div>
+
+        <!-- Result -->
+        <div class="mw-result" id="mw-result" style="display:none;">
+          <div class="mw-result-preview">
+            <video id="mw-result-video" controls></video>
+          </div>
+          <div class="mw-result-stats" id="mw-result-stats"></div>
+          <div class="mw-result-actions">
+            <button class="tool-button" id="mw-download">Download WebM</button>
+            <button class="copy-btn" id="mw-new">Convert another</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  /* Mobile banner */
+  .mw-mobile-banner {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+    padding: 0.625rem 0.875rem; margin-bottom: 1rem;
+    background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius);
+    font-size: 0.8125rem; color: var(--text-2);
+  }
+  .mw-mobile-banner-dismiss {
+    background: none; border: none; font-size: 1.25rem; line-height: 1; cursor: pointer;
+    color: var(--text-3); padding: 0 0.25rem;
+  }
+  .mw-mobile-banner-dismiss:hover { color: var(--text); }
+
+  /* Dropzone */
+  .mw-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .mw-dropzone:hover, .mw-dropzone.drag-over {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .mw-dropzone-inner {
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  }
+  .mw-upload-icon { color: var(--text-3); margin-bottom: 0.5rem; }
+  .mw-dropzone-title { font-size: 1.125rem; font-weight: 600; color: var(--text); margin: 0; }
+  .mw-dropzone-sub { font-size: 0.875rem; color: var(--text-2); margin: 0; }
+  .mw-dropzone-formats { font-size: 0.75rem; color: var(--text-3); margin: 0.25rem 0 0; }
+
+  .mw-info {
+    display: flex; align-items: flex-start; gap: 0.5rem;
+    padding: 0.75rem 1rem; background: var(--bg-soft);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    margin-top: 1rem; font-size: 0.8125rem; color: var(--text-2); line-height: 1.5;
+  }
+  .mw-info svg { flex-shrink: 0; margin-top: 1px; color: var(--text-3); }
+
+  /* Preview */
+  .mw-preview-row {
+    display: flex; gap: 1.5rem; margin-bottom: 1.25rem;
+  }
+  .mw-video-wrap { flex: 1; min-width: 0; }
+  .mw-video-wrap video {
+    width: 100%; border-radius: var(--radius);
+    border: 1px solid var(--border); background: #000;
+  }
+  .mw-metadata {
+    display: flex; flex-direction: column; gap: 1rem; min-width: 130px;
+  }
+  .mw-stat { display: flex; flex-direction: column; gap: 0.125rem; }
+  .mw-stat-value {
+    font-size: 1.125rem; font-weight: 600; color: var(--text);
+    font-family: var(--font-mono);
+  }
+  .mw-stat-label {
+    font-size: 0.75rem; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+
+  .mw-actions {
+    display: flex; gap: 0.75rem; align-items: center; margin-top: 0.25rem;
+  }
+
+  /* Progress */
+  .mw-progress { text-align: center; padding: 2rem; }
+  .mw-progress-text {
+    font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 1rem;
+  }
+  .mw-progress-track {
+    width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover);
+    border-radius: 4px; margin: 0 auto; overflow: hidden;
+  }
+  .mw-progress-fill {
+    height: 100%; background: var(--accent); border-radius: 4px;
+    width: 0%; transition: width 0.3s;
+  }
+  .mw-progress-detail {
+    font-size: 0.75rem; color: var(--text-3); margin-top: 0.5rem;
+  }
+
+  /* Error */
+  .mw-error {
+    background: var(--error-bg); border: 1px solid var(--error-border);
+    border-radius: var(--radius); padding: 1rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .mw-error-text { color: #c53030; font-size: 0.875rem; }
+  .mw-error-retry {
+    padding: 6px 14px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; font-size: 0.8125rem; cursor: pointer; white-space: nowrap;
+    color: var(--text);
+  }
+  .mw-error-retry:hover { background: var(--bg-hover); }
+
+  /* Result */
+  .mw-result-preview {
+    text-align: center; margin-bottom: 0.75rem;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 0.5rem; min-height: 100px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-soft);
+  }
+  .mw-result-preview video { max-width: 100%; max-height: 500px; border-radius: 6px; background: #000; }
+  .mw-result-stats {
+    font-size: 0.875rem; color: var(--text-2); margin-bottom: 0.75rem;
+    text-align: center; line-height: 1.6;
+  }
+  .mw-result-actions {
+    display: flex; gap: 0.75rem; align-items: center; justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .mw-preview-row { flex-direction: column; }
+    .mw-metadata { flex-direction: row; min-width: 0; flex-wrap: wrap; }
+  }
+</style>
+<script src="../tools/mp4-to-webm.js"></script>

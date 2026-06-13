@@ -1,0 +1,431 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Resize Video Online — Change Video Resolution Free | maratool',
+  description: 'Resize videos online for free — change resolution to 1080p, 720p, 480p, or custom. MP4, WebM, MOV — runs in your browser, no upload, no watermark.',
+  canonical: 'https://maratool.com/resize-video',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Resize Video Online',
+    url: 'https://maratool.com/resize-video',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Change video resolution to 1080p, 720p, 480p, or custom dimensions directly in your browser. No upload, no watermark.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home',         item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter',    item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Video',        item: 'https://maratool.com/converter/video' },
+      { '@type': 'ListItem', position: 4, name: 'Resize Video', item: 'https://maratool.com/resize-video' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What resolution should I pick?',
+        acceptedAnswer: { '@type': 'Answer', text: '720p (1280×720) is the sweet spot for most uses — sharp on any screen, small file size. Pick 1080p if you need full-HD quality for playback on a large display, or 480p/360p to shrink files for sharing over slow connections.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Will quality drop when I resize a video?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Scaling down always involves re-encoding, so some quality loss is expected — but at 720p or higher on typical source footage it is barely visible. Scaling up beyond the original resolution adds no real detail and may look blurry; it is generally better to stay at or below the original size.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I make the video larger (upscale)?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes — you can enter any custom dimensions including ones larger than the original. However, upscaling does not add detail; it just stretches pixels, which often looks blurry. Use upscaling only when a specific resolution is required by a platform or display.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the maximum file size?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Up to 2 GB on desktop; mobile browsers may struggle above 500 MB. The whole video stays on your device — nothing is uploaded — so the limit is your device memory, not a server quota.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop a video file or click to select an MP4, WebM, or MOV.',
+  'Pick a resolution preset (720p is the default) or choose "Custom" and enter exact dimensions.',
+  'Click "Resize video" and download the result.',
+]
+
+const faq = [
+  { q: 'What resolution should I pick?', a: '720p (1280×720) is the sweet spot for most uses — sharp on any screen, small file size. Pick 1080p for full-HD, or 480p/360p to shrink files for sharing.' },
+  { q: 'Will quality drop when I resize a video?', a: 'Scaling down involves re-encoding so some quality loss is expected, but at 720p or higher on typical footage it is barely visible. Scaling up beyond the original resolution adds no real detail.' },
+  { q: 'Can I make the video larger (upscale)?', a: 'Yes — enter custom dimensions larger than the original. However, upscaling stretches pixels and often looks blurry. Use it only when a specific resolution is required by a platform.' },
+  { q: 'What is the maximum file size?', a: 'Up to 2 GB on desktop; mobile browsers may struggle above 500 MB. The video stays on your device — nothing is uploaded — so the limit is your device memory.' },
+]
+
+const relatedTools = [
+  { slug: 'compress-video', name: 'Compress Video Online' },
+  { slug: 'trim-video',     name: 'Trim Video Online' },
+  { slug: 'video-to-gif',   name: 'Video to GIF Converter' },
+]
+
+const breadcrumbs = [
+  { label: 'Home',         href: '/' },
+  { label: 'Converter',   href: '/converter' },
+  { label: 'Video',       href: '/converter/video' },
+  { label: 'Resize Video' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell
+      slug="resize-video"
+      name="Resize Video Online"
+      description="Change video resolution to 1080p, 720p, 480p, or custom dimensions. Aspect ratio lock — no upload, no watermark, runs in your browser."
+      howTo={howTo}
+      faq={faq}
+      relatedTools={relatedTools}
+      breadcrumbs={breadcrumbs}
+    >
+      <div class="tool-container" style="min-height:400px;">
+
+        <!-- Mobile banner -->
+        <div class="rs-mobile-banner" id="rs-mobile-banner" style="display:none;">
+          <span>This works on mobile but is faster on desktop. Files above 500 MB may fail on phones.</span>
+          <button type="button" class="rs-mobile-banner-dismiss" id="rs-mobile-banner-dismiss" aria-label="Dismiss">&times;</button>
+        </div>
+
+        <!-- Drop zone -->
+        <div class="rs-dropzone" id="rs-dropzone">
+          <input type="file" id="rs-file-input" accept="video/mp4,video/webm,video/quicktime" hidden />
+          <div class="rs-dropzone-inner">
+            <svg class="rs-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <p class="rs-dropzone-title">Drop a video here</p>
+            <p class="rs-dropzone-sub">or click to select a file</p>
+            <p class="rs-dropzone-formats">MP4, WebM, MOV — up to 2 GB</p>
+          </div>
+        </div>
+
+        <div class="rs-info" id="rs-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>The FFmpeg engine (~25 MB) downloads on first use and is cached by your browser. The video is re-encoded to match the new resolution.</span>
+        </div>
+
+        <!-- Settings / editor -->
+        <div class="rs-settings" id="rs-settings" style="display:none;">
+          <div class="rs-preview-row">
+            <div class="rs-video-wrap">
+              <video id="rs-video" controls preload="metadata"></video>
+            </div>
+            <div class="rs-metadata">
+              <div class="rs-orig-res-badge" id="rs-orig-res">—</div>
+              <div class="rs-stat">
+                <span class="rs-stat-value" id="rs-duration">—</span>
+                <span class="rs-stat-label">Duration</span>
+              </div>
+              <div class="rs-stat">
+                <span class="rs-stat-value" id="rs-dimensions">—</span>
+                <span class="rs-stat-label">Resolution</span>
+              </div>
+              <div class="rs-stat">
+                <span class="rs-stat-value" id="rs-filesize">—</span>
+                <span class="rs-stat-label">File size</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preset grid -->
+          <div class="rs-section">
+            <span class="rs-section-label">Target resolution</span>
+            <div class="rs-preset-grid">
+              <label class="rs-preset-option">
+                <input type="radio" name="rs-preset" value="1080" />
+                <span class="rs-preset-label">1080p<br/><small>1920px wide</small></span>
+              </label>
+              <label class="rs-preset-option">
+                <input type="radio" name="rs-preset" value="720" checked />
+                <span class="rs-preset-label">720p<br/><small>1280px wide</small></span>
+              </label>
+              <label class="rs-preset-option">
+                <input type="radio" name="rs-preset" value="480" />
+                <span class="rs-preset-label">480p<br/><small>854px wide</small></span>
+              </label>
+              <label class="rs-preset-option">
+                <input type="radio" name="rs-preset" value="360" />
+                <span class="rs-preset-label">360p<br/><small>640px wide</small></span>
+              </label>
+              <label class="rs-preset-option">
+                <input type="radio" name="rs-preset" value="custom" />
+                <span class="rs-preset-label">Custom…<br/><small>set W × H</small></span>
+              </label>
+            </div>
+
+            <!-- Custom fields (shown when "Custom" selected) -->
+            <div class="rs-custom-fields" id="rs-custom-fields" style="display:none;">
+              <div class="rs-custom-row">
+                <div class="rs-custom-field">
+                  <label class="rs-label" for="rs-width">Width (px)</label>
+                  <input type="number" id="rs-width" class="rs-dim-input" min="2" step="2" placeholder="1280" />
+                </div>
+                <span class="rs-custom-sep">×</span>
+                <div class="rs-custom-field">
+                  <label class="rs-label" for="rs-height">Height (px)</label>
+                  <input type="number" id="rs-height" class="rs-dim-input" min="2" step="2" placeholder="720" />
+                </div>
+                <label class="rs-lock-label">
+                  <input type="checkbox" id="rs-aspect-lock" checked />
+                  Lock aspect ratio
+                </label>
+              </div>
+            </div>
+
+            <div class="rs-target-line" id="rs-target-line">Target output: 1280×auto</div>
+          </div>
+
+          <div class="rs-actions">
+            <button class="tool-button" id="rs-resize">Resize video</button>
+            <button class="copy-btn" id="rs-change">Change video</button>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="rs-progress" id="rs-progress" style="display:none;">
+          <div class="rs-progress-text" id="rs-progress-text">Loading FFmpeg...</div>
+          <div class="rs-progress-track">
+            <div class="rs-progress-fill" id="rs-progress-fill"></div>
+          </div>
+          <div class="rs-progress-detail" id="rs-progress-detail"></div>
+        </div>
+
+        <!-- Error -->
+        <div class="rs-error" id="rs-error" style="display:none;">
+          <span class="rs-error-text" id="rs-error-text"></span>
+          <button class="rs-error-retry" id="rs-error-retry">Try again</button>
+        </div>
+
+        <!-- Result -->
+        <div class="rs-result" id="rs-result" style="display:none;">
+          <div class="rs-result-preview">
+            <video id="rs-result-video" controls></video>
+          </div>
+          <div class="rs-result-stats" id="rs-result-stats"></div>
+          <div class="rs-result-actions">
+            <button class="tool-button" id="rs-download">Download resized video</button>
+            <button class="copy-btn" id="rs-new">Resize another</button>
+          </div>
+        </div>
+
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  /* Mobile banner */
+  .rs-mobile-banner {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+    padding: 0.625rem 0.875rem; margin-bottom: 1rem;
+    background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius);
+    font-size: 0.8125rem; color: var(--text-2);
+  }
+  .rs-mobile-banner-dismiss {
+    background: none; border: none; font-size: 1.25rem; line-height: 1; cursor: pointer;
+    color: var(--text-3); padding: 0 0.25rem;
+  }
+  .rs-mobile-banner-dismiss:hover { color: var(--text); }
+
+  /* Dropzone */
+  .rs-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .rs-dropzone:hover, .rs-dropzone.drag-over {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .rs-dropzone-inner {
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  }
+  .rs-upload-icon { color: var(--text-3); margin-bottom: 0.5rem; }
+  .rs-dropzone-title { font-size: 1.125rem; font-weight: 600; color: var(--text); margin: 0; }
+  .rs-dropzone-sub { font-size: 0.875rem; color: var(--text-2); margin: 0; }
+  .rs-dropzone-formats { font-size: 0.75rem; color: var(--text-3); margin: 0.25rem 0 0; }
+
+  .rs-info {
+    display: flex; align-items: flex-start; gap: 0.5rem;
+    padding: 0.75rem 1rem; background: var(--bg-soft);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    margin-top: 1rem; font-size: 0.8125rem; color: var(--text-2); line-height: 1.5;
+  }
+  .rs-info svg { flex-shrink: 0; margin-top: 1px; color: var(--text-3); }
+
+  /* Editor */
+  .rs-preview-row {
+    display: flex; gap: 1.5rem; margin-bottom: 1.25rem;
+  }
+  .rs-video-wrap { flex: 1; min-width: 0; }
+  .rs-video-wrap video {
+    width: 100%; border-radius: var(--radius);
+    border: 1px solid var(--border); background: #000;
+  }
+  .rs-metadata {
+    display: flex; flex-direction: column; gap: 0.75rem; min-width: 140px;
+  }
+  .rs-orig-res-badge {
+    font-size: 0.8125rem; font-weight: 700; color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    border-radius: 6px; padding: 0.375rem 0.625rem;
+    letter-spacing: 0.01em;
+  }
+  .rs-stat { display: flex; flex-direction: column; gap: 0.125rem; }
+  .rs-stat-value {
+    font-size: 1.125rem; font-weight: 600; color: var(--text);
+    font-family: var(--font-mono);
+  }
+  .rs-stat-label {
+    font-size: 0.75rem; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+
+  .rs-section {
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem;
+  }
+  .rs-section-label {
+    display: block; font-size: 0.8125rem; font-weight: 600;
+    color: var(--text-2); text-transform: uppercase;
+    letter-spacing: 0.05em; margin-bottom: 0.75rem;
+  }
+
+  /* Preset grid */
+  .rs-preset-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .rs-preset-option {
+    position: relative; cursor: pointer;
+  }
+  .rs-preset-option input[type="radio"] {
+    position: absolute; opacity: 0; width: 0; height: 0;
+  }
+  .rs-preset-label {
+    display: block; padding: 0.5rem 0.375rem; text-align: center;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    font-size: 0.875rem; font-weight: 600; color: var(--text);
+    background: var(--bg); transition: border-color 0.15s, background 0.15s;
+    line-height: 1.3; cursor: pointer;
+  }
+  .rs-preset-label small {
+    display: block; font-size: 0.6875rem; font-weight: 400; color: var(--text-3);
+    margin-top: 1px;
+  }
+  .rs-preset-option input[type="radio"]:checked + .rs-preset-label {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+    color: var(--accent);
+  }
+  .rs-preset-option:hover .rs-preset-label {
+    border-color: var(--accent);
+  }
+
+  /* Custom fields */
+  .rs-custom-fields { margin-top: 0.75rem; }
+  .rs-custom-row {
+    display: flex; align-items: flex-end; gap: 0.75rem; flex-wrap: wrap;
+  }
+  .rs-custom-field { display: flex; flex-direction: column; gap: 0.25rem; }
+  .rs-label { font-size: 0.75rem; color: var(--text-3); }
+  .rs-dim-input {
+    width: 90px; padding: 6px 8px; font-size: 13px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--bg); color: var(--text); font-family: var(--font-mono);
+  }
+  .rs-custom-sep {
+    font-size: 1.25rem; font-weight: 300; color: var(--text-3);
+    padding-bottom: 6px;
+  }
+  .rs-lock-label {
+    display: flex; align-items: center; gap: 0.375rem;
+    font-size: 0.8125rem; color: var(--text-2); cursor: pointer;
+    padding-bottom: 4px;
+  }
+  .rs-lock-label input[type="checkbox"] { cursor: pointer; }
+
+  .rs-target-line {
+    margin-top: 0.625rem;
+    font-size: 0.8125rem; font-weight: 600; color: var(--text-2);
+  }
+
+  .rs-actions {
+    display: flex; gap: 0.75rem; align-items: center; margin-top: 0.25rem;
+  }
+
+  /* Progress */
+  .rs-progress { text-align: center; padding: 2rem; }
+  .rs-progress-text {
+    font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 1rem;
+  }
+  .rs-progress-track {
+    width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover);
+    border-radius: 4px; margin: 0 auto; overflow: hidden;
+  }
+  .rs-progress-fill {
+    height: 100%; background: var(--accent); border-radius: 4px;
+    width: 0%; transition: width 0.3s;
+  }
+  .rs-progress-detail {
+    font-size: 0.75rem; color: var(--text-3); margin-top: 0.5rem;
+  }
+
+  /* Error */
+  .rs-error {
+    background: var(--error-bg); border: 1px solid var(--error-border);
+    border-radius: var(--radius); padding: 1rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .rs-error-text { color: #c53030; font-size: 0.875rem; }
+  .rs-error-retry {
+    padding: 6px 14px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; font-size: 0.8125rem; cursor: pointer; white-space: nowrap;
+    color: var(--text);
+  }
+  .rs-error-retry:hover { background: var(--bg-hover); }
+
+  /* Result */
+  .rs-result-preview {
+    text-align: center; margin-bottom: 0.75rem;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 0.5rem; min-height: 100px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-soft);
+  }
+  .rs-result-preview video { max-width: 100%; max-height: 500px; border-radius: 6px; background: #000; }
+  .rs-result-stats {
+    font-size: 0.875rem; color: var(--text-2); margin-bottom: 0.75rem;
+    text-align: center; line-height: 1.6;
+  }
+  .rs-result-actions {
+    display: flex; gap: 0.75rem; align-items: center; justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .rs-preview-row { flex-direction: column; }
+    .rs-metadata { flex-direction: row; min-width: 0; flex-wrap: wrap; }
+    .rs-preset-grid { grid-template-columns: repeat(3, 1fr); }
+    .rs-custom-row { flex-direction: column; align-items: stretch; }
+  }
+</style>
+<script src="../tools/resize-video.js"></script>

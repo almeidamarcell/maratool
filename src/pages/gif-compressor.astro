@@ -1,0 +1,383 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'GIF Compressor — Compress & Reduce GIF Size Online Free | maratool',
+  description: 'Compress GIF files and reduce their size in your browser. Cut colors, resize, drop frames — no upload, no watermark, no signup. Free GIF compressor.',
+  canonical: 'https://maratool.com/gif-compressor',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GIF Compressor',
+    url: 'https://maratool.com/gif-compressor',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Compress and reduce the size of animated GIF files directly in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'GIF Compressor', item: 'https://maratool.com/gif-compressor' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Is this GIF compressor free?',
+        acceptedAnswer: { '@type': 'Answer', text: '100% free, no watermark, no sign-up, no limits. Everything runs in your browser — your GIF never leaves your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I reduce the size of a GIF?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Three levers shrink a GIF: fewer colors, smaller dimensions, and fewer frames. Pick a compression preset (Light, Balanced, or Strong) or open Advanced settings to set the color count, resize percentage, and frame dropping yourself.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Will compressing reduce the GIF quality?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Some quality loss is unavoidable since GIF compression works by cutting colors, scaling down, or dropping frames. The Light preset keeps the full palette and size for minimal loss; Strong trades visible quality for the smallest file. Preview the result before downloading.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the maximum GIF size I can compress?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Up to 50 MB. The whole GIF is decoded and re-encoded in your browser, so very large or very long GIFs use more memory — close to 50 MB it may be slow on lower-end devices.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop a GIF file or click to select one.',
+  'Pick a compression level — or open Advanced to set colors, size, and frame rate.',
+  'Click "Compress GIF" and download the smaller file.'
+]
+
+const faq = [
+  { q: 'Is this GIF compressor free?', a: '100% free, no watermark, no sign-up, no limits. Everything runs in your browser — your GIF never leaves your device.' },
+  { q: 'How do I reduce the size of a GIF?', a: 'Three levers shrink a GIF: fewer colors, smaller dimensions, and fewer frames. Pick a compression preset (Light, Balanced, or Strong) or open Advanced settings to set the color count, resize percentage, and frame dropping yourself.' },
+  { q: 'Will compressing reduce the GIF quality?', a: 'Some quality loss is unavoidable since GIF compression works by cutting colors, scaling down, or dropping frames. The Light preset keeps the full palette and size for minimal loss; Strong trades visible quality for the smallest file. Preview the result before downloading.' },
+  { q: 'What is the maximum GIF size I can compress?', a: 'Up to 50 MB. The whole GIF is decoded and re-encoded in your browser, so very large or very long GIFs use more memory — close to 50 MB it may be slow on lower-end devices.' },
+]
+
+const relatedTools = [
+  { slug: 'gif-bg-remover', name: 'GIF Background Remover' },
+  { slug: 'gif-maker', name: 'GIF Maker' },
+  { slug: 'video-to-gif', name: 'Video to GIF Converter' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'GIF Compressor' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="gif-compressor" name="GIF Compressor — Compress & Reduce GIF Size" description="Compress animated GIFs and reduce file size in your browser. Cut colors, resize, drop frames — no upload, no watermark, no signup." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:400px;">
+        <!-- Mobile banner -->
+        <div class="gc-mobile-banner" id="gc-mobile-banner" style="display:none;">
+          <span>This works on mobile but is faster on desktop. Large GIFs may be slow on phones.</span>
+          <button type="button" class="gc-mobile-banner-dismiss" id="gc-mobile-banner-dismiss" aria-label="Dismiss">&times;</button>
+        </div>
+
+        <!-- Drop zone -->
+        <div class="gc-dropzone" id="gc-dropzone">
+          <input type="file" id="gc-file-input" accept="image/gif" hidden />
+          <div class="gc-dropzone-inner">
+            <svg class="gc-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <p class="gc-dropzone-title">Drop a GIF here</p>
+            <p class="gc-dropzone-sub">or click to select a file</p>
+            <p class="gc-dropzone-formats">GIF — up to 50 MB</p>
+          </div>
+        </div>
+
+        <div class="gc-info" id="gc-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>Everything runs in your browser — your GIF is never uploaded. Compression cuts colors, resizes, and can drop frames.</span>
+        </div>
+
+        <!-- Settings / configure -->
+        <div class="gc-settings" id="gc-settings" style="display:none;">
+          <div class="gc-preview-row">
+            <div class="gc-preview-wrap">
+              <img id="gc-preview-img" alt="GIF preview" />
+            </div>
+            <div class="gc-metadata">
+              <div class="gc-stat">
+                <span class="gc-stat-value" id="gc-meta-frames">—</span>
+                <span class="gc-stat-label">Frames</span>
+              </div>
+              <div class="gc-stat">
+                <span class="gc-stat-value" id="gc-meta-dims">—</span>
+                <span class="gc-stat-label">Dimensions</span>
+              </div>
+              <div class="gc-stat">
+                <span class="gc-stat-value" id="gc-meta-size">—</span>
+                <span class="gc-stat-label">File size</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Compression level presets -->
+          <div class="gc-section">
+            <span class="gc-section-label">Compression level</span>
+            <div class="gc-presets" id="gc-presets">
+              <button type="button" class="gc-preset-btn" data-preset="light">
+                <span class="gc-preset-name">Light</span>
+                <span class="gc-preset-desc">Best quality — 128 colors, full size</span>
+              </button>
+              <button type="button" class="gc-preset-btn active" data-preset="balanced">
+                <span class="gc-preset-name">Balanced</span>
+                <span class="gc-preset-desc">Recommended — 64 colors, full size</span>
+              </button>
+              <button type="button" class="gc-preset-btn" data-preset="strong">
+                <span class="gc-preset-name">Strong</span>
+                <span class="gc-preset-desc">Smallest — 32 colors, resized, fewer frames</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Advanced settings -->
+          <div class="gc-section">
+            <button type="button" class="gc-adv-toggle" id="gc-adv-toggle" aria-expanded="false">
+              <span>Advanced settings</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="gc-adv-panel" id="gc-adv-panel" style="display:none;">
+              <div class="gc-adv-grid">
+                <div class="gc-option">
+                  <label class="gc-label" for="gc-colors">Max colors</label>
+                  <select id="gc-colors" class="gc-select">
+                    <option value="256">256 (max, no quantize)</option>
+                    <option value="128">128</option>
+                    <option value="64" selected>64</option>
+                    <option value="32">32 (smallest)</option>
+                  </select>
+                  <span class="gc-hint">Fewer colors = smaller file</span>
+                </div>
+                <div class="gc-option">
+                  <label class="gc-label" for="gc-scale">Resize</label>
+                  <select id="gc-scale" class="gc-select">
+                    <option value="100" selected>100% (original)</option>
+                    <option value="75">75%</option>
+                    <option value="50">50%</option>
+                  </select>
+                  <span class="gc-hint">Smaller dimensions = smaller file</span>
+                </div>
+                <div class="gc-option">
+                  <label class="gc-label" for="gc-skip">Frames</label>
+                  <select id="gc-skip" class="gc-select">
+                    <option value="1" selected>Keep all</option>
+                    <option value="2">Drop every 2nd</option>
+                    <option value="3">Drop every 3rd</option>
+                  </select>
+                  <span class="gc-hint">Fewer frames = smaller file</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gc-actions">
+            <button class="tool-button" id="gc-compress">Compress GIF</button>
+            <button class="copy-btn" id="gc-change">Change GIF</button>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="gc-progress" id="gc-progress" style="display:none;">
+          <div class="gc-progress-text" id="gc-progress-text">Compressing...</div>
+          <div class="gc-progress-track">
+            <div class="gc-progress-fill" id="gc-progress-fill"></div>
+          </div>
+          <div class="gc-progress-detail" id="gc-progress-detail"></div>
+        </div>
+
+        <!-- Error -->
+        <div class="gc-error" id="gc-error" style="display:none;">
+          <span class="gc-error-text" id="gc-error-text"></span>
+          <button class="gc-error-retry" id="gc-error-retry">Try again</button>
+        </div>
+
+        <!-- Result -->
+        <div class="gc-result" id="gc-result" style="display:none;">
+          <div class="gc-result-compare">
+            <div class="gc-result-col">
+              <span class="gc-result-col-label">Original</span>
+              <div class="gc-result-frame"><img id="gc-original-img" alt="Original GIF" /></div>
+            </div>
+            <div class="gc-result-col">
+              <span class="gc-result-col-label">Compressed</span>
+              <div class="gc-result-frame"><img id="gc-result-img" alt="Compressed GIF" /></div>
+            </div>
+          </div>
+          <div class="gc-result-stats" id="gc-result-stats"></div>
+          <div class="gc-result-actions">
+            <button class="tool-button" id="gc-download">Download compressed GIF</button>
+            <button class="copy-btn" id="gc-new">Compress another</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  /* Mobile banner */
+  .gc-mobile-banner {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+    padding: 0.625rem 0.875rem; margin-bottom: 1rem;
+    background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius);
+    font-size: 0.8125rem; color: var(--text-2);
+  }
+  .gc-mobile-banner-dismiss {
+    background: none; border: none; font-size: 1.25rem; line-height: 1; cursor: pointer;
+    color: var(--text-3); padding: 0 0.25rem;
+  }
+  .gc-mobile-banner-dismiss:hover { color: var(--text); }
+
+  /* Dropzone */
+  .gc-dropzone {
+    border: 2px dashed var(--border); border-radius: var(--radius);
+    padding: 3rem 2rem; text-align: center; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .gc-dropzone:hover, .gc-dropzone.drag-over { border-color: var(--accent); background: var(--bg-soft); }
+  .gc-dropzone-inner { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .gc-upload-icon { color: var(--text-3); margin-bottom: 0.5rem; }
+  .gc-dropzone-title { font-size: 1.125rem; font-weight: 600; color: var(--text); margin: 0; }
+  .gc-dropzone-sub { font-size: 0.875rem; color: var(--text-2); margin: 0; }
+  .gc-dropzone-formats { font-size: 0.75rem; color: var(--text-3); margin: 0.25rem 0 0; }
+
+  .gc-info {
+    display: flex; align-items: flex-start; gap: 0.5rem;
+    padding: 0.75rem 1rem; background: var(--bg-soft);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    margin-top: 1rem; font-size: 0.8125rem; color: var(--text-2); line-height: 1.5;
+  }
+  .gc-info svg { flex-shrink: 0; margin-top: 1px; color: var(--text-3); }
+
+  /* Configure */
+  .gc-preview-row { display: flex; gap: 1.5rem; margin-bottom: 1.25rem; }
+  .gc-preview-wrap {
+    flex: 0 0 auto; max-width: 50%;
+    background: repeating-conic-gradient(#e0e0e0 0% 25%, #fff 0% 50%) 0 0 / 16px 16px;
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .gc-preview-wrap img { max-width: 100%; max-height: 240px; display: block; }
+  .gc-metadata { display: flex; flex-direction: column; gap: 1rem; min-width: 130px; }
+  .gc-stat { display: flex; flex-direction: column; gap: 0.125rem; }
+  .gc-stat-value { font-size: 1.125rem; font-weight: 600; color: var(--text); font-family: var(--font-mono); }
+  .gc-stat-label { font-size: 0.75rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .gc-section {
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem;
+  }
+  .gc-section-label {
+    display: block; font-size: 0.8125rem; font-weight: 600; color: var(--text-2);
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;
+  }
+
+  /* Presets */
+  .gc-presets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  .gc-preset-btn {
+    display: flex; flex-direction: column; gap: 0.25rem; text-align: left;
+    padding: 0.75rem; border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--bg); color: var(--text); cursor: pointer; transition: all 0.15s;
+  }
+  .gc-preset-btn:hover { border-color: var(--accent); }
+  .gc-preset-btn.active { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .gc-preset-name { font-size: 0.9375rem; font-weight: 600; }
+  .gc-preset-desc { font-size: 0.75rem; color: var(--text-3); line-height: 1.35; }
+
+  /* Advanced */
+  .gc-adv-toggle {
+    display: flex; align-items: center; gap: 0.375rem; width: 100%;
+    background: none; border: none; cursor: pointer; padding: 0;
+    font-size: 0.8125rem; font-weight: 600; color: var(--text-2);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .gc-adv-toggle svg { transition: transform 0.2s; }
+  .gc-adv-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .gc-adv-panel { margin-top: 0.875rem; }
+  .gc-adv-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem;
+  }
+  .gc-option { display: flex; flex-direction: column; gap: 0.25rem; }
+  .gc-label { font-size: 0.75rem; color: var(--text-3); }
+  .gc-select {
+    padding: 6px 8px; font-size: 13px; border: 1px solid var(--border);
+    border-radius: var(--radius); background: var(--bg); color: var(--text);
+  }
+  .gc-hint { font-size: 0.6875rem; color: var(--text-3); }
+
+  .gc-actions { display: flex; gap: 0.75rem; align-items: center; margin-top: 0.25rem; }
+
+  /* Progress */
+  .gc-progress { text-align: center; padding: 2rem; }
+  .gc-progress-text { font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 1rem; }
+  .gc-progress-track {
+    width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover);
+    border-radius: 4px; margin: 0 auto; overflow: hidden;
+  }
+  .gc-progress-fill { height: 100%; background: var(--accent); border-radius: 4px; width: 0%; transition: width 0.3s; }
+  .gc-progress-detail { font-size: 0.75rem; color: var(--text-3); margin-top: 0.5rem; }
+
+  /* Error */
+  .gc-error {
+    background: var(--error-bg); border: 1px solid var(--error-border);
+    border-radius: var(--radius); padding: 1rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .gc-error-text { color: #c53030; font-size: 0.875rem; }
+  .gc-error-retry {
+    padding: 6px 14px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; font-size: 0.8125rem; cursor: pointer; white-space: nowrap; color: var(--text);
+  }
+  .gc-error-retry:hover { background: var(--bg-hover); }
+
+  /* Result */
+  .gc-result-compare { display: flex; gap: 1rem; margin-bottom: 0.75rem; }
+  .gc-result-col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.375rem; }
+  .gc-result-col-label {
+    font-size: 0.75rem; color: var(--text-3); text-transform: uppercase;
+    letter-spacing: 0.05em; text-align: center;
+  }
+  .gc-result-frame {
+    background: repeating-conic-gradient(#e0e0e0 0% 25%, #fff 0% 50%) 0 0 / 16px 16px;
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem;
+    display: flex; align-items: center; justify-content: center; min-height: 120px;
+  }
+  .gc-result-frame img { max-width: 100%; max-height: 320px; display: block; }
+  .gc-result-stats {
+    font-size: 0.875rem; color: var(--text-2); margin-bottom: 0.75rem; text-align: center; line-height: 1.6;
+  }
+  .gc-warn {
+    display: block; color: #b45309; font-size: 0.8125rem; line-height: 1.5; margin-bottom: 0.375rem;
+  }
+  .gc-result-detail { display: block; }
+  .gc-result-actions { display: flex; gap: 0.75rem; align-items: center; justify-content: center; }
+
+  @media (max-width: 768px) {
+    .gc-preview-row { flex-direction: column; }
+    .gc-preview-wrap { max-width: 100%; }
+    .gc-metadata { flex-direction: row; min-width: 0; flex-wrap: wrap; }
+    .gc-presets { grid-template-columns: 1fr; }
+  }
+</style>
+<script src="../tools/gif-compressor.js"></script>
