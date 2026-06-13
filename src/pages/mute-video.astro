@@ -1,0 +1,294 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Mute Video Online — Remove Sound from Video Free | maratool',
+  description: 'Remove sound from video files online for free. Lossless audio strip on MP4, WebM, MOV — no upload, no watermark, runs in your browser.',
+  canonical: 'https://maratool.com/mute-video',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Mute Video Online',
+    url: 'https://maratool.com/mute-video',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Remove audio from MP4, WebM, and MOV videos. Lossless — video stays at full quality. No upload, no watermark, no signup.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Video', item: 'https://maratool.com/converter/video' },
+      { '@type': 'ListItem', position: 4, name: 'Mute Video', item: 'https://maratool.com/mute-video' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I remove sound from a video online?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Upload the video, click "Mute video", and download the result. The audio track is stripped in seconds — the video quality is unchanged. No account or software installation needed.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Will removing audio affect video quality?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. Muting is a lossless operation — we copy the video stream directly without re-encoding it. Only the audio track is removed. The video quality stays exactly as it was in the original file.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is this tool free to remove sound from video?',
+        acceptedAnswer: { '@type': 'Answer', text: '100% free, no signup, no watermark, no file-size limits beyond what your browser can handle. Everything runs locally using FFmpeg compiled to WebAssembly — your video never leaves your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the maximum file size I can mute?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Up to 2 GB on desktop; mobile browsers may struggle above 500 MB. Since nothing is uploaded to a server, the limit is your device memory, not a server quota.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop a video file or click to select an MP4, WebM, or MOV.',
+  'Click "Mute video" — no extra settings needed.',
+  'Download the silent video with audio stripped losslessly.'
+]
+
+const faq = [
+  { q: 'How do I remove sound from a video online?', a: 'Upload the video, click "Mute video", and download the result. The audio track is stripped in seconds — the video quality is unchanged. No account or software installation needed.' },
+  { q: 'Will removing audio affect video quality?', a: 'No. Muting is a lossless operation — we copy the video stream directly without re-encoding it. Only the audio track is removed. The video quality stays exactly as it was in the original file.' },
+  { q: 'Is this tool free to remove sound from video?', a: '100% free, no signup, no watermark, no file-size limits beyond what your browser can handle. Everything runs locally using FFmpeg compiled to WebAssembly — your video never leaves your device.' },
+  { q: 'What is the maximum file size I can mute?', a: 'Up to 2 GB on desktop; mobile browsers may struggle above 500 MB. Since nothing is uploaded to a server, the limit is your device memory, not a server quota.' },
+]
+
+const relatedTools = [
+  { slug: 'trim-video', name: 'Trim Video Online' },
+  { slug: 'rotate-video', name: 'Rotate Video Online' },
+  { slug: 'mp4-to-mp3', name: 'Convert MP4 to MP3' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Video', href: '/converter/video' },
+  { label: 'Mute Video' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="mute-video" name="Mute Video Online" description="Remove audio from MP4, WebM, and MOV videos. Lossless — video stays at full quality. No upload, no watermark, no signup." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:400px;">
+        <!-- Mobile banner -->
+        <div class="mu-mobile-banner" id="mu-mobile-banner" style="display:none;">
+          <span>This works on mobile but is faster on desktop. Files above 500 MB may fail on phones.</span>
+          <button type="button" class="mu-mobile-banner-dismiss" id="mu-mobile-banner-dismiss" aria-label="Dismiss">&times;</button>
+        </div>
+
+        <!-- Drop zone -->
+        <div class="mu-dropzone" id="mu-dropzone">
+          <input type="file" id="mu-file-input" accept="video/mp4,video/webm,video/quicktime" hidden />
+          <div class="mu-dropzone-inner">
+            <svg class="mu-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <p class="mu-dropzone-title">Drop a video here</p>
+            <p class="mu-dropzone-sub">or click to select a file</p>
+            <p class="mu-dropzone-formats">MP4, WebM, MOV — up to 2 GB</p>
+          </div>
+        </div>
+
+        <div class="mu-info" id="mu-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>The FFmpeg engine (~25 MB) downloads on first use and is cached by your browser. Audio removal is lossless — the video stream is copied directly without re-encoding.</span>
+        </div>
+
+        <!-- Settings / editor -->
+        <div class="mu-settings" id="mu-settings" style="display:none;">
+          <div class="mu-preview-row">
+            <div class="mu-video-wrap">
+              <video id="mu-video" controls preload="metadata"></video>
+            </div>
+            <div class="mu-metadata">
+              <div class="mu-stat">
+                <span class="mu-stat-value" id="mu-duration">—</span>
+                <span class="mu-stat-label">Duration</span>
+              </div>
+              <div class="mu-stat">
+                <span class="mu-stat-value" id="mu-dimensions">—</span>
+                <span class="mu-stat-label">Resolution</span>
+              </div>
+              <div class="mu-stat">
+                <span class="mu-stat-value" id="mu-filesize">—</span>
+                <span class="mu-stat-label">File size</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mu-actions">
+            <button class="tool-button" id="mu-mute">Mute video</button>
+            <button class="copy-btn" id="mu-change">Change video</button>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="mu-progress" id="mu-progress" style="display:none;">
+          <div class="mu-progress-text" id="mu-progress-text">Loading FFmpeg...</div>
+          <div class="mu-progress-track">
+            <div class="mu-progress-fill" id="mu-progress-fill"></div>
+          </div>
+          <div class="mu-progress-detail" id="mu-progress-detail"></div>
+        </div>
+
+        <!-- Error -->
+        <div class="mu-error" id="mu-error" style="display:none;">
+          <span class="mu-error-text" id="mu-error-text"></span>
+          <button class="mu-error-retry" id="mu-error-retry">Try again</button>
+        </div>
+
+        <!-- Result -->
+        <div class="mu-result" id="mu-result" style="display:none;">
+          <div class="mu-result-preview">
+            <video id="mu-result-video" controls></video>
+          </div>
+          <div class="mu-result-stats" id="mu-result-stats"></div>
+          <div class="mu-result-actions">
+            <button class="tool-button" id="mu-download">Download muted video</button>
+            <button class="copy-btn" id="mu-new">Mute another</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  /* Mobile banner */
+  .mu-mobile-banner {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+    padding: 0.625rem 0.875rem; margin-bottom: 1rem;
+    background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius);
+    font-size: 0.8125rem; color: var(--text-2);
+  }
+  .mu-mobile-banner-dismiss {
+    background: none; border: none; font-size: 1.25rem; line-height: 1; cursor: pointer;
+    color: var(--text-3); padding: 0 0.25rem;
+  }
+  .mu-mobile-banner-dismiss:hover { color: var(--text); }
+
+  /* Dropzone */
+  .mu-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .mu-dropzone:hover, .mu-dropzone.drag-over {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .mu-dropzone-inner {
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  }
+  .mu-upload-icon { color: var(--text-3); margin-bottom: 0.5rem; }
+  .mu-dropzone-title { font-size: 1.125rem; font-weight: 600; color: var(--text); margin: 0; }
+  .mu-dropzone-sub { font-size: 0.875rem; color: var(--text-2); margin: 0; }
+  .mu-dropzone-formats { font-size: 0.75rem; color: var(--text-3); margin: 0.25rem 0 0; }
+
+  .mu-info {
+    display: flex; align-items: flex-start; gap: 0.5rem;
+    padding: 0.75rem 1rem; background: var(--bg-soft);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    margin-top: 1rem; font-size: 0.8125rem; color: var(--text-2); line-height: 1.5;
+  }
+  .mu-info svg { flex-shrink: 0; margin-top: 1px; color: var(--text-3); }
+
+  /* Editor */
+  .mu-preview-row {
+    display: flex; gap: 1.5rem; margin-bottom: 1.25rem;
+  }
+  .mu-video-wrap { flex: 1; min-width: 0; }
+  .mu-video-wrap video {
+    width: 100%; border-radius: var(--radius);
+    border: 1px solid var(--border); background: #000;
+  }
+  .mu-metadata {
+    display: flex; flex-direction: column; gap: 1rem; min-width: 130px;
+  }
+  .mu-stat { display: flex; flex-direction: column; gap: 0.125rem; }
+  .mu-stat-value {
+    font-size: 1.125rem; font-weight: 600; color: var(--text);
+    font-family: var(--font-mono);
+  }
+  .mu-stat-label {
+    font-size: 0.75rem; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+
+  .mu-actions {
+    display: flex; gap: 0.75rem; align-items: center; margin-top: 0.25rem;
+  }
+
+  /* Progress */
+  .mu-progress { text-align: center; padding: 2rem; }
+  .mu-progress-text {
+    font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 1rem;
+  }
+  .mu-progress-track {
+    width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover);
+    border-radius: 4px; margin: 0 auto; overflow: hidden;
+  }
+  .mu-progress-fill {
+    height: 100%; background: var(--accent); border-radius: 4px;
+    width: 0%; transition: width 0.3s;
+  }
+  .mu-progress-detail {
+    font-size: 0.75rem; color: var(--text-3); margin-top: 0.5rem;
+  }
+
+  /* Error */
+  .mu-error {
+    background: var(--error-bg); border: 1px solid var(--error-border);
+    border-radius: var(--radius); padding: 1rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .mu-error-text { color: #c53030; font-size: 0.875rem; }
+  .mu-error-retry {
+    padding: 6px 14px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; font-size: 0.8125rem; cursor: pointer; white-space: nowrap;
+    color: var(--text);
+  }
+  .mu-error-retry:hover { background: var(--bg-hover); }
+
+  /* Result */
+  .mu-result-preview {
+    text-align: center; margin-bottom: 0.75rem;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 0.5rem; min-height: 100px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-soft);
+  }
+  .mu-result-preview video { max-width: 100%; max-height: 500px; border-radius: 6px; background: #000; }
+  .mu-result-stats {
+    font-size: 0.875rem; color: var(--text-2); margin-bottom: 0.75rem;
+    text-align: center; line-height: 1.6;
+  }
+  .mu-result-actions {
+    display: flex; gap: 0.75rem; align-items: center; justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .mu-preview-row { flex-direction: column; }
+    .mu-metadata { flex-direction: row; min-width: 0; flex-wrap: wrap; }
+  }
+</style>
+<script src="../tools/mute-video.js"></script>
