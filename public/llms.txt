@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 219 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 230 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -21,6 +21,16 @@ maratool.com is a growing collection of 219 free tools that run in the browser u
 - [Typography Size Converter — PX, PT, EM, %](https://maratool.com/typography-calculator): Convert between px, pt, em, rem, and percent for CSS typography. Enter any value and see all units instantly.
 - [FPS Converter — Change Video Frame Rate](https://maratool.com/fps-converter): Change video frame rate (FPS) online — convert between 24, 30, 60 fps and more. Runs entirely in your browser.
 - [Video to GIF Converter — MP4 to GIF Online](https://maratool.com/video-to-gif): Convert MP4, WebM, and MOV videos to animated GIFs in your browser. Trim start/end, set FPS, adjust size — no upload to servers.
+- [Trim Video Online — Cut MP4, WebM, MOV](https://maratool.com/trim-video): Trim and cut MP4, WebM, MOV videos online for free. Set start and end times, lossless — runs in your browser, no upload, no watermark.
+- [Convert MP4 to MP3 — Extract Audio from Video](https://maratool.com/mp4-to-mp3): Extract audio from MP4, WebM, or MOV videos and download as MP3. Runs in your browser — no upload, no signup, no watermark.
+- [Convert MOV to MP4 — Free QuickTime Converter](https://maratool.com/mov-to-mp4): Convert MOV (QuickTime) files to MP4 directly in your browser. Lossless when possible — no upload, no watermark, no signup.
+- [Convert MP4 to WebM — Online Video Converter](https://maratool.com/mp4-to-webm): Convert MP4 video files to WebM in your browser. No upload, no watermark, no signup — runs entirely on your device.
+- [Compress Video Online — Reduce MP4 Size](https://maratool.com/compress-video): Compress MP4, WebM, and MOV videos to a smaller file size. Choose a quality preset, runs entirely in your browser.
+- [Rotate Video Online — Free Video Rotator](https://maratool.com/rotate-video): Rotate MP4, WebM, and MOV videos by 90, 180, or 270 degrees. Lossless — runs in your browser, no upload.
+- [Mute Video Online — Remove Sound from Video](https://maratool.com/mute-video): Remove audio from MP4, WebM, and MOV videos. Lossless — keeps video quality intact, runs in your browser.
+- [Resize Video Online — Change Video Resolution](https://maratool.com/resize-video): Resize videos to 1080p, 720p, 480p, or custom dimensions. Aspect-ratio lock available. Runs in your browser.
+- [Crop Video Online — Free Video Cropper](https://maratool.com/crop-video): Crop MP4, WebM, and MOV videos in your browser. Drag a crop box, pick an aspect ratio — no upload, no watermark, no signup.
+- [Online Video Editor — Free Browser Video Tools](https://maratool.com/video-editor): Free online video editor — trim, compress, convert, rotate, mute, crop, and resize videos in your browser. No upload, no signup, no watermark.
 
 ### Developer
 - [Generate MD5 SHA-256 Hash Online](https://maratool.com/hash-generator): Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text input instantly.
@@ -60,6 +70,7 @@ maratool.com is a growing collection of 219 free tools that run in the browser u
 - [GIF Maker — Create Animated GIFs from Images](https://maratool.com/gif-maker): Upload images and create animated GIFs instantly in your browser. Drag to reorder frames, set speed, and download — no upload to servers.
 - [Background Remover](https://maratool.com/background-remover): Remove image backgrounds instantly in your browser using AI. No upload, no sign-up — powered by a local ML model.
 - [GIF Background Remover](https://maratool.com/gif-bg-remover): Remove the background from any GIF and make it transparent. Pick a color, adjust tolerance, download — 100% in your browser.
+- [GIF Compressor — Compress & Reduce GIF Size](https://maratool.com/gif-compressor): Compress GIF files and reduce their size in your browser. Cut colors, resize, drop frames — no upload, no watermark, no signup.
 - [SVG Optimizer](https://maratool.com/svg-optimizer): Optimize and minify SVG files in the browser. Remove metadata, clean attributes, and reduce file size instantly.
 - [Favicon Generator](https://maratool.com/favicon-generator): Generate favicons in all sizes from a single image. Download as ICO, PNG, or a complete ZIP with all sizes.
 - [Image Converter — HEIC to PNG, PNG to JPEG, WebP](https://maratool.com/image-converter): Convert HEIC to PNG, JPEG, or WebP — plus PNG, JPEG, WebP, and AVIF. Resize, adjust quality, and download — all in your browser.
