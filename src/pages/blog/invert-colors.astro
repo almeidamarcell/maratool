@@ -1,6 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
 const seo = {
   title: 'How to invert colors in an image or GIF | maratool',
@@ -28,27 +30,17 @@ const seo = {
 ---
 <Base {...seo}>
   <Layout>
-    <article class="blog-post">
-      <header class="blog-post-header">
-        <div class="blog-post-meta">
-          <a href="/blog" class="blog-back">← Blog</a>
-          <time datetime="2026-06-28" class="blog-post-date">June 28, 2026</time>
-        </div>
-        <h1 class="blog-post-title">How to invert colors in an image or GIF</h1>
-        <p class="blog-post-lead">Create a negative or channel-specific color inversion.</p>
-      </header>
-      <div class="blog-body">
-        <p>The <a href="/invert-colors">Invert Colors</a> tool runs entirely in your browser — no upload, no watermark.</p>
-        <h2>How it works</h2>
-        <ol>
-          <li>Upload an image or GIF.</li>
-          <li>Choose full inversion or toggle individual RGB channels.</li>
-          <li>Download the inverted result.</li>
-        </ol>
-        <p>Invert or negate colors in images and animated GIFs. Full inversion or per-channel control. Preview and download instantly.</p>
-        <hr class="blog-divider" />
-        <p class="blog-footer-note">Try the <a href="/invert-colors">Invert Colors</a> free at <a href="/image">maratool.com/image</a>.</p>
-      </div>
-    </article>
+    <BlogPostShell title="How to invert colors in an image or GIF" lead="Create a negative or channel-specific color inversion." date="June 28, 2026" dateIso="2026-06-28">
+      <p>The <a href="/invert-colors">Invert Colors</a> tool runs entirely in your browser.</p>
+      <BlogToolEmbed slug="invert-colors" title="Try it live" height={480} />
+      <h2>How it works</h2>
+      <ol>
+        <li>Upload an image or GIF.</li>
+        <li>Preview the inverted result instantly.</li>
+        <li>Download the inverted file.</li>
+      </ol>
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">Try <a href="/invert-colors">Invert Colors</a> free at <a href="/image">maratool.com/image</a>.</p>
+    </BlogPostShell>
   </Layout>
 </Base>

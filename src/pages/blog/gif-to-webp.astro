@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'gif-to-webp'
+const seo = {
+  title: 'How to convert gif to webp online | maratool',
+  description: 'Convert GIF to WebP Online in your browser. No upload, no watermark.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert gif to webp online',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert GIF to WebP Online in your browser. No upload, no watermark.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell title="How to convert gif to webp online" lead="Convert GIF to WebP Online in your browser. No upload, no watermark." date="June 28, 2026" dateIso="2026-06-28">
+      <p>Use the free <a href="/gif-to-webp">Convert GIF to WebP Online</a> on maratool — same class of tool as <a href="https://ezgif.com" rel="noopener noreferrer">ezgif.com</a>, but everything runs locally in your browser.</p>
+      <BlogToolEmbed slug="gif-to-webp" title="Try it live" height={480} />
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Upload</strong> — drop your file into the tool.</li>
+        <li><strong>Configure</strong> — adjust settings if the tool offers options.</li>
+        <li><strong>Download</strong> — save the result. Your file never leaves your device.</li>
+      </ol>
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">More <a href="/image/animated">animated image tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

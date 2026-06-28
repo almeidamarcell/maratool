@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 375 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 457 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -55,6 +55,37 @@ maratool.com is a growing collection of 375 free tools that run in the browser u
 - [CSV Delimiter Converter](https://maratool.com/csv-delimiter-converter): CSV Delimiter Converter. Free, instant, runs in your browser.
 - [CSV Column Mapper & Renamer](https://maratool.com/csv-column-mapper): CSV Column Mapper & Renamer. Free, instant, runs in your browser.
 - [Transpose CSV Online](https://maratool.com/csv-transpose): Transpose CSV Online. Free, instant, runs in your browser.
+- [Convert GIF to MP4 Online](https://maratool.com/gif-to-mp4): Convert GIF to MP4 Online. Runs in your browser — no upload, no watermark.
+- [Video to APNG Converter Online](https://maratool.com/video-to-apng): Video to APNG Converter Online. Runs in your browser — no upload, no watermark.
+- [Video to WebP Converter Online](https://maratool.com/video-to-webp): Video to WebP Converter Online. Runs in your browser — no upload, no watermark.
+- [Video to AVIF Converter Online](https://maratool.com/video-to-avif): Video to AVIF Converter Online. Runs in your browser — no upload, no watermark.
+- [Merge Videos Online — Join Video Clips](https://maratool.com/merge-videos): Merge Videos Online. Runs in your browser — no upload, no watermark.
+- [Reverse Video Online](https://maratool.com/reverse-video): Reverse Video Online. Runs in your browser — no upload, no watermark.
+- [Change Video Speed Online](https://maratool.com/video-speed): Change Video Speed Online. Runs in your browser — no upload, no watermark.
+- [Add Freeze Frame to Video Online](https://maratool.com/freeze-video): Add Freeze Frame to Video Online. Runs in your browser — no upload, no watermark.
+- [Video Screenshot — Extract Frame as Image](https://maratool.com/video-screenshot): Video Screenshot. Runs in your browser — no upload, no watermark.
+- [Images to Video — Slideshow MP4 Maker](https://maratool.com/images-to-video): Images to Video. Runs in your browser — no upload, no watermark.
+- [Cut Audio Online — Trim MP3 WAV FLAC](https://maratool.com/cut-audio): Cut Audio Online. Runs in your browser — no upload, no watermark.
+- [Compress Audio Online — Reduce MP3 Size](https://maratool.com/compress-audio): Compress Audio Online. Runs in your browser — no upload, no watermark.
+- [Merge Audio Files Online](https://maratool.com/merge-audio): Merge Audio Files Online. Runs in your browser — no upload, no watermark.
+- [Audio Fade In Out Online](https://maratool.com/audio-fade): Audio Fade In Out Online. Runs in your browser — no upload, no watermark.
+- [Change Audio Speed Online](https://maratool.com/audio-speed): Change Audio Speed Online. Runs in your browser — no upload, no watermark.
+- [Boost Audio Volume Online](https://maratool.com/boost-volume): Boost Audio Volume Online. Runs in your browser — no upload, no watermark.
+- [GIF Frame Interpolation — Smooth Motion](https://maratool.com/interpolate-frames): GIF Frame Interpolation. Runs in your browser — no upload, no watermark.
+- [Video to JXL Converter Online](https://maratool.com/video-to-jxl): Video to JXL Converter Online. Runs in your browser — no upload, no watermark.
+- [Apply Video Filters Online](https://maratool.com/video-filters): Apply Video Filters Online. Runs in your browser — no upload, no watermark.
+- [Video Stabilizer Online](https://maratool.com/video-stabilizer): Video Stabilizer Online. Runs in your browser — no upload, no watermark.
+- [Add Subtitles to Video Online](https://maratool.com/video-subtitles): Add Subtitles to Video Online. Runs in your browser — no upload, no watermark.
+- [Audio Waveform Image Generator](https://maratool.com/audio-waveform): Audio Waveform Image Generator. Runs in your browser — no upload, no watermark.
+- [Remove Audio Noise Online](https://maratool.com/audio-denoise): Remove Audio Noise Online. Runs in your browser — no upload, no watermark.
+- [Bulk WebP to PNG Converter](https://maratool.com/bulk-webp-to-png): Bulk WebP to PNG Converter. Runs in your browser — no upload, no watermark.
+- [Bulk AVIF to PNG Converter](https://maratool.com/bulk-avif-to-png): Bulk AVIF to PNG Converter. Runs in your browser — no upload, no watermark.
+- [Bulk AVIF to JPG Converter](https://maratool.com/bulk-avif-to-jpg): Bulk AVIF to JPG Converter. Runs in your browser — no upload, no watermark.
+- [Bulk PNG to JPG Converter](https://maratool.com/bulk-png-to-jpg): Bulk PNG to JPG Converter. Runs in your browser — no upload, no watermark.
+- [Bulk JPG to PNG Converter](https://maratool.com/bulk-jpg-to-png): Bulk JPG to PNG Converter. Runs in your browser — no upload, no watermark.
+- [Add Audio to Video Online](https://maratool.com/video-sound): Add Audio to Video Online. Runs in your browser — no upload, no watermark.
+- [Video to PNG — Extract Frames](https://maratool.com/video-to-png): Video to PNG. Runs in your browser — no upload, no watermark.
+- [Video to JPG — Extract Frame](https://maratool.com/video-to-jpg): Video to JPG. Runs in your browser — no upload, no watermark.
 
 ### Developer
 - [Test Regex Patterns Online](https://maratool.com/regex-tester): Test regular expressions with live match highlighting.
@@ -183,6 +214,52 @@ maratool.com is a growing collection of 375 free tools that run in the browser u
 - [Base64 Image Previewer](https://maratool.com/base64-image-preview): Paste a Base64 string or data URL and instantly preview the image with format, dimensions, and size.
 - [Image Alt Text Generator](https://maratool.com/alt-text-generator): Generate alt text for images using AI — runs locally in your browser. No upload, no sign-up required.
 - [GIF Analyzer — Inspect GIF Structure](https://maratool.com/gif-analyzer): Inspect animated GIF internals: dimensions, frame count, delays, palettes, and disposal methods. Export metadata as JSON.
+- [Reverse GIF Online — Play Animation Backwards](https://maratool.com/gif-reverse): Reverse GIF Online. Runs in your browser — no upload, no watermark.
+- [Change GIF Speed Online — Faster or Slower](https://maratool.com/gif-speed): Change GIF Speed Online. Runs in your browser — no upload, no watermark.
+- [Cut GIF Duration Online — Trim Animated GIF](https://maratool.com/gif-cut): Cut GIF Duration Online. Runs in your browser — no upload, no watermark.
+- [Resize GIF Online — Change Animated GIF Size](https://maratool.com/gif-resizer): Resize GIF Online. Runs in your browser — no upload, no watermark.
+- [Crop GIF Online — Crop Animated GIF](https://maratool.com/gif-cropper): Crop GIF Online. Runs in your browser — no upload, no watermark.
+- [Rotate GIF Online — Flip or Rotate Animation](https://maratool.com/gif-rotate): Rotate GIF Online. Runs in your browser — no upload, no watermark.
+- [Ping Pong GIF — Boomerang Loop Online](https://maratool.com/ping-pong-gif): Ping Pong GIF. Runs in your browser — no upload, no watermark.
+- [Shuffle GIF Frames Online](https://maratool.com/gif-randomize): Shuffle GIF Frames Online. Runs in your browser — no upload, no watermark.
+- [Extend GIF Duration — Loop to Target Length](https://maratool.com/extend-gif): Extend GIF Duration. Runs in your browser — no upload, no watermark.
+- [Convert GIF to WebP Online](https://maratool.com/gif-to-webp): Convert GIF to WebP Online. Runs in your browser — no upload, no watermark.
+- [Convert GIF to APNG Online](https://maratool.com/gif-to-apng): Convert GIF to APNG Online. Runs in your browser — no upload, no watermark.
+- [Animate Static Image Online — Photo to GIF](https://maratool.com/static-to-gif): Animate Static Image Online. Runs in your browser — no upload, no watermark.
+- [Sprite Sheet Cutter Online](https://maratool.com/sprite-cutter): Sprite Sheet Cutter Online. Runs in your browser — no upload, no watermark.
+- [Remove EXIF Metadata from Images](https://maratool.com/exif-remover): Remove EXIF Metadata from Images. Runs in your browser — no upload, no watermark.
+- [Compare Two Images Online](https://maratool.com/compare-images): Compare Two Images Online. Runs in your browser — no upload, no watermark.
+- [Photo Collage Maker Online](https://maratool.com/collage-maker): Photo Collage Maker Online. Runs in your browser — no upload, no watermark.
+- [Round Image Corners Online](https://maratool.com/rounded-corners): Round Image Corners Online. Runs in your browser — no upload, no watermark.
+- [Passport Photo Maker Online](https://maratool.com/passport-photo): Passport Photo Maker Online. Runs in your browser — no upload, no watermark.
+- [APNG Maker — Create Animated PNG](https://maratool.com/apng-maker): APNG Maker. Runs in your browser — no upload, no watermark.
+- [WebP Animation Maker Online](https://maratool.com/webp-maker): WebP Animation Maker Online. Runs in your browser — no upload, no watermark.
+- [Change GIF Loop Count Online](https://maratool.com/gif-loop-count): Change GIF Loop Count Online. Runs in your browser — no upload, no watermark.
+- [GIF to Frames — Split GIF into Images](https://maratool.com/gif-to-frames): GIF to Frames. Runs in your browser — no upload, no watermark.
+- [Combine GIFs Side by Side Online](https://maratool.com/gif-combine): Combine GIFs Side by Side Online. Runs in your browser — no upload, no watermark.
+- [Add Text to GIF Online](https://maratool.com/gif-add-text): Add Text to GIF Online. Runs in your browser — no upload, no watermark.
+- [GIF Effects — Filters & Color Online](https://maratool.com/gif-effects): GIF Effects. Runs in your browser — no upload, no watermark.
+- [View Image EXIF Metadata Online](https://maratool.com/view-metadata): View Image EXIF Metadata Online. Runs in your browser — no upload, no watermark.
+- [Enlarge Image Online — Upscale Photo](https://maratool.com/enlarge-image): Enlarge Image Online. Runs in your browser — no upload, no watermark.
+- [Halftone Image Effect Online](https://maratool.com/halftone): Halftone Image Effect Online. Runs in your browser — no upload, no watermark.
+- [Change Image Aspect Ratio Online](https://maratool.com/change-aspect-ratio): Change Image Aspect Ratio Online. Runs in your browser — no upload, no watermark.
+- [Animated JXL Maker Online](https://maratool.com/jxl-maker): Animated JXL Maker Online. Runs in your browser — no upload, no watermark.
+- [AVIF Animation Maker Online](https://maratool.com/avif-maker): AVIF Animation Maker Online. Runs in your browser — no upload, no watermark.
+- [Convert GIF to JXL Online](https://maratool.com/gif-to-jxl): Convert GIF to JXL Online. Runs in your browser — no upload, no watermark.
+- [Image to Data URI Converter](https://maratool.com/image-to-datauri): Image to Data URI Converter. Runs in your browser — no upload, no watermark.
+- [Live Photo to GIF Converter](https://maratool.com/livephoto-to-gif): Live Photo to GIF Converter. Runs in your browser — no upload, no watermark.
+- [Convert WebP to GIF Online](https://maratool.com/webp-to-gif): Convert WebP to GIF Online. Runs in your browser — no upload, no watermark.
+- [Convert AVIF to GIF Online](https://maratool.com/avif-to-gif): Convert AVIF to GIF Online. Runs in your browser — no upload, no watermark.
+- [Convert APNG to GIF Online](https://maratool.com/apng-to-gif): Convert APNG to GIF Online. Runs in your browser — no upload, no watermark.
+- [Convert MNG to GIF Online](https://maratool.com/mng-to-gif): Convert MNG to GIF Online. Runs in your browser — no upload, no watermark.
+- [GIF to Sprite Sheet Online](https://maratool.com/gif-to-sprite): GIF to Sprite Sheet Online. Runs in your browser — no upload, no watermark.
+- [Split GIF into Parts Online](https://maratool.com/gif-split): Split GIF into Parts Online. Runs in your browser — no upload, no watermark.
+- [Repair Corrupted GIF Online](https://maratool.com/gif-repair): Repair Corrupted GIF Online. Runs in your browser — no upload, no watermark.
+- [Instagram GIF Maker — Square Loop](https://maratool.com/instagif): Instagram GIF Maker. Runs in your browser — no upload, no watermark.
+- [Add White Box Caption to GIF](https://maratool.com/white-box-caption): Add White Box Caption to GIF. Runs in your browser — no upload, no watermark.
+- [Telegram Sticker TGS to GIF](https://maratool.com/tgs-to-gif): Telegram Sticker TGS to GIF. Runs in your browser — no upload, no watermark.
+- [Motion Photo MVIMG to GIF](https://maratool.com/mvimg-to-gif): Motion Photo MVIMG to GIF. Runs in your browser — no upload, no watermark.
+- [GIF to Live Photo Converter](https://maratool.com/gif-to-livephoto): GIF to Live Photo Converter. Runs in your browser — no upload, no watermark.
 
 ### Color
 - [CSS Gradient Generator with Live Preview](https://maratool.com/css-gradient): Generate CSS gradients visually with live preview.
@@ -204,6 +281,11 @@ maratool.com is a growing collection of 375 free tools that run in the browser u
 - [PDF Page Counter & Metadata Viewer](https://maratool.com/pdf-metadata): View PDF page count, file size, author, creation date, and other metadata instantly in your browser.
 - [PDF Accessibility Checker](https://maratool.com/pdf-accessibility-checker): Check if your PDF has accessibility tags, document title, language, and other a11y requirements.
 - [PDF Preflight Checker](https://maratool.com/pdf-preflight): Analyze PDF files for print-readiness issues — check page sizes, fonts, color spaces, and image resolution.
+- [Compress PDF Online — Reduce File Size](https://maratool.com/compress-pdf): Compress PDF Online. Runs in your browser — no upload, no watermark.
+- [PDF to GIF Converter Online](https://maratool.com/pdf-to-gif): PDF to GIF Converter Online. Runs in your browser — no upload, no watermark.
+- [PDF to JPG Converter Online](https://maratool.com/pdf-to-jpg): PDF to JPG Converter Online. Runs in your browser — no upload, no watermark.
+- [PDF to PNG Converter Online](https://maratool.com/pdf-to-png): PDF to PNG Converter Online. Runs in your browser — no upload, no watermark.
+- [Crop PDF Pages Online](https://maratool.com/crop-pdf): Crop PDF Pages Online. Runs in your browser — no upload, no watermark.
 
 ### Marketing
 - [Barcode Generator — Code128, EAN-13 & More](https://maratool.com/barcode-generator): Generate barcodes in Code 128, EAN-13, UPC-A, QR, Data Matrix, and more. Download as PNG or SVG.

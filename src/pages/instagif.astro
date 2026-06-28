@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Instagram GIF Maker — Square Loop | maratool',
+  description: 'Instagram GIF Maker. Free, runs in your browser — no upload to servers.',
+  canonical: 'https://maratool.com/instagif',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Instagram GIF Maker',
+    url: 'https://maratool.com/instagif',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Instagram GIF Maker. Free, runs in your browser — no upload to servers.',
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
+      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
+      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
+      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+    ],
+  },
+}
+
+const howTo = [
+  'Upload or drop your file.',
+  'Adjust settings if needed.',
+  'Click Process and download the result.',
+]
+
+const faq = [
+  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
+  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
+  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
+  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+]
+
+const relatedTools = [
+  { slug: 'gif-maker', name: 'GIF Maker' },
+  { slug: 'gif-compressor', name: 'GIF Compressor' },
+  { slug: 'video-to-gif', name: 'Video to GIF' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Social', href: '/image/social' },
+  { label: 'Instagram GIF Maker' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="instagif" name="Instagram GIF Maker — Square Loop" description="Instagram GIF Maker. Free, runs in your browser — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:420px;">
+        <div class="ga-dropzone tool-dropzone" id="ga-dropzone">
+          <input type="file" id="ga-file-input" accept="image/gif" hidden />
+          <p>Drop a GIF or click to upload</p>
+        </div>
+        <div id="ga-settings" hidden>
+          <img id="ga-preview" alt="Preview" style="max-width:100%;max-height:200px;" />
+                    <label class="tool-label" for="ga-width">Size (px)</label>
+          <input class="tool-input" id="ga-width" type="number" data-ga-opt="width" value="480" />
+          <label class="tool-label" for="ga-height">Height (px)</label>
+          <input class="tool-input" id="ga-height" type="number" data-ga-opt="height" value="480" />
+          <button type="button" class="tool-btn" id="ga-process" style="margin-top:1rem;">Process GIF</button>
+        </div>
+        <div id="ga-progress" hidden>
+          <p id="ga-progress-text">Processing...</p>
+          <div class="tool-progress-bar"><div id="ga-progress-fill" class="tool-progress-fill"></div></div>
+        </div>
+        <div id="ga-result" hidden>
+          <img id="ga-result-img" alt="Result" style="max-width:100%;" />
+          <button type="button" class="tool-btn" id="ga-download" style="margin-top:1rem;">Download</button>
+        </div>
+        <p id="ga-error" class="tool-error" hidden><span id="ga-error-text"></span></p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .ga-dropzone, .ef-dropzone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 2rem; text-align: center; cursor: pointer; }
+  .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
+</style>
+
+<script type="module" src="../tools/instagif.js"></script>

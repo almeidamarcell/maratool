@@ -42,8 +42,8 @@ describe('tool categories', () => {
     }
   })
 
-  test('Converter category has Format, Document, Unit, Video, CSV, and Date subcategories', () => {
-    expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Document', 'Media', 'Unit', 'Video', 'CSV', 'Date'])
+  test('Converter category has Format, Document, Media, Unit, Video, Audio, CSV, and Date subcategories', () => {
+    expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Document', 'Media', 'Unit', 'Video', 'Audio', 'CSV', 'Date'])
   })
 
   test('PDF category has Extract, Edit, Inspect subcategories', () => {
@@ -54,8 +54,8 @@ describe('tool categories', () => {
     expect(subcategoryOrderByCategory['Text']).toEqual(['Analyze', 'Edit', 'Generate', 'Transform'])
   })
 
-  test('Image category has Transform, Social, and Inspect subcategories', () => {
-    expect(subcategoryOrderByCategory['Image']).toEqual(['Transform', 'Social', 'Inspect'])
+  test('Image category has Transform, Animated, Social, and Inspect subcategories', () => {
+    expect(subcategoryOrderByCategory['Image']).toEqual(['Transform', 'Animated', 'Social', 'Inspect'])
   })
 
   test('Color category has Generate, Convert, and Check subcategories', () => {

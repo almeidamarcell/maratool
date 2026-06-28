@@ -1,6 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
 const seo = {
   title: 'How to inspect GIF frame structure and metadata | maratool',
@@ -28,27 +30,17 @@ const seo = {
 ---
 <Base {...seo}>
   <Layout>
-    <article class="blog-post">
-      <header class="blog-post-header">
-        <div class="blog-post-meta">
-          <a href="/blog" class="blog-back">← Blog</a>
-          <time datetime="2026-06-28" class="blog-post-date">June 28, 2026</time>
-        </div>
-        <h1 class="blog-post-title">How to inspect GIF frame structure and metadata</h1>
-        <p class="blog-post-lead">Upload a GIF and see every frame, delay, palette, and disposal method.</p>
-      </header>
-      <div class="blog-body">
-        <p>The <a href="/gif-analyzer">GIF Analyzer</a> tool runs entirely in your browser — no upload, no watermark.</p>
-        <h2>How it works</h2>
-        <ol>
-          <li>Upload a GIF file.</li>
-          <li>Review summary stats and per-frame details.</li>
-          <li>Export the metadata as JSON if needed.</li>
-        </ol>
-        <p>Inspect animated GIF internals: dimensions, frame count, delays, palettes, and disposal methods. Export metadata as JSON.</p>
-        <hr class="blog-divider" />
-        <p class="blog-footer-note">Try the <a href="/gif-analyzer">GIF Analyzer</a> free at <a href="/image">maratool.com/image</a>.</p>
-      </div>
-    </article>
+    <BlogPostShell title="How to inspect GIF frame structure and metadata" lead="Upload a GIF and see every frame, delay, palette, and disposal method." date="June 28, 2026" dateIso="2026-06-28">
+      <p>The <a href="/gif-analyzer">GIF Analyzer</a> tool runs entirely in your browser — no upload, no watermark.</p>
+      <BlogToolEmbed slug="gif-analyzer" title="Try it live" height={480} />
+      <h2>How it works</h2>
+      <ol>
+        <li>Upload a GIF file.</li>
+        <li>Review summary stats and per-frame details.</li>
+        <li>Export the metadata as JSON if needed.</li>
+      </ol>
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">Try the <a href="/gif-analyzer">GIF Analyzer</a> free at <a href="/image">maratool.com/image</a>.</p>
+    </BlogPostShell>
   </Layout>
 </Base>
