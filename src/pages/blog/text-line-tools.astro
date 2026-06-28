@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'text-line-tools'
+const seo = {
+  title: 'Sort lines, remove duplicates & change case online | maratool',
+  description: 'Sort lines alphabetically, remove duplicates, randomize, and convert case. All text line tools in one place.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to sort, dedupe, and convert text lines',
+    image: 'https://maratool.com/og/text.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Sort lines alphabetically, remove duplicates, randomize, and convert case. All text line tools in one place.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to sort, dedupe, and convert text lines', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to sort, dedupe, and convert text lines"
+      lead="One textarea, seven transforms — sort, dedupe, randomize, uppercase, lowercase, title case."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Cleaning a list of emails, sorting log lines, or removing duplicate SKUs — all are line-based text operations. The <a href="/text-line-tools">Text Line Tools</a> page bundles the most common transforms.</p>
+
+      <BlogToolEmbed slug="text-line-tools" title="Try it — paste lines and apply a transform" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste text</strong> — one item per line.</li>
+        <li><strong>Click a transform</strong> — sort, dedupe, randomize, or change case.</li>
+        <li><strong>Copy output</strong> — result appears in the output box.</li>
+      </ol>
+
+      <h2>Available transforms</h2>
+      <ul><li><strong>Sort A→Z / Z→A</strong> — locale-aware alphabetical sort.</li><li><strong>Remove duplicates</strong> — keeps first occurrence, case-sensitive.</li><li><strong>Randomize</strong> — shuffle line order.</li><li><strong>Case</strong> — UPPERCASE, lowercase, Title Case.</li></ul>
+
+      <h2>Privacy</h2>
+      <p>All transforms run locally. Your list data never leaves the browser.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/text-line-tools">How to sort, dedupe, and convert text lines</a> is free, runs locally, and never sends your data to a server. More <a href="/text">text tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

@@ -115,6 +115,21 @@ describe('tool categories', () => {
     }
   })
 
+  test('every blogPost: true tool has a blog page with BlogToolEmbed', async () => {
+    const { readFileSync, existsSync } = await import('node:fs')
+    const { resolve } = await import('node:path')
+    const pagesDir = resolve(import.meta.dirname, '../pages/blog')
+    const blogTools = tools.filter(t => t.blogPost)
+    expect(blogTools.length, 'expected at least one blogPost tool').toBeGreaterThan(0)
+    for (const tool of blogTools) {
+      const blogPath = resolve(pagesDir, `${tool.slug}.astro`)
+      expect(existsSync(blogPath), `${tool.slug} missing blog post at src/pages/blog/${tool.slug}.astro`).toBe(true)
+      const content = readFileSync(blogPath, 'utf8')
+      expect(content, `${tool.slug} blog must use BlogToolEmbed`).toContain('BlogToolEmbed')
+      expect(content, `${tool.slug} blog must embed the correct slug`).toContain(`slug="${tool.slug}"`)
+    }
+  })
+
   test('PDF tools are in PDF category', () => {
     const pdfSlugs = ['pdf-to-text', 'pdf-metadata', 'pdf-to-markdown', 'pdf-merge-split', 'pdf-accessibility-checker']
     for (const slug of pdfSlugs) {

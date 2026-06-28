@@ -7,6 +7,7 @@ export interface Tool {
   subcategory: string    // e.g. "Format", "Extract", "Analyze", "Transform", "Generate", "Crypto", "Builder"
   keywords: string[]
   live: boolean
+  blogPost?: boolean      // if true, must have src/pages/blog/<slug>.astro with BlogToolEmbed
   tags?: string[]        // optional cross-cutting tags: 'instant', 'no-upload', 'file-upload', 'realtime', 'beta', 'mobile'
 }
 
@@ -2659,6 +2660,7 @@ export const tools: Tool[] = [
     subcategory: 'Loan',
     keywords: ['mortgage calculator', 'monthly mortgage payment', 'home loan calculator', 'mortgage payment calculator', 'amortization schedule', 'house payment calculator'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'loan-calculator',
@@ -2669,6 +2671,7 @@ export const tools: Tool[] = [
     subcategory: 'Loan',
     keywords: ['loan calculator', 'monthly loan payment', 'personal loan calculator', 'auto loan calculator', 'loan payment calculator', 'amortization calculator'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'compound-interest-calculator',
@@ -2679,6 +2682,7 @@ export const tools: Tool[] = [
     subcategory: 'Interest',
     keywords: ['compound interest calculator', 'compound interest', 'savings calculator', 'investment growth calculator', 'interest calculator online'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'cagr-calculator',
@@ -2689,6 +2693,7 @@ export const tools: Tool[] = [
     subcategory: 'Investment',
     keywords: ['cagr calculator', 'compound annual growth rate', 'calculate cagr', 'cagr formula', 'annual growth rate calculator'],
     live: true,
+    blogPost: true,
   },
   // ── Wave 1 expansion: Business ──
   {
@@ -2700,6 +2705,7 @@ export const tools: Tool[] = [
     subcategory: 'Calculator',
     keywords: ['profit margin calculator', 'gross margin calculator', 'net profit margin', 'calculate profit margin', 'margin percentage calculator'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'break-even-calculator',
@@ -2710,6 +2716,7 @@ export const tools: Tool[] = [
     subcategory: 'Calculator',
     keywords: ['break even calculator', 'break even point calculator', 'breakeven analysis', 'break even units', 'break even revenue'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'vat-calculator',
@@ -2720,6 +2727,7 @@ export const tools: Tool[] = [
     subcategory: 'Tax',
     keywords: ['vat calculator', 'sales tax calculator', 'add vat', 'remove vat', 'tax calculator online', 'gst calculator'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'salary-converter',
@@ -2730,6 +2738,7 @@ export const tools: Tool[] = [
     subcategory: 'Pay',
     keywords: ['salary converter', 'annual to hourly', 'hourly to salary', 'monthly salary calculator', 'salary calculator online'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'roi-calculator',
@@ -2740,6 +2749,7 @@ export const tools: Tool[] = [
     subcategory: 'Calculator',
     keywords: ['roi calculator', 'return on investment calculator', 'calculate roi', 'investment roi', 'roi percentage calculator'],
     live: true,
+    blogPost: true,
   },
   // ── Wave 1 expansion: E-commerce ──
   {
@@ -2751,6 +2761,7 @@ export const tools: Tool[] = [
     subcategory: 'Fees',
     keywords: ['amazon fee calculator', 'amazon seller fees', 'fba fee calculator', 'amazon referral fee', 'amazon profit calculator'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'etsy-fee-calculator',
@@ -2761,6 +2772,7 @@ export const tools: Tool[] = [
     subcategory: 'Fees',
     keywords: ['etsy fee calculator', 'etsy seller fees', 'etsy transaction fee', 'etsy profit calculator', 'etsy pricing calculator'],
     live: true,
+    blogPost: true,
   },
   // ── Wave 1 expansion: Developer (SQL, API, Security, AI) ──
   {
@@ -2772,6 +2784,7 @@ export const tools: Tool[] = [
     subcategory: 'SQL',
     keywords: ['sql formatter', 'format sql online', 'sql beautifier', 'pretty print sql', 'sql formatter online'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'curl-generator',
@@ -2782,6 +2795,7 @@ export const tools: Tool[] = [
     subcategory: 'API',
     keywords: ['curl generator', 'generate curl command', 'curl command builder', 'http to curl', 'curl maker online'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'password-strength-checker',
@@ -2792,6 +2806,7 @@ export const tools: Tool[] = [
     subcategory: 'Security',
     keywords: ['password strength checker', 'check password strength', 'password strength meter', 'how strong is my password', 'password security checker'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'hmac-generator',
@@ -2802,6 +2817,7 @@ export const tools: Tool[] = [
     subcategory: 'Security',
     keywords: ['hmac generator', 'hmac sha256', 'generate hmac', 'hmac calculator', 'hmac online'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'context-window-calculator',
@@ -2812,6 +2828,7 @@ export const tools: Tool[] = [
     subcategory: 'AI',
     keywords: ['context window calculator', 'ai context limit', 'token limit calculator', 'llm context window', 'how many tokens fit'],
     live: true,
+    blogPost: true,
   },
   // ── Wave 1 expansion: Text & Converter ──
   {
@@ -2823,6 +2840,7 @@ export const tools: Tool[] = [
     subcategory: 'Analyze',
     keywords: ['word counter', 'character counter', 'word count online', 'count words in text', 'letter counter'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'text-line-tools',
@@ -2833,6 +2851,7 @@ export const tools: Tool[] = [
     subcategory: 'Transform',
     keywords: ['sort lines alphabetically', 'remove duplicate lines', 'case converter', 'uppercase lowercase converter', 'randomize lines'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'json-diff',
@@ -2843,6 +2862,7 @@ export const tools: Tool[] = [
     subcategory: 'Analyze',
     keywords: ['json diff', 'compare json online', 'json difference', 'json compare tool', 'diff json files'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'timezone-converter',
@@ -2853,6 +2873,7 @@ export const tools: Tool[] = [
     subcategory: 'Unit',
     keywords: ['time zone converter', 'timezone converter', 'convert time zones', 'utc converter', 'world clock converter'],
     live: true,
+    blogPost: true,
   },
 ]
 

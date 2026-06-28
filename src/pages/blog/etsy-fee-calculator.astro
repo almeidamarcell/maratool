@@ -1,0 +1,69 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'etsy-fee-calculator'
+const seo = {
+  title: 'Etsy fee calculator — listing, transaction & payment fees | maratool',
+  description: 'Calculate Etsy listing, transaction, and payment processing fees. See net profit per sale.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate Etsy seller fees and net profit',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate Etsy listing, transaction, and payment processing fees. See net profit per sale.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate Etsy seller fees and net profit', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate Etsy seller fees and net profit"
+      lead="Etsy charges listing, transaction, and payment fees on every sale — see the full breakdown."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>A $35 Etsy sale does not net $35. Listing fee, 6.5% transaction fee, and payment processing all apply. The <a href="/etsy-fee-calculator">Etsy Fee Calculator</a> shows each line item and net profit.</p>
+
+      <BlogToolEmbed slug="etsy-fee-calculator" title="Try it — enter sale price and shipping" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Sale price</strong> — item price before shipping.</li>
+        <li><strong>Shipping</strong> — amount charged to buyer (transaction fee applies to item + shipping).</li>
+      </ol>
+
+      <h2>Fee breakdown</h2>
+      <p><strong>$0.20</strong> listing fee per listing (renewed every 4 months or on sale).<br><strong>6.5%</strong> transaction fee on item + shipping.<br><strong>~3% + $0.25</strong> payment processing.</p>
+
+      <h2>Verify current rates</h2>
+      <p>Etsy updates fees periodically. Check Etsy Seller Help for the latest before finalizing prices.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/etsy-fee-calculator">How to calculate Etsy seller fees and net profit</a> is free, runs locally, and never sends your data to a server. More <a href="/e-commerce">e-commerce calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

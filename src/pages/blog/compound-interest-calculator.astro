@@ -1,0 +1,71 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'compound-interest-calculator'
+const seo = {
+  title: 'Compound interest calculator — savings growth | maratool',
+  description: 'Project savings growth with compound interest and monthly contributions. Free calculator that runs in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate compound interest on savings',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Project savings growth with compound interest and monthly contributions. Free calculator that runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate compound interest on savings', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate compound interest on savings"
+      lead="See how a starting balance plus monthly contributions grows over time with compound interest."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Compound interest is interest on interest — the reason starting early matters. The <a href="/compound-interest-calculator">Compound Interest Calculator</a> projects final balance, total contributed, and interest earned with optional monthly deposits.</p>
+
+      <BlogToolEmbed slug="compound-interest-calculator" title="Try it — set principal, rate, years, and monthly contribution" height={400} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Starting amount</strong> — initial principal.</li>
+        <li><strong>Annual rate</strong> — expected annual return (use conservative estimates).</li>
+        <li><strong>Years</strong> — investment horizon.</li>
+        <li><strong>Monthly contribution</strong> — optional recurring deposit.</li>
+      </ol>
+
+      <h2>Compounding frequency</h2>
+      <p>This calculator compounds monthly (12 times per year), which matches most savings accounts and is a reasonable approximation for index funds.</p>
+
+      <h2>Pair with CAGR</h2>
+      <p>After investing, use the <a href="/cagr-calculator">CAGR Calculator</a> to measure actual annualized return between two balance snapshots.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/compound-interest-calculator">How to calculate compound interest on savings</a> is free, runs locally, and never sends your data to a server. More <a href="/finance">finance calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

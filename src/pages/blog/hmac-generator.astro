@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'hmac-generator'
+const seo = {
+  title: 'HMAC generator — SHA-256 & SHA-512 online | maratool',
+  description: 'Generate HMAC signatures with SHA-256, SHA-384, or SHA-512. Message and secret key — runs in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to generate HMAC signatures online',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Generate HMAC signatures with SHA-256, SHA-384, or SHA-512. Message and secret key — runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to generate HMAC signatures online', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to generate HMAC signatures online"
+      lead="Enter a message and secret key — get an HMAC hex digest using the Web Crypto API."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Webhooks, API signatures, and JWT alternatives often use HMAC. The <a href="/hmac-generator">HMAC Generator</a> computes SHA-256, SHA-384, or SHA-512 HMAC in your browser.</p>
+
+      <BlogToolEmbed slug="hmac-generator" title="Try it — enter message, secret, and algorithm" height={400} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Message</strong> — the payload to sign.</li>
+        <li><strong>Secret key</strong> — shared secret between sender and verifier.</li>
+        <li><strong>Algorithm</strong> — SHA-256 is the default choice for most APIs.</li>
+      </ol>
+
+      <h2>When to use HMAC</h2>
+      <p>HMAC verifies that a message was not tampered with and was sent by someone who knows the secret. Common in webhook verification (Stripe, GitHub, Slack) and API request signing.</p>
+
+      <h2>Output format</h2>
+      <p>Lowercase hexadecimal string — the standard format expected by most API documentation.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/hmac-generator">How to generate HMAC signatures online</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
