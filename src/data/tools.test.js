@@ -2,9 +2,9 @@ import { describe, test, expect } from 'vitest'
 import { tools, categoryOrder, subcategoryOrderByCategory, toolsByCategory } from './tools'
 
 describe('tool categories', () => {
-  test('has 12 categories in correct order', () => {
+  test('has 13 categories in correct order', () => {
     expect([...categoryOrder]).toEqual([
-      'Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Business', 'Finance', 'E-commerce', 'Mockup', 'Health',
+      'Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Business', 'Finance', 'E-commerce', 'Education', 'Mockup', 'Health',
     ])
   })
 
@@ -82,6 +82,10 @@ describe('tool categories', () => {
     expect(subcategoryOrderByCategory['E-commerce']).toEqual(['Fees', 'Pricing'])
   })
 
+  test('Education category has Calculator subcategory', () => {
+    expect(subcategoryOrderByCategory['Education']).toEqual(['Calculator'])
+  })
+
   test('Mockup category has Chat, AI Chat, Posts, Comments, Stories, Email subcategories', () => {
     expect(subcategoryOrderByCategory['Mockup']).toEqual(['Chat', 'AI Chat', 'Posts', 'Comments', 'Stories', 'Email'])
   })
@@ -124,6 +128,21 @@ describe('tool categories', () => {
       'age-calculator', 'iso8601-formatter', 'week-number-calculator',
       'shopify-discount-calculator', 'gtin-validator',
       'prompt-variable-tester', 'embedding-cost-calculator',
+    ]
+    for (const slug of slugs) {
+      const tool = tools.find(t => t.slug === slug)
+      expect(tool?.live, slug).toBe(true)
+      expect(tool?.blogPost, slug).toBe(true)
+    }
+  })
+
+  test('Wave 3 tools are registered and live', () => {
+    const slugs = [
+      'sql-minifier', 'sql-insert-generator', 'sql-create-table-generator',
+      'rag-chunk-calculator', 'ai-model-comparison', 'llm-json-extractor',
+      'hash-identifier', 'iban-validator', 'luhn-checker', 'jwt-security-checker',
+      'html-minifier', 'html-beautifier', 'css-minifier', 'url-parser',
+      'gpa-calculator', 'grade-calculator', 'final-grade-calculator', 'reading-level-calculator',
     ]
     for (const slug of slugs) {
       const tool = tools.find(t => t.slug === slug)

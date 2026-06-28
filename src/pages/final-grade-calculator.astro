@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Final Grade Calculator — Score Needed on Final | maratool',
+  description: 'Calculate the final exam score you need to reach your target grade. Enter current percentage, desired grade, and final weight. Free, runs in your browser.',
+  canonical: 'https://maratool.com/final-grade-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Final Grade Calculator — Score Needed on Final',
+    url: 'https://maratool.com/final-grade-calculator',
+    applicationCategory: 'EducationApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate the final exam score you need to reach your target grade. Enter current percentage, desired grade, and final weight. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Education', item: 'https://maratool.com/education' },
+      { '@type': 'ListItem', position: 3, name: 'Calculator', item: 'https://maratool.com/education/calculator' },
+      { '@type': 'ListItem', position: 4, name: 'Final Grade Calculator — Score Needed on Final', item: 'https://maratool.com/final-grade-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How is the needed score calculated?', acceptedAnswer: { '@type': 'Answer', text: 'Needed = (Desired − Current × (1 − FinalWeight/100)) / (FinalWeight/100).' } },
+      { '@type': 'Question', name: 'What if the needed score is over 100%?', acceptedAnswer: { '@type': 'Answer', text: 'The tool marks the target as not achievable with your current standing.' } },
+      { '@type': 'Question', name: 'Are weights in percentages?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Final weight is the percentage of your total grade from the final exam.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your current course percentage.',
+  'Set your desired final grade and the final exam weight.',
+  'See the required final exam score and whether it is achievable.'
+]
+
+const faq = [
+  { q: 'How is the needed score calculated?', a: 'Needed = (Desired − Current × (1 − FinalWeight/100)) / (FinalWeight/100).' },
+  { q: 'What if the needed score is over 100%?', a: 'The tool marks the target as not achievable with your current standing.' },
+  { q: 'Are weights in percentages?', a: 'Yes. Final weight is the percentage of your total grade from the final exam.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'grade-calculator', name: 'Grade Calculator' },
+  { slug: 'gpa-calculator', name: 'GPA Calculator' },
+  { slug: 'percentage-calculator', name: 'Percentage Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Education', href: '/education' },
+  { label: 'Calculator', href: '/education/calculator' },
+  { label: 'Final Grade Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="final-grade-calculator" name="Final Grade Calculator — Score Needed on Final" description="Enter current course percentage, desired final grade, and final exam weight to see the score you need on the final." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="fg-current">Current grade (%)</label><input type="number" id="fg-current" class="tool-input" placeholder="85" min="0" max="100" step="any" /></div>
+          <div class="calc-field"><label class="tool-label" for="fg-desired">Desired grade (%)</label><input type="number" id="fg-desired" class="tool-input" placeholder="90" min="0" max="100" step="any" /></div>
+        </div>
+        <div class="calc-field"><label class="tool-label" for="fg-weight">Final exam weight (%)</label><input type="number" id="fg-weight" class="tool-input" placeholder="30" min="1" max="100" step="any" style="max-width:200px;" /></div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="fg-needed">—</span><span class="tool-stat-label">Score needed</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="fg-possible">—</span><span class="tool-stat-label">Achievable</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/final-grade-calculator.js"></script>

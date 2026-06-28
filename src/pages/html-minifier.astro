@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'HTML Minifier — Minify HTML Online | maratool',
+  description: 'Minify HTML by removing comments and extra whitespace. Paste HTML and copy compact output instantly. Paste-only, free, runs in your browser.',
+  canonical: 'https://maratool.com/html-minifier',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'HTML Minifier — Minify HTML Online',
+    url: 'https://maratool.com/html-minifier',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Minify HTML by removing comments and extra whitespace. Paste HTML and copy compact output instantly. Paste-only, free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Text', item: 'https://maratool.com/text' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/text/transform' },
+      { '@type': 'ListItem', position: 4, name: 'HTML Minifier — Minify HTML Online', item: 'https://maratool.com/html-minifier' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What does HTML minification remove?', acceptedAnswer: { '@type': 'Answer', text: 'HTML comments and whitespace between tags. Inline text spacing may be collapsed.' } },
+      { '@type': 'Question', name: 'Can I minify fetched pages?', acceptedAnswer: { '@type': 'Answer', text: 'No. Paste HTML from View Source or your editor — this tool does not fetch URLs.' } },
+      { '@type': 'Question', name: 'Will minification break my page?', acceptedAnswer: { '@type': 'Answer', text: 'Generally safe for production HTML. Test if you rely on whitespace-sensitive pre/code blocks.' } },
+      { '@type': 'Question', name: 'Is my HTML sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Minification happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste your HTML in the input box.',
+  'Minified output updates automatically.',
+  'Click Copy to copy the compact HTML.'
+]
+
+const faq = [
+  { q: 'What does HTML minification remove?', a: 'HTML comments and whitespace between tags. Inline text spacing may be collapsed.' },
+  { q: 'Can I minify fetched pages?', a: 'No. Paste HTML from View Source or your editor — this tool does not fetch URLs.' },
+  { q: 'Will minification break my page?', a: 'Generally safe for production HTML. Test if you rely on whitespace-sensitive pre/code blocks.' },
+  { q: 'Is my HTML sent to a server?', a: 'No. Minification happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'html-beautifier', name: 'HTML Beautifier' },
+  { slug: 'css-minifier', name: 'CSS Minifier' },
+  { slug: 'markdown-converter', name: 'Markdown Converter' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Text', href: '/text' },
+  { label: 'Transform', href: '/text/transform' },
+  { label: 'HTML Minifier' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="html-minifier" name="HTML Minifier — Minify HTML Online" description="Paste HTML to strip comments and collapse whitespace between tags. Does not fetch live URLs — paste-only." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <label class="tool-label" for="hmin-input">HTML input</label>
+        <textarea id="hmin-input" class="tool-textarea" rows="8" placeholder="<div>  Hello   <span>world</span>  </div>"></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:1rem 0 0.5rem;">
+          <label class="tool-label" style="margin:0;">Minified output</label>
+          <button type="button" id="hmin-copy" class="copy-btn">Copy</button>
+        </div>
+        <pre id="hmin-output" class="tool-output" style="min-height:120px;white-space:pre-wrap;"></pre>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<script src="../tools/html-minifier.js"></script>

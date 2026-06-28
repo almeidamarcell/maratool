@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'jwt-security-checker'
+const seo = {
+  title: 'JWT security checker — audit token vulnerabilities | maratool',
+  description: 'Audit pasted JWT tokens for security issues. Flag alg none, expiry, and missing claims. Runs in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to audit JWT tokens for security issues',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Audit pasted JWT tokens for security issues. Flag alg none, expiry, and missing claims. Runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to audit JWT tokens for security issues', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to audit JWT tokens for security issues"
+      lead="Paste a JWT — see security warnings for alg, expiry, and weak configurations."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>JWT misconfigurations cause real breaches — alg:none attacks, expired tokens accepted, missing audience checks. The <a href="/jwt-security-checker">JWT Security Checker</a> decodes pasted tokens and flags common vulnerabilities.</p>
+
+      <BlogToolEmbed slug="jwt-security-checker" title="Try it — paste JWT token" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste JWT</strong> — access or ID token from your app.</li>
+        <li><strong>Decode</strong> — header and payload shown as JSON.</li>
+        <li><strong>Security audit</strong> — warnings for alg, exp, and claim issues.</li>
+      </ol>
+
+      <h2>What it checks</h2>
+      <p>Flags <code>alg: none</code>, missing <code>exp</code>, expired tokens, weak algorithms, and suspicious claim combinations. Does not verify signatures — use your auth server for that.</p>
+
+      <h2>Decode only</h2>
+      <p>For payload inspection without security audit, use the <a href="/jwt-decoder">JWT Decoder</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/jwt-security-checker">How to audit JWT tokens for security issues</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

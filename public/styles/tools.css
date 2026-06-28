@@ -435,6 +435,7 @@ h3.faq-question {
 .tool-card[data-cat="finance"]   { border-left: 3px solid var(--cat-finance); }
 .tool-card[data-cat="business"]  { border-left: 3px solid var(--cat-business); }
 .tool-card[data-cat="e-commerce"] { border-left: 3px solid var(--cat-ecommerce); }
+.tool-card[data-cat="education"]  { border-left: 3px solid var(--cat-education); }
 
 /* ========== EMBED MODE — TOOL SHELL ========== */
 html.embed .breadcrumb,

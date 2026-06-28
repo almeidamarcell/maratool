@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Luhn Checker — Validate Card Number Online | maratool',
+  description: 'Check credit card numbers with the Luhn algorithm. Paste digits to verify checksum validity instantly. Paste-only, free, runs in your browser.',
+  canonical: 'https://maratool.com/luhn-checker',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Luhn Checker — Validate Card Number Online',
+    url: 'https://maratool.com/luhn-checker',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Check credit card numbers with the Luhn algorithm. Paste digits to verify checksum validity instantly. Paste-only, free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Security', item: 'https://maratool.com/developer/security' },
+      { '@type': 'ListItem', position: 4, name: 'Luhn Checker — Validate Card Number Online', item: 'https://maratool.com/luhn-checker' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is the Luhn algorithm?', acceptedAnswer: { '@type': 'Answer', text: 'A checksum formula used by credit cards and many ID numbers to catch single-digit typos.' } },
+      { '@type': 'Question', name: 'Does passing Luhn mean the card is real?', acceptedAnswer: { '@type': 'Answer', text: 'No. It only validates the checksum — not issuer, expiry, or account status.' } },
+      { '@type': 'Question', name: 'Are spaces and dashes supported?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Non-digit characters are stripped before validation.' } },
+      { '@type': 'Question', name: 'Is my number sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. The Luhn check runs entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste the numeric string (spaces and dashes are ignored).',
+  'See pass or fail for the Luhn checksum instantly.',
+  'Use before form validation or payment integration testing.'
+]
+
+const faq = [
+  { q: 'What is the Luhn algorithm?', a: 'A checksum formula used by credit cards and many ID numbers to catch single-digit typos.' },
+  { q: 'Does passing Luhn mean the card is real?', a: 'No. It only validates the checksum — not issuer, expiry, or account status.' },
+  { q: 'Are spaces and dashes supported?', a: 'Yes. Non-digit characters are stripped before validation.' },
+  { q: 'Is my number sent to a server?', a: 'No. The Luhn check runs entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'iban-validator', name: 'IBAN Validator' },
+  { slug: 'hash-identifier', name: 'Hash Identifier' },
+  { slug: 'gtin-validator', name: 'GTIN Validator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Security', href: '/developer/security' },
+  { label: 'Luhn Checker' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="luhn-checker" name="Luhn Checker — Validate Card Number Online" description="Paste a card or identifier number to run the Luhn checksum. Does not verify issuer or account — paste-only." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:240px;">
+        <div class="calc-field"><label class="tool-label" for="lu-input">Number</label><input type="text" id="lu-input" class="tool-input" placeholder="4532 0151 1283 0366" inputmode="numeric" autocomplete="off" spellcheck="false" /></div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="lu-valid">—</span><span class="tool-stat-label">Luhn check</span></div>
+        </div>
+        <p id="lu-msg" style="font-size:13px;color:var(--text-2);margin:1rem 0 0;">—</p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/luhn-checker.js"></script>

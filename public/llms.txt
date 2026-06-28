@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 285 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 303 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -76,6 +76,17 @@ maratool.com is a growing collection of 285 free tools that run in the browser u
 - [JSON Schema Validator Online](https://maratool.com/json-schema-validator): Validate JSON data against a JSON Schema. Paste instance and schema to see errors instantly.
 - [Prompt Variable Tester — Template Preview](https://maratool.com/prompt-variable-tester): Test prompt templates with variables. Enter {{placeholders}} and preview the filled prompt instantly.
 - [AI Embedding Cost Calculator](https://maratool.com/embedding-cost-calculator): Estimate embedding API costs for OpenAI, Cohere, and Voyage. Enter token count and see per-request pricing.
+- [SQL Minifier — Compress SQL Online](https://maratool.com/sql-minifier): Minify SQL queries online. Remove comments and whitespace for smaller payloads. Free SQL minifier, runs in your browser.
+- [SQL INSERT Generator from JSON](https://maratool.com/sql-insert-generator): Generate SQL INSERT statements from JSON arrays. Paste JSON and get copy-ready INSERT queries. Free, runs in your browser.
+- [SQL CREATE TABLE Generator from JSON](https://maratool.com/sql-create-table-generator): Generate CREATE TABLE SQL from JSON schema or sample rows. Infer column types instantly. Free browser tool.
+- [RAG Chunk Calculator — Vector Chunk Size](https://maratool.com/rag-chunk-calculator): Calculate RAG chunk count from token total, chunk size, and overlap. Plan vector indexing splits in your browser.
+- [AI Model Cost Comparison](https://maratool.com/ai-model-comparison): Compare LLM API costs across OpenAI, Claude, and Gemini for the same token counts. Free browser calculator.
+- [Extract JSON from LLM Output](https://maratool.com/llm-json-extractor): Extract JSON from LLM responses. Parse fenced code blocks and inline objects from pasted model output.
+- [Hash Identifier — Detect Hash Type](https://maratool.com/hash-identifier): Identify hash types from pasted digests. Detect MD5, SHA-256, bcrypt, and more. Paste only, runs in browser.
+- [IBAN Validator Online](https://maratool.com/iban-validator): Validate IBAN numbers with mod-97 check digits. Paste an IBAN to verify format and checksum. Free browser tool.
+- [Luhn Checker — Credit Card Validation](https://maratool.com/luhn-checker): Validate numbers with the Luhn algorithm. Check credit card and identifier check digits. Paste only, in browser.
+- [JWT Security Checker — Audit Tokens](https://maratool.com/jwt-security-checker): Audit pasted JWT tokens for security issues. Flag alg none, expiry, and missing claims. Runs in your browser.
+- [URL Parser — Decode URL Components](https://maratool.com/url-parser): Parse URLs into protocol, host, path, query, and hash components. Paste any URL for instant breakdown.
 
 ### Text
 - [Compare Two Texts Online](https://maratool.com/diff-checker): Compare two blocks of text and highlight added, removed, and unchanged lines.
@@ -95,6 +106,9 @@ maratool.com is a growing collection of 285 free tools that run in the browser u
 - [Word Counter & Character Counter](https://maratool.com/word-counter): Count words, characters, sentences, and paragraphs in real time. Paste or type any text.
 - [Sort, Dedupe & Convert Text Lines](https://maratool.com/text-line-tools): Sort lines alphabetically, remove duplicates, randomize order, and convert case. All text transforms in one place.
 - [JSON Diff — Compare Two JSON Objects](https://maratool.com/json-diff): Compare two JSON documents and highlight added, removed, and changed keys. Formatted side-by-side diff.
+- [HTML Minifier Online](https://maratool.com/html-minifier): Minify HTML by removing comments and extra whitespace. Paste HTML and copy compressed output. Runs in browser.
+- [HTML Beautifier — Format HTML Online](https://maratool.com/html-beautifier): Beautify and indent pasted HTML for readability. Format messy markup instantly. Free, runs in your browser.
+- [CSS Minifier Online](https://maratool.com/css-minifier): Minify CSS stylesheets online. Remove comments and whitespace from pasted CSS. Free browser minifier.
 
 ### Image
 - [GIF Maker — Create Animated GIFs from Images](https://maratool.com/gif-maker): Upload images and create animated GIFs instantly in your browser. Drag to reorder frames, set speed, and download — no upload to servers.
@@ -314,6 +328,12 @@ maratool.com is a growing collection of 285 free tools that run in the browser u
 - [Etsy Fee Calculator](https://maratool.com/etsy-fee-calculator): Calculate Etsy listing, transaction, payment processing, and shipping fees. See net profit per sale instantly.
 - [Shopify Discount Calculator — Stacked Discounts](https://maratool.com/shopify-discount-calculator): Calculate final price after stacked Shopify discounts. Enter original price and multiple discount percentages.
 - [GTIN Validator — EAN-13 & UPC Check Digit](https://maratool.com/gtin-validator): Validate GTIN, EAN-13, and UPC barcodes. Verify check digits and format. Free, runs in your browser.
+
+### Education
+- [GPA Calculator — 4.0 Scale](https://maratool.com/gpa-calculator): Calculate GPA from letter grades and credit hours on a 4.0 scale. Add courses and see weighted GPA instantly.
+- [Grade Calculator — Weighted Average](https://maratool.com/grade-calculator): Calculate weighted course grade from assignment scores and weights. See your overall percentage instantly.
+- [Final Grade Calculator — Score Needed](https://maratool.com/final-grade-calculator): Calculate the final exam score you need to reach your target course grade. Enter current grade and final weight.
+- [Reading Level Calculator — Flesch-Kincaid](https://maratool.com/reading-level-calculator): Estimate reading grade level with Flesch-Kincaid. Paste text to see grade level, reading ease, and word count.
 
 ## About
 
