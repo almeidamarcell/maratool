@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'How to invert colors in an image or GIF | maratool',
+  description: 'Invert or negate colors in images and animated GIFs. Full inversion or per-channel control. Preview and download instantly.',
+  canonical: 'https://maratool.com/blog/invert-colors',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to invert colors in an image or GIF',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://maratool.com/blog/invert-colors' },
+    url: 'https://maratool.com/blog/invert-colors',
+    description: 'Invert or negate colors in images and animated GIFs. Full inversion or per-channel control. Preview and download instantly.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">← Blog</a>
+          <time datetime="2026-06-28" class="blog-post-date">June 28, 2026</time>
+        </div>
+        <h1 class="blog-post-title">How to invert colors in an image or GIF</h1>
+        <p class="blog-post-lead">Create a negative or channel-specific color inversion.</p>
+      </header>
+      <div class="blog-body">
+        <p>The <a href="/invert-colors">Invert Colors</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <h2>How it works</h2>
+        <ol>
+          <li>Upload an image or GIF.</li>
+          <li>Choose full inversion or toggle individual RGB channels.</li>
+          <li>Download the inverted result.</li>
+        </ol>
+        <p>Invert or negate colors in images and animated GIFs. Full inversion or per-channel control. Preview and download instantly.</p>
+        <hr class="blog-divider" />
+        <p class="blog-footer-note">Try the <a href="/invert-colors">Invert Colors</a> free at <a href="/image">maratool.com/image</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>

@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'How to inspect GIF frame structure and metadata | maratool',
+  description: 'Inspect animated GIF internals: dimensions, frame count, delays, palettes, and disposal methods. Export metadata as JSON.',
+  canonical: 'https://maratool.com/blog/gif-analyzer',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to inspect GIF frame structure and metadata',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://maratool.com/blog/gif-analyzer' },
+    url: 'https://maratool.com/blog/gif-analyzer',
+    description: 'Inspect animated GIF internals: dimensions, frame count, delays, palettes, and disposal methods. Export metadata as JSON.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">← Blog</a>
+          <time datetime="2026-06-28" class="blog-post-date">June 28, 2026</time>
+        </div>
+        <h1 class="blog-post-title">How to inspect GIF frame structure and metadata</h1>
+        <p class="blog-post-lead">Upload a GIF and see every frame, delay, palette, and disposal method.</p>
+      </header>
+      <div class="blog-body">
+        <p>The <a href="/gif-analyzer">GIF Analyzer</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <h2>How it works</h2>
+        <ol>
+          <li>Upload a GIF file.</li>
+          <li>Review summary stats and per-frame details.</li>
+          <li>Export the metadata as JSON if needed.</li>
+        </ol>
+        <p>Inspect animated GIF internals: dimensions, frame count, delays, palettes, and disposal methods. Export metadata as JSON.</p>
+        <hr class="blog-divider" />
+        <p class="blog-footer-note">Try the <a href="/gif-analyzer">GIF Analyzer</a> free at <a href="/image">maratool.com/image</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>

@@ -1,0 +1,136 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Square GIF for Instagram — Crop & Pad Animated GIFs | maratool',
+  description: 'Convert GIFs to square 1:1 format with padding or crop — optimized for Instagram and social feeds. Free, in your browser.',
+  canonical: 'https://maratool.com/square-gif',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Square GIF',
+    url: 'https://maratool.com/square-gif',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert GIFs to square 1:1 format with padding or crop — optimized for Instagram and social feeds. Free, in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Social', item: 'https://maratool.com/image/social' },
+      { '@type': 'ListItem', position: 4, name: 'Square GIF', item: 'https://maratool.com/square-gif' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Crop vs pad?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Crop cuts to a centered square. Pad adds colored borders to reach 1:1 without losing content.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Output size?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Defaults to 1080×1080 — standard for Instagram posts.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Works on animated GIFs?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Every frame is processed the same way.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Local processing?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. No upload to servers.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload an animated GIF.',
+  'Choose crop or pad with background color.',
+  'Download the square GIF.'
+]
+const faq = [
+  {
+    'q': 'Crop vs pad?',
+    'a': 'Crop cuts to a centered square. Pad adds colored borders to reach 1:1 without losing content.'
+  },
+  {
+    'q': 'Output size?',
+    'a': 'Defaults to 1080×1080 — standard for Instagram posts.'
+  },
+  {
+    'q': 'Works on animated GIFs?',
+    'a': 'Yes. Every frame is processed the same way.'
+  },
+  {
+    'q': 'Local processing?',
+    'a': 'Yes. No upload to servers.'
+  }
+]
+const relatedTools = [
+  { slug: 'matte-generator', name: 'Matte Generator' },
+  { slug: 'gif-compressor', name: 'Gif Compressor' },
+  { slug: 'add-text-to-gif', name: 'Add Text To Gif' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Social', href: '/image/social' },
+  { label: 'Square GIF' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="square-gif" name="Square GIF for Instagram" description="Convert GIFs to square 1:1 format with padding or crop — optimized for Instagram and social feeds. Free, in your browser." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container sqg-root" style="min-height:460px;">
+        <div class="sqg-dropzone" id="sqg-dropzone">
+          <input type="file" id="sqg-file" hidden />
+          <p class="sqg-drop-title">Drop a file here</p>
+          <p class="sqg-drop-sub">or click to select</p>
+        </div>
+        <div id="sqg-workspace" style="display:none;"></div>
+        <div id="sqg-progress" class="sqg-progress" style="display:none;">
+          <div id="sqg-progress-text">Processing...</div>
+          <div class="sqg-progress-track"><div id="sqg-progress-fill" class="sqg-progress-fill"></div></div>
+        </div>
+        <div id="sqg-error" class="sqg-error" style="display:none;"><span id="sqg-error-text"></span></div>
+        <div id="sqg-result" style="display:none;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .sqg-dropzone {
+    border: 2px dashed var(--border); border-radius: var(--radius);
+    padding: 3rem 2rem; text-align: center; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .sqg-dropzone:hover, .sqg-dropzone.drag-over { border-color: var(--accent); background: var(--bg-soft); }
+  .sqg-drop-title { font-size: 1.125rem; font-weight: 600; margin: 0; }
+  .sqg-drop-sub { font-size: 0.875rem; color: var(--text-2); margin: 0.5rem 0 0; }
+  .sqg-progress { text-align: center; padding: 2rem; }
+  .sqg-progress-track { width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover); border-radius: 4px; margin: 1rem auto; overflow: hidden; }
+  .sqg-progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+  .sqg-error { background: var(--error-bg); border: 1px solid var(--error-border); border-radius: var(--radius); padding: 1rem; color: #c53030; font-size: 0.875rem; }
+  .sqg-preview-wrap {
+    background: repeating-conic-gradient(#e0e0e0 0% 25%, #fff 0% 50%) 0 0 / 16px 16px;
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
+  }
+  .sqg-preview-wrap canvas, .sqg-preview-wrap img { max-width: 100%; max-height: 360px; display: block; }
+  .sqg-controls { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
+  .sqg-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .sqg-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+</style>
+<script src="../tools/square-gif.js"></script>

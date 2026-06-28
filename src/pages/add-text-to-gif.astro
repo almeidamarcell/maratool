@@ -1,0 +1,136 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Add Text to GIF — Write Captions on Animated GIFs | maratool',
+  description: 'Add text overlays and captions to animated GIFs in your browser. Pick fonts, colors, position, and download — no upload, no watermark.',
+  canonical: 'https://maratool.com/add-text-to-gif',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Add Text to GIF',
+    url: 'https://maratool.com/add-text-to-gif',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Add text overlays and captions to animated GIFs in your browser. Pick fonts, colors, position, and download — no upload, no watermark.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Add Text to GIF', item: 'https://maratool.com/add-text-to-gif' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Can I add text to every frame of a GIF?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Text is burned into each frame. You can apply to all frames or a specific frame range.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does my GIF get uploaded?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. Parsing, rendering, and encoding all run locally in your browser.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I drag the text to any position?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Choose top, center, bottom presets or drag the text overlay freely on the preview.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What fonts are available?',
+        acceptedAnswer: { '@type': 'Answer', text: 'System fonts plus a curated set of Google Fonts loaded on demand.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload an animated GIF.',
+  'Type your caption, pick font, size, color, and position.',
+  'Preview live, then download the captioned GIF.'
+]
+const faq = [
+  {
+    'q': 'Can I add text to every frame of a GIF?',
+    'a': 'Yes. Text is burned into each frame. You can apply to all frames or a specific frame range.'
+  },
+  {
+    'q': 'Does my GIF get uploaded?',
+    'a': 'No. Parsing, rendering, and encoding all run locally in your browser.'
+  },
+  {
+    'q': 'Can I drag the text to any position?',
+    'a': 'Yes. Choose top, center, bottom presets or drag the text overlay freely on the preview.'
+  },
+  {
+    'q': 'What fonts are available?',
+    'a': 'System fonts plus a curated set of Google Fonts loaded on demand.'
+  }
+]
+const relatedTools = [
+  { slug: 'gif-maker', name: 'Gif Maker' },
+  { slug: 'gif-compressor', name: 'Gif Compressor' },
+  { slug: 'gif-overlay', name: 'Gif Overlay' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'Add Text to GIF' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="add-text-to-gif" name="Add Text to GIF — Write Captions on Animated GIFs" description="Add text overlays and captions to animated GIFs in your browser. Pick fonts, colors, position, and download — no upload, no watermark." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container atg-root" style="min-height:520px;">
+        <div class="atg-dropzone" id="atg-dropzone">
+          <input type="file" id="atg-file" hidden />
+          <p class="atg-drop-title">Drop a file here</p>
+          <p class="atg-drop-sub">or click to select</p>
+        </div>
+        <div id="atg-workspace" style="display:none;"></div>
+        <div id="atg-progress" class="atg-progress" style="display:none;">
+          <div id="atg-progress-text">Processing...</div>
+          <div class="atg-progress-track"><div id="atg-progress-fill" class="atg-progress-fill"></div></div>
+        </div>
+        <div id="atg-error" class="atg-error" style="display:none;"><span id="atg-error-text"></span></div>
+        <div id="atg-result" style="display:none;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .atg-dropzone {
+    border: 2px dashed var(--border); border-radius: var(--radius);
+    padding: 3rem 2rem; text-align: center; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .atg-dropzone:hover, .atg-dropzone.drag-over { border-color: var(--accent); background: var(--bg-soft); }
+  .atg-drop-title { font-size: 1.125rem; font-weight: 600; margin: 0; }
+  .atg-drop-sub { font-size: 0.875rem; color: var(--text-2); margin: 0.5rem 0 0; }
+  .atg-progress { text-align: center; padding: 2rem; }
+  .atg-progress-track { width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover); border-radius: 4px; margin: 1rem auto; overflow: hidden; }
+  .atg-progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+  .atg-error { background: var(--error-bg); border: 1px solid var(--error-border); border-radius: var(--radius); padding: 1rem; color: #c53030; font-size: 0.875rem; }
+  .atg-preview-wrap {
+    background: repeating-conic-gradient(#e0e0e0 0% 25%, #fff 0% 50%) 0 0 / 16px 16px;
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
+  }
+  .atg-preview-wrap canvas, .atg-preview-wrap img { max-width: 100%; max-height: 360px; display: block; }
+  .atg-controls { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
+  .atg-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .atg-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+</style>
+<script src="../tools/add-text-to-gif.js"></script>
