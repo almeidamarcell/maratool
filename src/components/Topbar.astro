@@ -42,6 +42,8 @@
 </header>
 
 <script>
+  import { initSidebarMobile } from '../sidebar-mobile.js'
+
   ;(function () {
     var trigger = document.getElementById('topbar-search-trigger')
     var kbd = document.getElementById('search-kbd')
@@ -57,41 +59,6 @@
       })
     }
 
-    var menuToggle = document.getElementById('sidebar-menu-toggle')
-    var sidebar = document.getElementById('site-sidebar')
-    var backdrop = document.getElementById('sidebar-backdrop')
-
-    function setSidebarOpen(open: boolean) {
-      document.body.classList.toggle('sidebar-open', open)
-      if (menuToggle) menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false')
-      if (menuToggle) menuToggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu')
-      if (backdrop) backdrop.hidden = !open
-      document.body.style.overflow = open ? 'hidden' : ''
-    }
-
-    if (menuToggle && sidebar) {
-      menuToggle.addEventListener('click', function () {
-        setSidebarOpen(!document.body.classList.contains('sidebar-open'))
-      })
-    }
-
-    if (backdrop) {
-      backdrop.addEventListener('click', function () {
-        setSidebarOpen(false)
-      })
-    }
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && document.body.classList.contains('sidebar-open')) {
-        setSidebarOpen(false)
-      }
-    })
-
-    if (sidebar) {
-      sidebar.addEventListener('click', function (e) {
-        var target = e.target as HTMLElement | null
-        if (target && target.closest('a')) setSidebarOpen(false)
-      })
-    }
+    initSidebarMobile()
   })()
 </script>
