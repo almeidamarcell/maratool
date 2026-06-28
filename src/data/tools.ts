@@ -74,6 +74,18 @@ export const tools: Tool[] = [
     live: true,
   },
   {
+    slug: 'mng-to-apng',
+    name: 'Convert MNG to APNG Online',
+    emoji: '🎞️',
+    description: 'Convert MNG (Multiple-image Network Graphics) to APNG in your browser. Preserves frames and timing — no upload, no watermark.',
+    category: 'Converter',
+    subcategory: 'Format',
+    keywords: ['mng to apng', 'convert mng to apng', 'mng to apng converter', 'mng to apng online', 'mng converter', 'animated png converter', 'multiple-image network graphics'],
+    live: true,
+    blogPost: true,
+    tags: ['file-upload'],
+  },
+  {
     slug: 'yaml-to-json',
     name: 'YAML to JSON Converter',
     emoji: '🔄',
@@ -3527,7 +3539,7 @@ function deriveTags(tool: Tool): string[] {
   }
 
   // instant: pure-compute tools that update live (default for most)
-  const slowTools = ['background-remover', 'video-to-gif', 'fps-converter', 'trim-video', 'mp4-to-mp3', 'mov-to-mp4', 'mp4-to-webm', 'compress-video', 'rotate-video', 'mute-video', 'resize-video', 'crop-video', 'gif-compressor', 'alt-text-generator', 'pdf-merge-split', 'image-converter']
+  const slowTools = ['background-remover', 'video-to-gif', 'fps-converter', 'trim-video', 'mp4-to-mp3', 'mov-to-mp4', 'mp4-to-webm', 'compress-video', 'rotate-video', 'mute-video', 'resize-video', 'crop-video', 'gif-compressor', 'mng-to-apng', 'alt-text-generator', 'pdf-merge-split', 'image-converter']
   if (!slowTools.includes(tool.slug)) {
     tags.push('instant')
   }
