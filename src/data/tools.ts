@@ -3089,6 +3089,19 @@ export const tools: Tool[] = [
     live: true,
     blogPost: true,
   },
+  // ── Converter / Document ──
+  {
+    slug: 'epub-converter',
+    name: 'Convert EPUB to PDF Online',
+    emoji: '📚',
+    description: 'Convert EPUB e-books to PDF, HTML, or plain text. Preview chapters and download — runs in your browser, no upload.',
+    category: 'Converter',
+    subcategory: 'Document',
+    keywords: ['epub to pdf', 'epub converter online', 'convert ebook online', 'epub to html', 'epub to text', 'ebook converter', 'convert epub file'],
+    live: true,
+    blogPost: true,
+    tags: ['file-upload'],
+  },
   // ── Wave 2 expansion: E-commerce ──
   {
     slug: 'shopify-discount-calculator',
@@ -3344,7 +3357,7 @@ export const tools: Tool[] = [
 export const categoryOrder = ['Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Business', 'Finance', 'E-commerce', 'Education', 'Mockup', 'Health'] as const
 
 export const subcategoryOrderByCategory: Record<string, string[]> = {
-  Converter: ['Format', 'Unit', 'Video', 'CSV', 'Date'],
+  Converter: ['Format', 'Document', 'Unit', 'Video', 'CSV', 'Date'],
   PDF: ['Extract', 'Edit', 'Inspect'],
   Text: ['Analyze', 'Edit', 'Generate', 'Transform'],
   Image: ['Transform', 'Social', 'Inspect'],
