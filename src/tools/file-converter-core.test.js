@@ -103,7 +103,7 @@ describe('findEngine', () => {
     expect(findEngine('.mp4', '.mp3')).toBe('ffmpeg')
   })
 
-  test('routes video to video via ffmpeg (browser vertd substitute)', () => {
+  test('routes video to video via ffmpeg (browser in-browser)', () => {
     expect(findEngine('.mov', '.mp4')).toBe('ffmpeg')
   })
 })
