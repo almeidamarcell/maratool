@@ -353,38 +353,6 @@ function toolsTsEntry(cfg) {
   },`
 }
 
-// Patch tools.ts subcategories
-function patchToolsTs() {
-  let src = fs.readFileSync(TOOLS_TS, 'utf8')
-  src = src.replace(
-    "Developer: ['Crypto', 'Generate', 'Audit', 'Calculator', 'Reference', 'SQL', 'API', 'Security', 'AI'],",
-    "Developer: ['Crypto', 'Generate', 'Audit', 'Calculator', 'Reference', 'SQL', 'API', 'Security', 'AI', 'Web', 'Data'],",
-  )
-  src = src.replace(
-    "Education: ['Calculator'],",
-    "Education: ['Calculator', 'Reference'],",
-  )
-  src = src.replace(
-    "Business: ['Calculator', 'Tax', 'Pay', 'Invoicing'],",
-    "Business: ['Calculator', 'Tax', 'Pay', 'Invoicing', 'Generate'],",
-  )
-  const entries = WAVE4.map(toolsTsEntry).join('\n')
-  src = src.replace(/\n\]\n\n\/\/ Ordered categories/, `\n${entries}\n]\n\n// Ordered categories`)
-  fs.writeFileSync(TOOLS_TS, src)
-}
-
-function patchBlogIndex() {
-  let src = fs.readFileSync(BLOG_INDEX, 'utf8')
-  const posts = WAVE4.map(t => `  {
-    slug: '${t.slug}',
-    title: 'How to use ${esc(t.name.split('—')[0].trim().toLowerCase())}',
-    date: 'June 28, 2026',
-    description: '${esc(t.name)}. Free browser-based tool.',
-  },`).join('\n')
-  src = src.replace('const posts = [', `const posts = [\n${posts}`)
-  fs.writeFileSync(BLOG_INDEX, src)
-}
-
 if (isMain) {
   for (const cfg of WAVE4) {
     fs.writeFileSync(path.join(PAGES, `${cfg.slug}.astro`), genPage(cfg))
