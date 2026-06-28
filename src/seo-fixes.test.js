@@ -231,6 +231,13 @@ describe('P1.8 — Security headers configured', () => {
     const headers = readSrc('public/_headers')
     expect(headers).toMatch(/\/_astro\/\*[\s\S]*?Cache-Control:[^\n]*immutable/)
   })
+
+  test('embed mode relaxes framing via Cloudflare worker', () => {
+    if (!srcExists('public/_worker.js')) return
+    const worker = readSrc('public/_worker.js')
+    expect(worker).toMatch(/embed/)
+    expect(readSrc('public/embed-frame-headers.js')).toMatch(/frame-ancestors/)
+  })
 })
 
 describe('P2.3 — BlogPosting schema has required Article fields', () => {
