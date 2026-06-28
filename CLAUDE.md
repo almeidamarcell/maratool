@@ -301,3 +301,23 @@ Always read DESIGN.md before making any visual or UI decisions.
 All font choices, colors, spacing, and aesthetic direction are defined there.
 Do not deviate without explicit user approval.
 In QA mode, flag any code that doesn't match DESIGN.md.
+
+---
+
+## Tarefas (Fizzy)
+
+Antes de começar qualquer trabalho, leia o feed de tarefas.
+
+A URL do feed (com a chave de acesso) **não é versionada** — ela fica na
+variável `FIZZY_FEED_URL` no arquivo `.env` (gitignored). Carregue o valor
+e faça a requisição. Exemplo:
+
+```sh
+source .env && curl -s "$FIZZY_FEED_URL"
+```
+
+Nunca cole a URL completa com a chave em arquivos versionados (este repo é open source).
+
+- Liste as tarefas abertas por coluna
+- Trabalhe no card indicado pelo usuário, ou sugira o mais prioritário
+- Ao concluir, resuma o que foi feito e sugira comentar no card do Fizzy
