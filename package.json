@@ -20,8 +20,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "node scripts/gen-vert-formats.mjs && node scripts/build-pandoc-bundle.mjs && node scripts/build-magick-bundle.mjs && node scripts/gen-llms.mjs && node scripts/gen-palette.mjs && node scripts/gen-lastmod.mjs && node scripts/gen-og-images.mjs",
-    "postinstall": "node scripts/gen-vert-formats.mjs && node scripts/build-pandoc-bundle.mjs && node scripts/build-magick-bundle.mjs",
+    "prebuild": "node scripts/build-pandoc-bundle.mjs && node scripts/build-magick-bundle.mjs && node scripts/gen-llms.mjs && node scripts/gen-palette.mjs && node scripts/gen-lastmod.mjs && node scripts/gen-og-images.mjs",
+    "postinstall": "node scripts/build-pandoc-bundle.mjs && node scripts/build-magick-bundle.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",

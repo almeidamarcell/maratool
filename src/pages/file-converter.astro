@@ -37,7 +37,7 @@ const seo = {
       {
         '@type': 'Question',
         name: 'What file formats can I convert?',
-        acceptedAnswer: { '@type': 'Answer', text: 'Images (PNG, JPEG, WebP, AVIF, HEIC, TIFF, and 180+ more), audio (MP3, WAV, FLAC, OGG, AAC, and more), video (MP4, WebM, MKV, MOV, GIF, and more), and documents (DOCX, EPUB, HTML, Markdown, ODT, RTF, CSV, JSON). Same format coverage as VERT.sh.' }
+        acceptedAnswer: { '@type': 'Answer', text: 'Images (PNG, JPEG, WebP, AVIF, HEIC, TIFF, and 180+ more), audio (MP3, WAV, FLAC, OGG, AAC, and more), video (MP4, WebM, MKV, MOV, GIF, and more), and documents (DOCX, EPUB, HTML, Markdown, ODT, RTF, CSV, JSON).' }
       },
       {
         '@type': 'Question',
@@ -47,7 +47,7 @@ const seo = {
       {
         '@type': 'Question',
         name: 'Can I convert video to MP3 or audio to MP4?',
-        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Extract audio from video (MP4 to MP3, MKV to FLAC, etc.) or generate a video from audio with a static background — cross-category conversion like VERT.sh.' }
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Extract audio from video (MP4 to MP3, MKV to FLAC, etc.) or generate a video from audio with a static background.' }
       },
       {
         '@type': 'Question',
@@ -65,7 +65,7 @@ const howTo = [
 ]
 
 const faq = [
-  { q: 'What file formats can I convert?', a: 'Images (180+ formats including PNG, JPEG, WebP, AVIF, HEIC), audio (MP3, WAV, FLAC, OGG, AAC, and more), video (MP4, WebM, MKV, MOV, GIF), and documents (DOCX, EPUB, HTML, Markdown, ODT, RTF). Same coverage as VERT.sh.' },
+  { q: 'What file formats can I convert?', a: 'Images (180+ formats including PNG, JPEG, WebP, AVIF, HEIC), audio (MP3, WAV, FLAC, OGG, AAC, and more), video (MP4, WebM, MKV, MOV, GIF), and documents (DOCX, EPUB, HTML, Markdown, ODT, RTF).' },
   { q: 'Are my files uploaded to a server?', a: 'No. ImageMagick, FFmpeg, and Pandoc run as WebAssembly in your browser. Files never leave your device.' },
   { q: 'Can I convert video to MP3?', a: 'Yes — extract audio from MP4, MKV, WebM, MOV, and other video formats. You can also convert audio to video with a static background.' },
   { q: 'Why is the first conversion slow?', a: 'WASM engines download once (~15–56 MB depending on category) and are cached by your browser afterward.' },
@@ -86,7 +86,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="file-converter" name="File Converter — Images, Audio, Video & Documents" description="Convert 180+ image formats, audio, video, and documents in your browser. Powered by ImageMagick, FFmpeg, and Pandoc WASM — same engines as VERT.sh." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="file-converter" name="File Converter — Images, Audio, Video & Documents" description="Convert 180+ image formats, audio, video, and documents in your browser. Powered by ImageMagick, FFmpeg, and Pandoc WASM — all processing runs locally." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container" style="min-height:480px;">
         <div class="vc-dropzone" id="vc-dropzone">
           <input type="file" id="vc-file" accept={acceptExts} hidden />

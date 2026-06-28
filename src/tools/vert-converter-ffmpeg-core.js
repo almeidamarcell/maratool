@@ -1,4 +1,4 @@
-// VERT FFmpeg command builder — ported from VERT-sh/VERT ffmpeg.svelte.ts
+// FFmpeg command builder for file converter audio/video conversions
 import { FFMPEG_FORMATS, VIDEO_FORMATS } from './vert-formats-data.js'
 
 export const VIDEO_FORMAT_EXTENSIONS = VIDEO_FORMATS

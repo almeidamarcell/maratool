@@ -1,4 +1,4 @@
-// ImageMagick WASM runtime for VERT file converter
+// ImageMagick WASM runtime for file converter
 var wasmBuffer = null
 var worker = null
 

@@ -1,4 +1,4 @@
-// FFmpeg WASM runtime for VERT file converter
+// FFmpeg WASM runtime for file converter
 import { loadFFmpeg } from './ffmpeg-loader.js'
 import {
   buildFfmpegCommand,

@@ -12,7 +12,7 @@ import {
 } from './vert-converter-ffmpeg-core.js'
 
 describe('isVideoFormat / isAudioFormat', () => {
-  test('classifies VERT ffmpeg formats', () => {
+  test('classifies ffmpeg formats', () => {
     expect(isVideoFormat('mp4')).toBe(true)
     expect(isVideoFormat('mkv')).toBe(true)
     expect(isAudioFormat('mp3')).toBe(true)
@@ -22,7 +22,7 @@ describe('isVideoFormat / isAudioFormat', () => {
 })
 
 describe('getCodecs', () => {
-  test('returns VERT codec pairs for common formats', () => {
+  test('returns codec pairs for common formats', () => {
     expect(getCodecs('.mp4')).toEqual({ video: 'libx264', audio: 'aac' })
     expect(getCodecs('.webm')).toEqual({ video: 'libvpx', audio: 'libvorbis' })
     expect(getCodecs('.mp3')).toEqual({ video: 'libx264', audio: 'libmp3lame' })
@@ -127,7 +127,7 @@ describe('buildVideoToVideoArgs', () => {
 })
 
 describe('format lists', () => {
-  test('matches VERT native audio and video output counts', () => {
+  test('native audio and video output lists are populated', () => {
     expect(AUDIO_OUTPUT_EXTENSIONS.length).toBeGreaterThanOrEqual(18)
     expect(VIDEO_FORMAT_EXTENSIONS.length).toBeGreaterThanOrEqual(22)
   })

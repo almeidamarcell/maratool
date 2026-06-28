@@ -1,4 +1,4 @@
-// ImageMagick worker — core convert path ported from VERT-sh/VERT magick.ts
+// ImageMagick worker — core image conversion logic
 import {
   initializeImageMagick,
   MagickFormat,

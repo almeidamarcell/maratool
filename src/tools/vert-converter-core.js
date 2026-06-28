@@ -1,4 +1,4 @@
-// VERT file converter — format registry and routing (ported from VERT-sh/VERT)
+// File converter — format registry and routing
 import {
   IMAGE_FORMATS,
   FFMPEG_FORMATS,
@@ -37,7 +37,7 @@ export const FORMAT_MAPS = {
   pandoc: toFormatMap(DOCUMENT_FORMATS),
 }
 
-// Populate category output format lists (mirrors VERT index.ts)
+// Populate category output format lists
 CATEGORIES.audio.formats = FFMPEG_FORMATS
   .filter(function (f) { return f.toSupported && f.isNative })
   .map(function (f) { return dotName(f.name) })

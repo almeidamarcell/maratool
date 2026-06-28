@@ -31,8 +31,8 @@ describe('detectExtension', () => {
   })
 })
 
-describe('format registry parity with VERT', () => {
-  test('has expected format counts from VERT reference', () => {
+describe('format registry', () => {
+  test('has expected format counts', () => {
     expect(IMAGE_FORMATS.length).toBeGreaterThanOrEqual(180)
     expect(FFMPEG_FORMATS.filter((f) => f.isNative && f.toSupported).length).toBeGreaterThanOrEqual(18)
     expect(VIDEO_FORMATS.filter((f) => f.toSupported).length).toBeGreaterThanOrEqual(26)
@@ -41,7 +41,7 @@ describe('format registry parity with VERT', () => {
 })
 
 describe('getCategory', () => {
-  test('classifies formats into VERT categories', () => {
+  test('classifies formats into categories', () => {
     expect(getCategory('.png')).toBe('image')
     expect(getCategory('.mp3')).toBe('audio')
     expect(getCategory('.mkv')).toBe('video')
@@ -114,7 +114,7 @@ describe('canConvert', () => {
     expect(canConvert('.docx', '.png')).toBe(false)
   })
 
-  test('accepts VERT-supported pairs', () => {
+  test('accepts supported conversion pairs', () => {
     expect(canConvert('.heic', '.png')).toBe(true)
     expect(canConvert('.epub', '.md')).toBe(true)
     expect(canConvert('.flac', '.ogg')).toBe(true)
@@ -130,7 +130,7 @@ describe('buildOutputFilename', () => {
 })
 
 describe('getAllInputExtensions', () => {
-  test('includes formats from all VERT categories', () => {
+  test('includes formats from all categories', () => {
     var all = getAllInputExtensions()
     expect(all).toContain('.png')
     expect(all).toContain('.mp3')
@@ -146,7 +146,7 @@ describe('getCategoryOutputTargets', () => {
     expect(getCategoryOutputTargets('image')).toEqual([])
   })
 
-  test('CATEGORIES matches VERT cross-category rules', () => {
+  test('CATEGORIES defines cross-category rules', () => {
     expect(CATEGORIES.video.canConvertTo).toContain('audio')
     expect(CATEGORIES.audio.canConvertTo).toContain('video')
   })

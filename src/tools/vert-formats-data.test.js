@@ -2,20 +2,20 @@ import { describe, expect, test } from 'vitest'
 import { IMAGE_FORMATS, FFMPEG_FORMATS, VIDEO_FORMATS, DOCUMENT_FORMATS } from './vert-formats-data.js'
 import { getCategory, getAllInputExtensions, CATEGORIES } from './vert-converter-core.js'
 
-describe('VERT format registry parity', () => {
-  test('image format count matches VERT reference', () => {
+describe('format registry', () => {
+  test('image format count', () => {
     expect(IMAGE_FORMATS.length).toBe(183)
   })
 
-  test('ffmpeg format count matches VERT reference', () => {
+  test('ffmpeg format count', () => {
     expect(FFMPEG_FORMATS.length).toBe(29)
   })
 
-  test('video format count matches VERT reference', () => {
+  test('video format count', () => {
     expect(VIDEO_FORMATS.length).toBe(28)
   })
 
-  test('document format count matches VERT reference', () => {
+  test('document format count', () => {
     expect(DOCUMENT_FORMATS.length).toBe(12)
   })
 
