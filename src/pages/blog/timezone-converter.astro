@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'timezone-converter'
+const seo = {
+  title: 'Time zone converter — convert time between zones | maratool',
+  description: 'Convert date and time between time zones instantly. All IANA zones supported. Free, runs in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert time between time zones',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert date and time between time zones instantly. All IANA zones supported. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert time between time zones', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert time between time zones"
+      lead="Pick a date/time and two IANA time zones — see the equivalent time in each, with DST handled automatically."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Scheduling across time zones is error-prone. The <a href="/timezone-converter">Time Zone Converter</a> uses the browser Intl API to convert any datetime between 400+ IANA zones — including daylight saving transitions.</p>
+
+      <BlogToolEmbed slug="timezone-converter" title="Try it — pick date, time, and two zones" height={400} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick date and time</strong> — defaults to now.</li>
+        <li><strong>Select source zone</strong> — defaults to your local zone.</li>
+        <li><strong>Select destination zone</strong> — UTC, US/Eastern, Europe/London, Asia/Tokyo, etc.</li>
+      </ol>
+
+      <h2>DST is automatic</h2>
+      <p>The Intl API applies daylight saving rules for the selected date. No manual offset math required.</p>
+
+      <h2>Related tools</h2>
+      <p>For Unix timestamps, use the <a href="/unix-timestamp">Unix Timestamp Converter</a>. For cron schedules, try the <a href="/cron-expression">Cron Expression Builder</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/timezone-converter">How to convert time between time zones</a> is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

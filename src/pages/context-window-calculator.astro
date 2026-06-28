@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'AI Context Window Calculator — Token Limit Usage | maratool',
+  description: 'See how much of a model context window your text uses. Compare GPT-4o, Claude, and Gemini token limits. Free, instant.',
+  canonical: 'https://maratool.com/context-window-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'AI Context Window Calculator',
+    url: 'https://maratool.com/context-window-calculator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'See how much of a model context window your text uses. Compare GPT-4o, Claude, and Gemini token limits. Free, instant.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'AI', item: 'https://maratool.com/developer/ai' },
+      { '@type': 'ListItem', position: 4, name: 'AI Context Window Calculator', item: 'https://maratool.com/context-window-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How are tokens estimated?', acceptedAnswer: { '@type': 'Answer', text: 'Approximately 4 characters per token for English text — same heuristic as our AI token counter.' } },
+      { '@type': 'Question', name: 'What happens if I exceed the context window?', acceptedAnswer: { '@type': 'Answer', text: 'The API will reject the request or truncate input. Stay under 80% for safety margin.' } },
+      { '@type': 'Question', name: 'Are context limits accurate?', acceptedAnswer: { '@type': 'Answer', text: 'Limits reflect published model specs. Providers may update limits — verify on official docs.' } },
+      { '@type': 'Question', name: 'Is my text sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Token estimation happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Select the AI model to check against.',
+  'Paste your prompt or text.',
+  'See token count, usage percentage, and remaining context.'
+]
+
+const faq = [
+  { q: 'How are tokens estimated?', a: 'Approximately 4 characters per token for English text — same heuristic as our AI token counter.' },
+  { q: 'What happens if I exceed the context window?', a: 'The API will reject the request or truncate input. Stay under 80% for safety margin.' },
+  { q: 'Are context limits accurate?', a: 'Limits reflect published model specs. Providers may update limits — verify on official docs.' },
+  { q: 'Is my text sent to a server?', a: 'No. Token estimation happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'ai-token-calculator', name: 'AI Token Counter' },
+  { slug: 'ai-cost-calculator', name: 'AI Cost Calculator' },
+  { slug: 'reading-time', name: 'Reading Time Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'AI', href: '/developer/ai' },
+  { label: 'Context Window Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="context-window-calculator" name="AI Context Window Calculator" description="Paste text and select a model to see token count, context window usage, and remaining capacity." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:360px;">
+        <div class="calc-field"><label class="tool-label" for="cw-model">Model</label><select id="cw-model" class="tool-input calc-select"></select></div>
+        <div class="calc-field"><label class="tool-label" for="cw-text">Text</label><textarea id="cw-text" class="tool-textarea" rows="8" placeholder="Paste your prompt or document here..."></textarea></div>
+        <div style="height:8px;background:var(--bg-soft);border-radius:4px;margin:1rem 0;overflow:hidden;"><div id="cw-bar" style="height:100%;width:0;transition:width 0.2s;background:var(--accent);border-radius:4px;"></div></div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="cw-tokens">0</span><span class="tool-stat-label">Tokens used</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="cw-limit">—</span><span class="tool-stat-label">Context limit</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="cw-pct">0%</span><span class="tool-stat-label">Usage</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="cw-remain">—</span><span class="tool-stat-label">Remaining</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/context-window-calculator.js"></script>

@@ -1,0 +1,96 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Compound Interest Calculator — Savings Growth | maratool',
+  description: 'Calculate compound interest with monthly contributions. See how your savings grow over time. Free, runs in your browser.',
+  canonical: 'https://maratool.com/compound-interest-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Compound Interest Calculator',
+    url: 'https://maratool.com/compound-interest-calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate compound interest with monthly contributions. See how your savings grow over time. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Finance', item: 'https://maratool.com/finance' },
+      { '@type': 'ListItem', position: 3, name: 'Interest', item: 'https://maratool.com/finance/interest' },
+      { '@type': 'ListItem', position: 4, name: 'Compound Interest Calculator', item: 'https://maratool.com/compound-interest-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is compound interest?', acceptedAnswer: { '@type': 'Answer', text: 'Interest calculated on both the initial principal and accumulated interest from previous periods.' } },
+      { '@type': 'Question', name: 'How often is interest compounded?', acceptedAnswer: { '@type': 'Answer', text: 'This calculator compounds monthly (12 times per year), which is standard for savings accounts.' } },
+      { '@type': 'Question', name: 'Does this account for taxes?', acceptedAnswer: { '@type': 'Answer', text: 'No. Results show pre-tax growth. Tax treatment depends on account type.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your starting principal and annual interest rate.',
+  'Set the investment period in years and optional monthly contribution.',
+  'See final balance, total contributed, and interest earned.'
+]
+
+const faq = [
+  { q: 'What is compound interest?', a: 'Interest calculated on both the initial principal and accumulated interest from previous periods.' },
+  { q: 'How often is interest compounded?', a: 'This calculator compounds monthly (12 times per year), which is standard for savings accounts.' },
+  { q: 'Does this account for taxes?', a: 'No. Results show pre-tax growth. Tax treatment depends on account type.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'cagr-calculator', name: 'CAGR Calculator' },
+  { slug: 'mortgage-calculator', name: 'Mortgage Calculator' },
+  { slug: 'roi-calculator', name: 'ROI Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Finance', href: '/finance' },
+  { label: 'Interest', href: '/finance/interest' },
+  { label: 'Compound Interest Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="compound-interest-calculator" name="Compound Interest Calculator" description="Enter starting balance, annual rate, years, and optional monthly contributions to see final balance and total interest earned." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="ci-principal">Starting amount ($)</label><input type="number" id="ci-principal" class="tool-input" placeholder="10000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="ci-rate">Annual rate (%)</label><input type="number" id="ci-rate" class="tool-input" placeholder="5" step="any" min="0" /></div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="ci-years">Years</label><input type="number" id="ci-years" class="tool-input" placeholder="10" min="1" /></div>
+          <div class="calc-field"><label class="tool-label" for="ci-monthly">Monthly contribution ($)</label><input type="number" id="ci-monthly" class="tool-input" placeholder="200" min="0" /></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="ci-final">—</span><span class="tool-stat-label">Final balance</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="ci-contributed">—</span><span class="tool-stat-label">Total contributed</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="ci-interest">—</span><span class="tool-stat-label">Interest earned</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/compound-interest-calculator.js"></script>

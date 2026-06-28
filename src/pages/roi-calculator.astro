@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'ROI Calculator — Return on Investment | maratool',
+  description: 'Calculate return on investment percentage from initial cost and final value. Free ROI calculator, instant results in your browser.',
+  canonical: 'https://maratool.com/roi-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'ROI Calculator — Return on Investment',
+    url: 'https://maratool.com/roi-calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate return on investment percentage from initial cost and final value. Free ROI calculator, instant results in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Business', item: 'https://maratool.com/business' },
+      { '@type': 'ListItem', position: 3, name: 'Calculator', item: 'https://maratool.com/business/calculator' },
+      { '@type': 'ListItem', position: 4, name: 'ROI Calculator — Return on Investment', item: 'https://maratool.com/roi-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is the ROI formula?', acceptedAnswer: { '@type': 'Answer', text: 'ROI = (Final Value − Initial Cost) / Initial Cost × 100.' } },
+      { '@type': 'Question', name: 'How is this different from campaign ROI?', acceptedAnswer: { '@type': 'Answer', text: 'This is a general investment ROI calculator. The campaign ROI tool is specific to marketing ad spend.' } },
+      { '@type': 'Question', name: 'Can ROI be negative?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. A negative ROI means you lost money on the investment.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your initial investment or cost.',
+  'Enter the final or current value.',
+  'See profit and ROI percentage instantly.'
+]
+
+const faq = [
+  { q: 'What is the ROI formula?', a: 'ROI = (Final Value − Initial Cost) / Initial Cost × 100.' },
+  { q: 'How is this different from campaign ROI?', a: 'This is a general investment ROI calculator. The campaign ROI tool is specific to marketing ad spend.' },
+  { q: 'Can ROI be negative?', a: 'Yes. A negative ROI means you lost money on the investment.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'cagr-calculator', name: 'CAGR Calculator' },
+  { slug: 'campaign-roi-calculator', name: 'Campaign ROI Calculator' },
+  { slug: 'profit-margin-calculator', name: 'Profit Margin Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Business', href: '/business' },
+  { label: 'Calculator', href: '/business/calculator' },
+  { label: 'ROI Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="roi-calculator" name="ROI Calculator — Return on Investment" description="Enter initial investment and final value to calculate profit and ROI percentage." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:240px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="roi-initial">Initial cost ($)</label><input type="number" id="roi-initial" class="tool-input" placeholder="10000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="roi-final">Final value ($)</label><input type="number" id="roi-final" class="tool-input" placeholder="15000" min="0" /></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="roi-profit">—</span><span class="tool-stat-label">Profit</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="roi-pct">—</span><span class="tool-stat-label">ROI</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/roi-calculator.js"></script>

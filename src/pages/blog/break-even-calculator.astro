@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'break-even-calculator'
+const seo = {
+  title: 'Break-even calculator — units and revenue | maratool',
+  description: 'Find break-even point in units and revenue. Enter fixed costs, price, and variable cost per unit.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to find your break-even point',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Find break-even point in units and revenue. Enter fixed costs, price, and variable cost per unit.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to find your break-even point', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to find your break-even point"
+      lead="Know exactly how many units you need to sell before you stop losing money."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Break-even analysis answers: "How many units at this price cover my fixed costs?" The <a href="/break-even-calculator">Break-even Calculator</a> returns units, revenue at break-even, and contribution margin.</p>
+
+      <BlogToolEmbed slug="break-even-calculator" title="Try it — enter fixed costs, price, and variable cost" height={380} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Fixed costs</strong> — rent, salaries, insurance — costs that do not change with volume.</li>
+        <li><strong>Price per unit</strong> — what you charge.</li>
+        <li><strong>Variable cost per unit</strong> — materials, shipping, commissions per sale.</li>
+      </ol>
+
+      <h2>The formula</h2>
+      <p>Break-even units = Fixed Costs / (Price − Variable Cost). If variable cost exceeds price, you cannot break even — raise price or cut costs.</p>
+
+      <h2>Contribution margin</h2>
+      <p>Contribution margin = (Price − Variable Cost) / Price. It shows what percentage of each sale covers fixed costs after direct costs.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/break-even-calculator">How to find your break-even point</a> is free, runs locally, and never sends your data to a server. More <a href="/business">business calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

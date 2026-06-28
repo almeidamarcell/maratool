@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Amazon Seller Fee Calculator — FBA & Referral Fees | maratool',
+  description: 'Estimate Amazon referral fees, FBA fees, and net profit per sale. Free Amazon seller fee calculator, runs in your browser.',
+  canonical: 'https://maratool.com/amazon-fee-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Amazon Seller Fee Calculator',
+    url: 'https://maratool.com/amazon-fee-calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Estimate Amazon referral fees, FBA fees, and net profit per sale. Free Amazon seller fee calculator, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'E-commerce', item: 'https://maratool.com/ecommerce' },
+      { '@type': 'ListItem', position: 3, name: 'Fees', item: 'https://maratool.com/ecommerce/fees' },
+      { '@type': 'ListItem', position: 4, name: 'Amazon Seller Fee Calculator', item: 'https://maratool.com/amazon-fee-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What are Amazon referral fees?', acceptedAnswer: { '@type': 'Answer', text: 'A percentage of the sale price charged per category — typically 8–17% depending on product type.' } },
+      { '@type': 'Question', name: 'What is FBA?', acceptedAnswer: { '@type': 'Answer', text: 'Fulfillment by Amazon — Amazon stores, packs, and ships your products. FBA fees cover storage and fulfillment.' } },
+      { '@type': 'Question', name: 'Are these fees exact?', acceptedAnswer: { '@type': 'Answer', text: 'These are estimates based on published rate tables. Actual fees may vary by size tier and season.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your product sale price.',
+  'Select product category and fulfillment method (FBA or FBM).',
+  'See referral fee, FBA fee, total fees, and net profit.'
+]
+
+const faq = [
+  { q: 'What are Amazon referral fees?', a: 'A percentage of the sale price charged per category — typically 8–17% depending on product type.' },
+  { q: 'What is FBA?', a: 'Fulfillment by Amazon — Amazon stores, packs, and ships your products. FBA fees cover storage and fulfillment.' },
+  { q: 'Are these fees exact?', a: 'These are estimates based on published rate tables. Actual fees may vary by size tier and season.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'etsy-fee-calculator', name: 'Etsy Fee Calculator' },
+  { slug: 'profit-margin-calculator', name: 'Profit Margin Calculator' },
+  { slug: 'barcode-generator', name: 'Barcode Generator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'E-commerce', href: '/ecommerce' },
+  { label: 'Fees', href: '/ecommerce/fees' },
+  { label: 'Amazon Fee Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="amazon-fee-calculator" name="Amazon Seller Fee Calculator" description="Enter sale price, product category, and fulfillment method to estimate Amazon fees and net profit." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:340px;">
+        <div class="calc-field"><label class="tool-label" for="amz-price">Sale price ($)</label><input type="number" id="amz-price" class="tool-input" placeholder="29.99" min="0" step="any" style="max-width:200px;" /></div>
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="amz-category">Category</label><select id="amz-category" class="tool-input calc-select"><option value="default">General (15%)</option><option value="electronics">Electronics (8%)</option><option value="clothing">Clothing (17%)</option><option value="books">Books (15%)</option><option value="beauty">Beauty (15%)</option></select></div>
+          <div class="calc-field"><label class="tool-label" for="amz-fulfillment">Fulfillment</label><select id="amz-fulfillment" class="tool-input calc-select"><option value="fba">FBA</option><option value="fbm">FBM (no FBA fee)</option></select></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="amz-referral">—</span><span class="tool-stat-label">Referral fee</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="amz-fba">—</span><span class="tool-stat-label">FBA fee</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="amz-total">—</span><span class="tool-stat-label">Total fees</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="amz-net">—</span><span class="tool-stat-label">Net profit</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="amz-margin">—</span><span class="tool-stat-label">Margin</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/amazon-fee-calculator.js"></script>

@@ -43,6 +43,18 @@ const verticalMeta: Record<string, { description: string; popularSlugs: string[]
     description: 'QR codes, UTM links, barcodes',
     popularSlugs: ['qr-code-generator', 'utm-builder', 'barcode-generator'],
   },
+  Business: {
+    description: 'Margin, break-even, tax, salary, ROI',
+    popularSlugs: ['profit-margin-calculator', 'break-even-calculator', 'vat-calculator', 'salary-converter'],
+  },
+  Finance: {
+    description: 'Mortgage, loans, compound interest, CAGR',
+    popularSlugs: ['mortgage-calculator', 'loan-calculator', 'compound-interest-calculator', 'cagr-calculator'],
+  },
+  'E-commerce': {
+    description: 'Amazon and Etsy seller fee calculators',
+    popularSlugs: ['amazon-fee-calculator', 'etsy-fee-calculator'],
+  },
 }
 
 const verticals = categoryOrder.map(cat => {
@@ -114,7 +126,7 @@ const faqSchema = {
       name: 'What tools are available on maratool?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: `maratool offers ${liveTools.length}+ tools across 9 categories: converters, PDF, text, image, color, developer, marketing, mockups, and medical calculators (Health). Almost every tool runs in your browser.`
+        text: `maratool offers ${liveTools.length}+ tools across 12 categories: converters, PDF, text, image, color, developer, marketing, business, finance, e-commerce, mockups, and medical calculators (Health). Almost every tool runs in your browser.`
       }
     }
   ]

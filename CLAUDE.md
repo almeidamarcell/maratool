@@ -164,6 +164,29 @@ Each `.astro` in pages/ must:
 3. FAQ — 4 questions, structured with FAQ schema
 4. "Related tools" — 2–3 internal links
 
+## Blog Post — Every New Tool (required)
+
+Every new live tool **must** ship with a matching blog post. This is enforced via `blogPost: true` in `tools.ts` (set on every new tool entry).
+
+**File:** `src/pages/blog/<slug>.astro` (slug matches the tool page)
+
+**Template:** Copy an existing tool guide (e.g. `blog/ai-token-calculator.astro`) or run `node scripts/generate-tool-blog-posts.mjs` after adding entry config.
+
+**Required content:**
+1. `BlogPosting` schema with unique title, description, canonical, `datePublished`
+2. Job-phrased headline (how-to angle, not product name alone)
+3. Lead paragraph — one sentence, action-oriented
+4. **`<BlogToolEmbed slug="..." />`** — live iframe embed of the tool (`?embed=1`). Prefer embed over static screenshots (always up to date, zero asset maintenance). Use a screenshot only when embed is impossible (e.g. file-upload tools where embed UX is poor).
+5. "How it works" — 3 numbered steps
+6. 1–2 explanatory sections (formulas, use cases, limitations)
+7. Link back to tool + category hub in footer note
+
+**Also required:**
+- Add entry to `src/pages/blog/index.astro` posts array (newest first)
+- Set `blogPost: true` on the tool in `tools.ts`
+
+**Quality gate:** `npm test` verifies every `blogPost: true` tool has a blog file containing `BlogToolEmbed`.
+
 ## Quality Gates — Run Before Considering Anything Done
 
 ```bash
