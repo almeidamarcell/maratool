@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'curl-generator'
+const seo = {
+  title: 'cURL command generator — build HTTP requests | maratool',
+  description: 'Build cURL commands from URL, method, headers, and body. Copy-ready curl for any HTTP request.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to generate cURL commands from HTTP requests',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Build cURL commands from URL, method, headers, and body. Copy-ready curl for any HTTP request.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to generate cURL commands from HTTP requests', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to generate cURL commands from HTTP requests"
+      lead="Fill in a form — get a copy-ready curl command with headers and body escaped correctly."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>You have the API docs open and need a curl command for a ticket or terminal test. The <a href="/curl-generator">cURL Generator</a> builds the command from URL, method, headers, and body — no manual escaping.</p>
+
+      <BlogToolEmbed slug="curl-generator" title="Try it — build a cURL command" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>URL and method</strong> — GET, POST, PUT, PATCH, or DELETE.</li>
+        <li><strong>Headers</strong> — one per line, <code>Key: Value</code> format.</li>
+        <li><strong>Body</strong> — JSON or raw text for POST/PUT/PATCH.</li>
+      </ol>
+
+      <h2>Generator, not executor</h2>
+      <p>This tool generates the command string only. It does not send the request (browser CORS would block most cross-origin calls anyway). Copy and run in your terminal.</p>
+
+      <h2>Common use cases</h2>
+      <p>Sharing reproducible API calls in tickets, testing webhooks locally, converting Postman requests to curl for CI scripts.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/curl-generator">How to generate cURL commands from HTTP requests</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

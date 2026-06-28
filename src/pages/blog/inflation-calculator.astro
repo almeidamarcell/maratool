@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'inflation-calculator'
+const seo = {
+  title: 'Inflation calculator — purchasing power over time | maratool',
+  description: 'See how inflation erodes dollar value between years using CPI data. Free purchasing power calculator in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate inflation-adjusted purchasing power',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'See how inflation erodes dollar value between years using CPI data. Free purchasing power calculator in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate inflation-adjusted purchasing power', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate inflation-adjusted purchasing power"
+      lead="Enter an amount and year range — see equivalent value today or in a past year."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>A dollar in 1990 bought more than a dollar today. The <a href="/inflation-calculator">Inflation Calculator</a> adjusts amounts using historical US CPI so you can compare real purchasing power across years.</p>
+
+      <BlogToolEmbed slug="inflation-calculator" title="Try it — amount, start year, end year" height={380} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Amount</strong> — dollar value to adjust.</li>
+        <li><strong>From year</strong> — original year of the amount.</li>
+        <li><strong>To year</strong> — target year for comparison.</li>
+      </ol>
+
+      <h2>CPI methodology</h2>
+      <p>Adjustments use Consumer Price Index ratios between years. This is an approximation — your personal basket (housing, healthcare) may differ from national averages.</p>
+
+      <h2>Long-term planning</h2>
+      <p>Use this alongside the <a href="/compound-interest-calculator">Compound Interest Calculator</a> when projecting retirement savings in real (inflation-adjusted) terms.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/inflation-calculator">How to calculate inflation-adjusted purchasing power</a> is free, runs locally, and never sends your data to a server. More <a href="/finance">finance calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

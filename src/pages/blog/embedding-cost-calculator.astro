@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'embedding-cost-calculator'
+const seo = {
+  title: 'Embedding cost calculator — OpenAI, Cohere, Voyage | maratool',
+  description: 'Estimate embedding API costs for OpenAI, Cohere, and Voyage. Enter token count and see per-request pricing.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to estimate AI embedding API costs',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Estimate embedding API costs for OpenAI, Cohere, and Voyage. Enter token count and see per-request pricing.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to estimate AI embedding API costs', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to estimate AI embedding API costs"
+      lead="Pick provider, model, and token count — see estimated cost per request and at scale."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Vector search pipelines embed millions of tokens. The <a href="/embedding-cost-calculator">Embedding Cost Calculator</a> compares OpenAI, Cohere, and Voyage pricing for your token volume.</p>
+
+      <BlogToolEmbed slug="embedding-cost-calculator" title="Try it — provider, tokens, batch size" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Provider & model</strong> — select embedding model.</li>
+        <li><strong>Token count</strong> — tokens per document or batch.</li>
+        <li><strong>Volume</strong> — multiply for total corpus cost estimate.</li>
+      </ol>
+
+      <h2>Pricing changes</h2>
+      <p>Provider rates update frequently. Use this for ballpark budgeting; confirm current pricing on vendor sites before procurement.</p>
+
+      <h2>Chat vs embeddings</h2>
+      <p>For chat completion costs, use the <a href="/ai-cost-calculator">AI Cost Calculator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/embedding-cost-calculator">How to estimate AI embedding API costs</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

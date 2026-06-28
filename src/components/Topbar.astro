@@ -1,6 +1,20 @@
 ---
 ---
 <header class="topbar">
+  <button
+    type="button"
+    id="sidebar-menu-toggle"
+    class="sidebar-menu-toggle"
+    aria-label="Open navigation menu"
+    aria-expanded="false"
+    aria-controls="site-sidebar"
+  >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
   <a href="/" class="topbar-logo">
     <img src="/logo.svg" alt="" width="22" height="22" />
     maratool
@@ -28,6 +42,8 @@
 </header>
 
 <script>
+  import { initSidebarMobile } from '../sidebar-mobile.js'
+
   ;(function () {
     var trigger = document.getElementById('topbar-search-trigger')
     var kbd = document.getElementById('search-kbd')
@@ -42,5 +58,7 @@
         }
       })
     }
+
+    initSidebarMobile()
   })()
 </script>

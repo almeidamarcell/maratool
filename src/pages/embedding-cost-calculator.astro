@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'AI Embedding Cost Calculator — API Pricing | maratool',
+  description: 'Estimate embedding API costs for OpenAI, Cohere, and Voyage. Enter token count and see per-request pricing. Free, runs in your browser.',
+  canonical: 'https://maratool.com/embedding-cost-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'AI Embedding Cost Calculator',
+    url: 'https://maratool.com/embedding-cost-calculator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Estimate embedding API costs for OpenAI, Cohere, and Voyage. Enter token count and see per-request pricing. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'AI', item: 'https://maratool.com/developer/ai' },
+      { '@type': 'ListItem', position: 4, name: 'AI Embedding Cost Calculator', item: 'https://maratool.com/embedding-cost-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Which embedding models are supported?', acceptedAnswer: { '@type': 'Answer', text: 'OpenAI text-embedding models, Cohere embed, and Voyage embedding models with published pricing.' } },
+      { '@type': 'Question', name: 'How are tokens estimated?', acceptedAnswer: { '@type': 'Answer', text: 'Enter your actual token count from your tokenizer, or use the AI token counter for text estimation.' } },
+      { '@type': 'Question', name: 'Are prices up to date?', acceptedAnswer: { '@type': 'Answer', text: 'Based on published API pricing. Verify current rates on provider websites before budgeting.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Cost calculation happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Select an embedding model from the dropdown.',
+  'Enter the number of tokens to embed.',
+  'See estimated cost per request instantly.'
+]
+
+const faq = [
+  { q: 'Which embedding models are supported?', a: 'OpenAI text-embedding models, Cohere embed, and Voyage embedding models with published pricing.' },
+  { q: 'How are tokens estimated?', a: 'Enter your actual token count from your tokenizer, or use the AI token counter for text estimation.' },
+  { q: 'Are prices up to date?', a: 'Based on published API pricing. Verify current rates on provider websites before budgeting.' },
+  { q: 'Is my data sent to a server?', a: 'No. Cost calculation happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'ai-cost-calculator', name: 'AI Cost Calculator' },
+  { slug: 'ai-token-calculator', name: 'AI Token Counter' },
+  { slug: 'context-window-calculator', name: 'AI Context Window Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'AI', href: '/developer/ai' },
+  { label: 'Embedding Cost Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="embedding-cost-calculator" name="AI Embedding Cost Calculator" description="Select an embedding model, enter token count, and see estimated cost per request." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:280px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="emb-model">Model</label><select id="emb-model" class="tool-input calc-select"></select></div>
+          <div class="calc-field"><label class="tool-label" for="emb-tokens">Tokens</label><input type="number" id="emb-tokens" class="tool-input" placeholder="1000" min="0" /></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="emb-cost">—</span><span class="tool-stat-label">Estimated cost</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/embedding-cost-calculator.js"></script>

@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Convert cURL to Python Requests — Online | maratool',
+  description: 'Convert cURL commands to Python requests code. Paste curl and get copy-ready Python. Free, runs in your browser.',
+  canonical: 'https://maratool.com/curl-to-python',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Convert cURL to Python Requests',
+    url: 'https://maratool.com/curl-to-python',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert cURL commands to Python requests code. Paste curl and get copy-ready Python. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'API', item: 'https://maratool.com/developer/api' },
+      { '@type': 'ListItem', position: 4, name: 'Convert cURL to Python Requests', item: 'https://maratool.com/curl-to-python' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What Python library is used?', acceptedAnswer: { '@type': 'Answer', text: 'The requests library — the standard for HTTP in Python. Install with pip install requests.' } },
+      { '@type': 'Question', name: 'What cURL flags are supported?', acceptedAnswer: { '@type': 'Answer', text: 'Common flags: -X method, -H headers, -d/--data body, --json, and URL.' } },
+      { '@type': 'Question', name: 'Does this send the request?', acceptedAnswer: { '@type': 'Answer', text: 'No. This only converts the command. Run the Python code to execute the request.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Conversion happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste your cURL command in the input box.',
+  'Python requests code appears automatically.',
+  'Click Copy to copy the generated code.'
+]
+
+const faq = [
+  { q: 'What Python library is used?', a: 'The requests library — the standard for HTTP in Python. Install with pip install requests.' },
+  { q: 'What cURL flags are supported?', a: 'Common flags: -X method, -H headers, -d/--data body, --json, and URL.' },
+  { q: 'Does this send the request?', a: 'No. This only converts the command. Run the Python code to execute the request.' },
+  { q: 'Is my data sent to a server?', a: 'No. Conversion happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'curl-to-fetch', name: 'Convert cURL to JavaScript Fetch' },
+  { slug: 'curl-generator', name: 'cURL Command Generator' },
+  { slug: 'postman-collection-generator', name: 'Postman Collection Generator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'API', href: '/developer/api' },
+  { label: 'cURL to Python' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="curl-to-python" name="Convert cURL to Python Requests" description="Paste a cURL command and get equivalent Python requests code with headers and body." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <label class="tool-label" for="ctp-input">cURL command</label>
+        <textarea id="ctp-input" class="tool-textarea" rows="6" placeholder="curl -X GET https://api.example.com/users -H 'Authorization: Bearer token'"></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:1rem 0 0.5rem;">
+          <label class="tool-label" style="margin:0;">Python requests</label>
+          <button type="button" id="ctp-copy" class="copy-btn">Copy</button>
+        </div>
+        <pre id="ctp-output" class="tool-output" style="min-height:120px;white-space:pre-wrap;font-family:var(--font-mono);font-size:13px;"></pre>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<script src="../tools/curl-to-python.js"></script>

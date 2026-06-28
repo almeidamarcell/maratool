@@ -1,0 +1,75 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'ai-cost-calculator'
+const seo = {
+  title: 'How to calculate AI API cost — GPT & Claude pricing | maratool',
+  description: 'Estimate per-request cost for GPT-4o, Claude, and Gemini. Enter input and output tokens to see pricing breakdown. Free calculator, runs in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate AI API cost for GPT, Claude, and Gemini',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How the maratool AI API cost calculator estimates per-request pricing.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'AI API Cost Calculator guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate AI API cost for GPT, Claude, and Gemini"
+      lead="Enter input and output token counts to see per-request pricing — before you spend a cent on API calls."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>OpenAI, Anthropic, and Google price their APIs per million tokens — and input tokens cost less than output tokens. The <a href="/ai-cost-calculator">AI API Cost Calculator</a> multiplies your token counts by the published rate for each model and shows input cost, output cost, and total.</p>
+
+      <BlogToolEmbed slug="ai-cost-calculator" title="Try it — enter tokens or count from text" height={560} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Select a model</strong> — GPT-4o, GPT-4o mini, Claude Sonnet, Gemini Pro, and others are pre-loaded with current per-million pricing.</li>
+        <li><strong>Enter token counts</strong> — type input and output tokens directly, or paste text and click "Count from text" to estimate input tokens.</li>
+        <li><strong>See the breakdown</strong> — input cost, output cost, and total update instantly. No submit button.</li>
+      </ol>
+
+      <h2>The math</h2>
+      <p>Every model has two rates: price per million <em>input</em> tokens and price per million <em>output</em> tokens. The formula is:</p>
+      <p><code>total = (inputTokens / 1,000,000 × inputRate) + (outputTokens / 1,000,000 × outputRate)</code></p>
+      <p>Output is almost always more expensive because generating text requires more compute than reading it. GPT-4o's output rate is 4× its input rate; Claude Sonnet's is 5×.</p>
+
+      <h2>Example</h2>
+      <p>A request with 2,000 input tokens and 500 output tokens on GPT-4o mini costs roughly $0.0006 — less than a tenth of a cent. The same request on GPT-4o costs about $0.01. Scale that to 10,000 requests per day and the model choice matters.</p>
+
+      <h2>Pricing changes</h2>
+      <p>Provider rates shift. The calculator reflects published prices as of mid-2026. Always cross-check on the official pricing page before setting a budget.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">Need token counts first? Use the <a href="/ai-token-calculator">AI Token Counter</a>, then plug the numbers here. Both tools run in your browser at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

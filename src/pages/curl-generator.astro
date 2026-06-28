@@ -1,0 +1,94 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'cURL Command Generator — Build HTTP Requests | maratool',
+  description: 'Build cURL commands from URL, method, headers, and body. Copy-ready curl for any HTTP request. Free, runs in your browser.',
+  canonical: 'https://maratool.com/curl-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'cURL Command Generator',
+    url: 'https://maratool.com/curl-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Build cURL commands from URL, method, headers, and body. Copy-ready curl for any HTTP request. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'API', item: 'https://maratool.com/developer/api' },
+      { '@type': 'ListItem', position: 4, name: 'cURL Command Generator', item: 'https://maratool.com/curl-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Does this send the request?', acceptedAnswer: { '@type': 'Answer', text: 'No. This only generates the cURL command string. Run it in your terminal to execute.' } },
+      { '@type': 'Question', name: 'How do I add headers?', acceptedAnswer: { '@type': 'Answer', text: 'One header per line in Key: Value format, e.g. Content-Type: application/json' } },
+      { '@type': 'Question', name: 'Can I generate POST requests?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Select POST/PUT/PATCH and enter a request body.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Command generation happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the request URL and select HTTP method.',
+  'Add headers (one per line, Key: Value format) and optional body.',
+  'Copy the generated cURL command.'
+]
+
+const faq = [
+  { q: 'Does this send the request?', a: 'No. This only generates the cURL command string. Run it in your terminal to execute.' },
+  { q: 'How do I add headers?', a: 'One header per line in Key: Value format, e.g. Content-Type: application/json' },
+  { q: 'Can I generate POST requests?', a: 'Yes. Select POST/PUT/PATCH and enter a request body.' },
+  { q: 'Is my data sent to a server?', a: 'No. Command generation happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'jwt-decoder', name: 'JWT Decoder' },
+  { slug: 'sql-formatter', name: 'SQL Formatter' },
+  { slug: 'api-key-generator', name: 'API Key Generator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'API', href: '/developer/api' },
+  { label: 'cURL Generator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="curl-generator" name="cURL Command Generator" description="Fill in URL, HTTP method, headers, and body to generate a copy-ready cURL command." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="curl-url">URL</label><input type="url" id="curl-url" class="tool-input" placeholder="https://api.example.com/users" /></div>
+          <div class="calc-field"><label class="tool-label" for="curl-method">Method</label><select id="curl-method" class="tool-input calc-select"><option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option></select></div>
+        </div>
+        <div class="calc-field"><label class="tool-label" for="curl-headers">Headers (one per line)</label><textarea id="curl-headers" class="tool-textarea" rows="3" placeholder="Content-Type: application/json&#10;Authorization: Bearer token"></textarea></div>
+        <div class="calc-field"><label class="tool-label" for="curl-body">Body</label><textarea id="curl-body" class="tool-textarea" rows="4" placeholder='{"key": "value"}'></textarea></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+          <label class="tool-label" style="margin:0;">Generated cURL</label>
+          <button type="button" id="curl-copy" class="copy-btn">Copy</button>
+        </div>
+        <pre id="curl-output" class="tool-output" style="min-height:80px;white-space:pre-wrap;font-family:var(--font-mono);font-size:13px;"></pre>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/curl-generator.js"></script>

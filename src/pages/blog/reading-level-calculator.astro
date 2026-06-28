@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'reading-level-calculator'
+const seo = {
+  title: 'Reading level calculator — Flesch-Kincaid grade level | maratool',
+  description: 'Estimate reading grade level with Flesch-Kincaid. Paste text to see grade level, reading ease, and word count.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate Flesch-Kincaid reading level',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Estimate reading grade level with Flesch-Kincaid. Paste text to see grade level, reading ease, and word count.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate Flesch-Kincaid reading level', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate Flesch-Kincaid reading level"
+      lead="Paste text — get Flesch-Kincaid grade level, reading ease score, and word stats."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Content aimed at eighth graders should not read like a graduate thesis. The <a href="/reading-level-calculator">Reading Level Calculator</a> applies Flesch-Kincaid formulas to estimate US grade level and reading ease.</p>
+
+      <BlogToolEmbed slug="reading-level-calculator" title="Try it — paste text for reading level" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste text</strong> — article, essay, or marketing copy.</li>
+        <li><strong>Grade level</strong> — estimated US school grade to comprehend.</li>
+        <li><strong>Reading ease</strong> — 0–100 score (higher = easier).</li>
+      </ol>
+
+      <h2>Flesch-Kincaid formulas</h2>
+      <p>Grade level depends on average sentence length and syllables per word. Short sentences and common words score lower (easier).</p>
+
+      <h2>Related metrics</h2>
+      <p>For reading time estimates, use the <a href="/reading-time">Reading Time Calculator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/reading-level-calculator">How to calculate Flesch-Kincaid reading level</a> is free, runs locally, and never sends your data to a server. More <a href="/education">education calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

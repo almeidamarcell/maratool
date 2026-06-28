@@ -1,6 +1,4 @@
-import {
-  validateQuality, calculateDimensions, formatBytes, compressionRatio, getOutputMime, isSupportedMime,
-} from './image-compressor-core.js'
+import { validateQuality, calculateDimensions, formatBytes, compressionRatio, getOutputMime, isSupportedMime } from './image-compressor-core.js'
 
 ;(function () {
   var dropzone = document.getElementById('icm-dropzone')
@@ -66,7 +64,7 @@ import {
     qualityVal.textContent = qualitySlider.value + '%'
   })
 
-  changeBtn.addEventListener('click', function () {
+  function resetTool() {
     currentImg = null
     currentFile = null
     originalDataUrl = null
@@ -75,7 +73,9 @@ import {
     settings.style.display = 'none'
     resultEl.style.display = 'none'
     fileInput.value = ''
-  })
+  }
+
+  changeBtn.addEventListener('click', resetTool)
 
   compressBtn.addEventListener('click', function () {
     if (!currentImg) return
@@ -90,7 +90,6 @@ import {
     canvas.width = dims.width
     canvas.height = dims.height
     var ctx = canvas.getContext('2d')
-    // Redrawing on canvas strips EXIF/metadata when strip option is on (default)
     if (!stripExif || stripExif.checked) {
       ctx.fillStyle = '#ffffff'
       if (mime !== 'image/jpeg') ctx.clearRect(0, 0, dims.width, dims.height)
@@ -121,18 +120,7 @@ import {
   })
 
   var changeResultBtn = document.getElementById('icm-change-result')
-  if (changeResultBtn) {
-    changeResultBtn.addEventListener('click', function () {
-      currentImg = null
-      currentFile = null
-      originalDataUrl = null
-      compressedBlob = null
-      dropzone.style.display = ''
-      settings.style.display = 'none'
-      resultEl.style.display = 'none'
-      fileInput.value = ''
-    })
-  }
+  if (changeResultBtn) changeResultBtn.addEventListener('click', resetTool)
 
   qualityVal.textContent = qualitySlider.value + '%'
 })()

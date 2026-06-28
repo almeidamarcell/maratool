@@ -1,0 +1,359 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'EPUB to PDF — Convert e-books online | maratool',
+  description: 'Convert EPUB e-books to PDF, HTML, or plain text online. Preview chapters and download — runs in your browser, nothing uploaded to servers.',
+  canonical: 'https://maratool.com/epub-converter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'EPUB to PDF Converter',
+    url: 'https://maratool.com/epub-converter',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert EPUB e-books to PDF, HTML, or plain text in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Document', item: 'https://maratool.com/converter/document' },
+      { '@type': 'ListItem', position: 4, name: 'EPUB to PDF Converter', item: 'https://maratool.com/epub-converter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I convert EPUB to PDF?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Upload your EPUB file, preview the chapters, choose PDF as the output format, and click Download. The conversion runs entirely in your browser.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my EPUB file uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. Your EPUB is parsed and converted locally in your browser. The file never leaves your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What output formats are supported?',
+        acceptedAnswer: { '@type': 'Answer', text: 'You can export to PDF, a single HTML file, or plain text (.txt). Chapter preview is available before you download.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does it work with DRM-protected EPUBs?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. Only standard, unencrypted EPUB files are supported. Books with Adobe DRM or other copy protection cannot be opened.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop an EPUB file onto the upload area or click to select one.',
+  'Browse chapters in the preview panel to confirm the book loaded correctly.',
+  'Choose PDF, HTML, or TXT and click Download.',
+]
+
+const faq = [
+  { q: 'How do I convert EPUB to PDF?', a: 'Upload your EPUB file, preview the chapters, choose PDF as the output format, and click Download. The conversion runs entirely in your browser.' },
+  { q: 'Is my EPUB file uploaded to a server?', a: 'No. Your EPUB is parsed and converted locally in your browser. The file never leaves your device.' },
+  { q: 'What output formats are supported?', a: 'You can export to PDF, a single HTML file, or plain text (.txt). Chapter preview is available before you download.' },
+  { q: 'Does it work with DRM-protected EPUBs?', a: 'No. Only standard, unencrypted EPUB files are supported. Books with Adobe DRM or other copy protection cannot be opened.' },
+]
+
+const relatedTools = [
+  { slug: 'pdf-to-text', name: 'Extract Text from PDF' },
+  { slug: 'markdown-converter', name: 'Convert Markdown to HTML' },
+  { slug: 'html-to-markdown', name: 'Convert HTML to Markdown' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Document', href: '/converter/document' },
+  { label: 'EPUB Converter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="epub-converter" name="Convert EPUB to PDF Online" description="Upload an EPUB e-book and convert it to PDF, HTML, or plain text. Preview chapters before downloading — 100% in your browser." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <div class="pdf-dropzone" id="epc-dropzone">
+          <input type="file" id="epc-file" accept=".epub,application/epub+zip" hidden />
+          <div class="pdf-dropzone-inner">
+            <svg class="pdf-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8"/><path d="M8 11h6"/></svg>
+            <p class="pdf-dropzone-title">Drop an EPUB here</p>
+            <p class="pdf-dropzone-sub">or click to select a file</p>
+            <p class="pdf-dropzone-formats">.epub only · unencrypted books</p>
+          </div>
+        </div>
+
+        <div id="epc-progress" class="pdf-progress" style="display:none;">Loading...</div>
+        <p id="epc-file-info" class="pdf-file-info"></p>
+
+        <div id="epc-workspace" class="epc-workspace" style="display:none;">
+          <div class="epc-header">
+            <div>
+              <h2 class="epc-book-title" id="epc-book-title"></h2>
+              <p class="epc-book-meta" id="epc-book-meta"></p>
+            </div>
+            <div class="epc-actions">
+              <label class="tool-label" for="epc-format">Output</label>
+              <select id="epc-format" class="tool-select epc-format-select">
+                <option value="pdf">PDF</option>
+                <option value="html">HTML</option>
+                <option value="txt">Plain text (.txt)</option>
+              </select>
+              <button id="epc-convert" class="tool-button epc-download-btn">Download</button>
+              <button id="epc-new" class="tool-button pdf-new-btn">New file</button>
+            </div>
+          </div>
+
+          <div class="epc-layout">
+            <aside class="epc-sidebar">
+              <p class="tool-label">Chapters</p>
+              <nav id="epc-chapter-list" class="epc-chapter-list" aria-label="Chapter list"></nav>
+            </aside>
+            <div class="epc-preview-wrap">
+              <p class="tool-label">Preview</p>
+              <div id="epc-preview" class="epc-preview" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .pdf-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .pdf-dropzone:hover,
+  .pdf-dropzone.dropzone-active {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .pdf-dropzone-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .pdf-upload-icon {
+    color: var(--text-3);
+    margin-bottom: 0.5rem;
+  }
+  .pdf-dropzone-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0;
+  }
+  .pdf-dropzone-sub {
+    font-size: 0.875rem;
+    color: var(--text-2);
+    margin: 0;
+  }
+  .pdf-dropzone-formats {
+    font-size: 0.75rem;
+    color: var(--text-3);
+    margin: 0.25rem 0 0;
+  }
+  .pdf-progress {
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-2);
+    font-size: 0.875rem;
+  }
+  .pdf-file-info {
+    font-size: 0.8125rem;
+    color: var(--text-3);
+    margin: 0.5rem 0;
+  }
+  .pdf-new-btn {
+    background: var(--bg-soft);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .pdf-new-btn:hover {
+    background: var(--bg-hover);
+  }
+  .epc-workspace {
+    margin-top: 0.5rem;
+  }
+  .epc-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .epc-book-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+    color: var(--text);
+  }
+  .epc-book-meta {
+    font-size: 0.8125rem;
+    color: var(--text-2);
+    margin: 0;
+  }
+  .epc-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .epc-format-select {
+    min-width: 140px;
+  }
+  .epc-download-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+  }
+  .epc-download-btn:hover:not(:disabled) {
+    background: var(--accent-hover, #a8442e);
+  }
+  .epc-download-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .epc-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 1rem;
+    min-height: 360px;
+  }
+  .epc-sidebar {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+    padding: 0.75rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .epc-chapter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow-y: auto;
+    flex: 1;
+    margin-top: 0.5rem;
+  }
+  .epc-chapter-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0.625rem;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    color: var(--text);
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .epc-chapter-btn:hover {
+    background: var(--bg-hover);
+  }
+  .epc-chapter-btn.active {
+    background: var(--bg);
+    font-weight: 600;
+    box-shadow: inset 3px 0 0 var(--accent);
+  }
+  .epc-preview-wrap {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .epc-preview {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    padding: 1.25rem 1.5rem;
+    overflow-y: auto;
+    max-height: 480px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .epc-preview img {
+    max-width: 100%;
+    height: auto;
+  }
+  .epc-preview h1,
+  .epc-preview h2,
+  .epc-preview h3 {
+    font-family: var(--font);
+    margin: 1rem 0 0.5rem;
+  }
+  .epc-pdf-source {
+    position: fixed;
+    left: -9999px;
+    top: 0;
+    width: 720px;
+    padding: 2rem;
+    background: #fff;
+    font-family: Georgia, serif;
+    line-height: 1.6;
+  }
+  .epc-pdf-source img {
+    max-width: 100%;
+  }
+  @media (max-width: 768px) {
+    .epc-layout {
+      grid-template-columns: 1fr;
+    }
+    .epc-chapter-list {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 0.25rem;
+    }
+    .epc-chapter-btn {
+      flex: 0 0 auto;
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .epc-preview {
+      max-height: 360px;
+    }
+    .epc-header {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .epc-actions {
+      width: 100%;
+    }
+    .epc-format-select {
+      flex: 1;
+    }
+  }
+</style>
+
+<script src="../tools/epub-converter.js"></script>

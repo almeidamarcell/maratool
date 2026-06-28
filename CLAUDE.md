@@ -164,6 +164,29 @@ Each `.astro` in pages/ must:
 3. FAQ — 4 questions, structured with FAQ schema
 4. "Related tools" — 2–3 internal links
 
+## Blog Post — Every New Tool (required)
+
+Every new live tool **must** ship with a matching blog post. This is enforced via `blogPost: true` in `tools.ts` (set on every new tool entry).
+
+**File:** `src/pages/blog/<slug>.astro` (slug matches the tool page)
+
+**Template:** Copy an existing tool guide (e.g. `blog/ai-token-calculator.astro`) or run `node scripts/generate-tool-blog-posts.mjs` after adding entry config.
+
+**Required content:**
+1. `BlogPosting` schema with unique title, description, canonical, `datePublished`
+2. Job-phrased headline (how-to angle, not product name alone)
+3. Lead paragraph — one sentence, action-oriented
+4. **`<BlogToolEmbed slug="..." />`** — live iframe embed of the tool (`?embed=1`). Prefer embed over static screenshots (always up to date, zero asset maintenance). Use a screenshot only when embed is impossible (e.g. file-upload tools where embed UX is poor).
+5. "How it works" — 3 numbered steps
+6. 1–2 explanatory sections (formulas, use cases, limitations)
+7. Link back to tool + category hub in footer note
+
+**Also required:**
+- Add entry to `src/pages/blog/index.astro` posts array (newest first)
+- Set `blogPost: true` on the tool in `tools.ts`
+
+**Quality gate:** `npm test` verifies every `blogPost: true` tool has a blog file containing `BlogToolEmbed`.
+
 ## Quality Gates — Run Before Considering Anything Done
 
 ```bash
@@ -278,3 +301,23 @@ Always read DESIGN.md before making any visual or UI decisions.
 All font choices, colors, spacing, and aesthetic direction are defined there.
 Do not deviate without explicit user approval.
 In QA mode, flag any code that doesn't match DESIGN.md.
+
+---
+
+## Tarefas (Fizzy)
+
+Antes de começar qualquer trabalho, leia o feed de tarefas.
+
+A URL do feed (com a chave de acesso) **não é versionada** — ela fica na
+variável `FIZZY_FEED_URL` no arquivo `.env` (gitignored). Carregue o valor
+e faça a requisição. Exemplo:
+
+```sh
+source .env && curl -s "$FIZZY_FEED_URL"
+```
+
+Nunca cole a URL completa com a chave em arquivos versionados (este repo é open source).
+
+- Liste as tarefas abertas por coluna
+- Trabalhe no card indicado pelo usuário, ou sugira o mais prioritário
+- Ao concluir, resuma o que foi feito e sugira comentar no card do Fizzy

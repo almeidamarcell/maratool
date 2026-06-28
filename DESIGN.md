@@ -37,15 +37,25 @@
   - Text tertiary: `#a8a8a0`
 - **Semantic:** success `#68d391` / bg `#f0fff4`, error `#fc8181` / bg `#fff5f5`
 - **Category colors** (3px left border on cards, 3px top stripe on vertical cards, 6px dot on rows):
-  - Converter: `#c4553a` (terracotta, shares accent)
-  - Image: `#7c5cbf` (purple)
-  - Text: `#3d8b6e` (green)
-  - Developer: `#2d6ef6` (blue)
-  - Color: `#d4842a` (orange)
-  - PDF: `#c74882` (pink)
-  - Marketing: `#4a8fa8` (teal)
-  - Mockup: `#6366f1` (indigo)
-  - Health: `#2f8c66` (forest green — close to Text green; deliberate sibling, distinct enough on a dot)
+  12 categories, each a perceptually distinct hue (min CIE76 ΔE ≈ 26 — no two are
+  confusable). Converter keeps the brand terracotta; the rest are spaced around the
+  wheel. Defined as `--cat-*` vars in `global.css`.
+  - Converter: `#c4553a` (terracotta, shares brand accent)
+  - Image: `#e8590c` (orange)
+  - Color: `#d4a017` (gold)
+  - Business: `#8a6d0f` (dark olive-gold)
+  - Finance: `#2f9e44` (leaf green)
+  - Text: `#0d8a5f` (emerald)
+  - Health: `#0c7d8c` (teal-cyan)
+  - Marketing: `#3b6fb0` (steel blue)
+  - Developer: `#1c5fe0` (vivid blue)
+  - Education: `#7c3aed` (violet)
+  - Mockup: `#b5179e` (magenta)
+  - PDF: `#c0264f` (crimson)
+
+  Note: the former **E-commerce** category was merged into **Business** (its
+  Fees/Pricing tools became Business subcategories); old `/e-commerce` URLs 301
+  to the `/business` equivalents.
 
 ## Spacing
 - **Base unit:** 4px

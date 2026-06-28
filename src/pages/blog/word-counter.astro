@@ -1,0 +1,69 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'word-counter'
+const seo = {
+  title: 'Word counter & character counter online | maratool',
+  description: 'Count words, characters, sentences, and paragraphs in real time. Free word counter — paste or type any text.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to count words and characters online',
+    image: 'https://maratool.com/og/text.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Count words, characters, sentences, and paragraphs in real time. Free word counter — paste or type any text.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to count words and characters online', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to count words and characters online"
+      lead="Real-time word count, character count, sentences, and paragraphs as you type."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Essays, meta descriptions, tweets, and SEO content all have length limits. The <a href="/word-counter">Word Counter</a> updates counts on every keystroke — words, characters (with and without spaces), sentences, and paragraphs.</p>
+
+      <BlogToolEmbed slug="word-counter" title="Try it — paste or type text to count" height={420} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste or type</strong> — any text, any length.</li>
+        <li><strong>Read the stats</strong> — all counters update in real time.</li>
+      </ol>
+
+      <h2>Word counting rules</h2>
+      <p>Words are split on whitespace. "don't" counts as one word. Empty input shows zero across all stats.</p>
+
+      <h2>Related tools</h2>
+      <p>For reading time estimates, use the <a href="/reading-time">Reading Time Calculator</a>. For line-level transforms, try <a href="/text-line-tools">Sort, Dedupe & Convert Text Lines</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/word-counter">How to count words and characters online</a> is free, runs locally, and never sends your data to a server. More <a href="/text">text tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

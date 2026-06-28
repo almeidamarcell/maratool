@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Break-even Calculator — Find Break-even Point | maratool',
+  description: 'Find your break-even point in units and revenue. Enter fixed costs, price, and variable cost per unit. Free, instant.',
+  canonical: 'https://maratool.com/break-even-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Break-even Calculator',
+    url: 'https://maratool.com/break-even-calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Find your break-even point in units and revenue. Enter fixed costs, price, and variable cost per unit. Free, instant.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Business', item: 'https://maratool.com/business' },
+      { '@type': 'ListItem', position: 3, name: 'Calculator', item: 'https://maratool.com/business/calculator' },
+      { '@type': 'ListItem', position: 4, name: 'Break-even Calculator', item: 'https://maratool.com/break-even-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is the break-even formula?', acceptedAnswer: { '@type': 'Answer', text: 'Break-even units = Fixed Costs / (Price − Variable Cost per Unit).' } },
+      { '@type': 'Question', name: 'What is contribution margin?', acceptedAnswer: { '@type': 'Answer', text: 'The percentage of each sale that contributes to covering fixed costs: (Price − Variable Cost) / Price × 100.' } },
+      { '@type': 'Question', name: 'What if variable cost exceeds price?', acceptedAnswer: { '@type': 'Answer', text: 'You cannot break even — each unit sold loses money. Reduce variable costs or increase price.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter total fixed costs (rent, salaries, etc.).',
+  'Enter price per unit and variable cost per unit.',
+  'See break-even units, revenue, and contribution margin.'
+]
+
+const faq = [
+  { q: 'What is the break-even formula?', a: 'Break-even units = Fixed Costs / (Price − Variable Cost per Unit).' },
+  { q: 'What is contribution margin?', a: 'The percentage of each sale that contributes to covering fixed costs: (Price − Variable Cost) / Price × 100.' },
+  { q: 'What if variable cost exceeds price?', a: 'You cannot break even — each unit sold loses money. Reduce variable costs or increase price.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'profit-margin-calculator', name: 'Profit Margin Calculator' },
+  { slug: 'roi-calculator', name: 'ROI Calculator' },
+  { slug: 'campaign-roi-calculator', name: 'Campaign ROI Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Business', href: '/business' },
+  { label: 'Calculator', href: '/business/calculator' },
+  { label: 'Break-even Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="break-even-calculator" name="Break-even Calculator" description="Enter fixed costs, price per unit, and variable cost per unit to find break-even units and revenue." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:280px;">
+        <div class="calc-field"><label class="tool-label" for="be-fixed">Fixed costs ($)</label><input type="number" id="be-fixed" class="tool-input" placeholder="50000" min="0" /></div>
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="be-price">Price per unit ($)</label><input type="number" id="be-price" class="tool-input" placeholder="25" min="0" step="any" /></div>
+          <div class="calc-field"><label class="tool-label" for="be-variable">Variable cost per unit ($)</label><input type="number" id="be-variable" class="tool-input" placeholder="10" min="0" step="any" /></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="be-units">—</span><span class="tool-stat-label">Break-even units</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="be-revenue">—</span><span class="tool-stat-label">Break-even revenue</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="be-margin">—</span><span class="tool-stat-label">Contribution margin</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/break-even-calculator.js"></script>

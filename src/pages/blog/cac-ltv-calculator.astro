@@ -1,0 +1,85 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'cac-ltv-calculator'
+const seo = {
+  title: 'CAC / LTV calculator — customer acquisition cost & lifetime value | maratool',
+  description: 'Calculate CAC, LTV, LTV:CAC ratio, and payback period. Learn the formulas and try the free marketing calculator in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate CAC, LTV, and payback period',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How the maratool CAC / LTV calculator works.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'CAC / LTV Calculator guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate CAC, LTV, and payback period"
+      lead="Know what each customer costs to acquire and what they're worth over their lifetime — the two numbers that govern growth."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>You can run profitable campaigns and still grow yourself into bankruptcy if it costs more to acquire a customer than they're worth. CAC (Customer Acquisition Cost) and LTV (Lifetime Value) are the core unit-economics pair. The <a href="/cac-ltv-calculator">CAC / LTV Calculator</a> computes both, plus the ratio and payback period.</p>
+
+      <BlogToolEmbed slug="cac-ltv-calculator" title="Try it — enter spend, customers, revenue, and lifespan" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Enter marketing spend and new customers</strong> — total ad/marketing cost for the period and how many customers you acquired.</li>
+        <li><strong>Enter revenue per customer</strong> — average monthly revenue per customer and expected lifespan in months.</li>
+        <li><strong>Set gross margin</strong> — defaults to 80%. LTV is calculated on margin-adjusted revenue, not top-line.</li>
+        <li><strong>Read the output</strong> — CAC, LTV, LTV:CAC ratio, and months to pay back acquisition cost.</li>
+      </ol>
+
+      <h2>The formulas</h2>
+      <p><strong>CAC</strong> = Marketing Spend ÷ New Customers</p>
+      <p><strong>LTV</strong> = Monthly Revenue × Gross Margin × Lifespan (months)</p>
+      <p><strong>LTV:CAC ratio</strong> = LTV ÷ CAC</p>
+      <p><strong>Payback</strong> = CAC ÷ (Monthly Revenue × Gross Margin)</p>
+
+      <h2>What the ratio tells you</h2>
+      <ul>
+        <li><strong>Below 1:1</strong> — you lose money on every customer. Unsustainable.</li>
+        <li><strong>1:1 to 3:1</strong> — marginal. Might work with fast payback and low churn.</li>
+        <li><strong>3:1 or above</strong> — healthy for most businesses. The standard benchmark VCs look for.</li>
+        <li><strong>Above 5:1</strong> — great economics, but you might be under-investing in growth.</li>
+      </ul>
+
+      <h2>Payback period</h2>
+      <p>Even with a strong LTV:CAC ratio, cash flow matters. If payback takes 24 months but you only have 6 months of runway, you have a problem. SaaS companies typically target under 12 months; e-commerce often pays back on the first order.</p>
+
+      <h2>Related tools</h2>
+      <p>For campaign-level profitability, use the <a href="/campaign-roi-calculator">Campaign ROI Calculator</a>. For testing whether conversion improvements are real, try the <a href="/ab-test-calculator">A/B Test Calculator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/cac-ltv-calculator">CAC / LTV Calculator</a> is free and runs in your browser. More marketing tools at <a href="/marketing">maratool.com/marketing</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

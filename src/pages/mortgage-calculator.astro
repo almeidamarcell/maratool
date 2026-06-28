@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Mortgage Calculator — Monthly Payment & Amortization | maratool',
+  description: 'Calculate monthly mortgage payments, total interest, and amortization schedule. Free browser-based home loan calculator.',
+  canonical: 'https://maratool.com/mortgage-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Mortgage Calculator — Monthly Payment & Amortization',
+    url: 'https://maratool.com/mortgage-calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate monthly mortgage payments, total interest, and amortization schedule. Free browser-based home loan calculator.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Finance', item: 'https://maratool.com/finance' },
+      { '@type': 'ListItem', position: 3, name: 'Loan', item: 'https://maratool.com/finance/loan' },
+      { '@type': 'ListItem', position: 4, name: 'Mortgage Calculator — Monthly Payment & Amortization', item: 'https://maratool.com/mortgage-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How is monthly mortgage payment calculated?', acceptedAnswer: { '@type': 'Answer', text: 'Payment = P × [r(1+r)^n] / [(1+r)^n − 1], where P is principal, r is monthly rate, and n is number of months.' } },
+      { '@type': 'Question', name: 'Does this include taxes and insurance?', acceptedAnswer: { '@type': 'Answer', text: 'No. This calculator shows principal and interest only. Add property tax and insurance separately for total housing cost.' } },
+      { '@type': 'Question', name: 'Can I see the full amortization schedule?', acceptedAnswer: { '@type': 'Answer', text: 'The table shows the first 12 months. Total interest and payment reflect the full loan term.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your loan amount in dollars.',
+  'Set the annual interest rate and loan term in years.',
+  'See monthly payment, total interest, and first-year amortization schedule.'
+]
+
+const faq = [
+  { q: 'How is monthly mortgage payment calculated?', a: 'Payment = P × [r(1+r)^n] / [(1+r)^n − 1], where P is principal, r is monthly rate, and n is number of months.' },
+  { q: 'Does this include taxes and insurance?', a: 'No. This calculator shows principal and interest only. Add property tax and insurance separately for total housing cost.' },
+  { q: 'Can I see the full amortization schedule?', a: 'The table shows the first 12 months. Total interest and payment reflect the full loan term.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'loan-calculator', name: 'Loan Calculator' },
+  { slug: 'compound-interest-calculator', name: 'Compound Interest Calculator' },
+  { slug: 'percentage-calculator', name: 'Percentage Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Finance', href: '/finance' },
+  { label: 'Loan', href: '/finance/loan' },
+  { label: 'Mortgage Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="mortgage-calculator" name="Mortgage Calculator — Monthly Payment & Amortization" description="Enter loan amount, interest rate, and term to see monthly payment, total interest, and amortization schedule." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:420px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="mc-amount">Loan amount ($)</label><input type="number" id="mc-amount" class="tool-input" placeholder="300000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="mc-rate">Interest rate (%)</label><input type="number" id="mc-rate" class="tool-input" placeholder="6.5" step="any" min="0" /></div>
+        </div>
+        <div class="calc-field"><label class="tool-label" for="mc-years">Loan term (years)</label><input type="number" id="mc-years" class="tool-input" placeholder="30" min="1" max="50" style="max-width:200px;" /></div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="mc-payment">—</span><span class="tool-stat-label">Monthly payment</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="mc-interest">—</span><span class="tool-stat-label">Total interest</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="mc-total">—</span><span class="tool-stat-label">Total payment</span></div>
+        </div>
+        <div id="mc-schedule" style="margin-top:1.5rem;overflow-x:auto;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<style is:global>
+  .amort-table { width:100%; border-collapse:collapse; font-size:13px; font-family:var(--font-mono); }
+  .amort-table th, .amort-table td { padding:6px 10px; border-bottom:1px solid var(--border); text-align:right; }
+  .amort-table th:first-child, .amort-table td:first-child { text-align:left; }
+</style>
+<script src="../tools/mortgage-calculator.js"></script>

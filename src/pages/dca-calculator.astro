@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Dollar Cost Averaging Calculator — DCA Model | maratool',
+  description: 'Model dollar-cost averaging with recurring investments. See average cost per share and total invested. Free DCA calculator, runs in your browser.',
+  canonical: 'https://maratool.com/dca-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Dollar Cost Averaging Calculator',
+    url: 'https://maratool.com/dca-calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Model dollar-cost averaging with recurring investments. See average cost per share and total invested. Free DCA calculator, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Finance', item: 'https://maratool.com/finance' },
+      { '@type': 'ListItem', position: 3, name: 'Investment', item: 'https://maratool.com/finance/investment' },
+      { '@type': 'ListItem', position: 4, name: 'Dollar Cost Averaging Calculator', item: 'https://maratool.com/dca-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is dollar-cost averaging?', acceptedAnswer: { '@type': 'Answer', text: 'Investing a fixed amount at regular intervals regardless of share price, reducing timing risk.' } },
+      { '@type': 'Question', name: 'Does this model price changes?', acceptedAnswer: { '@type': 'Answer', text: 'This simplified calculator uses a constant share price. For variable prices, use the stock average calculator with multiple lots.' } },
+      { '@type': 'Question', name: 'How is average cost calculated?', acceptedAnswer: { '@type': 'Answer', text: 'Total invested divided by total shares purchased across all monthly contributions.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your monthly investment amount.',
+  'Set the number of months and current share price.',
+  'See average cost per share, total invested, and shares acquired.'
+]
+
+const faq = [
+  { q: 'What is dollar-cost averaging?', a: 'Investing a fixed amount at regular intervals regardless of share price, reducing timing risk.' },
+  { q: 'Does this model price changes?', a: 'This simplified calculator uses a constant share price. For variable prices, use the stock average calculator with multiple lots.' },
+  { q: 'How is average cost calculated?', a: 'Total invested divided by total shares purchased across all monthly contributions.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'stock-average-calculator', name: 'Stock Average Price Calculator' },
+  { slug: 'compound-interest-calculator', name: 'Compound Interest Calculator' },
+  { slug: 'cagr-calculator', name: 'CAGR Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Finance', href: '/finance' },
+  { label: 'Investment', href: '/finance/investment' },
+  { label: 'DCA Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="dca-calculator" name="Dollar Cost Averaging Calculator" description="Enter monthly investment, number of months, and share price to see average cost, total invested, and shares acquired." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="dca-monthly">Monthly investment ($)</label><input type="number" id="dca-monthly" class="tool-input" placeholder="500" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="dca-months">Number of months</label><input type="number" id="dca-months" class="tool-input" placeholder="12" min="1" /></div>
+        </div>
+        <div class="calc-field"><label class="tool-label" for="dca-price">Share price ($)</label><input type="number" id="dca-price" class="tool-input" placeholder="150" min="0" step="any" style="max-width:200px;" /></div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="dca-avg">—</span><span class="tool-stat-label">Average cost</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="dca-invested">—</span><span class="tool-stat-label">Total invested</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="dca-shares">—</span><span class="tool-stat-label">Shares acquired</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/dca-calculator.js"></script>

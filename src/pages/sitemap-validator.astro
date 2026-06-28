@@ -1,0 +1,94 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import PasteOnlyNotice from '../components/PasteOnlyNotice.astro'
+
+const seo = {
+  title: 'Validate Sitemap XML Online — Check sitemap structure | maratool',
+  description: 'Paste sitemap XML to validate URLs, find duplicates, and check structure. Paste-only — does not fetch live sitemaps or check HTTP status. Free browser tool.',
+  canonical: 'https://maratool.com/sitemap-validator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Sitemap XML Validator',
+    url: 'https://maratool.com/sitemap-validator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Validate sitemap XML structure from pasted content.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Audit', item: 'https://maratool.com/developer/audit' },
+      { '@type': 'ListItem', position: 4, name: 'Sitemap XML Validator', item: 'https://maratool.com/sitemap-validator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Can this fetch my sitemap from a URL?', acceptedAnswer: { '@type': 'Answer', text: 'No. Paste the XML content. Browsers cannot fetch sitemap files from other domains due to CORS.' } },
+      { '@type': 'Question', name: 'Does it check if URLs return 200?', acceptedAnswer: { '@type': 'Answer', text: 'No. It validates XML structure, URL format, and duplicates only. Checking HTTP status requires a server-side crawler.' } },
+      { '@type': 'Question', name: 'What sitemap formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'Standard <urlset> sitemaps and <sitemapindex> files per sitemaps.org.' } },
+      { '@type': 'Question', name: 'Is my sitemap uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. Validation runs entirely in your browser.' } },
+    ]
+  }
+}
+
+const howTo = [
+  'Open your sitemap (e.g. yoursite.com/sitemap.xml) and copy the XML source.',
+  'Paste it into the box below.',
+  'Fix any errors or duplicate URLs before submitting to Google Search Console.',
+]
+
+const faq = [
+  { q: 'Can this fetch my sitemap URL?', a: 'No. Paste the XML — browsers block cross-origin fetches.' },
+  { q: 'Does it check HTTP status codes?', a: 'No. Structure and URL format only. Live crawl checks need a server.' },
+  { q: 'What formats work?', a: '<urlset> and <sitemapindex> per sitemaps.org.' },
+  { q: 'Is data uploaded?', a: 'No. Runs locally in your browser.' },
+]
+
+const relatedTools = [
+  { slug: 'robots-txt-tester', name: 'Test Robots.txt Rules Online' },
+  { slug: 'robots-txt-generator', name: 'Robots.txt Generator' },
+  { slug: 'schema-validator', name: 'Schema Markup Validator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Audit', href: '/developer/audit' },
+  { label: 'Sitemap Validator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="sitemap-validator" name="Validate Sitemap XML Online" description="Paste sitemap XML to check structure, URL format, and duplicates. Does not fetch live sitemaps or verify HTTP status." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <PasteOnlyNotice toolName="The sitemap validator" />
+        <p class="audit-limit-note">Also does <strong>not</strong> check whether listed URLs return 200 — that requires a server-side crawler.</p>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="smv-status">—</span><span class="tool-stat-label">Status</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="smv-stats" style="font-size:13px;">Paste XML</span><span class="tool-stat-label">Details</span></div>
+        </div>
+        <label class="tool-label" for="smv-input">Sitemap XML</label>
+        <textarea id="smv-input" class="tool-textarea" rows="14" placeholder="<?xml version=&quot;1.0&quot;?>&#10;<urlset xmlns=&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;>…" aria-label="Sitemap XML"></textarea>
+        <ul id="smv-issues" class="audit-issues"></ul>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .audit-limit-note { font-size: 13px; color: var(--text-2); margin: 0 0 1rem; }
+  .audit-issues { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .smv-issue { font-size: 14px; padding: 0.5rem 0.75rem; border-radius: var(--radius); border: 1px solid var(--border); }
+  .smv-error, .smv-bad { background: #fff5f5; border-color: #fecaca; color: #c4553a; }
+  .smv-warn { background: #fff8e6; border-color: #e8d9a8; }
+  .smv-ok { background: #f0fff4; border-color: #c6f6d5; color: #2f8c66; }
+</style>
+<script src="../tools/sitemap-validator.js"></script>

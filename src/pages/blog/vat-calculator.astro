@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'vat-calculator'
+const seo = {
+  title: 'VAT / sales tax calculator — add or remove tax | maratool',
+  description: 'Add or remove VAT and sales tax from any amount. Preset rates for common regions. Free tax calculator.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to add or remove VAT and sales tax',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Add or remove VAT and sales tax from any amount. Preset rates for common regions. Free tax calculator.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to add or remove VAT and sales tax', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to add or remove VAT and sales tax"
+      lead="Switch between adding tax to a net price or extracting tax from a gross price — any rate."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Invoicing across borders means converting between net and gross prices constantly. The <a href="/vat-calculator">VAT / Sales Tax Calculator</a> handles both directions with a custom rate.</p>
+
+      <BlogToolEmbed slug="vat-calculator" title="Try it — add or remove tax at any rate" height={400} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Choose mode</strong> — add tax to a net amount, or remove tax from a gross total.</li>
+        <li><strong>Enter the tax rate</strong> — e.g. 20 for UK VAT, 8.25 for some US sales tax.</li>
+        <li><strong>Enter the amount</strong> — net or gross depending on mode.</li>
+      </ol>
+
+      <h2>Add vs remove</h2>
+      <p><strong>Add:</strong> Gross = Net × (1 + rate/100). A £100 net price at 20% VAT = £120 gross.<br><strong>Remove:</strong> Net = Gross / (1 + rate/100). A £120 gross at 20% VAT = £100 net.</p>
+
+      <h2>Not tax advice</h2>
+      <p>Rates change by jurisdiction and product category. Always verify current rates with your tax authority.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/vat-calculator">How to add or remove VAT and sales tax</a> is free, runs locally, and never sends your data to a server. More <a href="/business">business calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

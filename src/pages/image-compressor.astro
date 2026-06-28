@@ -33,22 +33,22 @@ const seo = {
     mainEntity: [
       { '@type': 'Question', name: 'How do I compress a JPG online?', acceptedAnswer: { '@type': 'Answer', text: 'Drop your JPG, adjust quality and scale, click Compress. Compare original vs compressed side by side, then download.' } },
       { '@type': 'Question', name: 'Does this strip EXIF metadata?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Re-encoding on canvas removes GPS, camera, and other EXIF data by default. Uncheck "Strip EXIF" to keep metadata when possible.' } },
-      { '@type': 'Question', name: 'Is my image uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. Compression uses Canvas in your browser.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'Input: JPEG, PNG, WebP, GIF, BMP. Output: JPEG, PNG, or WebP.' } },
+      { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Compression uses the Canvas API in your browser. Your image never leaves your device.' } },
+      { '@type': 'Question', name: 'What image formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'Input: JPEG, PNG, WebP, GIF, and BMP. Output: JPEG, PNG, or WebP.' } },
     ]
   }
 }
 
-const howTo = ['Drop or select a JPG, PNG, or WebP image.', 'Adjust quality, scale, and output format.', 'Compare side by side, see savings %, and download.']
+const howTo = ['Drop or select a JPG, PNG, or WebP image.', 'Adjust quality, scale, output format, and EXIF strip.', 'Compare side by side, see savings %, and download.']
 const faq = [
   { q: 'How do I compress a JPG online?', a: 'Drop your image, adjust settings, compress, compare side by side, download.' },
   { q: 'Does this strip EXIF?', a: 'Yes by default — canvas re-encode removes GPS and camera metadata.' },
-  { q: 'Is my image uploaded?', a: 'No. Everything runs in your browser.' },
+  { q: 'Is my image uploaded to a server?', a: 'No. Compression uses Canvas in your browser.' },
   { q: 'What formats are supported?', a: 'Input: JPEG, PNG, WebP, GIF, BMP. Output: JPEG, PNG, or WebP.' },
 ]
 const relatedTools = [
-  { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'image-converter', name: 'Image Converter' },
+  { slug: 'image-converter', name: 'Image Converter — HEIC to PNG, PNG to JPEG, WebP' },
+  { slug: 'gif-compressor', name: 'GIF Compressor — Compress & Reduce GIF Size' },
   { slug: 'svg-optimizer', name: 'SVG Optimizer' },
 ]
 const breadcrumbs = [
@@ -129,20 +129,20 @@ const breadcrumbs = [
   </Layout>
 </Base>
 <style is:global>
-  .icm-dropzone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 3rem 2rem; text-align: center; cursor: pointer; }
+  .icm-dropzone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 3rem 1.5rem; text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
   .icm-dropzone:hover, .icm-dropzone.dragover { border-color: var(--accent); background: var(--bg-soft); }
-  .icm-dropzone-title { font-size: 1.125rem; font-weight: 600; margin: 0; }
-  .icm-dropzone-sub { font-size: 0.875rem; color: var(--text-2); margin: 0.5rem 0 0; }
-  .icm-preview-row { display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 1rem; }
-  .icm-preview { max-width: 100%; max-height: 280px; border: 1px solid var(--border); border-radius: var(--radius); }
-  .icm-meta { font-size: 0.875rem; color: var(--text-2); display: flex; flex-direction: column; gap: 0.5rem; }
-  .icm-meta-label { color: var(--text-3); margin-right: 0.5rem; }
+  .icm-dropzone-title { font-weight: 600; margin: 0 0 0.25rem; }
+  .icm-dropzone-sub { color: var(--text-2); font-size: 0.875rem; margin: 0; }
+  .icm-preview-row { display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; }
+  .icm-preview { max-width: 280px; max-height: 200px; border-radius: var(--radius); border: 1px solid var(--border); }
+  .icm-meta { font-size: 0.875rem; }
+  .icm-meta-label { color: var(--text-2); }
   .icm-options { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
   .icm-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-  .icm-compare { display: flex; gap: 1rem; margin-bottom: 1rem; }
-  .icm-compare-col { flex: 1; text-align: center; }
+  .icm-compare { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .icm-compare-col { flex: 1; min-width: 200px; text-align: center; }
   .icm-compare-label { display: block; font-size: 0.75rem; color: var(--text-3); text-transform: uppercase; margin-bottom: 0.375rem; }
-  .icm-result-meta { margin-bottom: 1rem; flex-direction: row; gap: 1.5rem; }
-  @media (max-width: 768px) { .icm-preview-row, .icm-compare { flex-direction: column; } }
+  .icm-result-meta { display: flex; gap: 1.5rem; margin-bottom: 1rem; }
+  @media (max-width: 600px) { .icm-options { grid-template-columns: 1fr; } .icm-compare { flex-direction: column; } }
 </style>
 <script src="../tools/image-compressor.js"></script>

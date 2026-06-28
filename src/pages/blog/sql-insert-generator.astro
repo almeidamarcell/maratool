@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'sql-insert-generator'
+const seo = {
+  title: 'SQL INSERT generator from JSON | maratool',
+  description: 'Generate SQL INSERT statements from JSON arrays. Paste JSON and copy ready-to-run INSERT queries. Free browser tool.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to generate SQL INSERT statements from JSON',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Generate SQL INSERT statements from JSON arrays. Paste JSON and copy ready-to-run INSERT queries. Free browser tool.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to generate SQL INSERT statements from JSON', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to generate SQL INSERT statements from JSON"
+      lead="Paste a JSON array of objects — get copy-ready INSERT statements with escaped values."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Seeding a database from API fixtures means hand-writing INSERT statements — or generating them. The <a href="/sql-insert-generator">SQL INSERT Generator</a> converts JSON arrays into INSERT queries with proper quoting.</p>
+
+      <BlogToolEmbed slug="sql-insert-generator" title="Try it — paste JSON array" height={500} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste JSON</strong> — array of objects with matching keys.</li>
+        <li><strong>Table name</strong> — target table for the INSERT statements.</li>
+        <li><strong>Copy SQL</strong> — one INSERT per row, values escaped.</li>
+      </ol>
+
+      <h2>JSON shape</h2>
+      <p>Each object becomes one row. Keys map to column names. Nested objects and arrays may need flattening before import.</p>
+
+      <h2>Schema first</h2>
+      <p>Need the CREATE TABLE DDL? Use the <a href="/sql-create-table-generator">CREATE TABLE Generator</a> from the same JSON sample.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/sql-insert-generator">How to generate SQL INSERT statements from JSON</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

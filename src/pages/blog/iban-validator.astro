@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'iban-validator'
+const seo = {
+  title: 'IBAN validator — check digit verification | maratool',
+  description: 'Validate IBAN numbers with mod-97 check digits. Paste an IBAN to verify format and checksum. Free browser tool.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to validate IBAN numbers online',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Validate IBAN numbers with mod-97 check digits. Paste an IBAN to verify format and checksum. Free browser tool.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to validate IBAN numbers online', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to validate IBAN numbers online"
+      lead="Paste an IBAN — verify country code, length, and mod-97 check digit."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Payment forms reject invalid IBANs before they reach the bank. The <a href="/iban-validator">IBAN Validator</a> checks country-specific length rules and the mod-97 checksum — paste only, no server lookup.</p>
+
+      <BlogToolEmbed slug="iban-validator" title="Try it — paste IBAN number" height={360} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste IBAN</strong> — with or without spaces.</li>
+        <li><strong>Format check</strong> — country code and length validated.</li>
+        <li><strong>Checksum</strong> — mod-97 check digit verified.</li>
+      </ol>
+
+      <h2>Mod-97 algorithm</h2>
+      <p>IBAN check digits use ISO 7064 mod 97-10. Rearranging country and check digits, converting letters to numbers, and dividing by 97 must leave remainder 1.</p>
+
+      <h2>Related validators</h2>
+      <p>For card numbers, use the <a href="/luhn-checker">Luhn Checker</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/iban-validator">How to validate IBAN numbers online</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

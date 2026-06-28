@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'html-beautifier'
+const seo = {
+  title: 'HTML beautifier — format HTML online | maratool',
+  description: 'Beautify and indent pasted HTML for readability. Format messy markup instantly. Free, runs in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to beautify and format HTML online',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Beautify and indent pasted HTML for readability. Format messy markup instantly. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to beautify and format HTML online', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to beautify and format HTML online"
+      lead="Paste minified or messy HTML — get indented, readable markup."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>HTML from view-source or email templates arrives as one unreadable line. The <a href="/html-beautifier">HTML Beautifier</a> adds indentation and line breaks so you can debug structure quickly.</p>
+
+      <BlogToolEmbed slug="html-beautifier" title="Try it — paste HTML to format" height={480} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste HTML</strong> — minified page or template fragment.</li>
+        <li><strong>Formatted output</strong> — nested tags indented.</li>
+        <li><strong>Copy</strong> — readable markup for review or docs.</li>
+      </ol>
+
+      <h2>Indentation rules</h2>
+      <p>Block elements get new lines and nested indentation. Inline elements stay compact where possible.</p>
+
+      <h2>Minify for production</h2>
+      <p>After editing, compress with the <a href="/html-minifier">HTML Minifier</a> before deployment.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/html-beautifier">How to beautify and format HTML online</a> is free, runs locally, and never sends your data to a server. More <a href="/text">text tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

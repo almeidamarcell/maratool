@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'ISO 8601 Date Formatter — Parse & Format Dates | maratool',
+  description: 'Parse and format ISO 8601 dates. Convert between ISO strings, local datetime, and Unix timestamps. Free, runs in your browser.',
+  canonical: 'https://maratool.com/iso8601-formatter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'ISO 8601 Date Formatter',
+    url: 'https://maratool.com/iso8601-formatter',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Parse and format ISO 8601 dates. Convert between ISO strings, local datetime, and Unix timestamps. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Date', item: 'https://maratool.com/converter/date' },
+      { '@type': 'ListItem', position: 4, name: 'ISO 8601 Date Formatter', item: 'https://maratool.com/iso8601-formatter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What ISO 8601 formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'Full datetime with timezone offset, UTC Z suffix, and date-only formats like 2025-06-28.' } },
+      { '@type': 'Question', name: 'What does the Now button do?', acceptedAnswer: { '@type': 'Answer', text: 'Inserts the current date/time and shows all format conversions instantly.' } },
+      { '@type': 'Question', name: 'How is local time determined?', acceptedAnswer: { '@type': 'Answer', text: 'Uses your browser timezone via the Intl API.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Formatting happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter an ISO 8601 date string or click Now for current time.',
+  'See formatted ISO output, local datetime, and Unix timestamp.',
+  'Use outputs for APIs, logs, and database timestamps.'
+]
+
+const faq = [
+  { q: 'What ISO 8601 formats are supported?', a: 'Full datetime with timezone offset, UTC Z suffix, and date-only formats like 2025-06-28.' },
+  { q: 'What does the Now button do?', a: 'Inserts the current date/time and shows all format conversions instantly.' },
+  { q: 'How is local time determined?', a: 'Uses your browser timezone via the Intl API.' },
+  { q: 'Is my data sent to a server?', a: 'No. Formatting happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'unix-timestamp', name: 'Unix Timestamp Converter' },
+  { slug: 'week-number-calculator', name: 'ISO Week Number Calculator' },
+  { slug: 'age-calculator', name: 'Age Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Date', href: '/converter/date' },
+  { label: 'ISO 8601 Formatter' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="iso8601-formatter" name="ISO 8601 Date Formatter" description="Enter an ISO 8601 date string or click Now to see formatted ISO, local datetime, and Unix timestamp." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="calc-field" style="display:flex;gap:0.5rem;align-items:end;flex-wrap:wrap;">
+          <div style="flex:1;min-width:200px;"><label class="tool-label" for="iso-input">ISO 8601 input</label><input type="text" id="iso-input" class="tool-input" placeholder="2025-06-28T12:00:00Z" /></div>
+          <button type="button" id="iso-now" class="tool-button">Now</button>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="iso-out">—</span><span class="tool-stat-label">ISO 8601</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="iso-local">—</span><span class="tool-stat-label">Local datetime</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="iso-unix">—</span><span class="tool-stat-label">Unix timestamp</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/iso8601-formatter.js"></script>

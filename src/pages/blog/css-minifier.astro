@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'css-minifier'
+const seo = {
+  title: 'CSS minifier — compress CSS online | maratool',
+  description: 'Minify CSS stylesheets online. Remove comments and whitespace from pasted CSS. Free browser minifier.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to minify CSS online',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Minify CSS stylesheets online. Remove comments and whitespace from pasted CSS. Free browser minifier.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to minify CSS online', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to minify CSS online"
+      lead="Paste CSS — get a minified stylesheet with comments and whitespace stripped."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Every byte in CSS blocks first paint. The <a href="/css-minifier">CSS Minifier</a> removes comments, collapses whitespace, and trims rules — paste only, no build step required.</p>
+
+      <BlogToolEmbed slug="css-minifier" title="Try it — paste CSS to minify" height={480} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste CSS</strong> — stylesheet or inline style block.</li>
+        <li><strong>Minified output</strong> — updates in real time.</li>
+        <li><strong>Copy</strong> — production-ready compressed CSS.</li>
+      </ol>
+
+      <h2>Safe minification</h2>
+      <p>Comments and unnecessary whitespace are removed. String values and <code>url()</code> contents are preserved.</p>
+
+      <h2>HTML and CSS together</h2>
+      <p>Minify page markup with the <a href="/html-minifier">HTML Minifier</a> for a full static asset pass.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/css-minifier">How to minify CSS online</a> is free, runs locally, and never sends your data to a server. More <a href="/text">text tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

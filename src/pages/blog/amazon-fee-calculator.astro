@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'amazon-fee-calculator'
+const seo = {
+  title: 'Amazon seller fee calculator — FBA & referral fees | maratool',
+  description: 'Estimate Amazon referral fees, FBA fees, and net profit per sale. Free calculator for Amazon sellers.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to estimate Amazon seller fees and net profit',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Estimate Amazon referral fees, FBA fees, and net profit per sale. Free calculator for Amazon sellers.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to estimate Amazon seller fees and net profit', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to estimate Amazon seller fees and net profit"
+      lead="Enter sale price, category, and fulfillment method — see every fee and your margin."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Amazon takes a referral fee on every sale, plus FBA fulfillment if you use it. The <a href="/amazon-fee-calculator">Amazon Fee Calculator</a> estimates both so you can price with margin in mind.</p>
+
+      <BlogToolEmbed slug="amazon-fee-calculator" title="Try it — enter price, category, and FBA or FBM" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Sale price</strong> — what the customer pays.</li>
+        <li><strong>Category</strong> — referral fee varies (electronics 8%, clothing 17%, default 15%).</li>
+        <li><strong>Fulfillment</strong> — FBA includes estimated fulfillment fee; FBM excludes it.</li>
+      </ol>
+
+      <h2>Estimates, not exact quotes</h2>
+      <p>FBA fees depend on size tier, weight, and season. This tool uses simplified tiers for quick planning. Check Seller Central for exact fees before listing.</p>
+
+      <h2>Etsy sellers</h2>
+      <p>Selling on Etsy instead? Use the <a href="/etsy-fee-calculator">Etsy Fee Calculator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/amazon-fee-calculator">How to estimate Amazon seller fees and net profit</a> is free, runs locally, and never sends your data to a server. More <a href="/business">e-commerce calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

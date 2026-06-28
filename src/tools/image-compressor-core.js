@@ -1,27 +1,36 @@
-export function validateQuality(q) {
-  var n = Number(q)
-  if (!n || n < 1 || n > 100) return { valid: false, value: 80 }
-  return { valid: true, value: n }
+export const SUPPORTED_FORMATS = ['image/jpeg', 'image/png', 'image/webp']
+
+export function validateQuality(quality) {
+  var q = Number(quality)
+  if (!Number.isFinite(q) || q < 1 || q > 100) {
+    return { valid: false, error: 'Quality must be between 1 and 100' }
+  }
+  return { valid: true, value: Math.round(q) }
 }
 
-export function calculateDimensions(w, h, scalePct) {
-  var s = Number(scalePct) || 100
-  if (s >= 100) return { width: w, height: h }
+export function calculateDimensions(originalWidth, originalHeight, scalePercent) {
+  var scale = Math.max(1, Math.min(100, Number(scalePercent) || 100)) / 100
   return {
-    width: Math.max(1, Math.round((w * s) / 100)),
-    height: Math.max(1, Math.round((h * s) / 100)),
+    width: Math.max(1, Math.round(originalWidth * scale)),
+    height: Math.max(1, Math.round(originalHeight * scale)),
   }
 }
 
 export function formatBytes(bytes) {
-  if (bytes < 1024) return bytes + ' B'
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB'
-  return (bytes / (1024 * 1024)).toFixed(1) + ' MB'
+  if (!bytes || bytes === 0) return '0 B'
+  var units = ['B', 'KB', 'MB', 'GB']
+  var i = 0
+  var size = bytes
+  while (size >= 1024 && i < units.length - 1) {
+    size /= 1024
+    i++
+  }
+  return size.toFixed(i === 0 ? 0 : 1) + ' ' + units[i]
 }
 
-export function compressionRatio(original, compressed) {
-  if (!original || original <= 0) return 0
-  return ((original - compressed) / original) * 100
+export function compressionRatio(originalBytes, compressedBytes) {
+  if (!originalBytes || originalBytes <= 0) return 0
+  return ((originalBytes - compressedBytes) / originalBytes) * 100
 }
 
 export function getOutputMime(format) {
@@ -30,6 +39,6 @@ export function getOutputMime(format) {
   return 'image/jpeg'
 }
 
-export function isSupportedMime(type) {
-  return /^image\/(jpeg|png|webp|gif|bmp)$/i.test(type || '')
+export function isSupportedMime(mime) {
+  return SUPPORTED_FORMATS.includes(mime) || mime === 'image/gif' || mime === 'image/bmp'
 }

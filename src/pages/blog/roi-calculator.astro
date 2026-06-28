@@ -1,0 +1,69 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'roi-calculator'
+const seo = {
+  title: 'ROI calculator — return on investment percentage | maratool',
+  description: 'Calculate ROI percentage from initial cost and final value. Free investment ROI calculator.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate return on investment (ROI)',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate ROI percentage from initial cost and final value. Free investment ROI calculator.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate return on investment (ROI)', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate return on investment (ROI)"
+      lead="Two numbers — what you put in and what you got out — plus profit and ROI percentage."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>ROI is the simplest measure of whether an investment paid off. The <a href="/roi-calculator">ROI Calculator</a> computes profit and return percentage from initial cost and final value.</p>
+
+      <BlogToolEmbed slug="roi-calculator" title="Try it — enter initial cost and final value" height={320} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Initial cost</strong> — what you invested or spent.</li>
+        <li><strong>Final value</strong> — current or exit value.</li>
+      </ol>
+
+      <h2>The formula</h2>
+      <p>ROI = (Final − Initial) / Initial × 100. Invest $10,000, exit at $15,000 → $5,000 profit, 50% ROI.</p>
+
+      <h2>ROI vs campaign ROI</h2>
+      <p>This is a general investment ROI tool. For marketing ad spend specifically, use the <a href="/campaign-roi-calculator">Campaign ROI Calculator</a> which also shows ROAS.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/roi-calculator">How to calculate return on investment (ROI)</a> is free, runs locally, and never sends your data to a server. More <a href="/business">business calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

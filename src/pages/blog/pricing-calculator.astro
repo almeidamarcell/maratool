@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'pricing-calculator'
+const seo = {
+  title: 'Pricing calculator — markup and margin | maratool',
+  description: 'Calculate selling price from unit cost and markup or margin percentage. See profit per unit instantly. Free browser calculator.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate selling price from cost and markup',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate selling price from unit cost and markup or margin percentage. See profit per unit instantly. Free browser calculator.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate selling price from cost and markup', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate selling price from cost and markup"
+      lead="Enter cost and markup (or margin) — get selling price and profit per unit."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Markup and margin are not the same number. The <a href="/pricing-calculator">Pricing Calculator</a> converts between them and shows the price you need to hit your profit target.</p>
+
+      <BlogToolEmbed slug="pricing-calculator" title="Try it — cost, markup or margin" height={380} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Unit cost</strong> — what you pay to produce or acquire the item.</li>
+        <li><strong>Markup or margin</strong> — choose mode and enter percentage.</li>
+        <li><strong>Selling price</strong> — read price and profit per unit.</li>
+      </ol>
+
+      <h2>Markup vs margin</h2>
+      <p>50% markup on $10 cost = $15 price (33% margin). Margin is profit ÷ price; markup is profit ÷ cost.</p>
+
+      <h2>Business margins</h2>
+      <p>For overall business profitability, see the <a href="/profit-margin-calculator">Profit Margin Calculator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/pricing-calculator">How to calculate selling price from cost and markup</a> is free, runs locally, and never sends your data to a server. More <a href="/business">business calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

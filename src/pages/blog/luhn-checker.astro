@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'luhn-checker'
+const seo = {
+  title: 'Luhn checker — credit card validation | maratool',
+  description: 'Validate numbers with the Luhn algorithm. Check credit card and identifier check digits. Paste only, in browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to validate credit card numbers with Luhn',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Validate numbers with the Luhn algorithm. Check credit card and identifier check digits. Paste only, in browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to validate credit card numbers with Luhn', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to validate credit card numbers with Luhn"
+      lead="Paste a card or ID number — verify the Luhn check digit instantly."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>The Luhn algorithm catches single-digit typos in card numbers and many identifier formats. The <a href="/luhn-checker">Luhn Checker</a> runs mod-10 validation on pasted input — no card data sent anywhere.</p>
+
+      <BlogToolEmbed slug="luhn-checker" title="Try it — paste number to validate" height={360} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste number</strong> — digits only or with spaces/dashes.</li>
+        <li><strong>Luhn check</strong> — mod-10 checksum validated.</li>
+        <li><strong>Result</strong> — valid or invalid with explanation.</li>
+      </ol>
+
+      <h2>Not authorization</h2>
+      <p>Luhn validation confirms format integrity only. It does not verify the card exists, has funds, or belongs to the payer.</p>
+
+      <h2>IBAN validation</h2>
+      <p>International bank accounts use mod-97 — see the <a href="/iban-validator">IBAN Validator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/luhn-checker">How to validate credit card numbers with Luhn</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

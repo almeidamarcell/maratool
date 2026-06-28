@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'LLM JSON Extractor — Parse JSON from AI Output | maratool',
+  description: 'Extract JSON blocks from LLM output text. Finds fenced code blocks and raw objects with copy per block. Free, instant, runs in your browser.',
+  canonical: 'https://maratool.com/llm-json-extractor',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'LLM JSON Extractor — Parse JSON from AI Output',
+    url: 'https://maratool.com/llm-json-extractor',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Extract JSON blocks from LLM output text. Finds fenced code blocks and raw objects with copy per block. Free, instant, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'AI', item: 'https://maratool.com/developer/ai' },
+      { '@type': 'ListItem', position: 4, name: 'LLM JSON Extractor — Parse JSON from AI Output', item: 'https://maratool.com/llm-json-extractor' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What formats does it detect?', acceptedAnswer: { '@type': 'Answer', text: 'Markdown ```json fences, generic code fences, and inline { ... } JSON objects.' } },
+      { '@type': 'Question', name: 'Does it validate JSON syntax?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Each block is marked valid or invalid with a parse attempt.' } },
+      { '@type': 'Question', name: 'Can it extract multiple blocks?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Every distinct JSON block in the text is listed separately.' } },
+      { '@type': 'Question', name: 'Is my text sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Extraction happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste the full LLM response text.',
+  'JSON blocks are detected automatically in fences and inline.',
+  'Click Copy on any extracted block to use it in your app.'
+]
+
+const faq = [
+  { q: 'What formats does it detect?', a: 'Markdown ```json fences, generic code fences, and inline { ... } JSON objects.' },
+  { q: 'Does it validate JSON syntax?', a: 'Yes. Each block is marked valid or invalid with a parse attempt.' },
+  { q: 'Can it extract multiple blocks?', a: 'Yes. Every distinct JSON block in the text is listed separately.' },
+  { q: 'Is my text sent to a server?', a: 'No. Extraction happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'json-formatter', name: 'JSON Formatter' },
+  { slug: 'json-diff', name: 'JSON Diff' },
+  { slug: 'prompt-variable-tester', name: 'Prompt Variable Tester' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'AI', href: '/developer/ai' },
+  { label: 'LLM JSON Extractor' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="llm-json-extractor" name="LLM JSON Extractor — Parse JSON from AI Output" description="Paste LLM response text to list every JSON block found, with validity status and a copy button per block." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <label class="tool-label" for="lje-input">LLM output</label>
+        <textarea id="lje-input" class="tool-textarea" rows="10" placeholder="Paste LLM response with JSON blocks…"></textarea>
+        <p class="tool-label" style="margin:1rem 0 0.5rem;">Extracted JSON blocks</p>
+        <div id="lje-blocks" style="min-height:80px;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<script src="../tools/llm-json-extractor.js"></script>

@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'CSV Cleaner — Trim & Fix CSV Files Online | maratool',
+  description: 'Clean CSV files online. Trim whitespace, remove empty rows, and fix line endings. Free CSV cleanup tool, runs in your browser.',
+  canonical: 'https://maratool.com/csv-cleaner',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'CSV Cleaner — Trim & Fix CSV Files',
+    url: 'https://maratool.com/csv-cleaner',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Clean CSV files online. Trim whitespace, remove empty rows, and fix line endings. Free CSV cleanup tool, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'CSV', item: 'https://maratool.com/converter/csv' },
+      { '@type': 'ListItem', position: 4, name: 'CSV Cleaner — Trim & Fix CSV Files', item: 'https://maratool.com/csv-cleaner' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What does the CSV cleaner fix?', acceptedAnswer: { '@type': 'Answer', text: 'Trims leading/trailing whitespace from cells, removes empty rows, and normalizes line endings.' } },
+      { '@type': 'Question', name: 'Does it change the delimiter?', acceptedAnswer: { '@type': 'Answer', text: 'No. The delimiter structure is preserved. Only whitespace and empty rows are cleaned.' } },
+      { '@type': 'Question', name: 'Can I clean large CSV files?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, within browser memory limits. Very large files may be slow but stay local.' } },
+      { '@type': 'Question', name: 'Is my CSV sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Cleaning happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste your CSV data in the input box.',
+  'Cleaned output updates automatically.',
+  'Click Copy to copy the cleaned CSV.'
+]
+
+const faq = [
+  { q: 'What does the CSV cleaner fix?', a: 'Trims leading/trailing whitespace from cells, removes empty rows, and normalizes line endings.' },
+  { q: 'Does it change the delimiter?', a: 'No. The delimiter structure is preserved. Only whitespace and empty rows are cleaned.' },
+  { q: 'Can I clean large CSV files?', a: 'Yes, within browser memory limits. Very large files may be slow but stay local.' },
+  { q: 'Is my CSV sent to a server?', a: 'No. Cleaning happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'csv-remove-duplicates', name: 'Remove Duplicate Rows from CSV' },
+  { slug: 'csv-to-json', name: 'Convert CSV to JSON' },
+  { slug: 'csv-merge', name: 'Merge CSV Files Online' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'CSV', href: '/converter/csv' },
+  { label: 'CSV Cleaner' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="csv-cleaner" name="CSV Cleaner — Trim & Fix CSV Files" description="Paste CSV data to trim whitespace, remove empty rows, and fix line endings. Copy the cleaned output." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <label class="tool-label" for="cc-input">CSV input</label>
+        <textarea id="cc-input" class="tool-textarea" rows="10" placeholder="name,email&#10; Alice , alice@example.com &#10;&#10;Bob,bob@example.com"></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:1rem 0 0.5rem;">
+          <label class="tool-label" style="margin:0;">Cleaned output</label>
+          <button type="button" id="cc-copy" class="copy-btn">Copy</button>
+        </div>
+        <textarea id="cc-output" class="tool-textarea" rows="10" readonly></textarea>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<script src="../tools/csv-cleaner.js"></script>

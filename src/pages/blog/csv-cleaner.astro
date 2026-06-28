@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'csv-cleaner'
+const seo = {
+  title: 'CSV cleaner — trim and fix CSV files | maratool',
+  description: 'Clean CSV files in your browser. Trim whitespace, remove empty rows, fix line endings. No upload to a server.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to clean CSV files online',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Clean CSV files in your browser. Trim whitespace, remove empty rows, fix line endings. No upload to a server.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to clean CSV files online', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to clean CSV files online"
+      lead="Paste messy CSV — get trimmed rows, no empty lines, consistent line endings."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Exported CSV from Excel, Shopify, or legacy systems often has trailing spaces and blank rows. The <a href="/csv-cleaner">CSV Cleaner</a> normalizes whitespace and drops empty lines — entirely in your browser.</p>
+
+      <BlogToolEmbed slug="csv-cleaner" title="Try it — paste CSV to clean" height={480} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste CSV</strong> — raw file content into the input.</li>
+        <li><strong>Auto-clean</strong> — whitespace trimmed, empty rows removed.</li>
+        <li><strong>Copy output</strong> — use cleaned CSV in your pipeline.</li>
+      </ol>
+
+      <h2>Privacy</h2>
+      <p>Data never leaves your device. For structured conversion, see <a href="/csv-to-json">CSV to JSON</a>.</p>
+
+      <h2>Duplicates</h2>
+      <p>After cleaning, dedupe with <a href="/csv-remove-duplicates">Remove Duplicate Rows from CSV</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/csv-cleaner">How to clean CSV files online</a> is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
