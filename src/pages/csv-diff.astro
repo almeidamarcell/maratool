@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'CSV Diff — Compare Two CSV Files | maratool',
+  description: 'CSV Diff — Compare Two CSV Files. Free, instant, runs in your browser — no upload to server.',
+  canonical: 'https://maratool.com/csv-diff',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'CSV Diff — Compare Two CSV Files',
+    url: 'https://maratool.com/csv-diff',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'CSV Diff — Compare Two CSV Files. Free, instant, runs in your browser — no upload to server.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Data', item: 'https://maratool.com/developer/data' },
+      { '@type': 'ListItem', position: 4, name: 'CSV Diff — Compare Two CSV Files', item: 'https://maratool.com/csv-diff' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Does this tool send data to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Everything runs locally in your browser. Your data never leaves your device.' } },
+      { '@type': 'Question', name: 'Do I need an account?', acceptedAnswer: { '@type': 'Answer', text: 'No sign-up, no limits, no paywall.' } },
+      { '@type': 'Question', name: 'Can I use this offline?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, after the page loads once, the tool works without a network connection.' } },
+      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, completely free with no usage limits.' } }
+    ]
+  }
+}
+
+const howTo = ['Enter or paste your input in the fields below.', 'Results update instantly as you type.', 'Use Copy to grab the output.']
+const faq = [{ q: 'Does this tool send data to a server?', a: 'No. Everything runs locally in your browser. Your data never leaves your device.' }, { q: 'Do I need an account?', a: 'No sign-up, no limits, no paywall.' }, { q: 'Can I use this offline?', a: 'Yes, after the page loads once, the tool works without a network connection.' }, { q: 'Is this tool free?', a: 'Yes, completely free with no usage limits.' }]
+const relatedTools = [{ slug: 'diff-checker', name: 'diff-checker' }, { slug: 'csv-cleaner', name: 'csv-cleaner' }, { slug: 'json-diff', name: 'json-diff' }]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Data', href: '/developer/data' },
+  { label: 'CSV Diff' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="csv-diff" name="CSV Diff — Compare Two CSV Files" description="CSV Diff — Compare Two CSV Files. Free, instant, runs in your browser — no upload to server." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:520px;">
+        <div class="calc-row"><div><label class="tool-label" for="w4-a">CSV A</label><textarea id="w4-a" class="tool-textarea" rows="8"></textarea></div><div><label class="tool-label" for="w4-b">CSV B</label><textarea id="w4-b" class="tool-textarea" rows="8"></textarea></div></div>
+        <pre id="w4-out" class="tool-output" style="min-height:160px;white-space:pre-wrap;"></pre>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  .diff-add { background: #e6ffed; }
+  .diff-remove { background: #ffeef0; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/csv-diff.js"></script>

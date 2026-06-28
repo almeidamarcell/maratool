@@ -1,0 +1,53 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'xml-validator'
+const seo = {
+  title: 'How to use xml validator online | maratool',
+  description: 'XML Validator Online. Free browser-based tool — no sign-up, runs locally.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to use xml validator online',
+    image: 'https://maratool.com/og-image.png',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com', logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' } },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'XML Validator Online. Free browser-based tool.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to use xml validator online', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell title="How to use xml validator online" lead="XML Validator Online — free, instant, and private." date="June 28, 2026" dateIso="2026-06-28">
+      <p>The <a href="/xml-validator">XML Validator Online</a> runs entirely in your browser. No account, no server upload.</p>
+      <BlogToolEmbed slug="xml-validator" title="Try it live" height={480} />
+      <h2>How it works</h2>
+      <ol>
+        <li>Open the tool and enter your input.</li>
+        <li>Results update instantly as you type.</li>
+        <li>Copy or download the output — data stays on your device.</li>
+      </ol>
+      <h2>Privacy</h2>
+      <p>All processing is client-side. Your input never leaves your browser.</p>
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">More <a href="/developer">Developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

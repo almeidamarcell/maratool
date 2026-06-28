@@ -63,15 +63,15 @@ describe('tool categories', () => {
   })
 
   test('Developer category has expected subcategories', () => {
-    expect(subcategoryOrderByCategory['Developer']).toEqual(['Crypto', 'Generate', 'Audit', 'Calculator', 'Reference', 'SQL', 'API', 'Security', 'AI'])
+    expect(subcategoryOrderByCategory['Developer']).toEqual(['Crypto', 'Generate', 'Audit', 'Calculator', 'Reference', 'SQL', 'API', 'Security', 'AI', 'Web', 'Data'])
   })
 
   test('Marketing category has Builder and Calculator subcategories', () => {
     expect(subcategoryOrderByCategory['Marketing']).toEqual(['Builder', 'Calculator'])
   })
 
-  test('Business category has Calculator, Tax, Pay, Invoicing subcategories', () => {
-    expect(subcategoryOrderByCategory['Business']).toEqual(['Calculator', 'Tax', 'Pay', 'Invoicing'])
+  test('Business category has Calculator, Tax, Pay, Invoicing, Generate subcategories', () => {
+    expect(subcategoryOrderByCategory['Business']).toEqual(['Calculator', 'Tax', 'Pay', 'Invoicing', 'Generate'])
   })
 
   test('Finance category has Loan, Interest, Investment, Retirement subcategories', () => {
@@ -82,8 +82,8 @@ describe('tool categories', () => {
     expect(subcategoryOrderByCategory['E-commerce']).toEqual(['Fees', 'Pricing'])
   })
 
-  test('Education category has Calculator subcategory', () => {
-    expect(subcategoryOrderByCategory['Education']).toEqual(['Calculator'])
+  test('Education category has Calculator and Reference subcategories', () => {
+    expect(subcategoryOrderByCategory['Education']).toEqual(['Calculator', 'Reference'])
   })
 
   test('Mockup category has Chat, AI Chat, Posts, Comments, Stories, Email subcategories', () => {
@@ -143,6 +143,28 @@ describe('tool categories', () => {
       'hash-identifier', 'iban-validator', 'luhn-checker', 'jwt-security-checker',
       'html-minifier', 'html-beautifier', 'css-minifier', 'url-parser',
       'gpa-calculator', 'grade-calculator', 'final-grade-calculator', 'reading-level-calculator',
+    ]
+    for (const slug of slugs) {
+      const tool = tools.find(t => t.slug === slug)
+      expect(tool?.live, slug).toBe(true)
+      expect(tool?.blogPost, slug).toBe(true)
+    }
+  })
+
+  test('Wave 4 tools are registered and live', () => {
+    const slugs = [
+      'invoice-number-generator', 'purchase-order-generator', 'business-name-generator', 'currency-margin-calculator',
+      'dcf-calculator', 'position-size-calculator', 'crypto-profit-calculator',
+      'vision-token-estimator', 'json-schema-generator', 'markdown-cleanup', 'prompt-diff', 'prompt-version-compare', 'ai-output-formatter',
+      'sql-query-builder', 'csv-to-sql', 'sql-to-csv', 'er-diagram-generator', 'mongo-to-sql',
+      'http-request-builder', 'api-mock-response-generator', 'webhook-payload-inspector',
+      'hash-compare', 'checksum-calculator', 'ssl-certificate-decoder', 'csr-generator', 'pem-decoder', 'certificate-expiration-checker',
+      'business-days-calculator', 'working-hours-calculator', 'countdown-generator',
+      'excel-to-csv', 'csv-to-excel', 'csv-delimiter-converter', 'csv-column-mapper', 'csv-transpose',
+      'html-preview', 'css-beautifier', 'js-minifier', 'html-validator', 'css-grid-generator', 'flexbox-generator', 'svg-editor',
+      'shipping-calculator', 'sku-generator', 'youtube-timestamp-generator',
+      'csv-diff', 'xml-validator', 'yaml-validator', 'toml-converter', 'xml-formatter', 'json-flatten', 'json-path-tester',
+      'citation-generator', 'flashcard-formatter', 'apa-mla-converter', 'roman-numeral-converter',
     ]
     for (const slug of slugs) {
       const tool = tools.find(t => t.slug === slug)
