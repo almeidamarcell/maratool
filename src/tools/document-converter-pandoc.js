@@ -6,10 +6,16 @@ import {
 
 var pandocApi = null
 
+// Pandoc's wasm binary is ~56 MB, which exceeds Cloudflare Pages' 25 MiB
+// per-file limit and breaks the whole deploy if bundled as a static asset.
+// Load it from the npm CDN at runtime instead (same pattern as JSZip below).
+// Pin to the version in package.json so the binary matches the bundled core.js.
+var PANDOC_WASM_URL = 'https://unpkg.com/pandoc-wasm@1.1.0/src/pandoc.wasm'
+
 export async function initPandoc(onProgress) {
   if (pandocApi) return pandocApi
   if (onProgress) onProgress('Downloading Pandoc engine (~56 MB, one-time)…')
-  var wasmResp = await fetch('/vendor/pandoc.wasm')
+  var wasmResp = await fetch(PANDOC_WASM_URL)
   if (!wasmResp.ok) throw new Error('Pandoc WASM not found. Run npm install and rebuild.')
   var wasmBuffer = await wasmResp.arrayBuffer()
   if (onProgress) onProgress('Initializing Pandoc…')
