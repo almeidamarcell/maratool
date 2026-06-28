@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import { IMAGE_FORMATS, FFMPEG_FORMATS, VIDEO_FORMATS, DOCUMENT_FORMATS } from './vert-formats-data.js'
-import { getCategory, getAllInputExtensions, CATEGORIES } from './vert-converter-core.js'
+import { IMAGE_FORMATS, FFMPEG_FORMATS, VIDEO_FORMATS, DOCUMENT_FORMATS } from './file-converter-formats.js'
+import { getCategory, getAllInputExtensions, CATEGORIES } from './file-converter-core.js'
 
 describe('format registry', () => {
   test('image format count', () => {

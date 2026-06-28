@@ -14,8 +14,8 @@ import {
   getAllInputExtensions,
   getCategoryOutputTargets,
   CATEGORIES,
-} from './vert-converter-core.js'
-import { IMAGE_FORMATS, FFMPEG_FORMATS, VIDEO_FORMATS, DOCUMENT_FORMATS } from './vert-formats-data.js'
+} from './file-converter-core.js'
+import { IMAGE_FORMATS, FFMPEG_FORMATS, VIDEO_FORMATS, DOCUMENT_FORMATS } from './file-converter-formats.js'
 
 describe('normalizeExtension', () => {
   test('adds leading dot and lowercases', () => {
