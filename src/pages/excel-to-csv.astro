@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Excel to CSV Converter Online | maratool',
+  description: 'Excel to CSV Converter Online. Free, instant, runs in your browser — no upload to server.',
+  canonical: 'https://maratool.com/excel-to-csv',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Excel to CSV Converter Online',
+    url: 'https://maratool.com/excel-to-csv',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Excel to CSV Converter Online. Free, instant, runs in your browser — no upload to server.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'CSV', item: 'https://maratool.com/converter/csv' },
+      { '@type': 'ListItem', position: 4, name: 'Excel to CSV Converter Online', item: 'https://maratool.com/excel-to-csv' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Does this tool send data to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Everything runs locally in your browser. Your data never leaves your device.' } },
+      { '@type': 'Question', name: 'Do I need an account?', acceptedAnswer: { '@type': 'Answer', text: 'No sign-up, no limits, no paywall.' } },
+      { '@type': 'Question', name: 'Can I use this offline?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, after the page loads once, the tool works without a network connection.' } },
+      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, completely free with no usage limits.' } }
+    ]
+  }
+}
+
+const howTo = ['Enter or paste your input in the fields below.', 'Results update instantly as you type.', 'Use Copy to grab the output.']
+const faq = [{ q: 'Does this tool send data to a server?', a: 'No. Everything runs locally in your browser. Your data never leaves your device.' }, { q: 'Do I need an account?', a: 'No sign-up, no limits, no paywall.' }, { q: 'Can I use this offline?', a: 'Yes, after the page loads once, the tool works without a network connection.' }, { q: 'Is this tool free?', a: 'Yes, completely free with no usage limits.' }]
+const relatedTools = [{ slug: 'csv-cleaner', name: 'csv-cleaner' }, { slug: 'csv-to-json', name: 'csv-to-json' }, { slug: 'csv-to-excel', name: 'CSV to Excel Converter Online' }]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'CSV', href: '/converter/csv' },
+  { label: 'Excel to CSV Converter Online' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="excel-to-csv" name="Excel to CSV Converter Online" description="Excel to CSV Converter Online. Free, instant, runs in your browser — no upload to server." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:420px;">
+        <label class="tool-label" for="w4-file">Upload .xlsx or paste HTML table / CSV</label>
+        <input type="file" id="w4-file" class="tool-input" accept=".xlsx,.xls,.csv,.html" />
+        <textarea id="w4-in" class="tool-textarea" rows="6" placeholder="Or paste spreadsheet HTML / CSV" style="margin-top:1rem;"></textarea>
+        <div class="tool-output-header" style="margin-top:1rem;"><span class="tool-output-label">CSV output</span><button type="button" class="tool-copy-btn" id="w4-copy">Copy</button></div>
+        <pre id="w4-out" class="tool-output" style="min-height:120px;white-space:pre-wrap;"></pre>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  .diff-add { background: #e6ffed; }
+  .diff-remove { background: #ffeef0; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/excel-to-csv.js"></script>
