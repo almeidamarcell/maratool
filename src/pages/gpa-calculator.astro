@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'GPA Calculator — Calculate GPA Online | maratool',
+  description: 'Calculate GPA from letter grades and credit hours on a 4.0 scale. Add courses dynamically and see weighted GPA instantly. Free, runs in your browser.',
+  canonical: 'https://maratool.com/gpa-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GPA Calculator — Calculate GPA Online',
+    url: 'https://maratool.com/gpa-calculator',
+    applicationCategory: 'EducationApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate GPA from letter grades and credit hours on a 4.0 scale. Add courses dynamically and see weighted GPA instantly. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Education', item: 'https://maratool.com/education' },
+      { '@type': 'ListItem', position: 3, name: 'Calculator', item: 'https://maratool.com/education/calculator' },
+      { '@type': 'ListItem', position: 4, name: 'GPA Calculator — Calculate GPA Online', item: 'https://maratool.com/gpa-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What grading scale is used?', acceptedAnswer: { '@type': 'Answer', text: 'Standard US 4.0 scale: A=4.0, B=3.0, C=2.0, D=1.0, F=0 with plus/minus variants.' } },
+      { '@type': 'Question', name: 'How is GPA calculated?', acceptedAnswer: { '@type': 'Answer', text: 'Sum of (grade points × credits) divided by total credits.' } },
+      { '@type': 'Question', name: 'Can I add unlimited courses?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Add as many course rows as needed.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Add a row for each course with letter grade and credits.',
+  'Click Add row for additional courses.',
+  'See your weighted GPA and total credits instantly.'
+]
+
+const faq = [
+  { q: 'What grading scale is used?', a: 'Standard US 4.0 scale: A=4.0, B=3.0, C=2.0, D=1.0, F=0 with plus/minus variants.' },
+  { q: 'How is GPA calculated?', a: 'Sum of (grade points × credits) divided by total credits.' },
+  { q: 'Can I add unlimited courses?', a: 'Yes. Add as many course rows as needed.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'grade-calculator', name: 'Grade Calculator' },
+  { slug: 'final-grade-calculator', name: 'Final Grade Calculator' },
+  { slug: 'percentage-calculator', name: 'Percentage Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Education', href: '/education' },
+  { label: 'Calculator', href: '/education/calculator' },
+  { label: 'GPA Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="gpa-calculator" name="GPA Calculator — Calculate GPA Online" description="Add courses with letter grades and credit hours to calculate your weighted GPA on a standard 4.0 scale." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:360px;">
+        <div id="gpa-rows"></div>
+        <button type="button" id="gpa-add" class="tool-button" style="margin-bottom:1rem;">Add row</button>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="gpa-value">—</span><span class="tool-stat-label">GPA</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="gpa-credits">—</span><span class="tool-stat-label">Total credits</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/gpa-calculator.js"></script>

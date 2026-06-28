@@ -4,39 +4,43 @@ import Layout from '../../components/Layout.astro'
 import BlogPostShell from '../../components/BlogPostShell.astro'
 import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
-const slug = 'invert-colors'
 const seo = {
-  title: 'How to invert image colors online | maratool',
-  description: 'Invert Image Colors Online in your browser. No upload, no watermark.',
-  canonical: `https://maratool.com/blog/${slug}`,
+  title: 'How to invert colors in an image or GIF | maratool',
+  description: 'Invert or negate colors in images and animated GIFs. Full inversion or per-channel control. Preview and download instantly.',
+  canonical: 'https://maratool.com/blog/invert-colors',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    headline: 'How to invert image colors online',
+    headline: 'How to invert colors in an image or GIF',
     image: 'https://maratool.com/og/image.svg',
     datePublished: '2026-06-28',
     dateModified: '2026-06-28',
     author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
-    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
-    url: `https://maratool.com/blog/${slug}`,
-    description: 'Invert Image Colors Online in your browser. No upload, no watermark.',
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://maratool.com/blog/invert-colors' },
+    url: 'https://maratool.com/blog/invert-colors',
+    description: 'Invert or negate colors in images and animated GIFs. Full inversion or per-channel control. Preview and download instantly.',
   },
 }
 ---
 <Base {...seo}>
   <Layout>
-    <BlogPostShell title="How to invert image colors online" lead="Invert Image Colors Online in your browser. No upload, no watermark." date="June 28, 2026" dateIso="2026-06-28">
-      <p>Use the free <a href="/invert-colors">Invert Image Colors Online</a> on maratool — same class of tool as <a href="https://ezgif.com" rel="noopener noreferrer">ezgif.com</a>, but everything runs locally in your browser.</p>
+    <BlogPostShell title="How to invert colors in an image or GIF" lead="Create a negative or channel-specific color inversion." date="June 28, 2026" dateIso="2026-06-28">
+      <p>The <a href="/invert-colors">Invert Colors</a> tool runs entirely in your browser.</p>
       <BlogToolEmbed slug="invert-colors" title="Try it live" height={480} />
       <h2>How it works</h2>
       <ol>
-        <li><strong>Upload</strong> — drop your file into the tool.</li>
-        <li><strong>Configure</strong> — adjust settings if the tool offers options.</li>
-        <li><strong>Download</strong> — save the result. Your file never leaves your device.</li>
+        <li>Upload an image or GIF.</li>
+        <li>Preview the inverted result instantly.</li>
+        <li>Download the inverted file.</li>
       </ol>
       <hr class="blog-divider" />
-      <p class="blog-footer-note">More <a href="/image/animated">animated image tools</a> at <a href="/">maratool.com</a>.</p>
+      <p class="blog-footer-note">Try <a href="/invert-colors">Invert Colors</a> free at <a href="/image">maratool.com/image</a>.</p>
     </BlogPostShell>
   </Layout>
 </Base>

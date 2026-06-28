@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'age-calculator'
+const seo = {
+  title: 'Age calculator — years, months, days | maratool',
+  description: 'Calculate exact age in years, months, and days from a birth date. Free age calculator — runs in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate exact age from a birth date',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate exact age in years, months, and days from a birth date. Free age calculator — runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate exact age from a birth date', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate exact age from a birth date"
+      lead="Enter birth date and optional target date — get exact age broken down."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Forms ask for age in years; eligibility rules care about months and days. The <a href="/age-calculator">Age Calculator</a> computes precise age between any two dates.</p>
+
+      <BlogToolEmbed slug="age-calculator" title="Try it — birth date and target date" height={360} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Birth date</strong> — date of birth.</li>
+        <li><strong>Target date</strong> — defaults to today; change for historical checks.</li>
+        <li><strong>Read age</strong> — years, months, and days.</li>
+      </ol>
+
+      <h2>Calendar math</h2>
+      <p>Age accounts for varying month lengths and leap years — not just year subtraction.</p>
+
+      <h2>ISO dates</h2>
+      <p>For ISO 8601 parsing, use the <a href="/iso8601-formatter">ISO 8601 Date Formatter</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/age-calculator">How to calculate exact age from a birth date</a> is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

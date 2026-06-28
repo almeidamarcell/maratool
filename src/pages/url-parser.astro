@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'URL Parser — Parse URL Components Online | maratool',
+  description: 'Parse URLs into protocol, host, path, query params, and hash. Paste any URL string for an instant component breakdown. Free, runs in your browser.',
+  canonical: 'https://maratool.com/url-parser',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'URL Parser — Parse URL Components Online',
+    url: 'https://maratool.com/url-parser',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Parse URLs into protocol, host, path, query params, and hash. Paste any URL string for an instant component breakdown. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Reference', item: 'https://maratool.com/developer/reference' },
+      { '@type': 'ListItem', position: 4, name: 'URL Parser — Parse URL Components Online', item: 'https://maratool.com/url-parser' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What if the URL has no protocol?', acceptedAnswer: { '@type': 'Answer', text: 'https:// is assumed when parsing URLs without a scheme.' } },
+      { '@type': 'Question', name: 'Are query parameters decoded?', acceptedAnswer: { '@type': 'Answer', text: 'Keys and values are listed as parsed by the URL API; encoding is preserved.' } },
+      { '@type': 'Question', name: 'Does this fetch the URL?', acceptedAnswer: { '@type': 'Answer', text: 'No. It only parses the string locally — no network requests.' } },
+      { '@type': 'Question', name: 'Is my URL sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Parsing happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste a full or partial URL in the input field.',
+  'See each component parsed into labeled fields.',
+  'Use query params for API debugging and routing tests.'
+]
+
+const faq = [
+  { q: 'What if the URL has no protocol?', a: 'https:// is assumed when parsing URLs without a scheme.' },
+  { q: 'Are query parameters decoded?', a: 'Keys and values are listed as parsed by the URL API; encoding is preserved.' },
+  { q: 'Does this fetch the URL?', a: 'No. It only parses the string locally — no network requests.' },
+  { q: 'Is my URL sent to a server?', a: 'No. Parsing happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'curl-generator', name: 'cURL Command Generator' },
+  { slug: 'base64', name: 'Base64 Encode / Decode' },
+  { slug: 'json-formatter', name: 'JSON Formatter' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Reference', href: '/developer/reference' },
+  { label: 'URL Parser' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="url-parser" name="URL Parser — Parse URL Components Online" description="Paste a URL to see protocol, hostname, port, pathname, query parameters, and hash broken into readable fields." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:360px;">
+        <div class="calc-field"><label class="tool-label" for="up-input">URL</label><input type="text" id="up-input" class="tool-input" placeholder="https://api.example.com/users?page=1#top" spellcheck="false" /></div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="up-valid">—</span><span class="tool-stat-label">Valid</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="up-protocol">—</span><span class="tool-stat-label">Protocol</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="up-host">—</span><span class="tool-stat-label">Hostname</span></div>
+        </div>
+        <dl id="up-fields" style="font-size:13px;color:var(--text-2);margin:1rem 0 0;display:grid;grid-template-columns:auto 1fr;gap:0.25rem 1rem;"></dl>
+        <p id="up-error" style="font-size:13px;color:var(--text-2);margin:0;"></p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/url-parser.js"></script>

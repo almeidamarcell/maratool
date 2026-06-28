@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'profit-margin-calculator'
+const seo = {
+  title: 'Profit margin calculator — gross & net margin | maratool',
+  description: 'Calculate gross profit, net profit, and margin percentage from revenue and costs. Free business calculator.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate profit margin (gross and net)',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate gross profit, net profit, and margin percentage from revenue and costs. Free business calculator.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate profit margin (gross and net)', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate profit margin (gross and net)"
+      lead="Enter revenue, COGS, and expenses — see gross margin and net margin as percentages instantly."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Margin tells you how much of each dollar of revenue becomes profit. The <a href="/profit-margin-calculator">Profit Margin Calculator</a> separates gross margin (before operating expenses) from net margin (bottom line).</p>
+
+      <BlogToolEmbed slug="profit-margin-calculator" title="Try it — enter revenue, COGS, and operating expenses" height={400} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Revenue</strong> — total sales.</li>
+        <li><strong>Cost of goods sold (COGS)</strong> — direct costs to produce what you sold.</li>
+        <li><strong>Operating expenses</strong> — rent, salaries, marketing, and other overhead.</li>
+      </ol>
+
+      <h2>Gross vs net margin</h2>
+      <p><strong>Gross margin</strong> = (Revenue − COGS) / Revenue. It measures product-level profitability.<br><strong>Net margin</strong> = (Revenue − COGS − Expenses) / Revenue. It is the bottom-line percentage.</p>
+
+      <h2>Benchmarks vary by industry</h2>
+      <p>Software companies often target 70%+ gross margin. Retail may run 25–40% gross and 2–5% net. Compare against your sector, not a universal number.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/profit-margin-calculator">How to calculate profit margin (gross and net)</a> is free, runs locally, and never sends your data to a server. More <a href="/business">business calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

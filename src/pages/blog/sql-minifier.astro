@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'sql-minifier'
+const seo = {
+  title: 'SQL minifier — compress SQL online | maratool',
+  description: 'Minify SQL queries by removing comments and whitespace. Smaller payloads for logs and APIs. Free browser SQL minifier.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to minify SQL queries online',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Minify SQL queries by removing comments and whitespace. Smaller payloads for logs and APIs. Free browser SQL minifier.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to minify SQL queries online', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to minify SQL queries online"
+      lead="Paste formatted SQL — get a compressed one-liner with comments and extra whitespace removed."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Formatted SQL is readable; minified SQL is smaller for transport and storage. The <a href="/sql-minifier">SQL Minifier</a> strips comments and collapses whitespace — entirely in your browser.</p>
+
+      <BlogToolEmbed slug="sql-minifier" title="Try it — paste SQL to minify" height={480} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste SQL</strong> — SELECT, INSERT, or any query with comments.</li>
+        <li><strong>Minified output</strong> — updates as you type.</li>
+        <li><strong>Copy</strong> — one-liner ready for logs or embedded queries.</li>
+      </ol>
+
+      <h2>When to minify</h2>
+      <p>Use minified SQL when size matters: mobile payloads, audit logs, or storing query templates. For readability, pair with the <a href="/sql-formatter">SQL Formatter</a>.</p>
+
+      <h2>Privacy</h2>
+      <p>Queries never leave your device. Safe for production schemas and sensitive table names.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/sql-minifier">How to minify SQL queries online</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

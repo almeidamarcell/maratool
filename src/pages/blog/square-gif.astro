@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'How to make a square GIF for Instagram | maratool',
+  description: 'Convert GIFs to square 1:1 format with padding or crop — optimized for Instagram and social feeds. Free, in your browser.',
+  canonical: 'https://maratool.com/blog/square-gif',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to make a square GIF for Instagram',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://maratool.com/blog/square-gif' },
+    url: 'https://maratool.com/blog/square-gif',
+    description: 'Convert GIFs to square 1:1 format with padding or crop — optimized for Instagram and social feeds. Free, in your browser.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">← Blog</a>
+          <time datetime="2026-06-28" class="blog-post-date">June 28, 2026</time>
+        </div>
+        <h1 class="blog-post-title">How to make a square GIF for Instagram</h1>
+        <p class="blog-post-lead">Crop or pad any GIF to 1:1 for Instagram and social feeds.</p>
+      </header>
+      <div class="blog-body">
+        <p>The <a href="/square-gif">Square GIF</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <h2>How it works</h2>
+        <ol>
+          <li>Upload an animated GIF.</li>
+          <li>Choose crop or pad with background color.</li>
+          <li>Download the square GIF.</li>
+        </ol>
+        <p>Convert GIFs to square 1:1 format with padding or crop — optimized for Instagram and social feeds. Free, in your browser.</p>
+        <hr class="blog-divider" />
+        <p class="blog-footer-note">Try the <a href="/square-gif">Square GIF</a> free at <a href="/image">maratool.com/image</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>

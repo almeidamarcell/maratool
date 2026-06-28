@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'gpa-calculator'
+const seo = {
+  title: 'GPA calculator — 4.0 scale weighted GPA | maratool',
+  description: 'Calculate GPA from letter grades and credit hours on a 4.0 scale. Add courses and see weighted GPA instantly.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate GPA on a 4.0 scale',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate GPA from letter grades and credit hours on a 4.0 scale. Add courses and see weighted GPA instantly.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate GPA on a 4.0 scale', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate GPA on a 4.0 scale"
+      lead="Add courses with letter grades and credit hours — see your weighted GPA on a 4.0 scale."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Semester GPA is a credit-weighted average, not a simple mean of letter grades. The <a href="/gpa-calculator">GPA Calculator</a> converts A–F grades to grade points and weights by credit hours.</p>
+
+      <BlogToolEmbed slug="gpa-calculator" title="Try it — add courses, grades, and credits" height={480} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Add courses</strong> — name, letter grade, and credit hours.</li>
+        <li><strong>Grade points</strong> — A=4.0, B=3.0, etc. on standard scale.</li>
+        <li><strong>Weighted GPA</strong> — total grade points ÷ total credits.</li>
+      </ol>
+
+      <h2>4.0 scale</h2>
+      <p>Uses the standard US 4.0 scale. Schools with plus/minus grading or 5.0 AP weighting may differ — confirm your institution's policy.</p>
+
+      <h2>Course grades</h2>
+      <p>For a single class weighted average, use the <a href="/grade-calculator">Grade Calculator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/gpa-calculator">How to calculate GPA on a 4.0 scale</a> is free, runs locally, and never sends your data to a server. More <a href="/education">education calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

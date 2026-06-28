@@ -12,6 +12,7 @@ interface Props {
 const { scope = 'page' } = Astro.props
 ---
 <Topbar />
+<div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
 <div class="page-grid">
   <Sidebar scope={scope} />
   <main class="main-content">

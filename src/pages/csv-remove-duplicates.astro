@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Remove Duplicate Rows from CSV Online | maratool',
+  description: 'Remove duplicate rows from CSV files. Dedupe by entire row or a specific column. Free, instant, browser-based CSV deduplication.',
+  canonical: 'https://maratool.com/csv-remove-duplicates',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Remove Duplicate Rows from CSV',
+    url: 'https://maratool.com/csv-remove-duplicates',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Remove duplicate rows from CSV files. Dedupe by entire row or a specific column. Free, instant, browser-based CSV deduplication.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'CSV', item: 'https://maratool.com/converter/csv' },
+      { '@type': 'ListItem', position: 4, name: 'Remove Duplicate Rows from CSV', item: 'https://maratool.com/csv-remove-duplicates' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How does deduplication work?', acceptedAnswer: { '@type': 'Answer', text: 'Keeps the first occurrence of each unique row or column value and removes subsequent duplicates.' } },
+      { '@type': 'Question', name: 'Can I dedupe by a single column?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Select a column index to deduplicate based on that column only.' } },
+      { '@type': 'Question', name: 'Is the header row preserved?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. The first row is treated as a header and is never removed.' } },
+      { '@type': 'Question', name: 'Is my CSV sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Deduplication happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste your CSV data in the input box.',
+  'Choose to dedupe by all columns or a specific column.',
+  'Copy the deduplicated output.'
+]
+
+const faq = [
+  { q: 'How does deduplication work?', a: 'Keeps the first occurrence of each unique row or column value and removes subsequent duplicates.' },
+  { q: 'Can I dedupe by a single column?', a: 'Yes. Select a column index to deduplicate based on that column only.' },
+  { q: 'Is the header row preserved?', a: 'Yes. The first row is treated as a header and is never removed.' },
+  { q: 'Is my CSV sent to a server?', a: 'No. Deduplication happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'csv-cleaner', name: 'CSV Cleaner' },
+  { slug: 'csv-merge', name: 'Merge CSV Files Online' },
+  { slug: 'csv-to-json', name: 'Convert CSV to JSON' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'CSV', href: '/converter/csv' },
+  { label: 'CSV Remove Duplicates' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="csv-remove-duplicates" name="Remove Duplicate Rows from CSV" description="Paste CSV data and deduplicate by entire row or a specific column. Copy the deduplicated output." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <div class="calc-field"><label class="tool-label" for="cd-column">Dedupe by</label><select id="cd-column" class="tool-input calc-select" style="max-width:240px;"><option value="all">All columns</option><option value="0">Column 0</option><option value="1">Column 1</option></select></div>
+        <label class="tool-label" for="cd-input">CSV input</label>
+        <textarea id="cd-input" class="tool-textarea" rows="10" placeholder="id,name&#10;1,Alice&#10;1,Alice&#10;2,Bob"></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:1rem 0 0.5rem;">
+          <label class="tool-label" style="margin:0;">Deduplicated output</label>
+          <button type="button" id="cd-copy" class="copy-btn">Copy</button>
+        </div>
+        <textarea id="cd-output" class="tool-textarea" rows="10" readonly></textarea>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/csv-remove-duplicates.js"></script>

@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'commission-calculator'
+const seo = {
+  title: 'Commission calculator — sales commission | maratool',
+  description: 'Calculate sales commission from deal value and rate. Supports flat and tiered commission structures. Free in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate sales commission',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate sales commission from deal value and rate. Supports flat and tiered commission structures. Free in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate sales commission', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate sales commission"
+      lead="Enter deal value and commission rate — see payout for flat or tiered structures."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Sales reps need a clear commission number before closing. The <a href="/commission-calculator">Commission Calculator</a> handles flat percentage and simple tiered rates on deal value.</p>
+
+      <BlogToolEmbed slug="commission-calculator" title="Try it — deal value and commission rate" height={400} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Deal value</strong> — total sale or contract amount.</li>
+        <li><strong>Commission rate</strong> — percentage or tier thresholds.</li>
+        <li><strong>Review payout</strong> — commission earned on this deal.</li>
+      </ol>
+
+      <h2>Flat vs tiered</h2>
+      <p>Flat rate applies one percentage to the full deal. Tiered rates apply different percentages to portions of revenue above each threshold.</p>
+
+      <h2>Related tools</h2>
+      <p>For freelance pricing, see the <a href="/contractor-rate-calculator">Contractor Rate Calculator</a> and <a href="/pricing-calculator">Pricing Calculator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/commission-calculator">How to calculate sales commission</a> is free, runs locally, and never sends your data to a server. More <a href="/business">business calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

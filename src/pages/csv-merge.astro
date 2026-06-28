@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Merge CSV Files Online — Combine CSV Data | maratool',
+  description: 'Merge multiple CSV files into one. Combines headers automatically. Paste or type CSV content. Free, runs in your browser.',
+  canonical: 'https://maratool.com/csv-merge',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Merge CSV Files Online',
+    url: 'https://maratool.com/csv-merge',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Merge multiple CSV files into one. Combines headers automatically. Paste or type CSV content. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'CSV', item: 'https://maratool.com/converter/csv' },
+      { '@type': 'ListItem', position: 4, name: 'Merge CSV Files Online', item: 'https://maratool.com/csv-merge' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How are headers handled?', acceptedAnswer: { '@type': 'Answer', text: 'The header from the first file is kept. Duplicate headers from the second file are skipped.' } },
+      { '@type': 'Question', name: 'Do columns need to match?', acceptedAnswer: { '@type': 'Answer', text: 'Best results when both files have the same column structure. Mismatched columns may produce uneven rows.' } },
+      { '@type': 'Question', name: 'Can I merge more than two files?', acceptedAnswer: { '@type': 'Answer', text: 'Merge two at a time, then merge the result with a third file.' } },
+      { '@type': 'Question', name: 'Is my CSV sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Merging happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste the first CSV in the top box.',
+  'Paste the second CSV in the bottom box.',
+  'Click Merge and copy the combined output.'
+]
+
+const faq = [
+  { q: 'How are headers handled?', a: 'The header from the first file is kept. Duplicate headers from the second file are skipped.' },
+  { q: 'Do columns need to match?', a: 'Best results when both files have the same column structure. Mismatched columns may produce uneven rows.' },
+  { q: 'Can I merge more than two files?', a: 'Merge two at a time, then merge the result with a third file.' },
+  { q: 'Is my CSV sent to a server?', a: 'No. Merging happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'csv-split', name: 'Split CSV File Online' },
+  { slug: 'csv-cleaner', name: 'CSV Cleaner' },
+  { slug: 'csv-to-json', name: 'Convert CSV to JSON' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'CSV', href: '/converter/csv' },
+  { label: 'CSV Merge' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="csv-merge" name="Merge CSV Files Online" description="Paste two CSV files and merge them into one combined output with automatic header handling." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:520px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="cm-a">CSV file A</label><textarea id="cm-a" class="tool-textarea" rows="8" placeholder="id,name&#10;1,Alice"></textarea></div>
+          <div class="calc-field"><label class="tool-label" for="cm-b">CSV file B</label><textarea id="cm-b" class="tool-textarea" rows="8" placeholder="id,name&#10;2,Bob"></textarea></div>
+        </div>
+        <button type="button" id="cm-merge" class="tool-button" style="margin-bottom:1rem;">Merge</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+          <label class="tool-label" style="margin:0;">Merged output</label>
+          <button type="button" id="cm-copy" class="copy-btn">Copy</button>
+        </div>
+        <textarea id="cm-output" class="tool-textarea" rows="8" readonly></textarea>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/csv-merge.js"></script>

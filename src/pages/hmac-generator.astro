@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'HMAC Generator — SHA-256 & SHA-512 Online | maratool',
+  description: 'Generate HMAC signatures with SHA-256, SHA-384, or SHA-512. Enter message and secret key — runs in your browser.',
+  canonical: 'https://maratool.com/hmac-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'HMAC Generator — SHA-256 & SHA-512',
+    url: 'https://maratool.com/hmac-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate HMAC signatures with SHA-256, SHA-384, or SHA-512. Enter message and secret key — runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Security', item: 'https://maratool.com/developer/security' },
+      { '@type': 'ListItem', position: 4, name: 'HMAC Generator — SHA-256 & SHA-512', item: 'https://maratool.com/hmac-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is HMAC?', acceptedAnswer: { '@type': 'Answer', text: 'Hash-based Message Authentication Code — a signature that verifies both data integrity and authenticity using a shared secret key.' } },
+      { '@type': 'Question', name: 'Which algorithm should I use?', acceptedAnswer: { '@type': 'Answer', text: 'SHA-256 is the most common. Use SHA-512 for higher security margins in new systems.' } },
+      { '@type': 'Question', name: 'Is my secret key sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. HMAC is computed entirely in your browser using the Web Crypto API.' } },
+      { '@type': 'Question', name: 'What encoding is the output?', acceptedAnswer: { '@type': 'Answer', text: 'Lowercase hexadecimal string, which is standard for HMAC digests.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the message to sign.',
+  'Enter your secret key and select hash algorithm.',
+  'Copy the generated HMAC hex digest.'
+]
+
+const faq = [
+  { q: 'What is HMAC?', a: 'Hash-based Message Authentication Code — a signature that verifies both data integrity and authenticity using a shared secret key.' },
+  { q: 'Which algorithm should I use?', a: 'SHA-256 is the most common. Use SHA-512 for higher security margins in new systems.' },
+  { q: 'Is my secret key sent to a server?', a: 'No. HMAC is computed entirely in your browser using the Web Crypto API.' },
+  { q: 'What encoding is the output?', a: 'Lowercase hexadecimal string, which is standard for HMAC digests.' }
+]
+
+const relatedTools = [
+  { slug: 'hash-generator', name: 'Hash Generator' },
+  { slug: 'bcrypt-generator', name: 'Bcrypt Generator' },
+  { slug: 'api-key-generator', name: 'API Key Generator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Security', href: '/developer/security' },
+  { label: 'HMAC Generator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="hmac-generator" name="HMAC Generator — SHA-256 & SHA-512" description="Enter a message and secret key to generate an HMAC signature using Web Crypto API." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:320px;">
+        <div class="calc-field"><label class="tool-label" for="hmac-message">Message</label><textarea id="hmac-message" class="tool-textarea" rows="3" placeholder="Message to sign"></textarea></div>
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="hmac-secret">Secret key</label><input type="text" id="hmac-secret" class="tool-input" placeholder="your-secret-key" autocomplete="off" /></div>
+          <div class="calc-field"><label class="tool-label" for="hmac-algo">Algorithm</label><select id="hmac-algo" class="tool-input calc-select"><option value="SHA-256">SHA-256</option><option value="SHA-384">SHA-384</option><option value="SHA-512">SHA-512</option></select></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:1rem 0 0.5rem;">
+          <label class="tool-label" style="margin:0;">HMAC output</label>
+          <button type="button" id="hmac-copy" class="copy-btn">Copy</button>
+        </div>
+        <pre id="hmac-output" class="tool-output" style="min-height:48px;word-break:break-all;font-family:var(--font-mono);font-size:13px;">—</pre>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/hmac-generator.js"></script>

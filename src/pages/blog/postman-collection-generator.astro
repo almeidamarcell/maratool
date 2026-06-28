@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'postman-collection-generator'
+const seo = {
+  title: 'Postman collection generator — v2.1 JSON | maratool',
+  description: 'Generate Postman Collection v2.1 JSON from URL, method, headers, and body. Import directly into Postman.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to generate a Postman collection from an API request',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Generate Postman Collection v2.1 JSON from URL, method, headers, and body. Import directly into Postman.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to generate a Postman collection from an API request', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to generate a Postman collection from an API request"
+      lead="Fill in request details — get import-ready Postman Collection JSON."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Hand-writing Postman collection JSON is tedious. The <a href="/postman-collection-generator">Postman Collection Generator</a> builds v2.1 format from a single request definition.</p>
+
+      <BlogToolEmbed slug="postman-collection-generator" title="Try it — URL, method, headers, body" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Request URL & method</strong> — endpoint details.</li>
+        <li><strong>Headers & body</strong> — optional raw body for POST/PUT.</li>
+        <li><strong>Copy JSON</strong> — import into Postman via File → Import.</li>
+      </ol>
+
+      <h2>Collection format</h2>
+      <p>Output follows Postman Collection v2.1 schema so it imports without conversion.</p>
+
+      <h2>From curl</h2>
+      <p>Start from DevTools curl using <a href="/curl-generator">cURL Generator</a> or convert with <a href="/curl-to-fetch">cURL to Fetch</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/postman-collection-generator">How to generate a Postman collection from an API request</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

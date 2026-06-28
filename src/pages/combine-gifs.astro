@@ -1,0 +1,136 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Combine GIFs Side by Side — Merge Animated GIFs | maratool',
+  description: 'Merge two or more GIFs into one animation — side by side or stacked. Align timing and download the combined GIF.',
+  canonical: 'https://maratool.com/combine-gifs',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Combine GIFs',
+    url: 'https://maratool.com/combine-gifs',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Merge two or more GIFs into one animation — side by side or stacked. Align timing and download the combined GIF.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Combine GIFs', item: 'https://maratool.com/combine-gifs' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How are different frame counts handled?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Align to the longest or shortest animation — shorter GIFs loop or hold their last frame.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can GIFs have different sizes?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Enable resize to match dimensions so frames align cleanly.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Minimum number of GIFs?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Two. You can add more — each appears in the combined layout.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Runs in browser?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. No server upload.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload two or more GIF files.',
+  'Choose horizontal or vertical layout and alignment.',
+  'Download the merged GIF.'
+]
+const faq = [
+  {
+    'q': 'How are different frame counts handled?',
+    'a': 'Align to the longest or shortest animation — shorter GIFs loop or hold their last frame.'
+  },
+  {
+    'q': 'Can GIFs have different sizes?',
+    'a': 'Yes. Enable resize to match dimensions so frames align cleanly.'
+  },
+  {
+    'q': 'Minimum number of GIFs?',
+    'a': 'Two. You can add more — each appears in the combined layout.'
+  },
+  {
+    'q': 'Runs in browser?',
+    'a': 'Yes. No server upload.'
+  }
+]
+const relatedTools = [
+  { slug: 'gif-maker', name: 'Gif Maker' },
+  { slug: 'gif-overlay', name: 'Gif Overlay' },
+  { slug: 'add-text-to-gif', name: 'Add Text To Gif' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'Combine GIFs' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="combine-gifs" name="Combine GIFs Side by Side" description="Merge two or more GIFs into one animation — side by side or stacked. Align timing and download the combined GIF." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container cgf-root" style="min-height:460px;">
+        <div class="cgf-dropzone" id="cgf-dropzone">
+          <input type="file" id="cgf-file" hidden />
+          <p class="cgf-drop-title">Drop a file here</p>
+          <p class="cgf-drop-sub">or click to select</p>
+        </div>
+        <div id="cgf-workspace" style="display:none;"></div>
+        <div id="cgf-progress" class="cgf-progress" style="display:none;">
+          <div id="cgf-progress-text">Processing...</div>
+          <div class="cgf-progress-track"><div id="cgf-progress-fill" class="cgf-progress-fill"></div></div>
+        </div>
+        <div id="cgf-error" class="cgf-error" style="display:none;"><span id="cgf-error-text"></span></div>
+        <div id="cgf-result" style="display:none;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .cgf-dropzone {
+    border: 2px dashed var(--border); border-radius: var(--radius);
+    padding: 3rem 2rem; text-align: center; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .cgf-dropzone:hover, .cgf-dropzone.drag-over { border-color: var(--accent); background: var(--bg-soft); }
+  .cgf-drop-title { font-size: 1.125rem; font-weight: 600; margin: 0; }
+  .cgf-drop-sub { font-size: 0.875rem; color: var(--text-2); margin: 0.5rem 0 0; }
+  .cgf-progress { text-align: center; padding: 2rem; }
+  .cgf-progress-track { width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover); border-radius: 4px; margin: 1rem auto; overflow: hidden; }
+  .cgf-progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+  .cgf-error { background: var(--error-bg); border: 1px solid var(--error-border); border-radius: var(--radius); padding: 1rem; color: #c53030; font-size: 0.875rem; }
+  .cgf-preview-wrap {
+    background: repeating-conic-gradient(#e0e0e0 0% 25%, #fff 0% 50%) 0 0 / 16px 16px;
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
+  }
+  .cgf-preview-wrap canvas, .cgf-preview-wrap img { max-width: 100%; max-height: 360px; display: block; }
+  .cgf-controls { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
+  .cgf-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .cgf-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+</style>
+<script src="../tools/combine-gifs.js"></script>

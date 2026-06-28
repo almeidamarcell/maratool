@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Pricing Calculator — Markup & Margin | maratool',
+  description: 'Calculate selling price from cost and markup or margin. See profit per unit instantly. Free pricing calculator, runs in your browser.',
+  canonical: 'https://maratool.com/pricing-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Pricing Calculator — Markup & Margin',
+    url: 'https://maratool.com/pricing-calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate selling price from cost and markup or margin. See profit per unit instantly. Free pricing calculator, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Business', item: 'https://maratool.com/business' },
+      { '@type': 'ListItem', position: 3, name: 'Calculator', item: 'https://maratool.com/business/calculator' },
+      { '@type': 'ListItem', position: 4, name: 'Pricing Calculator — Markup & Margin', item: 'https://maratool.com/pricing-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is the difference between markup and margin?', acceptedAnswer: { '@type': 'Answer', text: 'Markup is profit as a percentage of cost. Margin is profit as a percentage of selling price.' } },
+      { '@type': 'Question', name: 'How do I calculate selling price from markup?', acceptedAnswer: { '@type': 'Answer', text: 'Selling Price = Cost × (1 + Markup/100). A 50% markup on $100 cost = $150 price.' } },
+      { '@type': 'Question', name: 'How do I calculate selling price from margin?', acceptedAnswer: { '@type': 'Answer', text: 'Selling Price = Cost / (1 − Margin/100). A 30% margin on $100 cost = $142.86 price.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your product or service cost.',
+  'Choose markup or margin mode and set the percentage.',
+  'See selling price, profit per unit, and margin percentage.'
+]
+
+const faq = [
+  { q: 'What is the difference between markup and margin?', a: 'Markup is profit as a percentage of cost. Margin is profit as a percentage of selling price.' },
+  { q: 'How do I calculate selling price from markup?', a: 'Selling Price = Cost × (1 + Markup/100). A 50% markup on $100 cost = $150 price.' },
+  { q: 'How do I calculate selling price from margin?', a: 'Selling Price = Cost / (1 − Margin/100). A 30% margin on $100 cost = $142.86 price.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'profit-margin-calculator', name: 'Profit Margin Calculator' },
+  { slug: 'commission-calculator', name: 'Commission Calculator' },
+  { slug: 'break-even-calculator', name: 'Break-even Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Business', href: '/business' },
+  { label: 'Calculator', href: '/business/calculator' },
+  { label: 'Pricing Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="pricing-calculator" name="Pricing Calculator — Markup & Margin" description="Enter cost, choose markup or margin mode, and set percentage to see selling price, profit, and margin." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:320px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="pr-cost">Cost ($)</label><input type="number" id="pr-cost" class="tool-input" placeholder="50" min="0" step="any" /></div>
+          <div class="calc-field"><label class="tool-label" for="pr-mode">Mode</label><select id="pr-mode" class="tool-input calc-select"><option value="markup">Markup on cost</option><option value="margin">Margin on price</option></select></div>
+        </div>
+        <div class="calc-field"><label class="tool-label" for="pr-pct">Percentage (%)</label><input type="number" id="pr-pct" class="tool-input" placeholder="40" step="any" min="0" style="max-width:200px;" /></div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="pr-price">—</span><span class="tool-stat-label">Selling price</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="pr-profit">—</span><span class="tool-stat-label">Profit</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="pr-margin">—</span><span class="tool-stat-label">Margin</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/pricing-calculator.js"></script>

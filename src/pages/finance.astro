@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import HubPage from '../components/HubPage.astro'
+import { toolsFlatByCategory, subcategoryOrderByCategory, buildToolItemList } from '../data/tools'
+
+const categoryTools = toolsFlatByCategory.Finance ?? []
+const subcategories = subcategoryOrderByCategory.Finance ?? []
+const liveCategoryTools = categoryTools.filter(t => t.live)
+
+const seo = {
+  title: 'Finance Calculators — Mortgage, Loans & Interest | maratool',
+  description: 'Free browser-based finance calculators. Mortgage payments, loan amortization, compound interest, and CAGR — no sign-up, runs in your browser.',
+  canonical: 'https://maratool.com/finance',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Finance Calculators',
+    url: 'https://maratool.com/finance',
+    description: 'Free browser-based finance calculators. Mortgage payments, loan amortization, compound interest, and CAGR.',
+    hasPart: liveCategoryTools.map(tool => ({
+      '@type': 'SoftwareApplication',
+      name: tool.name,
+      url: `https://maratool.com/${tool.slug}`,
+      applicationCategory: 'FinanceApplication',
+    })),
+    mainEntity: buildToolItemList(liveCategoryTools, 'Finance Calculators'),
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Finance', item: 'https://maratool.com/finance' },
+    ],
+  },
+}
+
+const editorial = `
+<h2>About these finance calculators</h2>
+<p>Personal and business finance decisions often come down to a few numbers — monthly payment, total interest, growth rate, or annual return. These calculators handle the math instantly so you can compare options without opening a spreadsheet.</p>
+<h3>What you can calculate</h3>
+<p>Use the <a href="/mortgage-calculator">mortgage calculator</a> for home loans with full amortization schedules. The <a href="/loan-calculator">loan calculator</a> works for any fixed-rate installment loan in months. The <a href="/compound-interest-calculator">compound interest calculator</a> projects savings growth with optional monthly contributions. The <a href="/cagr-calculator">CAGR calculator</a> smooths investment returns to an annual rate.</p>
+<h3>Privacy</h3>
+<p>All calculations run in your browser. Loan amounts, rates, and balances never leave your device.</p>
+`
+---
+<Base {...seo} scope="hub">
+  <Layout scope="hub">
+    <HubPage
+      category="Finance"
+      categorySlug="finance"
+      title="Finance calculators"
+      subtitle="Mortgage, loan, interest, and investment calculators — everything runs locally in your browser."
+      tools={categoryTools}
+      subcategories={subcategories}
+      basePath="/finance"
+      editorial={editorial}
+    />
+  </Layout>
+</Base>

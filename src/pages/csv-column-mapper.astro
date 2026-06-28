@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'CSV Column Mapper & Renamer | maratool',
+  description: 'CSV Column Mapper & Renamer. Free, instant, runs in your browser — no upload to server.',
+  canonical: 'https://maratool.com/csv-column-mapper',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'CSV Column Mapper & Renamer',
+    url: 'https://maratool.com/csv-column-mapper',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'CSV Column Mapper & Renamer. Free, instant, runs in your browser — no upload to server.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'CSV', item: 'https://maratool.com/converter/csv' },
+      { '@type': 'ListItem', position: 4, name: 'CSV Column Mapper & Renamer', item: 'https://maratool.com/csv-column-mapper' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Does this tool send data to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Everything runs locally in your browser. Your data never leaves your device.' } },
+      { '@type': 'Question', name: 'Do I need an account?', acceptedAnswer: { '@type': 'Answer', text: 'No sign-up, no limits, no paywall.' } },
+      { '@type': 'Question', name: 'Can I use this offline?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, after the page loads once, the tool works without a network connection.' } },
+      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, completely free with no usage limits.' } }
+    ]
+  }
+}
+
+const howTo = ['Enter or paste your input in the fields below.', 'Results update instantly as you type.', 'Use Copy to grab the output.']
+const faq = [{ q: 'Does this tool send data to a server?', a: 'No. Everything runs locally in your browser. Your data never leaves your device.' }, { q: 'Do I need an account?', a: 'No sign-up, no limits, no paywall.' }, { q: 'Can I use this offline?', a: 'Yes, after the page loads once, the tool works without a network connection.' }, { q: 'Is this tool free?', a: 'Yes, completely free with no usage limits.' }]
+const relatedTools = [{ slug: 'csv-cleaner', name: 'csv-cleaner' }, { slug: 'csv-remove-duplicates', name: 'csv-remove-duplicates' }, { slug: 'csv-transpose', name: 'Transpose CSV Online' }]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'CSV', href: '/converter/csv' },
+  { label: 'CSV Column Mapper & Renamer' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="csv-column-mapper" name="CSV Column Mapper & Renamer" description="CSV Column Mapper & Renamer. Free, instant, runs in your browser — no upload to server." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:360px;" data-w4-ui="column-mapper">
+        <div id="w4-root"></div>
+        <pre id="w4-out" class="tool-output" style="min-height:120px;white-space:pre-wrap;margin-top:1rem;"></pre>
+        <p id="w4-err" class="tool-error" hidden></p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  .diff-add { background: #e6ffed; }
+  .diff-remove { background: #ffeef0; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/csv-column-mapper.js"></script>

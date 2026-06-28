@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'How to animate a still image into a GIF | maratool',
+  description: 'Turn a still image into an animated GIF with zoom, pan, bounce, rotate, or fade effects. Set duration and FPS, then download.',
+  canonical: 'https://maratool.com/blog/animate-image-gif',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to animate a still image into a GIF',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://maratool.com/blog/animate-image-gif' },
+    url: 'https://maratool.com/blog/animate-image-gif',
+    description: 'Turn a still image into an animated GIF with zoom, pan, bounce, rotate, or fade effects. Set duration and FPS, then download.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">← Blog</a>
+          <time datetime="2026-06-28" class="blog-post-date">June 28, 2026</time>
+        </div>
+        <h1 class="blog-post-title">How to animate a still image into a GIF</h1>
+        <p class="blog-post-lead">Add zoom, pan, bounce, or fade motion to a single photo.</p>
+      </header>
+      <div class="blog-body">
+        <p>The <a href="/animate-image-gif">Animate Image to GIF</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <h2>How it works</h2>
+        <ol>
+          <li>Upload a static image.</li>
+          <li>Pick an effect, duration, and FPS.</li>
+          <li>Preview and download the animated GIF.</li>
+        </ol>
+        <p>Turn a still image into an animated GIF with zoom, pan, bounce, rotate, or fade effects. Set duration and FPS, then download.</p>
+        <hr class="blog-divider" />
+        <p class="blog-footer-note">Try the <a href="/animate-image-gif">Animate Image to GIF</a> free at <a href="/image">maratool.com/image</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>

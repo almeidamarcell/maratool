@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'json-diff'
+const seo = {
+  title: 'JSON diff — compare two JSON objects online | maratool',
+  description: 'Compare two JSON documents and highlight added, removed, and changed keys. Free JSON diff tool.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to compare two JSON objects and find differences',
+    image: 'https://maratool.com/og/text.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Compare two JSON documents and highlight added, removed, and changed keys. Free JSON diff tool.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to compare two JSON objects and find differences', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to compare two JSON objects and find differences"
+      lead="Paste two JSON objects — see added, removed, and changed keys with a summary count."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>API responses change between versions. Config files drift. The <a href="/json-diff">JSON Diff</a> tool flattens nested objects to dot-notation paths and highlights what changed — green for added, red for removed, amber for changed values.</p>
+
+      <BlogToolEmbed slug="json-diff" title="Try it — paste original and modified JSON" height={560} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste original JSON</strong> — left box.</li>
+        <li><strong>Paste modified JSON</strong> — right box.</li>
+        <li><strong>Click Compare</strong> — see path-level differences.</li>
+      </ol>
+
+      <h2>JSON diff vs text diff</h2>
+      <p>The <a href="/diff-checker">Diff Checker</a> compares raw text line-by-line. JSON Diff compares by key path — better for config and API payload changes where key order does not matter.</p>
+
+      <h2>Invalid JSON</h2>
+      <p>Malformed JSON shows a parse error instead of a diff. Format first with the <a href="/json-formatter">JSON Formatter</a> if needed.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/json-diff">How to compare two JSON objects and find differences</a> is free, runs locally, and never sends your data to a server. More <a href="/text">text tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

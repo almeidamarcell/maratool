@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'grade-calculator'
+const seo = {
+  title: 'Grade calculator — weighted assignment average | maratool',
+  description: 'Calculate weighted course grade from assignment scores and weights. See your overall percentage instantly.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate weighted course grades',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate weighted course grade from assignment scores and weights. See your overall percentage instantly.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate weighted course grades', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate weighted course grades"
+      lead="Enter assignment scores and weights — see your overall course percentage."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>A 90% on a 10% homework and 80% on a 40% midterm do not average to 85%. The <a href="/grade-calculator">Grade Calculator</a> multiplies each score by its weight and sums for the true course grade.</p>
+
+      <BlogToolEmbed slug="grade-calculator" title="Try it — scores and weights per assignment" height={460} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Add assignments</strong> — name, score, and weight percent.</li>
+        <li><strong>Weights</strong> — should total 100% (tool warns if not).</li>
+        <li><strong>Course grade</strong> — weighted percentage displayed.</li>
+      </ol>
+
+      <h2>Weighted vs simple average</h2>
+      <p>Weighted average = Σ(score × weight) ÷ Σ(weight). A low-weight assignment barely moves the needle; finals dominate.</p>
+
+      <h2>Final exam planning</h2>
+      <p>Figure out what you need on the final with the <a href="/final-grade-calculator">Final Grade Calculator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/grade-calculator">How to calculate weighted course grades</a> is free, runs locally, and never sends your data to a server. More <a href="/education">education calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

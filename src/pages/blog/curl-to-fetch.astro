@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'curl-to-fetch'
+const seo = {
+  title: 'Convert cURL to fetch — JavaScript | maratool',
+  description: 'Convert cURL commands to JavaScript fetch() code. Paste curl from DevTools and copy ready-to-run fetch syntax.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert cURL to JavaScript fetch',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert cURL commands to JavaScript fetch() code. Paste curl from DevTools and copy ready-to-run fetch syntax.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert cURL to JavaScript fetch', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert cURL to JavaScript fetch"
+      lead="Paste a cURL command — get copy-ready JavaScript fetch() with method, headers, and body."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Chrome copies requests as cURL; your frontend needs fetch(). The <a href="/curl-to-fetch">cURL to Fetch Converter</a> parses method, URL, headers, and body into modern JavaScript.</p>
+
+      <BlogToolEmbed slug="curl-to-fetch" title="Try it — paste cURL from Chrome DevTools" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Copy as cURL</strong> — from Network tab in DevTools.</li>
+        <li><strong>Paste</strong> — into the converter input.</li>
+        <li><strong>Copy fetch code</strong> — drop into your app or script.</li>
+      </ol>
+
+      <h2>What gets converted</h2>
+      <p>-X method, -H headers, and -d body are mapped to fetch options. Complex curl flags may need manual tweaks.</p>
+
+      <h2>Python</h2>
+      <p>For Python requests, use <a href="/curl-to-python">Convert cURL to Python</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/curl-to-fetch">How to convert cURL to JavaScript fetch</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

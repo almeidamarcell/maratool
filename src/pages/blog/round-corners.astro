@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'How to add rounded corners to images and GIFs | maratool',
+  description: 'Add rounded corners or circle crop to images and animated GIFs. Pick radius and background color, then download.',
+  canonical: 'https://maratool.com/blog/round-corners',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to add rounded corners to images and GIFs',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://maratool.com/blog/round-corners' },
+    url: 'https://maratool.com/blog/round-corners',
+    description: 'Add rounded corners or circle crop to images and animated GIFs. Pick radius and background color, then download.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">← Blog</a>
+          <time datetime="2026-06-28" class="blog-post-date">June 28, 2026</time>
+        </div>
+        <h1 class="blog-post-title">How to add rounded corners to images and GIFs</h1>
+        <p class="blog-post-lead">Set corner radius or circle crop — works on still images and animated GIFs.</p>
+      </header>
+      <div class="blog-body">
+        <p>The <a href="/round-corners">Round Corners</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <h2>How it works</h2>
+        <ol>
+          <li>Upload an image or GIF.</li>
+          <li>Set corner radius or enable circle crop.</li>
+          <li>Download with transparent or colored corners.</li>
+        </ol>
+        <p>Add rounded corners or circle crop to images and animated GIFs. Pick radius and background color, then download.</p>
+        <hr class="blog-divider" />
+        <p class="blog-footer-note">Try the <a href="/round-corners">Round Corners</a> free at <a href="/image">maratool.com/image</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>

@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'SQL INSERT Generator — JSON to INSERT | maratool',
+  description: 'Generate SQL INSERT statements from JSON arrays. Enter a table name, paste JSON rows, and copy ready INSERT SQL. Free, runs in your browser.',
+  canonical: 'https://maratool.com/sql-insert-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'SQL INSERT Generator — JSON to INSERT',
+    url: 'https://maratool.com/sql-insert-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate SQL INSERT statements from JSON arrays. Enter a table name, paste JSON rows, and copy ready INSERT SQL. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'SQL', item: 'https://maratool.com/developer/sql' },
+      { '@type': 'ListItem', position: 4, name: 'SQL INSERT Generator — JSON to INSERT', item: 'https://maratool.com/sql-insert-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What JSON format is expected?', acceptedAnswer: { '@type': 'Answer', text: 'A JSON array of objects where each object is one row, e.g. [{"id":1,"name":"Alice"}].' } },
+      { '@type': 'Question', name: 'How are strings escaped?', acceptedAnswer: { '@type': 'Answer', text: 'Single quotes in string values are doubled per standard SQL escaping.' } },
+      { '@type': 'Question', name: 'Does it support NULL values?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. JSON null becomes SQL NULL in the generated statement.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Generation happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the target table name.',
+  'Paste a JSON array of row objects in the textarea.',
+  'Copy the generated INSERT statement from the output.'
+]
+
+const faq = [
+  { q: 'What JSON format is expected?', a: 'A JSON array of objects where each object is one row, e.g. [{"id":1,"name":"Alice"}].' },
+  { q: 'How are strings escaped?', a: 'Single quotes in string values are doubled per standard SQL escaping.' },
+  { q: 'Does it support NULL values?', a: 'Yes. JSON null becomes SQL NULL in the generated statement.' },
+  { q: 'Is my data sent to a server?', a: 'No. Generation happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'sql-create-table-generator', name: 'CREATE TABLE Generator' },
+  { slug: 'sql-minifier', name: 'SQL Minifier' },
+  { slug: 'csv-to-json', name: 'Convert CSV to JSON' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'SQL', href: '/developer/sql' },
+  { label: 'SQL INSERT Generator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="sql-insert-generator" name="SQL INSERT Generator — JSON to INSERT" description="Enter a table name and paste a JSON array of objects to generate INSERT INTO statements with escaped values." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:520px;">
+        <div class="calc-field"><label class="tool-label" for="sig-table">Table name</label><input type="text" id="sig-table" class="tool-input" placeholder="users" style="max-width:280px;" /></div>
+        <label class="tool-label" for="sig-json">JSON rows</label>
+        <textarea id="sig-json" class="tool-textarea" rows="8" placeholder='[{"id":1,"name":"Alice"},{"id":2,"name":"Bob"}]'></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:1rem 0 0.5rem;">
+          <label class="tool-label" style="margin:0;">INSERT statement</label>
+          <button type="button" id="sig-copy" class="copy-btn">Copy</button>
+        </div>
+        <pre id="sig-output" class="tool-output" style="min-height:120px;white-space:pre-wrap;"></pre>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/sql-insert-generator.js"></script>

@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Stock Average Price Calculator — Cost Basis | maratool',
+  description: 'Calculate weighted average share price across multiple purchases. Enter shares and price per lot. Free cost basis calculator, runs in your browser.',
+  canonical: 'https://maratool.com/stock-average-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Stock Average Price Calculator — Cost Basis',
+    url: 'https://maratool.com/stock-average-calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate weighted average share price across multiple purchases. Enter shares and price per lot. Free cost basis calculator, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Finance', item: 'https://maratool.com/finance' },
+      { '@type': 'ListItem', position: 3, name: 'Investment', item: 'https://maratool.com/finance/investment' },
+      { '@type': 'ListItem', position: 4, name: 'Stock Average Price Calculator — Cost Basis', item: 'https://maratool.com/stock-average-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How is average share price calculated?', acceptedAnswer: { '@type': 'Answer', text: 'Weighted average: total cost divided by total shares across all lots.' } },
+      { '@type': 'Question', name: 'Can I add unlimited lots?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Add as many purchase lots as needed for your cost basis calculation.' } },
+      { '@type': 'Question', name: 'Does this account for fees?', acceptedAnswer: { '@type': 'Answer', text: 'Include commissions in the price per share if you want them reflected in your average cost.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Add each purchase lot with number of shares and price per share.',
+  'Click Add lot for additional purchases.',
+  'See weighted average price, total shares, and total cost.'
+]
+
+const faq = [
+  { q: 'How is average share price calculated?', a: 'Weighted average: total cost divided by total shares across all lots.' },
+  { q: 'Can I add unlimited lots?', a: 'Yes. Add as many purchase lots as needed for your cost basis calculation.' },
+  { q: 'Does this account for fees?', a: 'Include commissions in the price per share if you want them reflected in your average cost.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'dca-calculator', name: 'Dollar Cost Averaging Calculator' },
+  { slug: 'cagr-calculator', name: 'CAGR Calculator' },
+  { slug: 'roi-calculator', name: 'ROI Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Finance', href: '/finance' },
+  { label: 'Investment', href: '/finance/investment' },
+  { label: 'Stock Average Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="stock-average-calculator" name="Stock Average Price Calculator — Cost Basis" description="Add purchase lots with shares and price per share to see weighted average cost, total shares, and total cost." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:360px;">
+        <div id="sa-lots"></div>
+        <button type="button" id="sa-add" class="tool-button" style="margin-bottom:1rem;">Add lot</button>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="sa-avg">—</span><span class="tool-stat-label">Average price</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="sa-shares">—</span><span class="tool-stat-label">Total shares</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="sa-cost">—</span><span class="tool-stat-label">Total cost</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/stock-average-calculator.js"></script>

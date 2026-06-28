@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'shopify-discount-calculator'
+const seo = {
+  title: 'Shopify discount calculator — stacked discounts | maratool',
+  description: 'Calculate final price after stacked Shopify discounts. Enter original price and multiple discount percentages.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate stacked Shopify discount prices',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate final price after stacked Shopify discounts. Enter original price and multiple discount percentages.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate stacked Shopify discount prices', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate stacked Shopify discount prices"
+      lead="Original price + stacked discount percentages → final sale price and total savings."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Shopify stacks percentage discounts sequentially — 20% then 10% is not 30% off. The <a href="/shopify-discount-calculator">Shopify Discount Calculator</a> applies each discount in order to show the true final price.</p>
+
+      <BlogToolEmbed slug="shopify-discount-calculator" title="Try it — original price and discount stack" height={400} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Original price</strong> — pre-discount retail.</li>
+        <li><strong>Discount stack</strong> — enter each percentage in apply order.</li>
+        <li><strong>Final price</strong> — customer pays and total percent saved.</li>
+      </ol>
+
+      <h2>Sequential stacking</h2>
+      <p>Each discount applies to the current price, not the original. Order matters when mixing codes and automatic discounts.</p>
+
+      <h2>Fees</h2>
+      <p>After pricing, estimate net with <a href="/amazon-fee-calculator">Amazon Fee Calculator</a> or <a href="/etsy-fee-calculator">Etsy Fee Calculator</a> for marketplace listings.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/shopify-discount-calculator">How to calculate stacked Shopify discount prices</a> is free, runs locally, and never sends your data to a server. More <a href="/business">e-commerce calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

@@ -4,39 +4,43 @@ import Layout from '../../components/Layout.astro'
 import BlogPostShell from '../../components/BlogPostShell.astro'
 import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
-const slug = 'censor-image'
 const seo = {
-  title: 'How to blur or censor image region online | maratool',
-  description: 'Blur or Censor Image Region Online in your browser. No upload, no watermark.',
-  canonical: `https://maratool.com/blog/${slug}`,
+  title: 'How to pixelate or blur areas in an image | maratool',
+  description: 'Pixelate or blur specific areas of images and GIFs. Draw rectangles over faces or sensitive content, then download.',
+  canonical: 'https://maratool.com/blog/censor-image',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    headline: 'How to blur or censor image region online',
+    headline: 'How to pixelate or blur areas in an image',
     image: 'https://maratool.com/og/image.svg',
     datePublished: '2026-06-28',
     dateModified: '2026-06-28',
     author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
-    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
-    url: `https://maratool.com/blog/${slug}`,
-    description: 'Blur or Censor Image Region Online in your browser. No upload, no watermark.',
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://maratool.com/blog/censor-image' },
+    url: 'https://maratool.com/blog/censor-image',
+    description: 'Pixelate or blur specific areas of images and GIFs. Draw rectangles over faces or sensitive content, then download.',
   },
 }
 ---
 <Base {...seo}>
   <Layout>
-    <BlogPostShell title="How to blur or censor image region online" lead="Blur or Censor Image Region Online in your browser. No upload, no watermark." date="June 28, 2026" dateIso="2026-06-28">
-      <p>Use the free <a href="/censor-image">Blur or Censor Image Region Online</a> on maratool — same class of tool as <a href="https://ezgif.com" rel="noopener noreferrer">ezgif.com</a>, but everything runs locally in your browser.</p>
+    <BlogPostShell title="How to pixelate or blur areas in an image" lead="Draw rectangles over sensitive areas and censor them with pixelate or blur." date="June 28, 2026" dateIso="2026-06-28">
+      <p>The <a href="/censor-image">Censor Image</a> tool runs entirely in your browser.</p>
       <BlogToolEmbed slug="censor-image" title="Try it live" height={480} />
       <h2>How it works</h2>
       <ol>
-        <li><strong>Upload</strong> — drop your file into the tool.</li>
-        <li><strong>Configure</strong> — adjust settings if the tool offers options.</li>
-        <li><strong>Download</strong> — save the result. Your file never leaves your device.</li>
+        <li>Upload an image or GIF.</li>
+        <li>Draw rectangles over areas to censor.</li>
+        <li>Choose pixelate or blur, then download.</li>
       </ol>
       <hr class="blog-divider" />
-      <p class="blog-footer-note">More <a href="/image/animated">animated image tools</a> at <a href="/">maratool.com</a>.</p>
+      <p class="blog-footer-note">Try <a href="/censor-image">Censor Image</a> free at <a href="/image">maratool.com/image</a>.</p>
     </BlogPostShell>
   </Layout>
 </Base>

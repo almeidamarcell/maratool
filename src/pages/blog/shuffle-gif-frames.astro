@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'How to shuffle GIF frames for glitch effects | maratool',
+  description: 'Randomize the frame order of a GIF for glitch or chaotic effects. Full shuffle or partial shuffle every N frames.',
+  canonical: 'https://maratool.com/blog/shuffle-gif-frames',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to shuffle GIF frames for glitch effects',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://maratool.com/blog/shuffle-gif-frames' },
+    url: 'https://maratool.com/blog/shuffle-gif-frames',
+    description: 'Randomize the frame order of a GIF for glitch or chaotic effects. Full shuffle or partial shuffle every N frames.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">← Blog</a>
+          <time datetime="2026-06-28" class="blog-post-date">June 28, 2026</time>
+        </div>
+        <h1 class="blog-post-title">How to shuffle GIF frames for glitch effects</h1>
+        <p class="blog-post-lead">Randomize frame order for chaotic or glitch-style GIFs.</p>
+      </header>
+      <div class="blog-body">
+        <p>The <a href="/shuffle-gif-frames">Shuffle GIF Frames</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <h2>How it works</h2>
+        <ol>
+          <li>Upload a GIF.</li>
+          <li>Choose full shuffle or partial shuffle every N frames.</li>
+          <li>Preview and download.</li>
+        </ol>
+        <p>Randomize the frame order of a GIF for glitch or chaotic effects. Full shuffle or partial shuffle every N frames.</p>
+        <hr class="blog-divider" />
+        <p class="blog-footer-note">Try the <a href="/shuffle-gif-frames">Shuffle GIF Frames</a> free at <a href="/image">maratool.com/image</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>

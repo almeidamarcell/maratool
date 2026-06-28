@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'html-minifier'
+const seo = {
+  title: 'HTML minifier — compress HTML online | maratool',
+  description: 'Minify HTML by removing comments and extra whitespace. Paste HTML and copy compressed output. Runs in browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to minify HTML online',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Minify HTML by removing comments and extra whitespace. Paste HTML and copy compressed output. Runs in browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to minify HTML online', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to minify HTML online"
+      lead="Paste HTML markup — get minified output with comments and whitespace removed."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Minified HTML ships faster and uses less bandwidth. The <a href="/html-minifier">HTML Minifier</a> strips comments and collapses whitespace while preserving tag structure — all in your browser.</p>
+
+      <BlogToolEmbed slug="html-minifier" title="Try it — paste HTML to minify" height={480} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste HTML</strong> — full page or fragment.</li>
+        <li><strong>Minified output</strong> — updates as you type.</li>
+        <li><strong>Copy</strong> — compressed markup ready to deploy.</li>
+      </ol>
+
+      <h2>What gets removed</h2>
+      <p>HTML comments, inter-tag whitespace, and line breaks collapse. Content inside <code>pre</code> and <code>textarea</code> may need manual review.</p>
+
+      <h2>Beautify instead</h2>
+      <p>For readable markup, use the <a href="/html-beautifier">HTML Beautifier</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/html-minifier">How to minify HTML online</a> is free, runs locally, and never sends your data to a server. More <a href="/text">text tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

@@ -1,0 +1,148 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Compress Image Online — Reduce JPG, PNG & WebP Size | maratool',
+  description: 'Compress JPG, PNG, and WebP images in your browser. Side-by-side preview, savings %, EXIF strip — no upload to server, no watermark.',
+  canonical: 'https://maratool.com/image-compressor',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Image Compressor',
+    url: 'https://maratool.com/image-compressor',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Compress JPG, PNG, and WebP images in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Image Compressor', item: 'https://maratool.com/image-compressor' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do I compress a JPG online?', acceptedAnswer: { '@type': 'Answer', text: 'Drop your JPG, adjust quality and scale, click Compress. Compare original vs compressed side by side, then download.' } },
+      { '@type': 'Question', name: 'Does this strip EXIF metadata?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Re-encoding on canvas removes GPS, camera, and other EXIF data by default. Uncheck "Strip EXIF" to keep metadata when possible.' } },
+      { '@type': 'Question', name: 'Is my image uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Compression uses the Canvas API in your browser. Your image never leaves your device.' } },
+      { '@type': 'Question', name: 'What image formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'Input: JPEG, PNG, WebP, GIF, and BMP. Output: JPEG, PNG, or WebP.' } },
+    ]
+  }
+}
+
+const howTo = ['Drop or select a JPG, PNG, or WebP image.', 'Adjust quality, scale, output format, and EXIF strip.', 'Compare side by side, see savings %, and download.']
+const faq = [
+  { q: 'How do I compress a JPG online?', a: 'Drop your image, adjust settings, compress, compare side by side, download.' },
+  { q: 'Does this strip EXIF?', a: 'Yes by default — canvas re-encode removes GPS and camera metadata.' },
+  { q: 'Is my image uploaded to a server?', a: 'No. Compression uses Canvas in your browser.' },
+  { q: 'What formats are supported?', a: 'Input: JPEG, PNG, WebP, GIF, BMP. Output: JPEG, PNG, or WebP.' },
+]
+const relatedTools = [
+  { slug: 'image-converter', name: 'Image Converter — HEIC to PNG, PNG to JPEG, WebP' },
+  { slug: 'gif-compressor', name: 'GIF Compressor — Compress & Reduce GIF Size' },
+  { slug: 'svg-optimizer', name: 'SVG Optimizer' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'Image Compressor' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="image-compressor" name="Compress Image Online" description="Reduce JPG, PNG, and WebP file size in your browser. Side-by-side preview, savings percentage, EXIF strip." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:400px;">
+        <div class="icm-dropzone" id="icm-dropzone">
+          <input type="file" id="icm-file" accept="image/jpeg,image/png,image/webp,image/gif,image/bmp" hidden />
+          <p class="icm-dropzone-title">Drop an image here</p>
+          <p class="icm-dropzone-sub">or click to select — JPG, PNG, WebP up to 25 MB</p>
+        </div>
+        <div id="icm-settings" style="display:none;">
+          <div class="icm-preview-row">
+            <img id="icm-preview" class="icm-preview" alt="Preview" />
+            <div class="icm-meta">
+              <div><span class="icm-meta-label">Original size</span> <span id="icm-orig-size">—</span></div>
+              <div><span class="icm-meta-label">Dimensions</span> <span id="icm-orig-dims">—</span></div>
+            </div>
+          </div>
+          <div class="icm-options">
+            <div class="icm-option">
+              <label class="tool-label" for="icm-quality">Quality: <span id="icm-quality-val">80%</span></label>
+              <input type="range" id="icm-quality" min="1" max="100" value="80" />
+            </div>
+            <div class="icm-option">
+              <label class="tool-label" for="icm-scale">Scale</label>
+              <select id="icm-scale" class="tool-input">
+                <option value="100">100% (original)</option>
+                <option value="75">75%</option>
+                <option value="50">50%</option>
+                <option value="25">25%</option>
+              </select>
+            </div>
+            <div class="icm-option">
+              <label class="tool-label" for="icm-format">Output format</label>
+              <select id="icm-format" class="tool-input">
+                <option value="jpeg">JPEG</option>
+                <option value="webp">WebP</option>
+                <option value="png">PNG</option>
+              </select>
+            </div>
+            <div class="icm-option">
+              <label><input type="checkbox" id="icm-strip-exif" checked /> Strip EXIF metadata</label>
+            </div>
+          </div>
+          <div class="icm-actions">
+            <button class="tool-button" id="icm-compress">Compress image</button>
+            <button class="copy-btn" id="icm-change">Change image</button>
+          </div>
+        </div>
+        <div id="icm-result" style="display:none;">
+          <div class="icm-compare">
+            <div class="icm-compare-col">
+              <span class="icm-compare-label">Original</span>
+              <img id="icm-original-result" class="icm-preview" alt="Original" />
+            </div>
+            <div class="icm-compare-col">
+              <span class="icm-compare-label">Compressed</span>
+              <img id="icm-result-img" class="icm-preview" alt="Compressed result" />
+            </div>
+          </div>
+          <div class="icm-meta icm-result-meta">
+            <div><span class="icm-meta-label">New size</span> <span id="icm-new-size">—</span></div>
+            <div><span class="icm-meta-label">Savings</span> <span id="icm-savings">—</span></div>
+          </div>
+          <button class="tool-button" id="icm-download">Download compressed image</button>
+          <button class="copy-btn" id="icm-change-result">Compress another</button>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .icm-dropzone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 3rem 1.5rem; text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .icm-dropzone:hover, .icm-dropzone.dragover { border-color: var(--accent); background: var(--bg-soft); }
+  .icm-dropzone-title { font-weight: 600; margin: 0 0 0.25rem; }
+  .icm-dropzone-sub { color: var(--text-2); font-size: 0.875rem; margin: 0; }
+  .icm-preview-row { display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; }
+  .icm-preview { max-width: 280px; max-height: 200px; border-radius: var(--radius); border: 1px solid var(--border); }
+  .icm-meta { font-size: 0.875rem; }
+  .icm-meta-label { color: var(--text-2); }
+  .icm-options { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+  .icm-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .icm-compare { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .icm-compare-col { flex: 1; min-width: 200px; text-align: center; }
+  .icm-compare-label { display: block; font-size: 0.75rem; color: var(--text-3); text-transform: uppercase; margin-bottom: 0.375rem; }
+  .icm-result-meta { display: flex; gap: 1.5rem; margin-bottom: 1rem; }
+  @media (max-width: 600px) { .icm-options { grid-template-columns: 1fr; } .icm-compare { flex-direction: column; } }
+</style>
+<script src="../tools/image-compressor.js"></script>

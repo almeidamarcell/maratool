@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Postman Collection Generator — Create JSON Online | maratool',
+  description: 'Generate Postman Collection v2.1 JSON from URL, method, headers, and body. Import directly into Postman. Free, runs in your browser.',
+  canonical: 'https://maratool.com/postman-collection-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Postman Collection Generator',
+    url: 'https://maratool.com/postman-collection-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate Postman Collection v2.1 JSON from URL, method, headers, and body. Import directly into Postman. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'API', item: 'https://maratool.com/developer/api' },
+      { '@type': 'ListItem', position: 4, name: 'Postman Collection Generator', item: 'https://maratool.com/postman-collection-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What Postman format is generated?', acceptedAnswer: { '@type': 'Answer', text: 'Postman Collection v2.1 JSON, compatible with Postman and compatible API clients.' } },
+      { '@type': 'Question', name: 'How do I import into Postman?', acceptedAnswer: { '@type': 'Answer', text: 'Copy the JSON, save as a .json file, then Import → Upload Files in Postman.' } },
+      { '@type': 'Question', name: 'Can I add multiple requests?', acceptedAnswer: { '@type': 'Answer', text: 'This generator creates a single-request collection. Duplicate and edit for additional requests.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Generation happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the request URL, HTTP method, and collection name.',
+  'Add headers and optional request body.',
+  'Copy the generated Postman Collection JSON.'
+]
+
+const faq = [
+  { q: 'What Postman format is generated?', a: 'Postman Collection v2.1 JSON, compatible with Postman and compatible API clients.' },
+  { q: 'How do I import into Postman?', a: 'Copy the JSON, save as a .json file, then Import → Upload Files in Postman.' },
+  { q: 'Can I add multiple requests?', a: 'This generator creates a single-request collection. Duplicate and edit for additional requests.' },
+  { q: 'Is my data sent to a server?', a: 'No. Generation happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'curl-generator', name: 'cURL Command Generator' },
+  { slug: 'curl-to-fetch', name: 'Convert cURL to JavaScript Fetch' },
+  { slug: 'json-formatter', name: 'JSON Formatter' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'API', href: '/developer/api' },
+  { label: 'Postman Collection Generator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="postman-collection-generator" name="Postman Collection Generator" description="Fill in URL, method, headers, and body to generate Postman Collection v2.1 JSON ready to import." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:520px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="pm-url">URL</label><input type="url" id="pm-url" class="tool-input" placeholder="https://api.example.com/users" /></div>
+          <div class="calc-field"><label class="tool-label" for="pm-method">Method</label><select id="pm-method" class="tool-input calc-select"><option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option></select></div>
+        </div>
+        <div class="calc-field"><label class="tool-label" for="pm-name">Collection name</label><input type="text" id="pm-name" class="tool-input" placeholder="My API Collection" /></div>
+        <div class="calc-field"><label class="tool-label" for="pm-headers">Headers (one per line)</label><textarea id="pm-headers" class="tool-textarea" rows="3" placeholder="Content-Type: application/json"></textarea></div>
+        <div class="calc-field"><label class="tool-label" for="pm-body">Body</label><textarea id="pm-body" class="tool-textarea" rows="4" placeholder='{"key": "value"}'></textarea></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+          <label class="tool-label" style="margin:0;">Postman Collection JSON</label>
+          <button type="button" id="pm-copy" class="copy-btn">Copy</button>
+        </div>
+        <pre id="pm-output" class="tool-output" style="min-height:120px;white-space:pre-wrap;font-family:var(--font-mono);font-size:13px;"></pre>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/postman-collection-generator.js"></script>

@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'sql-formatter'
+const seo = {
+  title: 'SQL formatter — beautify SQL queries online | maratool',
+  description: 'Format and beautify SQL queries instantly. Paste messy SQL and get indented output. Free, runs in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to format and beautify SQL online',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Format and beautify SQL queries instantly. Paste messy SQL and get indented output. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to format and beautify SQL online', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to format and beautify SQL online"
+      lead="Paste one-line SQL — get readable, indented output with keywords on their own lines."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>SQL copied from logs, ORMs, or chat is often one long line. The <a href="/sql-formatter">SQL Formatter</a> adds line breaks before major keywords and indents for readability.</p>
+
+      <BlogToolEmbed slug="sql-formatter" title="Try it — paste SQL and see formatted output" height={480} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste SQL</strong> — SELECT, INSERT, UPDATE, or any DDL.</li>
+        <li><strong>Read formatted output</strong> — updates on every keystroke.</li>
+        <li><strong>Copy</strong> — one click to clipboard.</li>
+      </ol>
+
+      <h2>What it does not do</h2>
+      <p>This is a formatter, not a validator. It does not check syntax against PostgreSQL, MySQL, or SQL Server dialects. Use it for readability before code review or documentation.</p>
+
+      <h2>Privacy</h2>
+      <p>Queries stay in your browser. Nothing is sent to a server — safe for production schemas and sensitive table names.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/sql-formatter">How to format and beautify SQL online</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

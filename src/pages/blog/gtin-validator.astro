@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'gtin-validator'
+const seo = {
+  title: 'GTIN validator — EAN-13 and UPC check digit | maratool',
+  description: 'Validate GTIN, EAN-13, and UPC barcodes. Verify check digits and format. Free, runs in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to validate GTIN, EAN-13, and UPC barcodes',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Validate GTIN, EAN-13, and UPC barcodes. Verify check digits and format. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to validate GTIN, EAN-13, and UPC barcodes', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to validate GTIN, EAN-13, and UPC barcodes"
+      lead="Enter a barcode number — verify check digit and GTIN format instantly."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Marketplaces reject listings with invalid barcodes. The <a href="/gtin-validator">GTIN Validator</a> checks EAN-13, UPC-A, and GTIN-14 check digits before you submit a product feed.</p>
+
+      <BlogToolEmbed slug="gtin-validator" title="Try it — enter GTIN or barcode" height={360} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Enter barcode</strong> — digits only or with spaces.</li>
+        <li><strong>Validation</strong> — check digit and length verified.</li>
+        <li><strong>Format</strong> — identified as UPC, EAN, or GTIN-14.</li>
+      </ol>
+
+      <h2>Check digit algorithm</h2>
+      <p>GTIN uses modulo-10 check digits. A single typo fails validation — catch it before Amazon or Google Merchant Center does.</p>
+
+      <h2>Pricing</h2>
+      <p>Model sale prices with the <a href="/shopify-discount-calculator">Shopify Discount Calculator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/gtin-validator">How to validate GTIN, EAN-13, and UPC barcodes</a> is free, runs locally, and never sends your data to a server. More <a href="/business">e-commerce calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

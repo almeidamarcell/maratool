@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Inflation Calculator — Purchasing Power Over Time | maratool',
+  description: 'See how inflation erodes purchasing power using historical US CPI data. Enter an amount and year range. Free, instant, runs in your browser.',
+  canonical: 'https://maratool.com/inflation-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Inflation Calculator — Purchasing Power Over Time',
+    url: 'https://maratool.com/inflation-calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'See how inflation erodes purchasing power using historical US CPI data. Enter an amount and year range. Free, instant, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Finance', item: 'https://maratool.com/finance' },
+      { '@type': 'ListItem', position: 3, name: 'Interest', item: 'https://maratool.com/finance/interest' },
+      { '@type': 'ListItem', position: 4, name: 'Inflation Calculator — Purchasing Power Over Time', item: 'https://maratool.com/inflation-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What CPI data does this use?', acceptedAnswer: { '@type': 'Answer', text: 'Historical US Consumer Price Index data to adjust purchasing power between years.' } },
+      { '@type': 'Question', name: 'Can I calculate future inflation?', acceptedAnswer: { '@type': 'Answer', text: 'This tool uses historical CPI. For projections, enter a custom ending year within the available range.' } },
+      { '@type': 'Question', name: 'What does inflation-adjusted mean?', acceptedAnswer: { '@type': 'Answer', text: 'The equivalent dollar amount in the ending year that has the same purchasing power as the original amount.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the original dollar amount.',
+  'Select the starting year and ending year.',
+  'See the inflation-adjusted value and total inflation percentage.'
+]
+
+const faq = [
+  { q: 'What CPI data does this use?', a: 'Historical US Consumer Price Index data to adjust purchasing power between years.' },
+  { q: 'Can I calculate future inflation?', a: 'This tool uses historical CPI. For projections, enter a custom ending year within the available range.' },
+  { q: 'What does inflation-adjusted mean?', a: 'The equivalent dollar amount in the ending year that has the same purchasing power as the original amount.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'compound-interest-calculator', name: 'Compound Interest Calculator' },
+  { slug: 'fire-calculator', name: 'FIRE Calculator' },
+  { slug: 'percentage-calculator', name: 'Percentage Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Finance', href: '/finance' },
+  { label: 'Interest', href: '/finance/interest' },
+  { label: 'Inflation Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="inflation-calculator" name="Inflation Calculator — Purchasing Power Over Time" description="Enter a dollar amount and year range to see inflation-adjusted value and total inflation percentage." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="calc-field"><label class="tool-label" for="inf-amount">Amount ($)</label><input type="number" id="inf-amount" class="tool-input" placeholder="1000" min="0" style="max-width:240px;" /></div>
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="inf-from">From year</label><input type="number" id="inf-from" class="tool-input" placeholder="2000" min="1913" max="2025" /></div>
+          <div class="calc-field"><label class="tool-label" for="inf-to">To year</label><input type="number" id="inf-to" class="tool-input" placeholder="2025" min="1913" max="2025" /></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="inf-adjusted">—</span><span class="tool-stat-label">Adjusted value</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="inf-pct">—</span><span class="tool-stat-label">Total inflation</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/inflation-calculator.js"></script>

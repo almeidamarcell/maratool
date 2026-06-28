@@ -2,9 +2,9 @@ import { describe, test, expect } from 'vitest'
 import { tools, categoryOrder, subcategoryOrderByCategory, toolsByCategory } from './tools'
 
 describe('tool categories', () => {
-  test('has 9 categories in correct order', () => {
+  test('has 12 categories in correct order', () => {
     expect([...categoryOrder]).toEqual([
-      'Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Mockup', 'Health',
+      'Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Business', 'Finance', 'Education', 'Mockup', 'Health',
     ])
   })
 
@@ -42,19 +42,19 @@ describe('tool categories', () => {
     }
   })
 
-  test('Converter category has Format, Unit, and Video subcategories', () => {
-    expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Unit', 'Video', 'Audio'])
+  test('Converter category has Format, Document, Media, Unit, Video, Audio, CSV, and Date subcategories', () => {
+    expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Document', 'Media', 'Unit', 'Video', 'Audio', 'CSV', 'Date'])
   })
 
   test('PDF category has Extract, Edit, Inspect subcategories', () => {
     expect(subcategoryOrderByCategory['PDF']).toEqual(['Extract', 'Edit', 'Inspect'])
   })
 
-  test('Text category has Analyze, Edit, Generate subcategories', () => {
-    expect(subcategoryOrderByCategory['Text']).toEqual(['Analyze', 'Edit', 'Generate'])
+  test('Text category has Analyze, Edit, Generate, Transform subcategories', () => {
+    expect(subcategoryOrderByCategory['Text']).toEqual(['Analyze', 'Edit', 'Generate', 'Transform'])
   })
 
-  test('Image category has Transform, Social, and Inspect subcategories', () => {
+  test('Image category has Transform, Animated, Social, and Inspect subcategories', () => {
     expect(subcategoryOrderByCategory['Image']).toEqual(['Transform', 'Animated', 'Social', 'Inspect'])
   })
 
@@ -62,12 +62,33 @@ describe('tool categories', () => {
     expect(subcategoryOrderByCategory['Color']).toEqual(['Generate', 'Convert', 'Check'])
   })
 
-  test('Developer category has Crypto, Generate, Calculator, and Reference subcategories', () => {
-    expect(subcategoryOrderByCategory['Developer']).toEqual(['Crypto', 'Generate', 'Calculator', 'Reference'])
+  test('Developer category has expected subcategories', () => {
+    expect(subcategoryOrderByCategory['Developer']).toEqual(['Crypto', 'Generate', 'Audit', 'Calculator', 'Reference', 'SQL', 'API', 'Security', 'AI', 'Web', 'Data'])
   })
 
-  test('Marketing category has Builder subcategory', () => {
-    expect(subcategoryOrderByCategory['Marketing']).toEqual(['Builder'])
+  test('Marketing category has Builder and Calculator subcategories', () => {
+    expect(subcategoryOrderByCategory['Marketing']).toEqual(['Builder', 'Calculator'])
+  })
+
+  test('Business category has Calculator, Pricing, Fees, Tax, Pay, Invoicing, Generate subcategories', () => {
+    expect(subcategoryOrderByCategory['Business']).toEqual(['Calculator', 'Pricing', 'Fees', 'Tax', 'Pay', 'Invoicing', 'Generate'])
+  })
+
+  test('Finance category has Loan, Interest, Investment, Retirement subcategories', () => {
+    expect(subcategoryOrderByCategory['Finance']).toEqual(['Loan', 'Interest', 'Investment', 'Retirement'])
+  })
+
+  test('E-commerce was merged into Business (no standalone E-commerce category)', () => {
+    expect([...categoryOrder]).not.toContain('E-commerce')
+    expect(subcategoryOrderByCategory['E-commerce']).toBeUndefined()
+    // The former e-commerce tools now live under Business
+    const amazon = tools.find(t => t.slug === 'amazon-fee-calculator')
+    expect(amazon?.category).toBe('Business')
+    expect(amazon?.subcategory).toBe('Fees')
+  })
+
+  test('Education category has Calculator and Reference subcategories', () => {
+    expect(subcategoryOrderByCategory['Education']).toEqual(['Calculator', 'Reference'])
   })
 
   test('Mockup category has Chat, AI Chat, Posts, Comments, Stories, Email subcategories', () => {
@@ -94,6 +115,84 @@ describe('tool categories', () => {
     expect(qr?.category).toBe('Marketing')
   })
 
+  test('Wave 1 finance tools are registered and live', () => {
+    const slugs = ['mortgage-calculator', 'loan-calculator', 'compound-interest-calculator', 'cagr-calculator']
+    for (const slug of slugs) {
+      const tool = tools.find(t => t.slug === slug)
+      expect(tool?.category, slug).toBe('Finance')
+      expect(tool?.live, slug).toBe(true)
+    }
+  })
+
+  test('Wave 2 tools are registered and live', () => {
+    const slugs = [
+      'fire-calculator', 'inflation-calculator', 'stock-average-calculator', 'dca-calculator',
+      'commission-calculator', 'contractor-rate-calculator', 'pricing-calculator', 'invoice-due-date-calculator',
+      'csv-cleaner', 'csv-remove-duplicates', 'csv-split', 'csv-merge',
+      'curl-to-fetch', 'curl-to-python', 'postman-collection-generator', 'json-schema-validator',
+      'age-calculator', 'iso8601-formatter', 'week-number-calculator',
+      'shopify-discount-calculator', 'gtin-validator',
+      'prompt-variable-tester', 'embedding-cost-calculator',
+    ]
+    for (const slug of slugs) {
+      const tool = tools.find(t => t.slug === slug)
+      expect(tool?.live, slug).toBe(true)
+      expect(tool?.blogPost, slug).toBe(true)
+    }
+  })
+
+  test('Wave 3 tools are registered and live', () => {
+    const slugs = [
+      'sql-minifier', 'sql-insert-generator', 'sql-create-table-generator',
+      'rag-chunk-calculator', 'ai-model-comparison', 'llm-json-extractor',
+      'hash-identifier', 'iban-validator', 'luhn-checker', 'jwt-security-checker',
+      'html-minifier', 'html-beautifier', 'css-minifier', 'url-parser',
+      'gpa-calculator', 'grade-calculator', 'final-grade-calculator', 'reading-level-calculator',
+    ]
+    for (const slug of slugs) {
+      const tool = tools.find(t => t.slug === slug)
+      expect(tool?.live, slug).toBe(true)
+      expect(tool?.blogPost, slug).toBe(true)
+    }
+  })
+
+  test('Wave 4 tools are registered and live', () => {
+    const slugs = [
+      'invoice-number-generator', 'purchase-order-generator', 'business-name-generator', 'currency-margin-calculator',
+      'dcf-calculator', 'position-size-calculator', 'crypto-profit-calculator',
+      'vision-token-estimator', 'json-schema-generator', 'markdown-cleanup', 'prompt-diff', 'prompt-version-compare', 'ai-output-formatter',
+      'sql-query-builder', 'csv-to-sql', 'sql-to-csv', 'er-diagram-generator', 'mongo-to-sql',
+      'http-request-builder', 'api-mock-response-generator', 'webhook-payload-inspector',
+      'hash-compare', 'checksum-calculator', 'ssl-certificate-decoder', 'csr-generator', 'pem-decoder', 'certificate-expiration-checker',
+      'business-days-calculator', 'working-hours-calculator', 'countdown-generator',
+      'excel-to-csv', 'csv-to-excel', 'csv-delimiter-converter', 'csv-column-mapper', 'csv-transpose',
+      'html-preview', 'css-beautifier', 'js-minifier', 'html-validator', 'css-grid-generator', 'flexbox-generator', 'svg-editor',
+      'shipping-calculator', 'sku-generator', 'youtube-timestamp-generator',
+      'csv-diff', 'xml-validator', 'yaml-validator', 'toml-converter', 'xml-formatter', 'json-flatten', 'json-path-tester',
+      'citation-generator', 'flashcard-formatter', 'apa-mla-converter', 'roman-numeral-converter',
+    ]
+    for (const slug of slugs) {
+      const tool = tools.find(t => t.slug === slug)
+      expect(tool?.live, slug).toBe(true)
+      expect(tool?.blogPost, slug).toBe(true)
+    }
+  })
+
+  test('every blogPost: true tool has a blog page with BlogToolEmbed', async () => {
+    const { readFileSync, existsSync } = await import('node:fs')
+    const { resolve } = await import('node:path')
+    const pagesDir = resolve(import.meta.dirname, '../pages/blog')
+    const blogTools = tools.filter(t => t.blogPost)
+    expect(blogTools.length, 'expected at least one blogPost tool').toBeGreaterThan(0)
+    for (const tool of blogTools) {
+      const blogPath = resolve(pagesDir, `${tool.slug}.astro`)
+      expect(existsSync(blogPath), `${tool.slug} missing blog post at src/pages/blog/${tool.slug}.astro`).toBe(true)
+      const content = readFileSync(blogPath, 'utf8')
+      expect(content, `${tool.slug} blog must use BlogToolEmbed`).toContain('BlogToolEmbed')
+      expect(content, `${tool.slug} blog must embed the correct slug`).toContain(`slug="${tool.slug}"`)
+    }
+  })
+
   test('PDF tools are in PDF category', () => {
     const pdfSlugs = ['pdf-to-text', 'pdf-metadata', 'pdf-to-markdown', 'pdf-merge-split', 'pdf-accessibility-checker']
     for (const slug of pdfSlugs) {
@@ -105,10 +204,7 @@ describe('tool categories', () => {
   test('no category has 0 live tools', () => {
     for (const cat of categoryOrder) {
       const liveTools = tools.filter(t => t.category === cat && t.live)
-      // Marketing may have 0 live, that's ok — QR is live now
-      if (cat !== 'Marketing') {
-        expect(liveTools.length, `${cat} has 0 live tools`).toBeGreaterThan(0)
-      }
+      expect(liveTools.length, `${cat} has 0 live tools`).toBeGreaterThan(0)
     }
   })
 

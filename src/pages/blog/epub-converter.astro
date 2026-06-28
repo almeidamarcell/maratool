@@ -1,0 +1,80 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'epub-converter'
+const seo = {
+  title: 'EPUB to PDF — how to convert e-books in your browser | maratool',
+  description: 'Convert EPUB e-books to PDF, HTML, or plain text online. Learn how chapter preview and local browser conversion work — no upload required.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert EPUB to PDF online',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How the maratool EPUB converter works — EPUB to PDF, HTML, and TXT in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'EPUB Converter guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert EPUB to PDF online"
+      lead="Upload an EPUB, preview its chapters, and download as PDF, HTML, or plain text — all without sending your file to a server."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>EPUB is the standard format for e-books from publishers, libraries, and self-publishing platforms. Sometimes you need a PDF for printing, an HTML archive, or plain text for search and analysis. The <a href="/epub-converter">EPUB Converter</a> handles all three output formats in your browser.</p>
+
+      <BlogToolEmbed slug="epub-converter" title="Try it — upload an EPUB and convert to PDF, HTML, or TXT" height={560} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Upload</strong> — drop an unencrypted .epub file. EPUB is a ZIP archive; the tool unpacks it locally with JSZip.</li>
+        <li><strong>Parse</strong> — reads the OPF manifest and spine to determine chapter order, then loads the table of contents from the nav document (EPUB 3) or NCX (EPUB 2).</li>
+        <li><strong>Preview</strong> — click any chapter in the sidebar to render its XHTML content with images and styles resolved from the archive.</li>
+        <li><strong>Download</strong> — choose PDF, HTML, or TXT and save the converted file.</li>
+      </ol>
+
+      <h2>Output formats</h2>
+      <p><strong>PDF</strong> — chapters are combined into a single document and rendered with html2pdf.js. Complex layouts and large image-heavy books may take longer; very large files are limited by browser memory.</p>
+      <p><strong>HTML</strong> — exports one standalone .html file with all chapters in reading order. Useful for archiving or opening in any browser without an e-reader app.</p>
+      <p><strong>Plain text</strong> — strips HTML tags and outputs chapter headings plus body text. Good for word counts, grep, or feeding into other tools.</p>
+
+      <h2>Limitations</h2>
+      <ul>
+        <li><strong>DRM</strong> — copy-protected EPUBs (Adobe DRM, Kindle formats) cannot be opened. Only standard, unencrypted EPUB files work.</li>
+        <li><strong>PDF fidelity</strong> — browser PDF rendering preserves text and basic layout but may not match a dedicated desktop converter for complex typography.</li>
+        <li><strong>File size</strong> — large illustrated books consume more RAM during conversion. If the browser tab crashes, try HTML or TXT instead of PDF.</li>
+      </ul>
+
+      <h2>Related tools</h2>
+      <p>Working with PDFs instead? Try <a href="/pdf-to-text">Extract Text from PDF</a> or <a href="/pdf-to-markdown">PDF to Markdown</a>. For web content, see <a href="/html-to-markdown">HTML to Markdown</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">Everything runs in your browser — nothing is uploaded. Try the <a href="/epub-converter">EPUB Converter</a> on the <a href="/converter">Converter</a> hub at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

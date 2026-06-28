@@ -1,0 +1,80 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'open-graph-preview'
+const seo = {
+  title: 'Open Graph preview — see how your link looks when shared | maratool',
+  description: 'Preview Facebook and social link cards from pasted HTML or manual OG fields. Paste-only — cannot fetch live URLs. Free Open Graph preview tool.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to preview Open Graph cards before publishing',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How the maratool Open Graph preview tool renders social link cards from pasted HTML.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Open Graph Preview guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to preview Open Graph cards before publishing"
+      lead="See the title, description, and image that Facebook, LinkedIn, and Slack will pull from your page — paste HTML or fill in OG fields manually."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>A broken <code>og:image</code> or a truncated title shows up the moment someone shares your link. The <a href="/open-graph-preview">Open Graph Preview</a> renders an approximate link card from your page HTML so you can catch problems before they go live.</p>
+
+      <p><strong>Paste-only limitation:</strong> the tool cannot fetch your URL. Browsers block cross-site HTML loading. Paste page source from View Source, or switch to Manual mode and type OG fields directly.</p>
+
+      <BlogToolEmbed slug="open-graph-preview" title="Try it — paste HTML or enter OG fields manually" height={560} />
+
+      <h2>Two input modes</h2>
+      <ol>
+        <li><strong>From HTML</strong> — paste your page source. The tool extracts <code>og:*</code> and <code>twitter:*</code> meta tags and builds the preview.</li>
+        <li><strong>Manual</strong> — fill in title, description, image URL, and site name without HTML. Useful when you are drafting tags before they are in a template.</li>
+      </ol>
+
+      <h2>What the preview shows</h2>
+      <p>The card mimics the layout Facebook and LinkedIn use: large image on top, title below, description, and domain. Missing images show a placeholder. Truncated titles are visible so you can shorten them before publish.</p>
+      <p>Platforms may crop images differently or change fonts. Treat this as a sanity check, not a pixel-perfect Facebook debugger replacement.</p>
+
+      <h2>Common issues it catches</h2>
+      <ul>
+        <li>Missing <code>og:image</code> — the share will look empty or pull a random on-page image.</li>
+        <li>Title too long — gets cut off mid-sentence in the card.</li>
+        <li>No <code>og:description</code> — platforms fall back to page text, often poorly.</li>
+        <li>Relative image URLs — may not resolve on social crawlers; use absolute URLs.</li>
+      </ul>
+
+      <h2>Related tools</h2>
+      <p>Audit all meta tags with the <a href="/meta-tag-checker">Meta Tag Checker</a>, or generate tags from scratch with the <a href="/meta-tag-generator">Meta Tag Generator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/open-graph-preview">Open Graph Preview</a> runs locally — nothing is uploaded. Try it at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

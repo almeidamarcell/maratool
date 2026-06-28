@@ -1,0 +1,96 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'FIRE Calculator — Years to Financial Independence | maratool',
+  description: 'Calculate years to financial independence using the 4% rule. Enter savings, expenses, income, and expected return. Free, runs in your browser.',
+  canonical: 'https://maratool.com/fire-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'FIRE Calculator — Financial Independence Retire Early',
+    url: 'https://maratool.com/fire-calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate years to financial independence using the 4% rule. Enter savings, expenses, income, and expected return. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Finance', item: 'https://maratool.com/finance' },
+      { '@type': 'ListItem', position: 3, name: 'Retirement', item: 'https://maratool.com/finance/retirement' },
+      { '@type': 'ListItem', position: 4, name: 'FIRE Calculator — Financial Independence Retire Early', item: 'https://maratool.com/fire-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is the 4% rule?', acceptedAnswer: { '@type': 'Answer', text: 'A guideline that you can withdraw 4% of your portfolio annually in retirement. Your FI number is 25× annual expenses.' } },
+      { '@type': 'Question', name: 'How is years to FIRE calculated?', acceptedAnswer: { '@type': 'Answer', text: 'The calculator projects portfolio growth from savings and investment returns until it reaches 25× your annual expenses.' } },
+      { '@type': 'Question', name: 'What savings rate should I target?', acceptedAnswer: { '@type': 'Answer', text: 'Higher savings rates dramatically shorten time to FI. Even 20–30% is a strong start for most earners.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your current savings and annual living expenses.',
+  'Add annual income and expected investment return rate.',
+  'See your FI number, years to financial independence, and savings rate.'
+]
+
+const faq = [
+  { q: 'What is the 4% rule?', a: 'A guideline that you can withdraw 4% of your portfolio annually in retirement. Your FI number is 25× annual expenses.' },
+  { q: 'How is years to FIRE calculated?', a: 'The calculator projects portfolio growth from savings and investment returns until it reaches 25× your annual expenses.' },
+  { q: 'What savings rate should I target?', a: 'Higher savings rates dramatically shorten time to FI. Even 20–30% is a strong start for most earners.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'compound-interest-calculator', name: 'Compound Interest Calculator' },
+  { slug: 'dca-calculator', name: 'Dollar Cost Averaging Calculator' },
+  { slug: 'inflation-calculator', name: 'Inflation Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Finance', href: '/finance' },
+  { label: 'Retirement', href: '/finance/retirement' },
+  { label: 'FIRE Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="fire-calculator" name="FIRE Calculator — Financial Independence Retire Early" description="Enter current savings, annual expenses, income, and investment return to see your FI number, years to FIRE, and savings rate." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:360px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="fire-savings">Current savings ($)</label><input type="number" id="fire-savings" class="tool-input" placeholder="100000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="fire-expenses">Annual expenses ($)</label><input type="number" id="fire-expenses" class="tool-input" placeholder="40000" min="0" /></div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="fire-income">Annual income ($)</label><input type="number" id="fire-income" class="tool-input" placeholder="80000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="fire-return">Expected return (%)</label><input type="number" id="fire-return" class="tool-input" placeholder="7" step="any" min="0" /></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="fire-fi">—</span><span class="tool-stat-label">FI number</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="fire-years">—</span><span class="tool-stat-label">Years to FIRE</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="fire-save-rate">—</span><span class="tool-stat-label">Savings rate</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/fire-calculator.js"></script>

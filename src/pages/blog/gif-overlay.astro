@@ -4,39 +4,43 @@ import Layout from '../../components/Layout.astro'
 import BlogPostShell from '../../components/BlogPostShell.astro'
 import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
-const slug = 'gif-overlay'
 const seo = {
-  title: 'How to add overlay to gif online | maratool',
-  description: 'Add Overlay to GIF Online in your browser. No upload, no watermark.',
-  canonical: `https://maratool.com/blog/${slug}`,
+  title: 'How to overlay an image or logo on a GIF | maratool',
+  description: 'Overlay a static image or another GIF on top of an animated GIF. Drag to position, resize, set opacity, and download.',
+  canonical: 'https://maratool.com/blog/gif-overlay',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    headline: 'How to add overlay to gif online',
+    headline: 'How to overlay an image or logo on a GIF',
     image: 'https://maratool.com/og/image.svg',
     datePublished: '2026-06-28',
     dateModified: '2026-06-28',
     author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
-    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
-    url: `https://maratool.com/blog/${slug}`,
-    description: 'Add Overlay to GIF Online in your browser. No upload, no watermark.',
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://maratool.com/blog/gif-overlay' },
+    url: 'https://maratool.com/blog/gif-overlay',
+    description: 'Overlay a static image or another GIF on top of an animated GIF. Drag to position, resize, set opacity, and download.',
   },
 }
 ---
 <Base {...seo}>
   <Layout>
-    <BlogPostShell title="How to add overlay to gif online" lead="Add Overlay to GIF Online in your browser. No upload, no watermark." date="June 28, 2026" dateIso="2026-06-28">
-      <p>Use the free <a href="/gif-overlay">Add Overlay to GIF Online</a> on maratool — same class of tool as <a href="https://ezgif.com" rel="noopener noreferrer">ezgif.com</a>, but everything runs locally in your browser.</p>
+    <BlogPostShell title="How to overlay an image or logo on a GIF" lead="Add a watermark or logo on top of any animated GIF." date="June 28, 2026" dateIso="2026-06-28">
+      <p>The <a href="/gif-overlay">GIF Overlay</a> tool runs entirely in your browser — no upload, no watermark.</p>
       <BlogToolEmbed slug="gif-overlay" title="Try it live" height={480} />
       <h2>How it works</h2>
       <ol>
-        <li><strong>Upload</strong> — drop your file into the tool.</li>
-        <li><strong>Configure</strong> — adjust settings if the tool offers options.</li>
-        <li><strong>Download</strong> — save the result. Your file never leaves your device.</li>
+        <li>Upload the base GIF and an overlay image or GIF.</li>
+        <li>Drag, resize, and set overlay opacity.</li>
+        <li>Apply to all frames or a range, then download.</li>
       </ol>
       <hr class="blog-divider" />
-      <p class="blog-footer-note">More <a href="/image/animated">animated image tools</a> at <a href="/">maratool.com</a>.</p>
+      <p class="blog-footer-note">Try the <a href="/gif-overlay">GIF Overlay</a> free at <a href="/image">maratool.com/image</a>.</p>
     </BlogPostShell>
   </Layout>
 </Base>

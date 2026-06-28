@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import PasteOnlyNotice from '../components/PasteOnlyNotice.astro'
+
+const seo = {
+  title: 'Validate Schema Markup Online — Check JSON-LD structured data | maratool',
+  description: 'Paste JSON-LD to validate syntax and required schema.org fields. Paste-only — does not fetch live pages. Free schema markup validator in your browser.',
+  canonical: 'https://maratool.com/schema-validator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Schema Markup Validator',
+    url: 'https://maratool.com/schema-validator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Validate JSON-LD structured data from pasted content.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Audit', item: 'https://maratool.com/developer/audit' },
+      { '@type': 'ListItem', position: 4, name: 'Schema Markup Validator', item: 'https://maratool.com/schema-validator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Can this validate schema on a live URL?', acceptedAnswer: { '@type': 'Answer', text: 'No. Paste JSON-LD from your page source or script tags. Browsers cannot fetch other sites\' HTML.' } },
+      { '@type': 'Question', name: 'What schema types are checked?', acceptedAnswer: { '@type': 'Answer', text: 'Article, Product, FAQPage, HowTo, LocalBusiness, Person, Organization, WebSite, WebApplication, and BreadcrumbList — with required-field validation per type.' } },
+      { '@type': 'Question', name: 'Is this a replacement for Google Rich Results Test?', acceptedAnswer: { '@type': 'Answer', text: 'No. This checks JSON syntax and basic required fields locally. Google\'s tool fetches your URL and tests rich-result eligibility server-side.' } },
+      { '@type': 'Question', name: 'Is my JSON sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Validation runs entirely in your browser.' } },
+    ]
+  }
+}
+
+const howTo = [
+  'Copy JSON-LD from a <script type="application/ld+json"> block in your page source.',
+  'Paste it into the box below (single object or array).',
+  'Fix any missing @context, @type, or required fields before deploying.',
+]
+
+const faq = [
+  { q: 'Can this check a live URL?', a: 'No. Paste JSON-LD from View Source — browsers block cross-site fetching.' },
+  { q: 'What types are validated?', a: 'Article, Product, FAQ, HowTo, LocalBusiness, Organization, WebSite, WebApplication, BreadcrumbList, and Person.' },
+  { q: 'Replacement for Google Rich Results Test?', a: 'No. This is local syntax + required-field checks. Google\'s tool fetches URLs server-side.' },
+  { q: 'Need to generate schema?', a: 'Use the <a href="/schema-markup-generator">Schema Markup Generator</a>.' },
+]
+
+const relatedTools = [
+  { slug: 'schema-markup-generator', name: 'Schema Markup Generator' },
+  { slug: 'meta-tag-checker', name: 'Check Meta Tags Online' },
+  { slug: 'sitemap-validator', name: 'Sitemap XML Validator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Audit', href: '/developer/audit' },
+  { label: 'Schema Validator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="schema-validator" name="Validate Schema Markup Online" description="Paste JSON-LD to check syntax and required schema.org fields. Does not fetch live pages — paste-only." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <PasteOnlyNotice toolName="The schema validator" />
+        <p class="audit-limit-note">Not a replacement for <a href="https://search.google.com/test/rich-results" target="_blank" rel="noopener">Google Rich Results Test</a>, which fetches your URL server-side.</p>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="sv-status">—</span><span class="tool-stat-label">Status</span></div>
+        </div>
+        <label class="tool-label" for="sv-input">JSON-LD</label>
+        <textarea id="sv-input" class="tool-textarea" rows="14" placeholder='{"@context":"https://schema.org","@type":"WebSite",…}' aria-label="JSON-LD input"></textarea>
+        <div id="sv-results" class="sv-results"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .audit-limit-note { font-size: 13px; color: var(--text-2); margin: 0 0 1rem; }
+  .sv-results { margin-top: 1rem; }
+  .sv-block { margin-bottom: 1rem; padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius); }
+  .sv-block-title { font-size: 14px; font-weight: 600; margin: 0 0 0.5rem; }
+  .sv-block ul { list-style: none; margin: 0; padding: 0; }
+  .sv-issue { font-size: 13px; padding: 0.25rem 0; }
+  .sv-error { color: #c4553a; }
+  .sv-warn { color: #8a6d1d; }
+  .sv-ok { color: #2f8c66; }
+  .sv-ok#sv-status, .sv-bad#sv-status { font-weight: 600; }
+  .sv-bad { color: #c4553a; }
+</style>
+<script src="../tools/schema-validator.js"></script>

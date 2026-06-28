@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'ab-test-calculator'
+const seo = {
+  title: 'A/B test significance calculator — how to check if results are real | maratool',
+  description: 'Learn how to calculate A/B test statistical significance. Enter control and variant conversion rates to get p-value, lift, and a significance verdict.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to check A/B test statistical significance',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How the maratool A/B test significance calculator works.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'A/B Test Calculator guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to check A/B test statistical significance"
+      lead="Your variant converted better — but is it real or random noise? Enter the numbers and get a p-value in seconds."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>You ran an A/B test. The variant beat the control. Before you ship it to 100% of traffic, you need to know whether the difference is statistically significant or just luck. The <a href="/ab-test-calculator">A/B Test Significance Calculator</a> runs a two-proportion z-test on your data and tells you.</p>
+
+      <BlogToolEmbed slug="ab-test-calculator" title="Try it — enter visitors and conversions for A and B" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Enter control (A) data</strong> — total visitors and how many converted.</li>
+        <li><strong>Enter variant (B) data</strong> — same fields for the test group.</li>
+        <li><strong>Pick a confidence level</strong> — 95% is standard. The tool shows conversion rates, relative lift, p-value, and whether the result is significant.</li>
+      </ol>
+
+      <h2>What the numbers mean</h2>
+      <ul>
+        <li><strong>Conversion rate</strong> — conversions ÷ visitors for each group.</li>
+        <li><strong>Lift</strong> — how much better (or worse) the variant is relative to control. +20% lift means the variant converts 20% more.</li>
+        <li><strong>p-value</strong> — the probability you'd see this difference (or larger) if there were actually no real effect. Lower is better.</li>
+        <li><strong>Significant?</strong> — at 95% confidence, p &lt; 0.05 means yes. The variant likely has a real effect.</li>
+      </ul>
+
+      <h2>Common mistakes</h2>
+      <p><strong>Stopping early.</strong> If you peek at results every hour and stop when p &lt; 0.05, your false-positive rate is much higher than 5%. Decide your sample size upfront or use sequential testing methods.</p>
+      <p><strong>Too little traffic.</strong> A 0.5% absolute lift on 200 visitors per group will almost never reach significance. You need enough data for the signal to outweigh noise.</p>
+
+      <h2>Track where traffic came from</h2>
+      <p>Pair your tests with UTM-tagged URLs from the <a href="/utm-builder">UTM Builder</a> so analytics attributes conversions to the right campaign.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/ab-test-calculator">A/B Test Calculator</a> is free and runs entirely in your browser. More marketing tools at <a href="/marketing">maratool.com/marketing</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

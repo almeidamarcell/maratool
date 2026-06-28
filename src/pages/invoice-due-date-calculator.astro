@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Invoice Due Date Calculator — Net 30 & Payment Terms | maratool',
+  description: 'Calculate invoice due dates from issue date and payment terms. Net 30, Net 60, or custom days. Free, instant, runs in your browser.',
+  canonical: 'https://maratool.com/invoice-due-date-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Invoice Due Date Calculator',
+    url: 'https://maratool.com/invoice-due-date-calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate invoice due dates from issue date and payment terms. Net 30, Net 60, or custom days. Free, instant, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Business', item: 'https://maratool.com/business' },
+      { '@type': 'ListItem', position: 3, name: 'Invoicing', item: 'https://maratool.com/business/invoicing' },
+      { '@type': 'ListItem', position: 4, name: 'Invoice Due Date Calculator', item: 'https://maratool.com/invoice-due-date-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What does Net 30 mean?', acceptedAnswer: { '@type': 'Answer', text: 'Payment is due 30 days after the invoice issue date. Net 60 = 60 days, and so on.' } },
+      { '@type': 'Question', name: 'Are weekends and holidays excluded?', acceptedAnswer: { '@type': 'Answer', text: 'This calculator adds calendar days. Some businesses use business days only — adjust manually if needed.' } },
+      { '@type': 'Question', name: 'Can I use custom payment terms?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Enter any number of days for custom terms like Net 15 or Net 45.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the invoice issue date.',
+  'Set payment terms in days (e.g. 30 for Net 30).',
+  'See the calculated due date instantly.'
+]
+
+const faq = [
+  { q: 'What does Net 30 mean?', a: 'Payment is due 30 days after the invoice issue date. Net 60 = 60 days, and so on.' },
+  { q: 'Are weekends and holidays excluded?', a: 'This calculator adds calendar days. Some businesses use business days only — adjust manually if needed.' },
+  { q: 'Can I use custom payment terms?', a: 'Yes. Enter any number of days for custom terms like Net 15 or Net 45.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'commission-calculator', name: 'Commission Calculator' },
+  { slug: 'pricing-calculator', name: 'Pricing Calculator' },
+  { slug: 'vat-calculator', name: 'VAT Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Business', href: '/business' },
+  { label: 'Invoicing', href: '/business/invoicing' },
+  { label: 'Invoice Due Date Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="invoice-due-date-calculator" name="Invoice Due Date Calculator" description="Enter invoice issue date and payment terms in days to see the due date instantly." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:240px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="inv-issue">Issue date</label><input type="date" id="inv-issue" class="tool-input" style="max-width:220px;" /></div>
+          <div class="calc-field"><label class="tool-label" for="inv-terms">Payment terms (days)</label><input type="number" id="inv-terms" class="tool-input" placeholder="30" min="0" /></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="inv-due">—</span><span class="tool-stat-label">Due date</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/invoice-due-date-calculator.js"></script>

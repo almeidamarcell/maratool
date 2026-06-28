@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'How to convert animated WebP to MP4 | maratool',
+  description: 'Convert animated WebP images to MP4 video in your browser. Adjust quality and resolution, then download — no upload required.',
+  canonical: 'https://maratool.com/blog/webp-to-mp4',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert animated WebP to MP4',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://maratool.com/blog/webp-to-mp4' },
+    url: 'https://maratool.com/blog/webp-to-mp4',
+    description: 'Convert animated WebP images to MP4 video in your browser. Adjust quality and resolution, then download — no upload required.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">← Blog</a>
+          <time datetime="2026-06-28" class="blog-post-date">June 28, 2026</time>
+        </div>
+        <h1 class="blog-post-title">How to convert animated WebP to MP4</h1>
+        <p class="blog-post-lead">Turn animated WebP into MP4 video with FFmpeg in your browser.</p>
+      </header>
+      <div class="blog-body">
+        <p>The <a href="/webp-to-mp4">WebP to MP4 Converter</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <h2>How it works</h2>
+        <ol>
+          <li>Upload an animated WebP file.</li>
+          <li>Set quality and output resolution.</li>
+          <li>Convert and download the MP4.</li>
+        </ol>
+        <p>Convert animated WebP images to MP4 video in your browser. Adjust quality and resolution, then download — no upload required.</p>
+        <hr class="blog-divider" />
+        <p class="blog-footer-note">Try the <a href="/webp-to-mp4">WebP to MP4 Converter</a> free at <a href="/image">maratool.com/image</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>

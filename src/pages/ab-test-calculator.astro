@@ -1,0 +1,110 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'A/B Test Significance Calculator — Check if results are real | maratool',
+  description: 'Calculate A/B test statistical significance instantly. Enter control and variant visitors and conversions to see p-value, lift, and whether your test is significant. Free.',
+  canonical: 'https://maratool.com/ab-test-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'A/B Test Significance Calculator',
+    url: 'https://maratool.com/ab-test-calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate A/B test statistical significance with p-value and lift.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Marketing', item: 'https://maratool.com/marketing' },
+      { '@type': 'ListItem', position: 3, name: 'Calculator', item: 'https://maratool.com/marketing/calculator' },
+      { '@type': 'ListItem', position: 4, name: 'A/B Test Significance Calculator', item: 'https://maratool.com/ab-test-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is statistical significance in A/B testing?', acceptedAnswer: { '@type': 'Answer', text: 'Statistical significance tells you whether the difference between your control and variant conversion rates is likely real or just random noise. A p-value below 0.05 (at 95% confidence) means there is less than a 5% chance the result is due to chance.' } },
+      { '@type': 'Question', name: 'What p-value should I use?', acceptedAnswer: { '@type': 'Answer', text: '95% confidence (p < 0.05) is the industry standard. For high-stakes decisions, use 99% confidence (p < 0.01). For exploratory tests, 90% may be acceptable.' } },
+      { '@type': 'Question', name: 'What is lift?', acceptedAnswer: { '@type': 'Answer', text: 'Lift is the relative improvement of the variant over the control. If control converts at 2% and variant at 2.5%, lift is +25%.' } },
+      { '@type': 'Question', name: 'How many visitors do I need for A/B testing?', acceptedAnswer: { '@type': 'Answer', text: 'It depends on your baseline conversion rate and the minimum detectable effect. Lower conversion rates and smaller expected improvements require larger sample sizes.' } },
+    ]
+  }
+}
+
+const howTo = ['Enter visitor and conversion counts for your control (A) and variant (B).', 'Select your confidence level (95% is standard).', 'Check whether the result is statistically significant and review the lift.']
+const faq = [
+  { q: 'What is statistical significance?', a: 'It tells you whether the difference between conversion rates is likely real or random noise. p < 0.05 at 95% confidence is the standard threshold.' },
+  { q: 'What p-value should I use?', a: '95% confidence (p < 0.05) is standard. Use 99% for high-stakes decisions.' },
+  { q: 'What is lift?', a: 'Lift is the relative improvement of the variant over the control. 2% → 2.5% = +25% lift.' },
+  { q: 'How many visitors do I need?', a: 'Depends on baseline conversion rate and minimum detectable effect. Lower rates need larger samples.' },
+]
+const relatedTools = [
+  { slug: 'campaign-roi-calculator', name: 'Campaign ROI Calculator' },
+  { slug: 'utm-builder', name: 'UTM Builder' },
+  { slug: 'percentage-calculator', name: 'Percentage Calculator Online' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Marketing', href: '/marketing' },
+  { label: 'Calculator', href: '/marketing/calculator' },
+  { label: 'A/B Test Calculator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="ab-test-calculator" name="A/B Test Significance Calculator" description="Enter control and variant visitors and conversions to check statistical significance, p-value, and lift. Updates instantly." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <div class="calc-row">
+          <fieldset class="calc-fieldset">
+            <legend class="tool-label">Control (A)</legend>
+            <div class="calc-field"><label class="tool-label" for="ab-control-visitors">Visitors</label><input type="number" id="ab-control-visitors" class="tool-input" min="0" placeholder="10000" /></div>
+            <div class="calc-field"><label class="tool-label" for="ab-control-conversions">Conversions</label><input type="number" id="ab-control-conversions" class="tool-input" min="0" placeholder="200" /></div>
+          </fieldset>
+          <fieldset class="calc-fieldset">
+            <legend class="tool-label">Variant (B)</legend>
+            <div class="calc-field"><label class="tool-label" for="ab-variant-visitors">Visitors</label><input type="number" id="ab-variant-visitors" class="tool-input" min="0" placeholder="10000" /></div>
+            <div class="calc-field"><label class="tool-label" for="ab-variant-conversions">Conversions</label><input type="number" id="ab-variant-conversions" class="tool-input" min="0" placeholder="250" /></div>
+          </fieldset>
+        </div>
+        <div class="calc-field">
+          <label class="tool-label" for="ab-confidence">Confidence level</label>
+          <select id="ab-confidence" class="tool-input calc-select">
+            <option value="0.90">90%</option>
+            <option value="0.95" selected>95%</option>
+            <option value="0.99">99%</option>
+          </select>
+        </div>
+        <p class="calc-error" id="ab-error" style="display:none;"></p>
+        <div id="ab-results">
+          <div class="tool-stats">
+            <div class="tool-stat"><span class="tool-stat-value" id="ab-stat-control">—</span><span class="tool-stat-label">Control rate</span></div>
+            <div class="tool-stat"><span class="tool-stat-value" id="ab-stat-variant">—</span><span class="tool-stat-label">Variant rate</span></div>
+            <div class="tool-stat"><span class="tool-stat-value" id="ab-stat-lift">—</span><span class="tool-stat-label">Lift</span></div>
+            <div class="tool-stat"><span class="tool-stat-value" id="ab-stat-pvalue">—</span><span class="tool-stat-label">p-value</span></div>
+            <div class="tool-stat"><span class="tool-stat-value" id="ab-stat-significant">—</span><span class="tool-stat-label">Significant?</span></div>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem; }
+  .calc-fieldset { border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+  .calc-fieldset legend { padding: 0 0.25rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 200px; }
+  .calc-error { color: var(--error, #c4553a); font-size: 0.875rem; }
+  .ab-sig-yes { color: #2f8c66; }
+  .ab-sig-no { color: var(--text-2); }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/ab-test-calculator.js"></script>

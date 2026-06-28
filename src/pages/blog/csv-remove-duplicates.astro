@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'csv-remove-duplicates'
+const seo = {
+  title: 'Remove duplicate rows from CSV — dedupe online | maratool',
+  description: 'Remove duplicate rows from CSV files. Dedupe by entire row or a key column. Free, browser-based, no upload.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to remove duplicate rows from a CSV file',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Remove duplicate rows from CSV files. Dedupe by entire row or a key column. Free, browser-based, no upload.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to remove duplicate rows from a CSV file', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to remove duplicate rows from a CSV file"
+      lead="Paste CSV and dedupe by full row or a single column — keep first or last occurrence."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Mailing lists and product feeds accumulate duplicate rows after merges. The <a href="/csv-remove-duplicates">CSV Dedupe Tool</a> removes duplicates by entire row or a specific column key.</p>
+
+      <BlogToolEmbed slug="csv-remove-duplicates" title="Try it — paste CSV and choose dedupe column" height={500} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste CSV</strong> — include header row if present.</li>
+        <li><strong>Dedupe mode</strong> — entire row or one column as key.</li>
+        <li><strong>Copy result</strong> — unique rows only.</li>
+      </ol>
+
+      <h2>Key column dedupe</h2>
+      <p>Deduping by email or SKU keeps the first row for each unique key — useful for CRM imports.</p>
+
+      <h2>Clean first</h2>
+      <p>Run through the <a href="/csv-cleaner">CSV Cleaner</a> first so whitespace does not create false unique keys.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/csv-remove-duplicates">How to remove duplicate rows from a CSV file</a> is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
