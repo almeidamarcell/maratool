@@ -1,0 +1,136 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Censor Image Online — Pixelate or Blur Faces & Areas | maratool',
+  description: 'Pixelate or blur specific areas of images and GIFs. Draw rectangles over faces or sensitive content, then download.',
+  canonical: 'https://maratool.com/censor-image',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Censor Image',
+    url: 'https://maratool.com/censor-image',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Pixelate or blur specific areas of images and GIFs. Draw rectangles over faces or sensitive content, then download.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Censor Image', item: 'https://maratool.com/censor-image' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Does this work on GIFs?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Draw censor regions once and they apply to every frame, or limit to a frame range.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Pixelate vs blur?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Pixelate replaces blocks with averaged colors. Blur applies a gaussian blur — better for faces.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I add multiple regions?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Draw as many rectangles as you need before applying.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is processing local?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Your image or GIF never leaves your browser.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload an image or animated GIF.',
+  'Draw rectangles over areas to censor and pick pixelate or blur.',
+  'Apply and download the result.'
+]
+const faq = [
+  {
+    'q': 'Does this work on GIFs?',
+    'a': 'Yes. Draw censor regions once and they apply to every frame, or limit to a frame range.'
+  },
+  {
+    'q': 'Pixelate vs blur?',
+    'a': 'Pixelate replaces blocks with averaged colors. Blur applies a gaussian blur — better for faces.'
+  },
+  {
+    'q': 'Can I add multiple regions?',
+    'a': 'Yes. Draw as many rectangles as you need before applying.'
+  },
+  {
+    'q': 'Is processing local?',
+    'a': 'Yes. Your image or GIF never leaves your browser.'
+  }
+]
+const relatedTools = [
+  { slug: 'gif-compressor', name: 'Gif Compressor' },
+  { slug: 'background-remover', name: 'Background Remover' },
+  { slug: 'image-compressor', name: 'Image Compressor' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'Censor Image' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="censor-image" name="Censor Image Online — Pixelate or Blur Areas" description="Pixelate or blur specific areas of images and GIFs. Draw rectangles over faces or sensitive content, then download." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container cen-root" style="min-height:480px;">
+        <div class="cen-dropzone" id="cen-dropzone">
+          <input type="file" id="cen-file" hidden />
+          <p class="cen-drop-title">Drop a file here</p>
+          <p class="cen-drop-sub">or click to select</p>
+        </div>
+        <div id="cen-workspace" style="display:none;"></div>
+        <div id="cen-progress" class="cen-progress" style="display:none;">
+          <div id="cen-progress-text">Processing...</div>
+          <div class="cen-progress-track"><div id="cen-progress-fill" class="cen-progress-fill"></div></div>
+        </div>
+        <div id="cen-error" class="cen-error" style="display:none;"><span id="cen-error-text"></span></div>
+        <div id="cen-result" style="display:none;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .cen-dropzone {
+    border: 2px dashed var(--border); border-radius: var(--radius);
+    padding: 3rem 2rem; text-align: center; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .cen-dropzone:hover, .cen-dropzone.drag-over { border-color: var(--accent); background: var(--bg-soft); }
+  .cen-drop-title { font-size: 1.125rem; font-weight: 600; margin: 0; }
+  .cen-drop-sub { font-size: 0.875rem; color: var(--text-2); margin: 0.5rem 0 0; }
+  .cen-progress { text-align: center; padding: 2rem; }
+  .cen-progress-track { width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover); border-radius: 4px; margin: 1rem auto; overflow: hidden; }
+  .cen-progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+  .cen-error { background: var(--error-bg); border: 1px solid var(--error-border); border-radius: var(--radius); padding: 1rem; color: #c53030; font-size: 0.875rem; }
+  .cen-preview-wrap {
+    background: repeating-conic-gradient(#e0e0e0 0% 25%, #fff 0% 50%) 0 0 / 16px 16px;
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
+  }
+  .cen-preview-wrap canvas, .cen-preview-wrap img { max-width: 100%; max-height: 360px; display: block; }
+  .cen-controls { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
+  .cen-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .cen-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+</style>
+<script src="../tools/censor-image.js"></script>

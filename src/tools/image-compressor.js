@@ -11,9 +11,11 @@ import { validateQuality, calculateDimensions, formatBytes, compressionRatio, ge
   var qualityVal = document.getElementById('icm-quality-val')
   var scaleSelect = document.getElementById('icm-scale')
   var formatSelect = document.getElementById('icm-format')
+  var stripExif = document.getElementById('icm-strip-exif')
   var compressBtn = document.getElementById('icm-compress')
   var changeBtn = document.getElementById('icm-change')
   var resultEl = document.getElementById('icm-result')
+  var originalResultImg = document.getElementById('icm-original-result')
   var resultImg = document.getElementById('icm-result-img')
   var newSize = document.getElementById('icm-new-size')
   var savings = document.getElementById('icm-savings')
@@ -21,6 +23,7 @@ import { validateQuality, calculateDimensions, formatBytes, compressionRatio, ge
 
   var currentImg = null
   var currentFile = null
+  var originalDataUrl = null
   var compressedBlob = null
   var compressedName = 'compressed.jpg'
 
@@ -29,6 +32,7 @@ import { validateQuality, calculateDimensions, formatBytes, compressionRatio, ge
     currentFile = file
     var reader = new FileReader()
     reader.onload = function () {
+      originalDataUrl = reader.result
       var img = new Image()
       img.onload = function () {
         currentImg = img
@@ -60,15 +64,18 @@ import { validateQuality, calculateDimensions, formatBytes, compressionRatio, ge
     qualityVal.textContent = qualitySlider.value + '%'
   })
 
-  changeBtn.addEventListener('click', function () {
+  function resetTool() {
     currentImg = null
     currentFile = null
+    originalDataUrl = null
     compressedBlob = null
     dropzone.style.display = ''
     settings.style.display = 'none'
     resultEl.style.display = 'none'
     fileInput.value = ''
-  })
+  }
+
+  changeBtn.addEventListener('click', resetTool)
 
   compressBtn.addEventListener('click', function () {
     if (!currentImg) return
@@ -83,6 +90,10 @@ import { validateQuality, calculateDimensions, formatBytes, compressionRatio, ge
     canvas.width = dims.width
     canvas.height = dims.height
     var ctx = canvas.getContext('2d')
+    if (!stripExif || stripExif.checked) {
+      ctx.fillStyle = '#ffffff'
+      if (mime !== 'image/jpeg') ctx.clearRect(0, 0, dims.width, dims.height)
+    }
     ctx.drawImage(currentImg, 0, 0, dims.width, dims.height)
 
     canvas.toBlob(function (blob) {
@@ -90,10 +101,13 @@ import { validateQuality, calculateDimensions, formatBytes, compressionRatio, ge
       compressedBlob = blob
       var ext = formatSelect.value === 'png' ? 'png' : formatSelect.value === 'webp' ? 'webp' : 'jpg'
       compressedName = (currentFile.name.replace(/\.[^.]+$/, '') || 'image') + '-compressed.' + ext
+      originalResultImg.src = originalDataUrl
       resultImg.src = URL.createObjectURL(blob)
       newSize.textContent = formatBytes(blob.size)
-      savings.textContent = compressionRatio(currentFile.size, blob.size).toFixed(1) + '% smaller'
+      var pct = compressionRatio(currentFile.size, blob.size)
+      savings.textContent = (pct > 0 ? pct.toFixed(1) + '% smaller' : 'No reduction')
       resultEl.style.display = ''
+      settings.style.display = 'none'
     }, mime, mime === 'image/png' ? undefined : quality)
   })
 
@@ -104,6 +118,9 @@ import { validateQuality, calculateDimensions, formatBytes, compressionRatio, ge
     a.download = compressedName
     a.click()
   })
+
+  var changeResultBtn = document.getElementById('icm-change-result')
+  if (changeResultBtn) changeResultBtn.addEventListener('click', resetTool)
 
   qualityVal.textContent = qualitySlider.value + '%'
 })()

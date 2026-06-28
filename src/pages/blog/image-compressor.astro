@@ -7,7 +7,7 @@ import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 const slug = 'image-compressor'
 const seo = {
   title: 'How to compress images online — reduce JPG, PNG & WebP size | maratool',
-  description: 'Compress JPG, PNG, and WebP images in your browser. Adjust quality and resize to shrink file size without uploading to a server.',
+  description: 'Compress JPG, PNG, and WebP images in your browser. Side-by-side preview, savings percentage, and EXIF strip.',
   canonical: `https://maratool.com/blog/${slug}`,
   schema: {
     '@context': 'https://schema.org',
@@ -42,19 +42,19 @@ const seo = {
   <Layout>
     <BlogPostShell
       title="How to compress JPG, PNG, and WebP images in your browser"
-      lead="Drop an image, adjust quality and scale, download a smaller file — your photo never leaves your device."
+      lead="Drop an image, compare original vs compressed side by side, see savings %, download — your photo never leaves your device."
       date="June 28, 2026"
       dateIso="2026-06-28"
     >
-      <p>Large images slow down pages, fill up email inboxes, and hit upload limits. The <a href="/image-compressor">Image Compressor</a> shrinks JPG, PNG, and WebP files using the browser's Canvas API — no server upload, no queue, no watermark.</p>
+      <p>Large images slow down pages, fill up email inboxes, and hit upload limits. The <a href="/image-compressor">Image Compressor</a> shrinks JPG, PNG, and WebP files using the browser's Canvas API — with side-by-side preview, savings percentage, and optional EXIF stripping.</p>
 
       <BlogToolEmbed slug="image-compressor" title="Try it — drop a JPG, PNG, or WebP image" height={600} />
 
       <h2>How it works</h2>
       <ol>
         <li><strong>Drop or select an image</strong> — JPEG, PNG, WebP, GIF, or BMP. The original size and dimensions are shown.</li>
-        <li><strong>Adjust settings</strong> — quality slider (1–100%), scale (100% down to 25%), and output format (JPEG, WebP, or PNG).</li>
-        <li><strong>Compress and download</strong> — click "Compress image", preview the result, see how much you saved, then download.</li>
+        <li><strong>Adjust settings</strong> — quality slider (1–100%), scale (100% down to 25%), output format, and EXIF strip toggle.</li>
+        <li><strong>Compress and compare</strong> — click "Compress image", see original vs result side by side, check savings %, then download.</li>
       </ol>
 
       <h2>What actually reduces file size</h2>
@@ -62,6 +62,7 @@ const seo = {
         <li><strong>Lower quality</strong> — for JPEG and WebP, reducing quality removes imperceptible detail. 80% is a good default; 60% for thumbnails.</li>
         <li><strong>Smaller dimensions</strong> — halving width and height cuts pixel count by 75%. A 4000×3000 photo rarely needs to be that large on the web.</li>
         <li><strong>Format choice</strong> — WebP typically beats JPEG at the same visual quality. PNG is lossless but larger; use it when you need transparency.</li>
+        <li><strong>EXIF removal</strong> — re-encoding on canvas strips GPS, camera model, and other metadata, which can shave extra bytes from phone photos.</li>
       </ul>
 
       <h2>Privacy</h2>

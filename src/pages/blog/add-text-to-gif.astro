@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'How to add text and captions to a GIF | maratool',
+  description: 'Add text overlays and captions to animated GIFs in your browser. Pick fonts, colors, position, and download — no upload, no watermark.',
+  canonical: 'https://maratool.com/blog/add-text-to-gif',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to add text and captions to a GIF',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://maratool.com/blog/add-text-to-gif' },
+    url: 'https://maratool.com/blog/add-text-to-gif',
+    description: 'Add text overlays and captions to animated GIFs in your browser. Pick fonts, colors, position, and download — no upload, no watermark.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">← Blog</a>
+          <time datetime="2026-06-28" class="blog-post-date">June 28, 2026</time>
+        </div>
+        <h1 class="blog-post-title">How to add text and captions to a GIF</h1>
+        <p class="blog-post-lead">Upload a GIF, type your caption, style it, and download — all in your browser.</p>
+      </header>
+      <div class="blog-body">
+        <p>The <a href="/add-text-to-gif">Add Text to GIF</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <h2>How it works</h2>
+        <ol>
+          <li>Upload an animated GIF.</li>
+          <li>Type your caption, pick font, size, color, and position.</li>
+          <li>Preview live, then download the captioned GIF.</li>
+        </ol>
+        <p>Add text overlays and captions to animated GIFs in your browser. Pick fonts, colors, position, and download — no upload, no watermark.</p>
+        <hr class="blog-divider" />
+        <p class="blog-footer-note">Try the <a href="/add-text-to-gif">Add Text to GIF</a> free at <a href="/image">maratool.com/image</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>

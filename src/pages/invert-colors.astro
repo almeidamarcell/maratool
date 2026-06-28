@@ -1,0 +1,136 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Invert Colors in Images & GIFs Online | maratool',
+  description: 'Invert or negate colors in images and animated GIFs. Full inversion or per-channel control. Preview and download instantly.',
+  canonical: 'https://maratool.com/invert-colors',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Invert Colors',
+    url: 'https://maratool.com/invert-colors',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Invert or negate colors in images and animated GIFs. Full inversion or per-channel control. Preview and download instantly.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Invert Colors', item: 'https://maratool.com/invert-colors' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Partial inversion?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Toggle red, green, or blue channels independently for creative effects.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'GIF frames?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Inversion applies to every frame consistently.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Lossless?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Color inversion is mathematical — no quality loss beyond GIF palette limits.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Local?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload an image or GIF.',
+  'Choose full inversion or toggle individual RGB channels.',
+  'Download the inverted result.'
+]
+const faq = [
+  {
+    'q': 'Partial inversion?',
+    'a': 'Toggle red, green, or blue channels independently for creative effects.'
+  },
+  {
+    'q': 'GIF frames?',
+    'a': 'Inversion applies to every frame consistently.'
+  },
+  {
+    'q': 'Lossless?',
+    'a': 'Color inversion is mathematical — no quality loss beyond GIF palette limits.'
+  },
+  {
+    'q': 'Local?',
+    'a': 'Yes.'
+  }
+]
+const relatedTools = [
+  { slug: 'halftone-effect', name: 'Halftone Effect' },
+  { slug: 'round-corners', name: 'Round Corners' },
+  { slug: 'image-compressor', name: 'Image Compressor' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'Invert Colors' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="invert-colors" name="Invert Colors in Images & GIFs" description="Invert or negate colors in images and animated GIFs. Full inversion or per-channel control. Preview and download instantly." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container inv-root" style="min-height:400px;">
+        <div class="inv-dropzone" id="inv-dropzone">
+          <input type="file" id="inv-file" hidden />
+          <p class="inv-drop-title">Drop a file here</p>
+          <p class="inv-drop-sub">or click to select</p>
+        </div>
+        <div id="inv-workspace" style="display:none;"></div>
+        <div id="inv-progress" class="inv-progress" style="display:none;">
+          <div id="inv-progress-text">Processing...</div>
+          <div class="inv-progress-track"><div id="inv-progress-fill" class="inv-progress-fill"></div></div>
+        </div>
+        <div id="inv-error" class="inv-error" style="display:none;"><span id="inv-error-text"></span></div>
+        <div id="inv-result" style="display:none;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .inv-dropzone {
+    border: 2px dashed var(--border); border-radius: var(--radius);
+    padding: 3rem 2rem; text-align: center; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .inv-dropzone:hover, .inv-dropzone.drag-over { border-color: var(--accent); background: var(--bg-soft); }
+  .inv-drop-title { font-size: 1.125rem; font-weight: 600; margin: 0; }
+  .inv-drop-sub { font-size: 0.875rem; color: var(--text-2); margin: 0.5rem 0 0; }
+  .inv-progress { text-align: center; padding: 2rem; }
+  .inv-progress-track { width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover); border-radius: 4px; margin: 1rem auto; overflow: hidden; }
+  .inv-progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+  .inv-error { background: var(--error-bg); border: 1px solid var(--error-border); border-radius: var(--radius); padding: 1rem; color: #c53030; font-size: 0.875rem; }
+  .inv-preview-wrap {
+    background: repeating-conic-gradient(#e0e0e0 0% 25%, #fff 0% 50%) 0 0 / 16px 16px;
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
+  }
+  .inv-preview-wrap canvas, .inv-preview-wrap img { max-width: 100%; max-height: 360px; display: block; }
+  .inv-controls { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
+  .inv-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .inv-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+</style>
+<script src="../tools/invert-colors.js"></script>

@@ -1,0 +1,136 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Animate Image to GIF — Zoom, Pan & Bounce Effects | maratool',
+  description: 'Turn a still image into an animated GIF with zoom, pan, bounce, rotate, or fade effects. Set duration and FPS, then download.',
+  canonical: 'https://maratool.com/animate-image-gif',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Animate Image to GIF',
+    url: 'https://maratool.com/animate-image-gif',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Turn a still image into an animated GIF with zoom, pan, bounce, rotate, or fade effects. Set duration and FPS, then download.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Animate Image to GIF', item: 'https://maratool.com/animate-image-gif' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How is this different from GIF Maker?',
+        acceptedAnswer: { '@type': 'Answer', text: 'GIF Maker combines multiple images into frames. This animates a single image with motion effects.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Which effects are available?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Zoom in/out, pan left/right/up/down, bounce, rotate, and fade in/out.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'FPS and duration?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Set total duration in seconds and frames per second — the tool generates intermediate frames.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Local processing?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload a static image.',
+  'Pick an effect, duration, and FPS.',
+  'Preview and download the animated GIF.'
+]
+const faq = [
+  {
+    'q': 'How is this different from GIF Maker?',
+    'a': 'GIF Maker combines multiple images into frames. This animates a single image with motion effects.'
+  },
+  {
+    'q': 'Which effects are available?',
+    'a': 'Zoom in/out, pan left/right/up/down, bounce, rotate, and fade in/out.'
+  },
+  {
+    'q': 'FPS and duration?',
+    'a': 'Set total duration in seconds and frames per second — the tool generates intermediate frames.'
+  },
+  {
+    'q': 'Local processing?',
+    'a': 'Yes.'
+  }
+]
+const relatedTools = [
+  { slug: 'gif-maker', name: 'Gif Maker' },
+  { slug: 'video-to-gif', name: 'Video To Gif' },
+  { slug: 'shuffle-gif-frames', name: 'Shuffle Gif Frames' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'Animate Image to GIF' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="animate-image-gif" name="Animate Image to GIF — Zoom, Pan & Effects" description="Turn a still image into an animated GIF with zoom, pan, bounce, rotate, or fade effects. Set duration and FPS, then download." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container aig-root" style="min-height:480px;">
+        <div class="aig-dropzone" id="aig-dropzone">
+          <input type="file" id="aig-file" hidden />
+          <p class="aig-drop-title">Drop a file here</p>
+          <p class="aig-drop-sub">or click to select</p>
+        </div>
+        <div id="aig-workspace" style="display:none;"></div>
+        <div id="aig-progress" class="aig-progress" style="display:none;">
+          <div id="aig-progress-text">Processing...</div>
+          <div class="aig-progress-track"><div id="aig-progress-fill" class="aig-progress-fill"></div></div>
+        </div>
+        <div id="aig-error" class="aig-error" style="display:none;"><span id="aig-error-text"></span></div>
+        <div id="aig-result" style="display:none;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .aig-dropzone {
+    border: 2px dashed var(--border); border-radius: var(--radius);
+    padding: 3rem 2rem; text-align: center; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .aig-dropzone:hover, .aig-dropzone.drag-over { border-color: var(--accent); background: var(--bg-soft); }
+  .aig-drop-title { font-size: 1.125rem; font-weight: 600; margin: 0; }
+  .aig-drop-sub { font-size: 0.875rem; color: var(--text-2); margin: 0.5rem 0 0; }
+  .aig-progress { text-align: center; padding: 2rem; }
+  .aig-progress-track { width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover); border-radius: 4px; margin: 1rem auto; overflow: hidden; }
+  .aig-progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+  .aig-error { background: var(--error-bg); border: 1px solid var(--error-border); border-radius: var(--radius); padding: 1rem; color: #c53030; font-size: 0.875rem; }
+  .aig-preview-wrap {
+    background: repeating-conic-gradient(#e0e0e0 0% 25%, #fff 0% 50%) 0 0 / 16px 16px;
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
+  }
+  .aig-preview-wrap canvas, .aig-preview-wrap img { max-width: 100%; max-height: 360px; display: block; }
+  .aig-controls { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
+  .aig-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .aig-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+</style>
+<script src="../tools/animate-image-gif.js"></script>

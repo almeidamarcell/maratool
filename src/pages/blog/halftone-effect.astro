@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const seo = {
+  title: 'How to apply a halftone effect to an image | maratool',
+  description: 'Apply halftone dot, line, or diamond patterns to images and GIFs. Black & white or colored halftone — preview and download.',
+  canonical: 'https://maratool.com/blog/halftone-effect',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to apply a halftone effect to an image',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': 'https://maratool.com/blog/halftone-effect' },
+    url: 'https://maratool.com/blog/halftone-effect',
+    description: 'Apply halftone dot, line, or diamond patterns to images and GIFs. Black & white or colored halftone — preview and download.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <article class="blog-post">
+      <header class="blog-post-header">
+        <div class="blog-post-meta">
+          <a href="/blog" class="blog-back">← Blog</a>
+          <time datetime="2026-06-28" class="blog-post-date">June 28, 2026</time>
+        </div>
+        <h1 class="blog-post-title">How to apply a halftone effect to an image</h1>
+        <p class="blog-post-lead">Dots, lines, or diamonds — B&W or colored halftone in your browser.</p>
+      </header>
+      <div class="blog-body">
+        <p>The <a href="/halftone-effect">Halftone Effect</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <h2>How it works</h2>
+        <ol>
+          <li>Upload an image or GIF.</li>
+          <li>Pick pattern type, dot size, and color mode.</li>
+          <li>Preview and download.</li>
+        </ol>
+        <p>Apply halftone dot, line, or diamond patterns to images and GIFs. Black & white or colored halftone — preview and download.</p>
+        <hr class="blog-divider" />
+        <p class="blog-footer-note">Try the <a href="/halftone-effect">Halftone Effect</a> free at <a href="/image">maratool.com/image</a>.</p>
+      </div>
+    </article>
+  </Layout>
+</Base>

@@ -1,0 +1,136 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Shuffle GIF Frames — Randomize Animated GIF Order | maratool',
+  description: 'Randomize the frame order of a GIF for glitch or chaotic effects. Full shuffle or partial shuffle every N frames.',
+  canonical: 'https://maratool.com/shuffle-gif-frames',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Shuffle GIF Frames',
+    url: 'https://maratool.com/shuffle-gif-frames',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Randomize the frame order of a GIF for glitch or chaotic effects. Full shuffle or partial shuffle every N frames.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Shuffle GIF Frames', item: 'https://maratool.com/shuffle-gif-frames' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is partial shuffle?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Shuffles frames within groups of N — keeps some local order while scrambling sections.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Reversible?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No — shuffling is random. Keep your original file if you need to undo.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Preview before download?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. The preview plays the shuffled animation.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Browser-based?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload a GIF.',
+  'Choose full shuffle or partial shuffle every N frames.',
+  'Preview and download.'
+]
+const faq = [
+  {
+    'q': 'What is partial shuffle?',
+    'a': 'Shuffles frames within groups of N — keeps some local order while scrambling sections.'
+  },
+  {
+    'q': 'Reversible?',
+    'a': 'No — shuffling is random. Keep your original file if you need to undo.'
+  },
+  {
+    'q': 'Preview before download?',
+    'a': 'Yes. The preview plays the shuffled animation.'
+  },
+  {
+    'q': 'Browser-based?',
+    'a': 'Yes.'
+  }
+]
+const relatedTools = [
+  { slug: 'gif-maker', name: 'Gif Maker' },
+  { slug: 'gif-compressor', name: 'Gif Compressor' },
+  { slug: 'animate-image-gif', name: 'Animate Image Gif' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'Shuffle GIF Frames' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="shuffle-gif-frames" name="Shuffle GIF Frames — Randomize Frame Order" description="Randomize the frame order of a GIF for glitch or chaotic effects. Full shuffle or partial shuffle every N frames." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container sgf-root" style="min-height:400px;">
+        <div class="sgf-dropzone" id="sgf-dropzone">
+          <input type="file" id="sgf-file" hidden />
+          <p class="sgf-drop-title">Drop a file here</p>
+          <p class="sgf-drop-sub">or click to select</p>
+        </div>
+        <div id="sgf-workspace" style="display:none;"></div>
+        <div id="sgf-progress" class="sgf-progress" style="display:none;">
+          <div id="sgf-progress-text">Processing...</div>
+          <div class="sgf-progress-track"><div id="sgf-progress-fill" class="sgf-progress-fill"></div></div>
+        </div>
+        <div id="sgf-error" class="sgf-error" style="display:none;"><span id="sgf-error-text"></span></div>
+        <div id="sgf-result" style="display:none;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .sgf-dropzone {
+    border: 2px dashed var(--border); border-radius: var(--radius);
+    padding: 3rem 2rem; text-align: center; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .sgf-dropzone:hover, .sgf-dropzone.drag-over { border-color: var(--accent); background: var(--bg-soft); }
+  .sgf-drop-title { font-size: 1.125rem; font-weight: 600; margin: 0; }
+  .sgf-drop-sub { font-size: 0.875rem; color: var(--text-2); margin: 0.5rem 0 0; }
+  .sgf-progress { text-align: center; padding: 2rem; }
+  .sgf-progress-track { width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover); border-radius: 4px; margin: 1rem auto; overflow: hidden; }
+  .sgf-progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+  .sgf-error { background: var(--error-bg); border: 1px solid var(--error-border); border-radius: var(--radius); padding: 1rem; color: #c53030; font-size: 0.875rem; }
+  .sgf-preview-wrap {
+    background: repeating-conic-gradient(#e0e0e0 0% 25%, #fff 0% 50%) 0 0 / 16px 16px;
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
+  }
+  .sgf-preview-wrap canvas, .sgf-preview-wrap img { max-width: 100%; max-height: 360px; display: block; }
+  .sgf-controls { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
+  .sgf-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .sgf-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+</style>
+<script src="../tools/shuffle-gif-frames.js"></script>

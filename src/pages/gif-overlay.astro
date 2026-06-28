@@ -1,0 +1,136 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'GIF Overlay — Add Logo or Watermark to Animated GIF | maratool',
+  description: 'Overlay a static image or another GIF on top of an animated GIF. Drag to position, resize, set opacity, and download.',
+  canonical: 'https://maratool.com/gif-overlay',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'GIF Overlay',
+    url: 'https://maratool.com/gif-overlay',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Overlay a static image or another GIF on top of an animated GIF. Drag to position, resize, set opacity, and download.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'GIF Overlay', item: 'https://maratool.com/gif-overlay' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Can the overlay be another GIF?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Animated overlays play on top of the base GIF.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Watermark opacity?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Use the opacity slider — from fully transparent to solid.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Frame range?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Apply the overlay to all frames or only a specific range.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Privacy?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Everything runs locally in your browser.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload the base GIF and an overlay image or GIF.',
+  'Drag, resize, and set overlay opacity.',
+  'Apply to all frames or a range, then download.'
+]
+const faq = [
+  {
+    'q': 'Can the overlay be another GIF?',
+    'a': 'Yes. Animated overlays play on top of the base GIF.'
+  },
+  {
+    'q': 'Watermark opacity?',
+    'a': 'Use the opacity slider — from fully transparent to solid.'
+  },
+  {
+    'q': 'Frame range?',
+    'a': 'Apply the overlay to all frames or only a specific range.'
+  },
+  {
+    'q': 'Privacy?',
+    'a': 'Everything runs locally in your browser.'
+  }
+]
+const relatedTools = [
+  { slug: 'add-text-to-gif', name: 'Add Text To Gif' },
+  { slug: 'combine-gifs', name: 'Combine Gifs' },
+  { slug: 'gif-compressor', name: 'Gif Compressor' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'GIF Overlay' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="gif-overlay" name="GIF Overlay — Add Image on Top of GIF" description="Overlay a static image or another GIF on top of an animated GIF. Drag to position, resize, set opacity, and download." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container gov-root" style="min-height:500px;">
+        <div class="gov-dropzone" id="gov-dropzone">
+          <input type="file" id="gov-file" hidden />
+          <p class="gov-drop-title">Drop a file here</p>
+          <p class="gov-drop-sub">or click to select</p>
+        </div>
+        <div id="gov-workspace" style="display:none;"></div>
+        <div id="gov-progress" class="gov-progress" style="display:none;">
+          <div id="gov-progress-text">Processing...</div>
+          <div class="gov-progress-track"><div id="gov-progress-fill" class="gov-progress-fill"></div></div>
+        </div>
+        <div id="gov-error" class="gov-error" style="display:none;"><span id="gov-error-text"></span></div>
+        <div id="gov-result" style="display:none;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .gov-dropzone {
+    border: 2px dashed var(--border); border-radius: var(--radius);
+    padding: 3rem 2rem; text-align: center; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .gov-dropzone:hover, .gov-dropzone.drag-over { border-color: var(--accent); background: var(--bg-soft); }
+  .gov-drop-title { font-size: 1.125rem; font-weight: 600; margin: 0; }
+  .gov-drop-sub { font-size: 0.875rem; color: var(--text-2); margin: 0.5rem 0 0; }
+  .gov-progress { text-align: center; padding: 2rem; }
+  .gov-progress-track { width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover); border-radius: 4px; margin: 1rem auto; overflow: hidden; }
+  .gov-progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+  .gov-error { background: var(--error-bg); border: 1px solid var(--error-border); border-radius: var(--radius); padding: 1rem; color: #c53030; font-size: 0.875rem; }
+  .gov-preview-wrap {
+    background: repeating-conic-gradient(#e0e0e0 0% 25%, #fff 0% 50%) 0 0 / 16px 16px;
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
+  }
+  .gov-preview-wrap canvas, .gov-preview-wrap img { max-width: 100%; max-height: 360px; display: block; }
+  .gov-controls { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
+  .gov-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+  .gov-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+</style>
+<script src="../tools/gif-overlay.js"></script>
