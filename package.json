@@ -31,13 +31,12 @@
     "gen:og": "node scripts/gen-og-images.mjs"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.12",
-    "@astrojs/sitemap": "^3.7.0",
-    "astro": "^5.17.1"
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^6.4.8"
   },
   "devDependencies": {
     "emoji.json": "^16.0.0",
-    "jsdom": "^29.0.0",
-    "vitest": "^3.2.4"
+    "jsdom": "^29.1.1",
+    "vitest": "^4.1.9"
   }
 }
