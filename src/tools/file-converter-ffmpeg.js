@@ -6,7 +6,7 @@ import {
   resolveFfmpegOutputExt,
   getOutputMimeType,
   isVideoFormat,
-} from './vert-converter-ffmpeg-core.js'
+} from './file-converter-ffmpeg-core.js'
 
 var ffmpegState = null
 

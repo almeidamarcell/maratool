@@ -1,5 +1,5 @@
 // FFmpeg command builder for file converter audio/video conversions
-import { FFMPEG_FORMATS, VIDEO_FORMATS } from './vert-formats-data.js'
+import { FFMPEG_FORMATS, VIDEO_FORMATS } from './file-converter-formats.js'
 
 export const VIDEO_FORMAT_EXTENSIONS = VIDEO_FORMATS
   .filter(function (f) { return f.fromSupported })
