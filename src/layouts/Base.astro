@@ -150,6 +150,14 @@ const normalizedBreadcrumb = breadcrumbSchema
   </head>
   <body>
     <slot />
-    <script src="https://marapulse.com/widget.js" data-board="218bd8fb-7300-47c3-8c62-6a1746688729" data-color="#2563eb"></script>
+    <script is:inline>
+      if (new URLSearchParams(window.location.search).get('embed') !== '1') {
+        var s = document.createElement('script')
+        s.src = 'https://marapulse.com/widget.js'
+        s.setAttribute('data-board', '218bd8fb-7300-47c3-8c62-6a1746688729')
+        s.setAttribute('data-color', '#2563eb')
+        document.body.appendChild(s)
+      }
+    </script>
   </body>
 </html>
