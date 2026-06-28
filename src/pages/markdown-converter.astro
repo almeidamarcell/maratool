@@ -1,0 +1,87 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Markdown to HTML Converter — Convert MD ↔ HTML online | maratool',
+  description: 'Convert Markdown to HTML or HTML to Markdown instantly. Bidirectional converter with live preview. Handles headings, lists, links, code blocks, and bold/italic. Free.',
+  canonical: 'https://maratool.com/markdown-converter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Markdown to HTML Converter',
+    url: 'https://maratool.com/markdown-converter',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Bidirectional Markdown and HTML converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Format', item: 'https://maratool.com/converter/format' },
+      { '@type': 'ListItem', position: 4, name: 'Markdown to HTML Converter', item: 'https://maratool.com/markdown-converter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do I convert Markdown to HTML?', acceptedAnswer: { '@type': 'Answer', text: 'Switch to the Markdown → HTML tab, paste your Markdown in the left box, and the HTML output appears on the right instantly.' } },
+      { '@type': 'Question', name: 'Can I convert HTML back to Markdown?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Use the HTML → Markdown tab to paste HTML and get clean Markdown output. Handles headings, lists, links, tables, and code blocks.' } },
+      { '@type': 'Question', name: 'What Markdown syntax is supported?', acceptedAnswer: { '@type': 'Answer', text: 'Headings, bold, italic, strikethrough, links, unordered and ordered lists, blockquotes, fenced code blocks, and horizontal rules.' } },
+      { '@type': 'Question', name: 'Is my content sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Conversion runs entirely in your browser.' } },
+    ]
+  }
+}
+
+const howTo = ['Choose Markdown → HTML or HTML → Markdown.', 'Paste your content in the input box.', 'Copy the converted output with one click.']
+const faq = [
+  { q: 'How do I convert Markdown to HTML?', a: 'Use the Markdown → HTML tab, paste Markdown on the left, HTML appears on the right.' },
+  { q: 'Can I convert HTML back to Markdown?', a: 'Yes. Use the HTML → Markdown tab for reverse conversion.' },
+  { q: 'What Markdown syntax is supported?', a: 'Headings, bold, italic, links, lists, blockquotes, code blocks, and horizontal rules.' },
+  { q: 'Is my content sent to a server?', a: 'No. Conversion runs entirely in your browser.' },
+]
+const relatedTools = [
+  { slug: 'html-to-markdown', name: 'Convert HTML to Markdown' },
+  { slug: 'markdown-editor', name: 'Markdown Editor with Live Preview' },
+  { slug: 'json-formatter', name: 'Format and Validate JSON Online' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Format', href: '/converter/format' },
+  { label: 'Markdown Converter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="markdown-converter" name="Convert Markdown to HTML Online" description="Bidirectional Markdown ↔ HTML converter. Paste content and get instant output — headings, lists, links, code blocks, and more." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:420px;">
+        <div class="tool-tabs">
+          <button type="button" class="tool-tab active" id="mdc-tab-md">Markdown → HTML</button>
+          <button type="button" class="tool-tab" id="mdc-tab-html">HTML → Markdown</button>
+        </div>
+        <div id="mdc-panel-md">
+          <div class="tool-row">
+            <div class="tool-panel"><label class="tool-label" for="mdc-md-input">Markdown</label><textarea id="mdc-md-input" class="tool-textarea" rows="14" placeholder="# Hello&#10;&#10;Paste **Markdown** here..." aria-label="Markdown input"></textarea></div>
+            <div class="tool-panel"><label class="tool-label" for="mdc-md-output">HTML</label><textarea id="mdc-md-output" class="tool-textarea tool-output" rows="14" readonly aria-label="HTML output"></textarea></div>
+          </div>
+          <button id="mdc-copy-md" class="copy-btn">Copy HTML</button>
+        </div>
+        <div id="mdc-panel-html" style="display:none;">
+          <div class="tool-row">
+            <div class="tool-panel"><label class="tool-label" for="mdc-html-input">HTML</label><textarea id="mdc-html-input" class="tool-textarea" rows="14" placeholder="<h1>Hello</h1>&#10;<p>Paste HTML here...</p>" aria-label="HTML input"></textarea></div>
+            <div class="tool-panel"><label class="tool-label" for="mdc-html-output">Markdown</label><textarea id="mdc-html-output" class="tool-textarea tool-output" rows="14" readonly aria-label="Markdown output"></textarea></div>
+          </div>
+          <button id="mdc-copy-html" class="copy-btn">Copy Markdown</button>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<script src="../tools/markdown-converter.js"></script>

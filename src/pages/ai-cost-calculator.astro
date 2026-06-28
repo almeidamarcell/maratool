@@ -1,0 +1,100 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'AI API Cost Calculator — Estimate GPT & Claude pricing | maratool',
+  description: 'Calculate AI API costs for GPT-4o, Claude, and Gemini. Enter input and output tokens to see per-request pricing. Free, instant, runs in your browser.',
+  canonical: 'https://maratool.com/ai-cost-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'AI API Cost Calculator',
+    url: 'https://maratool.com/ai-cost-calculator',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Estimate AI API costs for popular language models.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Calculator', item: 'https://maratool.com/developer/calculator' },
+      { '@type': 'ListItem', position: 4, name: 'AI API Cost Calculator', item: 'https://maratool.com/ai-cost-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How is AI API cost calculated?', acceptedAnswer: { '@type': 'Answer', text: 'Cost = (input tokens ÷ 1,000,000 × input price) + (output tokens ÷ 1,000,000 × output price). Input and output tokens are priced separately by most providers.' } },
+      { '@type': 'Question', name: 'Are these prices up to date?', acceptedAnswer: { '@type': 'Answer', text: 'Pricing reflects published API rates as of early 2026. Provider prices change — always verify on the official pricing page before budgeting.' } },
+      { '@type': 'Question', name: 'Can I count tokens from text?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Paste text in the optional field and click "Count from text" to estimate input tokens, then adjust output tokens manually.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } },
+    ]
+  }
+}
+
+const howTo = ['Select the AI model and enter input and output token counts.', 'Or paste text and click "Count from text" to estimate input tokens.', 'See input cost, output cost, and total per request instantly.']
+const faq = [
+  { q: 'How is AI API cost calculated?', a: 'Cost = (input tokens ÷ 1M × input price) + (output tokens ÷ 1M × output price).' },
+  { q: 'Are these prices up to date?', a: 'Pricing reflects published API rates as of early 2026. Always verify on the official pricing page.' },
+  { q: 'Can I count tokens from text?', a: 'Yes. Paste text and click "Count from text" to estimate input tokens.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' },
+]
+const relatedTools = [
+  { slug: 'ai-token-calculator', name: 'Count AI Tokens Online' },
+  { slug: 'reading-time', name: 'Reading Time Calculator' },
+  { slug: 'percentage-calculator', name: 'Percentage Calculator Online' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Calculator', href: '/developer/calculator' },
+  { label: 'AI API Cost Calculator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="ai-cost-calculator" name="Calculate AI API Cost Online" description="Estimate per-request cost for GPT-4o, Claude, Gemini, and more. Enter token counts and see input, output, and total pricing." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <div class="calc-field">
+          <label class="tool-label" for="acc-model">Model</label>
+          <select id="acc-model" class="tool-input calc-select"></select>
+        </div>
+        <div class="calc-row">
+          <div class="calc-field">
+            <label class="tool-label" for="acc-input-tokens">Input tokens</label>
+            <input type="number" id="acc-input-tokens" class="tool-input" min="0" placeholder="1000" />
+          </div>
+          <div class="calc-field">
+            <label class="tool-label" for="acc-output-tokens">Output tokens</label>
+            <input type="number" id="acc-output-tokens" class="tool-input" min="0" placeholder="500" />
+          </div>
+        </div>
+        <div class="calc-field">
+          <label class="tool-label" for="acc-text">Or paste text to count input tokens</label>
+          <textarea id="acc-text" class="tool-textarea" rows="4" placeholder="Optional — paste prompt text here..."></textarea>
+          <button type="button" id="acc-count-text" class="tool-button calc-btn-inline">Count from text</button>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="acc-out-input">$0.00</span><span class="tool-stat-label">Input cost</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="acc-out-output">$0.00</span><span class="tool-stat-label">Output cost</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="acc-out-total">$0.00</span><span class="tool-stat-label">Total cost</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 1rem; }
+  .calc-select { max-width: 320px; }
+  .calc-btn-inline { margin-top: 0.5rem; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/ai-cost-calculator.js"></script>

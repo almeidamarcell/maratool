@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 230 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 237 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -10,6 +10,7 @@ maratool.com is a growing collection of 230 free tools that run in the browser u
 - [Convert CSV to JSON](https://maratool.com/csv-to-json): Convert CSV to JSON or JSON to CSV instantly. Auto-detects delimiters — supports comma, semicolon, and tab.
 - [Convert JSON to Markdown Table](https://maratool.com/json-to-markdown-table): Paste a JSON array and instantly get a formatted Markdown table. Perfect for READMEs and documentation.
 - [Convert HTML to Markdown](https://maratool.com/html-to-markdown): Paste HTML and get clean Markdown instantly. Handles headings, lists, links, images, tables, and code blocks.
+- [Convert Markdown to HTML Online](https://maratool.com/markdown-converter): Bidirectional Markdown ↔ HTML converter. Paste content and get instant output — headings, lists, links, code blocks, and more.
 - [Base64 Encode / Decode](https://maratool.com/base64): Encode text to Base64 or decode Base64 back to text. Also supports image to Base64.
 - [Text to Binary](https://maratool.com/text-to-binary): Convert text to binary, hex, and decimal representations instantly.
 - [YAML to JSON Converter](https://maratool.com/yaml-to-json): Convert YAML to JSON or JSON to YAML instantly in your browser. No upload, no sign-up.
@@ -48,6 +49,7 @@ maratool.com is a growing collection of 230 free tools that run in the browser u
 - [Graph Calculator — Plot Functions](https://maratool.com/graph-calculator): Plot mathematical functions on an interactive graph. Supports multiple equations, zoom, pan, and real-time updates.
 - [Algebra Calculator — Solve & Simplify](https://maratool.com/algebra-calculator): Simplify expressions, factor polynomials, solve equations, and compute derivatives. Renders math with LaTeX.
 - [Percentage Calculator Online](https://maratool.com/percentage-calculator): Calculate percentages, increases, decreases, proportions, and find original values before percentage changes. 9 calculation types.
+- [Calculate AI API Cost Online](https://maratool.com/ai-cost-calculator): Estimate per-request cost for GPT-4o, Claude, Gemini, and more. Enter token counts and see input, output, and total pricing.
 - [Paper Sizes Reference](https://maratool.com/paper-sizes): Complete reference for paper sizes — A series, US Letter, Legal, Tabloid, and more. Search and filter by name or dimensions.
 - [Tailwind CSS Cheat Sheet](https://maratool.com/tailwind-cheatsheet): Quick reference for Tailwind CSS classes — spacing, typography, colors, flexbox, grid, and more. Search and copy any class.
 
@@ -55,6 +57,7 @@ maratool.com is a growing collection of 230 free tools that run in the browser u
 - [Compare Two Texts Online](https://maratool.com/diff-checker): Compare two blocks of text and highlight added, removed, and unchanged lines.
 - [Test Regex Patterns Online](https://maratool.com/regex-tester): Test regular expressions with live match highlighting.
 - [Reading Time Calculator](https://maratool.com/reading-time): Estimate how long it takes to read any text — shows slow, average, and fast reading times.
+- [Count AI Tokens Online](https://maratool.com/ai-token-calculator): Count AI tokens for GPT-4o, Claude, Gemini, and more. Paste text and see estimated token, word, and character counts instantly.
 - [Font File Explorer](https://maratool.com/font-explorer): Upload any OTF or TTF font file and inspect its metadata, character set, OpenType features, and glyph table.
 - [Markdown Editor with Live Preview](https://maratool.com/markdown-editor): Write markdown and preview the output in real time.
 - [Markdown Table Generator](https://maratool.com/markdown-table-generator): Build Markdown tables visually with a grid editor. Set alignment, add rows and columns, copy the output.
@@ -71,6 +74,7 @@ maratool.com is a growing collection of 230 free tools that run in the browser u
 - [Background Remover](https://maratool.com/background-remover): Remove image backgrounds instantly in your browser using AI. No upload, no sign-up — powered by a local ML model.
 - [GIF Background Remover](https://maratool.com/gif-bg-remover): Remove the background from any GIF and make it transparent. Pick a color, adjust tolerance, download — 100% in your browser.
 - [GIF Compressor — Compress & Reduce GIF Size](https://maratool.com/gif-compressor): Compress GIF files and reduce their size in your browser. Cut colors, resize, drop frames — no upload, no watermark, no signup.
+- [Compress Image Online](https://maratool.com/image-compressor): Compress JPG, PNG, and WebP images in your browser. Adjust quality and resize to reduce file size — no upload, no watermark.
 - [SVG Optimizer](https://maratool.com/svg-optimizer): Optimize and minify SVG files in the browser. Remove metadata, clean attributes, and reduce file size instantly.
 - [Favicon Generator](https://maratool.com/favicon-generator): Generate favicons in all sizes from a single image. Download as ICO, PNG, or a complete ZIP with all sizes.
 - [Image Converter — HEIC to PNG, PNG to JPEG, WebP](https://maratool.com/image-converter): Convert HEIC to PNG, JPEG, or WebP — plus PNG, JPEG, WebP, and AVIF. Resize, adjust quality, and download — all in your browser.
@@ -110,6 +114,9 @@ maratool.com is a growing collection of 230 free tools that run in the browser u
 - [Barcode Generator — Code128, EAN-13 & More](https://maratool.com/barcode-generator): Generate barcodes in Code 128, EAN-13, UPC-A, QR, Data Matrix, and more. Download as PNG or SVG.
 - [QR Code Generator](https://maratool.com/qr-code-generator): Generate styled QR codes with custom colors, shapes, and logos. Download as PNG or SVG.
 - [UTM Builder](https://maratool.com/utm-builder): Build UTM-tagged URLs for Google Analytics campaign tracking. Add source, medium, and campaign parameters to any link.
+- [A/B Test Significance Calculator](https://maratool.com/ab-test-calculator): Calculate A/B test statistical significance. Enter control and variant visitors and conversions to see p-value, lift, and significance.
+- [Calculate Campaign ROI Online](https://maratool.com/campaign-roi-calculator): Calculate marketing campaign ROI, ROAS, and profit. Enter revenue and ad spend for instant results.
+- [Calculate CAC and LTV Online](https://maratool.com/cac-ltv-calculator): Calculate customer acquisition cost, lifetime value, LTV:CAC ratio, and payback period for your marketing funnel.
 
 ### Mockup
 - [WhatsApp Chat Mockup Generator](https://maratool.com/whatsapp-chat-mockup): Create realistic WhatsApp chat screenshots. Edit messages inline, toggle dark mode, download as PNG.

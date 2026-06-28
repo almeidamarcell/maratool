@@ -1,0 +1,74 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'markdown-converter'
+const seo = {
+  title: 'Markdown to HTML converter — how bidirectional conversion works | maratool',
+  description: 'Convert Markdown to HTML or HTML to Markdown in your browser. Learn how the bidirectional converter handles headings, lists, links, and code blocks.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How the Markdown ↔ HTML converter works',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How the maratool Markdown ↔ HTML converter works.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Markdown Converter guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How the Markdown ↔ HTML converter works"
+      lead="Switch between Markdown and HTML in one tool — paste on the left, get converted output on the right, instantly."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Sometimes you have Markdown and need HTML for an email template or CMS. Sometimes you have HTML from a WYSIWYG editor and want clean Markdown for a README. The <a href="/markdown-converter">Markdown Converter</a> handles both directions in one page.</p>
+
+      <BlogToolEmbed slug="markdown-converter" title="Try it — switch between Markdown → HTML and HTML → Markdown" height={500} />
+
+      <h2>Markdown → HTML</h2>
+      <p>Paste Markdown in the left panel. The right panel shows the equivalent HTML — headings, bold, italic, links, lists, blockquotes, fenced code blocks, and horizontal rules. HTML special characters are escaped so the output is safe to paste into a document.</p>
+      <p>Supported syntax includes <code># headings</code>, <code>**bold**</code>, <code>*italic*</code>, <code>[links](url)</code>, unordered and ordered lists, <code>&gt; blockquotes</code>, and <code>``` fenced code ```</code>.</p>
+
+      <h2>HTML → Markdown</h2>
+      <p>Switch to the HTML → Markdown tab and paste HTML source. The converter uses the browser's DOMParser to walk the DOM tree and emit Markdown. It handles headings, paragraphs, lists, links, images, tables, code blocks, and inline formatting.</p>
+      <p>Converted output is a starting point — complex nested HTML may need manual cleanup. For one-off conversions from exported CMS content, it's usually good enough.</p>
+
+      <h2>When to use which tab</h2>
+      <ul>
+        <li><strong>MD → HTML</strong> — writing docs that need to land in HTML email, a static site generator that accepts HTML snippets, or previewing how Markdown renders.</li>
+        <li><strong>HTML → MD</strong> — migrating blog posts, converting Notion/Google Docs exports, or cleaning up HTML from a rich-text editor.</li>
+      </ul>
+
+      <h2>Related tools</h2>
+      <p>For HTML-only conversion, see <a href="/html-to-markdown">HTML to Markdown</a>. For writing Markdown with a live preview and toolbar, try the <a href="/markdown-editor">Markdown Editor</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">Everything runs in your browser — nothing is uploaded. Try the <a href="/markdown-converter">Markdown Converter</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

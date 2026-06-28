@@ -66,8 +66,8 @@ describe('tool categories', () => {
     expect(subcategoryOrderByCategory['Developer']).toEqual(['Crypto', 'Generate', 'Calculator', 'Reference'])
   })
 
-  test('Marketing category has Builder subcategory', () => {
-    expect(subcategoryOrderByCategory['Marketing']).toEqual(['Builder'])
+  test('Marketing category has Builder and Calculator subcategories', () => {
+    expect(subcategoryOrderByCategory['Marketing']).toEqual(['Builder', 'Calculator'])
   })
 
   test('Mockup category has Chat, AI Chat, Posts, Comments, Stories, Email subcategories', () => {

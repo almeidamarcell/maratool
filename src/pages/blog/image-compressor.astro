@@ -1,0 +1,77 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'image-compressor'
+const seo = {
+  title: 'How to compress images online — reduce JPG, PNG & WebP size | maratool',
+  description: 'Compress JPG, PNG, and WebP images in your browser. Adjust quality and resize to shrink file size without uploading to a server.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to compress JPG, PNG, and WebP images in your browser',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How the maratool image compressor reduces JPG, PNG, and WebP file size in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Image Compressor guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to compress JPG, PNG, and WebP images in your browser"
+      lead="Drop an image, adjust quality and scale, download a smaller file — your photo never leaves your device."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Large images slow down pages, fill up email inboxes, and hit upload limits. The <a href="/image-compressor">Image Compressor</a> shrinks JPG, PNG, and WebP files using the browser's Canvas API — no server upload, no queue, no watermark.</p>
+
+      <BlogToolEmbed slug="image-compressor" title="Try it — drop a JPG, PNG, or WebP image" height={600} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Drop or select an image</strong> — JPEG, PNG, WebP, GIF, or BMP. The original size and dimensions are shown.</li>
+        <li><strong>Adjust settings</strong> — quality slider (1–100%), scale (100% down to 25%), and output format (JPEG, WebP, or PNG).</li>
+        <li><strong>Compress and download</strong> — click "Compress image", preview the result, see how much you saved, then download.</li>
+      </ol>
+
+      <h2>What actually reduces file size</h2>
+      <ul>
+        <li><strong>Lower quality</strong> — for JPEG and WebP, reducing quality removes imperceptible detail. 80% is a good default; 60% for thumbnails.</li>
+        <li><strong>Smaller dimensions</strong> — halving width and height cuts pixel count by 75%. A 4000×3000 photo rarely needs to be that large on the web.</li>
+        <li><strong>Format choice</strong> — WebP typically beats JPEG at the same visual quality. PNG is lossless but larger; use it when you need transparency.</li>
+      </ul>
+
+      <h2>Privacy</h2>
+      <p>Unlike cloud compressors that upload your file to their servers, this tool decodes the image in memory, redraws it on a canvas at the target size and quality, and encodes the result locally. Nothing is sent over the network except loading the page itself.</p>
+
+      <h2>When to use something else</h2>
+      <p>For animated GIFs, use the <a href="/gif-compressor">GIF Compressor</a> — it handles frame dropping and palette reduction. For format conversion without compression focus, try the <a href="/image-converter">Image Converter</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/image-compressor">Image Compressor</a> is free and works offline after the page loads. More image tools at <a href="/image">maratool.com/image</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
