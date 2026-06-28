@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'RAG Chunk Calculator — Estimate Chunk Count | maratool',
+  description: 'Estimate RAG chunk count from total tokens, chunk size, and overlap. Plan vector index size before embedding. Free, instant, runs in your browser.',
+  canonical: 'https://maratool.com/rag-chunk-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'RAG Chunk Calculator — Estimate Chunk Count',
+    url: 'https://maratool.com/rag-chunk-calculator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Estimate RAG chunk count from total tokens, chunk size, and overlap. Plan vector index size before embedding. Free, instant, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'AI', item: 'https://maratool.com/developer/ai' },
+      { '@type': 'ListItem', position: 4, name: 'RAG Chunk Calculator — Estimate Chunk Count', item: 'https://maratool.com/rag-chunk-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How is chunk count calculated?', acceptedAnswer: { '@type': 'Answer', text: 'For documents longer than one chunk: ceil((total − overlap) / (chunk size − overlap)).' } },
+      { '@type': 'Question', name: 'What overlap should I use?', acceptedAnswer: { '@type': 'Answer', text: 'Common choices: 10–20% of chunk size to preserve context across chunk boundaries.' } },
+      { '@type': 'Question', name: 'Can overlap equal chunk size?', acceptedAnswer: { '@type': 'Answer', text: 'No. Overlap must be less than chunk size or the step size would be zero.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter total document tokens (from your tokenizer).',
+  'Set chunk size and overlap in tokens.',
+  'See estimated chunk count and step size instantly.'
+]
+
+const faq = [
+  { q: 'How is chunk count calculated?', a: 'For documents longer than one chunk: ceil((total − overlap) / (chunk size − overlap)).' },
+  { q: 'What overlap should I use?', a: 'Common choices: 10–20% of chunk size to preserve context across chunk boundaries.' },
+  { q: 'Can overlap equal chunk size?', a: 'No. Overlap must be less than chunk size or the step size would be zero.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'ai-token-calculator', name: 'AI Token Counter' },
+  { slug: 'context-window-calculator', name: 'AI Context Window Calculator' },
+  { slug: 'embedding-cost-calculator', name: 'AI Embedding Cost Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'AI', href: '/developer/ai' },
+  { label: 'RAG Chunk Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="rag-chunk-calculator" name="RAG Chunk Calculator — Estimate Chunk Count" description="Enter total tokens, chunk size, and overlap to see estimated chunk count and step size for RAG pipelines." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="rc-tokens">Total tokens</label><input type="number" id="rc-tokens" class="tool-input" placeholder="50000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="rc-size">Chunk size</label><input type="number" id="rc-size" class="tool-input" placeholder="512" min="1" /></div>
+        </div>
+        <div class="calc-field"><label class="tool-label" for="rc-overlap">Overlap</label><input type="number" id="rc-overlap" class="tool-input" placeholder="50" min="0" style="max-width:200px;" /></div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="rc-count">—</span><span class="tool-stat-label">Chunk count</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="rc-step">—</span><span class="tool-stat-label">Step size</span></div>
+        </div>
+        <p id="rc-error" style="font-size:13px;color:var(--text-2);margin:1rem 0 0;"></p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/rag-chunk-calculator.js"></script>

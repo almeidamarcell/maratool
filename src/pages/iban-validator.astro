@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'IBAN Validator — Check IBAN Online | maratool',
+  description: 'Validate IBAN numbers with mod-97 check digits. Paste an IBAN to verify format and checksum instantly. Paste-only, free, runs in your browser.',
+  canonical: 'https://maratool.com/iban-validator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'IBAN Validator — Check IBAN Online',
+    url: 'https://maratool.com/iban-validator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Validate IBAN numbers with mod-97 check digits. Paste an IBAN to verify format and checksum instantly. Paste-only, free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Security', item: 'https://maratool.com/developer/security' },
+      { '@type': 'ListItem', position: 4, name: 'IBAN Validator — Check IBAN Online', item: 'https://maratool.com/iban-validator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How is IBAN validated?', acceptedAnswer: { '@type': 'Answer', text: 'Mod-97 checksum on the rearranged IBAN per ISO 13616.' } },
+      { '@type': 'Question', name: 'Does this verify the bank account exists?', acceptedAnswer: { '@type': 'Answer', text: 'No. It only validates format and check digits — paste-only, no bank lookup.' } },
+      { '@type': 'Question', name: 'Are spaces allowed?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Spaces are stripped before validation and the formatted output groups by fours.' } },
+      { '@type': 'Question', name: 'Is my IBAN sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Validation happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste the IBAN string in the input field.',
+  'See validation status, country code, and formatted IBAN.',
+  'Fix check digits or formatting errors before submitting payments.'
+]
+
+const faq = [
+  { q: 'How is IBAN validated?', a: 'Mod-97 checksum on the rearranged IBAN per ISO 13616.' },
+  { q: 'Does this verify the bank account exists?', a: 'No. It only validates format and check digits — paste-only, no bank lookup.' },
+  { q: 'Are spaces allowed?', a: 'Yes. Spaces are stripped before validation and the formatted output groups by fours.' },
+  { q: 'Is my IBAN sent to a server?', a: 'No. Validation happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'luhn-checker', name: 'Luhn Checker' },
+  { slug: 'hash-identifier', name: 'Hash Identifier' },
+  { slug: 'jwt-security-checker', name: 'JWT Security Checker' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Security', href: '/developer/security' },
+  { label: 'IBAN Validator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="iban-validator" name="IBAN Validator — Check IBAN Online" description="Paste an IBAN to validate structure and mod-97 check digits. Does not verify account existence — paste-only." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:240px;">
+        <div class="calc-field"><label class="tool-label" for="ib-input">IBAN</label><input type="text" id="ib-input" class="tool-input" placeholder="GB82 WEST 1234 5698 7654 32" autocomplete="off" spellcheck="false" /></div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="ib-valid">—</span><span class="tool-stat-label">Valid</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="ib-country">—</span><span class="tool-stat-label">Country</span></div>
+        </div>
+        <p id="ib-msg" style="font-size:13px;color:var(--text-2);margin:1rem 0 0;">—</p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/iban-validator.js"></script>

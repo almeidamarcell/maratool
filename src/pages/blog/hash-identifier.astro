@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'hash-identifier'
+const seo = {
+  title: 'Hash identifier — detect MD5, SHA-256, bcrypt | maratool',
+  description: 'Identify hash types from pasted digests. Detect MD5, SHA-256, bcrypt, and more. Paste only, runs in browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to identify hash types from a digest',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Identify hash types from pasted digests. Detect MD5, SHA-256, bcrypt, and more. Paste only, runs in browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to identify hash types from a digest', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to identify hash types from a digest"
+      lead="Paste a hash digest — see likely algorithm, length, and format hints."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>A leaked digest without context could be MD5, SHA-256, or bcrypt. The <a href="/hash-identifier">Hash Identifier</a> analyzes length, charset, and prefix patterns to suggest the most likely algorithm.</p>
+
+      <BlogToolEmbed slug="hash-identifier" title="Try it — paste a hash digest" height={400} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste digest</strong> — hex, Base64, or bcrypt string.</li>
+        <li><strong>Pattern match</strong> — length and format analyzed.</li>
+        <li><strong>Likely type</strong> — ranked candidates with confidence hints.</li>
+      </ol>
+
+      <h2>Heuristic only</h2>
+      <p>Identification is based on format rules, not cracking. Two algorithms can produce the same length — treat results as educated guesses.</p>
+
+      <h2>Generate hashes</h2>
+      <p>To create digests for comparison, use the <a href="/hash-generator">Hash Generator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/hash-identifier">How to identify hash types from a digest</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'ai-model-comparison'
+const seo = {
+  title: 'AI model cost comparison — OpenAI vs Claude vs Gemini | maratool',
+  description: 'Compare LLM API costs across OpenAI, Claude, and Gemini for the same token counts. Free browser calculator.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to compare LLM API costs across providers',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Compare LLM API costs across OpenAI, Claude, and Gemini for the same token counts. Free browser calculator.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to compare LLM API costs across providers', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to compare LLM API costs across providers"
+      lead="Enter input and output tokens — see side-by-side pricing for GPT, Claude, and Gemini models."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Choosing an LLM means balancing quality and unit economics. The <a href="/ai-model-comparison">AI Model Cost Comparison</a> shows per-request and monthly cost estimates for the same workload across major providers.</p>
+
+      <BlogToolEmbed slug="ai-model-comparison" title="Try it — token counts and model selection" height={480} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Input tokens</strong> — prompt size per request.</li>
+        <li><strong>Output tokens</strong> — expected completion length.</li>
+        <li><strong>Compare models</strong> — OpenAI, Anthropic, and Google side by side.</li>
+      </ol>
+
+      <h2>Apples to apples</h2>
+      <p>Same token counts applied to each model's published per-million rates. Actual bills vary with caching, batching, and tier discounts.</p>
+
+      <h2>Single-model detail</h2>
+      <p>For one provider deep-dive, use the <a href="/ai-cost-calculator">AI Cost Calculator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/ai-model-comparison">How to compare LLM API costs across providers</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

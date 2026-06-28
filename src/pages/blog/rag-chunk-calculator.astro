@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'rag-chunk-calculator'
+const seo = {
+  title: 'RAG chunk calculator — vector chunk size | maratool',
+  description: 'Calculate RAG chunk count from token total, chunk size, and overlap. Plan vector indexing splits in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate RAG chunk count and overlap',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate RAG chunk count from token total, chunk size, and overlap. Plan vector indexing splits in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate RAG chunk count and overlap', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate RAG chunk count and overlap"
+      lead="Enter total tokens, chunk size, and overlap — see how many chunks your corpus produces."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Vector search pipelines split documents into overlapping chunks before embedding. The <a href="/rag-chunk-calculator">RAG Chunk Calculator</a> estimates chunk count from token volume, chunk size, and overlap percentage.</p>
+
+      <BlogToolEmbed slug="rag-chunk-calculator" title="Try it — tokens, chunk size, overlap" height={420} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Total tokens</strong> — corpus or document token count.</li>
+        <li><strong>Chunk size</strong> — tokens per chunk (e.g. 512 or 1024).</li>
+        <li><strong>Overlap</strong> — shared tokens between adjacent chunks.</li>
+      </ol>
+
+      <h2>Why overlap matters</h2>
+      <p>Overlap preserves context across chunk boundaries — a sentence split mid-thought still appears whole in at least one chunk. More overlap means more chunks and higher embedding cost.</p>
+
+      <h2>Token budgeting</h2>
+      <p>Estimate embedding cost with the <a href="/embedding-cost-calculator">Embedding Cost Calculator</a> or count tokens with the <a href="/ai-token-calculator">AI Token Calculator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/rag-chunk-calculator">How to calculate RAG chunk count and overlap</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'url-parser'
+const seo = {
+  title: 'URL parser — decode URL components online | maratool',
+  description: 'Parse URLs into protocol, host, path, query, and hash components. Paste any URL for instant breakdown.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to parse and decode URL components',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Parse URLs into protocol, host, path, query, and hash components. Paste any URL for instant breakdown.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to parse and decode URL components', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to parse and decode URL components"
+      lead="Paste a URL — see protocol, host, path, query params, and hash decoded."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Debugging OAuth redirects and webhook callbacks means dissecting URLs by hand. The <a href="/url-parser">URL Parser</a> breaks any URL into protocol, hostname, path, query string, and fragment — with decoded values.</p>
+
+      <BlogToolEmbed slug="url-parser" title="Try it — paste any URL" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste URL</strong> — full URL including query and hash.</li>
+        <li><strong>Components</strong> — each part shown separately.</li>
+        <li><strong>Query params</strong> — key-value pairs decoded from the query string.</li>
+      </ol>
+
+      <h2>Encoding</h2>
+      <p>Percent-encoded characters in path and query are decoded for readability. Invalid URLs show a clear error instead of silent failure.</p>
+
+      <h2>Build URLs</h2>
+      <p>To construct query strings, see <a href="/query-string-builder">Query String Builder</a> or encode with <a href="/url-encoder">URL Encoder</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/url-parser">How to parse and decode URL components</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
