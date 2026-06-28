@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Hash Identifier — Identify Hash Type Online | maratool',
+  description: 'Identify hash type from a pasted digest. Detect MD5, SHA-1, SHA-256, SHA-512, and bcrypt formats instantly. Paste-only, free, runs in your browser.',
+  canonical: 'https://maratool.com/hash-identifier',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Hash Identifier — Identify Hash Type Online',
+    url: 'https://maratool.com/hash-identifier',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Identify hash type from a pasted digest. Detect MD5, SHA-1, SHA-256, SHA-512, and bcrypt formats instantly. Paste-only, free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Security', item: 'https://maratool.com/developer/security' },
+      { '@type': 'ListItem', position: 4, name: 'Hash Identifier — Identify Hash Type Online', item: 'https://maratool.com/hash-identifier' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Which hash types are recognized?', acceptedAnswer: { '@type': 'Answer', text: 'MD5, SHA-1, SHA-256, SHA-512, bcrypt, and unknown hex digests by length.' } },
+      { '@type': 'Question', name: 'Can this crack or reverse hashes?', acceptedAnswer: { '@type': 'Answer', text: 'No. It only identifies the format from the digest pattern — paste-only analysis.' } },
+      { '@type': 'Question', name: 'Does it check breach databases?', acceptedAnswer: { '@type': 'Answer', text: 'No. No network requests are made. Paste-only local pattern matching.' } },
+      { '@type': 'Question', name: 'Is my hash sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Identification happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste the hash digest in the input field.',
+  'See detected hash type and format message instantly.',
+  'Use the result to pick the right cracking or verification approach.'
+]
+
+const faq = [
+  { q: 'Which hash types are recognized?', a: 'MD5, SHA-1, SHA-256, SHA-512, bcrypt, and unknown hex digests by length.' },
+  { q: 'Can this crack or reverse hashes?', a: 'No. It only identifies the format from the digest pattern — paste-only analysis.' },
+  { q: 'Does it check breach databases?', a: 'No. No network requests are made. Paste-only local pattern matching.' },
+  { q: 'Is my hash sent to a server?', a: 'No. Identification happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'hash-generator', name: 'Hash Generator' },
+  { slug: 'bcrypt-generator', name: 'Bcrypt Generator' },
+  { slug: 'password-strength-checker', name: 'Password Strength Checker' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Security', href: '/developer/security' },
+  { label: 'Hash Identifier' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="hash-identifier" name="Hash Identifier — Identify Hash Type Online" description="Paste a hash string to identify MD5, SHA-256, bcrypt, and other formats. Does not query breach databases — paste-only." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:240px;">
+        <div class="calc-field"><label class="tool-label" for="hi-input">Hash digest</label><input type="text" id="hi-input" class="tool-input" placeholder="Paste hash here…" autocomplete="off" spellcheck="false" /></div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="hi-type">—</span><span class="tool-stat-label">Type</span></div>
+        </div>
+        <p id="hi-msg" style="font-size:13px;color:var(--text-2);margin:1rem 0 0;">—</p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/hash-identifier.js"></script>

@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'sql-create-table-generator'
+const seo = {
+  title: 'CREATE TABLE generator from JSON | maratool',
+  description: 'Generate CREATE TABLE SQL from JSON schema or sample rows. Infer column types instantly. Free browser tool.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to generate CREATE TABLE SQL from JSON',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Generate CREATE TABLE SQL from JSON schema or sample rows. Infer column types instantly. Free browser tool.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to generate CREATE TABLE SQL from JSON', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to generate CREATE TABLE SQL from JSON"
+      lead="Paste JSON objects — get CREATE TABLE DDL with inferred column types."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Prototyping a schema from sample data is faster than writing DDL by hand. The <a href="/sql-create-table-generator">CREATE TABLE Generator</a> inspects JSON keys and values to infer VARCHAR, INT, BOOLEAN, and other column types.</p>
+
+      <BlogToolEmbed slug="sql-create-table-generator" title="Try it — paste JSON sample rows" height={500} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste JSON</strong> — one object or an array of sample rows.</li>
+        <li><strong>Table name</strong> — name for the generated table.</li>
+        <li><strong>Copy DDL</strong> — CREATE TABLE statement ready to run.</li>
+      </ol>
+
+      <h2>Type inference</h2>
+      <p>Types are guessed from JavaScript typeof and value patterns. Review before production — dates and decimals may need manual adjustment.</p>
+
+      <h2>Seed data</h2>
+      <p>After creating the table, populate it with the <a href="/sql-insert-generator">SQL INSERT Generator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/sql-create-table-generator">How to generate CREATE TABLE SQL from JSON</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'AI Model Comparison — Compare API Costs | maratool',
+  description: 'Compare AI API costs across GPT, Claude, and Gemini models. Enter input and output tokens, select models, see a cost table. Free, runs in your browser.',
+  canonical: 'https://maratool.com/ai-model-comparison',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'AI Model Comparison — Compare API Costs',
+    url: 'https://maratool.com/ai-model-comparison',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Compare AI API costs across GPT, Claude, and Gemini models. Enter input and output tokens, select models, see a cost table. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'AI', item: 'https://maratool.com/developer/ai' },
+      { '@type': 'ListItem', position: 4, name: 'AI Model Comparison — Compare API Costs', item: 'https://maratool.com/ai-model-comparison' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Which models are included?', acceptedAnswer: { '@type': 'Answer', text: 'Popular OpenAI, Anthropic, and Google models with published per-million-token pricing.' } },
+      { '@type': 'Question', name: 'How is total cost calculated?', acceptedAnswer: { '@type': 'Answer', text: 'Input tokens × input price + output tokens × output price, per model.' } },
+      { '@type': 'Question', name: 'Are prices up to date?', acceptedAnswer: { '@type': 'Answer', text: 'Based on published API rates. Verify current pricing on provider websites before budgeting.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Comparison happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter input and output token counts.',
+  'Select one or more models to compare.',
+  'Review the comparison table sorted by total cost.'
+]
+
+const faq = [
+  { q: 'Which models are included?', a: 'Popular OpenAI, Anthropic, and Google models with published per-million-token pricing.' },
+  { q: 'How is total cost calculated?', a: 'Input tokens × input price + output tokens × output price, per model.' },
+  { q: 'Are prices up to date?', a: 'Based on published API rates. Verify current pricing on provider websites before budgeting.' },
+  { q: 'Is my data sent to a server?', a: 'No. Comparison happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'ai-cost-calculator', name: 'AI API Cost Calculator' },
+  { slug: 'ai-token-calculator', name: 'AI Token Counter' },
+  { slug: 'embedding-cost-calculator', name: 'AI Embedding Cost Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'AI', href: '/developer/ai' },
+  { label: 'AI Model Comparison' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="ai-model-comparison" name="AI Model Comparison — Compare API Costs" description="Enter input and output token counts, select models to compare, and see per-model input, output, and total cost in a sortable table." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="amc-in">Input tokens</label><input type="number" id="amc-in" class="tool-input" placeholder="1000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="amc-out">Output tokens</label><input type="number" id="amc-out" class="tool-input" placeholder="500" min="0" /></div>
+        </div>
+        <div class="calc-field"><label class="tool-label">Models to compare</label><div id="amc-models" style="display:flex;flex-wrap:wrap;gap:0.75rem 1.25rem;"></div></div>
+        <div id="amc-table" style="overflow-x:auto;margin-top:1rem;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/ai-model-comparison.js"></script>

@@ -494,6 +494,7 @@
 .vertical-card[data-cat="finance"]::before   { background: var(--cat-finance); }
 .vertical-card[data-cat="business"]::before  { background: var(--cat-business); }
 .vertical-card[data-cat="e-commerce"]::before { background: var(--cat-ecommerce); }
+.vertical-card[data-cat="education"]::before  { background: var(--cat-education); }
 
 .vertical-card:hover {
   border-color: var(--accent);
@@ -594,6 +595,7 @@
 .pop-card[data-cat="finance"]   { border-left: 3px solid var(--cat-finance); }
 .pop-card[data-cat="business"]  { border-left: 3px solid var(--cat-business); }
 .pop-card[data-cat="e-commerce"] { border-left: 3px solid var(--cat-ecommerce); }
+.pop-card[data-cat="education"]  { border-left: 3px solid var(--cat-education); }
 
 .pop-card-emoji {
   font-size: 16px;
