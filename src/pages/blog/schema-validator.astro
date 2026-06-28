@@ -1,0 +1,86 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'schema-validator'
+const seo = {
+  title: 'How to validate schema markup online — check JSON-LD locally | maratool',
+  description: 'Paste JSON-LD to validate syntax and required schema.org fields. Paste-only — not a replacement for Google Rich Results Test. Free browser tool.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to validate JSON-LD schema markup before deploying',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How the maratool schema markup validator checks JSON-LD syntax and required fields.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Schema Validator guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to validate JSON-LD schema markup before deploying"
+      lead="Paste JSON-LD from your page source to catch syntax errors and missing required fields — locally, before Google sees it."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Invalid JSON-LD silently fails — Google ignores it and your rich results never show. The <a href="/schema-validator">Schema Markup Validator</a> checks JSON syntax, <code>@context</code>, <code>@type</code>, and required fields for common schema.org types, all in your browser.</p>
+
+      <p><strong>Paste-only limitation:</strong> the tool cannot fetch a live URL. Copy JSON-LD from a <code>&lt;script type="application/ld+json"&gt;</code> block in View Source and paste it here.</p>
+
+      <p><strong>Not a Rich Results Test replacement:</strong> Google's tool fetches your URL server-side and checks rich-result eligibility. This validator runs locally and checks syntax plus basic required fields — use both.</p>
+
+      <BlogToolEmbed slug="schema-validator" title="Try it — paste JSON-LD and review validation results" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Find your JSON-LD</strong> — View Source on your page and locate the <code>application/ld+json</code> script block.</li>
+        <li><strong>Paste the JSON</strong> — single objects or arrays of multiple schema blocks both work.</li>
+        <li><strong>Fix reported issues</strong> — missing <code>@context</code>, unknown <code>@type</code>, or required fields absent for that type.</li>
+      </ol>
+
+      <h2>Supported schema types</h2>
+      <p>The validator checks required fields for these common types:</p>
+      <ul>
+        <li>Article, Product, FAQPage, HowTo</li>
+        <li>LocalBusiness, Organization, Person</li>
+        <li>WebSite, WebApplication, BreadcrumbList</li>
+      </ul>
+      <p>Other <code>@type</code> values are accepted if JSON is valid, but only the types above get required-field validation.</p>
+
+      <h2>When to use this vs Google's tool</h2>
+      <ul>
+        <li><strong>This validator</strong> — fast local checks while writing or editing JSON-LD. Catches typos, missing commas, and absent required properties before deploy.</li>
+        <li><strong>Google Rich Results Test</strong> — post-deploy verification that Google can fetch, parse, and render your structured data as rich results.</li>
+      </ul>
+
+      <h2>Related tools</h2>
+      <p>Generate JSON-LD from a form with the <a href="/schema-markup-generator">Schema Markup Generator</a>, or audit page meta tags with the <a href="/meta-tag-checker">Meta Tag Checker</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/schema-validator">Schema Markup Validator</a> is free and runs locally — your JSON never leaves your browser. More tools at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

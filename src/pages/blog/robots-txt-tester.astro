@@ -1,0 +1,84 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'robots-txt-tester'
+const seo = {
+  title: 'How to test robots.txt rules online — paste and check paths | maratool',
+  description: 'Paste robots.txt and a URL path to see if crawlers are allowed or blocked. Paste-only — does not fetch live files. Free browser tool.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to test robots.txt rules against URL paths',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How the maratool robots.txt tester simulates crawler allow/disallow rules.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Robots.txt Tester guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to test robots.txt rules against URL paths"
+      lead="Paste your robots.txt, enter a path and User-agent, and see Allowed or Blocked — before Googlebot finds a surprise."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>One wrong <code>Disallow</code> line can block your entire site from Google. The <a href="/robots-txt-tester">Robots.txt Tester</a> simulates crawler rules against any URL path so you can verify access before deploying a change.</p>
+
+      <p><strong>Paste-only limitation:</strong> the tool cannot fetch your live <code>robots.txt</code>. Visit <code>yoursite.com/robots.txt</code> in a browser, copy the text, and paste it here. Browsers block cross-origin file fetches from JavaScript.</p>
+
+      <BlogToolEmbed slug="robots-txt-tester" title="Try it — paste robots.txt and test a path" height={500} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste robots.txt</strong> — the full file contents, including <code>User-agent</code> blocks and <code>Allow</code>/<code>Disallow</code> rules.</li>
+        <li><strong>Enter a path</strong> — e.g. <code>/blog/my-post</code> or <code>/admin/dashboard</code>.</li>
+        <li><strong>Pick a User-agent</strong> — <code>Googlebot</code>, <code>Bingbot</code>, or <code>*</code> for the catch-all block.</li>
+      </ol>
+      <p>The tester uses longest-match logic: when multiple rules could apply, the most specific path wins — similar to how Google interprets robots.txt.</p>
+
+      <h2>What it does and does not do</h2>
+      <ul>
+        <li><strong>Does</strong> — parse User-agent groups, match Allow/Disallow rules, and report Allowed or Blocked for a given path.</li>
+        <li><strong>Does not</strong> — fetch your live robots.txt, check sitemap references, or validate against Google Search Console's exact crawler behavior.</li>
+      </ul>
+      <p>For production sites, always double-check in Google Search Console's robots.txt tester after using this for quick local validation.</p>
+
+      <h2>Common use cases</h2>
+      <ul>
+        <li>Verifying that <code>Disallow: /staging/</code> blocks staging URLs but not production paths.</li>
+        <li>Testing whether a new <code>Allow</code> override unblocks a subdirectory inside a broader <code>Disallow</code>.</li>
+        <li>Checking bot-specific rules — e.g. blocking AI crawlers while allowing Googlebot.</li>
+      </ul>
+
+      <h2>Related tools</h2>
+      <p>Build a robots.txt from scratch with the <a href="/robots-txt-generator">Robots.txt Generator</a>, or validate your sitemap XML with the <a href="/sitemap-validator">Sitemap XML Validator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/robots-txt-tester">Robots.txt Tester</a> is free and runs entirely in your browser. More SEO audit tools at <a href="/developer/audit">maratool.com/developer/audit</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
