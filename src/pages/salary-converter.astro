@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Salary Converter — Annual, Monthly, Hourly | maratool',
+  description: 'Convert salary between annual, monthly, bi-weekly, weekly, daily, and hourly rates. Free salary calculator online.',
+  canonical: 'https://maratool.com/salary-converter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Salary Converter — Annual, Monthly, Hourly',
+    url: 'https://maratool.com/salary-converter',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert salary between annual, monthly, bi-weekly, weekly, daily, and hourly rates. Free salary calculator online.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Business', item: 'https://maratool.com/business' },
+      { '@type': 'ListItem', position: 3, name: 'Pay', item: 'https://maratool.com/business/pay' },
+      { '@type': 'ListItem', position: 4, name: 'Salary Converter — Annual, Monthly, Hourly', item: 'https://maratool.com/salary-converter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do I convert annual salary to hourly?', acceptedAnswer: { '@type': 'Answer', text: 'Hourly = Annual Salary / (Hours per Week × Weeks per Year). Default: 40 hours × 52 weeks = 2,080 hours.' } },
+      { '@type': 'Question', name: 'What weeks per year should I use?', acceptedAnswer: { '@type': 'Answer', text: '52 for full-time. Use 50 if you account for 2 weeks unpaid vacation.' } },
+      { '@type': 'Question', name: 'Does this include taxes or benefits?', acceptedAnswer: { '@type': 'Answer', text: 'No. This is gross pay conversion only, before deductions.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your annual salary.',
+  'Adjust hours per week and weeks per year if non-standard.',
+  'See all pay period equivalents instantly.'
+]
+
+const faq = [
+  { q: 'How do I convert annual salary to hourly?', a: 'Hourly = Annual Salary / (Hours per Week × Weeks per Year). Default: 40 hours × 52 weeks = 2,080 hours.' },
+  { q: 'What weeks per year should I use?', a: '52 for full-time. Use 50 if you account for 2 weeks unpaid vacation.' },
+  { q: 'Does this include taxes or benefits?', a: 'No. This is gross pay conversion only, before deductions.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'vat-calculator', name: 'VAT Calculator' },
+  { slug: 'profit-margin-calculator', name: 'Profit Margin Calculator' },
+  { slug: 'percentage-calculator', name: 'Percentage Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Business', href: '/business' },
+  { label: 'Pay', href: '/business/pay' },
+  { label: 'Salary Converter' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="salary-converter" name="Salary Converter — Annual, Monthly, Hourly" description="Enter annual salary and work schedule to see equivalent monthly, weekly, daily, and hourly rates." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:320px;">
+        <div class="calc-field"><label class="tool-label" for="sc-annual">Annual salary ($)</label><input type="number" id="sc-annual" class="tool-input" placeholder="75000" min="0" style="max-width:240px;" /></div>
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="sc-hours">Hours per week</label><input type="number" id="sc-hours" class="tool-input" value="40" min="1" /></div>
+          <div class="calc-field"><label class="tool-label" for="sc-weeks">Weeks per year</label><input type="number" id="sc-weeks" class="tool-input" value="52" min="1" /></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="sc-monthly">—</span><span class="tool-stat-label">Monthly</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="sc-biweekly">—</span><span class="tool-stat-label">Bi-weekly</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="sc-weekly">—</span><span class="tool-stat-label">Weekly</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="sc-daily">—</span><span class="tool-stat-label">Daily</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="sc-hourly">—</span><span class="tool-stat-label">Hourly</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/salary-converter.js"></script>

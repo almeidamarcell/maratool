@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'SQL Formatter — Beautify SQL Online | maratool',
+  description: 'Format and beautify SQL queries instantly. Paste messy SQL and get indented, readable output. Free, runs in your browser.',
+  canonical: 'https://maratool.com/sql-formatter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'SQL Formatter — Beautify SQL Online',
+    url: 'https://maratool.com/sql-formatter',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Format and beautify SQL queries instantly. Paste messy SQL and get indented, readable output. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'SQL', item: 'https://maratool.com/developer/sql' },
+      { '@type': 'ListItem', position: 4, name: 'SQL Formatter — Beautify SQL Online', item: 'https://maratool.com/sql-formatter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Does this validate SQL syntax?', acceptedAnswer: { '@type': 'Answer', text: 'It formats SQL for readability but does not validate against a specific database dialect.' } },
+      { '@type': 'Question', name: 'Which SQL dialects are supported?', acceptedAnswer: { '@type': 'Answer', text: 'Standard SQL keywords (SELECT, FROM, WHERE, JOIN, etc.) are recognized for formatting.' } },
+      { '@type': 'Question', name: 'Is my SQL sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Formatting happens entirely in your browser.' } },
+      { '@type': 'Question', name: 'Can I format stored procedures?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Paste any SQL text — the formatter adds line breaks before major keywords.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste your SQL query in the input box.',
+  'Formatted output updates automatically.',
+  'Click Copy to copy the formatted SQL.'
+]
+
+const faq = [
+  { q: 'Does this validate SQL syntax?', a: 'It formats SQL for readability but does not validate against a specific database dialect.' },
+  { q: 'Which SQL dialects are supported?', a: 'Standard SQL keywords (SELECT, FROM, WHERE, JOIN, etc.) are recognized for formatting.' },
+  { q: 'Is my SQL sent to a server?', a: 'No. Formatting happens entirely in your browser.' },
+  { q: 'Can I format stored procedures?', a: 'Yes. Paste any SQL text — the formatter adds line breaks before major keywords.' }
+]
+
+const relatedTools = [
+  { slug: 'json-formatter', name: 'JSON Formatter' },
+  { slug: 'curl-generator', name: 'cURL Generator' },
+  { slug: 'regex-tester', name: 'Regex Tester' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'SQL', href: '/developer/sql' },
+  { label: 'SQL Formatter' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="sql-formatter" name="SQL Formatter — Beautify SQL Online" description="Paste SQL and get formatted output with proper indentation and line breaks." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:400px;">
+        <label class="tool-label" for="sql-input">SQL input</label>
+        <textarea id="sql-input" class="tool-textarea" rows="8" placeholder="SELECT id, name FROM users WHERE active = 1 ORDER BY name"></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:1rem 0 0.5rem;">
+          <label class="tool-label" style="margin:0;">Formatted output</label>
+          <button type="button" id="sql-copy" class="copy-btn">Copy</button>
+        </div>
+        <pre id="sql-output" class="tool-output" style="min-height:120px;white-space:pre-wrap;"></pre>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<script src="../tools/sql-formatter.js"></script>

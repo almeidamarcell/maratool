@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'mortgage-calculator'
+const seo = {
+  title: 'Mortgage calculator — monthly payment & amortization | maratool',
+  description: 'Calculate monthly mortgage payments, total interest, and amortization schedule. Free home loan calculator that runs in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate monthly mortgage payments',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate monthly mortgage payments, total interest, and amortization schedule. Free home loan calculator that runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate monthly mortgage payments', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate monthly mortgage payments"
+      lead="Enter loan amount, rate, and term — see monthly payment, total interest, and a year-one amortization schedule instantly."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Before you sign, you need to know the monthly payment and how much interest you will pay over the life of the loan. The <a href="/mortgage-calculator">Mortgage Calculator</a> uses the standard amortization formula and shows the first 12 months of your schedule — no spreadsheet required.</p>
+
+      <BlogToolEmbed slug="mortgage-calculator" title="Try it — enter loan amount, rate, and term" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Loan amount</strong> — principal borrowed after your down payment.</li>
+        <li><strong>Interest rate</strong> — annual percentage rate (APR) from your lender.</li>
+        <li><strong>Term</strong> — loan length in years (30, 20, 15 are common).</li>
+      </ol>
+
+      <h2>The payment formula</h2>
+      <p>Monthly payment = P × [r(1+r)<sup>n</sup>] / [(1+r)<sup>n</sup> − 1], where P is principal, r is monthly rate (annual ÷ 12), and n is total months. Early payments are mostly interest; later payments shift toward principal.</p>
+
+      <h2>What this does not include</h2>
+      <p>Property tax, homeowners insurance, PMI, and HOA fees are not in this calculator. Add those separately for total housing cost.</p><p>Also see the <a href="/loan-calculator">Loan Calculator</a> for personal or auto loans measured in months.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/mortgage-calculator">How to calculate monthly mortgage payments</a> is free, runs locally, and never sends your data to a server. More <a href="/finance">finance calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

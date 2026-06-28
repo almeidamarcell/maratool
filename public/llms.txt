@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 242 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 262 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -32,6 +32,7 @@ maratool.com is a growing collection of 242 free tools that run in the browser u
 - [Resize Video Online — Change Video Resolution](https://maratool.com/resize-video): Resize videos to 1080p, 720p, 480p, or custom dimensions. Aspect-ratio lock available. Runs in your browser.
 - [Crop Video Online — Free Video Cropper](https://maratool.com/crop-video): Crop MP4, WebM, and MOV videos in your browser. Drag a crop box, pick an aspect ratio — no upload, no watermark, no signup.
 - [Online Video Editor — Free Browser Video Tools](https://maratool.com/video-editor): Free online video editor — trim, compress, convert, rotate, mute, crop, and resize videos in your browser. No upload, no signup, no watermark.
+- [Time Zone Converter](https://maratool.com/timezone-converter): Convert date and time between time zones instantly. Compare multiple zones side by side.
 
 ### Developer
 - [Generate MD5 SHA-256 Hash Online](https://maratool.com/hash-generator): Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text input instantly.
@@ -57,6 +58,11 @@ maratool.com is a growing collection of 242 free tools that run in the browser u
 - [Calculate AI API Cost Online](https://maratool.com/ai-cost-calculator): Estimate per-request cost for GPT-4o, Claude, Gemini, and more. Enter token counts and see input, output, and total pricing.
 - [Paper Sizes Reference](https://maratool.com/paper-sizes): Complete reference for paper sizes — A series, US Letter, Legal, Tabloid, and more. Search and filter by name or dimensions.
 - [Tailwind CSS Cheat Sheet](https://maratool.com/tailwind-cheatsheet): Quick reference for Tailwind CSS classes — spacing, typography, colors, flexbox, grid, and more. Search and copy any class.
+- [SQL Formatter — Beautify SQL Online](https://maratool.com/sql-formatter): Format and beautify SQL queries instantly. Paste messy SQL and get indented, readable output.
+- [cURL Command Generator](https://maratool.com/curl-generator): Build cURL commands from URL, method, headers, and body. Copy-ready curl for any HTTP request.
+- [Password Strength Checker](https://maratool.com/password-strength-checker): Check password strength with entropy scoring and crack-time estimates. See what makes a password weak or strong.
+- [HMAC Generator — SHA-256 & SHA-512](https://maratool.com/hmac-generator): Generate HMAC signatures with SHA-256, SHA-384, or SHA-512. Enter message and secret key — runs in your browser.
+- [AI Context Window Calculator](https://maratool.com/context-window-calculator): See how much of a model context window your text uses. Compare GPT-4o, Claude, and Gemini token limits.
 
 ### Text
 - [Compare Two Texts Online](https://maratool.com/diff-checker): Compare two blocks of text and highlight added, removed, and unchanged lines.
@@ -73,6 +79,9 @@ maratool.com is a growing collection of 242 free tools that run in the browser u
 - [Mussum Ipsum](https://maratool.com/mussum-ipsum): Generate Mussum Ipsum placeholder text — a Brazilian lorem ipsum full of invented words and humor.
 - [Dilmes Ipsum](https://maratool.com/dilmes-ipsum): Generate Dilmes Ipsum placeholder text using real quotes from former Brazilian president Dilma Rousseff.
 - [Emoji Picker — Copy & Paste Any Emoji](https://maratool.com/emoji-picker): Click any emoji to instantly copy it to your clipboard. Search and browse 2,300+ Unicode emojis by category.
+- [Word Counter & Character Counter](https://maratool.com/word-counter): Count words, characters, sentences, and paragraphs in real time. Paste or type any text.
+- [Sort, Dedupe & Convert Text Lines](https://maratool.com/text-line-tools): Sort lines alphabetically, remove duplicates, randomize order, and convert case. All text transforms in one place.
+- [JSON Diff — Compare Two JSON Objects](https://maratool.com/json-diff): Compare two JSON documents and highlight added, removed, and changed keys. Formatted side-by-side diff.
 
 ### Image
 - [GIF Maker — Create Animated GIFs from Images](https://maratool.com/gif-maker): Upload images and create animated GIFs instantly in your browser. Drag to reorder frames, set speed, and download — no upload to servers.
@@ -265,6 +274,23 @@ maratool.com is a growing collection of 242 free tools that run in the browser u
 - [GWTG-HF Risk Score](https://maratool.com/gwtg-hf-risk): Get With The Guidelines Heart Failure (GWTG-HF) in-hospital mortality risk.
 - [MASCC Risk Index (Febrile Neutropenia)](https://maratool.com/mascc-febrile-neutropenia): MASCC risk index for low-risk febrile neutropenia in cancer patients.
 - [TASH Score (Massive Transfusion)](https://maratool.com/tash-massive-transfusion): Trauma Associated Severe Hemorrhage (TASH) score for massive transfusion prediction.
+
+### Finance
+- [Mortgage Calculator — Monthly Payment & Amortization](https://maratool.com/mortgage-calculator): Calculate monthly mortgage payments, total interest, and full amortization schedule. Enter loan amount, rate, and term.
+- [Loan Calculator — Monthly Payment & Interest](https://maratool.com/loan-calculator): Calculate monthly loan payments and total interest for personal, auto, or business loans. See full amortization schedule.
+- [Compound Interest Calculator](https://maratool.com/compound-interest-calculator): Calculate compound interest with monthly contributions. See balance growth over time with a year-by-year breakdown.
+- [CAGR Calculator — Compound Annual Growth Rate](https://maratool.com/cagr-calculator): Calculate compound annual growth rate between two values over any time period. Instant CAGR percentage.
+
+### Business
+- [Profit Margin Calculator](https://maratool.com/profit-margin-calculator): Calculate gross profit, net profit, and margin percentage from revenue and costs. Updates instantly.
+- [Break-even Calculator](https://maratool.com/break-even-calculator): Find your break-even point in units and revenue. Enter fixed costs, price per unit, and variable cost per unit.
+- [VAT / Sales Tax Calculator](https://maratool.com/vat-calculator): Add or remove VAT and sales tax from any amount. Preset rates for US, UK, EU, and custom percentage.
+- [Salary Converter — Annual, Monthly, Hourly](https://maratool.com/salary-converter): Convert salary between annual, monthly, bi-weekly, weekly, daily, and hourly rates. Adjust for hours and weeks worked.
+- [ROI Calculator — Return on Investment](https://maratool.com/roi-calculator): Calculate return on investment percentage from initial cost and final value. See profit and ROI instantly.
+
+### E-commerce
+- [Amazon Seller Fee Calculator](https://maratool.com/amazon-fee-calculator): Estimate Amazon referral fees, FBA fees, and net profit per sale. Enter price, category, and fulfillment method.
+- [Etsy Fee Calculator](https://maratool.com/etsy-fee-calculator): Calculate Etsy listing, transaction, payment processing, and shipping fees. See net profit per sale instantly.
 
 ## About
 

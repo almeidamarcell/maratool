@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'context-window-calculator'
+const seo = {
+  title: 'AI context window calculator — token limit usage | maratool',
+  description: 'See how much of a model context window your text uses. Compare GPT-4o, Claude, and Gemini limits.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to check AI context window usage',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'See how much of a model context window your text uses. Compare GPT-4o, Claude, and Gemini limits.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to check AI context window usage', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to check AI context window usage"
+      lead="Paste a prompt — see token estimate, context limit, usage percentage, and remaining capacity."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Every LLM has a context window limit. Exceed it and your request fails or gets truncated. The <a href="/context-window-calculator">AI Context Window Calculator</a> shows how much of GPT-4o, Claude, or Gemini capacity your text consumes.</p>
+
+      <BlogToolEmbed slug="context-window-calculator" title="Try it — pick a model and paste your text" height={480} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Select a model</strong> — context limits differ (8K to 1M tokens).</li>
+        <li><strong>Paste your text</strong> — prompt, document, or code.</li>
+        <li><strong>Check usage bar</strong> — stay under 80% for safety margin.</li>
+      </ol>
+
+      <h2>Token estimation</h2>
+      <p>Uses ~4 characters per token for English — same heuristic as the <a href="/ai-token-calculator">AI Token Counter</a>. Close enough for planning; verify with the provider tokenizer for billing.</p>
+
+      <h2>Cost planning</h2>
+      <p>Once you know token count, plug into the <a href="/ai-cost-calculator">AI Cost Calculator</a> for per-request pricing.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/context-window-calculator">How to check AI context window usage</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

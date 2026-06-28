@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'salary-converter'
+const seo = {
+  title: 'Salary converter — annual, monthly, hourly | maratool',
+  description: 'Convert salary between annual, monthly, bi-weekly, weekly, daily, and hourly rates. Free salary calculator.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert salary between annual, monthly, and hourly',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert salary between annual, monthly, bi-weekly, weekly, daily, and hourly rates. Free salary calculator.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert salary between annual, monthly, and hourly', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert salary between annual, monthly, and hourly"
+      lead="One annual number → every pay period equivalent, adjusted for hours and weeks worked."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Job offers come in different shapes — $120k/year, $58/hour, $5,000/month. The <a href="/salary-converter">Salary Converter</a> normalizes them so you can compare apples to apples.</p>
+
+      <BlogToolEmbed slug="salary-converter" title="Try it — enter annual salary and work schedule" height={420} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Annual salary</strong> — gross yearly pay.</li>
+        <li><strong>Hours per week</strong> — default 40 for full-time.</li>
+        <li><strong>Weeks per year</strong> — default 52; use 50 if accounting for unpaid vacation.</li>
+      </ol>
+
+      <h2>Hourly from annual</h2>
+      <p>Hourly = Annual / (Hours per Week × Weeks per Year). At 40×52 = 2,080 hours, $75,000/year ≈ $36.06/hour before taxes.</p>
+
+      <h2>Gross only</h2>
+      <p>This is pre-tax, pre-benefits conversion. Actual take-home depends on deductions, location, and benefits.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/salary-converter">How to convert salary between annual, monthly, and hourly</a> is free, runs locally, and never sends your data to a server. More <a href="/business">business calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

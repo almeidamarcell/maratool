@@ -432,6 +432,9 @@ h3.faq-question {
 .tool-card[data-cat="pdf"]       { border-left: 3px solid var(--cat-pdf); }
 .tool-card[data-cat="marketing"] { border-left: 3px solid var(--cat-marketing); }
 .tool-card[data-cat="mockup"]    { border-left: 3px solid var(--cat-mockup); }
+.tool-card[data-cat="finance"]   { border-left: 3px solid var(--cat-finance); }
+.tool-card[data-cat="business"]  { border-left: 3px solid var(--cat-business); }
+.tool-card[data-cat="e-commerce"] { border-left: 3px solid var(--cat-ecommerce); }
 
 /* ========== EMBED MODE — TOOL SHELL ========== */
 html.embed .breadcrumb,

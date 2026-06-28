@@ -27,6 +27,9 @@
 .cat-dot[data-cat="marketing"] { background: var(--cat-marketing); }
 .cat-dot[data-cat="mockup"]    { background: var(--cat-mockup); }
 .cat-dot[data-cat="health"]    { background: var(--cat-health); }
+.cat-dot[data-cat="finance"]   { background: var(--cat-finance); }
+.cat-dot[data-cat="business"]  { background: var(--cat-business); }
+.cat-dot[data-cat="e-commerce"] { background: var(--cat-ecommerce); }
 
 /* ============================================================
    Command palette (⌘K)

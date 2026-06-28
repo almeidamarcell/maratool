@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'loan-calculator'
+const seo = {
+  title: 'Loan calculator — monthly payment & interest | maratool',
+  description: 'Calculate monthly loan payments and total interest for personal, auto, or business loans. Free amortization calculator in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate monthly loan payments',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate monthly loan payments and total interest for personal, auto, or business loans. Free amortization calculator in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate monthly loan payments', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate monthly loan payments"
+      lead="Any fixed-rate installment loan — enter principal, APR, and term in months to see payment and total interest."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Personal loans, auto loans, and equipment financing all use the same math: fixed monthly payments over a set term. The <a href="/loan-calculator">Loan Calculator</a> gives you the payment and total interest in one screen.</p>
+
+      <BlogToolEmbed slug="loan-calculator" title="Try it — enter amount, rate, and term in months" height={380} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Loan amount</strong> — total principal.</li>
+        <li><strong>Annual interest rate</strong> — APR from your lender.</li>
+        <li><strong>Term in months</strong> — e.g. 36 for 3 years, 60 for 5 years.</li>
+      </ol>
+
+      <h2>Months vs years</h2>
+      <p>This calculator takes term in <em>months</em>, not years. A 5-year loan = 60 months. For mortgages measured in years, use the <a href="/mortgage-calculator">Mortgage Calculator</a>.</p>
+
+      <h2>Zero-interest loans</h2>
+      <p>If the rate is 0%, payment is simply principal ÷ months. The calculator handles this automatically.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/loan-calculator">How to calculate monthly loan payments</a> is free, runs locally, and never sends your data to a server. More <a href="/finance">finance calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

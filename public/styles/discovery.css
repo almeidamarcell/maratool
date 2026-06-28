@@ -491,6 +491,9 @@
 .vertical-card[data-cat="marketing"]::before { background: var(--cat-marketing); }
 .vertical-card[data-cat="mockup"]::before    { background: var(--cat-mockup); }
 .vertical-card[data-cat="health"]::before    { background: var(--cat-health); }
+.vertical-card[data-cat="finance"]::before   { background: var(--cat-finance); }
+.vertical-card[data-cat="business"]::before  { background: var(--cat-business); }
+.vertical-card[data-cat="e-commerce"]::before { background: var(--cat-ecommerce); }
 
 .vertical-card:hover {
   border-color: var(--accent);
@@ -588,6 +591,9 @@
 .pop-card[data-cat="marketing"] { border-left: 3px solid var(--cat-marketing); }
 .pop-card[data-cat="mockup"]    { border-left: 3px solid var(--cat-mockup); }
 .pop-card[data-cat="health"]    { border-left: 3px solid var(--cat-health); }
+.pop-card[data-cat="finance"]   { border-left: 3px solid var(--cat-finance); }
+.pop-card[data-cat="business"]  { border-left: 3px solid var(--cat-business); }
+.pop-card[data-cat="e-commerce"] { border-left: 3px solid var(--cat-ecommerce); }
 
 .pop-card-emoji {
   font-size: 16px;
