@@ -15,7 +15,7 @@ maratool.com is a growing collection of 304 free tools that run in the browser u
 - [Text to Binary](https://maratool.com/text-to-binary): Convert text to binary, hex, and decimal representations instantly.
 - [YAML to JSON Converter](https://maratool.com/yaml-to-json): Convert YAML to JSON or JSON to YAML instantly in your browser. No upload, no sign-up.
 - [XML to JSON Converter](https://maratool.com/xml-to-json): Convert XML to JSON instantly in your browser. Handles attributes, nested elements, and repeated tags.
-- [Document Converter — DOCX to PDF, HTML to Markdown & More](https://maratool.com/document-converter): Convert DOCX, EPUB, ODT, HTML, Markdown, RTF, CSV, and JSON online. Upload a document, pick an output format, preview, and download — runs in your browser.
+- [Document Converter — DOCX to HTML, EPUB to Markdown & More](https://maratool.com/document-converter): Convert DOCX, EPUB, ODT, HTML, Markdown, RTF, CSV, and JSON with Pandoc WASM in your browser. Upload, pick a format, preview, and download.
 - [Unix Timestamp Converter](https://maratool.com/unix-timestamp): Convert Unix timestamps to human-readable dates and vice versa, with timezone support.
 - [PX to REM Converter](https://maratool.com/px-to-rem): Convert pixels to rem and rem to pixels instantly. Configurable base font size with a common conversions reference table.
 - [Unit Converter — Length, Weight, Temperature & More](https://maratool.com/unit-converter): Convert between units of length, weight, temperature, data, speed, and more. Free, instant, no sign-up.

@@ -5,96 +5,78 @@ import { describe, expect, test } from 'vitest'
 import {
   detectInputFormat,
   getAvailableOutputs,
-  stripRtf,
-  textToRtf,
-  rstToHtml,
-  odtXmlToHtml,
-  convertContent,
+  pandocReader,
+  pandocWriter,
+  buildConversionOptions,
   buildFilename,
-  htmlToPlainText,
+  parseConversionResult,
+  wrapHtmlPreview,
 } from './document-converter-core.js'
 
 describe('detectInputFormat', () => {
   test('detects common extensions', () => {
     expect(detectInputFormat('report.docx')).toBe('docx')
     expect(detectInputFormat('notes.markdown')).toBe('md')
-    expect(detectInputFormat('page.htm')).toBe('html')
     expect(detectInputFormat('book.epub')).toBe('epub')
-    expect(detectInputFormat('data.csv')).toBe('csv')
-  })
-
-  test('falls back to txt for unknown extensions', () => {
-    expect(detectInputFormat('readme.xyz')).toBe('txt')
+    expect(detectInputFormat('data.tsv')).toBe('tsv')
   })
 })
 
 describe('getAvailableOutputs', () => {
-  test('returns docx outputs including pdf', () => {
-    expect(getAvailableOutputs('docx')).toContain('pdf')
+  test('excludes input format', () => {
+    expect(getAvailableOutputs('docx')).not.toContain('docx')
     expect(getAvailableOutputs('docx')).toContain('html')
-  })
-
-  test('csv can convert to json', () => {
-    expect(getAvailableOutputs('csv')).toEqual(['json', 'txt'])
+    expect(getAvailableOutputs('docx')).toContain('epub')
   })
 })
 
-describe('stripRtf', () => {
-  test('extracts plain text from simple RTF', () => {
-    var rtf = '{\\rtf1\\ansi Hello\\par World}'
-    expect(stripRtf(rtf)).toContain('Hello')
-    expect(stripRtf(rtf)).toContain('World')
+describe('pandocReader', () => {
+  test('maps doc to docx reader', () => {
+    expect(pandocReader('doc')).toBe('docx')
+    expect(pandocReader('txt')).toBe('plain')
   })
 })
 
-describe('textToRtf', () => {
-  test('wraps text in RTF header', () => {
-    expect(textToRtf('Hi')).toContain('{\\rtf1')
-    expect(textToRtf('Hi')).toContain('Hi')
+describe('buildConversionOptions', () => {
+  test('adds input-files for binary inputs', () => {
+    var opts = buildConversionOptions('docx', 'html', 'report.docx')
+    expect(opts['input-files']).toEqual(['report.docx'])
+    expect(opts.from).toBe('docx')
+    expect(opts.to).toBe('html')
+    expect(opts.standalone).toBe(true)
+  })
+
+  test('uses output-file for binary outputs', () => {
+    var opts = buildConversionOptions('md', 'docx', 'notes.md')
+    expect(opts['output-file']).toBe('output.docx')
   })
 })
 
-describe('rstToHtml', () => {
-  test('converts headings', () => {
-    var html = rstToHtml('Title\n=====\n\nBody text')
-    expect(html).toContain('<h1>')
-    expect(html).toContain('Title')
-    expect(html).toContain('<p>')
-  })
-})
-
-describe('odtXmlToHtml', () => {
-  test('extracts paragraphs from ODT content.xml', () => {
-    var xml = '<?xml version="1.0"?><office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"><office:body><office:text><text:p>Hello ODT</text:p></office:text></office:body></office:document>'
-    var html = odtXmlToHtml(xml)
-    expect(html).toContain('Hello ODT')
-    expect(html).toContain('<p>')
-  })
-})
-
-describe('convertContent', () => {
-  test('markdown to html', () => {
-    var parsed = { format: 'md', text: '# Hello', html: '<h1>Hello</h1>' }
-    var result = convertContent(parsed, 'html')
-    expect(result.type).toBe('html')
-    expect(result.content).toContain('<h1>Hello</h1>')
+describe('parseConversionResult', () => {
+  test('returns text result from stdout', () => {
+    var parsed = parseConversionResult({ stdout: '# Hi', stderr: '', warnings: [], mediaFiles: {} }, 'md', {})
+    expect(parsed.type).toBe('text')
+    expect(parsed.content).toBe('# Hi')
   })
 
-  test('csv to json', () => {
-    var parsed = { format: 'csv', text: 'a,b\n1,2', html: '' }
-    var result = convertContent(parsed, 'json')
-    expect(result.content).toContain('"a"')
-    expect(result.content).toContain('"1"')
-  })
-
-  test('html to plain text', () => {
-    expect(htmlToPlainText('<p>Hello <strong>world</strong></p>')).toBe('Hello world')
+  test('throws on stderr-only failure', () => {
+    expect(function () {
+      parseConversionResult({ stdout: '', stderr: 'ERROR: bad file', warnings: [], mediaFiles: {} }, 'html', {})
+    }).toThrow('ERROR: bad file')
   })
 })
 
 describe('buildFilename', () => {
   test('replaces extension with output format', () => {
-    expect(buildFilename('report.docx', 'pdf')).toBe('report.pdf')
+    expect(buildFilename('report.docx', 'html')).toBe('report.html')
     expect(buildFilename('data.json', 'csv')).toBe('data.csv')
+    expect(buildFilename('report.docx', 'html', true)).toBe('report.zip')
+  })
+})
+
+describe('wrapHtmlPreview', () => {
+  test('wraps fragment in document shell', () => {
+    expect(wrapHtmlPreview('<p>Hi</p>')).toContain('<!DOCTYPE html>')
+    expect(wrapHtmlPreview('<p>Hi</p>')).toContain('<p>Hi</p>')
   })
 })

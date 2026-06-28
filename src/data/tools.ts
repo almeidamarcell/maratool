@@ -96,12 +96,12 @@ export const tools: Tool[] = [
   // ── Converter / Document ──
   {
     slug: 'document-converter',
-    name: 'Document Converter — DOCX to PDF, HTML to Markdown & More',
+    name: 'Document Converter — DOCX to HTML, EPUB to Markdown & More',
     emoji: '📄',
-    description: 'Convert DOCX, EPUB, ODT, HTML, Markdown, RTF, CSV, and JSON online. Upload a document, pick an output format, preview, and download — runs in your browser.',
+    description: 'Convert DOCX, EPUB, ODT, HTML, Markdown, RTF, CSV, and JSON with Pandoc WASM in your browser. Upload, pick a format, preview, and download.',
     category: 'Converter',
     subcategory: 'Document',
-    keywords: ['docx to pdf', 'html to markdown', 'epub to pdf', 'document converter online', 'docx to html', 'epub to html', 'convert docx online', 'odt to html'],
+    keywords: ['docx to html', 'html to markdown', 'epub converter', 'document converter online', 'docx to markdown', 'epub to html', 'convert docx online', 'pandoc online'],
     live: true,
     blogPost: true,
     tags: ['file-upload'],
