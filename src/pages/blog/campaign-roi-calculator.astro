@@ -1,0 +1,76 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'campaign-roi-calculator'
+const seo = {
+  title: 'Campaign ROI calculator — how to measure marketing return | maratool',
+  description: 'Calculate marketing ROI and ROAS from revenue and ad spend. Learn the formulas and try the free calculator that runs in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate campaign ROI and ROAS',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How the maratool campaign ROI calculator works.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Campaign ROI Calculator guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate campaign ROI and ROAS"
+      lead="Enter revenue and ad spend — get ROI, ROAS, and profit instantly. No spreadsheet required."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Did your last ad campaign make money or lose it? ROI (Return on Investment) and ROAS (Return on Ad Spend) answer that in seconds. The <a href="/campaign-roi-calculator">Campaign ROI Calculator</a> takes two numbers — revenue and cost — and shows profit, ROI percentage, and ROAS ratio.</p>
+
+      <BlogToolEmbed slug="campaign-roi-calculator" title="Try it — enter revenue and campaign cost" height={400} />
+
+      <h2>The formulas</h2>
+      <p><strong>Profit</strong> = Revenue − Cost</p>
+      <p><strong>ROI</strong> = ((Revenue − Cost) ÷ Cost) × 100</p>
+      <p><strong>ROAS</strong> = Revenue ÷ Cost</p>
+      <p>Example: $5,000 revenue on $1,000 spend → $4,000 profit, 400% ROI, 5× ROAS. For every dollar spent, you got five back.</p>
+
+      <h2>ROI vs ROAS — which to use?</h2>
+      <ul>
+        <li><strong>ROAS</strong> — common in paid media. "We need 4× ROAS to break even." Easy to compare across campaigns.</li>
+        <li><strong>ROI</strong> — common in finance and email. Expressed as a percentage. 400% ROI = 4× ROAS.</li>
+      </ul>
+      <p>They measure the same thing differently. Pick whichever your team already speaks.</p>
+
+      <h2>What's a good ROI?</h2>
+      <p>It depends on margins. E-commerce with 30% margins might need 3× ROAS to break even after COGS. SaaS with 80% margins can be profitable at 1.5×. B2B campaigns with long sales cycles often show negative short-term ROI that turns positive over quarters.</p>
+
+      <h2>Go deeper</h2>
+      <p>ROI tells you if a campaign was profitable overall. To understand unit economics — how much it costs to acquire each customer and what they're worth over time — use the <a href="/cac-ltv-calculator">CAC / LTV Calculator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/campaign-roi-calculator">Campaign ROI Calculator</a> is free and runs in your browser. More at <a href="/marketing">maratool.com/marketing</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

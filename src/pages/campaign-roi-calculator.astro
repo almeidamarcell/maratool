@@ -1,0 +1,87 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Campaign ROI Calculator — Calculate marketing return | maratool',
+  description: 'Calculate campaign ROI, ROAS, and profit instantly. Enter revenue and ad spend to see your return on investment. Free marketing calculator, runs in your browser.',
+  canonical: 'https://maratool.com/campaign-roi-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Campaign ROI Calculator',
+    url: 'https://maratool.com/campaign-roi-calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate marketing campaign ROI, ROAS, and profit.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Marketing', item: 'https://maratool.com/marketing' },
+      { '@type': 'ListItem', position: 3, name: 'Calculator', item: 'https://maratool.com/marketing/calculator' },
+      { '@type': 'ListItem', position: 4, name: 'Campaign ROI Calculator', item: 'https://maratool.com/campaign-roi-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do you calculate marketing ROI?', acceptedAnswer: { '@type': 'Answer', text: 'ROI = ((Revenue − Cost) ÷ Cost) × 100. For example, $5,000 revenue on $1,000 spend = 400% ROI. ROAS (Return on Ad Spend) = Revenue ÷ Cost.' } },
+      { '@type': 'Question', name: 'What is a good marketing ROI?', acceptedAnswer: { '@type': 'Answer', text: 'A 5:1 ROAS (500% ROI) is often considered strong for e-commerce. B2B campaigns with longer sales cycles may target lower short-term ROI. Industry and channel matter.' } },
+      { '@type': 'Question', name: 'What is the difference between ROI and ROAS?', acceptedAnswer: { '@type': 'Answer', text: 'ROI is expressed as a percentage of profit relative to cost. ROAS is a ratio of revenue to ad spend. ROAS of 4× means $4 revenue per $1 spent.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } },
+    ]
+  }
+}
+
+const howTo = ['Enter total campaign revenue.', 'Enter total campaign cost (ad spend).', 'See ROI, ROAS, and profit instantly.']
+const faq = [
+  { q: 'How do you calculate marketing ROI?', a: 'ROI = ((Revenue − Cost) ÷ Cost) × 100. ROAS = Revenue ÷ Cost.' },
+  { q: 'What is a good marketing ROI?', a: '5:1 ROAS is often strong for e-commerce. B2B may target lower short-term ROI.' },
+  { q: 'What is the difference between ROI and ROAS?', a: 'ROI is profit as a % of cost. ROAS is revenue ÷ ad spend as a ratio.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' },
+]
+const relatedTools = [
+  { slug: 'cac-ltv-calculator', name: 'CAC / LTV Calculator' },
+  { slug: 'ab-test-calculator', name: 'A/B Test Significance Calculator' },
+  { slug: 'utm-builder', name: 'UTM Builder' },
+]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Marketing', href: '/marketing' },
+  { label: 'Calculator', href: '/marketing/calculator' },
+  { label: 'Campaign ROI Calculator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="campaign-roi-calculator" name="Calculate Campaign ROI Online" description="Enter revenue and ad spend to calculate ROI, ROAS, and profit. Updates instantly as you type." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:360px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="roi-revenue">Revenue ($)</label><input type="number" id="roi-revenue" class="tool-input" min="0" step="any" placeholder="5000" /></div>
+          <div class="calc-field"><label class="tool-label" for="roi-cost">Campaign cost ($)</label><input type="number" id="roi-cost" class="tool-input" min="0" step="any" placeholder="1000" /></div>
+        </div>
+        <p class="calc-error" id="roi-error" style="display:none;"></p>
+        <div id="roi-results">
+          <div class="tool-stats">
+            <div class="tool-stat"><span class="tool-stat-value" id="roi-profit">—</span><span class="tool-stat-label">Profit</span></div>
+            <div class="tool-stat"><span class="tool-stat-value" id="roi-roi">—</span><span class="tool-stat-label">ROI</span></div>
+            <div class="tool-stat"><span class="tool-stat-value" id="roi-roas">—</span><span class="tool-stat-label">ROAS</span></div>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.5rem; }
+  .calc-error { color: var(--error, #c4553a); font-size: 0.875rem; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/campaign-roi-calculator.js"></script>
