@@ -948,9 +948,24 @@ const posts = [
   }
   @media (max-width: 600px) {
     .blog-index { padding: 1.5rem 1rem; }
-    .blog-post-link { grid-template-columns: 1fr; }
-    .blog-post-date { grid-column: 1; }
-    .blog-post-title { grid-column: 1; }
-    .blog-post-desc { grid-column: 1; }
+    .blog-post-link {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+      row-gap: 0.25rem;
+    }
+    .blog-post-date {
+      grid-column: 1;
+      grid-row: 1;
+      padding-top: 0;
+    }
+    .blog-post-title {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .blog-post-desc {
+      grid-column: 1;
+      grid-row: 3;
+      margin-top: 0;
+    }
   }
 </style>
