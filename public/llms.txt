@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 304 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 305 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -41,6 +41,7 @@ maratool.com is a growing collection of 304 free tools that run in the browser u
 - [Age Calculator — Exact Age from Birth Date](https://maratool.com/age-calculator): Calculate exact age in years, months, and days from a birth date. Updates to today or any target date.
 - [ISO 8601 Date Formatter](https://maratool.com/iso8601-formatter): Parse and format ISO 8601 dates. Convert between ISO strings, local datetime, and Unix timestamps.
 - [ISO Week Number Calculator](https://maratool.com/week-number-calculator): Find the ISO week number for any date. See week start, week end, and year-week label.
+- [Convert EPUB to PDF Online](https://maratool.com/epub-converter): Convert EPUB e-books to PDF, HTML, or plain text. Preview chapters and download — runs in your browser, no upload.
 
 ### Developer
 - [Generate MD5 SHA-256 Hash Online](https://maratool.com/hash-generator): Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text input instantly.
