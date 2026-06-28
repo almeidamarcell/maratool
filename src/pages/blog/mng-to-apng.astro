@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'mng-to-apng'
+const seo = {
+  title: 'How to convert MNG to APNG online | maratool',
+  description: 'Convert legacy MNG animations to browser-compatible APNG. Upload a .mng file, preserve frames and timing, and download — all in your browser with FFmpeg WASM.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert MNG to APNG online',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert legacy MNG animations to browser-compatible APNG in your browser with FFmpeg WASM.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert MNG to APNG online', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert MNG to APNG online"
+      lead="Upload a legacy MNG animation and download a modern APNG — frames and timing preserved, no server upload."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>MNG (Multiple-image Network Graphics) was designed as PNG's animated sibling, but no mainstream browser ever adopted it. APNG (Animated PNG) gives you the same lossless, alpha-friendly animation in Chrome, Firefox, Safari, and Edge. The <a href="/mng-to-apng">MNG to APNG converter</a> runs FFmpeg in your browser — the same approach used by server-side tools like <a href="https://ezgif.com/mng-to-apng" rel="noopener noreferrer">ezgif</a>.</p>
+
+      <BlogToolEmbed slug="mng-to-apng" title="Try it — upload an MNG file to convert" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Upload</strong> — drop or select a <code>.mng</code> file (up to 200 MB).</li>
+        <li><strong>Convert</strong> — FFmpeg WASM decodes each frame and muxes them into APNG with original delays.</li>
+        <li><strong>Download</strong> — preview the animation in-browser and save the <code>.apng</code> file.</li>
+      </ol>
+
+      <h2>Why MNG → APNG?</h2>
+      <p>MNG supports complex compositions (JNG layers, nested animations) but lacks practical support. APNG is a simpler animated PNG extension that browsers render natively and that falls back to the first frame in software that does not understand animation. Converting lets you publish legacy MNG assets on the web without re-authoring frames.</p>
+
+      <h2>Limitations</h2>
+      <p>First visit downloads ~25 MB of FFmpeg WASM (cached afterward). Very large MNG files are limited by browser memory. Complex MNG features (JNG sub-images, nested segments) may not translate perfectly — most MNG files are straightforward frame sequences and convert cleanly.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/mng-to-apng">MNG to APNG converter</a> is free, runs locally, and never sends your data to a server. More <a href="/converter/format">format converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
