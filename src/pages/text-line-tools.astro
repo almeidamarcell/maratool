@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Sort, Dedupe & Convert Text Lines Online | maratool',
+  description: 'Sort lines alphabetically, remove duplicates, randomize order, and convert case. All text line transforms in one place.',
+  canonical: 'https://maratool.com/text-line-tools',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Sort, Dedupe & Convert Text Lines',
+    url: 'https://maratool.com/text-line-tools',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Sort lines alphabetically, remove duplicates, randomize order, and convert case. All text line transforms in one place.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Text', item: 'https://maratool.com/text' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/text/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Sort, Dedupe & Convert Text Lines', item: 'https://maratool.com/text-line-tools' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Does sort preserve blank lines?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Blank lines are included in sorting (empty strings sort first).' } },
+      { '@type': 'Question', name: 'How does deduplicate work?', acceptedAnswer: { '@type': 'Answer', text: 'Removes exact duplicate lines, keeping the first occurrence. Case-sensitive.' } },
+      { '@type': 'Question', name: 'What does title case do?', acceptedAnswer: { '@type': 'Answer', text: 'Capitalizes the first letter of each word on every line.' } },
+      { '@type': 'Question', name: 'Is my text sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All transforms happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste your text (one item per line) in the input box.',
+  'Click a transform button — sort, dedupe, randomize, or change case.',
+  'Copy the result from the output box.'
+]
+
+const faq = [
+  { q: 'Does sort preserve blank lines?', a: 'Yes. Blank lines are included in sorting (empty strings sort first).' },
+  { q: 'How does deduplicate work?', a: 'Removes exact duplicate lines, keeping the first occurrence. Case-sensitive.' },
+  { q: 'What does title case do?', a: 'Capitalizes the first letter of each word on every line.' },
+  { q: 'Is my text sent to a server?', a: 'No. All transforms happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'word-counter', name: 'Word Counter' },
+  { slug: 'diff-checker', name: 'Diff Checker' },
+  { slug: 'case-converter', name: 'Case Converter' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Text', href: '/text' },
+  { label: 'Transform', href: '/text/transform' },
+  { label: 'Text Line Tools' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="text-line-tools" name="Sort, Dedupe & Convert Text Lines" description="Paste text lines and apply sort, deduplicate, randomize, or case conversion transforms." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <label class="tool-label" for="tlt-input">Input</label>
+        <textarea id="tlt-input" class="tool-textarea" rows="8" placeholder="One line per item..."></textarea>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin:1rem 0;">
+          <button type="button" class="tool-button" data-action="sort-asc">Sort A→Z</button>
+          <button type="button" class="tool-button" data-action="sort-desc">Sort Z→A</button>
+          <button type="button" class="tool-button" data-action="dedup">Remove duplicates</button>
+          <button type="button" class="tool-button" data-action="random">Randomize</button>
+          <button type="button" class="tool-button" data-action="upper">UPPERCASE</button>
+          <button type="button" class="tool-button" data-action="lower">lowercase</button>
+          <button type="button" class="tool-button" data-action="title">Title Case</button>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+          <label class="tool-label" style="margin:0;">Output</label>
+          <button type="button" id="tlt-copy" class="copy-btn">Copy</button>
+        </div>
+        <textarea id="tlt-output" class="tool-textarea" rows="8" readonly></textarea>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<script src="../tools/text-line-tools.js"></script>

@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Time Zone Converter — Convert Time Between Zones | maratool',
+  description: 'Convert date and time between time zones instantly. Compare any two IANA time zones. Free, runs in your browser.',
+  canonical: 'https://maratool.com/timezone-converter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Time Zone Converter',
+    url: 'https://maratool.com/timezone-converter',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert date and time between time zones instantly. Compare any two IANA time zones. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Unit', item: 'https://maratool.com/converter/unit' },
+      { '@type': 'ListItem', position: 4, name: 'Time Zone Converter', item: 'https://maratool.com/timezone-converter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Which time zones are supported?', acceptedAnswer: { '@type': 'Answer', text: 'All IANA time zones supported by your browser via the Intl API — 400+ zones worldwide.' } },
+      { '@type': 'Question', name: 'Does this handle daylight saving time?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. The browser Intl API automatically applies DST rules for the selected date.' } },
+      { '@type': 'Question', name: 'What is the default time zone?', acceptedAnswer: { '@type': 'Answer', text: 'Your browser detected local time zone is pre-selected as the source.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Conversion happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Select the date and time to convert.',
+  'Choose source and destination time zones.',
+  'See the converted time in both zones instantly.'
+]
+
+const faq = [
+  { q: 'Which time zones are supported?', a: 'All IANA time zones supported by your browser via the Intl API — 400+ zones worldwide.' },
+  { q: 'Does this handle daylight saving time?', a: 'Yes. The browser Intl API automatically applies DST rules for the selected date.' },
+  { q: 'What is the default time zone?', a: 'Your browser detected local time zone is pre-selected as the source.' },
+  { q: 'Is my data sent to a server?', a: 'No. Conversion happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'unix-timestamp', name: 'Unix Timestamp Converter' },
+  { slug: 'cron-expression', name: 'Cron Expression Builder' },
+  { slug: 'unit-converter', name: 'Unit Converter' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Unit', href: '/converter/unit' },
+  { label: 'Time Zone Converter' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="timezone-converter" name="Time Zone Converter" description="Pick a date/time and two time zones to see the equivalent time in each zone." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:320px;">
+        <div class="calc-field"><label class="tool-label" for="tz-datetime">Date & time</label><input type="datetime-local" id="tz-datetime" class="tool-input" style="max-width:280px;" /></div>
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="tz-from">From time zone</label><select id="tz-from" class="tool-input calc-select"></select></div>
+          <div class="calc-field"><label class="tool-label" for="tz-to">To time zone</label><select id="tz-to" class="tool-input calc-select"></select></div>
+        </div>
+        <div id="tz-result" style="margin-top:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<style is:global>
+  .tz-row { font-size:14px; line-height:1.5; }
+  .tz-arrow { font-size:1.5rem; color:var(--text-3); }
+</style>
+<script src="../tools/timezone-converter.js"></script>

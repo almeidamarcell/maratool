@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import HubPage from '../components/HubPage.astro'
+import { toolsFlatByCategory, subcategoryOrderByCategory, buildToolItemList } from '../data/tools'
+
+const categoryTools = toolsFlatByCategory.Business ?? []
+const subcategories = subcategoryOrderByCategory.Business ?? []
+const liveCategoryTools = categoryTools.filter(t => t.live)
+
+const seo = {
+  title: 'Business Calculators — Margin, Break-even & Tax | maratool',
+  description: 'Free browser-based business calculators. Profit margin, break-even analysis, VAT/sales tax, salary conversion, and ROI — no sign-up.',
+  canonical: 'https://maratool.com/business',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Business Calculators',
+    url: 'https://maratool.com/business',
+    description: 'Free browser-based business calculators for margin, break-even, tax, salary, and ROI.',
+    hasPart: liveCategoryTools.map(tool => ({
+      '@type': 'SoftwareApplication',
+      name: tool.name,
+      url: `https://maratool.com/${tool.slug}`,
+      applicationCategory: 'BusinessApplication',
+    })),
+    mainEntity: buildToolItemList(liveCategoryTools, 'Business Calculators'),
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Business', item: 'https://maratool.com/business' },
+    ],
+  },
+}
+
+const editorial = `
+<h2>About these business calculators</h2>
+<p>Running a business means constantly answering margin, pricing, tax, and payroll questions. These calculators give instant answers without a spreadsheet.</p>
+<h3>What you can calculate</h3>
+<p>The <a href="/profit-margin-calculator">profit margin calculator</a> shows gross and net margins. The <a href="/break-even-calculator">break-even calculator</a> finds how many units you need to sell. The <a href="/vat-calculator">VAT calculator</a> adds or removes tax. The <a href="/salary-converter">salary converter</a> translates between annual, monthly, and hourly pay.</p>
+<h3>Privacy</h3>
+<p>All calculations run in your browser. Revenue, costs, and salary figures never leave your device.</p>
+`
+---
+<Base {...seo} scope="hub">
+  <Layout scope="hub">
+    <HubPage
+      category="Business"
+      categorySlug="business"
+      title="Business calculators"
+      subtitle="Margin, break-even, tax, salary, and ROI calculators — everything runs locally in your browser."
+      tools={categoryTools}
+      subcategories={subcategories}
+      basePath="/business"
+      editorial={editorial}
+    />
+  </Layout>
+</Base>

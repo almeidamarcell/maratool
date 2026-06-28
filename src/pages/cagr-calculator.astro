@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'CAGR Calculator — Compound Annual Growth Rate | maratool',
+  description: 'Calculate compound annual growth rate between two values over any time period. Free CAGR calculator, instant results.',
+  canonical: 'https://maratool.com/cagr-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'CAGR Calculator — Compound Annual Growth Rate',
+    url: 'https://maratool.com/cagr-calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate compound annual growth rate between two values over any time period. Free CAGR calculator, instant results.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Finance', item: 'https://maratool.com/finance' },
+      { '@type': 'ListItem', position: 3, name: 'Investment', item: 'https://maratool.com/finance/investment' },
+      { '@type': 'ListItem', position: 4, name: 'CAGR Calculator — Compound Annual Growth Rate', item: 'https://maratool.com/cagr-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is CAGR?', acceptedAnswer: { '@type': 'Answer', text: 'Compound Annual Growth Rate — the smoothed annual return that takes an investment from its beginning to ending value over a period.' } },
+      { '@type': 'Question', name: 'What is the CAGR formula?', acceptedAnswer: { '@type': 'Answer', text: 'CAGR = (Ending Value / Beginning Value)^(1/years) − 1, expressed as a percentage.' } },
+      { '@type': 'Question', name: 'When should I use CAGR vs total return?', acceptedAnswer: { '@type': 'Answer', text: 'CAGR normalizes growth to an annual rate for comparing investments over different time periods.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the beginning investment value.',
+  'Enter the ending value and number of years.',
+  'See CAGR percentage and total return.'
+]
+
+const faq = [
+  { q: 'What is CAGR?', a: 'Compound Annual Growth Rate — the smoothed annual return that takes an investment from its beginning to ending value over a period.' },
+  { q: 'What is the CAGR formula?', a: 'CAGR = (Ending Value / Beginning Value)^(1/years) − 1, expressed as a percentage.' },
+  { q: 'When should I use CAGR vs total return?', a: 'CAGR normalizes growth to an annual rate for comparing investments over different time periods.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'roi-calculator', name: 'ROI Calculator' },
+  { slug: 'compound-interest-calculator', name: 'Compound Interest Calculator' },
+  { slug: 'campaign-roi-calculator', name: 'Campaign ROI Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Finance', href: '/finance' },
+  { label: 'Investment', href: '/finance/investment' },
+  { label: 'CAGR Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="cagr-calculator" name="CAGR Calculator — Compound Annual Growth Rate" description="Enter beginning value, ending value, and number of years to calculate CAGR percentage." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:260px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="cagr-begin">Beginning value ($)</label><input type="number" id="cagr-begin" class="tool-input" placeholder="10000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="cagr-end">Ending value ($)</label><input type="number" id="cagr-end" class="tool-input" placeholder="25000" min="0" /></div>
+        </div>
+        <div class="calc-field"><label class="tool-label" for="cagr-years">Years</label><input type="number" id="cagr-years" class="tool-input" placeholder="5" min="0.1" step="any" style="max-width:200px;" /></div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="cagr-result">—</span><span class="tool-stat-label">CAGR</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="cagr-total-return">—</span><span class="tool-stat-label">Total return</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/cagr-calculator.js"></script>

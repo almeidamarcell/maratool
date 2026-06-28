@@ -2,9 +2,9 @@ import { describe, test, expect } from 'vitest'
 import { tools, categoryOrder, subcategoryOrderByCategory, toolsByCategory } from './tools'
 
 describe('tool categories', () => {
-  test('has 9 categories in correct order', () => {
+  test('has 12 categories in correct order', () => {
     expect([...categoryOrder]).toEqual([
-      'Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Mockup', 'Health',
+      'Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Business', 'Finance', 'E-commerce', 'Mockup', 'Health',
     ])
   })
 
@@ -50,8 +50,8 @@ describe('tool categories', () => {
     expect(subcategoryOrderByCategory['PDF']).toEqual(['Extract', 'Edit', 'Inspect'])
   })
 
-  test('Text category has Analyze, Edit, Generate subcategories', () => {
-    expect(subcategoryOrderByCategory['Text']).toEqual(['Analyze', 'Edit', 'Generate'])
+  test('Text category has Analyze, Edit, Generate, Transform subcategories', () => {
+    expect(subcategoryOrderByCategory['Text']).toEqual(['Analyze', 'Edit', 'Generate', 'Transform'])
   })
 
   test('Image category has Transform, Social, and Inspect subcategories', () => {
@@ -62,12 +62,24 @@ describe('tool categories', () => {
     expect(subcategoryOrderByCategory['Color']).toEqual(['Generate', 'Convert', 'Check'])
   })
 
-  test('Developer category has Crypto, Generate, Audit, Calculator, and Reference subcategories', () => {
-    expect(subcategoryOrderByCategory['Developer']).toEqual(['Crypto', 'Generate', 'Audit', 'Calculator', 'Reference'])
+  test('Developer category has expected subcategories', () => {
+    expect(subcategoryOrderByCategory['Developer']).toEqual(['Crypto', 'Generate', 'Audit', 'Calculator', 'Reference', 'SQL', 'API', 'Security', 'AI'])
   })
 
   test('Marketing category has Builder and Calculator subcategories', () => {
     expect(subcategoryOrderByCategory['Marketing']).toEqual(['Builder', 'Calculator'])
+  })
+
+  test('Business category has Calculator, Tax, Pay subcategories', () => {
+    expect(subcategoryOrderByCategory['Business']).toEqual(['Calculator', 'Tax', 'Pay'])
+  })
+
+  test('Finance category has Loan, Interest, Investment subcategories', () => {
+    expect(subcategoryOrderByCategory['Finance']).toEqual(['Loan', 'Interest', 'Investment'])
+  })
+
+  test('E-commerce category has Fees subcategory', () => {
+    expect(subcategoryOrderByCategory['E-commerce']).toEqual(['Fees'])
   })
 
   test('Mockup category has Chat, AI Chat, Posts, Comments, Stories, Email subcategories', () => {
@@ -94,6 +106,15 @@ describe('tool categories', () => {
     expect(qr?.category).toBe('Marketing')
   })
 
+  test('Wave 1 finance tools are registered and live', () => {
+    const slugs = ['mortgage-calculator', 'loan-calculator', 'compound-interest-calculator', 'cagr-calculator']
+    for (const slug of slugs) {
+      const tool = tools.find(t => t.slug === slug)
+      expect(tool?.category, slug).toBe('Finance')
+      expect(tool?.live, slug).toBe(true)
+    }
+  })
+
   test('PDF tools are in PDF category', () => {
     const pdfSlugs = ['pdf-to-text', 'pdf-metadata', 'pdf-to-markdown', 'pdf-merge-split', 'pdf-accessibility-checker']
     for (const slug of pdfSlugs) {
@@ -105,10 +126,7 @@ describe('tool categories', () => {
   test('no category has 0 live tools', () => {
     for (const cat of categoryOrder) {
       const liveTools = tools.filter(t => t.category === cat && t.live)
-      // Marketing may have 0 live, that's ok — QR is live now
-      if (cat !== 'Marketing') {
-        expect(liveTools.length, `${cat} has 0 live tools`).toBeGreaterThan(0)
-      }
+      expect(liveTools.length, `${cat} has 0 live tools`).toBeGreaterThan(0)
     }
   })
 

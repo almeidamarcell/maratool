@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'JSON Diff — Compare Two JSON Objects Online | maratool',
+  description: 'Compare two JSON documents and highlight added, removed, and changed keys. Free JSON diff tool, runs in your browser.',
+  canonical: 'https://maratool.com/json-diff',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'JSON Diff — Compare Two JSON Objects',
+    url: 'https://maratool.com/json-diff',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Compare two JSON documents and highlight added, removed, and changed keys. Free JSON diff tool, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Text', item: 'https://maratool.com/text' },
+      { '@type': 'ListItem', position: 3, name: 'Analyze', item: 'https://maratool.com/text/analyze' },
+      { '@type': 'ListItem', position: 4, name: 'JSON Diff — Compare Two JSON Objects', item: 'https://maratool.com/json-diff' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How does JSON diff work?', acceptedAnswer: { '@type': 'Answer', text: 'Flattens nested objects to dot-notation paths and compares values. Arrays are compared as JSON strings.' } },
+      { '@type': 'Question', name: 'Does it validate JSON?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Invalid JSON shows an error message instead of a diff.' } },
+      { '@type': 'Question', name: 'Is this the same as text diff?', acceptedAnswer: { '@type': 'Answer', text: 'No. This is semantic JSON diff by key path, not line-by-line text diff. Use diff-checker for raw text.' } },
+      { '@type': 'Question', name: 'Is my JSON sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Comparison happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste the original JSON in the left box.',
+  'Paste the modified JSON in the right box.',
+  'Click Compare to see differences highlighted.'
+]
+
+const faq = [
+  { q: 'How does JSON diff work?', a: 'Flattens nested objects to dot-notation paths and compares values. Arrays are compared as JSON strings.' },
+  { q: 'Does it validate JSON?', a: 'Yes. Invalid JSON shows an error message instead of a diff.' },
+  { q: 'Is this the same as text diff?', a: 'No. This is semantic JSON diff by key path, not line-by-line text diff. Use diff-checker for raw text.' },
+  { q: 'Is my JSON sent to a server?', a: 'No. Comparison happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'diff-checker', name: 'Diff Checker' },
+  { slug: 'json-formatter', name: 'JSON Formatter' },
+  { slug: 'yaml-to-json', name: 'YAML to JSON' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Text', href: '/text' },
+  { label: 'Analyze', href: '/text/analyze' },
+  { label: 'JSON Diff' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="json-diff" name="JSON Diff — Compare Two JSON Objects" description="Paste two JSON objects and click Compare to see added, removed, and changed keys highlighted." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="jd-left">Original JSON</label><textarea id="jd-left" class="tool-textarea" rows="10" placeholder='{"name": "Alice", "age": 30}'></textarea></div>
+          <div class="calc-field"><label class="tool-label" for="jd-right">Modified JSON</label><textarea id="jd-right" class="tool-textarea" rows="10" placeholder='{"name": "Alice", "age": 31}'></textarea></div>
+        </div>
+        <button type="button" id="jd-compare" class="tool-button" style="margin-bottom:1rem;">Compare</button>
+        <div id="jd-output" class="tool-output" style="min-height:120px;font-family:var(--font-mono);font-size:13px;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<style is:global>
+  .jd-line { padding:4px 8px; border-radius:4px; margin-bottom:2px; }
+  .jd-added { background:#f0fff4; color:#276749; }
+  .jd-removed { background:#fff5f5; color:#c53030; }
+  .jd-changed { background:#fffbeb; color:#b45309; }
+  .jd-equal { color:var(--text-3); }
+  .jd-stats { font-size:13px; color:var(--text-2); margin-bottom:0.75rem; }
+  .jd-error { color:#c53030; }
+</style>
+<script src="../tools/json-diff.js"></script>
