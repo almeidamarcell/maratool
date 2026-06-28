@@ -46,7 +46,7 @@ const seo = {
       date="June 28, 2026"
       dateIso="2026-06-28"
     >
-      <p>Need DOCX → HTML, EPUB → Markdown, or ODT → DOCX? The <a href="/document-converter">Document Converter</a> uses <strong>Pandoc compiled to WebAssembly</strong> — the same engine behind <a href="" rel="noopener noreferrer"></a> document conversion. Nothing is uploaded to a server.</p>
+      <p>Need DOCX → HTML, EPUB → Markdown, or ODT → DOCX? The <a href="/document-converter">Document Converter</a> uses <strong>Pandoc compiled to WebAssembly</strong> for universal document conversion. Nothing is uploaded to a server.</p>
 
       <BlogToolEmbed slug="document-converter" title="Try it — upload a document to convert" height={520} />
 
@@ -58,7 +58,7 @@ const seo = {
       </ol>
 
       <h2>Why Pandoc WASM?</h2>
-      <p>Lightweight JS libraries (mammoth, turndown) cover narrow cases. Pandoc is the universal document converter — battle-tested for DOCX, EPUB, ODT, RST, and cross-format transforms. runs Pandoc in a Web Worker with a WASI filesystem shim; maratool uses the official <code>pandoc-wasm</code> npm package with the same approach.</p>
+      <p>Lightweight JS libraries (mammoth, turndown) cover narrow cases. Pandoc is the universal document converter — battle-tested for DOCX, EPUB, ODT, RST, and cross-format transforms. maratool runs Pandoc in a browser worker via the official <code>pandoc-wasm</code> npm package.</p>
 
       <h2>Limitations</h2>
       <p><strong>PDF output</strong> is not available in the browser — Pandoc needs LaTeX or similar engines that cannot run in WASM. <strong>JSON input</strong> must be Pandoc's native JSON format (not arbitrary JSON). Legacy <code>.doc</code> files use the DOCX reader and may fail. Large files are limited by browser memory.</p>

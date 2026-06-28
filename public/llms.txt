@@ -17,6 +17,7 @@ maratool.com is a growing collection of 306 free tools that run in the browser u
 - [YAML to JSON Converter](https://maratool.com/yaml-to-json): Convert YAML to JSON or JSON to YAML instantly in your browser. No upload, no sign-up.
 - [XML to JSON Converter](https://maratool.com/xml-to-json): Convert XML to JSON instantly in your browser. Handles attributes, nested elements, and repeated tags.
 - [Document Converter — DOCX to HTML, EPUB to Markdown & More](https://maratool.com/document-converter): Convert DOCX, EPUB, ODT, HTML, Markdown, RTF, CSV, and JSON with Pandoc WASM in your browser. Upload, pick a format, preview, and download.
+- [File Converter — Images, Audio, Video & Documents](https://maratool.com/file-converter): Convert 180+ image formats, audio, video, and documents in your browser. ImageMagick, FFmpeg, and Pandoc WASM — all processing runs locally.
 - [Unix Timestamp Converter](https://maratool.com/unix-timestamp): Convert Unix timestamps to human-readable dates and vice versa, with timezone support.
 - [PX to REM Converter](https://maratool.com/px-to-rem): Convert pixels to rem and rem to pixels instantly. Configurable base font size with a common conversions reference table.
 - [Unit Converter — Length, Weight, Temperature & More](https://maratool.com/unit-converter): Convert between units of length, weight, temperature, data, speed, and more. Free, instant, no sign-up.
