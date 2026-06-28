@@ -42,6 +42,13 @@ jobs:
 
       - name: Push main to maratool-archive
         run: |
+          # archive is a pure one-way deploy mirror of this repo's main, so
+          # the push must force. main's history was rewritten for the public
+          # release, which left archive's main permanently divergent; a plain
+          # push is rejected as non-fast-forward and the deploy never updates.
+          # --force reconciles archive to match main exactly. (Once aligned,
+          # subsequent pushes fast-forward, but keeping --force makes the
+          # mirror self-healing against any future rewrite.)
           git remote add archive git@github.com:almeidamarcell/maratool-archive.git
           GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
-            git push archive main
+            git push --force archive main
