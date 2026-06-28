@@ -1,0 +1,75 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'file-converter'
+const seo = {
+  title: 'How to convert any file format in your browser | maratool',
+  description: 'Convert images, audio, video, and documents online with WebAssembly — same format coverage as VERT.sh, no server upload.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert any file format in your browser',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert images, audio, video, and documents online with WebAssembly — same format coverage as VERT.sh.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert any file format in your browser', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert any file format in your browser"
+      lead="One tool for images, audio, video, and documents — powered by the same WASM engines as VERT.sh."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Need to convert a HEIC photo to PNG, extract MP3 from a video, or turn DOCX into Markdown? The <a href="/file-converter">File Converter</a> brings <a href="https://vert.sh" rel="noopener noreferrer">VERT.sh</a>-level format coverage to maratool — all in your browser, with no server upload.</p>
+
+      <BlogToolEmbed slug="file-converter" title="Try it — drop any supported file" height={520} />
+
+      <h2>What you can convert</h2>
+      <ul>
+        <li><strong>Images</strong> — 180+ formats via ImageMagick WASM (PNG, JPEG, WebP, AVIF, HEIC, TIFF, ICO, RAW, and more)</li>
+        <li><strong>Audio</strong> — MP3, WAV, FLAC, OGG, AAC, Opus, ALAC, and more via FFmpeg WASM</li>
+        <li><strong>Video</strong> — MP4, WebM, MKV, MOV, AVI, GIF, and cross-category audio extraction</li>
+        <li><strong>Documents</strong> — DOCX, EPUB, HTML, Markdown, ODT, RTF, CSV, JSON via Pandoc WASM</li>
+      </ul>
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Upload</strong> — drop any supported file; the tool detects its category automatically.</li>
+        <li><strong>Pick output</strong> — choose from grouped formats (images, audio, video, documents).</li>
+        <li><strong>Convert &amp; download</strong> — the right WASM engine loads on first use, converts locally, and lets you preview or download.</li>
+      </ol>
+
+      <h2>VERT.sh parity</h2>
+      <p>Format lists are generated from the <a href="https://github.com/VERT-sh/VERT" rel="noopener noreferrer">VERT open-source project</a>. maratool uses browser FFmpeg for video (VERT uses a server for heavy video); images, audio, and documents match VERT's client-side engines.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/file-converter">File Converter</a> is free and runs locally. More <a href="/converter/media">media converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
