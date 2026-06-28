@@ -1,0 +1,292 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Document Converter — DOCX to HTML, EPUB to Markdown & More | maratool',
+  description: 'Convert DOCX, EPUB, ODT, HTML, Markdown, RTF, CSV, and JSON in your browser with Pandoc WASM. Upload, pick a format, preview, and download — no server upload.',
+  canonical: 'https://maratool.com/document-converter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Document Converter',
+    url: 'https://maratool.com/document-converter',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert between document formats using Pandoc WebAssembly in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Document', item: 'https://maratool.com/converter/document' },
+      { '@type': 'ListItem', position: 4, name: 'Document Converter', item: 'https://maratool.com/document-converter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I convert DOCX to HTML or Markdown online?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Upload your .docx file, select HTML or Markdown as the output format, and click Convert. The tool runs Pandoc WebAssembly in your browser — the same engine used by VERT.sh — and lets you preview and download the result.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What document formats can I convert?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Input: DOCX, DOC, Markdown, HTML, RTF, EPUB, ODT, CSV, TSV, JSON, RST, DocBook, and TXT. Output: HTML, Markdown, DOCX, EPUB, ODT, RTF, CSV, TSV, JSON, RST, DocBook, and plain text.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my document uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. Pandoc runs as WebAssembly inside a browser worker on your device. Your file never leaves your computer.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Why does the first conversion download a large file?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The Pandoc WASM engine is about 56 MB. It downloads once and is cached by your browser. Subsequent conversions start much faster.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Upload or drop a document (DOCX, EPUB, HTML, Markdown, ODT, CSV, JSON, RTF, or TXT).',
+  'Wait for Pandoc WASM to load on first use (~56 MB, cached afterward), then pick an output format.',
+  'Preview text or HTML output, then download — or get a ZIP when embedded images are extracted.',
+]
+
+const faq = [
+  { q: 'How do I convert DOCX to HTML or Markdown online?', a: 'Upload your .docx file, select HTML or Markdown, and click Convert. Pandoc WebAssembly runs locally in your browser — the same approach as VERT.sh.' },
+  { q: 'What document formats can I convert?', a: 'Input: DOCX, DOC, Markdown, HTML, RTF, EPUB, ODT, CSV, TSV, JSON, RST, DocBook, and TXT. Output: HTML, Markdown, DOCX, EPUB, ODT, RTF, CSV, TSV, JSON, RST, DocBook, and plain text.' },
+  { q: 'Is my document uploaded to a server?', a: 'No. Pandoc runs as WebAssembly in a browser worker. Your file never leaves your device.' },
+  { q: 'Can I convert to PDF?', a: 'Not in the browser. Pandoc WASM cannot call LaTeX or other PDF engines. Convert to HTML or DOCX, or use a dedicated PDF tool.' },
+]
+
+const relatedTools = [
+  { slug: 'html-to-markdown', name: 'Convert HTML to Markdown' },
+  { slug: 'markdown-converter', name: 'Convert Markdown to HTML Online' },
+  { slug: 'csv-to-json', name: 'Convert CSV to JSON' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Document', href: '/converter/document' },
+  { label: 'Document Converter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="document-converter" name="Document Converter — DOCX, HTML, Markdown, EPUB & More" description="Convert DOCX, EPUB, ODT, HTML, Markdown, RTF, CSV, and JSON with Pandoc WASM in your browser. Upload, pick a format, preview, and download." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:420px;">
+        <div class="dc-dropzone" id="dc-dropzone">
+          <input type="file" id="dc-file" accept=".docx,.doc,.md,.markdown,.html,.htm,.rtf,.epub,.odt,.csv,.tsv,.json,.rst,.docbook,.txt" hidden />
+          <div class="dc-dropzone-inner">
+            <div class="dc-dropzone-icon">📄</div>
+            <p class="dc-dropzone-title">Drop a document here</p>
+            <p class="dc-dropzone-sub">DOCX, EPUB, HTML, MD, ODT, RTF, CSV, TSV, JSON, RST, DocBook, TXT — powered by Pandoc WASM</p>
+          </div>
+        </div>
+
+        <div class="dc-engine" id="dc-engine" style="display:none;">
+          <p class="dc-engine-text" id="dc-engine-text">Loading Pandoc engine…</p>
+          <p class="dc-engine-hint">First load downloads ~56 MB of WebAssembly (cached by your browser).</p>
+        </div>
+
+        <div class="dc-progress" id="dc-progress" style="display:none;">
+          <p class="dc-progress-text">Processing document…</p>
+        </div>
+
+        <div class="dc-workspace" id="dc-workspace" style="display:none;">
+          <div class="dc-file-bar">
+            <div class="dc-file-info">
+              <span class="dc-file-name" id="dc-file-name"></span>
+              <span class="dc-file-badge" id="dc-file-format"></span>
+            </div>
+            <button type="button" class="dc-change-btn" id="dc-change">Change file</button>
+          </div>
+
+          <div class="dc-controls">
+            <div class="dc-control-row">
+              <label class="tool-label" for="dc-output">Output format</label>
+              <select id="dc-output" class="dc-select"></select>
+            </div>
+            <div class="dc-actions">
+              <button type="button" id="dc-convert" class="tool-button">Convert</button>
+              <button type="button" id="dc-download" class="dc-download-btn" disabled>Download</button>
+              <button type="button" id="dc-copy" class="copy-btn" disabled>Copy output</button>
+            </div>
+          </div>
+
+          <p class="dc-status" id="dc-status" aria-live="polite"></p>
+
+          <div class="dc-preview-wrap" id="dc-preview-wrap" style="display:none;">
+            <label class="tool-label">Preview</label>
+            <iframe id="dc-preview-html" class="dc-preview-frame" title="HTML preview" sandbox="allow-same-origin"></iframe>
+            <textarea id="dc-preview-text" class="tool-textarea tool-output dc-preview-text" rows="12" readonly aria-label="Converted output preview"></textarea>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .dc-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .dc-dropzone:hover,
+  .dc-dropzone.dragover {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .dc-dropzone-icon { font-size: 36px; margin-bottom: 0.75rem; }
+  .dc-dropzone-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 0.25rem; }
+  .dc-dropzone-sub { color: var(--text-3); font-size: 13px; }
+
+  .dc-engine {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+  }
+  .dc-engine-text { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 0.375rem; }
+  .dc-engine-hint { font-size: 12px; color: var(--text-3); }
+
+  .dc-progress {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-2);
+  }
+
+  .dc-file-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.875rem 1rem;
+    margin-bottom: 1rem;
+  }
+  .dc-file-info { display: flex; align-items: center; gap: 0.625rem; min-width: 0; }
+  .dc-file-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .dc-file-badge {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    color: var(--text-2);
+    flex-shrink: 0;
+  }
+  .dc-change-btn {
+    font-size: 13px;
+    color: var(--accent);
+    background: none;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 6px 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .dc-change-btn:hover { background: var(--accent); color: #fff; }
+
+  .dc-controls {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  .dc-control-row { margin-bottom: 0.875rem; }
+  .dc-select {
+    display: block;
+    width: 100%;
+    max-width: 220px;
+    margin-top: 0.375rem;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+  }
+  .dc-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .dc-download-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--accent);
+    cursor: pointer;
+  }
+  .dc-download-btn:hover:not(:disabled) { background: var(--accent); color: #fff; }
+  .dc-download-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  .dc-status {
+    font-size: 13px;
+    color: var(--text-2);
+    margin-bottom: 0.75rem;
+    min-height: 1.25rem;
+  }
+  .dc-status-error { color: var(--error, #c0392b); }
+
+  .dc-preview-wrap { margin-top: 0.5rem; }
+  .dc-preview-frame {
+    display: none;
+    width: 100%;
+    min-height: 320px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    margin-top: 0.375rem;
+  }
+  .dc-preview-text {
+    display: none;
+    margin-top: 0.375rem;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  @media (max-width: 768px) {
+    .dc-file-bar { flex-direction: column; align-items: stretch; }
+    .dc-actions { flex-direction: column; align-items: stretch; }
+    .dc-actions .tool-button,
+    .dc-actions .dc-download-btn,
+    .dc-actions .copy-btn { width: 100%; text-align: center; }
+  }
+</style>
+
+<script src="../tools/document-converter.js"></script>

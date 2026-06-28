@@ -34,6 +34,9 @@ function getPageLastMod(url) {
 }
 
 export default defineConfig({
+  vite: {
+    assetsInclude: ['**/*.wasm'],
+  },
   output: 'static',
   // No adapter needed — output is pure static HTML served directly by
   // Cloudflare Pages. The @astrojs/cloudflare adapter generated a

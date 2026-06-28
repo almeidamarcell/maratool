@@ -20,7 +20,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "node scripts/gen-llms.mjs && node scripts/gen-palette.mjs && node scripts/gen-lastmod.mjs && node scripts/gen-og-images.mjs",
+    "prebuild": "node scripts/build-pandoc-bundle.mjs && node scripts/gen-llms.mjs && node scripts/gen-palette.mjs && node scripts/gen-lastmod.mjs && node scripts/gen-og-images.mjs",
+    "postinstall": "node scripts/build-pandoc-bundle.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
@@ -32,10 +33,12 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.0.3"
+    "astro": "^7.0.3",
+    "pandoc-wasm": "^1.1.0"
   },
   "devDependencies": {
     "emoji.json": "^16.0.0",
+    "esbuild": "^0.27.3",
     "jsdom": "^29.1.1",
     "vitest": "^4.1.9"
   }

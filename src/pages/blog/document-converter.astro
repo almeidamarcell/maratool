@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'document-converter'
+const seo = {
+  title: 'How to convert documents online with Pandoc WASM | maratool',
+  description: 'Upload DOCX, EPUB, HTML, or Markdown and convert between document formats in your browser using Pandoc WebAssembly — no server upload.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert documents online with Pandoc WASM',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Upload DOCX, EPUB, HTML, or Markdown and convert between document formats in your browser using Pandoc WebAssembly.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert documents online with Pandoc WASM', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert documents online with Pandoc WASM"
+      lead="Upload a document, pick an output format, preview, and download — Pandoc runs entirely in your browser."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Need DOCX → HTML, EPUB → Markdown, or ODT → DOCX? The <a href="/document-converter">Document Converter</a> uses <strong>Pandoc compiled to WebAssembly</strong> — the same engine behind <a href="https://vert.sh" rel="noopener noreferrer">VERT.sh</a> document conversion. Nothing is uploaded to a server.</p>
+
+      <BlogToolEmbed slug="document-converter" title="Try it — upload a document to convert" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Upload</strong> — drop or select DOCX, EPUB, HTML, Markdown, ODT, RTF, CSV, TSV, JSON, RST, DocBook, or TXT.</li>
+        <li><strong>Load Pandoc</strong> — first visit downloads ~56 MB of WASM (cached afterward).</li>
+        <li><strong>Convert &amp; download</strong> — pick an output format, preview text/HTML, download — or get a ZIP when images are extracted.</li>
+      </ol>
+
+      <h2>Why Pandoc WASM?</h2>
+      <p>Lightweight JS libraries (mammoth, turndown) cover narrow cases. Pandoc is the universal document converter — battle-tested for DOCX, EPUB, ODT, RST, and cross-format transforms. VERT runs Pandoc in a Web Worker with a WASI filesystem shim; maratool uses the official <code>pandoc-wasm</code> npm package with the same approach.</p>
+
+      <h2>Limitations</h2>
+      <p><strong>PDF output</strong> is not available in the browser — Pandoc needs LaTeX or similar engines that cannot run in WASM. <strong>JSON input</strong> must be Pandoc's native JSON format (not arbitrary JSON). Legacy <code>.doc</code> files use the DOCX reader and may fail. Large files are limited by browser memory.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/document-converter">Document Converter</a> is free, runs locally, and never sends your data to a server. More <a href="/converter/document">document converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
