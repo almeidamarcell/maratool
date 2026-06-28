@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 237 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 242 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -41,6 +41,11 @@ maratool.com is a growing collection of 237 free tools that run in the browser u
 - [Meta Tag Generator](https://maratool.com/meta-tag-generator): Generate HTML meta tags for SEO and social sharing. Covers title, description, canonical, Open Graph, and Twitter Card tags.
 - [Robots.txt Generator](https://maratool.com/robots-txt-generator): Generate a valid robots.txt file for your website. Control which bots can crawl your pages, block AI scrapers, and add your sitemap URL.
 - [Schema Markup Generator](https://maratool.com/schema-markup-generator): Generate JSON-LD structured data for Article, Product, FAQ, HowTo, LocalBusiness, and more. Copy and paste into your HTML head.
+- [Check Meta Tags Online](https://maratool.com/meta-tag-checker): Paste page HTML to audit title, description, canonical, Open Graph, and Twitter tags. Paste-only — cannot fetch live URLs.
+- [Preview Open Graph Link Cards](https://maratool.com/open-graph-preview): Preview how your page looks when shared on social — paste HTML or enter OG fields manually. Cannot fetch live URLs.
+- [Test Robots.txt Rules Online](https://maratool.com/robots-txt-tester): Paste robots.txt and test if a URL path is allowed or blocked for a crawler. Paste-only — cannot fetch live robots.txt.
+- [Validate Sitemap XML Online](https://maratool.com/sitemap-validator): Paste sitemap XML to validate structure, URLs, and duplicates. Does not fetch live sitemaps or check HTTP status codes.
+- [Validate Schema Markup Online](https://maratool.com/schema-validator): Paste JSON-LD to validate syntax and required schema.org fields. Paste-only — cannot fetch live pages or replace Google Rich Results Test.
 - [API Key Generator](https://maratool.com/api-key-generator): Generate cryptographically secure API keys in hex, base64, or alphanumeric formats. Runs offline in your browser.
 - [Generate UUID v4 Online](https://maratool.com/uuid-generator): Generate one or many UUIDs instantly — supports v1, v4, and v5.
 - [Cron Expression Builder & Decoder](https://maratool.com/cron-expression): Build and decode cron expressions with a visual editor.

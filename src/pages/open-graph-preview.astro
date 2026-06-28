@@ -1,0 +1,120 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import PasteOnlyNotice from '../components/PasteOnlyNotice.astro'
+
+const seo = {
+  title: 'Open Graph Preview — See how your link looks when shared | maratool',
+  description: 'Preview Facebook and social link cards from pasted HTML or manual OG fields. Paste-only — cannot fetch live URLs. Free Open Graph preview tool.',
+  canonical: 'https://maratool.com/open-graph-preview',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Open Graph Preview',
+    url: 'https://maratool.com/open-graph-preview',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Preview Open Graph social cards from pasted HTML or manual fields.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Audit', item: 'https://maratool.com/developer/audit' },
+      { '@type': 'ListItem', position: 4, name: 'Open Graph Preview', item: 'https://maratool.com/open-graph-preview' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Can this tool fetch my URL and preview it?', acceptedAnswer: { '@type': 'Answer', text: 'No. Paste your page HTML or enter OG fields manually. Browsers cannot load other websites\' HTML for security reasons.' } },
+      { '@type': 'Question', name: 'Will the preview match Facebook exactly?', acceptedAnswer: { '@type': 'Answer', text: 'It approximates the link card layout. Platforms may crop images or change fonts. Use it to catch missing og:image or truncated titles before publishing.' } },
+      { '@type': 'Question', name: 'How do I get my page HTML?', acceptedAnswer: { '@type': 'Answer', text: 'View Source (Ctrl+U / Cmd+Option+U) in your browser, or export from your CMS.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Preview rendering runs entirely in your browser.' } },
+    ]
+  }
+}
+
+const howTo = [
+  'Paste page HTML (View Source) or switch to Manual and fill in OG fields.',
+  'Check the preview card for missing images, truncated titles, or empty descriptions.',
+  'Fix tags in your CMS and re-paste to verify.',
+]
+
+const faq = [
+  { q: 'Can this fetch my URL?', a: 'No. Paste HTML or enter fields manually — browsers block cross-site fetching.' },
+  { q: 'Will it match Facebook exactly?', a: 'It approximates the card. Good for catching missing og:image and bad titles before publish.' },
+  { q: 'How do I get HTML?', a: 'View Source (Ctrl+U) or export from your CMS.' },
+  { q: 'Need to generate tags?', a: 'Use the <a href="/meta-tag-generator">Meta Tag Generator</a>.' },
+]
+
+const relatedTools = [
+  { slug: 'meta-tag-checker', name: 'Check Meta Tags Online' },
+  { slug: 'meta-tag-generator', name: 'Meta Tag Generator' },
+  { slug: 'schema-validator', name: 'Schema Markup Validator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Audit', href: '/developer/audit' },
+  { label: 'Open Graph Preview' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="open-graph-preview" name="Preview Open Graph Link Cards" description="See how your page looks when shared on social — from pasted HTML or manual OG fields. Cannot fetch live URLs." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:520px;">
+        <PasteOnlyNotice toolName="Open Graph preview" />
+        <div class="tool-tabs">
+          <button type="button" class="tool-tab active" id="ogp-tab-paste">Paste HTML</button>
+          <button type="button" class="tool-tab" id="ogp-tab-manual">Manual fields</button>
+        </div>
+        <div class="ogp-layout">
+          <div class="ogp-inputs">
+            <div id="ogp-panel-paste">
+              <label class="tool-label" for="ogp-html">Page HTML</label>
+              <textarea id="ogp-html" class="tool-textarea" rows="10" placeholder="Paste HTML from View Source…"></textarea>
+            </div>
+            <div id="ogp-panel-manual" style="display:none;">
+              <div class="calc-field"><label class="tool-label" for="ogp-title">Title</label><input id="ogp-title" class="tool-input" /></div>
+              <div class="calc-field"><label class="tool-label" for="ogp-description">Description</label><textarea id="ogp-description" class="tool-textarea" rows="3"></textarea></div>
+              <div class="calc-field"><label class="tool-label" for="ogp-image">Image URL</label><input id="ogp-image" class="tool-input" placeholder="https://…" /></div>
+              <div class="calc-field"><label class="tool-label" for="ogp-url">Page URL</label><input id="ogp-url" class="tool-input" placeholder="https://example.com/page" /></div>
+              <div class="calc-field"><label class="tool-label" for="ogp-site">Site name</label><input id="ogp-site" class="tool-input" /></div>
+              <div class="calc-field"><label class="tool-label" for="ogp-card">Twitter card</label><select id="ogp-card" class="tool-input"><option value="summary_large_image">summary_large_image</option><option value="summary">summary</option></select></div>
+            </div>
+          </div>
+          <div class="ogp-preview-wrap">
+            <p class="tool-label">Preview (approximate)</p>
+            <div class="ogp-card" id="ogp-card-preview">
+              <img id="ogp-card-img" class="ogp-card-img" alt="" />
+              <div class="ogp-card-body">
+                <div class="ogp-card-host" id="ogp-card-host">example.com</div>
+                <div class="ogp-card-title" id="ogp-card-title">Page title</div>
+                <div class="ogp-card-desc" id="ogp-card-desc">Description appears here.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .ogp-layout { display: grid; grid-template-columns: 1fr 320px; gap: 1.5rem; }
+  .ogp-card { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--bg); }
+  .ogp-card-img { width: 100%; aspect-ratio: 1.91/1; object-fit: cover; display: none; background: var(--bg-soft); }
+  .ogp-card-body { padding: 0.75rem; }
+  .ogp-card-host { font-size: 11px; color: var(--text-3); text-transform: uppercase; margin-bottom: 0.25rem; }
+  .ogp-card-title { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.3; }
+  .ogp-card-desc { font-size: 13px; color: var(--text-2); margin-top: 0.25rem; line-height: 1.4; }
+  .calc-field { margin-bottom: 0.75rem; }
+  @media (max-width: 800px) { .ogp-layout { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/open-graph-preview.js"></script>

@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import PasteOnlyNotice from '../components/PasteOnlyNotice.astro'
+
+const seo = {
+  title: 'Test Robots.txt Online — Check if a path is allowed | maratool',
+  description: 'Paste robots.txt and a URL path to see if crawlers are allowed or blocked. Paste-only — does not fetch live robots.txt files. Free browser tool.',
+  canonical: 'https://maratool.com/robots-txt-tester',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Robots.txt Tester',
+    url: 'https://maratool.com/robots-txt-tester',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Test robots.txt rules against URL paths from pasted content.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Audit', item: 'https://maratool.com/developer/audit' },
+      { '@type': 'ListItem', position: 4, name: 'Robots.txt Tester', item: 'https://maratool.com/robots-txt-tester' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Can this fetch my live robots.txt?', acceptedAnswer: { '@type': 'Answer', text: 'No. Paste the contents of your robots.txt file. Browsers cannot fetch files from arbitrary domains due to CORS.' } },
+      { '@type': 'Question', name: 'How do I get my robots.txt?', acceptedAnswer: { '@type': 'Answer', text: 'Visit yoursite.com/robots.txt in a browser and copy the text, or copy from your server/CMS.' } },
+      { '@type': 'Question', name: 'Which crawler rules are tested?', acceptedAnswer: { '@type': 'Answer', text: 'Enter a User-agent (e.g. Googlebot or *). The tester matches rules for that agent and falls back to * rules.' } },
+      { '@type': 'Question', name: 'Does this match Google exactly?', acceptedAnswer: { '@type': 'Answer', text: 'It uses longest-match Allow/Disallow logic similar to Google. Edge cases may differ — verify in Google Search Console for production sites.' } },
+    ]
+  }
+}
+
+const howTo = [
+  'Copy your robots.txt from yoursite.com/robots.txt or your CMS.',
+  'Paste it into the robots.txt box.',
+  'Enter a URL path and User-agent, then check Allowed or Blocked.',
+]
+
+const faq = [
+  { q: 'Can this fetch live robots.txt?', a: 'No. Paste the file contents — browsers block cross-origin fetches.' },
+  { q: 'How do I get robots.txt?', a: 'Open yoursite.com/robots.txt in a browser and copy the text.' },
+  { q: 'Which bots are supported?', a: 'Enter any User-agent string (Googlebot, Bingbot, or * for all).' },
+  { q: 'Need to create robots.txt?', a: 'Use the <a href="/robots-txt-generator">Robots.txt Generator</a>.' },
+]
+
+const relatedTools = [
+  { slug: 'robots-txt-generator', name: 'Robots.txt Generator' },
+  { slug: 'sitemap-validator', name: 'Sitemap XML Validator' },
+  { slug: 'meta-tag-checker', name: 'Check Meta Tags Online' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Audit', href: '/developer/audit' },
+  { label: 'Robots.txt Tester' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="robots-txt-tester" name="Test Robots.txt Rules Online" description="Paste robots.txt and test whether a URL path is allowed or blocked for a given crawler. Does not fetch live files." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <PasteOnlyNotice toolName="The robots.txt tester" />
+        <label class="tool-label" for="rtt-robots">robots.txt content</label>
+        <textarea id="rtt-robots" class="tool-textarea" rows="10" placeholder="User-agent: *&#10;Disallow: /admin/" aria-label="robots.txt"></textarea>
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="rtt-path">URL path to test</label><input id="rtt-path" class="tool-input" placeholder="/blog/post-slug" /></div>
+          <div class="calc-field"><label class="tool-label" for="rtt-ua">User-agent</label><input id="rtt-ua" class="tool-input" placeholder="Googlebot" value="*" /></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="rtt-result">—</span><span class="tool-stat-label">Result</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="rtt-reason" style="font-size:13px;">Paste robots.txt to test</span><span class="tool-stat-label">Matched rule</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .calc-field { margin-bottom: 0; }
+  .rtt-allowed { color: #2f8c66; }
+  .rtt-blocked { color: #c4553a; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/robots-txt-tester.js"></script>

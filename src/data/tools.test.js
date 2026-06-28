@@ -62,8 +62,8 @@ describe('tool categories', () => {
     expect(subcategoryOrderByCategory['Color']).toEqual(['Generate', 'Convert', 'Check'])
   })
 
-  test('Developer category has Crypto, Generate, Calculator, and Reference subcategories', () => {
-    expect(subcategoryOrderByCategory['Developer']).toEqual(['Crypto', 'Generate', 'Calculator', 'Reference'])
+  test('Developer category has Crypto, Generate, Audit, Calculator, and Reference subcategories', () => {
+    expect(subcategoryOrderByCategory['Developer']).toEqual(['Crypto', 'Generate', 'Audit', 'Calculator', 'Reference'])
   })
 
   test('Marketing category has Builder and Calculator subcategories', () => {
