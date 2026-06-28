@@ -42,8 +42,8 @@ describe('tool categories', () => {
     }
   })
 
-  test('Converter category has Format, Unit, and Video subcategories', () => {
-    expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Unit', 'Video'])
+  test('Converter category has Format, Unit, Video, CSV, and Date subcategories', () => {
+    expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Unit', 'Video', 'CSV', 'Date'])
   })
 
   test('PDF category has Extract, Edit, Inspect subcategories', () => {
@@ -70,16 +70,16 @@ describe('tool categories', () => {
     expect(subcategoryOrderByCategory['Marketing']).toEqual(['Builder', 'Calculator'])
   })
 
-  test('Business category has Calculator, Tax, Pay subcategories', () => {
-    expect(subcategoryOrderByCategory['Business']).toEqual(['Calculator', 'Tax', 'Pay'])
+  test('Business category has Calculator, Tax, Pay, Invoicing subcategories', () => {
+    expect(subcategoryOrderByCategory['Business']).toEqual(['Calculator', 'Tax', 'Pay', 'Invoicing'])
   })
 
-  test('Finance category has Loan, Interest, Investment subcategories', () => {
-    expect(subcategoryOrderByCategory['Finance']).toEqual(['Loan', 'Interest', 'Investment'])
+  test('Finance category has Loan, Interest, Investment, Retirement subcategories', () => {
+    expect(subcategoryOrderByCategory['Finance']).toEqual(['Loan', 'Interest', 'Investment', 'Retirement'])
   })
 
-  test('E-commerce category has Fees subcategory', () => {
-    expect(subcategoryOrderByCategory['E-commerce']).toEqual(['Fees'])
+  test('E-commerce category has Fees and Pricing subcategories', () => {
+    expect(subcategoryOrderByCategory['E-commerce']).toEqual(['Fees', 'Pricing'])
   })
 
   test('Mockup category has Chat, AI Chat, Posts, Comments, Stories, Email subcategories', () => {
@@ -112,6 +112,23 @@ describe('tool categories', () => {
       const tool = tools.find(t => t.slug === slug)
       expect(tool?.category, slug).toBe('Finance')
       expect(tool?.live, slug).toBe(true)
+    }
+  })
+
+  test('Wave 2 tools are registered and live', () => {
+    const slugs = [
+      'fire-calculator', 'inflation-calculator', 'stock-average-calculator', 'dca-calculator',
+      'commission-calculator', 'contractor-rate-calculator', 'pricing-calculator', 'invoice-due-date-calculator',
+      'csv-cleaner', 'csv-remove-duplicates', 'csv-split', 'csv-merge',
+      'curl-to-fetch', 'curl-to-python', 'postman-collection-generator', 'json-schema-validator',
+      'age-calculator', 'iso8601-formatter', 'week-number-calculator',
+      'shopify-discount-calculator', 'gtin-validator',
+      'prompt-variable-tester', 'embedding-cost-calculator',
+    ]
+    for (const slug of slugs) {
+      const tool = tools.find(t => t.slug === slug)
+      expect(tool?.live, slug).toBe(true)
+      expect(tool?.blogPost, slug).toBe(true)
     }
   })
 

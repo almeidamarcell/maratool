@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'curl-to-python'
+const seo = {
+  title: 'Convert cURL to Python requests | maratool',
+  description: 'Convert cURL commands to Python requests code. Paste curl and copy ready-to-run Python. Free browser tool.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert cURL to Python requests',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert cURL commands to Python requests code. Paste curl and copy ready-to-run Python. Free browser tool.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert cURL to Python requests', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert cURL to Python requests"
+      lead="Paste cURL — get Python requests code with method, headers, and data."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>API docs show curl examples; your script uses requests. The <a href="/curl-to-python">cURL to Python Converter</a> translates headers, method, and body into idiomatic Python.</p>
+
+      <BlogToolEmbed slug="curl-to-python" title="Try it — paste cURL command" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste cURL</strong> — from docs or DevTools.</li>
+        <li><strong>Review Python</strong> — requests.get/post with headers and data.</li>
+        <li><strong>Copy</strong> — into your notebook or service.</li>
+      </ol>
+
+      <h2>requests library</h2>
+      <p>Output assumes the popular <code>requests</code> package. Install with <code>pip install requests</code>.</p>
+
+      <h2>JavaScript</h2>
+      <p>See <a href="/curl-to-fetch">cURL to Fetch</a> for browser or Node fetch syntax.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/curl-to-python">How to convert cURL to Python requests</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

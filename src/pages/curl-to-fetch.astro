@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Convert cURL to JavaScript Fetch — Online | maratool',
+  description: 'Convert cURL commands to JavaScript fetch() code. Paste curl and get copy-ready fetch syntax. Free, runs in your browser.',
+  canonical: 'https://maratool.com/curl-to-fetch',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Convert cURL to JavaScript Fetch',
+    url: 'https://maratool.com/curl-to-fetch',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert cURL commands to JavaScript fetch() code. Paste curl and get copy-ready fetch syntax. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'API', item: 'https://maratool.com/developer/api' },
+      { '@type': 'ListItem', position: 4, name: 'Convert cURL to JavaScript Fetch', item: 'https://maratool.com/curl-to-fetch' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What cURL flags are supported?', acceptedAnswer: { '@type': 'Answer', text: 'Common flags: -X method, -H headers, -d/--data body, --json, and URL. Complex flags may need manual adjustment.' } },
+      { '@type': 'Question', name: 'Does this send the request?', acceptedAnswer: { '@type': 'Answer', text: 'No. This only converts the cURL command to fetch() syntax. Run the code in your app to execute.' } },
+      { '@type': 'Question', name: 'Is async/await included?', acceptedAnswer: { '@type': 'Answer', text: 'Output uses fetch() with .then() by default. Easy to wrap in async/await in your code.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Conversion happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste your cURL command in the input box.',
+  'JavaScript fetch code appears automatically.',
+  'Click Copy to copy the generated code.'
+]
+
+const faq = [
+  { q: 'What cURL flags are supported?', a: 'Common flags: -X method, -H headers, -d/--data body, --json, and URL. Complex flags may need manual adjustment.' },
+  { q: 'Does this send the request?', a: 'No. This only converts the cURL command to fetch() syntax. Run the code in your app to execute.' },
+  { q: 'Is async/await included?', a: 'Output uses fetch() with .then() by default. Easy to wrap in async/await in your code.' },
+  { q: 'Is my data sent to a server?', a: 'No. Conversion happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'curl-to-python', name: 'Convert cURL to Python Requests' },
+  { slug: 'curl-generator', name: 'cURL Command Generator' },
+  { slug: 'postman-collection-generator', name: 'Postman Collection Generator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'API', href: '/developer/api' },
+  { label: 'cURL to Fetch' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="curl-to-fetch" name="Convert cURL to JavaScript Fetch" description="Paste a cURL command and get equivalent JavaScript fetch() code with headers and body." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <label class="tool-label" for="ctf-input">cURL command</label>
+        <textarea id="ctf-input" class="tool-textarea" rows="6" placeholder="curl -X POST https://api.example.com/users -H 'Content-Type: application/json' -d '{&quot;name&quot;:&quot;Alice&quot;}'"></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:1rem 0 0.5rem;">
+          <label class="tool-label" style="margin:0;">JavaScript fetch()</label>
+          <button type="button" id="ctf-copy" class="copy-btn">Copy</button>
+        </div>
+        <pre id="ctf-output" class="tool-output" style="min-height:120px;white-space:pre-wrap;font-family:var(--font-mono);font-size:13px;"></pre>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<script src="../tools/curl-to-fetch.js"></script>

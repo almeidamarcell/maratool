@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'dca-calculator'
+const seo = {
+  title: 'DCA calculator — dollar cost averaging | maratool',
+  description: 'Model recurring investments with dollar-cost averaging. See average cost per share and total invested. Free browser calculator.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to model dollar-cost averaging returns',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Model recurring investments with dollar-cost averaging. See average cost per share and total invested. Free browser calculator.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to model dollar-cost averaging returns', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to model dollar-cost averaging returns"
+      lead="Set contribution amount, frequency, and price path — see average cost and shares accumulated."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Dollar-cost averaging spreads purchases over time instead of timing the market. The <a href="/dca-calculator">DCA Calculator</a> shows how recurring buys affect average share cost and total invested.</p>
+
+      <BlogToolEmbed slug="dca-calculator" title="Try it — recurring contribution and price assumptions" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Contribution</strong> — amount invested each period.</li>
+        <li><strong>Frequency</strong> — weekly, monthly, or custom intervals.</li>
+        <li><strong>Price series</strong> — enter or simulate share prices per period.</li>
+      </ol>
+
+      <h2>Why DCA matters</h2>
+      <p>Buying fixed dollar amounts buys more shares when prices are low and fewer when high — smoothing entry over volatility.</p>
+
+      <h2>Cost basis</h2>
+      <p>For lump-sum lots, use the <a href="/stock-average-calculator">Stock Average Price Calculator</a> instead.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/dca-calculator">How to model dollar-cost averaging returns</a> is free, runs locally, and never sends your data to a server. More <a href="/finance">finance calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

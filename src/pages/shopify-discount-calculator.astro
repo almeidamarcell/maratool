@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Shopify Discount Calculator — Stacked Discounts | maratool',
+  description: 'Calculate final price after stacked Shopify discounts. Enter original price and multiple discount percentages. Free, runs in your browser.',
+  canonical: 'https://maratool.com/shopify-discount-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Shopify Discount Calculator — Stacked Discounts',
+    url: 'https://maratool.com/shopify-discount-calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate final price after stacked Shopify discounts. Enter original price and multiple discount percentages. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'E-commerce', item: 'https://maratool.com/e-commerce' },
+      { '@type': 'ListItem', position: 3, name: 'Pricing', item: 'https://maratool.com/e-commerce/pricing' },
+      { '@type': 'ListItem', position: 4, name: 'Shopify Discount Calculator — Stacked Discounts', item: 'https://maratool.com/shopify-discount-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How does Shopify stack discounts?', acceptedAnswer: { '@type': 'Answer', text: 'Shopify applies discounts sequentially — each percentage is applied to the remaining price after the previous discount.' } },
+      { '@type': 'Question', name: 'Is 20% + 10% the same as 30%?', acceptedAnswer: { '@type': 'Answer', text: 'No. Sequential stacking: $100 − 20% = $80, then − 10% = $72, not $70.' } },
+      { '@type': 'Question', name: 'Can I use one discount?', acceptedAnswer: { '@type': 'Answer', text: 'Leave the second discount at 0% to calculate a single discount.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the original product price.',
+  'Add first and second discount percentages.',
+  'See final price and total amount saved.'
+]
+
+const faq = [
+  { q: 'How does Shopify stack discounts?', a: 'Shopify applies discounts sequentially — each percentage is applied to the remaining price after the previous discount.' },
+  { q: 'Is 20% + 10% the same as 30%?', a: 'No. Sequential stacking: $100 − 20% = $80, then − 10% = $72, not $70.' },
+  { q: 'Can I use one discount?', a: 'Leave the second discount at 0% to calculate a single discount.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'pricing-calculator', name: 'Pricing Calculator' },
+  { slug: 'amazon-fee-calculator', name: 'Amazon Seller Fee Calculator' },
+  { slug: 'percentage-calculator', name: 'Percentage Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'E-commerce', href: '/e-commerce' },
+  { label: 'Pricing', href: '/e-commerce/pricing' },
+  { label: 'Shopify Discount Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="shopify-discount-calculator" name="Shopify Discount Calculator — Stacked Discounts" description="Enter original price and two discount percentages to see final price and total savings." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="calc-field"><label class="tool-label" for="sd-original">Original price ($)</label><input type="number" id="sd-original" class="tool-input" placeholder="100" min="0" step="any" style="max-width:200px;" /></div>
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="sd-d1">Discount 1 (%)</label><input type="number" id="sd-d1" class="tool-input" placeholder="20" min="0" max="100" step="any" /></div>
+          <div class="calc-field"><label class="tool-label" for="sd-d2">Discount 2 (%)</label><input type="number" id="sd-d2" class="tool-input" placeholder="10" min="0" max="100" step="any" /></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="sd-final">—</span><span class="tool-stat-label">Final price</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="sd-saved">—</span><span class="tool-stat-label">Total saved</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/shopify-discount-calculator.js"></script>
