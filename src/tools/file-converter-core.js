@@ -4,7 +4,7 @@ import {
   FFMPEG_FORMATS,
   VIDEO_FORMATS,
   DOCUMENT_FORMATS,
-} from './vert-formats-data.js'
+} from './file-converter-formats.js'
 
 export const CATEGORIES = {
   image: { formats: [], canConvertTo: [] },

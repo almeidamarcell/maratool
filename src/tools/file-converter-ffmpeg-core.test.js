@@ -9,7 +9,7 @@ import {
   buildVideoToVideoArgs,
   VIDEO_FORMAT_EXTENSIONS,
   AUDIO_OUTPUT_EXTENSIONS,
-} from './vert-converter-ffmpeg-core.js'
+} from './file-converter-ffmpeg-core.js'
 
 describe('isVideoFormat / isAudioFormat', () => {
   test('classifies ffmpeg formats', () => {

@@ -7,7 +7,7 @@ import {
   getEngineLabel,
   groupOutputsByCategory,
   canConvert,
-} from './vert-converter-core.js'
+} from './file-converter-core.js'
 import {
   detectInputFormat,
   buildFilename,
@@ -16,8 +16,8 @@ import {
   getOutputMimeType as getDocMimeType,
 } from './document-converter-core.js'
 import { initPandoc, convertDocument, zipWithMedia } from './document-converter-pandoc.js'
-import { initMagick, convertImage, svgToPngBlob, getImageMimeType } from './vert-converter-magick.js'
-import { convertWithFfmpeg } from './vert-converter-ffmpeg.js'
+import { initMagick, convertImage, svgToPngBlob, getImageMimeType } from './file-converter-magick.js'
+import { convertWithFfmpeg } from './file-converter-ffmpeg.js'
 
 ;(function () {
   'use strict'
@@ -110,7 +110,7 @@ import { convertWithFfmpeg } from './vert-converter-ffmpeg.js'
       if (!state.ffmpegReady) {
         els.engineText.textContent = 'Loading FFmpeg WASM (~25 MB)…'
         showPanel('engine')
-        var ffMod = await import('./vert-converter-ffmpeg.js')
+        var ffMod = await import('./file-converter-ffmpeg.js')
         await ffMod.initFfmpeg(function (pct, detail) {
           els.engineText.textContent = detail || 'Loading FFmpeg…'
         })

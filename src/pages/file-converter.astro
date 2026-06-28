@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro'
 import Layout from '../components/Layout.astro'
 import ToolShell from '../components/ToolShell.astro'
-import { getAllInputExtensions } from '../tools/vert-converter-core.js'
+import { getAllInputExtensions } from '../tools/file-converter-core.js'
 
 const acceptExts = getAllInputExtensions().map((e) => '.' + e.replace(/^\./, '')).join(',')
 
@@ -234,4 +234,4 @@ const breadcrumbs = [
   }
 </style>
 
-<script src="../tools/vert-converter.js"></script>
+<script src="../tools/file-converter.js"></script>
