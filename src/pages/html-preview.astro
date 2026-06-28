@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'HTML Preview Online | maratool',
+  description: 'HTML Preview Online. Free, instant, runs in your browser — no upload to server.',
+  canonical: 'https://maratool.com/html-preview',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'HTML Preview Online',
+    url: 'https://maratool.com/html-preview',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'HTML Preview Online. Free, instant, runs in your browser — no upload to server.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Web', item: 'https://maratool.com/developer/web' },
+      { '@type': 'ListItem', position: 4, name: 'HTML Preview Online', item: 'https://maratool.com/html-preview' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Does this tool send data to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Everything runs locally in your browser. Your data never leaves your device.' } },
+      { '@type': 'Question', name: 'Do I need an account?', acceptedAnswer: { '@type': 'Answer', text: 'No sign-up, no limits, no paywall.' } },
+      { '@type': 'Question', name: 'Can I use this offline?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, after the page loads once, the tool works without a network connection.' } },
+      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, completely free with no usage limits.' } }
+    ]
+  }
+}
+
+const howTo = ['Enter or paste your input in the fields below.', 'Results update instantly as you type.', 'Use Copy to grab the output.']
+const faq = [{ q: 'Does this tool send data to a server?', a: 'No. Everything runs locally in your browser. Your data never leaves your device.' }, { q: 'Do I need an account?', a: 'No sign-up, no limits, no paywall.' }, { q: 'Can I use this offline?', a: 'Yes, after the page loads once, the tool works without a network connection.' }, { q: 'Is this tool free?', a: 'Yes, completely free with no usage limits.' }]
+const relatedTools = [{ slug: 'html-beautifier', name: 'html-beautifier' }, { slug: 'html-minifier', name: 'html-minifier' }, { slug: 'markdown-converter', name: 'markdown-converter' }]
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Web', href: '/developer/web' },
+  { label: 'HTML Preview Online' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="html-preview" name="HTML Preview Online" description="HTML Preview Online. Free, instant, runs in your browser — no upload to server." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:560px;">
+        <label class="tool-label" for="w4-in">HTML</label>
+        <textarea id="w4-in" class="tool-textarea" rows="8" placeholder="<h1>Hello</h1>"></textarea>
+        <label class="tool-label" for="w4-preview" style="margin-top:1rem;">Preview</label>
+        <iframe id="w4-preview" title="HTML preview" style="width:100%;min-height:240px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;"></iframe>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  .diff-add { background: #e6ffed; }
+  .diff-remove { background: #ffeef0; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/html-preview.js"></script>
