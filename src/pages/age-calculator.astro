@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Age Calculator — Exact Age from Birth Date | maratool',
+  description: 'Calculate exact age in years, months, and days from a birth date. Updates to today or any target date. Free, runs in your browser.',
+  canonical: 'https://maratool.com/age-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Age Calculator — Exact Age from Birth Date',
+    url: 'https://maratool.com/age-calculator',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate exact age in years, months, and days from a birth date. Updates to today or any target date. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Date', item: 'https://maratool.com/converter/date' },
+      { '@type': 'ListItem', position: 4, name: 'Age Calculator — Exact Age from Birth Date', item: 'https://maratool.com/age-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How is age calculated?', acceptedAnswer: { '@type': 'Answer', text: 'Age is computed as the difference between birth date and target date in years, months, and days.' } },
+      { '@type': 'Question', name: 'Does it handle leap years?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Date arithmetic accounts for varying month lengths and leap years.' } },
+      { '@type': 'Question', name: 'Can I calculate age on a past date?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Set any target date to see age as of that date.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the birth date.',
+  'Optionally set a target date (defaults to today).',
+  'See exact age in years, months, days, and total days.'
+]
+
+const faq = [
+  { q: 'How is age calculated?', a: 'Age is computed as the difference between birth date and target date in years, months, and days.' },
+  { q: 'Does it handle leap years?', a: 'Yes. Date arithmetic accounts for varying month lengths and leap years.' },
+  { q: 'Can I calculate age on a past date?', a: 'Yes. Set any target date to see age as of that date.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'unix-timestamp', name: 'Unix Timestamp Converter' },
+  { slug: 'week-number-calculator', name: 'ISO Week Number Calculator' },
+  { slug: 'iso8601-formatter', name: 'ISO 8601 Date Formatter' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Date', href: '/converter/date' },
+  { label: 'Age Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="age-calculator" name="Age Calculator — Exact Age from Birth Date" description="Enter birth date and optional target date to see exact age in years, months, days, and total days." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="age-birth">Birth date</label><input type="date" id="age-birth" class="tool-input" style="max-width:220px;" /></div>
+          <div class="calc-field"><label class="tool-label" for="age-target">Target date</label><input type="date" id="age-target" class="tool-input" style="max-width:220px;" /></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="age-years">—</span><span class="tool-stat-label">Years</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="age-months">—</span><span class="tool-stat-label">Months</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="age-days">—</span><span class="tool-stat-label">Days</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="age-total">—</span><span class="tool-stat-label">Total days</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/age-calculator.js"></script>

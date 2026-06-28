@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'iso8601-formatter'
+const seo = {
+  title: 'ISO 8601 date formatter — parse and convert | maratool',
+  description: 'Parse and format ISO 8601 dates. Convert between ISO strings, local datetime, and Unix timestamps. Free browser tool.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to parse and format ISO 8601 dates',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Parse and format ISO 8601 dates. Convert between ISO strings, local datetime, and Unix timestamps. Free browser tool.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to parse and format ISO 8601 dates', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to parse and format ISO 8601 dates"
+      lead="Paste an ISO 8601 string — see local time, Unix timestamp, and normalized ISO output."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Logs and APIs use ISO 8601; humans read local time. The <a href="/iso8601-formatter">ISO 8601 Formatter</a> parses Zulu and offset strings and shows equivalent Unix and local values.</p>
+
+      <BlogToolEmbed slug="iso8601-formatter" title="Try it — paste or generate ISO 8601" height={380} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Input</strong> — ISO 8601 string or click Now.</li>
+        <li><strong>ISO output</strong> — normalized canonical form.</li>
+        <li><strong>Conversions</strong> — local datetime and Unix seconds.</li>
+      </ol>
+
+      <h2>Timezone offsets</h2>
+      <p>Strings with <code>Z</code> or <code>+05:30</code> offsets parse correctly. Local display uses your browser timezone.</p>
+
+      <h2>Unix timestamps</h2>
+      <p>See also the <a href="/unix-timestamp">Unix Timestamp Converter</a> for epoch ↔ date workflows.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/iso8601-formatter">How to parse and format ISO 8601 dates</a> is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

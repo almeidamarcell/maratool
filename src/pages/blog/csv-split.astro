@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'csv-split'
+const seo = {
+  title: 'Split CSV file online — divide by row count | maratool',
+  description: 'Split a CSV file into multiple chunks by row count. Browser-based CSV splitter for large datasets.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to split a large CSV file into smaller files',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Split a CSV file into multiple chunks by row count. Browser-based CSV splitter for large datasets.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to split a large CSV file into smaller files', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to split a large CSV file into smaller files"
+      lead="Paste a large CSV, set rows per chunk — download-ready parts with headers preserved."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Email attachments and import tools cap file size. The <a href="/csv-split">CSV Splitter</a> divides a file into equal row chunks while repeating the header row in each part.</p>
+
+      <BlogToolEmbed slug="csv-split" title="Try it — paste CSV and set chunk size" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste CSV</strong> — full file with header.</li>
+        <li><strong>Rows per chunk</strong> — e.g. 1000 rows per file.</li>
+        <li><strong>Copy chunks</strong> — each output includes the header.</li>
+      </ol>
+
+      <h2>Header handling</h2>
+      <p>The first row is treated as the header and prepended to every chunk so imports work without manual editing.</p>
+
+      <h2>Merge back</h2>
+      <p>Combine parts with <a href="/csv-merge">Merge CSV Files</a> when needed.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/csv-split">How to split a large CSV file into smaller files</a> is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 262 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 285 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -33,6 +33,13 @@ maratool.com is a growing collection of 262 free tools that run in the browser u
 - [Crop Video Online — Free Video Cropper](https://maratool.com/crop-video): Crop MP4, WebM, and MOV videos in your browser. Drag a crop box, pick an aspect ratio — no upload, no watermark, no signup.
 - [Online Video Editor — Free Browser Video Tools](https://maratool.com/video-editor): Free online video editor — trim, compress, convert, rotate, mute, crop, and resize videos in your browser. No upload, no signup, no watermark.
 - [Time Zone Converter](https://maratool.com/timezone-converter): Convert date and time between time zones instantly. Compare multiple zones side by side.
+- [CSV Cleaner — Trim & Fix CSV Files](https://maratool.com/csv-cleaner): Clean CSV files online. Trim whitespace, remove empty rows, and fix line endings. Runs in your browser.
+- [Remove Duplicate Rows from CSV](https://maratool.com/csv-remove-duplicates): Remove duplicate rows from CSV files. Dedupe by entire row or a specific column. Instant, browser-based.
+- [Split CSV File Online](https://maratool.com/csv-split): Split a CSV file into multiple files by row count. Download-ready chunks for large datasets.
+- [Merge CSV Files Online](https://maratool.com/csv-merge): Merge multiple CSV files into one. Combines headers automatically. Paste or type CSV content.
+- [Age Calculator — Exact Age from Birth Date](https://maratool.com/age-calculator): Calculate exact age in years, months, and days from a birth date. Updates to today or any target date.
+- [ISO 8601 Date Formatter](https://maratool.com/iso8601-formatter): Parse and format ISO 8601 dates. Convert between ISO strings, local datetime, and Unix timestamps.
+- [ISO Week Number Calculator](https://maratool.com/week-number-calculator): Find the ISO week number for any date. See week start, week end, and year-week label.
 
 ### Developer
 - [Generate MD5 SHA-256 Hash Online](https://maratool.com/hash-generator): Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text input instantly.
@@ -63,6 +70,12 @@ maratool.com is a growing collection of 262 free tools that run in the browser u
 - [Password Strength Checker](https://maratool.com/password-strength-checker): Check password strength with entropy scoring and crack-time estimates. See what makes a password weak or strong.
 - [HMAC Generator — SHA-256 & SHA-512](https://maratool.com/hmac-generator): Generate HMAC signatures with SHA-256, SHA-384, or SHA-512. Enter message and secret key — runs in your browser.
 - [AI Context Window Calculator](https://maratool.com/context-window-calculator): See how much of a model context window your text uses. Compare GPT-4o, Claude, and Gemini token limits.
+- [Convert cURL to JavaScript Fetch](https://maratool.com/curl-to-fetch): Convert cURL commands to JavaScript fetch() code. Paste curl and get copy-ready fetch syntax.
+- [Convert cURL to Python Requests](https://maratool.com/curl-to-python): Convert cURL commands to Python requests code. Paste curl and get copy-ready Python.
+- [Postman Collection Generator](https://maratool.com/postman-collection-generator): Generate Postman Collection v2.1 JSON from URL, method, headers, and body. Import directly into Postman.
+- [JSON Schema Validator Online](https://maratool.com/json-schema-validator): Validate JSON data against a JSON Schema. Paste instance and schema to see errors instantly.
+- [Prompt Variable Tester — Template Preview](https://maratool.com/prompt-variable-tester): Test prompt templates with variables. Enter {{placeholders}} and preview the filled prompt instantly.
+- [AI Embedding Cost Calculator](https://maratool.com/embedding-cost-calculator): Estimate embedding API costs for OpenAI, Cohere, and Voyage. Enter token count and see per-request pricing.
 
 ### Text
 - [Compare Two Texts Online](https://maratool.com/diff-checker): Compare two blocks of text and highlight added, removed, and unchanged lines.
@@ -280,6 +293,10 @@ maratool.com is a growing collection of 262 free tools that run in the browser u
 - [Loan Calculator — Monthly Payment & Interest](https://maratool.com/loan-calculator): Calculate monthly loan payments and total interest for personal, auto, or business loans. See full amortization schedule.
 - [Compound Interest Calculator](https://maratool.com/compound-interest-calculator): Calculate compound interest with monthly contributions. See balance growth over time with a year-by-year breakdown.
 - [CAGR Calculator — Compound Annual Growth Rate](https://maratool.com/cagr-calculator): Calculate compound annual growth rate between two values over any time period. Instant CAGR percentage.
+- [FIRE Calculator — Financial Independence Retire Early](https://maratool.com/fire-calculator): Calculate years to financial independence using the 4% rule. Enter savings, expenses, income, and savings rate.
+- [Inflation Calculator — Purchasing Power Over Time](https://maratool.com/inflation-calculator): See how inflation erodes purchasing power. Enter an amount and year range using historical US CPI data.
+- [Stock Average Price Calculator — Cost Basis](https://maratool.com/stock-average-calculator): Calculate weighted average share price across multiple purchases. Enter shares and price per lot.
+- [Dollar Cost Averaging Calculator](https://maratool.com/dca-calculator): Model dollar-cost averaging with recurring investments. See average cost per share and total invested.
 
 ### Business
 - [Profit Margin Calculator](https://maratool.com/profit-margin-calculator): Calculate gross profit, net profit, and margin percentage from revenue and costs. Updates instantly.
@@ -287,10 +304,16 @@ maratool.com is a growing collection of 262 free tools that run in the browser u
 - [VAT / Sales Tax Calculator](https://maratool.com/vat-calculator): Add or remove VAT and sales tax from any amount. Preset rates for US, UK, EU, and custom percentage.
 - [Salary Converter — Annual, Monthly, Hourly](https://maratool.com/salary-converter): Convert salary between annual, monthly, bi-weekly, weekly, daily, and hourly rates. Adjust for hours and weeks worked.
 - [ROI Calculator — Return on Investment](https://maratool.com/roi-calculator): Calculate return on investment percentage from initial cost and final value. See profit and ROI instantly.
+- [Commission Calculator — Sales Commission](https://maratool.com/commission-calculator): Calculate sales commission from deal value and commission rate. Supports flat rate and tiered percentages.
+- [Contractor Rate Calculator — Hourly to Salary](https://maratool.com/contractor-rate-calculator): Convert desired annual salary to an hourly contractor rate. Factor in billable hours, expenses, and tax buffer.
+- [Pricing Calculator — Markup & Margin](https://maratool.com/pricing-calculator): Calculate selling price from cost and markup or margin. See profit per unit instantly.
+- [Invoice Due Date Calculator](https://maratool.com/invoice-due-date-calculator): Calculate invoice due dates from issue date and payment terms. Net 30, Net 60, or custom days.
 
 ### E-commerce
 - [Amazon Seller Fee Calculator](https://maratool.com/amazon-fee-calculator): Estimate Amazon referral fees, FBA fees, and net profit per sale. Enter price, category, and fulfillment method.
 - [Etsy Fee Calculator](https://maratool.com/etsy-fee-calculator): Calculate Etsy listing, transaction, payment processing, and shipping fees. See net profit per sale instantly.
+- [Shopify Discount Calculator — Stacked Discounts](https://maratool.com/shopify-discount-calculator): Calculate final price after stacked Shopify discounts. Enter original price and multiple discount percentages.
+- [GTIN Validator — EAN-13 & UPC Check Digit](https://maratool.com/gtin-validator): Validate GTIN, EAN-13, and UPC barcodes. Verify check digits and format. Free, runs in your browser.
 
 ## About
 

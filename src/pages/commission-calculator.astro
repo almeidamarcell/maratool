@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Commission Calculator — Sales Commission | maratool',
+  description: 'Calculate sales commission from deal value and commission rate. See commission amount and net proceeds instantly. Free, runs in your browser.',
+  canonical: 'https://maratool.com/commission-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Commission Calculator — Sales Commission',
+    url: 'https://maratool.com/commission-calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate sales commission from deal value and commission rate. See commission amount and net proceeds instantly. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Business', item: 'https://maratool.com/business' },
+      { '@type': 'ListItem', position: 3, name: 'Calculator', item: 'https://maratool.com/business/calculator' },
+      { '@type': 'ListItem', position: 4, name: 'Commission Calculator — Sales Commission', item: 'https://maratool.com/commission-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How is commission calculated?', acceptedAnswer: { '@type': 'Answer', text: 'Commission = Deal Amount × (Rate / 100). Net = Deal Amount − Commission.' } },
+      { '@type': 'Question', name: 'Does this support tiered rates?', acceptedAnswer: { '@type': 'Answer', text: 'This calculator uses a flat rate. For tiered commissions, calculate each tier separately.' } },
+      { '@type': 'Question', name: 'Is commission deducted from the sale or added on top?', acceptedAnswer: { '@type': 'Answer', text: 'This tool calculates commission as a percentage of the deal value, with net being what remains after commission.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the deal or sale amount.',
+  'Set the commission rate as a percentage.',
+  'See commission amount and net proceeds instantly.'
+]
+
+const faq = [
+  { q: 'How is commission calculated?', a: 'Commission = Deal Amount × (Rate / 100). Net = Deal Amount − Commission.' },
+  { q: 'Does this support tiered rates?', a: 'This calculator uses a flat rate. For tiered commissions, calculate each tier separately.' },
+  { q: 'Is commission deducted from the sale or added on top?', a: 'This tool calculates commission as a percentage of the deal value, with net being what remains after commission.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'pricing-calculator', name: 'Pricing Calculator' },
+  { slug: 'profit-margin-calculator', name: 'Profit Margin Calculator' },
+  { slug: 'roi-calculator', name: 'ROI Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Business', href: '/business' },
+  { label: 'Calculator', href: '/business/calculator' },
+  { label: 'Commission Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="commission-calculator" name="Commission Calculator — Sales Commission" description="Enter deal amount and commission rate to see commission earned and net amount after commission." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:260px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="com-amount">Deal amount ($)</label><input type="number" id="com-amount" class="tool-input" placeholder="10000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="com-rate">Commission rate (%)</label><input type="number" id="com-rate" class="tool-input" placeholder="10" step="any" min="0" /></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="com-commission">—</span><span class="tool-stat-label">Commission</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="com-net">—</span><span class="tool-stat-label">Net amount</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/commission-calculator.js"></script>

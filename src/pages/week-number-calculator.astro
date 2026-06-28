@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'ISO Week Number Calculator — Week of Year | maratool',
+  description: 'Find the ISO week number for any date. See week start, week end, and year-week label. Free, runs in your browser.',
+  canonical: 'https://maratool.com/week-number-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'ISO Week Number Calculator',
+    url: 'https://maratool.com/week-number-calculator',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Find the ISO week number for any date. See week start, week end, and year-week label. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Date', item: 'https://maratool.com/converter/date' },
+      { '@type': 'ListItem', position: 4, name: 'ISO Week Number Calculator', item: 'https://maratool.com/week-number-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is ISO week numbering?', acceptedAnswer: { '@type': 'Answer', text: 'Weeks start on Monday. Week 1 is the first week with at least 4 days in the new year.' } },
+      { '@type': 'Question', name: 'Why can week 1 be in the previous year?', acceptedAnswer: { '@type': 'Answer', text: 'ISO weeks near January may belong to the previous or next ISO year depending on the day of week.' } },
+      { '@type': 'Question', name: 'How is week start/end calculated?', acceptedAnswer: { '@type': 'Answer', text: 'Week starts Monday 00:00 and ends Sunday 23:59 of that ISO week.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Select or enter a date.',
+  'See the ISO week number and year-week label.',
+  'View week start (Monday) and week end (Sunday) dates.'
+]
+
+const faq = [
+  { q: 'What is ISO week numbering?', a: 'Weeks start on Monday. Week 1 is the first week with at least 4 days in the new year.' },
+  { q: 'Why can week 1 be in the previous year?', a: 'ISO weeks near January may belong to the previous or next ISO year depending on the day of week.' },
+  { q: 'How is week start/end calculated?', a: 'Week starts Monday 00:00 and ends Sunday 23:59 of that ISO week.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'iso8601-formatter', name: 'ISO 8601 Date Formatter' },
+  { slug: 'unix-timestamp', name: 'Unix Timestamp Converter' },
+  { slug: 'age-calculator', name: 'Age Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Date', href: '/converter/date' },
+  { label: 'Week Number Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="week-number-calculator" name="ISO Week Number Calculator" description="Pick a date to see ISO week number, year-week label, and the week start and end dates." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:280px;">
+        <div class="calc-field"><label class="tool-label" for="wn-date">Date</label><input type="date" id="wn-date" class="tool-input" style="max-width:220px;" /></div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="wn-week">—</span><span class="tool-stat-label">Week number</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="wn-label">—</span><span class="tool-stat-label">Year-week</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="wn-start">—</span><span class="tool-stat-label">Week start</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="wn-end">—</span><span class="tool-stat-label">Week end</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/week-number-calculator.js"></script>

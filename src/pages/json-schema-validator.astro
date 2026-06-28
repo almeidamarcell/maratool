@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'JSON Schema Validator Online — Validate JSON | maratool',
+  description: 'Validate JSON data against a JSON Schema. Paste instance and schema to see errors instantly. Free, runs in your browser.',
+  canonical: 'https://maratool.com/json-schema-validator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'JSON Schema Validator Online',
+    url: 'https://maratool.com/json-schema-validator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Validate JSON data against a JSON Schema. Paste instance and schema to see errors instantly. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'API', item: 'https://maratool.com/developer/api' },
+      { '@type': 'ListItem', position: 4, name: 'JSON Schema Validator Online', item: 'https://maratool.com/json-schema-validator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Which JSON Schema draft is supported?', acceptedAnswer: { '@type': 'Answer', text: 'Draft-07 and Draft 2020-12 schemas are supported for common validation keywords.' } },
+      { '@type': 'Question', name: 'Does it validate nested objects?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Full object and array validation including nested properties and required fields.' } },
+      { '@type': 'Question', name: 'What if my JSON is invalid?', acceptedAnswer: { '@type': 'Answer', text: 'Syntax errors are reported before schema validation runs.' } },
+      { '@type': 'Question', name: 'Is my JSON sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Validation happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste your JSON data instance in the left box.',
+  'Paste the JSON Schema in the right box.',
+  'Click Validate to see validation results and any errors.'
+]
+
+const faq = [
+  { q: 'Which JSON Schema draft is supported?', a: 'Draft-07 and Draft 2020-12 schemas are supported for common validation keywords.' },
+  { q: 'Does it validate nested objects?', a: 'Yes. Full object and array validation including nested properties and required fields.' },
+  { q: 'What if my JSON is invalid?', a: 'Syntax errors are reported before schema validation runs.' },
+  { q: 'Is my JSON sent to a server?', a: 'No. Validation happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'json-formatter', name: 'JSON Formatter' },
+  { slug: 'schema-validator', name: 'Schema Markup Validator' },
+  { slug: 'json-diff', name: 'JSON Diff' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'API', href: '/developer/api' },
+  { label: 'JSON Schema Validator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="json-schema-validator" name="JSON Schema Validator Online" description="Paste JSON instance and JSON Schema, then click Validate to see validation results and errors." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:520px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="jsv-instance">JSON instance</label><textarea id="jsv-instance" class="tool-textarea" rows="10" placeholder='{"name": "Alice", "age": 30}'></textarea></div>
+          <div class="calc-field"><label class="tool-label" for="jsv-schema">JSON Schema</label><textarea id="jsv-schema" class="tool-textarea" rows="10" placeholder='{"type": "object", "properties": {"name": {"type": "string"}, "age": {"type": "number"}}, "required": ["name"]}'></textarea></div>
+        </div>
+        <button type="button" id="jsv-validate" class="tool-button" style="margin-bottom:1rem;">Validate</button>
+        <div id="jsv-output" class="tool-output" style="min-height:80px;font-family:var(--font-mono);font-size:13px;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/json-schema-validator.js"></script>

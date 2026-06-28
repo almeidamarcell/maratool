@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'invoice-due-date-calculator'
+const seo = {
+  title: 'Invoice due date calculator — Net 30, Net 60 | maratool',
+  description: 'Calculate invoice due dates from issue date and payment terms. Net 30, Net 60, or custom days. Free browser tool.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate invoice due dates from payment terms',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate invoice due dates from issue date and payment terms. Net 30, Net 60, or custom days. Free browser tool.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate invoice due dates from payment terms', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate invoice due dates from payment terms"
+      lead="Pick issue date and terms — get the exact due date for Net 30, Net 60, or custom."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>"Net 30" means payment is due 30 days after the invoice date — but weekends matter when you chase AR. The <a href="/invoice-due-date-calculator">Invoice Due Date Calculator</a> adds payment terms to any issue date.</p>
+
+      <BlogToolEmbed slug="invoice-due-date-calculator" title="Try it — issue date and payment terms" height={360} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Invoice date</strong> — when the invoice was issued.</li>
+        <li><strong>Payment terms</strong> — Net 30, Net 60, or custom day count.</li>
+        <li><strong>Due date</strong> — exact calendar date payment is due.</li>
+      </ol>
+
+      <h2>Net terms explained</h2>
+      <p>Net 30 = invoice date + 30 calendar days. Some contracts use business days only — confirm your contract language.</p>
+
+      <h2>Cash flow</h2>
+      <p>Pair with the <a href="/break-even-calculator">Break-Even Calculator</a> when modeling how payment delays affect runway.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/invoice-due-date-calculator">How to calculate invoice due dates from payment terms</a> is free, runs locally, and never sends your data to a server. More <a href="/business">business calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

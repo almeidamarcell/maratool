@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Prompt Variable Tester — Template Preview | maratool',
+  description: 'Test prompt templates with variables. Enter {{placeholders}} and preview the filled prompt instantly. Free, runs in your browser.',
+  canonical: 'https://maratool.com/prompt-variable-tester',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Prompt Variable Tester — Template Preview',
+    url: 'https://maratool.com/prompt-variable-tester',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Test prompt templates with variables. Enter {{placeholders}} and preview the filled prompt instantly. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'AI', item: 'https://maratool.com/developer/ai' },
+      { '@type': 'ListItem', position: 4, name: 'Prompt Variable Tester — Template Preview', item: 'https://maratool.com/prompt-variable-tester' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What placeholder syntax is supported?', acceptedAnswer: { '@type': 'Answer', text: 'Double curly braces: {{variable_name}}. Names can include letters, numbers, and underscores.' } },
+      { '@type': 'Question', name: 'How do I provide variable values?', acceptedAnswer: { '@type': 'Answer', text: 'One per line in key=value format, e.g. name=Alice on its own line.' } },
+      { '@type': 'Question', name: 'What if a variable is missing?', acceptedAnswer: { '@type': 'Answer', text: 'Missing variables are left as {{placeholder}} in the output so you can spot gaps.' } },
+      { '@type': 'Question', name: 'Is my prompt sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Template rendering happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Write your prompt template with {{variable}} placeholders.',
+  'Enter variable values as key=value pairs, one per line.',
+  'See the filled prompt in the output preview.'
+]
+
+const faq = [
+  { q: 'What placeholder syntax is supported?', a: 'Double curly braces: {{variable_name}}. Names can include letters, numbers, and underscores.' },
+  { q: 'How do I provide variable values?', a: 'One per line in key=value format, e.g. name=Alice on its own line.' },
+  { q: 'What if a variable is missing?', a: 'Missing variables are left as {{placeholder}} in the output so you can spot gaps.' },
+  { q: 'Is my prompt sent to a server?', a: 'No. Template rendering happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'ai-token-calculator', name: 'AI Token Counter' },
+  { slug: 'context-window-calculator', name: 'AI Context Window Calculator' },
+  { slug: 'ai-cost-calculator', name: 'AI Cost Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'AI', href: '/developer/ai' },
+  { label: 'Prompt Variable Tester' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="prompt-variable-tester" name="Prompt Variable Tester — Template Preview" description="Write a prompt template with {{variables}} and provide values to preview the filled prompt." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <div class="calc-field"><label class="tool-label" for="pv-template">Prompt template</label><textarea id="pv-template" class="tool-textarea" rows="6" placeholder="Hello {{name}}, summarize {{topic}} in {{count}} sentences."></textarea></div>
+        <div class="calc-field"><label class="tool-label" for="pv-vars">Variables (key=value, one per line)</label><textarea id="pv-vars" class="tool-textarea" rows="4" placeholder="name=Alice&#10;topic=API design&#10;count=3"></textarea></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+          <label class="tool-label" style="margin:0;">Filled prompt</label>
+          <button type="button" id="pv-copy" class="copy-btn">Copy</button>
+        </div>
+        <pre id="pv-output" class="tool-output" style="min-height:80px;white-space:pre-wrap;font-family:var(--font-mono);font-size:13px;"></pre>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/prompt-variable-tester.js"></script>

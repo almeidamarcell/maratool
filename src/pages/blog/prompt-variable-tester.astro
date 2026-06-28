@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'prompt-variable-tester'
+const seo = {
+  title: 'Prompt variable tester — template preview | maratool',
+  description: 'Test prompt templates with &#123;&#123;variables&#125;&#125;. Enter placeholders and preview the filled prompt instantly. Free browser tool.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to test LLM prompt templates with variables',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Test prompt templates with &#123;&#123;variables&#125;&#125;. Enter placeholders and preview the filled prompt instantly. Free browser tool.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to test LLM prompt templates with variables', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to test LLM prompt templates with variables"
+      lead="Write a template with &#123;&#123;placeholders&#125;&#125; — fill variables and preview the final prompt."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Prompt engineering uses templates with slots for user data. The <a href="/prompt-variable-tester">Prompt Variable Tester</a> detects &#123;&#123;variables&#125;&#125;, lets you fill them, and shows the rendered prompt before you call an API.</p>
+
+      <BlogToolEmbed slug="prompt-variable-tester" title="Try it — template and variable values" height={480} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Template</strong> — prompt with <code>&#123;&#123;variable&#125;&#125;</code> placeholders.</li>
+        <li><strong>Variables</strong> — auto-detected fields to fill.</li>
+        <li><strong>Preview</strong> — final prompt ready to copy.</li>
+      </ol>
+
+      <h2>Mustache-style syntax</h2>
+      <p>Placeholders use double curly braces: <code>&#123;&#123;name&#125;&#125;</code>, <code>&#123;&#123;context&#125;&#125;</code>. Missing variables stay visible so you catch gaps.</p>
+
+      <h2>Token budgeting</h2>
+      <p>Estimate cost with the <a href="/ai-token-calculator">AI Token Calculator</a> or <a href="/embedding-cost-calculator">Embedding Cost Calculator</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/prompt-variable-tester">How to test LLM prompt templates with variables</a> is free, runs locally, and never sends your data to a server. More <a href="/developer">developer tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
