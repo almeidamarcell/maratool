@@ -42,7 +42,7 @@ describe('tool categories', () => {
     }
   })
 
-  test('Converter category has Format, Unit, Video, CSV, and Date subcategories', () => {
+  test('Converter category has Format, Document, Unit, Video, CSV, and Date subcategories', () => {
     expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Document', 'Unit', 'Video', 'CSV', 'Date'])
   })
 
