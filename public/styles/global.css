@@ -31,20 +31,21 @@
   --success-bg: #f0fff4;
   --success-border: #68d391;
 
-  /* Category colors */
-  --cat-converter: #c4553a;
-  --cat-image: #7c5cbf;
-  --cat-text: #3d8b6e;
-  --cat-developer: #2d6ef6;
-  --cat-color: #d4842a;
-  --cat-pdf: #c74882;
-  --cat-marketing: #4a8fa8;
-  --cat-mockup: #6366f1;
-  --cat-health: #0f766e;
-  --cat-finance: #1a6b4a;
-  --cat-business: #b45309;
-  --cat-ecommerce: #7c3aed;
-  --cat-education: #2563eb;
+  /* Category colors — 12 perceptually distinct hues (min CIE76 ΔE ≈ 26).
+     Converter keeps the brand terracotta; the rest are re-spaced around the
+     wheel so no two categories are confusable. See DESIGN.md. */
+  --cat-converter: #c4553a; /* terracotta (brand) */
+  --cat-image: #e8590c;     /* orange */
+  --cat-color: #d4a017;     /* gold */
+  --cat-business: #8a6d0f;  /* dark olive-gold */
+  --cat-finance: #2f9e44;   /* leaf green */
+  --cat-text: #0d8a5f;      /* emerald */
+  --cat-health: #0c7d8c;    /* teal-cyan */
+  --cat-marketing: #3b6fb0; /* steel blue */
+  --cat-developer: #1c5fe0; /* vivid blue */
+  --cat-education: #7c3aed; /* violet */
+  --cat-mockup: #b5179e;    /* magenta */
+  --cat-pdf: #c0264f;       /* crimson */
 }
 
 /* Base Typography */

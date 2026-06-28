@@ -29,7 +29,6 @@
 .cat-dot[data-cat="health"]    { background: var(--cat-health); }
 .cat-dot[data-cat="finance"]   { background: var(--cat-finance); }
 .cat-dot[data-cat="business"]  { background: var(--cat-business); }
-.cat-dot[data-cat="e-commerce"] { background: var(--cat-ecommerce); }
 .cat-dot[data-cat="education"]  { background: var(--cat-education); }
 
 /* ============================================================

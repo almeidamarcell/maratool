@@ -3,6 +3,18 @@
 /color-picker /color-converter 301
 /pdf-merger /pdf-merge-split 301
 
+# E-commerce category merged into Business. Tools kept their Fees/Pricing
+# subcategories, which now live under /business, so these are precise 1:1
+# redirects (better for SEO relevance than a many-to-one hub redirect). The
+# tool pages themselves use flat slugs and are unchanged. Also covers the
+# legacy non-hyphenated /ecommerce breadcrumb path from the Amazon/Etsy pages.
+/e-commerce/fees /business/fees 301
+/e-commerce/pricing /business/pricing 301
+/e-commerce /business 301
+/ecommerce/fees /business/fees 301
+/ecommerce/pricing /business/pricing 301
+/ecommerce /business 301
+
 # Comparison pages — renamed from /compare/ to /vs/ (Cloudflare Pages
 # returned 500 for env.ASSETS.fetch on /compare/* after PR #68 introduced
 # nested dynamic routes — see #71). /vs/ is shorter, matches "X vs Y"

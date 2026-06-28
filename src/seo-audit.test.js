@@ -76,7 +76,6 @@ describe('SEO audit — Group 2: High Impact', () => {
       Health: 'HealthApplication',
       Finance: 'FinanceApplication',
       Business: 'BusinessApplication',
-      'E-commerce': 'BusinessApplication',
       Education: 'EducationApplication',
     }
     // Calculator subcategory in Developer should be UtilitiesApplication

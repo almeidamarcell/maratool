@@ -35,6 +35,8 @@ maratool.com is a growing collection of 363 free tools that run in the browser u
 - [Resize Video Online — Change Video Resolution](https://maratool.com/resize-video): Resize videos to 1080p, 720p, 480p, or custom dimensions. Aspect-ratio lock available. Runs in your browser.
 - [Crop Video Online — Free Video Cropper](https://maratool.com/crop-video): Crop MP4, WebM, and MOV videos in your browser. Drag a crop box, pick an aspect ratio — no upload, no watermark, no signup.
 - [Online Video Editor — Free Browser Video Tools](https://maratool.com/video-editor): Free online video editor — trim, compress, convert, rotate, mute, crop, and resize videos in your browser. No upload, no signup, no watermark.
+- [Instagram Video Downloader — Save Reels & Videos](https://maratool.com/instagram-video-downloader): Download Instagram Reels and videos in MP4 format. Paste the link, click download — free, no login, no watermark.
+- [Paper Sizes Reference](https://maratool.com/paper-sizes): Complete reference for paper sizes — A series, US Letter, Legal, Tabloid, and more. Search and filter by name or dimensions.
 - [Time Zone Converter](https://maratool.com/timezone-converter): Convert date and time between time zones instantly. Compare multiple zones side by side.
 - [CSV Cleaner — Trim & Fix CSV Files](https://maratool.com/csv-cleaner): Clean CSV files online. Trim whitespace, remove empty rows, and fix line endings. Runs in your browser.
 - [Remove Duplicate Rows from CSV](https://maratool.com/csv-remove-duplicates): Remove duplicate rows from CSV files. Dedupe by entire row or a specific column. Instant, browser-based.
@@ -54,6 +56,8 @@ maratool.com is a growing collection of 363 free tools that run in the browser u
 - [Transpose CSV Online](https://maratool.com/csv-transpose): Transpose CSV Online. Free, instant, runs in your browser.
 
 ### Developer
+- [Test Regex Patterns Online](https://maratool.com/regex-tester): Test regular expressions with live match highlighting.
+- [Format and Validate JSON Online](https://maratool.com/json-formatter): Format, minify and validate JSON instantly.
 - [Generate MD5 SHA-256 Hash Online](https://maratool.com/hash-generator): Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text input instantly.
 - [Decode JWT Token Online](https://maratool.com/jwt-decoder): Decode and inspect JWT tokens instantly — view header, payload, and signature.
 - [Bcrypt Generator](https://maratool.com/bcrypt-generator): Hash passwords with bcrypt in your browser. Choose cost factor, generate secure hashes, and verify passwords. No upload — runs locally.
@@ -70,18 +74,14 @@ maratool.com is a growing collection of 363 free tools that run in the browser u
 - [Generate UUID v4 Online](https://maratool.com/uuid-generator): Generate one or many UUIDs instantly — supports v1, v4, and v5.
 - [Cron Expression Builder & Decoder](https://maratool.com/cron-expression): Build and decode cron expressions with a visual editor.
 - [Number Base Converter](https://maratool.com/base-converter): Convert numbers between decimal, hexadecimal, binary, and octal instantly. Supports integers and fractions.
-- [Scientific Calculator Online](https://maratool.com/scientific-calculator): Full-featured scientific calculator with trigonometry, logarithms, exponents, and expression history.
-- [Graph Calculator — Plot Functions](https://maratool.com/graph-calculator): Plot mathematical functions on an interactive graph. Supports multiple equations, zoom, pan, and real-time updates.
-- [Algebra Calculator — Solve & Simplify](https://maratool.com/algebra-calculator): Simplify expressions, factor polynomials, solve equations, and compute derivatives. Renders math with LaTeX.
-- [Percentage Calculator Online](https://maratool.com/percentage-calculator): Calculate percentages, increases, decreases, proportions, and find original values before percentage changes. 9 calculation types.
 - [Calculate AI API Cost Online](https://maratool.com/ai-cost-calculator): Estimate per-request cost for GPT-4o, Claude, Gemini, and more. Enter token counts and see input, output, and total pricing.
-- [Paper Sizes Reference](https://maratool.com/paper-sizes): Complete reference for paper sizes — A series, US Letter, Legal, Tabloid, and more. Search and filter by name or dimensions.
 - [Tailwind CSS Cheat Sheet](https://maratool.com/tailwind-cheatsheet): Quick reference for Tailwind CSS classes — spacing, typography, colors, flexbox, grid, and more. Search and copy any class.
 - [SQL Formatter — Beautify SQL Online](https://maratool.com/sql-formatter): Format and beautify SQL queries instantly. Paste messy SQL and get indented, readable output.
 - [cURL Command Generator](https://maratool.com/curl-generator): Build cURL commands from URL, method, headers, and body. Copy-ready curl for any HTTP request.
 - [Password Strength Checker](https://maratool.com/password-strength-checker): Check password strength with entropy scoring and crack-time estimates. See what makes a password weak or strong.
 - [HMAC Generator — SHA-256 & SHA-512](https://maratool.com/hmac-generator): Generate HMAC signatures with SHA-256, SHA-384, or SHA-512. Enter message and secret key — runs in your browser.
 - [AI Context Window Calculator](https://maratool.com/context-window-calculator): See how much of a model context window your text uses. Compare GPT-4o, Claude, and Gemini token limits.
+- [JSON Diff — Compare Two JSON Objects](https://maratool.com/json-diff): Compare two JSON documents and highlight added, removed, and changed keys. Formatted side-by-side diff.
 - [Convert cURL to JavaScript Fetch](https://maratool.com/curl-to-fetch): Convert cURL commands to JavaScript fetch() code. Paste curl and get copy-ready fetch syntax.
 - [Convert cURL to Python Requests](https://maratool.com/curl-to-python): Convert cURL commands to Python requests code. Paste curl and get copy-ready Python.
 - [Postman Collection Generator](https://maratool.com/postman-collection-generator): Generate Postman Collection v2.1 JSON from URL, method, headers, and body. Import directly into Postman.
@@ -98,6 +98,9 @@ maratool.com is a growing collection of 363 free tools that run in the browser u
 - [IBAN Validator Online](https://maratool.com/iban-validator): Validate IBAN numbers with mod-97 check digits. Paste an IBAN to verify format and checksum. Free browser tool.
 - [Luhn Checker — Credit Card Validation](https://maratool.com/luhn-checker): Validate numbers with the Luhn algorithm. Check credit card and identifier check digits. Paste only, in browser.
 - [JWT Security Checker — Audit Tokens](https://maratool.com/jwt-security-checker): Audit pasted JWT tokens for security issues. Flag alg none, expiry, and missing claims. Runs in your browser.
+- [HTML Minifier Online](https://maratool.com/html-minifier): Minify HTML by removing comments and extra whitespace. Paste HTML and copy compressed output. Runs in browser.
+- [HTML Beautifier — Format HTML Online](https://maratool.com/html-beautifier): Beautify and indent pasted HTML for readability. Format messy markup instantly. Free, runs in your browser.
+- [CSS Minifier Online](https://maratool.com/css-minifier): Minify CSS stylesheets online. Remove comments and whitespace from pasted CSS. Free browser minifier.
 - [URL Parser — Decode URL Components](https://maratool.com/url-parser): Parse URLs into protocol, host, path, query, and hash components. Paste any URL for instant breakdown.
 - [Vision Image Token Estimator](https://maratool.com/vision-token-estimator): Vision Image Token Estimator. Free, instant, runs in your browser.
 - [JSON Schema Generator from JSON](https://maratool.com/json-schema-generator): JSON Schema Generator from JSON. Free, instant, runs in your browser.
@@ -136,14 +139,12 @@ maratool.com is a growing collection of 363 free tools that run in the browser u
 
 ### Text
 - [Compare Two Texts Online](https://maratool.com/diff-checker): Compare two blocks of text and highlight added, removed, and unchanged lines.
-- [Test Regex Patterns Online](https://maratool.com/regex-tester): Test regular expressions with live match highlighting.
 - [Reading Time Calculator](https://maratool.com/reading-time): Estimate how long it takes to read any text — shows slow, average, and fast reading times.
 - [Count AI Tokens Online](https://maratool.com/ai-token-calculator): Count AI tokens for GPT-4o, Claude, Gemini, and more. Paste text and see estimated token, word, and character counts instantly.
 - [Font File Explorer](https://maratool.com/font-explorer): Upload any OTF or TTF font file and inspect its metadata, character set, OpenType features, and glyph table.
 - [Markdown Editor with Live Preview](https://maratool.com/markdown-editor): Write markdown and preview the output in real time.
 - [Markdown Table Generator](https://maratool.com/markdown-table-generator): Build Markdown tables visually with a grid editor. Set alignment, add rows and columns, copy the output.
 - [Text Scratchpad — Find, Replace & Transform](https://maratool.com/text-scratchpad): A quick text editor with find & replace, case transforms (uppercase, lowercase, title case), slug generation, and more.
-- [Format and Validate JSON Online](https://maratool.com/json-formatter): Format, minify and validate JSON instantly.
 - [Unicode Glyph Browser](https://maratool.com/glyph-browser): Browse, search, and copy Unicode characters by category. Find arrows, math symbols, emojis, and special glyphs instantly.
 - [Generate Lorem Ipsum Text](https://maratool.com/lorem-ipsum): Generate lorem ipsum placeholder text instantly.
 - [Mussum Ipsum](https://maratool.com/mussum-ipsum): Generate Mussum Ipsum placeholder text — a Brazilian lorem ipsum full of invented words and humor.
@@ -151,10 +152,6 @@ maratool.com is a growing collection of 363 free tools that run in the browser u
 - [Emoji Picker — Copy & Paste Any Emoji](https://maratool.com/emoji-picker): Click any emoji to instantly copy it to your clipboard. Search and browse 2,300+ Unicode emojis by category.
 - [Word Counter & Character Counter](https://maratool.com/word-counter): Count words, characters, sentences, and paragraphs in real time. Paste or type any text.
 - [Sort, Dedupe & Convert Text Lines](https://maratool.com/text-line-tools): Sort lines alphabetically, remove duplicates, randomize order, and convert case. All text transforms in one place.
-- [JSON Diff — Compare Two JSON Objects](https://maratool.com/json-diff): Compare two JSON documents and highlight added, removed, and changed keys. Formatted side-by-side diff.
-- [HTML Minifier Online](https://maratool.com/html-minifier): Minify HTML by removing comments and extra whitespace. Paste HTML and copy compressed output. Runs in browser.
-- [HTML Beautifier — Format HTML Online](https://maratool.com/html-beautifier): Beautify and indent pasted HTML for readability. Format messy markup instantly. Free, runs in your browser.
-- [CSS Minifier Online](https://maratool.com/css-minifier): Minify CSS stylesheets online. Remove comments and whitespace from pasted CSS. Free browser minifier.
 
 ### Image
 - [GIF Maker — Create Animated GIFs from Images](https://maratool.com/gif-maker): Upload images and create animated GIFs instantly in your browser. Drag to reorder frames, set speed, and download — no upload to servers.
@@ -172,10 +169,8 @@ maratool.com is a growing collection of 363 free tools that run in the browser u
 - [Social Media Image Cropper](https://maratool.com/social-media-cropper): Crop and resize images for Instagram, Bluesky, Threads, Twitter/X, and more. Preset aspect ratios for every platform.
 - [Square Matte Generator for Social Media](https://maratool.com/matte-generator): Put non-square images on a square matte with custom background color. Perfect for Instagram grid posts.
 - [Instagram Carousel Scroll Generator](https://maratool.com/scroll-generator): Split a wide or tall image into seamless carousel slides for Instagram. Download all slides as a ZIP.
-- [Instagram Video Downloader — Save Reels & Videos](https://maratool.com/instagram-video-downloader): Download Instagram Reels and videos in MP4 format. Paste the link, click download — free, no login, no watermark.
 - [Base64 Image Previewer](https://maratool.com/base64-image-preview): Paste a Base64 string or data URL and instantly preview the image with format, dimensions, and size.
 - [Image Alt Text Generator](https://maratool.com/alt-text-generator): Generate alt text for images using AI — runs locally in your browser. No upload, no sign-up required.
-- [YouTube Timestamp Link Generator](https://maratool.com/youtube-timestamp-generator): YouTube Timestamp Link Generator. Free, instant, runs in your browser.
 
 ### Color
 - [CSS Gradient Generator with Live Preview](https://maratool.com/css-gradient): Generate CSS gradients visually with live preview.
@@ -205,6 +200,7 @@ maratool.com is a growing collection of 363 free tools that run in the browser u
 - [A/B Test Significance Calculator](https://maratool.com/ab-test-calculator): Calculate A/B test statistical significance. Enter control and variant visitors and conversions to see p-value, lift, and significance.
 - [Calculate Campaign ROI Online](https://maratool.com/campaign-roi-calculator): Calculate marketing campaign ROI, ROAS, and profit. Enter revenue and ad spend for instant results.
 - [Calculate CAC and LTV Online](https://maratool.com/cac-ltv-calculator): Calculate customer acquisition cost, lifetime value, LTV:CAC ratio, and payback period for your marketing funnel.
+- [YouTube Timestamp Link Generator](https://maratool.com/youtube-timestamp-generator): YouTube Timestamp Link Generator. Free, instant, runs in your browser.
 
 ### Mockup
 - [WhatsApp Chat Mockup Generator](https://maratool.com/whatsapp-chat-mockup): Create realistic WhatsApp chat screenshots. Edit messages inline, toggle dark mode, download as PNG.
@@ -349,6 +345,20 @@ maratool.com is a growing collection of 363 free tools that run in the browser u
 - [MASCC Risk Index (Febrile Neutropenia)](https://maratool.com/mascc-febrile-neutropenia): MASCC risk index for low-risk febrile neutropenia in cancer patients.
 - [TASH Score (Massive Transfusion)](https://maratool.com/tash-massive-transfusion): Trauma Associated Severe Hemorrhage (TASH) score for massive transfusion prediction.
 
+### Education
+- [Scientific Calculator Online](https://maratool.com/scientific-calculator): Full-featured scientific calculator with trigonometry, logarithms, exponents, and expression history.
+- [Graph Calculator — Plot Functions](https://maratool.com/graph-calculator): Plot mathematical functions on an interactive graph. Supports multiple equations, zoom, pan, and real-time updates.
+- [Algebra Calculator — Solve & Simplify](https://maratool.com/algebra-calculator): Simplify expressions, factor polynomials, solve equations, and compute derivatives. Renders math with LaTeX.
+- [Percentage Calculator Online](https://maratool.com/percentage-calculator): Calculate percentages, increases, decreases, proportions, and find original values before percentage changes. 9 calculation types.
+- [GPA Calculator — 4.0 Scale](https://maratool.com/gpa-calculator): Calculate GPA from letter grades and credit hours on a 4.0 scale. Add courses and see weighted GPA instantly.
+- [Grade Calculator — Weighted Average](https://maratool.com/grade-calculator): Calculate weighted course grade from assignment scores and weights. See your overall percentage instantly.
+- [Final Grade Calculator — Score Needed](https://maratool.com/final-grade-calculator): Calculate the final exam score you need to reach your target course grade. Enter current grade and final weight.
+- [Reading Level Calculator — Flesch-Kincaid](https://maratool.com/reading-level-calculator): Estimate reading grade level with Flesch-Kincaid. Paste text to see grade level, reading ease, and word count.
+- [Citation Generator — APA & MLA](https://maratool.com/citation-generator): Citation Generator — APA & MLA. Free, instant, runs in your browser.
+- [Flashcard Formatter — Q&A to Markdown](https://maratool.com/flashcard-formatter): Flashcard Formatter — Q&A to Markdown. Free, instant, runs in your browser.
+- [APA to MLA Citation Converter](https://maratool.com/apa-mla-converter): APA to MLA Citation Converter. Free, instant, runs in your browser.
+- [Roman Numeral Converter](https://maratool.com/roman-numeral-converter): Roman Numeral Converter. Free, instant, runs in your browser.
+
 ### Finance
 - [Mortgage Calculator — Monthly Payment & Amortization](https://maratool.com/mortgage-calculator): Calculate monthly mortgage payments, total interest, and full amortization schedule. Enter loan amount, rate, and term.
 - [Loan Calculator — Monthly Payment & Interest](https://maratool.com/loan-calculator): Calculate monthly loan payments and total interest for personal, auto, or business loans. See full amortization schedule.
@@ -368,32 +378,20 @@ maratool.com is a growing collection of 363 free tools that run in the browser u
 - [VAT / Sales Tax Calculator](https://maratool.com/vat-calculator): Add or remove VAT and sales tax from any amount. Preset rates for US, UK, EU, and custom percentage.
 - [Salary Converter — Annual, Monthly, Hourly](https://maratool.com/salary-converter): Convert salary between annual, monthly, bi-weekly, weekly, daily, and hourly rates. Adjust for hours and weeks worked.
 - [ROI Calculator — Return on Investment](https://maratool.com/roi-calculator): Calculate return on investment percentage from initial cost and final value. See profit and ROI instantly.
+- [Amazon Seller Fee Calculator](https://maratool.com/amazon-fee-calculator): Estimate Amazon referral fees, FBA fees, and net profit per sale. Enter price, category, and fulfillment method.
+- [Etsy Fee Calculator](https://maratool.com/etsy-fee-calculator): Calculate Etsy listing, transaction, payment processing, and shipping fees. See net profit per sale instantly.
 - [Commission Calculator — Sales Commission](https://maratool.com/commission-calculator): Calculate sales commission from deal value and commission rate. Supports flat rate and tiered percentages.
 - [Contractor Rate Calculator — Hourly to Salary](https://maratool.com/contractor-rate-calculator): Convert desired annual salary to an hourly contractor rate. Factor in billable hours, expenses, and tax buffer.
 - [Pricing Calculator — Markup & Margin](https://maratool.com/pricing-calculator): Calculate selling price from cost and markup or margin. See profit per unit instantly.
 - [Invoice Due Date Calculator](https://maratool.com/invoice-due-date-calculator): Calculate invoice due dates from issue date and payment terms. Net 30, Net 60, or custom days.
+- [Shopify Discount Calculator — Stacked Discounts](https://maratool.com/shopify-discount-calculator): Calculate final price after stacked Shopify discounts. Enter original price and multiple discount percentages.
+- [GTIN Validator — EAN-13 & UPC Check Digit](https://maratool.com/gtin-validator): Validate GTIN, EAN-13, and UPC barcodes. Verify check digits and format. Free, runs in your browser.
 - [Generate Invoice Numbers Online](https://maratool.com/invoice-number-generator): Generate Invoice Numbers Online. Free, instant, runs in your browser.
 - [Generate Purchase Order Online](https://maratool.com/purchase-order-generator): Generate Purchase Order Online. Free, instant, runs in your browser.
 - [Generate Business Name Ideas](https://maratool.com/business-name-generator): Generate Business Name Ideas. Free, instant, runs in your browser.
 - [Currency Margin Calculator](https://maratool.com/currency-margin-calculator): Currency Margin Calculator. Free, instant, runs in your browser.
-
-### E-commerce
-- [Amazon Seller Fee Calculator](https://maratool.com/amazon-fee-calculator): Estimate Amazon referral fees, FBA fees, and net profit per sale. Enter price, category, and fulfillment method.
-- [Etsy Fee Calculator](https://maratool.com/etsy-fee-calculator): Calculate Etsy listing, transaction, payment processing, and shipping fees. See net profit per sale instantly.
-- [Shopify Discount Calculator — Stacked Discounts](https://maratool.com/shopify-discount-calculator): Calculate final price after stacked Shopify discounts. Enter original price and multiple discount percentages.
-- [GTIN Validator — EAN-13 & UPC Check Digit](https://maratool.com/gtin-validator): Validate GTIN, EAN-13, and UPC barcodes. Verify check digits and format. Free, runs in your browser.
 - [Shipping Cost Calculator](https://maratool.com/shipping-calculator): Shipping Cost Calculator. Free, instant, runs in your browser.
 - [SKU Generator Online](https://maratool.com/sku-generator): SKU Generator Online. Free, instant, runs in your browser.
-
-### Education
-- [GPA Calculator — 4.0 Scale](https://maratool.com/gpa-calculator): Calculate GPA from letter grades and credit hours on a 4.0 scale. Add courses and see weighted GPA instantly.
-- [Grade Calculator — Weighted Average](https://maratool.com/grade-calculator): Calculate weighted course grade from assignment scores and weights. See your overall percentage instantly.
-- [Final Grade Calculator — Score Needed](https://maratool.com/final-grade-calculator): Calculate the final exam score you need to reach your target course grade. Enter current grade and final weight.
-- [Reading Level Calculator — Flesch-Kincaid](https://maratool.com/reading-level-calculator): Estimate reading grade level with Flesch-Kincaid. Paste text to see grade level, reading ease, and word count.
-- [Citation Generator — APA & MLA](https://maratool.com/citation-generator): Citation Generator — APA & MLA. Free, instant, runs in your browser.
-- [Flashcard Formatter — Q&A to Markdown](https://maratool.com/flashcard-formatter): Flashcard Formatter — Q&A to Markdown. Free, instant, runs in your browser.
-- [APA to MLA Citation Converter](https://maratool.com/apa-mla-converter): APA to MLA Citation Converter. Free, instant, runs in your browser.
-- [Roman Numeral Converter](https://maratool.com/roman-numeral-converter): Roman Numeral Converter. Free, instant, runs in your browser.
 
 ## About
 
