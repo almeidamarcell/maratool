@@ -1,0 +1,237 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import { getAllInputExtensions } from '../tools/vert-converter-core.js'
+
+const acceptExts = getAllInputExtensions().map((e) => '.' + e.replace(/^\./, '')).join(',')
+
+const seo = {
+  title: 'File Converter — Images, Audio, Video & Documents Online | maratool',
+  description: 'Convert images, audio, video, and documents in your browser. 180+ image formats, MP3/WAV/FLAC, MP4/WebM/MKV, DOCX/EPUB/HTML — powered by WASM, no server upload.',
+  canonical: 'https://maratool.com/file-converter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'File Converter',
+    url: 'https://maratool.com/file-converter',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert images, audio, video, and documents in your browser using ImageMagick, FFmpeg, and Pandoc WebAssembly.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Media', item: 'https://maratool.com/converter/media' },
+      { '@type': 'ListItem', position: 4, name: 'File Converter', item: 'https://maratool.com/file-converter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What file formats can I convert?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Images (PNG, JPEG, WebP, AVIF, HEIC, TIFF, and 180+ more), audio (MP3, WAV, FLAC, OGG, AAC, and more), video (MP4, WebM, MKV, MOV, GIF, and more), and documents (DOCX, EPUB, HTML, Markdown, ODT, RTF, CSV, JSON).' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Are my files uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. All conversions run locally in your browser using WebAssembly — ImageMagick for images, FFmpeg for audio and video, and Pandoc for documents. Your files never leave your device.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I convert video to MP3 or audio to MP4?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Extract audio from video (MP4 to MP3, MKV to FLAC, etc.) or generate a video from audio with a static background.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Why does the first conversion take longer?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The WASM engines download on first use: ImageMagick (~15 MB), FFmpeg (~25 MB), or Pandoc (~56 MB). Your browser caches them — subsequent conversions start much faster.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop or select any supported image, audio, video, or document file.',
+  'Pick an output format from the grouped list — engines load automatically on first use.',
+  'Click Convert, preview when available, then download the result.',
+]
+
+const faq = [
+  { q: 'What file formats can I convert?', a: 'Images (180+ formats including PNG, JPEG, WebP, AVIF, HEIC), audio (MP3, WAV, FLAC, OGG, AAC, and more), video (MP4, WebM, MKV, MOV, GIF), and documents (DOCX, EPUB, HTML, Markdown, ODT, RTF).' },
+  { q: 'Are my files uploaded to a server?', a: 'No. ImageMagick, FFmpeg, and Pandoc run as WebAssembly in your browser. Files never leave your device.' },
+  { q: 'Can I convert video to MP3?', a: 'Yes — extract audio from MP4, MKV, WebM, MOV, and other video formats. You can also convert audio to video with a static background.' },
+  { q: 'Why is the first conversion slow?', a: 'WASM engines download once (~15–56 MB depending on category) and are cached by your browser afterward.' },
+]
+
+const relatedTools = [
+  { slug: 'document-converter', name: 'Document Converter' },
+  { slug: 'image-converter', name: 'Image Converter' },
+  { slug: 'mp4-to-mp3', name: 'Convert MP4 to MP3' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Media', href: '/converter/media' },
+  { label: 'File Converter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="file-converter" name="File Converter — Images, Audio, Video & Documents" description="Convert 180+ image formats, audio, video, and documents in your browser. Powered by ImageMagick, FFmpeg, and Pandoc WASM — all processing runs locally." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <div class="vc-dropzone" id="vc-dropzone">
+          <input type="file" id="vc-file" accept={acceptExts} hidden />
+          <div class="vc-dropzone-inner">
+            <div class="vc-dropzone-icon">🔄</div>
+            <p class="vc-dropzone-title">Drop any file to convert</p>
+            <p class="vc-dropzone-sub">Images · Audio · Video · Documents — all processed locally with WASM</p>
+          </div>
+        </div>
+
+        <div class="vc-engine" id="vc-engine" style="display:none;">
+          <p class="vc-engine-text" id="vc-engine-text">Loading conversion engine…</p>
+          <p class="vc-engine-hint">First load downloads WebAssembly (cached by your browser).</p>
+        </div>
+
+        <div class="vc-progress" id="vc-progress" style="display:none;">
+          <p class="vc-progress-text" id="vc-progress-text">Converting…</p>
+        </div>
+
+        <div class="vc-workspace" id="vc-workspace" style="display:none;">
+          <div class="vc-file-bar">
+            <div class="vc-file-info">
+              <span class="vc-file-name" id="vc-file-name"></span>
+              <span class="vc-file-badge" id="vc-file-badge"></span>
+            </div>
+            <button type="button" class="vc-change-btn" id="vc-change">Change file</button>
+          </div>
+
+          <div class="vc-controls">
+            <div class="vc-control-row">
+              <label class="tool-label" for="vc-output">Output format</label>
+              <select id="vc-output" class="vc-select"></select>
+            </div>
+            <div class="vc-actions">
+              <button type="button" id="vc-convert" class="tool-button">Convert</button>
+              <button type="button" id="vc-download" class="vc-download-btn" disabled>Download</button>
+            </div>
+          </div>
+
+          <p class="vc-status" id="vc-status" aria-live="polite"></p>
+
+          <div class="vc-preview-wrap" id="vc-preview-wrap" style="display:none;">
+            <label class="tool-label">Preview</label>
+            <iframe id="vc-preview-html" class="vc-preview-frame" title="HTML preview" sandbox="allow-same-origin"></iframe>
+            <textarea id="vc-preview-text" class="tool-textarea tool-output vc-preview-text" rows="10" readonly aria-label="Converted output preview"></textarea>
+            <img id="vc-preview-img" class="vc-preview-img" alt="Converted image preview" style="display:none;" />
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .vc-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .vc-dropzone:hover,
+  .vc-dropzone.dragover {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .vc-dropzone-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .vc-dropzone-title { font-weight: 600; margin: 0 0 0.25rem; }
+  .vc-dropzone-sub { color: var(--text-2); font-size: 0.9rem; margin: 0; }
+  .vc-engine, .vc-progress {
+    padding: 2rem;
+    text-align: center;
+    background: var(--bg-soft);
+    border-radius: var(--radius);
+  }
+  .vc-engine-text, .vc-progress-text { font-weight: 500; margin: 0 0 0.5rem; }
+  .vc-engine-hint { color: var(--text-3); font-size: 0.85rem; margin: 0; }
+  .vc-file-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .vc-file-name { font-weight: 600; }
+  .vc-file-badge {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
+    background: var(--bg-soft);
+    border-radius: 4px;
+    color: var(--text-2);
+  }
+  .vc-change-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.35rem 0.75rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+  .vc-change-btn:hover { background: var(--bg-hover); }
+  .vc-controls { margin-bottom: 1rem; }
+  .vc-control-row { margin-bottom: 0.75rem; }
+  .vc-select {
+    width: 100%;
+    max-width: 320px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font: inherit;
+    background: var(--bg);
+  }
+  .vc-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .vc-download-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    cursor: pointer;
+    font: inherit;
+  }
+  .vc-download-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .vc-download-btn:not(:disabled):hover { background: var(--bg-hover); }
+  .vc-status { font-size: 0.9rem; color: var(--text-2); min-height: 1.25rem; }
+  .vc-status-error { color: #c0392b; }
+  .vc-preview-wrap { margin-top: 1rem; }
+  .vc-preview-frame {
+    width: 100%;
+    min-height: 280px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+  .vc-preview-text { margin-top: 0.5rem; }
+  .vc-preview-img {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+</style>
+
+<script src="../tools/vert-converter.js"></script>

@@ -74,6 +74,18 @@ export const tools: Tool[] = [
     live: true,
   },
   {
+    slug: 'mng-to-apng',
+    name: 'Convert MNG to APNG Online',
+    emoji: '🎞️',
+    description: 'Convert MNG (Multiple-image Network Graphics) to APNG in your browser. Preserves frames and timing — no upload, no watermark.',
+    category: 'Converter',
+    subcategory: 'Format',
+    keywords: ['mng to apng', 'convert mng to apng', 'mng to apng converter', 'mng to apng online', 'mng converter', 'animated png converter', 'multiple-image network graphics'],
+    live: true,
+    blogPost: true,
+    tags: ['file-upload'],
+  },
+  {
     slug: 'yaml-to-json',
     name: 'YAML to JSON Converter',
     emoji: '🔄',
@@ -102,6 +114,18 @@ export const tools: Tool[] = [
     category: 'Converter',
     subcategory: 'Document',
     keywords: ['docx to html', 'html to markdown', 'epub converter', 'document converter online', 'docx to markdown', 'epub to html', 'convert docx online', 'pandoc online'],
+    live: true,
+    blogPost: true,
+    tags: ['file-upload'],
+  },
+  {
+    slug: 'file-converter',
+    name: 'File Converter — Images, Audio, Video & Documents',
+    emoji: '🔄',
+    description: 'Convert 180+ image formats, audio, video, and documents in your browser. ImageMagick, FFmpeg, and Pandoc WASM — all processing runs locally.',
+    category: 'Converter',
+    subcategory: 'Media',
+    keywords: ['file converter online', 'convert image format', 'video converter browser', 'audio converter online', 'convert heic to png', 'mp4 to webm', 'docx to html', 'free file converter'],
     live: true,
     blogPost: true,
     tags: ['file-upload'],
@@ -3986,7 +4010,7 @@ export const tools: Tool[] = [
 export const categoryOrder = ['Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Business', 'Finance', 'E-commerce', 'Education', 'Mockup', 'Health'] as const
 
 export const subcategoryOrderByCategory: Record<string, string[]> = {
-  Converter: ['Format', 'Document', 'Unit', 'Video', 'CSV', 'Date'],
+  Converter: ['Format', 'Document', 'Media', 'Unit', 'Video', 'CSV', 'Date'],
   PDF: ['Extract', 'Edit', 'Inspect'],
   Text: ['Analyze', 'Edit', 'Generate', 'Transform'],
   Image: ['Transform', 'Social', 'Inspect'],
@@ -4131,7 +4155,7 @@ function deriveTags(tool: Tool): string[] {
   }
 
   // instant: pure-compute tools that update live (default for most)
-  const slowTools = ['background-remover', 'video-to-gif', 'fps-converter', 'trim-video', 'mp4-to-mp3', 'mov-to-mp4', 'mp4-to-webm', 'compress-video', 'rotate-video', 'mute-video', 'resize-video', 'crop-video', 'gif-compressor', 'alt-text-generator', 'pdf-merge-split', 'image-converter']
+  const slowTools = ['background-remover', 'video-to-gif', 'fps-converter', 'trim-video', 'mp4-to-mp3', 'mov-to-mp4', 'mp4-to-webm', 'compress-video', 'rotate-video', 'mute-video', 'resize-video', 'crop-video', 'gif-compressor', 'mng-to-apng', 'alt-text-generator', 'pdf-merge-split', 'image-converter']
   if (!slowTools.includes(tool.slug)) {
     tags.push('instant')
   }

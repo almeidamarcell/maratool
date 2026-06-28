@@ -27,6 +27,8 @@ src/data/lastmod-generated.ts
 public/palette-tools.json
 public/vendor/pandoc.wasm
 public/vendor/pandoc-api.js
+public/vendor/magick.wasm
+public/vendor/magick-worker.js
 
 # claude code runtime state (workflow commands in commands/ are intentionally tracked)
 .claude/*.lock
