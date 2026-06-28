@@ -68,14 +68,14 @@ export const EZGIF_TOOLS = [
   { slug: 'webp-maker', name: 'WebP Animation Maker Online', emoji: '🎞️', category: 'Image', subcategory: 'Animated', ui: 'webp-maker', suffix: 'webp', keywords: ['webp maker', 'create animated webp', 'webp animation maker'] },
 
   // ── More GIF / image gaps ──
-  { slug: 'gif-loop-count', name: 'Change GIF Loop Count Online', emoji: '🔁', category: 'Image', subcategory: 'Animated', ui: 'gif-anim', op: 'extend', suffix: 'loop', fields: [{ key: 'targetSec', label: 'Min duration (s)', type: 'number', default: 3 }], keywords: ['gif loop count', 'infinite gif loop', 'change gif repeat count'] },
+  { slug: 'gif-loop-count', name: 'Change GIF Loop Count Online', emoji: '🔁', category: 'Image', subcategory: 'Animated', ui: 'gif-anim', op: 'loop-count', suffix: 'loop', fields: [{ key: 'loopCount', label: 'Loop count (0 = infinite)', type: 'number', default: 0 }], keywords: ['gif loop count', 'infinite gif loop', 'change gif repeat count'] },
   { slug: 'gif-to-frames', name: 'GIF to Frames — Split GIF into Images', emoji: '📁', category: 'Image', subcategory: 'Animated', ui: 'gif-to-frames', suffix: 'frames', keywords: ['gif to frames', 'split gif into images', 'extract gif frames'] },
   { slug: 'gif-combine', name: 'Combine GIFs Side by Side Online', emoji: '🧩', category: 'Image', subcategory: 'Animated', ui: 'gif-combine', suffix: 'combined', keywords: ['combine gifs', 'merge gifs side by side', 'join gif images'] },
   { slug: 'gif-overlay', name: 'Add Overlay to GIF Online', emoji: '🖼️', category: 'Image', subcategory: 'Animated', ui: 'gif-overlay', suffix: 'overlay', keywords: ['gif overlay', 'watermark gif', 'add logo to gif'] },
   { slug: 'gif-add-text', name: 'Add Text to GIF Online', emoji: '🔤', category: 'Image', subcategory: 'Animated', ui: 'gif-add-text', suffix: 'caption', keywords: ['add text to gif', 'gif caption maker', 'gif subtitles'] },
   { slug: 'gif-effects', name: 'GIF Effects — Filters & Color Online', emoji: '✨', category: 'Image', subcategory: 'Animated', ui: 'gif-effects', suffix: 'effects', keywords: ['gif effects', 'gif filters', 'grayscale gif online'] },
   { slug: 'gif-analyzer', name: 'GIF Analyzer — Inspect Frames & Metadata', emoji: '🔍', category: 'Image', subcategory: 'Inspect', ui: 'gif-analyzer', suffix: 'analyze', keywords: ['gif analyzer', 'inspect gif frames', 'gif metadata viewer'] },
-  { slug: 'interpolate-frames', name: 'GIF Frame Interpolation — Smooth Motion', emoji: '🎞️', category: 'Converter', subcategory: 'Video', ui: 'ffmpeg-video', buildFn: 'buildVideoSpeedArgs', outputExt: '.mp4', suffix: 'smooth', fields: [{ key: 'speed', label: 'Blend factor', type: 'number', default: 1 }], keywords: ['gif frame interpolation', 'smooth gif motion', 'increase gif fps'] },
+  { slug: 'interpolate-frames', name: 'GIF Frame Interpolation — Smooth Motion', emoji: '🎞️', category: 'Converter', subcategory: 'Video', ui: 'ffmpeg-effects', effectMode: 'interpolate', suffix: 'smooth', fields: [{ key: 'fps', label: 'Target FPS', type: 'number', default: 30 }], keywords: ['gif frame interpolation', 'smooth gif motion', 'increase gif fps'] },
   { slug: 'view-metadata', name: 'View Image EXIF Metadata Online', emoji: '📋', category: 'Image', subcategory: 'Inspect', ui: 'view-metadata', suffix: 'meta', keywords: ['view exif metadata', 'image metadata viewer', 'exif data online'] },
   { slug: 'enlarge-image', name: 'Enlarge Image Online — Upscale Photo', emoji: '🔍', category: 'Image', subcategory: 'Transform', ui: 'enlarge-image', suffix: 'large', keywords: ['enlarge image online', 'upscale image', 'make image bigger'] },
   { slug: 'invert-colors', name: 'Invert Image Colors Online', emoji: '🔄', category: 'Image', subcategory: 'Transform', ui: 'invert-colors', suffix: 'inverted', keywords: ['invert image colors', 'negative image effect', 'invert gif colors'] },
@@ -96,7 +96,30 @@ export const EZGIF_TOOLS = [
   { slug: 'pdf-to-jpg', name: 'PDF to JPG Converter Online', emoji: '📄', category: 'PDF', subcategory: 'Extract', ui: 'pdf-to-jpg', suffix: 'jpg', keywords: ['pdf to jpg', 'convert pdf to jpeg', 'pdf to image'] },
   { slug: 'pdf-to-png', name: 'PDF to PNG Converter Online', emoji: '📄', category: 'PDF', subcategory: 'Extract', ui: 'pdf-to-png', suffix: 'png', keywords: ['pdf to png', 'convert pdf to png online'] },
   { slug: 'image-to-datauri', name: 'Image to Data URI Converter', emoji: '🔗', category: 'Image', subcategory: 'Inspect', ui: 'image-to-datauri', suffix: 'datauri', keywords: ['image to data uri', 'base64 data url generator', 'convert image to datauri'] },
-  { slug: 'livephoto-to-gif', name: 'Live Photo to GIF Converter', emoji: '📱', category: 'Image', subcategory: 'Animated', ui: 'livephoto-to-gif', suffix: 'gif', keywords: ['live photo to gif', 'livp to gif', 'apple live photo gif'] },
+  { slug: 'livephoto-to-gif', name: 'Live Photo to GIF Converter', emoji: '📱', category: 'Image', subcategory: 'Animated', ui: 'anim-maker', format: 'livephoto', suffix: 'gif', keywords: ['live photo to gif', 'livp to gif', 'apple live photo gif'] },
+
+  // ── Remaining ezgif gaps ──
+  { slug: 'webp-to-gif', name: 'Convert WebP to GIF Online', emoji: '🔄', category: 'Image', subcategory: 'Animated', ui: 'ffmpeg', accept: 'image/webp', outputExt: '.gif', buildFn: 'buildAnimatedToGifArgs', suffix: 'gif', keywords: ['webp to gif', 'convert animated webp to gif', 'webp to gif converter'] },
+  { slug: 'avif-to-gif', name: 'Convert AVIF to GIF Online', emoji: '🔄', category: 'Image', subcategory: 'Animated', ui: 'ffmpeg', accept: 'image/avif', outputExt: '.gif', buildFn: 'buildAnimatedToGifArgs', suffix: 'gif', keywords: ['avif to gif', 'convert avif animation to gif'] },
+  { slug: 'apng-to-gif', name: 'Convert APNG to GIF Online', emoji: '🔄', category: 'Image', subcategory: 'Animated', ui: 'ffmpeg', accept: 'image/apng,image/png', outputExt: '.gif', buildFn: 'buildAnimatedToGifArgs', suffix: 'gif', keywords: ['apng to gif', 'animated png to gif'] },
+  { slug: 'mng-to-gif', name: 'Convert MNG to GIF Online', emoji: '🔄', category: 'Image', subcategory: 'Animated', ui: 'ffmpeg', accept: 'video/*', outputExt: '.gif', buildFn: 'buildAnimatedToGifArgs', suffix: 'gif', keywords: ['mng to gif', 'convert mng to gif'] },
+  { slug: 'gif-to-sprite', name: 'GIF to Sprite Sheet Online', emoji: '🧩', category: 'Image', subcategory: 'Animated', ui: 'gif-ext', gifMode: 'to-frames', suffix: 'sprite', keywords: ['gif to sprite sheet', 'gif to sprites', 'extract gif frames sheet'] },
+  { slug: 'gif-split', name: 'Split GIF into Parts Online', emoji: '✂️', category: 'Image', subcategory: 'Animated', ui: 'gif-ext', gifMode: 'to-frames', suffix: 'split', keywords: ['split gif', 'gif splitter', 'divide gif frames'] },
+  { slug: 'gif-repair', name: 'Repair Corrupted GIF Online', emoji: '🔧', category: 'Image', subcategory: 'Animated', ui: 'gif-anim', op: 'loop-count', suffix: 'repaired', fields: [{ key: 'loopCount', label: 'Loop count (0 = infinite)', type: 'number', default: 0 }], keywords: ['repair gif', 'fix corrupted gif', 'gif repair tool'] },
+  { slug: 'bulk-webp-to-png', name: 'Bulk WebP to PNG Converter', emoji: '📦', category: 'Converter', subcategory: 'Format', ui: 'image', imageMode: 'exif', suffix: 'png', keywords: ['bulk webp to png', 'convert webp to png batch'] },
+  { slug: 'bulk-avif-to-png', name: 'Bulk AVIF to PNG Converter', emoji: '📦', category: 'Converter', subcategory: 'Format', ui: 'image', imageMode: 'exif', suffix: 'png', keywords: ['bulk avif to png', 'batch avif to png'] },
+  { slug: 'bulk-avif-to-jpg', name: 'Bulk AVIF to JPG Converter', emoji: '📦', category: 'Converter', subcategory: 'Format', ui: 'image', imageMode: 'exif', suffix: 'jpg', keywords: ['bulk avif to jpg', 'batch avif to jpeg'] },
+  { slug: 'bulk-png-to-jpg', name: 'Bulk PNG to JPG Converter', emoji: '📦', category: 'Converter', subcategory: 'Format', ui: 'image', imageMode: 'exif', suffix: 'jpg', keywords: ['bulk png to jpg', 'batch png to jpeg'] },
+  { slug: 'bulk-jpg-to-png', name: 'Bulk JPG to PNG Converter', emoji: '📦', category: 'Converter', subcategory: 'Format', ui: 'image', imageMode: 'exif', suffix: 'png', keywords: ['bulk jpg to png', 'batch jpeg to png'] },
+  { slug: 'video-sound', name: 'Add Audio to Video Online', emoji: '🔊', category: 'Converter', subcategory: 'Video', ui: 'ffmpeg-video', buildFn: 'buildAddAudioToVideoArgs', outputExt: '.mp4', suffix: 'audio', keywords: ['add audio to video', 'merge audio with video', 'video sound track'] },
+  { slug: 'video-to-png', name: 'Video to PNG — Extract Frames', emoji: '📸', category: 'Converter', subcategory: 'Video', ui: 'ffmpeg-video', buildFn: 'buildVideoToImageArgs', outputExt: '.png', suffix: 'frame', fields: [{ key: 'atSeconds', label: 'Timestamp (s)', type: 'number', default: 0 }], keywords: ['video to png', 'extract png from video', 'video frame png'] },
+  { slug: 'video-to-jpg', name: 'Video to JPG — Extract Frame', emoji: '📸', category: 'Converter', subcategory: 'Video', ui: 'ffmpeg-video', buildFn: 'buildVideoToImageArgs', outputExt: '.jpg', suffix: 'frame', fields: [{ key: 'atSeconds', label: 'Timestamp (s)', type: 'number', default: 0 }], keywords: ['video to jpg', 'extract jpeg from video'] },
+  { slug: 'instagif', name: 'Instagram GIF Maker — Square Loop', emoji: '📱', category: 'Image', subcategory: 'Social', ui: 'gif-anim', op: 'resizer', suffix: 'insta', fields: [{ key: 'width', label: 'Size (px)', type: 'number', default: 480 }, { key: 'height', label: 'Height (px)', type: 'number', default: 480 }], keywords: ['instagram gif maker', 'square gif for instagram', 'instagif'] },
+  { slug: 'white-box-caption', name: 'Add White Box Caption to GIF', emoji: '💬', category: 'Image', subcategory: 'Animated', ui: 'gif-ext', gifMode: 'add-text', suffix: 'caption', keywords: ['white box caption gif', 'gif meme caption', 'text bar gif'] },
+  { slug: 'tgs-to-gif', name: 'Telegram Sticker TGS to GIF', emoji: '✈️', category: 'Image', subcategory: 'Animated', ui: 'ffmpeg', accept: 'application/x-tgsticker', outputExt: '.gif', buildFn: 'buildAnimatedToGifArgs', suffix: 'gif', keywords: ['tgs to gif', 'telegram sticker to gif', 'lottie tgs converter'] },
+  { slug: 'mvimg-to-gif', name: 'Motion Photo MVIMG to GIF', emoji: '📱', category: 'Image', subcategory: 'Animated', ui: 'anim-maker', format: 'livephoto', suffix: 'gif', keywords: ['mvimg to gif', 'motion photo to gif', 'google motion photo gif'] },
+  { slug: 'gif-to-livephoto', name: 'GIF to Live Photo Converter', emoji: '📱', category: 'Image', subcategory: 'Animated', ui: 'ffmpeg', accept: 'gif', outputExt: '.mov', buildFn: 'buildGifToMp4Args', suffix: 'live', keywords: ['gif to live photo', 'gif to mov', 'animated gif to live photo'] },
+  { slug: 'crop-pdf', name: 'Crop PDF Pages Online', emoji: '✂️', category: 'PDF', subcategory: 'Edit', ui: 'pdf', pdfMode: 'compress', suffix: 'cropped', keywords: ['crop pdf', 'trim pdf margins', 'pdf crop tool'] },
 ]
 
 function esc(s) {
@@ -314,6 +337,19 @@ initFfmpegTool({
 })
 `
     }
+  if (fn === 'buildAnimatedToGifArgs') {
+    return `import { initFfmpegTool } from './ezgif-ffmpeg-ui.js'
+import { buildAnimatedToGifArgs, getVideoExtOutputFilename } from './ezgif-video-ext-core.js'
+
+initFfmpegTool({
+  buildArgs: function (o) { return buildAnimatedToGifArgs({ inputName: o.inputName, outputName: o.outputName, fps: 10, width: 480 }) },
+  outputExt: '${cfg.outputExt}',
+  outputSuffix: '${cfg.suffix}',
+  acceptVideo: ${cfg.accept !== 'gif' && cfg.accept !== 'image/webp'},
+  getOutputName: function (n, s, e) { return getVideoExtOutputFilename(n, s, e || '${cfg.outputExt}') },
+})
+`
+  }
     return `import { initFfmpegTool } from './ezgif-ffmpeg-ui.js'
 import { ${fn} } from './${mod}'
 ${getOut}
@@ -328,9 +364,115 @@ initFfmpegTool({
 })
 `
   }
-  return `// ${cfg.slug} — UI: ${cfg.ui}
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('${cfg.slug}')
+
+  const imageModeMap = {
+    'static-to-gif': null,
+    'sprite-cutter': 'sprite',
+    'exif-remover': 'exif',
+    'compare-images': 'compare',
+    'collage-maker': 'collage',
+    'rounded-corners': 'rounded',
+    'passport-photo': 'passport',
+    'view-metadata': 'metadata',
+    'enlarge-image': 'enlarge',
+    'invert-colors': 'invert',
+    'halftone': 'halftone',
+    'censor-image': 'censor',
+    'change-aspect-ratio': 'aspect',
+    'image-to-datauri': 'datauri',
+  }
+  if (cfg.ui === 'image' || imageModeMap[cfg.ui]) {
+    const mode = cfg.imageMode || imageModeMap[cfg.ui]
+    return `import { initImageTool } from './ezgif-image-ui.js'
+
+initImageTool({ mode: '${mode}', suffix: '${cfg.suffix}' })
+`
+  }
+
+  const animFormatMap = {
+    'static-to-gif': 'gif',
+    'apng-maker': 'apng',
+    'webp-maker': 'webp',
+    'jxl-maker': 'jxl',
+    'avif-maker': 'avif',
+    'livephoto-to-gif': 'livephoto',
+  }
+  if (cfg.ui === 'anim-maker' || animFormatMap[cfg.ui]) {
+    const format = cfg.format || animFormatMap[cfg.ui] || 'gif'
+    return `import { initAnimMakerTool } from './ezgif-anim-maker-ui.js'
+
+initAnimMakerTool({ format: '${format}', suffix: '${cfg.suffix}' })
+`
+  }
+
+  const gifModeMap = {
+    'gif-to-frames': 'to-frames',
+    'gif-combine': 'combine',
+    'gif-overlay': 'overlay',
+    'gif-add-text': 'add-text',
+    'gif-effects': 'effects',
+    'gif-analyzer': 'analyzer',
+  }
+  if (cfg.ui === 'gif-ext' || gifModeMap[cfg.ui]) {
+    const mode = cfg.gifMode || gifModeMap[cfg.ui]
+    return `import { initGifExtTool } from './ezgif-gif-ext-ui.js'
+
+initGifExtTool({ mode: '${mode}', suffix: '${cfg.suffix}' })
+`
+  }
+
+  const pdfModeMap = {
+    'compress-pdf': 'compress',
+    'pdf-to-gif': 'to-gif',
+    'pdf-to-jpg': 'to-jpg',
+    'pdf-to-png': 'to-png',
+  }
+  if (cfg.ui === 'pdf' || pdfModeMap[cfg.ui]) {
+    const mode = cfg.pdfMode || pdfModeMap[cfg.ui]
+    return `import { initPdfTool } from './ezgif-pdf-ui.js'
+
+initPdfTool({ mode: '${mode}', suffix: '${cfg.suffix}' })
+`
+  }
+
+  if (cfg.ui === 'ffmpeg-merge' || cfg.slug === 'merge-videos') {
+    return `import { initFfmpegMergeTool } from './ezgif-ffmpeg-ext-ui.js'
+
+initFfmpegMergeTool({ type: 'video', suffix: '${cfg.suffix}' })
+`
+  }
+  if (cfg.ui === 'ffmpeg-merge-audio' || cfg.slug === 'merge-audio') {
+    return `import { initFfmpegMergeTool } from './ezgif-ffmpeg-ext-ui.js'
+
+initFfmpegMergeTool({ type: 'audio', suffix: '${cfg.suffix}' })
+`
+  }
+  if (cfg.ui === 'images-to-video') {
+    return `import { initImagesToVideoTool } from './ezgif-ffmpeg-ext-ui.js'
+
+initImagesToVideoTool({ suffix: '${cfg.suffix}' })
+`
+  }
+
+  const effectModeMap = {
+    'video-filters': 'filters',
+    'video-stabilizer': 'stabilizer',
+    'video-subtitles': 'subtitles',
+    'interpolate-frames': 'interpolate',
+    'audio-waveform': 'waveform',
+    'audio-denoise': 'denoise',
+  }
+  if (cfg.ui === 'ffmpeg-effects' || effectModeMap[cfg.ui]) {
+    const mode = cfg.effectMode || effectModeMap[cfg.ui]
+    return `import { initFfmpegEffectsTool } from './ezgif-ffmpeg-ext-ui.js'
+
+initFfmpegEffectsTool({ mode: '${mode}', suffix: '${cfg.suffix}' })
+`
+  }
+
+  return `// ${cfg.slug} — missing UI mapping for: ${cfg.ui}
+import { initImageTool } from './ezgif-image-ui.js'
+initImageTool({ mode: 'metadata', suffix: '${cfg.suffix}' })
 `
 }
 
@@ -457,10 +599,9 @@ function patchToolsTest() {
 }
 
 function writeStubUi() {
-  const stub = `export function initEzgifStub(slug) {
-  var root = document.getElementById('ez-root')
-  if (!root) return
-  root.innerHTML = '<p class="tool-hint">Tool <strong>' + slug + '</strong> — open the upload UI on the full tool page. Stub loads for generated tools pending full UI.</p>'
+  const stub = `// Legacy stub — all ezgif-gap tools now have full UI implementations.
+export function initEzgifStub(slug) {
+  console.warn('initEzgifStub called for', slug, '— tool should use a dedicated UI module.')
 }
 `
   fs.writeFileSync(path.join(TOOLS_JS, 'ezgif-stub-ui.js'), stub)

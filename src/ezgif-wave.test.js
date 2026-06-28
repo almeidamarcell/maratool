@@ -34,4 +34,11 @@ describe('ezgif wave tools', () => {
       expect(existsSync(resolve(import.meta.dirname, '..', `src/tools/${t.slug}.js`))).toBe(true)
     }
   })
+
+  test('no ezgif tool uses stub UI', () => {
+    for (const t of EZGIF_TOOLS) {
+      const js = readSrc(`src/tools/${t.slug}.js`)
+      expect(js, t.slug).not.toContain('initEzgifStub')
+    }
+  })
 })

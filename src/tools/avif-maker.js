@@ -1,3 +1,3 @@
-// avif-maker — UI: avif-maker
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('avif-maker')
+import { initAnimMakerTool } from './ezgif-anim-maker-ui.js'
+
+initAnimMakerTool({ format: 'avif', suffix: 'avif' })

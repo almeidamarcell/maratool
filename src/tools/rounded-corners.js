@@ -1,3 +1,3 @@
-// rounded-corners — UI: rounded-corners
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('rounded-corners')
+import { initImageTool } from './ezgif-image-ui.js'
+
+initImageTool({ mode: 'rounded', suffix: 'rounded' })

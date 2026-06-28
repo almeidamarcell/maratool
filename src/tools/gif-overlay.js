@@ -1,3 +1,3 @@
-// gif-overlay — UI: gif-overlay
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('gif-overlay')
+import { initGifExtTool } from './ezgif-gif-ext-ui.js'
+
+initGifExtTool({ mode: 'overlay', suffix: 'overlay' })

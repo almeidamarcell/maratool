@@ -1,3 +1,3 @@
-// images-to-video — UI: images-to-video
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('images-to-video')
+import { initImagesToVideoTool } from './ezgif-ffmpeg-ext-ui.js'
+
+initImagesToVideoTool({ suffix: 'slideshow' })

@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 295 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 316 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -54,6 +54,14 @@ maratool.com is a growing collection of 295 free tools that run in the browser u
 - [Add Subtitles to Video Online](https://maratool.com/video-subtitles): Add Subtitles to Video Online. Runs in your browser — no upload, no watermark.
 - [Audio Waveform Image Generator](https://maratool.com/audio-waveform): Audio Waveform Image Generator. Runs in your browser — no upload, no watermark.
 - [Remove Audio Noise Online](https://maratool.com/audio-denoise): Remove Audio Noise Online. Runs in your browser — no upload, no watermark.
+- [Bulk WebP to PNG Converter](https://maratool.com/bulk-webp-to-png): Bulk WebP to PNG Converter. Runs in your browser — no upload, no watermark.
+- [Bulk AVIF to PNG Converter](https://maratool.com/bulk-avif-to-png): Bulk AVIF to PNG Converter. Runs in your browser — no upload, no watermark.
+- [Bulk AVIF to JPG Converter](https://maratool.com/bulk-avif-to-jpg): Bulk AVIF to JPG Converter. Runs in your browser — no upload, no watermark.
+- [Bulk PNG to JPG Converter](https://maratool.com/bulk-png-to-jpg): Bulk PNG to JPG Converter. Runs in your browser — no upload, no watermark.
+- [Bulk JPG to PNG Converter](https://maratool.com/bulk-jpg-to-png): Bulk JPG to PNG Converter. Runs in your browser — no upload, no watermark.
+- [Add Audio to Video Online](https://maratool.com/video-sound): Add Audio to Video Online. Runs in your browser — no upload, no watermark.
+- [Video to PNG — Extract Frames](https://maratool.com/video-to-png): Video to PNG. Runs in your browser — no upload, no watermark.
+- [Video to JPG — Extract Frame](https://maratool.com/video-to-jpg): Video to JPG. Runs in your browser — no upload, no watermark.
 
 ### Developer
 - [Generate MD5 SHA-256 Hash Online](https://maratool.com/hash-generator): Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text input instantly.
@@ -145,6 +153,18 @@ maratool.com is a growing collection of 295 free tools that run in the browser u
 - [Convert GIF to JXL Online](https://maratool.com/gif-to-jxl): Convert GIF to JXL Online. Runs in your browser — no upload, no watermark.
 - [Image to Data URI Converter](https://maratool.com/image-to-datauri): Image to Data URI Converter. Runs in your browser — no upload, no watermark.
 - [Live Photo to GIF Converter](https://maratool.com/livephoto-to-gif): Live Photo to GIF Converter. Runs in your browser — no upload, no watermark.
+- [Convert WebP to GIF Online](https://maratool.com/webp-to-gif): Convert WebP to GIF Online. Runs in your browser — no upload, no watermark.
+- [Convert AVIF to GIF Online](https://maratool.com/avif-to-gif): Convert AVIF to GIF Online. Runs in your browser — no upload, no watermark.
+- [Convert APNG to GIF Online](https://maratool.com/apng-to-gif): Convert APNG to GIF Online. Runs in your browser — no upload, no watermark.
+- [Convert MNG to GIF Online](https://maratool.com/mng-to-gif): Convert MNG to GIF Online. Runs in your browser — no upload, no watermark.
+- [GIF to Sprite Sheet Online](https://maratool.com/gif-to-sprite): GIF to Sprite Sheet Online. Runs in your browser — no upload, no watermark.
+- [Split GIF into Parts Online](https://maratool.com/gif-split): Split GIF into Parts Online. Runs in your browser — no upload, no watermark.
+- [Repair Corrupted GIF Online](https://maratool.com/gif-repair): Repair Corrupted GIF Online. Runs in your browser — no upload, no watermark.
+- [Instagram GIF Maker — Square Loop](https://maratool.com/instagif): Instagram GIF Maker. Runs in your browser — no upload, no watermark.
+- [Add White Box Caption to GIF](https://maratool.com/white-box-caption): Add White Box Caption to GIF. Runs in your browser — no upload, no watermark.
+- [Telegram Sticker TGS to GIF](https://maratool.com/tgs-to-gif): Telegram Sticker TGS to GIF. Runs in your browser — no upload, no watermark.
+- [Motion Photo MVIMG to GIF](https://maratool.com/mvimg-to-gif): Motion Photo MVIMG to GIF. Runs in your browser — no upload, no watermark.
+- [GIF to Live Photo Converter](https://maratool.com/gif-to-livephoto): GIF to Live Photo Converter. Runs in your browser — no upload, no watermark.
 
 ### Color
 - [CSS Gradient Generator with Live Preview](https://maratool.com/css-gradient): Generate CSS gradients visually with live preview.
@@ -170,6 +190,7 @@ maratool.com is a growing collection of 295 free tools that run in the browser u
 - [PDF to GIF Converter Online](https://maratool.com/pdf-to-gif): PDF to GIF Converter Online. Runs in your browser — no upload, no watermark.
 - [PDF to JPG Converter Online](https://maratool.com/pdf-to-jpg): PDF to JPG Converter Online. Runs in your browser — no upload, no watermark.
 - [PDF to PNG Converter Online](https://maratool.com/pdf-to-png): PDF to PNG Converter Online. Runs in your browser — no upload, no watermark.
+- [Crop PDF Pages Online](https://maratool.com/crop-pdf): Crop PDF Pages Online. Runs in your browser — no upload, no watermark.
 
 ### Marketing
 - [Barcode Generator — Code128, EAN-13 & More](https://maratool.com/barcode-generator): Generate barcodes in Code 128, EAN-13, UPC-A, QR, Data Matrix, and more. Download as PNG or SVG.

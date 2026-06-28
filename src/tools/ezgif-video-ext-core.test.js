@@ -10,6 +10,11 @@ import {
   buildFreezeVideoArgs,
   buildVideoScreenshotArgs,
   buildImagesToVideoArgs,
+  buildVideoFiltersArgs,
+  buildVideoStabilizerArgs,
+  buildSubtitlesArgs,
+  buildInterpolateArgs,
+  buildAnimatedToGifArgs,
   getVideoExtOutputFilename,
   validateFps,
 } from './ezgif-video-ext-core.js'
@@ -129,6 +134,33 @@ describe('validateFps', () => {
     expect(validateFps(15).valid).toBe(true)
     expect(validateFps(0).valid).toBe(false)
     expect(validateFps(120).valid).toBe(false)
+  })
+})
+
+describe('buildVideoFiltersArgs', () => {
+  it('applies video filter', () => {
+    const args = buildVideoFiltersArgs({ inputName: 'in.mp4', outputName: 'out.mp4', filter: 'hue=s=0' })
+    expect(args.join(' ')).toContain('hue=s=0')
+  })
+})
+
+describe('buildVideoStabilizerArgs', () => {
+  it('uses deshake filter', () => {
+    expect(buildVideoStabilizerArgs({ inputName: 'in.mp4', outputName: 'out.mp4' }).join(' ')).toContain('deshake')
+  })
+})
+
+describe('buildInterpolateArgs', () => {
+  it('uses minterpolate for higher fps', () => {
+    expect(buildInterpolateArgs({ inputName: 'in.mp4', outputName: 'out.mp4', fps: 30 }).join(' ')).toContain('minterpolate')
+  })
+})
+
+describe('buildAnimatedToGifArgs', () => {
+  it('converts animated format to gif with fps and scale', () => {
+    const args = buildAnimatedToGifArgs({ inputName: 'in.webp', outputName: 'out.gif', fps: 10, width: 480 })
+    expect(args.join(' ')).toContain('fps=10')
+    expect(args.join(' ')).toContain('scale=480')
   })
 })
 

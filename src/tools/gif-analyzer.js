@@ -1,3 +1,3 @@
-// gif-analyzer — UI: gif-analyzer
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('gif-analyzer')
+import { initGifExtTool } from './ezgif-gif-ext-ui.js'
+
+initGifExtTool({ mode: 'analyzer', suffix: 'analyze' })

@@ -14,6 +14,7 @@ import {
   normalizeRotation,
   combineLayoutDims,
   validateLoopCount,
+  normalizeLoopCount,
   getGifOutputFilename,
   speedPercentToDelayFactor,
   totalDurationMs,
@@ -168,6 +169,13 @@ describe('validateLoopCount', () => {
     expect(validateLoopCount(0)).toBe(true)
     expect(validateLoopCount(3)).toBe(true)
     expect(validateLoopCount(-1)).toBe(false)
+  })
+})
+
+describe('normalizeLoopCount', () => {
+  it('returns 0 for invalid values', () => {
+    expect(normalizeLoopCount(5)).toBe(5)
+    expect(normalizeLoopCount(-1)).toBe(0)
   })
 })
 

@@ -1,3 +1,3 @@
-// merge-videos — UI: ffmpeg-merge
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('merge-videos')
+import { initFfmpegMergeTool } from './ezgif-ffmpeg-ext-ui.js'
+
+initFfmpegMergeTool({ type: 'video', suffix: 'merged' })

@@ -1,3 +1,3 @@
-// change-aspect-ratio — UI: change-aspect-ratio
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('change-aspect-ratio')
+import { initImageTool } from './ezgif-image-ui.js'
+
+initImageTool({ mode: 'aspect', suffix: 'aspect' })

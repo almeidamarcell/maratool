@@ -1,3 +1,3 @@
-// view-metadata — UI: view-metadata
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('view-metadata')
+import { initImageTool } from './ezgif-image-ui.js'
+
+initImageTool({ mode: 'metadata', suffix: 'meta' })

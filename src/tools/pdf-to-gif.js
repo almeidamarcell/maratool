@@ -1,3 +1,3 @@
-// pdf-to-gif — UI: pdf-to-gif
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('pdf-to-gif')
+import { initPdfTool } from './ezgif-pdf-ui.js'
+
+initPdfTool({ mode: 'to-gif', suffix: 'gif' })

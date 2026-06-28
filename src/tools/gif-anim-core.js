@@ -172,6 +172,11 @@ export function validateLoopCount(n) {
   return Number.isInteger(v) && v >= 0
 }
 
+export function normalizeLoopCount(n) {
+  if (!validateLoopCount(n)) return 0
+  return Number(n)
+}
+
 export function getGifOutputFilename(inputName, suffix) {
   if (!inputName || typeof inputName !== 'string') return 'output-' + suffix + '.gif'
   var stem = inputName.replace(/\.gif$/i, '')

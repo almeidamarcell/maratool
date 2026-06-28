@@ -1,3 +1,3 @@
-// image-to-datauri — UI: image-to-datauri
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('image-to-datauri')
+import { initImageTool } from './ezgif-image-ui.js'
+
+initImageTool({ mode: 'datauri', suffix: 'datauri' })

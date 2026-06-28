@@ -1,3 +1,3 @@
-// gif-to-frames — UI: gif-to-frames
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('gif-to-frames')
+import { initGifExtTool } from './ezgif-gif-ext-ui.js'
+
+initGifExtTool({ mode: 'to-frames', suffix: 'frames' })

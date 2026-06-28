@@ -1,3 +1,3 @@
-// sprite-cutter — UI: sprite-cutter
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('sprite-cutter')
+import { initImageTool } from './ezgif-image-ui.js'
+
+initImageTool({ mode: 'sprite', suffix: 'tiles' })

@@ -6,6 +6,8 @@ import {
   buildFadeAudioArgs,
   buildAudioSpeedArgs,
   buildBoostVolumeArgs,
+  buildAudioDenoiseArgs,
+  buildWaveformImageArgs,
   getAudioOutputFilename,
   validateAudioBitrate,
 } from './ezgif-audio-core.js'
@@ -75,6 +77,19 @@ describe('buildBoostVolumeArgs', () => {
   it('applies volume filter in decibels', () => {
     const args = buildBoostVolumeArgs({ inputName: 'in.mp3', outputName: 'out.mp3', gainDb: 6 })
     expect(args.join(' ')).toContain('volume=6dB')
+  })
+})
+
+describe('buildAudioDenoiseArgs', () => {
+  it('applies afftdn filter', () => {
+    expect(buildAudioDenoiseArgs({ inputName: 'in.mp3', outputName: 'out.mp3' }).join(' ')).toContain('afftdn')
+  })
+})
+
+describe('buildWaveformImageArgs', () => {
+  it('renders waveform as png', () => {
+    const args = buildWaveformImageArgs({ inputName: 'in.mp3', outputName: 'wave.png', width: 800, height: 150 })
+    expect(args.join(' ')).toContain('showwavespic')
   })
 })
 

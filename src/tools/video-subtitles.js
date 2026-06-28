@@ -1,3 +1,3 @@
-// video-subtitles — UI: video-subtitles
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('video-subtitles')
+import { initFfmpegEffectsTool } from './ezgif-ffmpeg-ext-ui.js'
+
+initFfmpegEffectsTool({ mode: 'subtitles', suffix: 'subtitled' })

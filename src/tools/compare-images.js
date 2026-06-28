@@ -1,3 +1,3 @@
-// compare-images — UI: compare-images
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('compare-images')
+import { initImageTool } from './ezgif-image-ui.js'
+
+initImageTool({ mode: 'compare', suffix: 'compare' })

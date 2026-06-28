@@ -1,3 +1,3 @@
-// collage-maker — UI: collage-maker
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('collage-maker')
+import { initImageTool } from './ezgif-image-ui.js'
+
+initImageTool({ mode: 'collage', suffix: 'collage' })

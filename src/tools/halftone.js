@@ -1,3 +1,3 @@
-// halftone — UI: halftone
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('halftone')
+import { initImageTool } from './ezgif-image-ui.js'
+
+initImageTool({ mode: 'halftone', suffix: 'halftone' })

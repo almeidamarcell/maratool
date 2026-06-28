@@ -1,3 +1,3 @@
-// audio-denoise — UI: audio-denoise
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('audio-denoise')
+import { initFfmpegEffectsTool } from './ezgif-ffmpeg-ext-ui.js'
+
+initFfmpegEffectsTool({ mode: 'denoise', suffix: 'denoised' })

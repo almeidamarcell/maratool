@@ -132,6 +132,78 @@ export function buildImagesToVideoArgs({ pattern, outputName, fps }) {
   ]
 }
 
+export function buildVideoFiltersArgs({ inputName, outputName, filter }) {
+  var vf = filter || 'eq=brightness=0.06:saturation=1.2'
+  return [
+    '-i', inputName,
+    '-vf', vf,
+    '-c:v', 'libx264',
+    '-c:a', 'copy',
+    '-y', outputName,
+  ]
+}
+
+export function buildVideoStabilizerArgs({ inputName, outputName }) {
+  return [
+    '-i', inputName,
+    '-vf', 'deshake',
+    '-c:v', 'libx264',
+    '-c:a', 'copy',
+    '-y', outputName,
+  ]
+}
+
+export function buildSubtitlesArgs({ inputName, outputName, subtitlesFile }) {
+  return [
+    '-i', inputName,
+    '-vf', 'subtitles=' + subtitlesFile,
+    '-c:v', 'libx264',
+    '-c:a', 'copy',
+    '-y', outputName,
+  ]
+}
+
+export function buildInterpolateArgs({ inputName, outputName, fps }) {
+  var target = Math.max(24, Math.min(60, Number(fps) || 30))
+  return [
+    '-i', inputName,
+    '-vf', 'minterpolate=fps=' + target,
+    '-c:v', 'libx264',
+    '-c:a', 'copy',
+    '-y', outputName,
+  ]
+}
+
+export function buildVideoToImageArgs({ inputName, outputName, atSeconds }) {
+  return [
+    '-ss', String(atSeconds || 0),
+    '-i', inputName,
+    '-frames:v', '1',
+    '-y', outputName,
+  ]
+}
+
+export function buildAddAudioToVideoArgs({ videoName, audioName, outputName }) {
+  return [
+    '-i', videoName,
+    '-i', audioName,
+    '-c:v', 'copy',
+    '-c:a', 'aac',
+    '-shortest',
+    '-y', outputName,
+  ]
+}
+
+export function buildAnimatedToGifArgs({ inputName, outputName, fps, width }) {
+  var vf = []
+  if (fps) vf.push('fps=' + fps)
+  if (width) vf.push('scale=' + width + ':-1:flags=lanczos')
+  var args = ['-i', inputName]
+  if (vf.length) args.push('-vf', vf.join(','))
+  args.push('-y', outputName)
+  return args
+}
+
 export function getVideoExtOutputFilename(inputName, suffix, ext) {
   if (!inputName || typeof inputName !== 'string') return 'output-' + suffix + ext
   var dot = inputName.lastIndexOf('.')

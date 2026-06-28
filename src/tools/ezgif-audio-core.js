@@ -69,6 +69,25 @@ export function buildBoostVolumeArgs({ inputName, outputName, gainDb }) {
   ]
 }
 
+export function buildAudioDenoiseArgs({ inputName, outputName }) {
+  return [
+    '-i', inputName,
+    '-af', 'afftdn',
+    '-y', outputName,
+  ]
+}
+
+export function buildWaveformImageArgs({ inputName, outputName, width, height }) {
+  var w = Number(width) || 1200
+  var h = Number(height) || 200
+  return [
+    '-i', inputName,
+    '-filter_complex', 'showwavespic=s=' + w + 'x' + h + ':colors=0x2d6ef6',
+    '-frames:v', '1',
+    '-y', outputName,
+  ]
+}
+
 export function getAudioOutputFilename(inputName, suffix) {
   if (!inputName || typeof inputName !== 'string') return 'audio-' + suffix + '.mp3'
   var dot = inputName.lastIndexOf('.')

@@ -8,6 +8,7 @@ import {
   computeResizeDims,
   computeCropRegion,
   getGifOutputFilename,
+  normalizeLoopCount,
 } from './gif-anim-core.js'
 import { computeScaledDims } from './gif-compressor-core.js'
 
@@ -27,6 +28,8 @@ export function applyGifOperation(op, frames, delays, opts) {
       return { frames: shuffleFrames(frames), delays: shuffleFrames(delays) }
     case 'extend':
       return extendToDuration(frames, delays, (opts.targetSec || 5) * 1000)
+    case 'loop-count':
+      return { frames: frames.slice(), delays: delays.slice(), loopCount: normalizeLoopCount(opts.loopCount) }
     default:
       return { frames: frames.slice(), delays: delays.slice() }
   }
@@ -137,7 +140,7 @@ export function initGifAnimTool(config) {
     return { frames: compositeFrames(frames, w, h), width: w, height: h }
   }
 
-  async function encodeGif(frameData, w, h) {
+  async function encodeGif(frameData, w, h, repeat) {
     var gifencMod = await import('https://cdn.jsdelivr.net/npm/gifenc@1.0.3/dist/gifenc.esm.js')
     var enc = gifencMod.GIFEncoder()
     var quantize = gifencMod.quantize
@@ -155,7 +158,9 @@ export function initGifAnimTool(config) {
       var outH = frameData[i]._outH || h
       var palette = quantize(rgba, 256)
       var indexed = applyPalette(rgba, palette)
-      enc.writeFrame(indexed, outW, outH, { palette: palette, delay: Math.max(frameData[i].delay || 20, 20) })
+      var frameOpts = { palette: palette, delay: Math.max(frameData[i].delay || 20, 20) }
+      if (i === 0 && repeat !== undefined) frameOpts.repeat = repeat
+      enc.writeFrame(indexed, outW, outH, frameOpts)
     }
     enc.finish()
     return new Blob([enc.bytes()], { type: 'image/gif' })
@@ -235,6 +240,7 @@ export function initGifAnimTool(config) {
     var rgbaFrames = parsedFrames.map(function (f) { return { rgba: f.rgba, delay: f.delay } })
     var delays = rgbaFrames.map(function (f) { return f.delay })
     var simpleFrames = rgbaFrames
+    var loopRepeat
 
     if (op === 'resizer') {
       var dims = getResizeTargetDims(gifWidth, gifHeight, opts)
@@ -259,11 +265,16 @@ export function initGifAnimTool(config) {
       simpleFrames = simpleFrames.map(function (f, i) {
         return Object.assign({}, f, { delay: delays[i] || f.delay })
       })
+      if (op === 'loop-count') loopRepeat = applied.loopCount
+    }
+
+    if (op === 'loop-count' && loopRepeat === undefined) {
+      loopRepeat = normalizeLoopCount(opts.loopCount)
     }
 
     try {
       if (progressFill) progressFill.style.width = '50%'
-      var blob = await encodeGif(simpleFrames, gifWidth, gifHeight)
+      var blob = await encodeGif(simpleFrames, gifWidth, gifHeight, op === 'loop-count' ? loopRepeat : undefined)
       if (resultBlobUrl) URL.revokeObjectURL(resultBlobUrl)
       resultBlobUrl = URL.createObjectURL(blob)
       if (resultImg) resultImg.src = resultBlobUrl

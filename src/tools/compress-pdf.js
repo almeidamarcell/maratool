@@ -1,3 +1,3 @@
-// compress-pdf — UI: compress-pdf
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('compress-pdf')
+import { initPdfTool } from './ezgif-pdf-ui.js'
+
+initPdfTool({ mode: 'compress', suffix: 'compressed' })

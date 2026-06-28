@@ -1,3 +1,3 @@
-// invert-colors — UI: invert-colors
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('invert-colors')
+import { initImageTool } from './ezgif-image-ui.js'
+
+initImageTool({ mode: 'invert', suffix: 'inverted' })

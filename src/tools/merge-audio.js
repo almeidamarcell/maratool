@@ -1,3 +1,3 @@
-// merge-audio — UI: ffmpeg-merge-audio
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('merge-audio')
+import { initFfmpegMergeTool } from './ezgif-ffmpeg-ext-ui.js'
+
+initFfmpegMergeTool({ type: 'audio', suffix: 'merged' })

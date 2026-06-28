@@ -1,3 +1,3 @@
-// exif-remover — UI: exif-remover
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('exif-remover')
+import { initImageTool } from './ezgif-image-ui.js'
+
+initImageTool({ mode: 'exif', suffix: 'clean' })

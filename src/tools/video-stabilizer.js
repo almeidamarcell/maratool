@@ -1,3 +1,3 @@
-// video-stabilizer — UI: video-stabilizer
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('video-stabilizer')
+import { initFfmpegEffectsTool } from './ezgif-ffmpeg-ext-ui.js'
+
+initFfmpegEffectsTool({ mode: 'stabilizer', suffix: 'stable' })

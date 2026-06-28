@@ -1,3 +1,3 @@
-// enlarge-image — UI: enlarge-image
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('enlarge-image')
+import { initImageTool } from './ezgif-image-ui.js'
+
+initImageTool({ mode: 'enlarge', suffix: 'large' })

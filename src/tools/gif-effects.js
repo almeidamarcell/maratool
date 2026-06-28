@@ -1,3 +1,3 @@
-// gif-effects — UI: gif-effects
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('gif-effects')
+import { initGifExtTool } from './ezgif-gif-ext-ui.js'
+
+initGifExtTool({ mode: 'effects', suffix: 'effects' })

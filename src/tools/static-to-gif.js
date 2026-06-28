@@ -1,3 +1,3 @@
-// static-to-gif — UI: static-to-gif
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('static-to-gif')
+import { initAnimMakerTool } from './ezgif-anim-maker-ui.js'
+
+initAnimMakerTool({ format: 'gif', suffix: 'animated' })

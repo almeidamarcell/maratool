@@ -1,3 +1,3 @@
-// gif-combine — UI: gif-combine
-import { initEzgifStub } from './ezgif-stub-ui.js'
-initEzgifStub('gif-combine')
+import { initGifExtTool } from './ezgif-gif-ext-ui.js'
+
+initGifExtTool({ mode: 'combine', suffix: 'combined' })
