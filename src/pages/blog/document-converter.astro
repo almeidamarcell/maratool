@@ -1,0 +1,71 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'document-converter'
+const seo = {
+  title: 'How to convert DOCX to PDF and other document formats online | maratool',
+  description: 'Upload DOCX, EPUB, HTML, or Markdown and convert to PDF, HTML, MD, RTF, CSV, or JSON in your browser. No server upload.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert documents online — DOCX to PDF, EPUB to HTML, and more',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Upload DOCX, EPUB, HTML, or Markdown and convert to PDF, HTML, MD, RTF, CSV, or JSON in your browser. No server upload.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert documents online', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert documents online — DOCX to PDF, EPUB to HTML, and more"
+      lead="Upload a document, pick an output format, preview, and download — all in your browser."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Need to turn a Word file into PDF, an EPUB into HTML, or HTML into Markdown? The <a href="/document-converter">Document Converter</a> handles DOCX, EPUB, ODT, HTML, Markdown, RTF, CSV, JSON, RST, and plain text — without sending files to a server.</p>
+
+      <BlogToolEmbed slug="document-converter" title="Try it — upload a document to convert" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Upload</strong> — drop or select a document (.docx, .epub, .html, .md, .odt, .rtf, .csv, .json, .rst, or .txt).</li>
+        <li><strong>Choose output</strong> — available formats depend on the input (e.g. DOCX → HTML, MD, RTF, PDF, TXT).</li>
+        <li><strong>Preview &amp; download</strong> — review the converted output, then download or copy to clipboard.</li>
+      </ol>
+
+      <h2>Supported conversions</h2>
+      <p><strong>DOCX and DOC</strong> are parsed with mammoth.js to extract semantic HTML, then converted to Markdown, RTF, PDF, or plain text. <strong>EPUB</strong> files are unpacked (they are ZIP archives) and spine chapters are merged into HTML or Markdown. <strong>ODT</strong> (OpenDocument) is similarly unpacked and <code>content.xml</code> is converted to HTML.</p>
+      <p>For text-based formats, the tool reuses maratool's existing <a href="/html-to-markdown">HTML to Markdown</a> and <a href="/markdown-converter">Markdown to HTML</a> pipelines. CSV and JSON interchange uses the same parser as <a href="/csv-to-json">CSV to JSON</a>.</p>
+
+      <h2>Limitations</h2>
+      <p>PDF output renders HTML to a single-page PDF via canvas — complex layouts may not match desktop publishing tools. Legacy .doc (binary Word) support is best-effort through mammoth. Scanned PDFs are not supported here — use <a href="/pdf-to-text">PDF to Text</a> for extraction. All processing is client-side, so very large files are limited by browser memory.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/document-converter">Document Converter</a> is free, runs locally, and never sends your data to a server. More <a href="/converter/document">document converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

@@ -93,6 +93,19 @@ export const tools: Tool[] = [
     keywords: ['xml to json', 'convert xml to json', 'xml to json converter', 'xml parser online', 'xml to json online', 'parse xml'],
     live: true,
   },
+  // ── Converter / Document ──
+  {
+    slug: 'document-converter',
+    name: 'Document Converter — DOCX to PDF, HTML to Markdown & More',
+    emoji: '📄',
+    description: 'Convert DOCX, EPUB, ODT, HTML, Markdown, RTF, CSV, and JSON online. Upload a document, pick an output format, preview, and download — runs in your browser.',
+    category: 'Converter',
+    subcategory: 'Document',
+    keywords: ['docx to pdf', 'html to markdown', 'epub to pdf', 'document converter online', 'docx to html', 'epub to html', 'convert docx online', 'odt to html'],
+    live: true,
+    blogPost: true,
+    tags: ['file-upload'],
+  },
   // ── Converter / Unit ──
   {
     slug: 'unix-timestamp',
@@ -3344,7 +3357,7 @@ export const tools: Tool[] = [
 export const categoryOrder = ['Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Business', 'Finance', 'E-commerce', 'Education', 'Mockup', 'Health'] as const
 
 export const subcategoryOrderByCategory: Record<string, string[]> = {
-  Converter: ['Format', 'Unit', 'Video', 'CSV', 'Date'],
+  Converter: ['Format', 'Document', 'Unit', 'Video', 'CSV', 'Date'],
   PDF: ['Extract', 'Edit', 'Inspect'],
   Text: ['Analyze', 'Edit', 'Generate', 'Transform'],
   Image: ['Transform', 'Social', 'Inspect'],
