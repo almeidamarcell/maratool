@@ -9,15 +9,15 @@ const subcategories = subcategoryOrderByCategory.Business ?? []
 const liveCategoryTools = categoryTools.filter(t => t.live)
 
 const seo = {
-  title: 'Business Calculators — Margin, Break-even & Tax | maratool',
-  description: 'Free browser-based business calculators. Profit margin, break-even analysis, VAT/sales tax, salary conversion, and ROI — no sign-up.',
+  title: 'Business & E-commerce Calculators — Margin, Fees & Pricing | maratool',
+  description: 'Free business and e-commerce calculators. Profit margin, break-even, VAT/sales tax, ROI, plus Amazon and Etsy seller fee calculators — no sign-up.',
   canonical: 'https://maratool.com/business',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Business Calculators',
+    name: 'Business & E-commerce Calculators',
     url: 'https://maratool.com/business',
-    description: 'Free browser-based business calculators for margin, break-even, tax, salary, and ROI.',
+    description: 'Free browser-based business and e-commerce calculators for margin, break-even, tax, ROI, marketplace fees, and pricing.',
     hasPart: liveCategoryTools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,
@@ -41,8 +41,11 @@ const editorial = `
 <p>Running a business means constantly answering margin, pricing, tax, and payroll questions. These calculators give instant answers without a spreadsheet.</p>
 <h3>What you can calculate</h3>
 <p>The <a href="/profit-margin-calculator">profit margin calculator</a> shows gross and net margins. The <a href="/break-even-calculator">break-even calculator</a> finds how many units you need to sell. The <a href="/vat-calculator">VAT calculator</a> adds or removes tax. The <a href="/salary-converter">salary converter</a> translates between annual, monthly, and hourly pay.</p>
+<h2>E-commerce fee calculators</h2>
+<p>Selling on a marketplace means platform fees eat into every sale. These <a href="/business/fees">marketplace fee calculators</a> and <a href="/business/pricing">pricing tools</a> estimate fees and net profit before you list, so you can price products to stay profitable.</p>
+<p>The <a href="/amazon-fee-calculator">Amazon fee calculator</a> estimates referral and FBA fees by category. The <a href="/etsy-fee-calculator">Etsy fee calculator</a> breaks down listing, transaction, and payment processing costs. The <a href="/shopify-discount-calculator">Shopify discount calculator</a> works out stacked discount prices, the <a href="/shipping-calculator">shipping calculator</a> estimates delivery cost, and the <a href="/sku-generator">SKU generator</a> and <a href="/gtin-validator">GTIN validator</a> keep product catalogs clean. All of these e-commerce tools used to live under the separate <code>/e-commerce</code> hub and now sit here alongside the rest of the business calculators.</p>
 <h3>Privacy</h3>
-<p>All calculations run in your browser. Revenue, costs, and salary figures never leave your device.</p>
+<p>All calculations run in your browser. Revenue, costs, salary, and pricing figures never leave your device.</p>
 `
 ---
 <Base {...seo} scope="hub">
@@ -50,8 +53,8 @@ const editorial = `
     <HubPage
       category="Business"
       categorySlug="business"
-      title="Business calculators"
-      subtitle="Margin, break-even, tax, salary, and ROI calculators — everything runs locally in your browser."
+      title="Business & e-commerce calculators"
+      subtitle="Margin, break-even, tax, ROI, plus Amazon and Etsy seller fee calculators — everything runs locally in your browser."
       tools={categoryTools}
       subcategories={subcategories}
       basePath="/business"

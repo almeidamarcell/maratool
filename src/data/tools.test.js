@@ -2,9 +2,9 @@ import { describe, test, expect } from 'vitest'
 import { tools, categoryOrder, subcategoryOrderByCategory, toolsByCategory } from './tools'
 
 describe('tool categories', () => {
-  test('has 13 categories in correct order', () => {
+  test('has 12 categories in correct order', () => {
     expect([...categoryOrder]).toEqual([
-      'Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Business', 'Finance', 'E-commerce', 'Education', 'Mockup', 'Health',
+      'Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Business', 'Finance', 'Education', 'Mockup', 'Health',
     ])
   })
 
@@ -70,16 +70,21 @@ describe('tool categories', () => {
     expect(subcategoryOrderByCategory['Marketing']).toEqual(['Builder', 'Calculator'])
   })
 
-  test('Business category has Calculator, Tax, Pay, Invoicing, Generate subcategories', () => {
-    expect(subcategoryOrderByCategory['Business']).toEqual(['Calculator', 'Tax', 'Pay', 'Invoicing', 'Generate'])
+  test('Business category has Calculator, Pricing, Fees, Tax, Pay, Invoicing, Generate subcategories', () => {
+    expect(subcategoryOrderByCategory['Business']).toEqual(['Calculator', 'Pricing', 'Fees', 'Tax', 'Pay', 'Invoicing', 'Generate'])
   })
 
   test('Finance category has Loan, Interest, Investment, Retirement subcategories', () => {
     expect(subcategoryOrderByCategory['Finance']).toEqual(['Loan', 'Interest', 'Investment', 'Retirement'])
   })
 
-  test('E-commerce category has Fees and Pricing subcategories', () => {
-    expect(subcategoryOrderByCategory['E-commerce']).toEqual(['Fees', 'Pricing'])
+  test('E-commerce was merged into Business (no standalone E-commerce category)', () => {
+    expect([...categoryOrder]).not.toContain('E-commerce')
+    expect(subcategoryOrderByCategory['E-commerce']).toBeUndefined()
+    // The former e-commerce tools now live under Business
+    const amazon = tools.find(t => t.slug === 'amazon-fee-calculator')
+    expect(amazon?.category).toBe('Business')
+    expect(amazon?.subcategory).toBe('Fees')
   })
 
   test('Education category has Calculator and Reference subcategories', () => {
