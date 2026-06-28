@@ -34,7 +34,7 @@ const seo = {
       {
         '@type': 'Question',
         name: 'How do I convert DOCX to HTML or Markdown online?',
-        acceptedAnswer: { '@type': 'Answer', text: 'Upload your .docx file, select HTML or Markdown as the output format, and click Convert. The tool runs Pandoc WebAssembly in your browser — the same engine used by VERT.sh — and lets you preview and download the result.' }
+        acceptedAnswer: { '@type': 'Answer', text: 'Upload your .docx file, select HTML or Markdown as the output format, and click Convert. The tool runs Pandoc WebAssembly in your browser and lets you preview and download the result.' }
       },
       {
         '@type': 'Question',
@@ -62,7 +62,7 @@ const howTo = [
 ]
 
 const faq = [
-  { q: 'How do I convert DOCX to HTML or Markdown online?', a: 'Upload your .docx file, select HTML or Markdown, and click Convert. Pandoc WebAssembly runs locally in your browser — the same approach as VERT.sh.' },
+  { q: 'How do I convert DOCX to HTML or Markdown online?', a: 'Upload your .docx file, select HTML or Markdown, and click Convert. Pandoc WebAssembly runs locally in your browser.' },
   { q: 'What document formats can I convert?', a: 'Input: DOCX, DOC, Markdown, HTML, RTF, EPUB, ODT, CSV, TSV, JSON, RST, DocBook, and TXT. Output: HTML, Markdown, DOCX, EPUB, ODT, RTF, CSV, TSV, JSON, RST, DocBook, and plain text.' },
   { q: 'Is my document uploaded to a server?', a: 'No. Pandoc runs as WebAssembly in a browser worker. Your file never leaves your device.' },
   { q: 'Can I convert to PDF?', a: 'Not in the browser. Pandoc WASM cannot call LaTeX or other PDF engines. Convert to HTML or DOCX, or use a dedicated PDF tool.' },

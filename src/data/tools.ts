@@ -118,6 +118,18 @@ export const tools: Tool[] = [
     blogPost: true,
     tags: ['file-upload'],
   },
+  {
+    slug: 'file-converter',
+    name: 'File Converter — Images, Audio, Video & Documents',
+    emoji: '🔄',
+    description: 'Convert 180+ image formats, audio, video, and documents in your browser. ImageMagick, FFmpeg, and Pandoc WASM — all processing runs locally.',
+    category: 'Converter',
+    subcategory: 'Media',
+    keywords: ['file converter online', 'convert image format', 'video converter browser', 'audio converter online', 'convert heic to png', 'mp4 to webm', 'docx to html', 'free file converter'],
+    live: true,
+    blogPost: true,
+    tags: ['file-upload'],
+  },
   // ── Converter / Unit ──
   {
     slug: 'unix-timestamp',
@@ -3382,7 +3394,7 @@ export const tools: Tool[] = [
 export const categoryOrder = ['Converter', 'PDF', 'Text', 'Image', 'Color', 'Developer', 'Marketing', 'Business', 'Finance', 'E-commerce', 'Education', 'Mockup', 'Health'] as const
 
 export const subcategoryOrderByCategory: Record<string, string[]> = {
-  Converter: ['Format', 'Document', 'Unit', 'Video', 'CSV', 'Date'],
+  Converter: ['Format', 'Document', 'Media', 'Unit', 'Video', 'CSV', 'Date'],
   PDF: ['Extract', 'Edit', 'Inspect'],
   Text: ['Analyze', 'Edit', 'Generate', 'Transform'],
   Image: ['Transform', 'Social', 'Inspect'],
