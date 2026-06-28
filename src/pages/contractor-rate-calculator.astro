@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Contractor Rate Calculator — Hourly to Salary | maratool',
+  description: 'Convert desired annual salary to an hourly contractor rate. Factor in billable hours, expenses, and tax buffer. Free, runs in your browser.',
+  canonical: 'https://maratool.com/contractor-rate-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Contractor Rate Calculator — Hourly to Salary',
+    url: 'https://maratool.com/contractor-rate-calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert desired annual salary to an hourly contractor rate. Factor in billable hours, expenses, and tax buffer. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Business', item: 'https://maratool.com/business' },
+      { '@type': 'ListItem', position: 3, name: 'Pay', item: 'https://maratool.com/business/pay' },
+      { '@type': 'ListItem', position: 4, name: 'Contractor Rate Calculator — Hourly to Salary', item: 'https://maratool.com/contractor-rate-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How many billable hours per year?', acceptedAnswer: { '@type': 'Answer', text: 'Full-time contractors typically bill 1,000–1,500 hours after accounting for admin, sales, and vacation.' } },
+      { '@type': 'Question', name: 'Why add a tax buffer?', acceptedAnswer: { '@type': 'Answer', text: 'Contractors pay self-employment tax and must cover their own benefits. A 25–35% buffer is common.' } },
+      { '@type': 'Question', name: 'How is hourly rate calculated?', acceptedAnswer: { '@type': 'Answer', text: 'Required revenue = (Salary + Expenses) / (1 − Tax Rate). Hourly = Revenue / Billable Hours.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your target annual salary equivalent.',
+  'Set billable hours per year, business expenses, and tax buffer.',
+  'See required hourly and daily contractor rates.'
+]
+
+const faq = [
+  { q: 'How many billable hours per year?', a: 'Full-time contractors typically bill 1,000–1,500 hours after accounting for admin, sales, and vacation.' },
+  { q: 'Why add a tax buffer?', a: 'Contractors pay self-employment tax and must cover their own benefits. A 25–35% buffer is common.' },
+  { q: 'How is hourly rate calculated?', a: 'Required revenue = (Salary + Expenses) / (1 − Tax Rate). Hourly = Revenue / Billable Hours.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'salary-converter', name: 'Salary Converter' },
+  { slug: 'pricing-calculator', name: 'Pricing Calculator' },
+  { slug: 'profit-margin-calculator', name: 'Profit Margin Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Business', href: '/business' },
+  { label: 'Pay', href: '/business/pay' },
+  { label: 'Contractor Rate Calculator' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="contractor-rate-calculator" name="Contractor Rate Calculator — Hourly to Salary" description="Enter target salary, billable hours, expenses, and tax rate to see required hourly and daily contractor rates." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:340px;">
+        <div class="calc-field"><label class="tool-label" for="cr-salary">Target salary ($)</label><input type="number" id="cr-salary" class="tool-input" placeholder="100000" min="0" style="max-width:240px;" /></div>
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="cr-hours">Billable hours/year</label><input type="number" id="cr-hours" class="tool-input" placeholder="1200" min="1" /></div>
+          <div class="calc-field"><label class="tool-label" for="cr-expense">Annual expenses ($)</label><input type="number" id="cr-expense" class="tool-input" placeholder="5000" min="0" /></div>
+        </div>
+        <div class="calc-field"><label class="tool-label" for="cr-tax">Tax buffer (%)</label><input type="number" id="cr-tax" class="tool-input" placeholder="30" step="any" min="0" max="99" style="max-width:200px;" /></div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="cr-hourly">—</span><span class="tool-stat-label">Hourly rate</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="cr-daily">—</span><span class="tool-stat-label">Daily rate (8h)</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/contractor-rate-calculator.js"></script>

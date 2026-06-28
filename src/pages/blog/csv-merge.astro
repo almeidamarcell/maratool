@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'csv-merge'
+const seo = {
+  title: 'Merge CSV files online — combine CSV | maratool',
+  description: 'Merge multiple CSV files into one. Headers combined automatically. Paste content — runs in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to merge multiple CSV files into one',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Merge multiple CSV files into one. Headers combined automatically. Paste content — runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to merge multiple CSV files into one', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to merge multiple CSV files into one"
+      lead="Paste two or more CSV blocks — get one combined file with aligned columns."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Monthly exports from the same system should stack into one dataset. The <a href="/csv-merge">CSV Merger</a> concatenates multiple CSV inputs and aligns headers.</p>
+
+      <BlogToolEmbed slug="csv-merge" title="Try it — paste multiple CSV sections" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Paste CSV files</strong> — separate blocks or sequential pastes.</li>
+        <li><strong>Review merge</strong> — combined rows with unified header.</li>
+        <li><strong>Copy output</strong> — single file ready for analysis.</li>
+      </ol>
+
+      <h2>Column alignment</h2>
+      <p>Files with matching column order merge cleanly. Mismatched columns may need manual review.</p>
+
+      <h2>Dedupe after merge</h2>
+      <p>Use <a href="/csv-remove-duplicates">CSV Dedupe</a> if merged files contain overlapping rows.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/csv-merge">How to merge multiple CSV files into one</a> is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

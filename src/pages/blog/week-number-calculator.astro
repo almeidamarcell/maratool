@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'week-number-calculator'
+const seo = {
+  title: 'ISO week number calculator | maratool',
+  description: 'Find the ISO week number for any date. See week start, week end, and year-week label. Free browser calculator.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to find the ISO week number for any date',
+    image: 'https://maratool.com/og/developer.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Find the ISO week number for any date. See week start, week end, and year-week label. Free browser calculator.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to find the ISO week number for any date', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to find the ISO week number for any date"
+      lead="Pick a date — get ISO week number, week boundaries, and YYYY-Www label."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Sprint planning and payroll often use ISO week numbers, not calendar months. The <a href="/week-number-calculator">ISO Week Number Calculator</a> returns week 1–53 with start and end dates.</p>
+
+      <BlogToolEmbed slug="week-number-calculator" title="Try it — select any date" height={360} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Select date</strong> — any calendar day.</li>
+        <li><strong>Week number</strong> — ISO 8601 week of year.</li>
+        <li><strong>Week range</strong> — Monday-start week boundaries.</li>
+      </ol>
+
+      <h2>ISO vs US weeks</h2>
+      <p>ISO weeks start on Monday. Week 1 is the week with the year's first Thursday. US "week of year" conventions may differ.</p>
+
+      <h2>Date tools</h2>
+      <p>Pair with <a href="/age-calculator">Age Calculator</a> or <a href="/timezone-converter">Timezone Converter</a> for scheduling.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/week-number-calculator">How to find the ISO week number for any date</a> is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

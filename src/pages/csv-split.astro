@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Split CSV File Online — Divide by Row Count | maratool',
+  description: 'Split a CSV file into multiple files by row count. Download-ready chunks for large datasets. Free, runs in your browser.',
+  canonical: 'https://maratool.com/csv-split',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Split CSV File Online',
+    url: 'https://maratool.com/csv-split',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Split a CSV file into multiple files by row count. Download-ready chunks for large datasets. Free, runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'CSV', item: 'https://maratool.com/converter/csv' },
+      { '@type': 'ListItem', position: 4, name: 'Split CSV File Online', item: 'https://maratool.com/csv-split' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Does splitting preserve the header?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. The header row is included in each split chunk.' } },
+      { '@type': 'Question', name: 'What row count should I use?', acceptedAnswer: { '@type': 'Answer', text: 'Common choices: 1,000 or 10,000 rows per file, depending on your import tool limits.' } },
+      { '@type': 'Question', name: 'Can I download each chunk?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Each split chunk can be copied or downloaded separately.' } },
+      { '@type': 'Question', name: 'Is my CSV sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Splitting happens entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Paste your CSV data in the input box.',
+  'Set the number of rows per chunk.',
+  'Click Split to see downloadable CSV chunks.'
+]
+
+const faq = [
+  { q: 'Does splitting preserve the header?', a: 'Yes. The header row is included in each split chunk.' },
+  { q: 'What row count should I use?', a: 'Common choices: 1,000 or 10,000 rows per file, depending on your import tool limits.' },
+  { q: 'Can I download each chunk?', a: 'Yes. Each split chunk can be copied or downloaded separately.' },
+  { q: 'Is my CSV sent to a server?', a: 'No. Splitting happens entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'csv-merge', name: 'Merge CSV Files Online' },
+  { slug: 'csv-cleaner', name: 'CSV Cleaner' },
+  { slug: 'csv-to-json', name: 'Convert CSV to JSON' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'CSV', href: '/converter/csv' },
+  { label: 'CSV Split' }
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="csv-split" name="Split CSV File Online" description="Paste CSV data, set rows per chunk, and split into downloadable parts." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <label class="tool-label" for="cs-input">CSV input</label>
+        <textarea id="cs-input" class="tool-textarea" rows="10" placeholder="id,name&#10;1,Alice&#10;2,Bob&#10;3,Carol"></textarea>
+        <div class="calc-row" style="align-items:end;">
+          <div class="calc-field"><label class="tool-label" for="cs-size">Rows per chunk</label><input type="number" id="cs-size" class="tool-input" placeholder="1000" min="1" style="max-width:200px;" /></div>
+          <div class="calc-field"><button type="button" id="cs-split" class="tool-button">Split</button></div>
+        </div>
+        <div id="cs-output" style="margin-top:1rem;"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/csv-split.js"></script>

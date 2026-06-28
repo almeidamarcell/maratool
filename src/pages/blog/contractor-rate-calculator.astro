@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'contractor-rate-calculator'
+const seo = {
+  title: 'Contractor rate calculator — hourly to salary | maratool',
+  description: 'Convert desired annual salary to an hourly contractor rate. Factor billable hours, expenses, and tax buffer. Free browser tool.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to set your freelance hourly rate',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-06-28',
+    dateModified: '2026-06-28',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert desired annual salary to an hourly contractor rate. Factor billable hours, expenses, and tax buffer. Free browser tool.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to set your freelance hourly rate', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to set your freelance hourly rate"
+      lead="Target annual income → hourly rate that accounts for non-billable time and overhead."
+      date="June 28, 2026"
+      dateIso="2026-06-28"
+    >
+      <p>Employees get paid for 2,080 hours; contractors bill far fewer. The <a href="/contractor-rate-calculator">Contractor Rate Calculator</a> backs into an hourly rate from your salary goal, billable percentage, and expense buffer.</p>
+
+      <BlogToolEmbed slug="contractor-rate-calculator" title="Try it — desired salary, billable hours, expenses" height={420} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Target annual income</strong> — take-home or gross goal.</li>
+        <li><strong>Billable hours</strong> — realistic client-facing hours per year.</li>
+        <li><strong>Overhead</strong> — taxes, insurance, software, unpaid admin time.</li>
+      </ol>
+
+      <h2>Billable vs total hours</h2>
+      <p>Most freelancers bill 60–80% of working hours. The rest is sales, invoicing, and learning — you still need to earn during those hours indirectly.</p>
+
+      <h2>Product pricing</h2>
+      <p>For physical goods, use the <a href="/pricing-calculator">Pricing Calculator</a> for markup and margin.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/contractor-rate-calculator">How to set your freelance hourly rate</a> is free, runs locally, and never sends your data to a server. More <a href="/business">business calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
