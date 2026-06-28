@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 305 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 306 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -13,6 +13,7 @@ maratool.com is a growing collection of 305 free tools that run in the browser u
 - [Convert Markdown to HTML Online](https://maratool.com/markdown-converter): Bidirectional Markdown ↔ HTML converter. Paste content and get instant output — headings, lists, links, code blocks, and more.
 - [Base64 Encode / Decode](https://maratool.com/base64): Encode text to Base64 or decode Base64 back to text. Also supports image to Base64.
 - [Text to Binary](https://maratool.com/text-to-binary): Convert text to binary, hex, and decimal representations instantly.
+- [Convert MNG to APNG Online](https://maratool.com/mng-to-apng): Convert MNG (Multiple-image Network Graphics) to APNG in your browser. Preserves frames and timing — no upload, no watermark.
 - [YAML to JSON Converter](https://maratool.com/yaml-to-json): Convert YAML to JSON or JSON to YAML instantly in your browser. No upload, no sign-up.
 - [XML to JSON Converter](https://maratool.com/xml-to-json): Convert XML to JSON instantly in your browser. Handles attributes, nested elements, and repeated tags.
 - [Document Converter — DOCX to HTML, EPUB to Markdown & More](https://maratool.com/document-converter): Convert DOCX, EPUB, ODT, HTML, Markdown, RTF, CSV, and JSON with Pandoc WASM in your browser. Upload, pick a format, preview, and download.
