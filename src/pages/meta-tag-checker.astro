@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import PasteOnlyNotice from '../components/PasteOnlyNotice.astro'
+
+const seo = {
+  title: 'Check Meta Tags Online — Paste HTML to audit SEO tags | maratool',
+  description: 'Paste page HTML to check title, description, canonical, Open Graph, and Twitter Card tags. Paste-only — does not fetch live URLs. Free, runs in your browser.',
+  canonical: 'https://maratool.com/meta-tag-checker',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Meta Tag Checker',
+    url: 'https://maratool.com/meta-tag-checker',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Check HTML meta tags by pasting page source.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Audit', item: 'https://maratool.com/developer/audit' },
+      { '@type': 'ListItem', position: 4, name: 'Meta Tag Checker', item: 'https://maratool.com/meta-tag-checker' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Can I enter a URL instead of pasting HTML?', acceptedAnswer: { '@type': 'Answer', text: 'No. Browsers block websites from fetching other sites\' HTML (CORS). Paste the page source from View Source (Ctrl+U), your CMS, or a saved file.' } },
+      { '@type': 'Question', name: 'What does the meta tag checker analyze?', acceptedAnswer: { '@type': 'Answer', text: 'Title length, meta description, canonical URL, Open Graph tags, and Twitter Card tags — with pass, warning, and error levels.' } },
+      { '@type': 'Question', name: 'Is my HTML sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Parsing and analysis run entirely in your browser.' } },
+      { '@type': 'Question', name: 'How is this different from the meta tag generator?', acceptedAnswer: { '@type': 'Answer', text: 'The generator creates tags from scratch. The checker audits existing HTML and flags SEO issues.' } },
+    ]
+  }
+}
+
+const howTo = [
+  'Open your page in a browser, press Ctrl+U (View Source), and copy the HTML — or export from your CMS.',
+  'Paste the HTML into the box below.',
+  'Review the score and fix any errors or warnings before publishing.',
+]
+
+const faq = [
+  { q: 'Can I enter a URL instead of pasting HTML?', a: 'No. Browsers cannot fetch other sites\' HTML from client-side JavaScript. Paste page source from View Source (Ctrl+U / Cmd+Option+U), your CMS, or a saved file.' },
+  { q: 'What does it check?', a: 'Title length, meta description, canonical, Open Graph basics, and Twitter Card — with pass/warning/error for each.' },
+  { q: 'Is my HTML uploaded?', a: 'No. Everything runs locally in your browser.' },
+  { q: 'Need to create tags instead?', a: 'Use the <a href="/meta-tag-generator">Meta Tag Generator</a> to build tags from scratch.' },
+]
+
+const relatedTools = [
+  { slug: 'open-graph-preview', name: 'Open Graph Preview' },
+  { slug: 'meta-tag-generator', name: 'Meta Tag Generator' },
+  { slug: 'schema-validator', name: 'Schema Markup Validator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Audit', href: '/developer/audit' },
+  { label: 'Meta Tag Checker' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="meta-tag-checker" name="Check Meta Tags Online" description="Paste page HTML to audit title, description, canonical, Open Graph, and Twitter tags. Does not fetch live URLs — paste-only by design." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+        <PasteOnlyNotice toolName="The meta tag checker" />
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="mtc-score">—</span><span class="tool-stat-label">Score</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="mtc-summary" style="font-size:14px;">Paste HTML to analyze</span><span class="tool-stat-label">Summary</span></div>
+        </div>
+        <label class="tool-label" for="mtc-input">Page HTML (head section or full document)</label>
+        <textarea id="mtc-input" class="tool-textarea" rows="12" placeholder="Paste HTML from View Source (Ctrl+U)…" aria-label="HTML input"></textarea>
+        <ul id="mtc-issues" class="audit-issues"></ul>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .audit-issues { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .mtc-issue { font-size: 14px; padding: 0.5rem 0.75rem; border-radius: var(--radius); border: 1px solid var(--border); }
+  .mtc-error { background: #fff5f5; border-color: #fecaca; }
+  .mtc-warn { background: #fff8e6; border-color: #e8d9a8; }
+  .mtc-ok { background: #f0fff4; border-color: #c6f6d5; }
+  .mtc-level { font-size: 11px; font-weight: 600; text-transform: uppercase; margin-right: 0.5rem; }
+</style>
+<script src="../tools/meta-tag-checker.js"></script>
