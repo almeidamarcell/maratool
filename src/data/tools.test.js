@@ -43,7 +43,7 @@ describe('tool categories', () => {
   })
 
   test('Converter category has Format, Unit, and Video subcategories', () => {
-    expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Unit', 'Video'])
+    expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Unit', 'Video', 'Audio'])
   })
 
   test('PDF category has Extract, Edit, Inspect subcategories', () => {
@@ -55,7 +55,7 @@ describe('tool categories', () => {
   })
 
   test('Image category has Transform, Social, and Inspect subcategories', () => {
-    expect(subcategoryOrderByCategory['Image']).toEqual(['Transform', 'Social', 'Inspect'])
+    expect(subcategoryOrderByCategory['Image']).toEqual(['Transform', 'Animated', 'Social', 'Inspect'])
   })
 
   test('Color category has Generate, Convert, and Check subcategories', () => {

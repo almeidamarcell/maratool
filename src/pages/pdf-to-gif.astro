@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'PDF to GIF Converter Online | maratool',
+  description: 'PDF to GIF Converter Online. Free, runs in your browser — no upload to servers.',
+  canonical: 'https://maratool.com/pdf-to-gif',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'PDF to GIF Converter Online',
+    url: 'https://maratool.com/pdf-to-gif',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'PDF to GIF Converter Online. Free, runs in your browser — no upload to servers.',
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
+      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
+      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
+      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+    ],
+  },
+}
+
+const howTo = [
+  'Upload or drop your file.',
+  'Adjust settings if needed.',
+  'Click Process and download the result.',
+]
+
+const faq = [
+  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
+  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
+  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
+  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+]
+
+const relatedTools = [
+  { slug: 'gif-maker', name: 'GIF Maker' },
+  { slug: 'gif-compressor', name: 'GIF Compressor' },
+  { slug: 'video-to-gif', name: 'Video to GIF' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'PDF', href: '/' },
+  { label: 'Extract', href: '/' },
+  { label: 'PDF to GIF Converter Online' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="pdf-to-gif" name="PDF to GIF Converter Online" description="PDF to GIF Converter Online. Free, runs in your browser — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:420px;" data-ui="pdf-to-gif">
+        <p class="tool-hint">Upload a file to get started. Processing runs entirely in your browser.</p>
+        <div id="ez-root" data-slug="pdf-to-gif"></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .ga-dropzone, .ef-dropzone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 2rem; text-align: center; cursor: pointer; }
+  .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
+</style>
+
+<script type="module" src="../tools/pdf-to-gif.js"></script>

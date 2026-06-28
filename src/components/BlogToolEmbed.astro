@@ -1,0 +1,31 @@
+---
+interface Props {
+  slug: string
+  title?: string
+  height?: number
+}
+const { slug, title = 'Try the tool', height = 480 } = Astro.props
+const src = `/${slug}?embed=1`
+---
+<div class="blog-tool-embed">
+  <p class="blog-tool-embed-title">{title}</p>
+  <iframe
+    src={src}
+    title={title}
+    width="100%"
+    height={height}
+    loading="lazy"
+    class="blog-tool-embed-frame"
+  ></iframe>
+</div>
+
+<style is:global>
+  .blog-tool-embed { margin: 1.5rem 0 2rem; }
+  .blog-tool-embed-title { font-size: 14px; font-weight: 600; margin: 0 0 0.5rem; color: var(--text-2); }
+  .blog-tool-embed-frame {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    display: block;
+  }
+</style>
