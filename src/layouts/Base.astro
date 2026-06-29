@@ -1,6 +1,7 @@
 ---
 import { lastmodBySlug } from '../data/lastmod-generated'
 import { tools } from '../data/tools'
+import { styleHref } from '../lib/css-version'
 
 interface Props {
   title: string
@@ -126,13 +127,13 @@ const normalizedBreadcrumb = breadcrumbSchema
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/styles/global.css" />
-    <link rel="stylesheet" href="/styles/layout.css" />
-    <link rel="stylesheet" href="/styles/tools.css" />
-    <link rel="stylesheet" href="/styles/health-tools.css" />
-    <link rel="stylesheet" href="/styles/discovery-shared.css" />
-    {loadDiscoveryCSS && <link rel="stylesheet" href="/styles/discovery.css" />}
+    <!-- Stylesheets (content-versioned so CDN cache busts on every change) -->
+    <link rel="stylesheet" href={styleHref('global.css')} />
+    <link rel="stylesheet" href={styleHref('layout.css')} />
+    <link rel="stylesheet" href={styleHref('tools.css')} />
+    <link rel="stylesheet" href={styleHref('health-tools.css')} />
+    <link rel="stylesheet" href={styleHref('discovery-shared.css')} />
+    {loadDiscoveryCSS && <link rel="stylesheet" href={styleHref('discovery.css')} />}
 
     <!-- Organization JSON-LD (site-wide) -->
     <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
