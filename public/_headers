@@ -9,7 +9,8 @@
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Static assets users might re-download — long cache, immutable per filename
+# CSS is versioned by content hash (?v=…) in the page <link> tags, so a long
+# cache is safe: a changed file gets a new URL and busts the edge cache.
 /styles/*
   Cache-Control: public, max-age=604800
 

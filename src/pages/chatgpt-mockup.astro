@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro'
+import { styleHref } from '../lib/css-version'
 import Layout from '../components/Layout.astro'
 import ToolShell from '../components/ToolShell.astro'
 import { chatgpt } from '../data/mockup-platforms'
@@ -178,7 +179,7 @@ const breadcrumbs = [
   </Layout>
 </Base>
 
-<link rel="stylesheet" href="/styles/mockup.css" />
+<link rel="stylesheet" href={styleHref('mockup.css')} />
 
 <script define:vars={{ platformConfig }}>
   window.__mockupPlatform = platformConfig
