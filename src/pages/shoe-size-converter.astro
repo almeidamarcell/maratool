@@ -4,9 +4,9 @@ import Layout from '../components/Layout.astro'
 import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
-  title: 'Shoe Size Converter — US, UK, EU, BR, JP & CM | maratool',
+  title: 'Shoe Size Converter — Sneaker & Tennis Shoe Sizes, US/UK/EU | maratool',
   description:
-    'Convert shoe sizes between US, UK, EU, Brazil, Japan, Mexico, Australia, and cm. Men, women, and kids — instant, free, no sign-up.',
+    'Convert shoe, sneaker, and tennis shoe sizes between US, UK, EU, Brazil, Japan, and cm. Men, women, and kids — with a Brannock and athletic (Nike/Puma) fit.',
   canonical: 'https://maratool.com/shoe-size-converter',
   schema: {
     '@context': 'https://schema.org',
@@ -17,7 +17,7 @@ const seo = {
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     description:
-      'Convert shoe sizes between US, UK, EU, Brazil, Japan, Mexico, Australia, and cm for men, women, and kids.',
+      'Convert shoe, sneaker, and tennis shoe sizes between US, UK, EU, Brazil, Japan, Mexico, Australia, and cm for men, women, and kids.',
   },
   breadcrumbSchema: {
     '@context': 'https://schema.org',
@@ -96,7 +96,7 @@ const breadcrumbs = [
 ]
 
 const whatIs =
-  'A <strong>shoe size converter</strong> translates a shoe size from one country’s system to another — US, UK, EU, Brazil, Japan, Mexico, Australia, and centimeters. It works because every system is a fixed function of foot length, so the same foot maps to a predictable number in each. Enter a size you know and read the rest.'
+  'A <strong>shoe size converter</strong> translates a shoe, sneaker, or tennis shoe size from one country’s system to another — US, UK, EU, Brazil, Japan, Mexico, Australia, and centimeters. It works because every system is a fixed function of foot length, so the same foot maps to a predictable number in each. Enter a size you know and read the rest, and switch to the Sneakers fit for athletic-brand (Nike/Puma) sizing.'
 
 const systems = [
   { value: 'us', label: 'US' },
@@ -116,7 +116,7 @@ const systems = [
     <ToolShell
       slug="shoe-size-converter"
       name="Shoe Size Converter"
-      description="Convert shoe sizes between US, UK, EU, Brazil, Japan, Mexico, Australia, and cm — for men, women, and kids."
+      description="Convert shoe, sneaker, and tennis shoe sizes between US, UK, EU, Brazil, Japan, Mexico, Australia, and cm — for men, women, and kids."
       whatIs={whatIs}
       howTo={howTo}
       faq={faq}
@@ -137,7 +137,7 @@ const systems = [
         </div>
         <p class="ssz-fit-note">
           <strong>Standard</strong> uses the US Brannock scale. <strong>Sneakers</strong> uses the common
-          athletic-brand convention (Nike/Puma): women +1.5 over men, EU one point higher.
+          convention for tennis shoes and athletic sneakers (Nike/Puma): women +1.5 over men, EU one point higher.
         </p>
 
         <div class="ssz-input-row">
