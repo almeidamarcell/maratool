@@ -1,0 +1,89 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'shoe-size-converter'
+const seo = {
+  title: 'How to convert shoe sizes between US, UK, EU, and Brazil | maratool',
+  description:
+    'Convert shoe sizes across US, UK, EU, Brazil, Japan, and cm — and learn the formulas behind every conversion. Free shoe size converter and chart.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert shoe sizes between US, UK, EU, and Brazil',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-18',
+    dateModified: '2026-07-18',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description:
+      'Convert shoe sizes across US, UK, EU, Brazil, Japan, and cm — and learn the formulas behind every conversion.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert shoe sizes between US, UK, EU, and Brazil', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert shoe sizes between US, UK, EU, and Brazil"
+      lead="Enter a size you already know and read the equivalent in every other country — instantly."
+      date="July 18, 2026"
+      dateIso="2026-07-18"
+    >
+      <p>Buying shoes from a foreign store means decoding a size you have never used. The <a href="/shoe-size-converter">Shoe Size Converter</a> maps any size to US, UK, EU, Brazil, Japan, Mexico, Australia, and centimeters for men, women, and kids.</p>
+
+      <BlogToolEmbed slug="shoe-size-converter" title="Try it — pick a system and enter your size" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Choose a category</strong> — men, women, or kids. US, UK, and Australian numbering differ by gender; EU, Brazil, and cm do not.</li>
+        <li><strong>Pick the system you know</strong> — US, UK, EU, or even your foot length in centimeters.</li>
+        <li><strong>Read every equivalent</strong> — the result cards and the full chart update together.</li>
+      </ol>
+
+      <h2>The formulas behind it</h2>
+      <p>Every system is a fixed function of foot length. EU uses the Paris point (one size = <sup>2</sup>&frasl;<sub>3</sub> cm), so <code>EU = 1.5 × foot cm + 3</code>. UK, US, and Australia use the barleycorn (one size = <sup>1</sup>&frasl;<sub>3</sub> inch), anchored so US men 9 ≈ 27 cm. Brazil runs about two points below EU, and Japan is simply your foot length in centimeters. The <a href="/shoe-size-converter#methodology">methodology section</a> on the tool spells out each one.</p>
+
+      <h2>Standard sizing vs sneakers</h2>
+      <p>The converter defaults to the US Brannock scale — the foot measurer used in shoe stores. Athletic brands often size a little differently, so we checked five of them against the standard. They do not fully agree, which is exactly why a single "sneaker size" is a myth. All rows below are for the same men’s foot of 26&nbsp;cm.</p>
+      <table>
+        <thead>
+          <tr><th>Source</th><th>US men</th><th>EU</th><th>Women (same foot)</th><th>Men→women</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Brannock (US standard)</strong></td><td>8</td><td>40</td><td>9</td><td>+1</td></tr>
+          <tr><td>Nike</td><td>8</td><td>41</td><td>9.5</td><td>+1.5</td></tr>
+          <tr><td>Puma</td><td>8</td><td>40.5</td><td>9.5</td><td>+1.5</td></tr>
+          <tr><td>ASICS</td><td>8</td><td>41.5</td><td>—</td><td>—</td></tr>
+          <tr><td>New Balance</td><td>8</td><td>41.5</td><td>9</td><td>+1</td></tr>
+          <tr><td>Adidas</td><td>~8</td><td>~41.7</td><td>—</td><td>+1 / +1.5</td></tr>
+        </tbody>
+      </table>
+      <p>Two patterns hold across every brand: the men’s US number maps to the same foot length (US 8 ≈ 26&nbsp;cm everywhere), and EU runs half a point to a point above the Brannock standard. But the men-to-women gap splits: Nike and Puma use +1.5, New Balance uses +1, and Adidas’ own pages give both. The <strong>Sneakers</strong> toggle on the tool applies the common Nike/Puma convention; switch it off for the Brannock standard. Sources: <a href="https://www.nike.com/size-fit/mens-footwear" rel="nofollow" target="_blank">Nike</a>, and compiled brand charts on <a href="https://runrepeat.com/size-charts/nike" rel="nofollow" target="_blank">RunRepeat</a>.</p>
+
+      <h2>Why measuring beats guessing</h2>
+      <p>Because brands disagree by up to a size, the safest input is your actual foot length. Measure heel to longest toe in centimeters, select <strong>cm</strong>, and let the converter do the rest. These are ISO / Mondopoint standard values, not any single brand’s chart.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/shoe-size-converter">Shoe Size Converter</a> is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

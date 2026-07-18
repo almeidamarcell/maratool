@@ -182,6 +182,17 @@ export const tools: Tool[] = [
     keywords: ['typography calculator', 'px to pt', 'em to px', 'font size converter', 'pt to px converter', 'css font size calculator'],
     live: true,
   },
+  {
+    slug: 'shoe-size-converter',
+    name: 'Shoe Size Converter',
+    emoji: '👟',
+    description: 'Convert shoe sizes between US, UK, EU, Brazil, Japan, Mexico, Australia, and cm. Men, women, and kids — instant and free.',
+    category: 'Converter',
+    subcategory: 'Unit',
+    keywords: ['shoe size converter', 'shoe size conversion', 'shoe size chart', 'us to eu shoe size', 'uk to us shoe size', 'cm to shoe size', 'brazilian shoe size', 'japanese shoe size'],
+    live: true,
+    blogPost: true,
+  },
   // ── Converter / Video ──
   {
     slug: 'fps-converter',
