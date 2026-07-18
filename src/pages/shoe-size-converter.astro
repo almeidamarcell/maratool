@@ -1,0 +1,442 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Shoe Size Converter — US, UK, EU, BR, JP & CM | maratool',
+  description:
+    'Convert shoe sizes between US, UK, EU, Brazil, Japan, Mexico, Australia, and cm. Men, women, and kids — instant, free, no sign-up.',
+  canonical: 'https://maratool.com/shoe-size-converter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Shoe Size Converter',
+    url: 'https://maratool.com/shoe-size-converter',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description:
+      'Convert shoe sizes between US, UK, EU, Brazil, Japan, Mexico, Australia, and cm for men, women, and kids.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Unit', item: 'https://maratool.com/converter/unit' },
+      { '@type': 'ListItem', position: 4, name: 'Shoe Size Converter', item: 'https://maratool.com/shoe-size-converter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I convert my US shoe size to EU?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Pick your category (men, women, or kids), select "US" as the source, and type your size. The EU (European) equivalent appears instantly along with UK, Brazil, Japan, and centimeters. As a rough guide, EU size ≈ US men size + 33, but exact steps differ, so use the converter.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Is a US shoe size the same as a UK size?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. For men, a US size runs about one size larger than the equivalent UK size (US 9 ≈ UK 8). For women the gap is larger. The US and UK both use the barleycorn scale but start counting from a different origin, which is why the numbers do not match.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I find my shoe size from foot length in cm?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Measure your foot from heel to longest toe in centimeters, select "cm" as the source system, and enter the value. The converter shows your US, UK, EU, Brazil, and Japan sizes. Measuring your foot is the most reliable way to size shoes because brand numbering varies.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Are men and women shoe sizes different?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'For US and Australian sizing, yes — on the Brannock scale a women’s US size is one point higher than a man’s for the same foot (men’s 8 = women’s 9). UK, EU, Brazil, Japan, and centimeter sizing are unisex, so they read the same regardless of category. Note that some athletic brands use a 1.5-size men-to-women offset instead.',
+        },
+      },
+    ],
+  },
+}
+
+const howTo = [
+  'Choose a category — men, women, or kids.',
+  'Pick the system you already know (US, UK, EU, cm, etc.) and type your size.',
+  'Read every other size in the result cards, and use the full chart below to compare.',
+]
+
+const faq = [
+  { q: 'How do I convert my US shoe size to EU?', a: 'Pick your category, select "US" as the source, and type your size — the EU equivalent appears instantly along with UK, Brazil, Japan, and centimeters.' },
+  { q: 'Is a US shoe size the same as a UK size?', a: 'No. For men a US size runs about one size larger than the UK size (US 9 ≈ UK 8). Both use the barleycorn scale but start from a different origin.' },
+  { q: 'How do I find my shoe size from foot length in cm?', a: 'Measure heel-to-toe in centimeters, select "cm" as the source, and enter it. Measuring your foot is the most reliable way to size shoes, since brand numbering varies.' },
+  { q: 'Are men and women shoe sizes different?', a: 'For US and Australian sizing yes — on the Brannock scale a women’s US size is one point higher than a man’s for the same foot (men’s 8 = women’s 9). UK, EU, Brazil, Japan, and cm are unisex. Some athletic brands use a 1.5-size offset instead.' },
+]
+
+const relatedTools = [
+  { slug: 'unit-converter', name: 'Unit Converter — Length, Weight, Temperature & More' },
+  { slug: 'paper-sizes', name: 'Paper Sizes Reference' },
+  { slug: 'px-to-rem', name: 'PX to REM Converter' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Unit', href: '/converter/unit' },
+  { label: 'Shoe Size Converter' },
+]
+
+const whatIs =
+  'A <strong>shoe size converter</strong> translates a shoe size from one country’s system to another — US, UK, EU, Brazil, Japan, Mexico, Australia, and centimeters. It works because every system is a fixed function of foot length, so the same foot maps to a predictable number in each. Enter a size you know and read the rest.'
+
+const systems = [
+  { value: 'us', label: 'US' },
+  { value: 'uk', label: 'UK' },
+  { value: 'eu', label: 'EU (Europe)' },
+  { value: 'br', label: 'Brazil (BR)' },
+  { value: 'mx', label: 'Mexico (MX)' },
+  { value: 'jp', label: 'Japan (JP)' },
+  { value: 'au', label: 'Australia (AU)' },
+  { value: 'cm', label: 'Centimeters (foot length)' },
+  { value: 'mondopoint', label: 'Mondopoint (mm)' },
+  { value: 'inch', label: 'Inches (foot length)' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell
+      slug="shoe-size-converter"
+      name="Shoe Size Converter"
+      description="Convert shoe sizes between US, UK, EU, Brazil, Japan, Mexico, Australia, and cm — for men, women, and kids."
+      whatIs={whatIs}
+      howTo={howTo}
+      faq={faq}
+      relatedTools={relatedTools}
+      breadcrumbs={breadcrumbs}
+    >
+      <div class="tool-container ssz">
+        <div class="ssz-toggles">
+          <div class="ssz-cats" role="tablist" aria-label="Category">
+            <button class="ssz-cat is-active" data-cat="men" role="tab" aria-selected="true" type="button">Men</button>
+            <button class="ssz-cat" data-cat="women" role="tab" aria-selected="false" type="button">Women</button>
+            <button class="ssz-cat" data-cat="kids" role="tab" aria-selected="false" type="button">Kids</button>
+          </div>
+          <div class="ssz-fits" role="tablist" aria-label="Fit standard">
+            <button class="ssz-fit is-active" data-fit="standard" role="tab" aria-selected="true" type="button">Standard</button>
+            <button class="ssz-fit" data-fit="sneaker" role="tab" aria-selected="false" type="button">Sneakers</button>
+          </div>
+        </div>
+        <p class="ssz-fit-note">
+          <strong>Standard</strong> uses the US Brannock scale. <strong>Sneakers</strong> uses the common
+          athletic-brand convention (Nike/Puma): women +1.5 over men, EU one point higher.
+        </p>
+
+        <div class="ssz-input-row">
+          <div class="ssz-field">
+            <label class="tool-label" for="ssz-system">Convert from</label>
+            <select id="ssz-system" class="ssz-select">
+              {systems.map(s => <option value={s.value}>{s.label}</option>)}
+            </select>
+          </div>
+          <div class="ssz-field">
+            <label class="tool-label" for="ssz-size">Size</label>
+            <input id="ssz-size" class="tool-input ssz-size" type="text" inputmode="decimal" placeholder="9" autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="ssz-results" id="ssz-results" aria-live="polite"></div>
+        <p class="ssz-foot" id="ssz-foot"></p>
+        <p class="ssz-method-link"><a href="#methodology">How is this calculated? →</a></p>
+
+        <div class="ssz-chart-wrap">
+          <div class="ssz-chart-head">
+            <span class="tool-label">Full shoe size chart</span>
+            <input id="ssz-filter" class="ssz-filter" type="text" placeholder="Filter by size…" autocomplete="off" />
+          </div>
+          <div class="ssz-table-scroll">
+            <table class="ssz-table">
+              <thead id="ssz-thead"></thead>
+              <tbody id="ssz-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <section id="methodology" class="ssz-method">
+        <h2>How we calculate shoe sizes</h2>
+        <p>
+          Every sizing system is a fixed function of one thing: your <strong>foot length</strong>. We treat
+          foot length (in millimeters, the Mondopoint standard) as the source of truth and derive every other
+          system from it. The formulas below are checked against the official
+          <a href="https://brannock.com/pages/conversion-chart" rel="nofollow" target="_blank">Brannock Device</a>
+          scale — the foot measurer used in shoe stores and the de-facto US standard. The converter and the
+          chart above are generated from the exact same math, so they never disagree.
+        </p>
+        <ul>
+          <li><strong>US men</strong> uses the barleycorn (one size = <sup>1</sup>&frasl;<sub>3</sub> inch): <code>US&nbsp;men = 3 × foot&nbsp;inch − 22</code>. On the Brannock scale, a size 8 sits at exactly 10 inches of foot.</li>
+          <li><strong>US women</strong> run one size above men for the same foot: <code>US&nbsp;women = 3 × foot&nbsp;inch − 21</code>.</li>
+          <li><strong>UK</strong> is unisex and one point below US men: <code>UK = 3 × foot&nbsp;inch − 23</code>. Australia follows UK for men and US for women.</li>
+          <li><strong>EU / Continental</strong> uses the Paris point (one size = <sup>2</sup>&frasl;<sub>3</sub> cm): <code>EU = 1.5 × foot&nbsp;cm + 2</code>. On the Brannock scale, EU&nbsp;41 lines up with a 26&nbsp;cm foot.</li>
+          <li><strong>Brazil</strong> follows the EU scale, two points lower: <code>BR = EU − 2</code>. <strong>Mexico</strong> is barleycorn-based, about 1.5 points below US men.</li>
+          <li><strong>Japan, centimeters, Mondopoint, inches</strong> are the physical foot length itself, just in different units.</li>
+        </ul>
+        <p>
+          One honest caveat: real-world brand sizing varies. We checked five athletic brands against the
+          Brannock standard and they disagree — Nike and Puma size women 1.5 above men, while New Balance uses
+          +1 like Brannock; their EU numbers run half a point to a point higher than the standard. The
+          <strong>Sneakers</strong> toggle applies the common Nike/Puma convention (women +1.5, EU one point up),
+          but it is not universal. When it matters, measure your foot and go by the centimeters. The
+          <a href="/blog/shoe-size-converter">full guide</a> has the brand-by-brand comparison.
+        </p>
+        <p class="ssz-cta">
+          <strong>Bottom line:</strong> measure your foot in centimeters, not your guess — enter the cm above
+          and get every size instantly. Bookmark this page as your shoe size chart for US, UK, EU, Brazil,
+          Japan, and beyond.
+        </p>
+      </section>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .ssz { min-height: 520px; }
+
+  /* Toggles stacked: category on top, fit standard below (smaller, tinted). */
+  .ssz-toggles {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin-bottom: 0.6rem;
+  }
+  .ssz-cats {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .ssz-cat {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: var(--text-2);
+    font: 600 14px var(--font);
+    padding: 7px 18px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s;
+  }
+  .ssz-cat:hover { color: var(--text); }
+  .ssz-cat.is-active { background: var(--bg); color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+
+  /* Fit toggle: visually distinct — smaller pills, accent-tinted active. */
+  .ssz-fits {
+    display: inline-flex;
+    gap: 4px;
+    padding: 3px;
+    background: color-mix(in srgb, var(--accent) 7%, var(--bg-soft));
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--border));
+    border-radius: 999px;
+  }
+  .ssz-fit {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: var(--text-2);
+    font: 600 12px var(--font);
+    padding: 5px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s;
+  }
+  .ssz-fit:hover { color: var(--accent); }
+  .ssz-fit.is-active { background: var(--accent); color: #fff; }
+  .ssz-fit-note {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--text-2);
+    margin: 0 0 1.25rem;
+  }
+
+  .ssz-input-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .ssz-field { display: flex; flex-direction: column; gap: 0.4rem; }
+  .ssz-select {
+    width: 100%;
+    font-size: 16px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .ssz-size {
+    width: 100%;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    text-align: center;
+  }
+
+  .ssz-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+  }
+  .ssz-card {
+    appearance: none;
+    text-align: left;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.7rem 0.8rem;
+    cursor: pointer;
+    transition: border-color 0.12s, background 0.12s;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .ssz-card:hover { border-color: var(--text-3); }
+  .ssz-card.is-source { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--bg)); }
+  .ssz-card.is-copied { border-color: var(--accent); }
+  .ssz-card.is-copied .ssz-card-value::after { content: ' ✓'; color: var(--accent); }
+  .ssz-card-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-3);
+  }
+  .ssz-card-value {
+    font-size: 24px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--text);
+    line-height: 1.1;
+  }
+
+  .ssz-foot {
+    font-size: 13px;
+    color: var(--text-2);
+    font-family: var(--font-mono);
+    margin: 0 0 0.5rem;
+  }
+  .ssz-method-link { font-size: 13px; margin: 0 0 1.75rem; }
+  .ssz-method-link a { color: var(--accent); text-decoration: none; }
+  .ssz-method-link a:hover { text-decoration: underline; }
+
+  .ssz-chart-wrap { margin-top: 0.5rem; }
+  .ssz-chart-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .ssz-filter {
+    font-size: 13px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    max-width: 180px;
+  }
+  .ssz-table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+  .ssz-table { width: 100%; border-collapse: collapse; font-family: var(--font-mono); }
+  .ssz-table th {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-3);
+    padding: 8px 10px;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .ssz-table td {
+    text-align: center;
+    padding: 7px 10px;
+    font-size: 13px;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .ssz-table tbody tr:last-child td { border-bottom: none; }
+  .ssz-table tbody tr:hover td { background: var(--bg-soft); }
+  .ssz-table tr.is-current td { background: color-mix(in srgb, var(--accent) 12%, var(--bg)); font-weight: 700; }
+  .ssz-empty { color: var(--text-3); font-style: italic; }
+
+  .ssz-method { margin-top: 2.5rem; }
+  .ssz-method h2 { font-family: var(--font-heading); font-style: italic; font-weight: 400; margin-bottom: 0.75rem; }
+  .ssz-method p { font-size: 15px; line-height: 1.65; color: var(--text); margin: 0 0 1rem; }
+  .ssz-method ul { margin: 0 0 1rem; padding-left: 1.25rem; }
+  .ssz-method li { font-size: 15px; line-height: 1.6; margin-bottom: 0.5rem; }
+  .ssz-method code { font-family: var(--font-mono); font-size: 13px; background: var(--bg-soft); padding: 1px 5px; border-radius: 5px; }
+  .ssz-cta {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+  }
+
+  .ssz-method code { overflow-wrap: anywhere; }
+
+  @media (max-width: 640px) {
+    .ssz { min-height: 560px; }
+    .ssz-input-row { grid-template-columns: 1fr; gap: 0.75rem; margin-bottom: 1.1rem; }
+
+    /* Category toggle fills the row; buttons share the width evenly. */
+    .ssz-cats { display: flex; width: 100%; }
+    .ssz-cat { flex: 1; padding: 9px 4px; text-align: center; }
+    .ssz-fits { align-self: stretch; }
+    .ssz-fit { flex: 1; text-align: center; }
+
+    .ssz-size { font-size: 18px; }
+    .ssz-select { font-size: 15px; padding: 10px; }
+
+    /* Result cards: three tidy columns, tighter. */
+    .ssz-results { grid-template-columns: repeat(3, 1fr); gap: 0.4rem; }
+    .ssz-card { padding: 0.5rem 0.55rem; }
+    .ssz-card-value { font-size: 19px; }
+    .ssz-card-label { font-size: 10px; }
+
+    .ssz-foot { font-size: 12px; }
+
+    /* Chart: tighter cells so more columns are visible before scroll. */
+    .ssz-chart-head { gap: 0.5rem; }
+    .ssz-filter { max-width: none; flex: 1; }
+    .ssz-table th { padding: 7px 7px; font-size: 10px; }
+    .ssz-table td { padding: 7px 7px; font-size: 12px; }
+
+    .ssz-method { margin-top: 2rem; }
+    .ssz-method p, .ssz-method li { font-size: 14px; }
+    .ssz-cta { padding: 0.9rem 1rem; }
+  }
+
+  @media (max-width: 380px) {
+    .ssz-results { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+<script src="../tools/shoe-size.js"></script>

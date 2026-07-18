@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 457 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 458 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -23,6 +23,7 @@ maratool.com is a growing collection of 457 free tools that run in the browser u
 - [Unit Converter — Length, Weight, Temperature & More](https://maratool.com/unit-converter): Convert between units of length, weight, temperature, data, speed, and more. Free, instant, no sign-up.
 - [Line Height Calculator](https://maratool.com/line-height-calculator): Calculate the optimal CSS line-height for any font size. Live preview and copy-ready CSS values.
 - [Typography Size Converter — PX, PT, EM, %](https://maratool.com/typography-calculator): Convert between px, pt, em, rem, and percent for CSS typography. Enter any value and see all units instantly.
+- [Shoe Size Converter](https://maratool.com/shoe-size-converter): Convert shoe sizes between US, UK, EU, Brazil, Japan, Mexico, Australia, and cm. Men, women, and kids — instant and free.
 - [FPS Converter — Change Video Frame Rate](https://maratool.com/fps-converter): Change video frame rate (FPS) online — convert between 24, 30, 60 fps and more. Runs entirely in your browser.
 - [Video to GIF Converter — MP4 to GIF Online](https://maratool.com/video-to-gif): Convert MP4, WebM, and MOV videos to animated GIFs in your browser. Trim start/end, set FPS, adjust size — no upload to servers.
 - [Convert Animated WebP to MP4](https://maratool.com/webp-to-mp4): Convert animated WebP images to MP4 video in your browser. Adjust quality and resolution, batch convert, then download.
