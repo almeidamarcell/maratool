@@ -106,14 +106,33 @@ Then, in `ToolShell` order:
 **CTA summary:** short closing line, e.g. "Measure your foot in centimeters, not
 your guess — enter the cm and get every size instantly."
 
-## SEO
+## SEO (keyword research done — Google autocomplete, 2026-07-18)
 
-- Keyword research (Google autocomplete / PAA / semrush) before finalizing
-  title, h1, `name`, `description`, and `keywords`. Draft:
-  - title: `Shoe Size Converter — US, UK, EU, BR, JP & CM | maratool`
-  - h1 / name: `Shoe Size Converter — US, UK, EU, BR, JP & CM`
-  - keywords: shoe size converter, us to eu shoe size, uk to us shoe size,
-    shoe size chart, cm to shoe size, brazilian shoe size, japanese shoe size (+ refine)
+High-intent phrasings found:
+- Head: **shoe size converter** / **shoe size conversion** / **shoe size chart**.
+- Brazil is a strong, recurring query (validates BR + fits our audience):
+  "shoe size conversion brazil", "convert shoe size us to brazil",
+  "shoe size chart brazil".
+- Pairwise: "us to eu shoe size", "eu to us shoe size", "uk to us shoe size",
+  "cm to shoe size", "japanese shoe size to us". Each with men/women/kids modifiers.
+- Numeric long tail our converter answers directly: "convert shoe size 39 to us",
+  "42 to us", "what shoe size is 38".
+
+Finalized:
+- title: `Shoe Size Converter — US, UK, EU, BR, JP & CM | maratool`
+- h1 / `name`: `Shoe Size Converter`
+- description (140–160): "Convert shoe sizes between US, UK, EU, Brazil, Japan,
+  Mexico, Australia, and cm. Men, women, and kids — instant, free, no sign-up."
+- keywords: shoe size converter, shoe size conversion, shoe size chart,
+  us to eu shoe size, uk to us shoe size, cm to shoe size,
+  brazilian shoe size, japanese shoe size
+- `applicationCategory: "UtilitiesApplication"`.
+
+FAQ (4, from real queries):
+1. How do I convert my US shoe size to EU?
+2. Is a US shoe size the same as UK? (No — men's UK ≈ US − 0.5 to − 1.)
+3. How do I find my shoe size from foot length in cm?
+4. Are men's and women's shoe sizes different? (Yes for US/UK/AU; EU/BR/cm unisex.)
 - `WebApplication` JSON-LD (DeveloperApplication? → likely `UtilitiesApplication`),
   `operatingSystem: Any`, `offers.price: 0`.
 - `FAQPage` JSON-LD, 4 pairs.
@@ -126,6 +145,42 @@ your guess — enter the cm and get every size instantly."
 - Zero CLS (min-heights set).
 - Copy button shows "Copied!" for 2s.
 - Manual: verify styles apply to JS-created elements in the browser (Astro scoping rule).
+
+## Reference anchor data (captured from convertworld, 2026-07-18)
+
+Full 16-row chart from convertworld's converter, used to validate formulas
+(tolerance ±0.5 size / ±3 mm). Columns:
+EU | UK-M | UK-W | US-M | US-W | JP-M | MX | BR | AU-M | AU-W | cm | mondopoint(mm)
+
+```
+35   3    2.5  3.5  5    21.5  0    33   3    5    22.8  228
+35.5 3.5  3    4    5.5  22    0    33   3.5  5.5  23.1  231
+36   4    3.5  4.5  6    22.5  0    34   4    6    23.5  235
+37   4.5  4    5    6.5  23    0    35   4.5  6.5  23.8  238
+37.5 5    4.5  5.5  7    23.5  0    35   5    7    24.1  241
+38   5.5  5    6    7.5  24    4.5  36   5.5  7.5  24.5  245
+38.5 6    5.5  6.5  8    24.5  5    36   6    8    24.8  248
+39   6.5  6    7    8.5  25    5.5  37   6.5  8.5  25.1  251
+40   7    6.5  7.5  9    25.5  6    38   7    9    25.4  254
+41   7.5  7    8    9.5  26    6.5  39   7.5  9.5  25.7  257
+42   8    7.5  8.5  10   26.5  7    40   8    10   26.0  260
+43   8.5  8    9    10.5 27.5  7.5  41   8.5  10.5 26.7  267
+44   10   9.5  10.5 12   28.5  9    42   10   12   27.3  273
+45   11   10.5 11.5 13   29.5  10   43   11   13   27.9  279
+46.5 12   11.5 12.5 14   30.5  11   44   12   14   28.6  286
+48.5 13.5 13   14   15.5 31.5  12.5 46   13.5 15.5 29.2  292
+```
+
+Relationships derived from this data (encode + test these):
+- **Mondopoint = cm × 10**, and cm = foot length ground truth.
+- **US-M = UK-M + 0.5**; **US-W = UK-W + 2.5**.
+- **AU-M = UK-M** (identical); **AU-W = US-W** (identical).
+- **JP-W = JP-M − 0.5**; JP-M ≈ foot length cm rounded.
+- **BR = round(EU − 2)**.
+- convertworld's EU increments are irregular (35, 35.5, 36, 37, 37.5, 38, ...);
+  our formula-driven table will be more regular. Differences stay within ±0.5;
+  the methodology section explains why formula > lookup. This is a feature, not a
+  bug — it's where we beat them on consistency.
 
 ## Out of scope (YAGNI)
 
