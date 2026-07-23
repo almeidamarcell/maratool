@@ -36,7 +36,7 @@ function hideError() {
 function setLoading(loading) {
   submitBtn.disabled = loading
   if (spinner) spinner.style.display = loading ? 'inline-block' : 'none'
-  submitBtn.querySelector('.ig-btn-text').textContent = loading ? 'Fetching...' : 'Download'
+  submitBtn.querySelector('.ig-btn-text').textContent = loading ? 'Fetching...' : 'Fetch'
 }
 
 function showResult(data) {
