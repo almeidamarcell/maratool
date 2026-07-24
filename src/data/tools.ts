@@ -245,6 +245,17 @@ export const tools: Tool[] = [
     live: true,
   },
   {
+    slug: 'video-to-text',
+    name: 'Video to Text',
+    emoji: '📝',
+    description: 'Convert video to text online for free. Transcribe MP4, WebM, MOV, and audio to text, SRT, or VTT in your browser — no upload, no signup.',
+    category: 'Converter',
+    subcategory: 'Video',
+    keywords: ['video to text', 'video to text converter', 'transcribe video to text', 'video to text free', 'extract text from video', 'video transcription online', 'convert video to text'],
+    live: true,
+    blogPost: true,
+  },
+  {
     slug: 'mov-to-mp4',
     name: 'Convert MOV to MP4 — Free QuickTime Converter',
     emoji: '🔄',
