@@ -4382,6 +4382,17 @@ export const tools: Tool[] = [
     blogPost: true,
   },
   {
+    slug: 'audio-to-text',
+    name: 'Audio to Text',
+    emoji: '🎙️',
+    description: 'Convert audio to text online for free. Transcribe MP3, WAV, M4A, and more to text, SRT, or VTT in your browser — no upload, no signup.',
+    category: 'Converter',
+    subcategory: 'Audio',
+    keywords: ['audio to text', 'mp3 to text', 'transcribe audio to text', 'audio to text converter', 'voice to text online', 'transcribe mp3 free', 'convert audio to text'],
+    live: true,
+    blogPost: true,
+  },
+  {
     slug: 'cut-audio',
     name: 'Cut Audio Online — Trim MP3 WAV FLAC',
     emoji: '✂️',
