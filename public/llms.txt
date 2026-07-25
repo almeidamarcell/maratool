@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 480 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 487 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -109,6 +109,13 @@ maratool.com is a growing collection of 480 free tools that run in the browser u
 - [Kinematic Viscosity Converter — m²/s, Stokes & Centistokes](https://maratool.com/kinematic-viscosity-converter): Convert kinematic viscosity between m²/s, stokes, centistokes, and ft²/s instantly with exact NIST factors. Free viscosity converter in your browser.
 - [Mass Flow Rate Converter — kg/s, kg/h & lb/h](https://maratool.com/mass-flow-rate-converter): Convert mass flow between kg/s, kg/h, tonnes per hour, lb/s, and lb/h instantly with exact NIST factors. Free flow rate converter in your browser.
 - [Flow Rate Converter — L/min, GPM & CFM](https://maratool.com/volumetric-flow-rate-converter): Convert volumetric flow between L/min, GPM, CFM, m³/h, and L/s instantly with exact NIST factors. Free flow rate converter in your browser.
+- [Capacitance Converter — Farads, µF, nF & pF](https://maratool.com/capacitance-converter): Convert capacitance between farads, microfarads, nanofarads, and picofarads instantly. Free capacitance unit converter that runs in your browser.
+- [Electric Charge Converter — Coulombs, Ah & mAh](https://maratool.com/electric-charge-converter): Convert electric charge between coulombs, ampere-hours, and milliamp-hours instantly. Free charge unit converter for battery and electronics work.
+- [Electric Current Converter — Amps, Milliamps & Kiloamps](https://maratool.com/electric-current-converter): Convert electric current between amps, milliamps, microamps, and kiloamps instantly. Free current unit converter that runs in your browser.
+- [Electric Potential Converter — Volts, Millivolts & Kilovolts](https://maratool.com/electric-potential-converter): Convert electric potential between volts, millivolts, microvolts, kilovolts, and megavolts instantly. Free voltage unit converter in your browser.
+- [Electrical Conductance Converter — Siemens & Mho](https://maratool.com/electrical-conductance-converter): Convert electrical conductance between siemens, millisiemens, microsiemens, and mho instantly. Free conductance unit converter in your browser.
+- [Electrical Resistance Converter — Ohms, kΩ & MΩ](https://maratool.com/electrical-resistance-converter): Convert electrical resistance between ohms, kiloohms, megaohms, and gigaohms instantly. Free resistance unit converter that runs in your browser.
+- [Inductance Converter — Henry, mH & µH](https://maratool.com/inductance-converter): Convert inductance between henries, millihenries, microhenries, and nanohenries instantly. Free inductance unit converter that runs in your browser.
 
 ### Developer
 - [Test Regex Patterns Online](https://maratool.com/regex-tester): Test regular expressions with live match highlighting.
