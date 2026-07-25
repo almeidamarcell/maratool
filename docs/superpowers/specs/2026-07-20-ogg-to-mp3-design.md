@@ -1,7 +1,7 @@
 # OGG to MP3 Converter — Design Spec
 
-**Date:** 2026-07-20
-**Status:** Draft — awaiting review
+**Date:** 2026-07-20 (updated 2026-07-24: added dedicated Opus → MP3 tool)
+**Status:** Approved — in implementation
 **Verdict on feasibility:** Viable, low-risk. The entire pipeline already runs in production: `file-converter` converts OGG→MP3 today via ffmpeg.wasm, and `mp4-to-mp3` proves the dedicated-landing-page pattern (same loader, same libmp3lame args). This tool is an SEO play: a dedicated page targeting "ogg to mp3" queries, reusing existing infrastructure.
 
 ## Why browser-based works
@@ -106,6 +106,17 @@ Test framework: vitest (`npm test`). The core module is the testable unit; UI wi
 | ffmpeg engine fetch fails (offline/CDN) | Error state + Retry (re-attempts load) |
 | ffmpeg exec non-zero (corrupt file) | "Conversion failed" + last 3 ffmpeg log lines |
 | Safari input preview | Player hidden, conversion unaffected |
+
+## Companion tool: Opus → MP3 (`/opus-to-mp3`)
+
+Requested addition. "opus to mp3" is its own high-intent query family (WhatsApp voice notes ship as `.opus`; Discord recordings as Opus-in-OGG). Same engine, same core, dedicated landing page:
+
+- **Page:** `/opus-to-mp3` — Title: `Opus to MP3 Converter — Free, No Upload | maratool`; h1/name: `Convert Opus to MP3 — Free Online Converter`; description mentions WhatsApp voice messages (the dominant use case).
+- **keywords:** `['opus to mp3', 'convert opus to mp3', 'opus to mp3 converter', 'opus file to mp3', 'whatsapp voice message to mp3', 'convert opus audio to mp3', 'opus to mp3 online', 'opus converter']`
+- **Shared code:** both tools use `ogg-to-mp3-core.js` (validation accepts `.ogg/.oga/.opus` for both — an OGG container may hold Opus and vice-versa users mislabel constantly) and a shared UI factory `ogg-to-mp3-ui.js` exporting `initOggToMp3Ui({ prefix, pageLabel })`. Thin entry files `ogg-to-mp3.js` / `opus-to-mp3.js` call the factory with their DOM id prefix. Precedent: `wave4-ui-factory.js`.
+- **tools.ts:** separate entry, `subcategory: 'Audio'`, `blogPost: true`, added to `slowTools`.
+- **Blog post:** `blog/opus-to-mp3.astro`, headline "How to Convert Opus (WhatsApp Voice Messages) to MP3".
+- FAQ candidates: "How do I convert a WhatsApp voice message to MP3?", "What is an .opus file?", "Does Opus to MP3 lose quality?", "Are my voice messages uploaded anywhere?".
 
 ## Out of scope (YAGNI)
 

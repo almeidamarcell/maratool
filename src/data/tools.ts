@@ -4371,6 +4371,28 @@ export const tools: Tool[] = [
     blogPost: true,
   },
   {
+    slug: 'ogg-to-mp3',
+    name: 'Convert OGG to MP3 — Free Online Converter',
+    emoji: '🎧',
+    description: 'Convert OGG (Vorbis or Opus) files to MP3 in your browser. No upload, no signup — files never leave your device.',
+    category: 'Converter',
+    subcategory: 'Audio',
+    keywords: ['ogg to mp3', 'convert ogg to mp3', 'ogg to mp3 converter', 'ogg to mp3 online', 'ogg file to mp3', 'convert ogg to mp3 free', 'opus to mp3', 'ogg converter'],
+    live: true,
+    blogPost: true,
+  },
+  {
+    slug: 'opus-to-mp3',
+    name: 'Convert Opus to MP3 — Free Online Converter',
+    emoji: '🗣️',
+    description: 'Convert Opus files to MP3 in your browser — including WhatsApp voice messages. No upload, no signup, files never leave your device.',
+    category: 'Converter',
+    subcategory: 'Audio',
+    keywords: ['opus to mp3', 'convert opus to mp3', 'opus to mp3 converter', 'opus file to mp3', 'whatsapp voice message to mp3', 'convert opus audio to mp3', 'opus to mp3 online', 'opus converter'],
+    live: true,
+    blogPost: true,
+  },
+  {
     slug: 'cut-audio',
     name: 'Cut Audio Online — Trim MP3 WAV FLAC',
     emoji: '✂️',
@@ -5191,7 +5213,7 @@ function deriveTags(tool: Tool): string[] {
   }
 
   // instant: pure-compute tools that update live (default for most)
-  const slowTools = ['background-remover', 'video-to-gif', 'fps-converter', 'trim-video', 'mp4-to-mp3', 'mov-to-mp4', 'mp4-to-webm', 'compress-video', 'rotate-video', 'mute-video', 'resize-video', 'crop-video', 'gif-compressor', 'add-text-to-gif', 'combine-gifs', 'gif-overlay', 'censor-image', 'square-gif', 'shuffle-gif-frames', 'animate-image-gif', 'round-corners', 'invert-colors', 'halftone-effect', 'webp-to-mp4', 'mng-to-apng', 'alt-text-generator', 'pdf-merge-split', 'image-converter']
+  const slowTools = ['background-remover', 'video-to-gif', 'fps-converter', 'trim-video', 'mp4-to-mp3', 'ogg-to-mp3', 'opus-to-mp3', 'mov-to-mp4', 'mp4-to-webm', 'compress-video', 'rotate-video', 'mute-video', 'resize-video', 'crop-video', 'gif-compressor', 'add-text-to-gif', 'combine-gifs', 'gif-overlay', 'censor-image', 'square-gif', 'shuffle-gif-frames', 'animate-image-gif', 'round-corners', 'invert-colors', 'halftone-effect', 'webp-to-mp4', 'mng-to-apng', 'alt-text-generator', 'pdf-merge-split', 'image-converter']
   if (!slowTools.includes(tool.slug)) {
     tags.push('instant')
   }

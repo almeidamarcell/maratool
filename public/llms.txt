@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 458 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 460 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -66,6 +66,8 @@ maratool.com is a growing collection of 458 free tools that run in the browser u
 - [Add Freeze Frame to Video Online](https://maratool.com/freeze-video): Add Freeze Frame to Video Online. Runs in your browser — no upload, no watermark.
 - [Video Screenshot — Extract Frame as Image](https://maratool.com/video-screenshot): Video Screenshot. Runs in your browser — no upload, no watermark.
 - [Images to Video — Slideshow MP4 Maker](https://maratool.com/images-to-video): Images to Video. Runs in your browser — no upload, no watermark.
+- [Convert OGG to MP3 — Free Online Converter](https://maratool.com/ogg-to-mp3): Convert OGG (Vorbis or Opus) files to MP3 in your browser. No upload, no signup — files never leave your device.
+- [Convert Opus to MP3 — Free Online Converter](https://maratool.com/opus-to-mp3): Convert Opus files to MP3 in your browser — including WhatsApp voice messages. No upload, no signup, files never leave your device.
 - [Cut Audio Online — Trim MP3 WAV FLAC](https://maratool.com/cut-audio): Cut Audio Online. Runs in your browser — no upload, no watermark.
 - [Compress Audio Online — Reduce MP3 Size](https://maratool.com/compress-audio): Compress Audio Online. Runs in your browser — no upload, no watermark.
 - [Merge Audio Files Online](https://maratool.com/merge-audio): Merge Audio Files Online. Runs in your browser — no upload, no watermark.
