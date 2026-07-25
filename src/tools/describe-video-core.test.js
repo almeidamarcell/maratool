@@ -14,6 +14,8 @@ import {
   buildCombinedPlainText,
   buildCombinedVtt,
   buildCombinedSrt,
+  isNonSpeechCue,
+  buildVlmPrompt,
 } from './describe-video-core.js'
 
 describe('frameTimesForDuration', () => {
@@ -229,6 +231,62 @@ describe('buildCombinedVtt', () => {
 
   test('visual-only input is byte-identical to buildVtt (no labels)', () => {
     expect(buildCombinedVtt(mergeTimeline(visual, []), 5)).toBe(buildVtt(visual, 5))
+  })
+})
+
+// Whisper emits bracketed non-speech annotations as "speech" chunks.
+// Real user report: "[00:00] Speech: [Music]" in a padel match transcript.
+describe('isNonSpeechCue', () => {
+  test('detects pure non-speech tags', () => {
+    expect(isNonSpeechCue('[Music]')).toBe(true)
+    expect(isNonSpeechCue(' [ MUSIC PLAYING ] ')).toBe(true)
+    expect(isNonSpeechCue('(applause)')).toBe(true)
+    expect(isNonSpeechCue('[BLANK_AUDIO]')).toBe(true)
+    expect(isNonSpeechCue('♪')).toBe(true)
+    expect(isNonSpeechCue('♪♪♪')).toBe(true)
+    expect(isNonSpeechCue('[Music] (cheering)')).toBe(true)
+  })
+
+  test('keeps real speech, even with inline annotations', () => {
+    expect(isNonSpeechCue('Welcome everyone.')).toBe(false)
+    expect(isNonSpeechCue('then [inaudible] we continue')).toBe(false)
+    expect(isNonSpeechCue('nice shot!')).toBe(false)
+  })
+
+  test('empty or blank counts as non-speech', () => {
+    expect(isNonSpeechCue('')).toBe(true)
+    expect(isNonSpeechCue('   ')).toBe(true)
+    expect(isNonSpeechCue(null)).toBe(true)
+  })
+})
+
+// Prompt for the promptable VLM (SmolVLM): user context steers the caption
+// so a padel match is described as padel, not "a game".
+describe('buildVlmPrompt', () => {
+  test('base prompt without context', () => {
+    const p = buildVlmPrompt('')
+    expect(p).toContain('Describe what is happening in this frame')
+    expect(p).not.toContain('Context')
+  })
+
+  test('appends sanitized context when provided', () => {
+    const p = buildVlmPrompt('a padel match at an indoor club')
+    expect(p).toContain('Context: this video is about a padel match at an indoor club.')
+  })
+
+  test('collapses whitespace/newlines in context', () => {
+    const p = buildVlmPrompt('  a padel\nmatch   indoors ')
+    expect(p).toContain('Context: this video is about a padel match indoors.')
+  })
+
+  test('caps absurdly long context', () => {
+    const p = buildVlmPrompt('x'.repeat(1000))
+    expect(p.length).toBeLessThan(500)
+  })
+
+  test('null/undefined behave like no context', () => {
+    expect(buildVlmPrompt(null)).toBe(buildVlmPrompt(''))
+    expect(buildVlmPrompt(undefined)).toBe(buildVlmPrompt(''))
   })
 })
 
