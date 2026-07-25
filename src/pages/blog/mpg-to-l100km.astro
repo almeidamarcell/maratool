@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'mpg-to-l100km'
+const seo = {
+  title: 'MPG to L/100km converter — fuel economy | maratool',
+  description: 'Convert US MPG, UK MPG, L/100km, and km/L instantly. Free browser fuel economy converter with exact factors.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert MPG to L/100km (fuel economy)',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert US MPG, UK MPG, L/100km, and km/L instantly. Free browser fuel economy converter with exact factors.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert MPG to L/100km (fuel economy)', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert MPG to L/100km (fuel economy)"
+      lead="Enter fuel economy in any unit — read US MPG, UK MPG, L/100km, and km/L side by side."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>US window stickers say MPG, European specs say L/100km, and Asian markets use km/L. The <a href="/mpg-to-l100km">MPG to L/100km Converter</a> shows all four at once — including the often-confused UK MPG.</p>
+
+      <BlogToolEmbed slug="mpg-to-l100km" title="Try it — enter a fuel economy value" height={460} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Enter a value</strong> — e.g. 30 MPG or 7.8 L/100km.</li>
+        <li><strong>Pick its unit</strong> — the other three update instantly.</li>
+        <li><strong>Copy</strong> — a one-line summary of all four figures.</li>
+      </ol>
+
+      <h2>The inverse math</h2>
+      <p>MPG and L/100km measure opposite ratios, so the conversion is a division, not a multiplication: L/100km = 235.215 ÷ MPG(US). That constant is 100 × 3.785411784 ÷ 1.609344 — exact gallon and mile definitions per <a href="https://www.fueleconomy.gov/" rel="noopener" target="_blank">fueleconomy.gov</a> and NIST SP 811.</p><p>Because it is inverse, gains are non-linear: going from 15 to 20 MPG saves more fuel per mile than going from 40 to 50 MPG.</p>
+
+      <h2>UK vs US MPG</h2>
+      <p>An imperial gallon is 4.54609 L against the US 3.785411784 L, so UK MPG figures run 20.095% higher for identical consumption. A UK brochure claiming 50 MPG means 41.6 MPG US — or 5.65 L/100km.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Methodology reference: <a href="https://www.fueleconomy.gov/" rel="noopener" target="_blank">US EPA fueleconomy.gov</a>. Everything runs client-side in your browser; nothing is uploaded.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/mpg-to-l100km">MPG to L/100km</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

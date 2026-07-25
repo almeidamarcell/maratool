@@ -1,0 +1,107 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Running Pace Calculator — Min/km & Min/mile | maratool',
+  description: 'Calculate running pace per km and per mile from distance and time, plus projected 5K, 10K, half and marathon finish times. Free, in your browser.',
+  canonical: 'https://maratool.com/running-pace-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Running Pace Calculator — Min/km, Min/mile & Race Times',
+    url: 'https://maratool.com/running-pace-calculator',
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate running pace per km and per mile from distance and time, plus projected 5K, 10K, half and marathon finish times. Free, in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Health', item: 'https://maratool.com/health' },
+      { '@type': 'ListItem', position: 3, name: 'Fitness', item: 'https://maratool.com/health/fitness' },
+      { '@type': 'ListItem', position: 4, name: 'Running Pace Calculator — Min/km, Min/mile & Race Times', item: 'https://maratool.com/running-pace-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How is running pace calculated?', acceptedAnswer: { '@type': 'Answer', text: 'Pace = time ÷ distance. Running 5 km in 25 minutes gives 25/5 = 5:00 min/km, which is 8:03 min/mile.' } },
+      { '@type': 'Question', name: 'How do the race projections work?', acceptedAnswer: { '@type': 'Answer', text: 'They hold your entered pace constant across 5K, 10K, half (21.0975 km) and marathon (42.195 km). Real race times are usually slower at longer distances, so treat them as an optimistic baseline.' } },
+      { '@type': 'Question', name: 'What is a good 5K pace?', acceptedAnswer: { '@type': 'Answer', text: 'Recreational runners commonly finish 5K between 25 and 35 minutes — 5:00 to 7:00 min/km. Elite runners go under 3:00 min/km.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All pace math runs in your browser — nothing is uploaded or stored.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the distance you ran and pick km or miles.',
+  'Enter the time as hours, minutes, and seconds.',
+  'Read pace per km/mile, speed, and projected race times.'
+]
+
+const faq = [
+  { q: 'How is running pace calculated?', a: 'Pace = time ÷ distance. Running 5 km in 25 minutes gives 25/5 = 5:00 min/km, which is 8:03 min/mile.' },
+  { q: 'How do the race projections work?', a: 'They hold your entered pace constant across 5K, 10K, half (21.0975 km) and marathon (42.195 km). Real race times are usually slower at longer distances, so treat them as an optimistic baseline.' },
+  { q: 'What is a good 5K pace?', a: 'Recreational runners commonly finish 5K between 25 and 35 minutes — 5:00 to 7:00 min/km. Elite runners go under 3:00 min/km.' },
+  { q: 'Is my data sent to a server?', a: 'No. All pace math runs in your browser — nothing is uploaded or stored.' }
+]
+
+const relatedTools = [
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+  { slug: 'age-calculator', name: 'Age Calculator' },
+  { slug: 'unit-converter', name: 'Unit Converter' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Health', href: '/health' },
+  { label: 'Fitness', href: '/health/fitness' },
+  { label: 'Running Pace Calculator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="running-pace-calculator" name="Running Pace Calculator — Min/km, Min/mile & Race Times" description="Enter a distance and time to get pace per km and per mile, speed, and projected race finish times." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:480px;">
+      <div class="calc-row">
+        <div class="calc-field"><label class="tool-label" for="rpc-dist">Distance</label><input type="number" id="rpc-dist" class="tool-input" placeholder="5" min="0" step="any" /></div>
+        <div class="calc-field"><label class="tool-label" for="rpc-unit">Unit</label><select id="rpc-unit" class="tool-input calc-select"><option value="km">Kilometers</option><option value="mi">Miles</option></select></div>
+      </div>
+      <div class="calc-row" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="calc-field"><label class="tool-label" for="rpc-h">Hours</label><input type="number" id="rpc-h" class="tool-input" placeholder="0" min="0" /></div>
+        <div class="calc-field"><label class="tool-label" for="rpc-m">Minutes</label><input type="number" id="rpc-m" class="tool-input" placeholder="25" min="0" /></div>
+        <div class="calc-field"><label class="tool-label" for="rpc-s">Seconds</label><input type="number" id="rpc-s" class="tool-input" placeholder="0" min="0" /></div>
+      </div>
+      <div class="tool-stats">
+        <div class="tool-stat"><span class="tool-stat-value" id="rpc-pace-km">—</span><span class="tool-stat-label">Pace /km</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="rpc-pace-mi">—</span><span class="tool-stat-label">Pace /mile</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="rpc-speed-kmh">—</span><span class="tool-stat-label">km/h</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="rpc-speed-mph">—</span><span class="tool-stat-label">mph</span></div>
+      </div>
+      <p class="tool-label" style="margin:1.25rem 0 0.5rem;">Projected race times at this pace</p>
+      <div class="tool-stats">
+        <div class="tool-stat"><span class="tool-stat-value" id="rpc-t5">—</span><span class="tool-stat-label">5K</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="rpc-t10">—</span><span class="tool-stat-label">10K</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="rpc-thalf">—</span><span class="tool-stat-label">Half marathon</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="rpc-tfull">—</span><span class="tool-stat-label">Marathon</span></div>
+      </div>
+      <button type="button" id="rpc-copy" class="copy-btn" style="margin-top:1rem;">Copy summary</button>
+        <div class="tool-note"><strong>How this conversion works.</strong> Pace is the arithmetic definition time ÷ distance; race projections multiply your pace by official race distances (marathon 42.195 km). Formula shown inline.</div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.5rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr !important; } }
+</style>
+<script src="../tools/running-pace-calculator.js"></script>

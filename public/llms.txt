@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 499 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 507 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -128,6 +128,12 @@ maratool.com is a growing collection of 499 free tools that run in the browser u
 - [Gray to Rad Converter — Absorbed Radiation Dose](https://maratool.com/absorbed-dose-converter): Convert absorbed radiation dose between grays, milligrays, and rads instantly — 1 Gy = 100 rad exactly. Free dose unit converter in your browser.
 - [Sievert to Rem Converter — Equivalent Radiation Dose](https://maratool.com/equivalent-dose-converter): Convert equivalent radiation dose between sieverts, millisieverts, and rems instantly — 1 Sv = 100 rem exactly. Free converter in your browser.
 - [Becquerel to Curie Converter — Radioactivity](https://maratool.com/radioactivity-converter): Convert radioactivity between becquerels, megabecquerels, curies, and millicuries instantly — 1 Ci = 3.7×10¹⁰ Bq. Free converter in your browser.
+- [MPG to L/100km Converter — Fuel Economy](https://maratool.com/mpg-to-l100km): Convert fuel economy between US MPG, UK MPG, L/100km, and km/L instantly. Free fuel consumption converter that runs entirely in your browser.
+- [Wind Speed Converter — Knots, MPH, km/h & Beaufort Scale](https://maratool.com/wind-speed-converter): Convert wind speed between knots, mph, km/h, and m/s and read the Beaufort scale force with description. Free wind converter in your browser.
+- [Tire Size Calculator — Compare Tire Dimensions](https://maratool.com/tire-size-calculator): Enter a tire size like 205/55R16 to get diameter, sidewall, and circumference — and compare two sizes with speedometer error. Free, in-browser.
+- [Screen Size Calculator — TV & Monitor Dimensions](https://maratool.com/screen-size-calculator): Turn a diagonal size and aspect ratio into real width, height, area, and PPI for TVs and monitors — inches and centimeters. Free, in-browser.
+- [Clothing Size Converter — US, EU & UK Dress and Suit Sizes](https://maratool.com/clothing-size-converter): Convert clothing sizes between US, UK, EU, Italian, and Japanese charts for women’s dresses, men’s suits, and shirts. Free, in your browser.
+- [Hat Size Converter — US, UK & CM](https://maratool.com/hat-size-converter): Convert hat sizes between head circumference in cm or inches, US and UK numeric sizes, and S/M/L letters. Free hat size converter in your browser.
 
 ### Developer
 - [Test Regex Patterns Online](https://maratool.com/regex-tester): Test regular expressions with live match highlighting.
@@ -480,6 +486,8 @@ maratool.com is a growing collection of 499 free tools that run in the browser u
 - [GWTG-HF Risk Score](https://maratool.com/gwtg-hf-risk): Get With The Guidelines Heart Failure (GWTG-HF) in-hospital mortality risk.
 - [MASCC Risk Index (Febrile Neutropenia)](https://maratool.com/mascc-febrile-neutropenia): MASCC risk index for low-risk febrile neutropenia in cancer patients.
 - [TASH Score (Massive Transfusion)](https://maratool.com/tash-massive-transfusion): Trauma Associated Severe Hemorrhage (TASH) score for massive transfusion prediction.
+- [Running Pace Calculator — Min/km, Min/mile & Race Times](https://maratool.com/running-pace-calculator): Calculate running pace per km and per mile from distance and time, plus projected 5K, 10K, half and marathon finish times. Free, in your browser.
+- [Pregnancy Due Date Calculator](https://maratool.com/due-date-calculator): Calculate your pregnancy due date from LMP, conception date, or IVF transfer using Naegele’s rule, plus current gestational age and trimester.
 
 ### Education
 - [Scientific Calculator Online](https://maratool.com/scientific-calculator): Full-featured scientific calculator with trigonometry, logarithms, exponents, and expression history.
