@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'describe-video'
+const seo = {
+  title: 'How to describe a video with AI, frame by frame (free, no upload) | maratool',
+  description: 'Turn what happens on screen into timestamped text. An in-browser AI model describes every second of your video — free, private, exports TXT, VTT, SRT.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to describe a video with AI, frame by frame (free, no upload)',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Turn what happens on screen into timestamped text. An in-browser AI model describes every second of your video — free, private, exports TXT, VTT, SRT.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell title="How to describe a video with AI, frame by frame (free, no upload)" lead="Transcription tells you what was said. This tells you what was shown — a timestamped text description of every second of a video, generated on your own device." date="July 25, 2026" dateIso="2026-07-25">
+      <p>The free <a href="/describe-video">Describe Video with AI</a> tool on maratool samples a frame from your video at a fixed interval and runs each frame through a vision AI model directly in your browser. The result is a scene-by-scene transcript of the visuals — nothing is uploaded, and there is no signup or watermark.</p>
+
+      <BlogToolEmbed slug="describe-video" title="Try it live" height={560} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Drop a video</strong> — MP4, WebM, or MOV. The file is read locally; it never leaves your device.</li>
+        <li><strong>Pick a sampling interval</strong> — every second for short clips, every 2–10 seconds for longer videos. The tool tells you how many frames that means before you start.</li>
+        <li><strong>Click Describe and export</strong> — descriptions stream in with thumbnails and timestamps. Copy the transcript or download it as <code>.txt</code>, <code>.vtt</code>, or <code>.srt</code>.</li>
+      </ol>
+
+      <h2>Which AI model runs — and where</h2>
+      <p>On browsers with WebGPU (Chrome and Edge on desktop), the tool loads <strong>Florence-2</strong>, a vision-language model that writes detailed captions like "a person in a red jacket walks across a snowy street at night". Without WebGPU it falls back to a lighter captioning model that produces shorter descriptions but runs anywhere WebAssembly does. Either way the model is downloaded once, cached by your browser, and your video frames are processed entirely on your device — the same local-AI approach as our <a href="/alt-text-generator">Alt Text Generator</a> and <a href="/background-remover">Background Remover</a>.</p>
+
+      <h2>What frame-by-frame descriptions are good for</h2>
+      <p><strong>Accessibility:</strong> the <code>.vtt</code> export is a ready-made first draft for an audio-description track — each caption becomes a timed cue you can edit and voice. <strong>Search and notes:</strong> a timestamped visual transcript makes a long screen recording or lecture skimmable and text-searchable. <strong>Speech included:</strong> tick "Also transcribe speech" and Whisper transcribes the spoken words on your device too, merged into the same timeline by timestamp — <code>Speech:</code> and <code>Visual:</code> lines interleaved, a complete text version of the video in one pass. (For language selection and accuracy presets, the dedicated <a href="/video-to-text">Video to Text</a> tool has full options.)</p>
+
+      <h2>Limitations worth knowing</h2>
+      <p>Captioning happens one frame at a time, so the model describes moments, not motion — it sees "a person near a door" twice rather than "a person opens the door". Small on-device models also make mistakes cloud-scale models would not; treat the output as a fast draft to edit, not a final product. For long videos, use a wider interval: at one frame per second, a 10-minute video is 600 frames, and the tool caps a run at 150 frames to keep memory in check.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">Open the full <a href="/describe-video">Describe Video with AI</a> tool, or browse more <a href="/converter/video">video tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

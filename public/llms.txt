@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 507 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 508 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -134,6 +134,7 @@ maratool.com is a growing collection of 507 free tools that run in the browser u
 - [Screen Size Calculator — TV & Monitor Dimensions](https://maratool.com/screen-size-calculator): Turn a diagonal size and aspect ratio into real width, height, area, and PPI for TVs and monitors — inches and centimeters. Free, in-browser.
 - [Clothing Size Converter — US, EU & UK Dress and Suit Sizes](https://maratool.com/clothing-size-converter): Convert clothing sizes between US, UK, EU, Italian, and Japanese charts for women’s dresses, men’s suits, and shirts. Free, in your browser.
 - [Hat Size Converter — US, UK & CM](https://maratool.com/hat-size-converter): Convert hat sizes between head circumference in cm or inches, US and UK numeric sizes, and S/M/L letters. Free hat size converter in your browser.
+- [Describe Video with AI](https://maratool.com/describe-video): Get a text description of every second of your video — an AI model describes each frame locally in your browser. No upload, no signup.
 
 ### Developer
 - [Test Regex Patterns Online](https://maratool.com/regex-tester): Test regular expressions with live match highlighting.

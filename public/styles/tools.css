@@ -561,6 +561,85 @@ html.embed .embed-modal-overlay {
   color: #c53030;
 }
 
+/* ========== FILE DROPZONE (shared) ==========
+   Used by PDF tools, epub-converter, alt-text-generator, image-tracer,
+   describe-video, and the imposers. Historically defined per-page in
+   pdf-to-text/epub-converter only, leaving 9 pages with unstyled
+   dropzones — promoted here so every page gets the same rules. */
+.pdf-dropzone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 3rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.pdf-dropzone:hover,
+.pdf-dropzone.dropzone-active {
+  border-color: var(--accent);
+  background: var(--bg-soft);
+}
+
+.pdf-dropzone-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.pdf-upload-icon {
+  color: var(--text-3);
+  margin-bottom: 0.5rem;
+}
+
+.pdf-dropzone-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.pdf-dropzone-sub {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  margin: 0;
+}
+
+.pdf-dropzone-formats {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  margin: 0.25rem 0 0;
+}
+
+.pdf-progress {
+  padding: 1rem;
+  text-align: center;
+  color: var(--text-2);
+  font-size: 0.875rem;
+}
+
+.pdf-file-info {
+  font-size: 0.8125rem;
+  color: var(--text-3);
+  margin: 0.5rem 0;
+}
+
+.pdf-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.pdf-new-btn {
+  background: var(--bg-soft);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.pdf-new-btn:hover {
+  background: var(--bg-hover);
+}
 /* ── Methodology note (Wave 5) ────────────────────── */
 
 .tool-note {
