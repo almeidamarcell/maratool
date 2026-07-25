@@ -10,7 +10,7 @@ describe('tool categories', () => {
 
   test('Health category has expected subcategories', () => {
     expect(subcategoryOrderByCategory['Health']).toEqual([
-      'Anthropometric', 'Cardiology', 'Renal', 'Electrolytes', 'Endocrine', 'Hepatology', 'Ventilation', 'Obstetric', 'Pediatric', 'Drug', 'Infusion', 'Trauma', 'Screening', 'Scale', 'Prognosis', 'Score', 'General',
+      'Anthropometric', 'Cardiology', 'Renal', 'Electrolytes', 'Endocrine', 'Hepatology', 'Ventilation', 'Obstetric', 'Pediatric', 'Drug', 'Infusion', 'Trauma', 'Screening', 'Scale', 'Prognosis', 'Score', 'Fitness', 'General',
     ])
   })
 
@@ -42,8 +42,8 @@ describe('tool categories', () => {
     }
   })
 
-  test('Converter category has Format, Document, Media, Unit, Video, Audio, CSV, and Date subcategories', () => {
-    expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Document', 'Media', 'Unit', 'Video', 'Audio', 'CSV', 'Date'])
+  test('Converter category has Format through Sizing subcategories (Wave 5 adds Science, Electrical, Magnetism, Light, Radiation, Sizing)', () => {
+    expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Document', 'Media', 'Unit', 'Video', 'Audio', 'CSV', 'Date', 'Science', 'Electrical', 'Magnetism', 'Light', 'Radiation', 'Sizing'])
   })
 
   test('PDF category has Extract, Edit, Inspect subcategories', () => {

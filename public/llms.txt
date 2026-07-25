@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 462 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 474 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -91,6 +91,18 @@ maratool.com is a growing collection of 462 free tools that run in the browser u
 - [Add Audio to Video Online](https://maratool.com/video-sound): Add Audio to Video Online. Runs in your browser — no upload, no watermark.
 - [Video to PNG — Extract Frames](https://maratool.com/video-to-png): Video to PNG. Runs in your browser — no upload, no watermark.
 - [Video to JPG — Extract Frame](https://maratool.com/video-to-jpg): Video to JPG. Runs in your browser — no upload, no watermark.
+- [Area Converter — Square Feet, Square Meters, Acres & Hectares](https://maratool.com/area-converter): Convert square feet to square meters, acres to hectares, and every common area unit instantly. Free area converter that runs in your browser.
+- [Volume Converter — Liters, Gallons, Cups & More](https://maratool.com/volume-converter): Convert liters to gallons, cups to milliliters, and every common volume unit instantly. Free volume converter that runs entirely in your browser.
+- [Pressure Converter — PSI, Bar, kPa & Atm](https://maratool.com/pressure-converter): Convert psi to bar, kPa to psi, atmospheres, torr, and mmHg instantly with NIST conversion factors. Free pressure converter, runs in your browser.
+- [Energy Converter — Joules, Calories, kWh & BTU](https://maratool.com/energy-converter): Convert joules to calories, kWh to BTU, electronvolts, and foot-pounds instantly with NIST factors. Free energy converter, runs in your browser.
+- [Power Converter — HP to kW, Watts & BTU/h](https://maratool.com/power-converter): Convert horsepower to kilowatts, watts to BTU/h, and tons of refrigeration instantly with NIST factors. Free power converter in your browser.
+- [Force Converter — Newtons, Kilograms-Force & Pounds-Force](https://maratool.com/force-converter): Convert newtons to pounds-force, kilograms-force, dynes, and poundals instantly with exact NIST factors. Free force converter in your browser.
+- [Torque Converter — Nm to Ft-Lb](https://maratool.com/torque-converter): Convert newton-meters to foot-pounds, inch-pounds, and kgf·m instantly with exact NIST factors. Free torque unit converter in your browser.
+- [Acceleration Converter — m/s², G-Force & More](https://maratool.com/acceleration-converter): Convert m/s² to g-force, ft/s², Gal, and km/h per second instantly with exact NIST factors. Free acceleration unit converter in your browser.
+- [Density Converter — kg/m³, g/cm³ & lb/ft³](https://maratool.com/density-converter): Convert kg/m³ to g/cm³, lb/ft³, lb/in³, and kg/L instantly with exact NIST-derived factors. Free density unit converter in your browser.
+- [Angle Converter — Degrees, Radians & Gradians](https://maratool.com/angle-converter): Convert degrees to radians, gradians, arcminutes, arcseconds, and turns instantly. Free angle unit converter that runs entirely in your browser.
+- [Frequency Converter — Hz, kHz, MHz & RPM](https://maratool.com/frequency-converter): Convert hertz to kilohertz, megahertz, RPM, and radians per second instantly. Free frequency unit converter that runs entirely in your browser.
+- [Bandwidth Converter — Mbps, MB/s & Gbps](https://maratool.com/bandwidth-converter): Convert Mbps to MB/s, Gbps to Mbps, and MiB/s instantly — decimal and binary prefixes handled correctly. Free bandwidth converter in your browser.
 
 ### Developer
 - [Test Regex Patterns Online](https://maratool.com/regex-tester): Test regular expressions with live match highlighting.
