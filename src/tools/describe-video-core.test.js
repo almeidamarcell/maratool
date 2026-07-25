@@ -41,6 +41,12 @@ describe('frameTimesForDuration', () => {
     const times = frameTimesForDuration(3, 1, 100)
     for (const t of times) expect(t).toBeLessThan(3)
   })
+
+  // Bug repro: MediaRecorder WebMs (browser screen recordings) report
+  // duration=Infinity at loadedmetadata. Core must refuse, not emit 150 frames.
+  test('returns empty for non-finite duration', () => {
+    expect(frameTimesForDuration(Infinity, 1, 150)).toEqual([])
+  })
 })
 
 describe('isTruncated', () => {
@@ -52,6 +58,10 @@ describe('isTruncated', () => {
   })
   test('false for degenerate input', () => {
     expect(isTruncated(0, 1, 30)).toBe(false)
+  })
+
+  test('false for non-finite duration', () => {
+    expect(isTruncated(Infinity, 1, 30)).toBe(false)
   })
 })
 
@@ -74,6 +84,19 @@ describe('timestamp formatting', () => {
 
   test('formatSrtTime uses a comma for milliseconds', () => {
     expect(formatSrtTime(1.5)).toBe('00:00:01,500')
+  })
+
+  // Bug repro: sub-ms fractions must carry into seconds, never emit ".1000".
+  // Real trigger: a 30fps clip's duration is 2.9666…s and the last VTT cue
+  // ends at the raw duration.
+  test('formatVttTime rolls fractional ms into seconds instead of emitting .1000', () => {
+    expect(formatVttTime(1.9996)).toBe('00:00:02.000')
+    expect(formatVttTime(59.9999)).toBe('00:01:00.000')
+    expect(formatVttTime(3599.9996)).toBe('01:00:00.000')
+  })
+
+  test('formatSrtTime rolls fractional ms the same way', () => {
+    expect(formatSrtTime(1.9996)).toBe('00:00:02,000')
   })
 })
 

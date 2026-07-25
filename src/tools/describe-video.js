@@ -57,6 +57,10 @@ import {
   var results = [] // { time, text }
   var stopRequested = false
   var engine = null // { kind: 'florence' | 'vit', ... }
+  // Incremented on every run start AND on "New video" — a describe loop
+  // compares its captured value against this and bails if it went stale,
+  // so resetting mid-run actually cancels the run.
+  var runId = 0
 
   function showState(state) {
     dropzone.style.display = state === 'dropzone' ? '' : 'none'
@@ -90,15 +94,45 @@ import {
     if (file && file.type.startsWith('video/')) loadVideo(file)
   })
 
+  // MediaRecorder-produced WebMs (browser screen recordings) report
+  // duration=Infinity at loadedmetadata. Seeking to a huge time forces the
+  // browser to resolve the real duration ("durationchange" fires).
+  function resolveDuration(video) {
+    return new Promise(function (resolve) {
+      if (Number.isFinite(video.duration)) { resolve(video.duration); return }
+      var settled = false
+      var finish = function () {
+        if (settled) return
+        settled = true
+        video.removeEventListener('durationchange', onChange)
+        video.currentTime = 0
+        resolve(video.duration) // may still be non-finite — caller validates
+      }
+      var onChange = function () {
+        if (Number.isFinite(video.duration)) finish()
+      }
+      video.addEventListener('durationchange', onChange)
+      video.currentTime = Number.MAX_SAFE_INTEGER
+      setTimeout(finish, 3000)
+    })
+  }
+
   function loadVideo(file) {
     currentFile = file
     if (videoUrl) URL.revokeObjectURL(videoUrl)
     videoUrl = URL.createObjectURL(file)
     videoPreview.src = videoUrl
     videoPreview.onloadedmetadata = function () {
-      videoDuration = videoPreview.duration
-      updateFrameEstimate()
-      showState('settings')
+      resolveDuration(videoPreview).then(function (duration) {
+        if (!Number.isFinite(duration) || !(duration > 0)) {
+          showState('dropzone')
+          showError('Could not read the video duration. Try re-encoding the file as MP4.')
+          return
+        }
+        videoDuration = duration
+        updateFrameEstimate()
+        showState('settings')
+      })
     }
     videoPreview.onerror = function () {
       showState('dropzone')
@@ -206,18 +240,23 @@ import {
   }
 
   // ── Frame extraction ──
+  var SEEK_TIMEOUT_MS = 10000
+
   function seekTo(video, time) {
     return new Promise(function (resolve, reject) {
-      var onSeeked = function () {
+      var cleanup = function () {
+        clearTimeout(timer)
         video.removeEventListener('seeked', onSeeked)
         video.removeEventListener('error', onError)
-        resolve()
       }
-      var onError = function () {
-        video.removeEventListener('seeked', onSeeked)
-        video.removeEventListener('error', onError)
-        reject(new Error('Seek failed at ' + time + 's'))
-      }
+      var onSeeked = function () { cleanup(); resolve() }
+      var onError = function () { cleanup(); reject(new Error('Seek failed at ' + time + 's')) }
+      // A corrupt segment can leave "seeked" unfired forever — fail loudly
+      // instead of hanging the whole run.
+      var timer = setTimeout(function () {
+        cleanup()
+        reject(new Error('Timed out seeking to ' + time + 's'))
+      }, SEEK_TIMEOUT_MS)
       video.addEventListener('seeked', onSeeked)
       video.addEventListener('error', onError)
       video.currentTime = time
@@ -235,6 +274,7 @@ import {
 
   // ── Main run ──
   describeBtn.addEventListener('click', async function () {
+    var myRun = ++runId
     stopRequested = false
     results = []
     timelineEl.innerHTML = ''
@@ -247,6 +287,7 @@ import {
       showError('Could not load the AI model: ' + e.message)
       return
     }
+    if (myRun !== runId) return // user reset while the model was loading
 
     var interval = parseFloat(intervalSelect.value)
     var times = frameTimesForDuration(videoDuration, interval, MAX_FRAMES)
@@ -262,21 +303,28 @@ import {
     video.playsInline = true
     video.preload = 'auto'
     video.src = videoUrl
-    await new Promise(function (resolve, reject) {
+    var metaError = null
+    await new Promise(function (resolve) {
       video.onloadedmetadata = resolve
-      video.onerror = function () { reject(new Error('Could not decode video')) }
-    }).catch(function (e) {
-      showState('settings')
-      showError(e.message)
-      return Promise.reject(e)
+      video.onerror = function () {
+        metaError = new Error('Could not decode video')
+        resolve()
+      }
     })
+    if (metaError) {
+      showState('settings')
+      showError(metaError.message)
+      return
+    }
+    await resolveDuration(video) // MediaRecorder WebM: make worker seekable
+    if (myRun !== runId) return
 
     stopBtn.style.display = ''
     showState('result') // show results streaming in
     progressEl.style.display = '' // keep progress visible alongside
 
     for (var i = 0; i < times.length; i++) {
-      if (stopRequested) break
+      if (stopRequested || myRun !== runId) break
       var t = times[i]
       progressText.textContent = 'Describing frame ' + (i + 1) + ' of ' + times.length + ' (' + formatTimestamp(t) + ')…'
       progressBar.style.width = Math.round(((i + 1) / times.length) * 100) + '%'
@@ -285,18 +333,23 @@ import {
         await seekTo(video, t)
         var canvas = drawFrame(video, CAPTION_WIDTH)
         var caption = cleanCaption(await captionCanvas(canvas))
+        if (myRun !== runId) break // stale result — user already reset
         if (!caption) caption = '(no description generated)'
         results.push({ time: t, text: caption })
         appendTimelineItem(video, t, caption)
         updateTranscript()
       } catch (e) {
+        if (myRun !== runId) break
         results.push({ time: t, text: '(frame could not be described: ' + e.message + ')' })
         updateTranscript()
       }
     }
 
-    progressEl.style.display = 'none'
-    stopBtn.style.display = 'none'
+    // Only touch the UI if this run still owns it.
+    if (myRun === runId) {
+      progressEl.style.display = 'none'
+      stopBtn.style.display = 'none'
+    }
     video.removeAttribute('src')
     video.load()
   })
@@ -369,12 +422,15 @@ import {
   })
 
   newBtn.addEventListener('click', function () {
+    runId++ // cancel any in-flight describe loop
+    stopRequested = true
     results = []
     timelineEl.innerHTML = ''
     transcriptEl.value = ''
     fileInput.value = ''
     if (videoUrl) { URL.revokeObjectURL(videoUrl); videoUrl = null }
     currentFile = null
+    stopBtn.style.display = 'none'
     showState('dropzone')
   })
 })()

@@ -9,7 +9,7 @@
 // caller can tell the user coverage was truncated.
 export function frameTimesForDuration(duration, intervalSec, maxFrames) {
   const times = []
-  if (!(duration > 0) || !(intervalSec > 0)) return times
+  if (!Number.isFinite(duration) || !(duration > 0) || !(intervalSec > 0)) return times
   const cap = Number.isFinite(maxFrames) && maxFrames > 0 ? maxFrames : Infinity
   for (let t = 0; t < duration; t += intervalSec) {
     if (times.length >= cap) break
@@ -21,7 +21,7 @@ export function frameTimesForDuration(duration, intervalSec, maxFrames) {
 
 // Would sampling this video at this interval exceed the frame cap?
 export function isTruncated(duration, intervalSec, maxFrames) {
-  if (!(duration > 0) || !(intervalSec > 0)) return false
+  if (!Number.isFinite(duration) || !(duration > 0) || !(intervalSec > 0)) return false
   const total = Math.ceil(duration / intervalSec)
   return Number.isFinite(maxFrames) && maxFrames > 0 && total > maxFrames
 }
@@ -40,13 +40,14 @@ export function formatTimestamp(sec) {
   return `${pad(m, 2)}:${pad(r, 2)}`
 }
 
-// "HH:MM:SS.mmm" for WebVTT cues.
+// "HH:MM:SS.mmm" for WebVTT cues. Round to whole ms FIRST so a fraction
+// like 1.9996s becomes 2000ms → "00:00:02.000", never "00:00:01.1000".
 export function formatVttTime(sec) {
-  const clamped = Math.max(0, sec)
-  const h = Math.floor(clamped / 3600)
-  const m = Math.floor((clamped % 3600) / 60)
-  const s = Math.floor(clamped % 60)
-  const ms = Math.round((clamped - Math.floor(clamped)) * 1000)
+  const totalMs = Math.round(Math.max(0, sec) * 1000)
+  const h = Math.floor(totalMs / 3600000)
+  const m = Math.floor((totalMs % 3600000) / 60000)
+  const s = Math.floor((totalMs % 60000) / 1000)
+  const ms = totalMs % 1000
   return `${pad(h, 2)}:${pad(m, 2)}:${pad(s, 2)}.${pad(ms, 3)}`
 }
 
