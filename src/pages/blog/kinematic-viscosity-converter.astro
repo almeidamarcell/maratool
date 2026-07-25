@@ -1,0 +1,84 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'kinematic-viscosity-converter'
+const seo = {
+  title: 'Kinematic viscosity converter — m²/s, stokes, cSt | maratool',
+  description: 'Convert m²/s, stokes, centistokes, and ft²/s with exact NIST factors. Free browser kinematic viscosity converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert centistokes to m²/s (kinematic viscosity)',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert m²/s, stokes, centistokes, and ft²/s with exact NIST factors. Free browser kinematic viscosity converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert centistokes to m²/s (kinematic viscosity)', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert centistokes to m²/s (kinematic viscosity)"
+      lead="Type a kinematic viscosity — read m²/s, St, cSt, mm²/s, or ft²/s instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Lubricant grades quote cSt, SI formulas want m²/s, and legacy US data uses ft²/s. The <a href="/kinematic-viscosity-converter">Kinematic Viscosity Converter</a> moves between them with exact factors.</p>
+
+      <BlogToolEmbed slug="kinematic-viscosity-converter" title="Try it — convert kinematic viscosity units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Centistokes (cSt)" to "Square meter per second (m²/s)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Kinematic viscosity conversion factors</h2>
+      <p>Every unit converts through the square meter per second (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many square meter per seconds</th></tr></thead>
+        <tbody>
+        <tr><td>Square meter per second (m²/s)</td><td>1</td></tr>
+        <tr><td>Square centimeter per second / Stokes (St)</td><td>0.0001</td></tr>
+        <tr><td>Centistokes (cSt)</td><td>1.0000 × 10^-6</td></tr>
+        <tr><td>Square millimeter per second (mm²/s)</td><td>1.0000 × 10^-6</td></tr>
+        <tr><td>Square foot per second (ft²/s)</td><td>0.09290304</td></tr>
+        <tr><td>Square inch per second (in²/s)</td><td>0.00064516</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>ISO VG numbers are the mid-point cSt at 40 °C — ISO VG 46 means 46 cSt = 4.6 × 10⁻⁵ m²/s. Water sits near 1 cSt at 20 °C; SAE 30 engine oil is roughly 100 cSt at 40 °C.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.nist.gov/pml/special-publication-811" rel="noopener" target="_blank">NIST Special Publication 811</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/kinematic-viscosity-converter">Kinematic Viscosity</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

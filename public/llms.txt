@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 474 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 480 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -103,6 +103,12 @@ maratool.com is a growing collection of 474 free tools that run in the browser u
 - [Angle Converter — Degrees, Radians & Gradians](https://maratool.com/angle-converter): Convert degrees to radians, gradians, arcminutes, arcseconds, and turns instantly. Free angle unit converter that runs entirely in your browser.
 - [Frequency Converter — Hz, kHz, MHz & RPM](https://maratool.com/frequency-converter): Convert hertz to kilohertz, megahertz, RPM, and radians per second instantly. Free frequency unit converter that runs entirely in your browser.
 - [Bandwidth Converter — Mbps, MB/s & Gbps](https://maratool.com/bandwidth-converter): Convert Mbps to MB/s, Gbps to Mbps, and MiB/s instantly — decimal and binary prefixes handled correctly. Free bandwidth converter in your browser.
+- [Amount of Substance Converter — Moles & Millimoles](https://maratool.com/amount-of-substance-converter): Convert moles to millimoles, micromoles, kilomoles, and pound-moles instantly. Free amount-of-substance converter that runs in your browser.
+- [Molar Mass Converter — g/mol & kg/mol](https://maratool.com/molar-mass-converter): Convert molar mass between g/mol, kg/mol, kg/kmol, daltons, and lb/lb-mol instantly. Free molar mass unit converter that runs in your browser.
+- [Dynamic Viscosity Converter — Pa·s, Poise & Centipoise](https://maratool.com/dynamic-viscosity-converter): Convert dynamic viscosity between Pa·s, poise, centipoise, and lbf·s/ft² instantly with NIST factors. Free viscosity converter in your browser.
+- [Kinematic Viscosity Converter — m²/s, Stokes & Centistokes](https://maratool.com/kinematic-viscosity-converter): Convert kinematic viscosity between m²/s, stokes, centistokes, and ft²/s instantly with exact NIST factors. Free viscosity converter in your browser.
+- [Mass Flow Rate Converter — kg/s, kg/h & lb/h](https://maratool.com/mass-flow-rate-converter): Convert mass flow between kg/s, kg/h, tonnes per hour, lb/s, and lb/h instantly with exact NIST factors. Free flow rate converter in your browser.
+- [Flow Rate Converter — L/min, GPM & CFM](https://maratool.com/volumetric-flow-rate-converter): Convert volumetric flow between L/min, GPM, CFM, m³/h, and L/s instantly with exact NIST factors. Free flow rate converter in your browser.
 
 ### Developer
 - [Test Regex Patterns Online](https://maratool.com/regex-tester): Test regular expressions with live match highlighting.

@@ -1,0 +1,87 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'volumetric-flow-rate-converter'
+const seo = {
+  title: 'Flow rate converter — L/min, GPM, CFM | maratool',
+  description: 'Convert L/min, GPM, CFM, m³/h, and L/s with exact NIST factors. Free browser volumetric flow converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert GPM to L/min and CFM to m³/h',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert L/min, GPM, CFM, m³/h, and L/s with exact NIST factors. Free browser volumetric flow converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert GPM to L/min and CFM to m³/h', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert GPM to L/min and CFM to m³/h"
+      lead="Type a flow rate — read L/min, GPM, CFM, m³/h, or L/s instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Pumps quote GPM in the US, L/min elsewhere; fans and HVAC quote CFM or m³/h. The <a href="/volumetric-flow-rate-converter">Flow Rate Converter</a> converts liquid and air flows through m³/s with exact factors.</p>
+
+      <BlogToolEmbed slug="volumetric-flow-rate-converter" title="Try it — convert volumetric flow rate units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "US gallon per minute (GPM)" to "Liter per minute (L/min)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Volumetric flow rate conversion factors</h2>
+      <p>Every unit converts through the cubic meter per second (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many cubic meter per seconds</th></tr></thead>
+        <tbody>
+        <tr><td>Cubic meter per second (m³/s)</td><td>1</td></tr>
+        <tr><td>Cubic meter per hour (m³/h)</td><td>0.000277777778</td></tr>
+        <tr><td>Liter per second (L/s)</td><td>0.001</td></tr>
+        <tr><td>Liter per minute (L/min)</td><td>1.6667 × 10^-5</td></tr>
+        <tr><td>Liter per hour (L/h)</td><td>2.7778 × 10^-7</td></tr>
+        <tr><td>US gallon per minute (GPM)</td><td>6.3090 × 10^-5</td></tr>
+        <tr><td>US gallon per hour (GPH)</td><td>1.0515 × 10^-6</td></tr>
+        <tr><td>Cubic foot per minute (CFM)</td><td>0.000471947443</td></tr>
+        <tr><td>Cubic foot per second (ft³/s)</td><td>0.028316846592</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>Handy anchors: 1 GPM = 3.785 L/min, 1 CFM = 1.699 m³/h, and 1 L/s = 3.6 m³/h. A bathroom exhaust fan moves ~50 CFM (85 m³/h); a garden hose flows ~10–17 L/min.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.nist.gov/pml/special-publication-811" rel="noopener" target="_blank">NIST Special Publication 811</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/volumetric-flow-rate-converter">Flow Rate Converter</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
