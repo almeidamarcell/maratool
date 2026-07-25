@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'wind-speed-converter'
+const seo = {
+  title: 'Wind speed converter — knots, mph, Beaufort | maratool',
+  description: 'Convert knots, mph, km/h, and m/s and get the Beaufort force with description. Free browser wind speed converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert knots to mph and read the Beaufort scale',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert knots, mph, km/h, and m/s and get the Beaufort force with description. Free browser wind speed converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert knots to mph and read the Beaufort scale', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert knots to mph and read the Beaufort scale"
+      lead="Enter a wind speed in any unit — read every other unit plus the Beaufort force."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Marine forecasts speak knots, land forecasts mph or km/h, and sailing guides speak Beaufort force. The <a href="/wind-speed-converter">Wind Speed Converter</a> translates between all of them at once.</p>
+
+      <BlogToolEmbed slug="wind-speed-converter" title="Try it — enter a wind speed" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Enter speed</strong> — any of knots, mph, km/h, m/s, ft/s.</li>
+        <li><strong>All units update</strong> — exact knot/mile/meter factors.</li>
+        <li><strong>Beaufort readout</strong> — force number and NWS description.</li>
+      </ol>
+
+      <h2>The key factors</h2>
+      <p>1 knot = 1.852 km/h exactly (one nautical mile per hour) = 1.15078 mph = 0.51444 m/s. Aviation and marine wind reports stay in knots worldwide; multiply by 2 for a rough km/h figure.</p>
+
+      <h2>Beaufort bands</h2>
+      <p>The Beaufort scale maps speed ranges to sea and land effects per the <a href="https://www.weather.gov/mfl/beaufort" rel="noopener" target="_blank">NOAA NWS table</a>: force 4 (11–16 kn) is a moderate breeze, force 6 begins small-craft caution, force 8 is a gale, force 12 (64+ kn) is hurricane force.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Methodology reference: <a href="https://www.weather.gov/mfl/beaufort" rel="noopener" target="_blank">NOAA National Weather Service — Beaufort Scale</a>. Everything runs client-side in your browser; nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/acceleration-converter">How to convert m/s² to g-force</a></li>
+        <li><a href="/blog/mpg-to-l100km">How to convert MPG to L/100km (fuel economy)</a></li>
+        <li><a href="/blog/area-converter">How to convert square feet to square meters (and any area unit)</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/wind-speed-converter">Wind Speed Converter</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

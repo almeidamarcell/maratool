@@ -1,0 +1,94 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'power-converter'
+const seo = {
+  title: 'Power converter — hp to kW, watts, BTU/h | maratool',
+  description: 'Convert horsepower to kilowatts, watts, BTU/h, and tons of refrigeration with NIST factors. Free browser power converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert HP to kW (and why metric HP differs)',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert horsepower to kilowatts, watts, BTU/h, and tons of refrigeration with NIST factors. Free browser power converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert HP to kW (and why metric HP differs)', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert HP to kW (and why metric HP differs)"
+      lead="Type a power value — read hp, PS, kW, watts, BTU/h, or tons of refrigeration instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Car engines are quoted in hp or PS, motors in kW, and HVAC in BTU/h or tons. The <a href="/power-converter">Power Converter</a> converts all of them through the SI watt, keeping mechanical and metric horsepower separate.</p>
+
+      <BlogToolEmbed slug="power-converter" title="Try it — convert power units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Horsepower, mechanical (hp)" to "Kilowatt (kW)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Power conversion factors</h2>
+      <p>Every unit converts through the watt (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many watts</th></tr></thead>
+        <tbody>
+        <tr><td>Watt (W)</td><td>1</td></tr>
+        <tr><td>Kilowatt (kW)</td><td>1,000</td></tr>
+        <tr><td>Megawatt (MW)</td><td>1,000,000</td></tr>
+        <tr><td>Horsepower, mechanical (hp)</td><td>745.69987158227</td></tr>
+        <tr><td>Horsepower, metric (PS)</td><td>735.49875</td></tr>
+        <tr><td>BTU per hour (BTU/h)</td><td>0.293071070172</td></tr>
+        <tr><td>Foot-pound per second (ft·lbf/s)</td><td>1.355817948331</td></tr>
+        <tr><td>Ton of refrigeration (RT)</td><td>3,516.852842066667</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>A 150 hp engine is 111.9 kW or 152.1 PS — the PS number is always slightly bigger, which is why European brochures prefer it. For HVAC sizing, 1 kW of cooling is about 3,412 BTU/h.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.nist.gov/pml/special-publication-811" rel="noopener" target="_blank">NIST Special Publication 811</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/energy-converter">How to convert calories, joules, kWh, and BTU</a></li>
+        <li><a href="/blog/torque-converter">How to convert Nm to ft-lb for torque specs</a></li>
+        <li><a href="/blog/area-converter">How to convert square feet to square meters (and any area unit)</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/power-converter">Power Converter</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

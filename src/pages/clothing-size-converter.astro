@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Clothing Size Converter — US, EU & UK Sizes | maratool',
+  description: 'Convert clothing sizes between US, UK, EU, Italian, and Japanese charts for women’s dresses, men’s suits, and shirts. Free, in your browser.',
+  canonical: 'https://maratool.com/clothing-size-converter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Clothing Size Converter — US, EU & UK Dress and Suit Sizes',
+    url: 'https://maratool.com/clothing-size-converter',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert clothing sizes between US, UK, EU, Italian, and Japanese charts for women’s dresses, men’s suits, and shirts. Free, in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Sizing', item: 'https://maratool.com/converter/sizing' },
+      { '@type': 'ListItem', position: 4, name: 'Clothing Size Converter — US, EU & UK Dress and Suit Sizes', item: 'https://maratool.com/clothing-size-converter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How reliable are international size conversions?', acceptedAnswer: { '@type': 'Answer', text: 'They are industry-standard alignments, not guarantees — brands cut differently and vanity sizing shifts over time. Treat the result as the size to try first, and check the brand’s own measurement chart when available.' } },
+      { '@type': 'Question', name: 'What is the difference between US and UK dress sizes?', acceptedAnswer: { '@type': 'Answer', text: 'The same garment is numbered 4 higher in the UK: a US 8 is a UK 12. EU sizes run US + 32 (US 8 = EU 40), Italian sizes US + 36.' } },
+      { '@type': 'Question', name: 'How do men’s suit sizes convert?', acceptedAnswer: { '@type': 'Answer', text: 'US and UK suit numbers match (chest in inches); EU adds 10 (US 40 = EU 50). Japanese suits use letter-number combos but align with EU numeric sizing here.' } },
+      { '@type': 'Question', name: 'How do shirt collar sizes work?', acceptedAnswer: { '@type': 'Answer', text: 'US/UK collars are inches, EU collars centimeters: EU ≈ inches × 2.54 rounded — a 15.5″ collar is EU 39–40.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Pick the chart — women’s dress, men’s suit, or men’s shirt collar.',
+  'Choose the sizing system you know and your size in it.',
+  'Read the equivalent size in every other system.'
+]
+
+const faq = [
+  { q: 'How reliable are international size conversions?', a: 'They are industry-standard alignments, not guarantees — brands cut differently and vanity sizing shifts over time. Treat the result as the size to try first, and check the brand’s own measurement chart when available.' },
+  { q: 'What is the difference between US and UK dress sizes?', a: 'The same garment is numbered 4 higher in the UK: a US 8 is a UK 12. EU sizes run US + 32 (US 8 = EU 40), Italian sizes US + 36.' },
+  { q: 'How do men’s suit sizes convert?', a: 'US and UK suit numbers match (chest in inches); EU adds 10 (US 40 = EU 50). Japanese suits use letter-number combos but align with EU numeric sizing here.' },
+  { q: 'How do shirt collar sizes work?', a: 'US/UK collars are inches, EU collars centimeters: EU ≈ inches × 2.54 rounded — a 15.5″ collar is EU 39–40.' }
+]
+
+const relatedTools = [
+  { slug: 'shoe-size-converter', name: 'Shoe Size Converter' },
+  { slug: 'hat-size-converter', name: 'Hat Size Converter' },
+  { slug: 'unit-converter', name: 'Unit Converter' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Sizing', href: '/converter/sizing' },
+  { label: 'Clothing Size Converter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="clothing-size-converter" name="Clothing Size Converter — US, EU & UK Dress and Suit Sizes" description="Pick a chart and a size you know to read the equivalent in US, UK, EU, Italian, and Japanese sizing." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:420px;">
+      <div class="calc-row" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="calc-field"><label class="tool-label" for="csc-chart">Chart</label><select id="csc-chart" class="tool-input calc-select"><option value="dress">Women’s dress</option><option value="suit">Men’s suit / blazer</option><option value="shirt">Men’s shirt (collar)</option></select></div>
+        <div class="calc-field"><label class="tool-label" for="csc-region">You know the size in</label><select id="csc-region" class="tool-input calc-select"></select></div>
+        <div class="calc-field"><label class="tool-label" for="csc-size">Size</label><select id="csc-size" class="tool-input calc-select"></select></div>
+      </div>
+      <div class="tool-stats" id="csc-out"></div>
+      <p id="csc-msg" style="font-size:13px;color:var(--text-2);margin:1rem 0 0;">Pick a chart, system, and size to see equivalents.</p>
+        <div class="tool-note"><strong>How this conversion works.</strong> Charts follow common industry alignments on the size-designation framework of <a href="https://www.iso.org/standard/61686.html" rel="noopener" target="_blank">ISO 8559-1 (size designation of clothes)</a>. <em>Sizing varies by brand and cut — use the converted size as a starting point, not a guarantee of fit.</em></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.5rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr !important; } }
+</style>
+<script src="../tools/clothing-size-converter.js"></script>

@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'clothing-size-converter'
+const seo = {
+  title: 'Clothing size converter — US, EU, UK charts | maratool',
+  description: 'Convert women’s dress, men’s suit, and shirt sizes across US, UK, EU, IT, and JP systems. Free browser converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert clothing sizes between US, EU, and UK',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert women’s dress, men’s suit, and shirt sizes across US, UK, EU, IT, and JP systems. Free browser converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert clothing sizes between US, EU, and UK', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert clothing sizes between US, EU, and UK"
+      lead="Pick the size you know — read its equivalent in every other sizing system."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>A US 8 dress is a UK 12, an EU 40, an Italian 44, and a Japanese 13 — same garment, five numbers. The <a href="/clothing-size-converter">Clothing Size Converter</a> keeps the international charts straight for dresses, suits, and shirts.</p>
+
+      <BlogToolEmbed slug="clothing-size-converter" title="Try it — pick a chart and size" height={480} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Chart</strong> — women’s dress, men’s suit, or shirt collar.</li>
+        <li><strong>Known size</strong> — pick the system and number you wear.</li>
+        <li><strong>Equivalents</strong> — read all other systems at once.</li>
+      </ol>
+
+      <h2>The offsets</h2>
+      <p>Women’s dresses: UK = US + 4, EU = US + 32, IT = US + 36, JP = US + 5. Men’s suits: UK = US (both chest inches), EU = US + 10. Shirt collars: EU cm ≈ US inches × 2.54. These alignments sit on the size-designation framework of <a href="https://www.iso.org/standard/61686.html" rel="noopener" target="_blank">ISO 8559-1</a>.</p>
+
+      <h2>Why fit still varies</h2>
+      <p>Size numbers designate body dimensions, but brands add different ease and follow vanity-sizing drift. Between two candidate sizes, the garment’s own cm measurements beat any chart — convert here, then verify against the brand table.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Methodology reference: <a href="https://www.iso.org/standard/61686.html" rel="noopener" target="_blank">ISO 8559-1 (size designation of clothes)</a>. Sizing varies by brand and cut — use the converted size as a starting point, not a guarantee of fit. Everything runs client-side in your browser; nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/hat-size-converter">How to find your hat size from head circumference</a></li>
+        <li><a href="/blog/tire-size-calculator">How to read tire sizes and compare 205/55R16 to another size</a></li>
+        <li><a href="/blog/screen-size-calculator">How to calculate TV and monitor dimensions from the diagonal</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/clothing-size-converter">Clothing Size Converter</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

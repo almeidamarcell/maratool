@@ -1,0 +1,93 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'dynamic-viscosity-converter'
+const seo = {
+  title: 'Dynamic viscosity converter — Pa·s, poise, cP | maratool',
+  description: 'Convert Pa·s, poise, centipoise, and lbf·s/ft² with NIST factors. Free browser dynamic viscosity converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert centipoise to Pa·s (dynamic viscosity)',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert Pa·s, poise, centipoise, and lbf·s/ft² with NIST factors. Free browser dynamic viscosity converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert centipoise to Pa·s (dynamic viscosity)', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert centipoise to Pa·s (dynamic viscosity)"
+      lead="Type a viscosity — read Pa·s, mPa·s, poise, cP, or lbf·s/ft² instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Pump sizing, lubricant specs, and CFD input files all disagree on viscosity units. The <a href="/dynamic-viscosity-converter">Dynamic Viscosity Converter</a> converts CGS, SI, and US units through the pascal-second.</p>
+
+      <BlogToolEmbed slug="dynamic-viscosity-converter" title="Try it — convert dynamic viscosity units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Centipoise (cP)" to "Pascal-second (Pa·s)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Dynamic viscosity conversion factors</h2>
+      <p>Every unit converts through the pascal-second (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many pascal-seconds</th></tr></thead>
+        <tbody>
+        <tr><td>Pascal-second (Pa·s)</td><td>1</td></tr>
+        <tr><td>Millipascal-second (mPa·s)</td><td>0.001</td></tr>
+        <tr><td>Poise (P)</td><td>0.1</td></tr>
+        <tr><td>Centipoise (cP)</td><td>0.001</td></tr>
+        <tr><td>Pound per foot-second (lb/(ft·s))</td><td>1.48816394357</td></tr>
+        <tr><td>Pound-force second per square foot (lbf·s/ft²)</td><td>47.880258980336</td></tr>
+        <tr><td>Kilogram per meter-hour (kg/(m·h))</td><td>0.000277777778</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>Since 1 cP = 1 mPa·s exactly, the cP→Pa·s conversion is just a factor of 1,000. The US unit lbf·s/ft² is much larger (47.88 Pa·s) and shows up in older hydraulics texts. Kinematic viscosity (viscosity ÷ density) has its own units — see the <a href="/kinematic-viscosity-converter">Kinematic Viscosity Converter</a>.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.nist.gov/pml/special-publication-811" rel="noopener" target="_blank">NIST Special Publication 811</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/kinematic-viscosity-converter">How to convert centistokes to m²/s (kinematic viscosity)</a></li>
+        <li><a href="/blog/density-converter">How to convert density between kg/m³, g/cm³, and lb/ft³</a></li>
+        <li><a href="/blog/pressure-converter">How to convert PSI to bar, kPa, and atm</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/dynamic-viscosity-converter">Dynamic Viscosity</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

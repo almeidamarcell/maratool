@@ -1,0 +1,108 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'MMF Converter — Ampere-Turns & Gilberts | maratool',
+  description: 'Convert magnetomotive force between ampere-turns and gilberts instantly — 1 Gb = 10/4π At exactly. Free MMF unit converter in your browser.',
+  canonical: 'https://maratool.com/magnetomotive-force-converter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Magnetomotive Force Converter — Ampere-Turns & Gilberts',
+    url: 'https://maratool.com/magnetomotive-force-converter',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert magnetomotive force between ampere-turns and gilberts instantly — 1 Gb = 10/4π At exactly. Free MMF unit converter in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Magnetism', item: 'https://maratool.com/converter/magnetism' },
+      { '@type': 'ListItem', position: 4, name: 'Magnetomotive Force Converter — Ampere-Turns & Gilberts', item: 'https://maratool.com/magnetomotive-force-converter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do I convert gilbert to ampere-turn?', acceptedAnswer: { '@type': 'Answer', text: '1 gilbert = 0.795775 ampere-turn. Choose "Gilbert (Gb)" as From and "Ampere-turn (At)" as To, type a value, and the result updates instantly.' } },
+      { '@type': 'Question', name: 'What is an ampere-turn?', acceptedAnswer: { '@type': 'Answer', text: 'The MMF of one ampere flowing through one coil turn. A 200-turn coil carrying 0.5 A produces 100 At — turns multiply the current’s magnetizing effect.' } },
+      { '@type': 'Question', name: 'Why is the gilbert slightly smaller than the ampere-turn?', acceptedAnswer: { '@type': 'Answer', text: 'The CGS definition absorbs 4π: 1 Gb = 10/(4π) ≈ 0.79577 At. Old speaker and relay specs in gilberts convert with that exact ratio.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Conversions run entirely in your browser using fixed factors — nothing is uploaded or logged.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Choose the units to convert from and to.',
+  'Enter a value — the converted result updates instantly.',
+  'Click Copy to copy the result to your clipboard.'
+]
+
+const faq = [
+  { q: 'How do I convert gilbert to ampere-turn?', a: '1 gilbert = 0.795775 ampere-turn. Choose "Gilbert (Gb)" as From and "Ampere-turn (At)" as To, type a value, and the result updates instantly.' },
+  { q: 'What is an ampere-turn?', a: 'The MMF of one ampere flowing through one coil turn. A 200-turn coil carrying 0.5 A produces 100 At — turns multiply the current’s magnetizing effect.' },
+  { q: 'Why is the gilbert slightly smaller than the ampere-turn?', a: 'The CGS definition absorbs 4π: 1 Gb = 10/(4π) ≈ 0.79577 At. Old speaker and relay specs in gilberts convert with that exact ratio.' },
+  { q: 'Is my data sent to a server?', a: 'No. Conversions run entirely in your browser using fixed factors — nothing is uploaded or logged.' }
+]
+
+const relatedTools = [
+  { slug: 'magnetic-field-strength-converter', name: 'Field Strength' },
+  { slug: 'magnetic-flux-converter', name: 'Magnetic Flux' },
+  { slug: 'electric-current-converter', name: 'Electric Current' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Magnetism', href: '/converter/magnetism' },
+  { label: 'Magnetomotive Force' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="magnetomotive-force-converter" name="Magnetomotive Force Converter — Ampere-Turns & Gilberts" description="Convert magnetomotive force between ampere-turns, kiloampere-turns, and gilberts." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:340px;">
+        <div class="uc-converter">
+          <div class="uc-col">
+            <label class="tool-label" for="mmf-from-unit">From</label>
+            <select id="mmf-from-unit" class="uc-select"></select>
+            <input type="number" id="mmf-from-value" class="tool-input uc-value" placeholder="1" step="any" />
+          </div>
+          <div class="uc-swap-col">
+            <button class="uc-swap-btn" id="mmf-swap" title="Swap units">&hArr;</button>
+          </div>
+          <div class="uc-col">
+            <label class="tool-label" for="mmf-to-unit">To</label>
+            <select id="mmf-to-unit" class="uc-select"></select>
+            <div class="uc-result" id="mmf-result">&mdash;</div>
+            <button class="copy-btn" id="mmf-copy">Copy</button>
+          </div>
+        </div>
+        <div class="tool-note"><strong>How this conversion works.</strong> MMF is converted through the ampere-turn; the gilbert uses the exact 10/4π relation given in <a href="https://www.nist.gov/pml/special-publication-811" rel="noopener" target="_blank">NIST Special Publication 811</a>.</div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .uc-converter { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: start; }
+  .uc-col { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+  .uc-select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font-size: 14px; margin-bottom: 0.75rem; cursor: pointer; }
+  .uc-value { width: 100%; font-size: 18px; font-family: var(--font-mono); }
+  .uc-result { font-size: 24px; font-weight: 700; font-family: var(--font-mono); color: var(--text); margin-bottom: 0.5rem; min-height: 36px; word-break: break-all; }
+  .uc-swap-col { display: flex; align-items: center; padding-top: 2rem; }
+  .uc-swap-btn { width: 40px; height: 40px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text-2); font-size: 18px; cursor: pointer; transition: background 0.1s; }
+  .uc-swap-btn:hover { background: var(--bg-soft); }
+  @media (max-width: 600px) {
+    .uc-converter { grid-template-columns: 1fr; }
+    .uc-swap-col { justify-content: center; padding-top: 0; }
+  }
+</style>
+<script src="../tools/magnetomotive-force-converter.js"></script>

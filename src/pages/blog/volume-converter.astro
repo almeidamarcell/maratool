@@ -1,0 +1,99 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'volume-converter'
+const seo = {
+  title: 'Volume converter — liters, gallons, cups, ounces | maratool',
+  description: 'Convert liters, US gallons, cups, and fluid ounces with exact NIST factors. Free browser volume converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert liters to gallons, cups, and ounces',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert liters, US gallons, cups, and fluid ounces with exact NIST factors. Free browser volume converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert liters to gallons, cups, and ounces', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert liters to gallons, cups, and ounces"
+      lead="Type any volume — read it in liters, gallons, cups, fluid ounces, or cubic feet instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Recipes, fuel, aquariums, and shipping specs all use different volume units. The <a href="/volume-converter">Volume Converter</a> handles metric, US customary, and imperial units with exact NIST SP 811 factors.</p>
+
+      <BlogToolEmbed slug="volume-converter" title="Try it — convert volume units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "US gallon (gal)" to "Liter (L)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Volume conversion factors</h2>
+      <p>Every unit converts through the liter (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many liters</th></tr></thead>
+        <tbody>
+        <tr><td>Cubic meter (m³)</td><td>1,000</td></tr>
+        <tr><td>Liter (L)</td><td>1</td></tr>
+        <tr><td>Milliliter (mL)</td><td>0.001</td></tr>
+        <tr><td>US gallon (gal)</td><td>3.785411784</td></tr>
+        <tr><td>US quart (qt)</td><td>0.946352946</td></tr>
+        <tr><td>US pint (pt)</td><td>0.473176473</td></tr>
+        <tr><td>US cup (cup)</td><td>0.2365882365</td></tr>
+        <tr><td>US fluid ounce (fl oz)</td><td>0.029573529563</td></tr>
+        <tr><td>Tablespoon (tbsp)</td><td>0.014786764781</td></tr>
+        <tr><td>Teaspoon (tsp)</td><td>0.004928921594</td></tr>
+        <tr><td>Imperial gallon (imp gal)</td><td>4.54609</td></tr>
+        <tr><td>Cubic foot (ft³)</td><td>28.316846592</td></tr>
+        <tr><td>Cubic inch (in³)</td><td>0.016387064</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>The classic traps: US and imperial gallons differ by 20%, and a US "cup" is 236.59 mL while many recipe sites round to 240 mL. When precision matters (dosing, chemistry, brewing), use the exact factors in the table above.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.nist.gov/pml/special-publication-811" rel="noopener" target="_blank">NIST Special Publication 811</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/area-converter">How to convert square feet to square meters (and any area unit)</a></li>
+        <li><a href="/blog/volumetric-flow-rate-converter">How to convert GPM to L/min and CFM to m³/h</a></li>
+        <li><a href="/blog/pressure-converter">How to convert PSI to bar, kPa, and atm</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/volume-converter">Volume Converter</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
