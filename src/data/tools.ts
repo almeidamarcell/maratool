@@ -256,6 +256,18 @@ export const tools: Tool[] = [
     blogPost: true,
   },
   {
+    slug: 'describe-video',
+    name: 'Describe Video with AI',
+    emoji: '👁️',
+    description: 'Get a text description of every second of your video — an AI model describes each frame locally in your browser. No upload, no signup.',
+    category: 'Converter',
+    subcategory: 'Video',
+    keywords: ['describe video with ai', 'ai video describer', 'video description generator', 'video to text description', 'describe what happens in a video', 'video scene description', 'audio description script generator', 'video frame captioning'],
+    live: true,
+    blogPost: true,
+    tags: ['file-upload'],
+  },
+  {
     slug: 'mov-to-mp4',
     name: 'Convert MOV to MP4 — Free QuickTime Converter',
     emoji: '🔄',
