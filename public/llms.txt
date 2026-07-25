@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 496 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 499 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -125,6 +125,9 @@ maratool.com is a growing collection of 496 free tools that run in the browser u
 - [Luminous Energy Converter — Lumen-Seconds & Talbots](https://maratool.com/luminous-energy-converter): Convert luminous energy between lumen-seconds, talbots, lumen-minutes, and lumen-hours instantly. Free photometry unit converter in your browser.
 - [Luminous Flux Converter — Lumens](https://maratool.com/luminous-flux-converter): Convert luminous flux between lumens, kilolumens, millilumens, and candela-steradians instantly. Free photometry unit converter in your browser.
 - [Luminous Intensity Converter — Candela & Candlepower](https://maratool.com/luminous-intensity-converter): Convert luminous intensity between candela, millicandela, and candlepower instantly — LED mcd ratings included. Free converter in your browser.
+- [Gray to Rad Converter — Absorbed Radiation Dose](https://maratool.com/absorbed-dose-converter): Convert absorbed radiation dose between grays, milligrays, and rads instantly — 1 Gy = 100 rad exactly. Free dose unit converter in your browser.
+- [Sievert to Rem Converter — Equivalent Radiation Dose](https://maratool.com/equivalent-dose-converter): Convert equivalent radiation dose between sieverts, millisieverts, and rems instantly — 1 Sv = 100 rem exactly. Free converter in your browser.
+- [Becquerel to Curie Converter — Radioactivity](https://maratool.com/radioactivity-converter): Convert radioactivity between becquerels, megabecquerels, curies, and millicuries instantly — 1 Ci = 3.7×10¹⁰ Bq. Free converter in your browser.
 
 ### Developer
 - [Test Regex Patterns Online](https://maratool.com/regex-tester): Test regular expressions with live match highlighting.

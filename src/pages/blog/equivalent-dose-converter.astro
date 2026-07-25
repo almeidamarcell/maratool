@@ -1,0 +1,84 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'equivalent-dose-converter'
+const seo = {
+  title: 'Sievert to rem converter — equivalent dose | maratool',
+  description: 'Convert sieverts, millisieverts, and rems — 1 Sv = 100 rem exactly. Free browser equivalent dose converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert sieverts to rem (equivalent dose)',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert sieverts, millisieverts, and rems — 1 Sv = 100 rem exactly. Free browser equivalent dose converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert sieverts to rem (equivalent dose)', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert sieverts to rem (equivalent dose)"
+      lead="Type an equivalent dose — read Sv, mSv, µSv, rem, or mrem instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Dosimeter badges in the US read mrem; international guidance reads mSv. The <a href="/equivalent-dose-converter">Sievert to Rem Converter</a> applies the exact factor of 100 between the systems.</p>
+
+      <BlogToolEmbed slug="equivalent-dose-converter" title="Try it — convert equivalent dose units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Millisievert (mSv)" to "Millirem (mrem)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Equivalent dose conversion factors</h2>
+      <p>Every unit converts through the sievert (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many sieverts</th></tr></thead>
+        <tbody>
+        <tr><td>Sievert (Sv)</td><td>1</td></tr>
+        <tr><td>Millisievert (mSv)</td><td>0.001</td></tr>
+        <tr><td>Microsievert (µSv)</td><td>1.0000 × 10^-6</td></tr>
+        <tr><td>Rem (rem)</td><td>0.01</td></tr>
+        <tr><td>Millirem (mrem)</td><td>1.0000 × 10^-5</td></tr>
+        <tr><td>Microrem (µrem)</td><td>1.0000 × 10^-8</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>Reference points: a dental X-ray ≈ 5 µSv (0.5 mrem), a transatlantic flight ≈ 40 µSv, annual natural background 2–3 mSv (200–300 mrem), US occupational limit 50 mSv/year (5 rem). Unit conversion only — dose assessment belongs to health physics.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.nrc.gov/about-nrc/radiation/health-effects/measuring-radiation.html" rel="noopener" target="_blank">US NRC — Measuring Radiation</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded. Unit conversion only — this does not assess dose, risk, or safety, and is not medical advice.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/equivalent-dose-converter">Sievert to Rem</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

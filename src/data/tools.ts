@@ -5463,6 +5463,40 @@ export const tools: Tool[] = [
     live: true,
     blogPost: true,
   },
+  // ── Wave 5 — radiation dose converters ──
+  {
+    slug: 'absorbed-dose-converter',
+    name: 'Gray to Rad Converter — Absorbed Radiation Dose',
+    emoji: '☢️',
+    description: 'Convert absorbed radiation dose between grays, milligrays, and rads instantly — 1 Gy = 100 rad exactly. Free dose unit converter in your browser.',
+    category: 'Converter',
+    subcategory: 'Radiation',
+    keywords: ['gray to rad', 'rad to gray', 'gy to rad', 'cgy to rad', 'absorbed dose units', 'mgy to rad', 'radiation dose converter'],
+    live: true,
+    blogPost: true,
+  },
+  {
+    slug: 'equivalent-dose-converter',
+    name: 'Sievert to Rem Converter — Equivalent Radiation Dose',
+    emoji: '🛡️',
+    description: 'Convert equivalent radiation dose between sieverts, millisieverts, and rems instantly — 1 Sv = 100 rem exactly. Free converter in your browser.',
+    category: 'Converter',
+    subcategory: 'Radiation',
+    keywords: ['sievert to rem', 'rem to sievert', 'msv to mrem', 'mrem to msv', 'usv to mrem', 'equivalent dose units', 'radiation exposure converter'],
+    live: true,
+    blogPost: true,
+  },
+  {
+    slug: 'radioactivity-converter',
+    name: 'Becquerel to Curie Converter — Radioactivity',
+    emoji: '📡',
+    description: 'Convert radioactivity between becquerels, megabecquerels, curies, and millicuries instantly — 1 Ci = 3.7×10¹⁰ Bq. Free converter in your browser.',
+    category: 'Converter',
+    subcategory: 'Radiation',
+    keywords: ['becquerel to curie', 'curie to becquerel', 'mci to mbq', 'mbq to mci', 'dpm to bq', 'radioactivity units', 'activity converter nuclear'],
+    live: true,
+    blogPost: true,
+  },
 ]
 
 // Ordered categories and their subcategories
