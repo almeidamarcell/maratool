@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 458 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 460 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -29,6 +29,7 @@ maratool.com is a growing collection of 458 free tools that run in the browser u
 - [Convert Animated WebP to MP4](https://maratool.com/webp-to-mp4): Convert animated WebP images to MP4 video in your browser. Adjust quality and resolution, batch convert, then download.
 - [Trim Video Online — Cut MP4, WebM, MOV](https://maratool.com/trim-video): Trim and cut MP4, WebM, MOV videos online for free. Set start and end times, lossless — runs in your browser, no upload, no watermark.
 - [Convert MP4 to MP3 — Extract Audio from Video](https://maratool.com/mp4-to-mp3): Extract audio from MP4, WebM, or MOV videos and download as MP3. Runs in your browser — no upload, no signup, no watermark.
+- [Video to Text](https://maratool.com/video-to-text): Convert video to text online for free. Transcribe MP4, WebM, MOV, and audio to text, SRT, or VTT in your browser — no upload, no signup.
 - [Convert MOV to MP4 — Free QuickTime Converter](https://maratool.com/mov-to-mp4): Convert MOV (QuickTime) files to MP4 directly in your browser. Lossless when possible — no upload, no watermark, no signup.
 - [Convert MP4 to WebM — Online Video Converter](https://maratool.com/mp4-to-webm): Convert MP4 video files to WebM in your browser. No upload, no watermark, no signup — runs entirely on your device.
 - [Compress Video Online — Reduce MP4 Size](https://maratool.com/compress-video): Compress MP4, WebM, and MOV videos to a smaller file size. Choose a quality preset, runs entirely in your browser.
@@ -66,6 +67,7 @@ maratool.com is a growing collection of 458 free tools that run in the browser u
 - [Add Freeze Frame to Video Online](https://maratool.com/freeze-video): Add Freeze Frame to Video Online. Runs in your browser — no upload, no watermark.
 - [Video Screenshot — Extract Frame as Image](https://maratool.com/video-screenshot): Video Screenshot. Runs in your browser — no upload, no watermark.
 - [Images to Video — Slideshow MP4 Maker](https://maratool.com/images-to-video): Images to Video. Runs in your browser — no upload, no watermark.
+- [Audio to Text](https://maratool.com/audio-to-text): Convert audio to text online for free. Transcribe MP3, WAV, M4A, and more to text, SRT, or VTT in your browser — no upload, no signup.
 - [Cut Audio Online — Trim MP3 WAV FLAC](https://maratool.com/cut-audio): Cut Audio Online. Runs in your browser — no upload, no watermark.
 - [Compress Audio Online — Reduce MP3 Size](https://maratool.com/compress-audio): Compress Audio Online. Runs in your browser — no upload, no watermark.
 - [Merge Audio Files Online](https://maratool.com/merge-audio): Merge Audio Files Online. Runs in your browser — no upload, no watermark.
