@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'tire-size-calculator'
+const seo = {
+  title: 'Tire size calculator — compare dimensions | maratool',
+  description: 'Parse 205/55R16 into diameter, sidewall, and circumference and compare two sizes with speedometer error. Free browser tool.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to read tire sizes and compare 205/55R16 to another size',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Parse 205/55R16 into diameter, sidewall, and circumference and compare two sizes with speedometer error. Free browser tool.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to read tire sizes and compare 205/55R16 to another size', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to read tire sizes and compare 205/55R16 to another size"
+      lead="Type a tire code — get real dimensions and a two-size comparison with speedometer error."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>That string on your sidewall is three numbers in three different units. The <a href="/tire-size-calculator">Tire Size Calculator</a> decodes it into millimeters and inches, then compares any two sizes the way a tire shop would.</p>
+
+      <BlogToolEmbed slug="tire-size-calculator" title="Try it — enter tire codes" height={620} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Tire 1</strong> — e.g. 205/55R16 (your current size).</li>
+        <li><strong>Tire 2</strong> — optional candidate size to compare.</li>
+        <li><strong>Read the diff</strong> — diameter change and speedometer error.</li>
+      </ol>
+
+      <h2>The geometry</h2>
+      <p>Per the <a href="https://www.iso.org/standard/76574.html" rel="noopener" target="_blank">ISO 4000-1 / ETRTO</a> metric designation, sidewall height = width × aspect%, and overall diameter = rim×25.4 + 2×sidewall (all in mm). A 205/55R16 stands 631 mm (24.8″) tall with a 112.8 mm sidewall.</p>
+
+      <h2>Why the ±3% rule exists</h2>
+      <p>Speedometers, odometers, ABS, and gearing all assume the stock rolling circumference. Moving to a tire 3% larger under-reads speed by 3% and subtly raises effective gearing. The comparison panel shows exactly how far a candidate size drifts.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Methodology reference: <a href="https://www.iso.org/standard/76574.html" rel="noopener" target="_blank">ISO 4000-1 (passenger car tyre designation)</a>. Everything runs client-side in your browser; nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/screen-size-calculator">How to calculate TV and monitor dimensions from the diagonal</a></li>
+        <li><a href="/blog/mpg-to-l100km">How to convert MPG to L/100km (fuel economy)</a></li>
+        <li><a href="/blog/clothing-size-converter">How to convert clothing sizes between US, EU, and UK</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/tire-size-calculator">Tire Size Calculator</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

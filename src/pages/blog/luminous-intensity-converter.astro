@@ -1,0 +1,92 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'luminous-intensity-converter'
+const seo = {
+  title: 'Luminous intensity converter — candela, mcd | maratool',
+  description: 'Convert candela, millicandela, and candlepower instantly. Free browser luminous intensity converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert mcd to candela and candlepower',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert candela, millicandela, and candlepower instantly. Free browser luminous intensity converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert mcd to candela and candlepower', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert mcd to candela and candlepower"
+      lead="Type an intensity — read cd, mcd, kcd, or candlepower instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>LED datasheets rate brightness in millicandela while spotlight marketing says candlepower. The <a href="/luminous-intensity-converter">Luminous Intensity Converter</a> reads both as candelas.</p>
+
+      <BlogToolEmbed slug="luminous-intensity-converter" title="Try it — convert luminous intensity units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Millicandela (mcd)" to "Candela (cd)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Luminous intensity conversion factors</h2>
+      <p>Every unit converts through the candela (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many candelas</th></tr></thead>
+        <tbody>
+        <tr><td>Kilocandela (kcd)</td><td>1,000</td></tr>
+        <tr><td>Candela (cd)</td><td>1</td></tr>
+        <tr><td>Millicandela (mcd)</td><td>0.001</td></tr>
+        <tr><td>Candlepower, modern (cp)</td><td>1</td></tr>
+        <tr><td>Hefner candle (HK)</td><td>0.903</td></tr>
+        <tr><td>International candle (IC)</td><td>1.019</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>Intensity and total output are different: a laser pointer exceeds 1,000 cd in its beam but emits under 1 lm. To convert cd to lumens you need the beam angle — flux = intensity × solid angle.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.nist.gov/pml/special-publication-811" rel="noopener" target="_blank">NIST Special Publication 811</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/luminous-flux-converter">How to convert lumens, kilolumens, and cd·sr</a></li>
+        <li><a href="/blog/luminance-converter">How to convert nits to foot-lamberts (screen brightness)</a></li>
+        <li><a href="/blog/illuminance-converter">How to convert lux to foot-candles</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/luminous-intensity-converter">Luminous Intensity</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

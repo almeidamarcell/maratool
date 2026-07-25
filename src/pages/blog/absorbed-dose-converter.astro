@@ -1,0 +1,93 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'absorbed-dose-converter'
+const seo = {
+  title: 'Gray to rad converter — absorbed dose | maratool',
+  description: 'Convert grays, milligrays, and rads — 1 Gy = 100 rad exactly. Free browser absorbed dose unit converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert gray to rad (absorbed dose)',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert grays, milligrays, and rads — 1 Gy = 100 rad exactly. Free browser absorbed dose unit converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert gray to rad (absorbed dose)', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert gray to rad (absorbed dose)"
+      lead="Type an absorbed dose — read Gy, cGy, mGy, or rad instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>US regulatory documents still cite rads while international and clinical practice uses grays. The <a href="/absorbed-dose-converter">Gray to Rad Converter</a> applies the exact 1:100 relation.</p>
+
+      <BlogToolEmbed slug="absorbed-dose-converter" title="Try it — convert absorbed dose units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Gray (Gy)" to "Rad (rad)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Absorbed dose conversion factors</h2>
+      <p>Every unit converts through the gray (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many grays</th></tr></thead>
+        <tbody>
+        <tr><td>Kilogray (kGy)</td><td>1,000</td></tr>
+        <tr><td>Gray (Gy)</td><td>1</td></tr>
+        <tr><td>Centigray (cGy)</td><td>0.01</td></tr>
+        <tr><td>Milligray (mGy)</td><td>0.001</td></tr>
+        <tr><td>Microgray (µGy)</td><td>1.0000 × 10^-6</td></tr>
+        <tr><td>Rad (rad)</td><td>0.01</td></tr>
+        <tr><td>Millirad (mrad)</td><td>1.0000 × 10^-5</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>Scale: a chest CT deposits ~7 mGy (0.7 rad) locally; a radiotherapy course delivers 60 Gy (6,000 rad) in fractions to the target volume; food irradiation runs into kilograys. This page converts units only — interpreting a dose requires the exposure context.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.nrc.gov/about-nrc/radiation/health-effects/measuring-radiation.html" rel="noopener" target="_blank">US NRC — Measuring Radiation</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded. Unit conversion only — this does not assess dose, risk, or safety, and is not medical advice.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/equivalent-dose-converter">How to convert sieverts to rem (equivalent dose)</a></li>
+        <li><a href="/blog/radioactivity-converter">How to convert becquerels to curies (radioactivity)</a></li>
+        <li><a href="/blog/energy-converter">How to convert calories, joules, kWh, and BTU</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/absorbed-dose-converter">Gray to Rad</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

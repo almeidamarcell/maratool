@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'MPG to L/100km Converter — Fuel Economy | maratool',
+  description: 'Convert fuel economy between US MPG, UK MPG, L/100km, and km/L instantly. Free fuel consumption converter that runs entirely in your browser.',
+  canonical: 'https://maratool.com/mpg-to-l100km',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'MPG to L/100km Converter — Fuel Economy',
+    url: 'https://maratool.com/mpg-to-l100km',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert fuel economy between US MPG, UK MPG, L/100km, and km/L instantly. Free fuel consumption converter that runs entirely in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Unit', item: 'https://maratool.com/converter/unit' },
+      { '@type': 'ListItem', position: 4, name: 'MPG to L/100km Converter — Fuel Economy', item: 'https://maratool.com/mpg-to-l100km' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Why is MPG to L/100km an inverse conversion?', acceptedAnswer: { '@type': 'Answer', text: 'MPG measures distance per fuel; L/100km measures fuel per distance. The relation is L/100km = 235.215 ÷ MPG(US) — doubling MPG halves consumption.' } },
+      { '@type': 'Question', name: 'Why are UK and US MPG different?', acceptedAnswer: { '@type': 'Answer', text: 'The gallons differ: US 3.785412 L vs imperial 4.54609 L. The same car scores about 20% higher in UK MPG (×1.20095).' } },
+      { '@type': 'Question', name: 'What is a good fuel economy?', acceptedAnswer: { '@type': 'Answer', text: 'On the US EPA combined cycle, 30+ MPG (under 7.8 L/100km) is efficient for gasoline cars; hybrids reach 50+ MPG (4.7 L/100km).' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. The conversion runs entirely in your browser using exact gallon and mile definitions.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your fuel economy value.',
+  'Pick its unit — US MPG, UK MPG, L/100km, or km/L.',
+  'Read all four equivalents instantly and copy the summary.'
+]
+
+const faq = [
+  { q: 'Why is MPG to L/100km an inverse conversion?', a: 'MPG measures distance per fuel; L/100km measures fuel per distance. The relation is L/100km = 235.215 ÷ MPG(US) — doubling MPG halves consumption.' },
+  { q: 'Why are UK and US MPG different?', a: 'The gallons differ: US 3.785412 L vs imperial 4.54609 L. The same car scores about 20% higher in UK MPG (×1.20095).' },
+  { q: 'What is a good fuel economy?', a: 'On the US EPA combined cycle, 30+ MPG (under 7.8 L/100km) is efficient for gasoline cars; hybrids reach 50+ MPG (4.7 L/100km).' },
+  { q: 'Is my data sent to a server?', a: 'No. The conversion runs entirely in your browser using exact gallon and mile definitions.' }
+]
+
+const relatedTools = [
+  { slug: 'unit-converter', name: 'Unit Converter' },
+  { slug: 'volume-converter', name: 'Volume Converter' },
+  { slug: 'tire-size-calculator', name: 'Tire Size Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Unit', href: '/converter/unit' },
+  { label: 'MPG to L/100km' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="mpg-to-l100km" name="MPG to L/100km Converter — Fuel Economy" description="Enter fuel economy in any unit to see US MPG, UK MPG, L/100km, and km/L side by side." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:380px;">
+      <div class="calc-row">
+        <div class="calc-field"><label class="tool-label" for="mpg-value">Fuel economy</label><input type="number" id="mpg-value" class="tool-input" placeholder="30" min="0" step="any" /></div>
+        <div class="calc-field"><label class="tool-label" for="mpg-unit">Unit</label><select id="mpg-unit" class="tool-input calc-select"><option value="mpgus">MPG (US)</option><option value="mpguk">MPG (UK)</option><option value="l100">L/100km</option><option value="kml">km/L</option></select></div>
+      </div>
+      <div class="tool-stats">
+        <div class="tool-stat"><span class="tool-stat-value" id="mpg-out-mpgus">—</span><span class="tool-stat-label">MPG (US)</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="mpg-out-mpguk">—</span><span class="tool-stat-label">MPG (UK)</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="mpg-out-l100">—</span><span class="tool-stat-label">L/100km</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="mpg-out-kml">—</span><span class="tool-stat-label">km/L</span></div>
+      </div>
+      <button type="button" id="mpg-copy" class="copy-btn" style="margin-top:1rem;">Copy summary</button>
+        <div class="tool-note"><strong>How this conversion works.</strong> Uses the inverse relation L/100km = 235.215 ÷ MPG(US) with exact US gallon (3.785411784 L), imperial gallon (4.54609 L), and mile (1.609344 km) definitions. Reference: <a href="https://www.fueleconomy.gov/" rel="noopener" target="_blank">US EPA fueleconomy.gov</a>.</div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.5rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr !important; } }
+</style>
+<script src="../tools/mpg-to-l100km.js"></script>

@@ -1,0 +1,108 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Gray to Rad Converter — Absorbed Dose | maratool',
+  description: 'Convert absorbed radiation dose between grays, milligrays, and rads instantly — 1 Gy = 100 rad exactly. Free dose unit converter in your browser.',
+  canonical: 'https://maratool.com/absorbed-dose-converter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Gray to Rad Converter — Absorbed Radiation Dose',
+    url: 'https://maratool.com/absorbed-dose-converter',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert absorbed radiation dose between grays, milligrays, and rads instantly — 1 Gy = 100 rad exactly. Free dose unit converter in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Radiation', item: 'https://maratool.com/converter/radiation' },
+      { '@type': 'ListItem', position: 4, name: 'Gray to Rad Converter — Absorbed Radiation Dose', item: 'https://maratool.com/absorbed-dose-converter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do I convert gray to rad?', acceptedAnswer: { '@type': 'Answer', text: '1 gray = 100 rad. Choose "Gray (Gy)" as From and "Rad (rad)" as To, type a value, and the result updates instantly.' } },
+      { '@type': 'Question', name: 'How many rads are in a gray?', acceptedAnswer: { '@type': 'Answer', text: 'Exactly 100 — both measure energy absorbed per mass (1 Gy = 1 J/kg = 100 rad). Radiotherapy uses cGy because 1 cGy = 1 rad, easing the transition from older records.' } },
+      { '@type': 'Question', name: 'What is the difference between absorbed and equivalent dose?', acceptedAnswer: { '@type': 'Answer', text: 'Absorbed dose (Gy, rad) is raw energy deposited. Equivalent dose (Sv, rem) weights it by radiation type for biological effect. Same numbers for X-rays; very different for alpha particles.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Conversions run entirely in your browser using fixed factors — nothing is uploaded or logged.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Choose the units to convert from and to.',
+  'Enter a value — the converted result updates instantly.',
+  'Click Copy to copy the result to your clipboard.'
+]
+
+const faq = [
+  { q: 'How do I convert gray to rad?', a: '1 gray = 100 rad. Choose "Gray (Gy)" as From and "Rad (rad)" as To, type a value, and the result updates instantly.' },
+  { q: 'How many rads are in a gray?', a: 'Exactly 100 — both measure energy absorbed per mass (1 Gy = 1 J/kg = 100 rad). Radiotherapy uses cGy because 1 cGy = 1 rad, easing the transition from older records.' },
+  { q: 'What is the difference between absorbed and equivalent dose?', a: 'Absorbed dose (Gy, rad) is raw energy deposited. Equivalent dose (Sv, rem) weights it by radiation type for biological effect. Same numbers for X-rays; very different for alpha particles.' },
+  { q: 'Is my data sent to a server?', a: 'No. Conversions run entirely in your browser using fixed factors — nothing is uploaded or logged.' }
+]
+
+const relatedTools = [
+  { slug: 'equivalent-dose-converter', name: 'Sievert to Rem' },
+  { slug: 'radioactivity-converter', name: 'Becquerel to Curie' },
+  { slug: 'energy-converter', name: 'Energy Converter' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Radiation', href: '/converter/radiation' },
+  { label: 'Gray to Rad' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="absorbed-dose-converter" name="Gray to Rad Converter — Absorbed Radiation Dose" description="Convert absorbed dose between grays, milligrays, centigrays, and rads." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:340px;">
+        <div class="uc-converter">
+          <div class="uc-col">
+            <label class="tool-label" for="adc-from-unit">From</label>
+            <select id="adc-from-unit" class="uc-select"></select>
+            <input type="number" id="adc-from-value" class="tool-input uc-value" placeholder="1" step="any" />
+          </div>
+          <div class="uc-swap-col">
+            <button class="uc-swap-btn" id="adc-swap" title="Swap units">&hArr;</button>
+          </div>
+          <div class="uc-col">
+            <label class="tool-label" for="adc-to-unit">To</label>
+            <select id="adc-to-unit" class="uc-select"></select>
+            <div class="uc-result" id="adc-result">&mdash;</div>
+            <button class="copy-btn" id="adc-copy">Copy</button>
+          </div>
+        </div>
+        <div class="tool-note"><strong>How this conversion works.</strong> Absorbed dose is converted through the gray (1 J/kg); the rad relation (1 Gy = 100 rad exactly) follows <a href="https://www.nrc.gov/about-nrc/radiation/health-effects/measuring-radiation.html" rel="noopener" target="_blank">US NRC — Measuring Radiation</a>. <em>Unit conversion only — this does not assess dose, risk, or safety, and is not medical advice.</em></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .uc-converter { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: start; }
+  .uc-col { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+  .uc-select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font-size: 14px; margin-bottom: 0.75rem; cursor: pointer; }
+  .uc-value { width: 100%; font-size: 18px; font-family: var(--font-mono); }
+  .uc-result { font-size: 24px; font-weight: 700; font-family: var(--font-mono); color: var(--text); margin-bottom: 0.5rem; min-height: 36px; word-break: break-all; }
+  .uc-swap-col { display: flex; align-items: center; padding-top: 2rem; }
+  .uc-swap-btn { width: 40px; height: 40px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text-2); font-size: 18px; cursor: pointer; transition: background 0.1s; }
+  .uc-swap-btn:hover { background: var(--bg-soft); }
+  @media (max-width: 600px) {
+    .uc-converter { grid-template-columns: 1fr; }
+    .uc-swap-col { justify-content: center; padding-top: 0; }
+  }
+</style>
+<script src="../tools/absorbed-dose-converter.js"></script>

@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 462 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 507 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -91,6 +91,49 @@ maratool.com is a growing collection of 462 free tools that run in the browser u
 - [Add Audio to Video Online](https://maratool.com/video-sound): Add Audio to Video Online. Runs in your browser — no upload, no watermark.
 - [Video to PNG — Extract Frames](https://maratool.com/video-to-png): Video to PNG. Runs in your browser — no upload, no watermark.
 - [Video to JPG — Extract Frame](https://maratool.com/video-to-jpg): Video to JPG. Runs in your browser — no upload, no watermark.
+- [Area Converter — Square Feet, Square Meters, Acres & Hectares](https://maratool.com/area-converter): Convert square feet to square meters, acres to hectares, and every common area unit instantly. Free area converter that runs in your browser.
+- [Volume Converter — Liters, Gallons, Cups & More](https://maratool.com/volume-converter): Convert liters to gallons, cups to milliliters, and every common volume unit instantly. Free volume converter that runs entirely in your browser.
+- [Pressure Converter — PSI, Bar, kPa & Atm](https://maratool.com/pressure-converter): Convert psi to bar, kPa to psi, atmospheres, torr, and mmHg instantly with NIST conversion factors. Free pressure converter, runs in your browser.
+- [Energy Converter — Joules, Calories, kWh & BTU](https://maratool.com/energy-converter): Convert joules to calories, kWh to BTU, electronvolts, and foot-pounds instantly with NIST factors. Free energy converter, runs in your browser.
+- [Power Converter — HP to kW, Watts & BTU/h](https://maratool.com/power-converter): Convert horsepower to kilowatts, watts to BTU/h, and tons of refrigeration instantly with NIST factors. Free power converter in your browser.
+- [Force Converter — Newtons, Kilograms-Force & Pounds-Force](https://maratool.com/force-converter): Convert newtons to pounds-force, kilograms-force, dynes, and poundals instantly with exact NIST factors. Free force converter in your browser.
+- [Torque Converter — Nm to Ft-Lb](https://maratool.com/torque-converter): Convert newton-meters to foot-pounds, inch-pounds, and kgf·m instantly with exact NIST factors. Free torque unit converter in your browser.
+- [Acceleration Converter — m/s², G-Force & More](https://maratool.com/acceleration-converter): Convert m/s² to g-force, ft/s², Gal, and km/h per second instantly with exact NIST factors. Free acceleration unit converter in your browser.
+- [Density Converter — kg/m³, g/cm³ & lb/ft³](https://maratool.com/density-converter): Convert kg/m³ to g/cm³, lb/ft³, lb/in³, and kg/L instantly with exact NIST-derived factors. Free density unit converter in your browser.
+- [Angle Converter — Degrees, Radians & Gradians](https://maratool.com/angle-converter): Convert degrees to radians, gradians, arcminutes, arcseconds, and turns instantly. Free angle unit converter that runs entirely in your browser.
+- [Frequency Converter — Hz, kHz, MHz & RPM](https://maratool.com/frequency-converter): Convert hertz to kilohertz, megahertz, RPM, and radians per second instantly. Free frequency unit converter that runs entirely in your browser.
+- [Bandwidth Converter — Mbps, MB/s & Gbps](https://maratool.com/bandwidth-converter): Convert Mbps to MB/s, Gbps to Mbps, and MiB/s instantly — decimal and binary prefixes handled correctly. Free bandwidth converter in your browser.
+- [Amount of Substance Converter — Moles & Millimoles](https://maratool.com/amount-of-substance-converter): Convert moles to millimoles, micromoles, kilomoles, and pound-moles instantly. Free amount-of-substance converter that runs in your browser.
+- [Molar Mass Converter — g/mol & kg/mol](https://maratool.com/molar-mass-converter): Convert molar mass between g/mol, kg/mol, kg/kmol, daltons, and lb/lb-mol instantly. Free molar mass unit converter that runs in your browser.
+- [Dynamic Viscosity Converter — Pa·s, Poise & Centipoise](https://maratool.com/dynamic-viscosity-converter): Convert dynamic viscosity between Pa·s, poise, centipoise, and lbf·s/ft² instantly with NIST factors. Free viscosity converter in your browser.
+- [Kinematic Viscosity Converter — m²/s, Stokes & Centistokes](https://maratool.com/kinematic-viscosity-converter): Convert kinematic viscosity between m²/s, stokes, centistokes, and ft²/s instantly with exact NIST factors. Free viscosity converter in your browser.
+- [Mass Flow Rate Converter — kg/s, kg/h & lb/h](https://maratool.com/mass-flow-rate-converter): Convert mass flow between kg/s, kg/h, tonnes per hour, lb/s, and lb/h instantly with exact NIST factors. Free flow rate converter in your browser.
+- [Flow Rate Converter — L/min, GPM & CFM](https://maratool.com/volumetric-flow-rate-converter): Convert volumetric flow between L/min, GPM, CFM, m³/h, and L/s instantly with exact NIST factors. Free flow rate converter in your browser.
+- [Capacitance Converter — Farads, µF, nF & pF](https://maratool.com/capacitance-converter): Convert capacitance between farads, microfarads, nanofarads, and picofarads instantly. Free capacitance unit converter that runs in your browser.
+- [Electric Charge Converter — Coulombs, Ah & mAh](https://maratool.com/electric-charge-converter): Convert electric charge between coulombs, ampere-hours, and milliamp-hours instantly. Free charge unit converter for battery and electronics work.
+- [Electric Current Converter — Amps, Milliamps & Kiloamps](https://maratool.com/electric-current-converter): Convert electric current between amps, milliamps, microamps, and kiloamps instantly. Free current unit converter that runs in your browser.
+- [Electric Potential Converter — Volts, Millivolts & Kilovolts](https://maratool.com/electric-potential-converter): Convert electric potential between volts, millivolts, microvolts, kilovolts, and megavolts instantly. Free voltage unit converter in your browser.
+- [Electrical Conductance Converter — Siemens & Mho](https://maratool.com/electrical-conductance-converter): Convert electrical conductance between siemens, millisiemens, microsiemens, and mho instantly. Free conductance unit converter in your browser.
+- [Electrical Resistance Converter — Ohms, kΩ & MΩ](https://maratool.com/electrical-resistance-converter): Convert electrical resistance between ohms, kiloohms, megaohms, and gigaohms instantly. Free resistance unit converter that runs in your browser.
+- [Inductance Converter — Henry, mH & µH](https://maratool.com/inductance-converter): Convert inductance between henries, millihenries, microhenries, and nanohenries instantly. Free inductance unit converter that runs in your browser.
+- [Tesla to Gauss Converter — Magnetic Field](https://maratool.com/magnetic-field-converter): Convert magnetic flux density between tesla, gauss, millitesla, and gamma instantly — 1 T = 10,000 G exactly. Free converter in your browser.
+- [Magnetic Field Strength Converter — A/m & Oersted](https://maratool.com/magnetic-field-strength-converter): Convert magnetic field strength H between amperes per meter and oersteds instantly — 1 Oe = 1000/4π A/m. Free converter in your browser.
+- [Magnetic Flux Converter — Weber & Maxwell](https://maratool.com/magnetic-flux-converter): Convert magnetic flux between webers, milliwebers, and maxwells instantly — 1 Wb = 10⁸ Mx exactly. Free flux unit converter in your browser.
+- [Magnetomotive Force Converter — Ampere-Turns & Gilberts](https://maratool.com/magnetomotive-force-converter): Convert magnetomotive force between ampere-turns and gilberts instantly — 1 Gb = 10/4π At exactly. Free MMF unit converter in your browser.
+- [Lux to Foot-Candles Converter — Illuminance](https://maratool.com/illuminance-converter): Convert illuminance between lux, foot-candles, and phots instantly — 1 fc = 10.764 lx exactly. Free lighting unit converter in your browser.
+- [Luminance Converter — cd/m² (Nits) & Foot-Lamberts](https://maratool.com/luminance-converter): Convert luminance between cd/m² (nits), foot-lamberts, stilbs, and lamberts instantly with exact NIST factors. Free converter in your browser.
+- [Luminous Energy Converter — Lumen-Seconds & Talbots](https://maratool.com/luminous-energy-converter): Convert luminous energy between lumen-seconds, talbots, lumen-minutes, and lumen-hours instantly. Free photometry unit converter in your browser.
+- [Luminous Flux Converter — Lumens](https://maratool.com/luminous-flux-converter): Convert luminous flux between lumens, kilolumens, millilumens, and candela-steradians instantly. Free photometry unit converter in your browser.
+- [Luminous Intensity Converter — Candela & Candlepower](https://maratool.com/luminous-intensity-converter): Convert luminous intensity between candela, millicandela, and candlepower instantly — LED mcd ratings included. Free converter in your browser.
+- [Gray to Rad Converter — Absorbed Radiation Dose](https://maratool.com/absorbed-dose-converter): Convert absorbed radiation dose between grays, milligrays, and rads instantly — 1 Gy = 100 rad exactly. Free dose unit converter in your browser.
+- [Sievert to Rem Converter — Equivalent Radiation Dose](https://maratool.com/equivalent-dose-converter): Convert equivalent radiation dose between sieverts, millisieverts, and rems instantly — 1 Sv = 100 rem exactly. Free converter in your browser.
+- [Becquerel to Curie Converter — Radioactivity](https://maratool.com/radioactivity-converter): Convert radioactivity between becquerels, megabecquerels, curies, and millicuries instantly — 1 Ci = 3.7×10¹⁰ Bq. Free converter in your browser.
+- [MPG to L/100km Converter — Fuel Economy](https://maratool.com/mpg-to-l100km): Convert fuel economy between US MPG, UK MPG, L/100km, and km/L instantly. Free fuel consumption converter that runs entirely in your browser.
+- [Wind Speed Converter — Knots, MPH, km/h & Beaufort Scale](https://maratool.com/wind-speed-converter): Convert wind speed between knots, mph, km/h, and m/s and read the Beaufort scale force with description. Free wind converter in your browser.
+- [Tire Size Calculator — Compare Tire Dimensions](https://maratool.com/tire-size-calculator): Enter a tire size like 205/55R16 to get diameter, sidewall, and circumference — and compare two sizes with speedometer error. Free, in-browser.
+- [Screen Size Calculator — TV & Monitor Dimensions](https://maratool.com/screen-size-calculator): Turn a diagonal size and aspect ratio into real width, height, area, and PPI for TVs and monitors — inches and centimeters. Free, in-browser.
+- [Clothing Size Converter — US, EU & UK Dress and Suit Sizes](https://maratool.com/clothing-size-converter): Convert clothing sizes between US, UK, EU, Italian, and Japanese charts for women’s dresses, men’s suits, and shirts. Free, in your browser.
+- [Hat Size Converter — US, UK & CM](https://maratool.com/hat-size-converter): Convert hat sizes between head circumference in cm or inches, US and UK numeric sizes, and S/M/L letters. Free hat size converter in your browser.
 
 ### Developer
 - [Test Regex Patterns Online](https://maratool.com/regex-tester): Test regular expressions with live match highlighting.
@@ -443,6 +486,8 @@ maratool.com is a growing collection of 462 free tools that run in the browser u
 - [GWTG-HF Risk Score](https://maratool.com/gwtg-hf-risk): Get With The Guidelines Heart Failure (GWTG-HF) in-hospital mortality risk.
 - [MASCC Risk Index (Febrile Neutropenia)](https://maratool.com/mascc-febrile-neutropenia): MASCC risk index for low-risk febrile neutropenia in cancer patients.
 - [TASH Score (Massive Transfusion)](https://maratool.com/tash-massive-transfusion): Trauma Associated Severe Hemorrhage (TASH) score for massive transfusion prediction.
+- [Running Pace Calculator — Min/km, Min/mile & Race Times](https://maratool.com/running-pace-calculator): Calculate running pace per km and per mile from distance and time, plus projected 5K, 10K, half and marathon finish times. Free, in your browser.
+- [Pregnancy Due Date Calculator](https://maratool.com/due-date-calculator): Calculate your pregnancy due date from LMP, conception date, or IVF transfer using Naegele’s rule, plus current gestational age and trimester.
 
 ### Education
 - [Scientific Calculator Online](https://maratool.com/scientific-calculator): Full-featured scientific calculator with trigonometry, logarithms, exponents, and expression history.

@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'screen-size-calculator'
+const seo = {
+  title: 'Screen size calculator — TV dimensions, PPI | maratool',
+  description: 'Get real width, height, area, and PPI from a diagonal and aspect ratio. Free browser screen size calculator.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate TV and monitor dimensions from the diagonal',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Get real width, height, area, and PPI from a diagonal and aspect ratio. Free browser screen size calculator.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate TV and monitor dimensions from the diagonal', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate TV and monitor dimensions from the diagonal"
+      lead="Enter a diagonal and aspect ratio — read true width, height, area, and PPI."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>A "55-inch" TV tells you one number — the diagonal. The <a href="/screen-size-calculator">Screen Size Calculator</a> turns it into shelf-fitting width and height, viewing area, and pixel density.</p>
+
+      <BlogToolEmbed slug="screen-size-calculator" title="Try it — diagonal and aspect ratio" height={540} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Diagonal</strong> — the marketing size in inches.</li>
+        <li><strong>Aspect ratio</strong> — 16:9 unless you know otherwise.</li>
+        <li><strong>Optional resolution</strong> — adds PPI to the readout.</li>
+      </ol>
+
+      <h2>The formula</h2>
+      <p>For ratio w:h, width = diag × w/√(w²+h²) and height = diag × h/√(w²+h²). For 16:9 that means width = 0.8716 × diag and height = 0.4903 × diag — a 65″ TV is 56.7″ × 31.9″ (144 × 81 cm) plus bezel.</p>
+
+      <h2>Diagonal inflation</h2>
+      <p>Wider ratios pack less area per diagonal inch: a 34″ 21:9 ultrawide has about the same height as a 27″ 16:9 monitor, just stretched sideways. Compare areas, not diagonals, when weighing formats.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>The formula is arithmetic stated inline above — no external dataset is involved. Everything runs client-side in your browser; nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/tire-size-calculator">How to read tire sizes and compare 205/55R16 to another size</a></li>
+        <li><a href="/blog/luminance-converter">How to convert nits to foot-lamberts (screen brightness)</a></li>
+        <li><a href="/blog/clothing-size-converter">How to convert clothing sizes between US, EU, and UK</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/screen-size-calculator">Screen Size Calculator</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

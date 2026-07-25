@@ -1,0 +1,95 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'density-converter'
+const seo = {
+  title: 'Density converter — kg/m³, g/cm³, lb/ft³ | maratool',
+  description: 'Convert kg/m³, g/cm³, lb/ft³, and lb/in³ with exact NIST-derived factors. Free browser density converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert density between kg/m³, g/cm³, and lb/ft³',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert kg/m³, g/cm³, lb/ft³, and lb/in³ with exact NIST-derived factors. Free browser density converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert density between kg/m³, g/cm³, and lb/ft³', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert density between kg/m³, g/cm³, and lb/ft³"
+      lead="Type a density — read it in kg/m³, g/cm³, lb/ft³, lb/in³, or lb/gal instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Material datasheets quote g/cm³, CFD and HVAC work in kg/m³, and US structural tables use lb/ft³. The <a href="/density-converter">Density Converter</a> moves between them with exact factors.</p>
+
+      <BlogToolEmbed slug="density-converter" title="Try it — convert density units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Gram per cubic centimeter (g/cm³)" to "Kilogram per cubic meter (kg/m³)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Density conversion factors</h2>
+      <p>Every unit converts through the kilogram per cubic meter (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many kilogram per cubic meters</th></tr></thead>
+        <tbody>
+        <tr><td>Kilogram per cubic meter (kg/m³)</td><td>1</td></tr>
+        <tr><td>Gram per cubic centimeter (g/cm³)</td><td>1,000</td></tr>
+        <tr><td>Gram per milliliter (g/mL)</td><td>1,000</td></tr>
+        <tr><td>Kilogram per liter (kg/L)</td><td>1,000</td></tr>
+        <tr><td>Gram per liter (g/L)</td><td>1</td></tr>
+        <tr><td>Pound per cubic foot (lb/ft³)</td><td>16.01846337396</td></tr>
+        <tr><td>Pound per cubic inch (lb/in³)</td><td>27,679.904710203125</td></tr>
+        <tr><td>Pound per US gallon (lb/gal)</td><td>119.826427316897</td></tr>
+        <tr><td>Ounce per cubic inch (oz/in³)</td><td>1,729.994044387695</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>Handy anchors: water ≈ 1,000 kg/m³, aluminum 2.70 g/cm³ (168.6 lb/ft³), steel 7.85 g/cm³, air at sea level ≈ 1.225 kg/m³. The metric conversions are powers of ten; the pound-based ones use exact NIST mass/volume definitions.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.nist.gov/pml/special-publication-811" rel="noopener" target="_blank">NIST Special Publication 811</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/volume-converter">How to convert liters to gallons, cups, and ounces</a></li>
+        <li><a href="/blog/molar-mass-converter">How to convert molar mass units (g/mol, kg/mol, Da)</a></li>
+        <li><a href="/blog/area-converter">How to convert square feet to square meters (and any area unit)</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/density-converter">Density Converter</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
