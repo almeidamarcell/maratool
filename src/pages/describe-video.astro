@@ -87,13 +87,13 @@ const whatIs = 'The <strong>Describe Video with AI</strong> tool turns the visua
   <Layout>
     <ToolShell slug="describe-video" name="Describe Video with AI" description="Get a text description of every second of your video — an AI model describes each frame locally in your browser. No upload, no signup." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs={whatIs}>
       <div class="tool-container" style="min-height:480px;">
-        <div class="dv-dropzone" id="dv-dropzone">
+        <div class="pdf-dropzone" id="dv-dropzone">
           <input type="file" id="dv-file" accept="video/mp4,video/webm,video/quicktime" hidden />
-          <div class="dv-dropzone-inner">
-            <svg class="dv-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="10 9 15 12 10 15 10 9"/></svg>
-            <p class="dv-dropzone-title">Drop a video here</p>
-            <p class="dv-dropzone-sub">or click to select a file</p>
-            <p class="dv-formats">MP4, WebM, MOV — processed locally, never uploaded</p>
+          <div class="pdf-dropzone-inner">
+            <svg class="pdf-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="10 9 15 12 10 15 10 9"/></svg>
+            <p class="pdf-dropzone-title">Drop a video here</p>
+            <p class="pdf-dropzone-sub">or click to select a file</p>
+            <p class="pdf-dropzone-formats">MP4, WebM, MOV — processed locally, never uploaded</p>
           </div>
         </div>
 
@@ -146,45 +146,7 @@ const whatIs = 'The <strong>Describe Video with AI</strong> tool turns the visua
 </Base>
 
 <style is:global>
-  .dv-dropzone {
-    border: 2px dashed var(--border);
-    border-radius: var(--radius);
-    padding: 3rem 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .dv-dropzone:hover,
-  .dv-dropzone.dropzone-active {
-    border-color: var(--accent);
-    background: var(--bg-soft);
-  }
-  .dv-dropzone-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-  }
-  .dv-upload-icon {
-    color: var(--text-3);
-    margin-bottom: 0.5rem;
-  }
-  .dv-dropzone-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--text);
-    margin: 0;
-  }
-  .dv-dropzone-sub {
-    font-size: 0.875rem;
-    color: var(--text-2);
-    margin: 0;
-  }
-  .dv-formats {
-    font-size: 0.75rem;
-    color: var(--text-3);
-    margin: 0.25rem 0 0;
-  }
+  /* Dropzone styles come from the shared .pdf-dropzone rules in tools.css */
   .dv-video-preview {
     display: block;
     width: 100%;
