@@ -108,3 +108,86 @@ export function baseName(filename) {
   if (!filename) return 'video-description'
   return filename.replace(/\.[^.]+$/, '') || 'video-description'
 }
+
+// ── Combined audio + visual timeline ──
+// visual: [{ time, text }] from frame captioning
+// speech: [{ start, end, text }] from Whisper (video-to-text-core shape)
+// Output: [{ time, end?, kind: 'speech' | 'visual', text }] sorted by time,
+// speech first on ties (you hear the words as the scene appears).
+
+export function mergeTimeline(visualItems, speechSegments) {
+  const merged = []
+  for (const s of speechSegments || []) {
+    merged.push({ time: s.start, end: s.end, kind: 'speech', text: s.text })
+  }
+  for (const v of visualItems || []) {
+    merged.push({ time: v.time, kind: 'visual', text: v.text })
+  }
+  merged.sort((a, b) => {
+    if (a.time !== b.time) return a.time - b.time
+    if (a.kind === b.kind) return 0
+    return a.kind === 'speech' ? -1 : 1
+  })
+  return merged
+}
+
+function hasSpeech(merged) {
+  return merged.some((m) => m.kind === 'speech')
+}
+
+function label(item, withLabels) {
+  if (!withLabels) return item.text
+  return (item.kind === 'speech' ? 'Speech: ' : 'Visual: ') + item.text
+}
+
+// A visual cue describes the scene until the NEXT visual caption (speech cues
+// in between don't end it); the last one runs to the video duration.
+function visualCueEnds(merged, duration) {
+  const visuals = merged.filter((m) => m.kind === 'visual')
+  const ends = new Map()
+  visuals.forEach((v, i) => {
+    const next = visuals[i + 1]
+    if (next) ends.set(v, next.time)
+    else if (Number.isFinite(duration) && duration > v.time) ends.set(v, duration)
+    else ends.set(v, v.time + 2)
+  })
+  return ends
+}
+
+export function buildCombinedPlainText(merged) {
+  const withLabels = hasSpeech(merged)
+  return merged
+    .map((m) => `[${formatTimestamp(m.time)}] ${label(m, withLabels)}`)
+    .join('\n')
+}
+
+function combinedCues(merged, duration) {
+  const withLabels = hasSpeech(merged)
+  const ends = visualCueEnds(merged, duration)
+  return merged.map((m) => ({
+    start: m.time,
+    end: m.kind === 'speech' ? m.end : ends.get(m),
+    text: label(m, withLabels),
+  }))
+}
+
+export function buildCombinedVtt(merged, duration) {
+  const lines = ['WEBVTT', '']
+  for (const cue of combinedCues(merged, duration)) {
+    lines.push(`${formatVttTime(cue.start)} --> ${formatVttTime(cue.end)}`)
+    lines.push(cue.text)
+    lines.push('')
+  }
+  return lines.join('\n')
+}
+
+export function buildCombinedSrt(merged, duration) {
+  return combinedCues(merged, duration)
+    .map((cue, i) => [
+      String(i + 1),
+      `${formatSrtTime(cue.start)} --> ${formatSrtTime(cue.end)}`,
+      cue.text,
+      '',
+    ].join('\n'))
+    .join('\n')
+}

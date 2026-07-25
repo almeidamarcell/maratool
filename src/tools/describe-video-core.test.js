@@ -10,6 +10,10 @@ import {
   buildVtt,
   buildSrt,
   baseName,
+  mergeTimeline,
+  buildCombinedPlainText,
+  buildCombinedVtt,
+  buildCombinedSrt,
 } from './describe-video-core.js'
 
 describe('frameTimesForDuration', () => {
@@ -149,5 +153,96 @@ describe('baseName', () => {
   })
   test('falls back for empty input', () => {
     expect(baseName('')).toBe('video-description')
+  })
+})
+
+// ── Combined audio + visual timeline ──
+// visual: [{ time, text }] from frame captioning
+// speech: [{ start, end, text }] from Whisper (video-to-text-core shape)
+
+describe('mergeTimeline', () => {
+  const visual = [
+    { time: 1, text: 'A person stands at a whiteboard.' },
+    { time: 6, text: 'A slide with a chart is shown.' },
+  ]
+  const speech = [
+    { start: 0.5, end: 4, text: 'Welcome everyone.' },
+    { start: 6, end: 9, text: 'Look at these numbers.' },
+  ]
+
+  test('interleaves both streams sorted by time', () => {
+    const merged = mergeTimeline(visual, speech)
+    expect(merged.map(m => m.kind)).toEqual(['speech', 'visual', 'speech', 'visual'])
+    expect(merged.map(m => m.time)).toEqual([0.5, 1, 6, 6])
+  })
+
+  test('speech comes before visual at the same timestamp', () => {
+    const merged = mergeTimeline([{ time: 6, text: 'v' }], [{ start: 6, end: 7, text: 's' }])
+    expect(merged[0].kind).toBe('speech')
+    expect(merged[1].kind).toBe('visual')
+  })
+
+  test('speech items carry their end time', () => {
+    const merged = mergeTimeline([], speech)
+    expect(merged[0].end).toBe(4)
+  })
+
+  test('empty speech yields visual-only timeline', () => {
+    const merged = mergeTimeline(visual, [])
+    expect(merged.map(m => m.kind)).toEqual(['visual', 'visual'])
+  })
+
+  test('tolerates null/undefined inputs', () => {
+    expect(mergeTimeline(null, undefined)).toEqual([])
+  })
+})
+
+describe('buildCombinedPlainText', () => {
+  const visual = [{ time: 1, text: 'A person waves.' }]
+  const speech = [{ start: 0.5, end: 4, text: 'Hello there.' }]
+
+  test('labels lines when both streams are present', () => {
+    const out = buildCombinedPlainText(mergeTimeline(visual, speech))
+    expect(out).toBe('[00:00] Speech: Hello there.\n[00:01] Visual: A person waves.')
+  })
+
+  test('omits labels when only visual items exist — matches buildPlainText', () => {
+    const merged = mergeTimeline(visual, [])
+    expect(buildCombinedPlainText(merged)).toBe(buildPlainText(visual))
+  })
+})
+
+describe('buildCombinedVtt', () => {
+  const visual = [
+    { time: 1, text: 'A person waves.' },
+    { time: 3, text: 'A dog runs by.' },
+  ]
+  const speech = [{ start: 0.5, end: 4.5, text: 'Hello there.' }]
+
+  test('speech cues use their real start–end; visual cues chain to next visual', () => {
+    const vtt = buildCombinedVtt(mergeTimeline(visual, speech), 5)
+    expect(vtt.startsWith('WEBVTT')).toBe(true)
+    expect(vtt).toContain('00:00:00.500 --> 00:00:04.500\nSpeech: Hello there.')
+    expect(vtt).toContain('00:00:01.000 --> 00:00:03.000\nVisual: A person waves.')
+    expect(vtt).toContain('00:00:03.000 --> 00:00:05.000\nVisual: A dog runs by.')
+  })
+
+  test('visual-only input is byte-identical to buildVtt (no labels)', () => {
+    expect(buildCombinedVtt(mergeTimeline(visual, []), 5)).toBe(buildVtt(visual, 5))
+  })
+})
+
+describe('buildCombinedSrt', () => {
+  const visual = [{ time: 1, text: 'A person waves.' }]
+  const speech = [{ start: 0.5, end: 4, text: 'Hello.' }]
+
+  test('numbers cues sequentially across both streams', () => {
+    const srt = buildCombinedSrt(mergeTimeline(visual, speech), 5)
+    expect(srt.startsWith('1\n00:00:00,500 --> 00:00:04,000\nSpeech: Hello.')).toBe(true)
+    expect(srt).toContain('2\n00:00:01,000 --> 00:00:05,000\nVisual: A person waves.')
+  })
+
+  test('visual-only input is byte-identical to buildSrt', () => {
+    expect(buildCombinedSrt(mergeTimeline(visual, []), 5)).toBe(buildSrt(visual, 5))
   })
 })

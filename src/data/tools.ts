@@ -262,7 +262,7 @@ export const tools: Tool[] = [
     description: 'Get a text description of every second of your video — an AI model describes each frame locally in your browser. No upload, no signup.',
     category: 'Converter',
     subcategory: 'Video',
-    keywords: ['describe video with ai', 'ai video describer', 'video description generator', 'video to text description', 'describe what happens in a video', 'video scene description', 'audio description script generator', 'video frame captioning'],
+    keywords: ['describe video with ai', 'ai video describer', 'video description generator', 'video to text description', 'describe what happens in a video', 'video scene description', 'audio description script generator', 'video frame captioning', 'video transcript with visual descriptions'],
     live: true,
     blogPost: true,
     tags: ['file-upload'],

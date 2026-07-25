@@ -11,11 +11,13 @@ import {
   isTruncated,
   formatTimestamp,
   cleanCaption,
-  buildPlainText,
-  buildVtt,
-  buildSrt,
   baseName,
+  mergeTimeline,
+  buildCombinedPlainText,
+  buildCombinedVtt,
+  buildCombinedSrt,
 } from './describe-video-core.js'
+import { buildAudioExtractArgs, normalizeChunks } from './video-to-text-core.js'
 
 ;(function () {
   'use strict'
@@ -24,6 +26,7 @@ import {
   var FLORENCE_MODEL = 'onnx-community/Florence-2-base-ft'
   var FLORENCE_TASK = '<DETAILED_CAPTION>'
   var VIT_MODEL = 'Xenova/vit-gpt2-image-captioning'
+  var WHISPER_MODEL = 'Xenova/whisper-base'
   var MAX_FRAMES = 150
   var CAPTION_WIDTH = 512 // frames are downscaled to this before captioning
   var THUMB_WIDTH = 160
@@ -33,6 +36,7 @@ import {
   var settingsEl = document.getElementById('dv-settings')
   var videoPreview = document.getElementById('dv-video-preview')
   var intervalSelect = document.getElementById('dv-interval')
+  var audioCheckbox = document.getElementById('dv-audio')
   var frameEstimate = document.getElementById('dv-frame-estimate')
   var engineNote = document.getElementById('dv-engine-note')
   var describeBtn = document.getElementById('dv-describe')
@@ -54,9 +58,12 @@ import {
   var currentFile = null
   var videoUrl = null
   var videoDuration = 0
-  var results = [] // { time, text }
+  var results = [] // visual: { time, text }
+  var speechSegments = [] // Whisper: { start, end, text }
   var stopRequested = false
   var engine = null // { kind: 'florence' | 'vit', ... }
+  var transcriber = null // Whisper pipeline, cached across runs
+  var ffmpegBundle = null // { ff, fetchFile }
   // Incremented on every run start AND on "New video" — a describe loop
   // compares its captured value against this and bails if it went stale,
   // so resetting mid-run actually cancels the run.
@@ -221,6 +228,81 @@ import {
     return engine
   }
 
+  // ── Speech transcription (opt-in) ──
+  // Whisper runs on wasm deliberately even when WebGPU exists: Florence-2
+  // already occupies the GPU, and holding two models in VRAM risks OOM on
+  // 8 GB machines. Sequential + wasm keeps the memory budget predictable.
+  async function loadTranscriber() {
+    if (transcriber) return transcriber
+    var transformers = await import(/* @vite-ignore */ TRANSFORMERS_CDN)
+    transcriber = await transformers.pipeline('automatic-speech-recognition', WHISPER_MODEL, {
+      dtype: 'q8',
+      device: 'wasm',
+      progress_callback: function (p) {
+        if (p.status === 'progress' && p.progress) {
+          progressText.textContent = 'Downloading speech model… ' + Math.round(p.progress) + '% (one-time, cached)'
+          progressBar.style.width = Math.round(p.progress) + '%'
+        }
+      },
+    })
+    return transcriber
+  }
+
+  async function extractAudioPcm(file) {
+    if (!ffmpegBundle) {
+      progressText.textContent = 'Loading audio engine… (~25 MB, cached after first use)'
+      var loader = await import('./ffmpeg-loader.js')
+      var result = await loader.loadFFmpeg(function (pct, detail) {
+        if (detail) progressText.textContent = detail
+      })
+      ffmpegBundle = { ff: result.ff, fetchFile: result.fetchFile }
+    }
+    progressText.textContent = 'Extracting audio…'
+    var ff = ffmpegBundle.ff
+    var dot = file.name.lastIndexOf('.')
+    var inName = 'input' + (dot === -1 ? '.mp4' : file.name.substring(dot))
+    var outName = 'audio.wav'
+    await ff.writeFile(inName, await ffmpegBundle.fetchFile(file))
+    var ret = await ff.exec(buildAudioExtractArgs(inName, outName))
+    if (ret !== 0) throw new Error('no audio track')
+    var wav = await ff.readFile(outName)
+    try { await ff.deleteFile(inName) } catch (e) {}
+    try { await ff.deleteFile(outName) } catch (e) {}
+
+    var AudioCtx = window.AudioContext || window.webkitAudioContext
+    var ctx = new AudioCtx({ sampleRate: 16000 })
+    var buf = wav.buffer.slice(wav.byteOffset, wav.byteOffset + wav.byteLength)
+    var audioBuffer = await ctx.decodeAudioData(buf)
+    var pcm = audioBuffer.getChannelData(0)
+    try { ctx.close() } catch (e) {}
+    return pcm
+  }
+
+  // Returns Whisper segments, or [] if the video has no usable speech.
+  // A failure here must never abort the visual run.
+  async function transcribeSpeech(file) {
+    try {
+      var pcm = await extractAudioPcm(file)
+      var asr = await loadTranscriber()
+      progressText.textContent = 'Transcribing speech… (runs on your device)'
+      progressBar.style.width = '100%'
+      var output = await asr(pcm, {
+        return_timestamps: true,
+        chunk_length_s: 30,
+        stride_length_s: 5,
+        task: 'transcribe',
+      })
+      var chunks = normalizeChunks(output.chunks || [])
+      if (chunks.length === 0 && output.text && output.text.trim()) {
+        chunks = [{ start: 0, end: videoDuration, text: output.text.trim() }]
+      }
+      return chunks
+    } catch (e) {
+      console.warn('Speech transcription skipped:', e)
+      return []
+    }
+  }
+
   async function captionCanvas(canvas) {
     var dataUrl = canvas.toDataURL('image/jpeg', 0.85)
     if (engine.kind === 'florence') {
@@ -277,8 +359,17 @@ import {
     var myRun = ++runId
     stopRequested = false
     results = []
+    speechSegments = []
     timelineEl.innerHTML = ''
     showState('progress')
+
+    // Phase A (opt-in): transcribe speech BEFORE loading the vision model —
+    // sequential keeps peak memory down, and the transcript shows up first.
+    if (audioCheckbox && audioCheckbox.checked && currentFile) {
+      speechSegments = await transcribeSpeech(currentFile)
+      if (myRun !== runId) return
+      progressBar.style.width = '0%'
+    }
 
     try {
       await loadEngine()
@@ -323,6 +414,19 @@ import {
     showState('result') // show results streaming in
     progressEl.style.display = '' // keep progress visible alongside
 
+    // Speech segments are fully known now — render them up front; visual
+    // items will be inserted between them by timestamp as they stream in.
+    speechSegments.forEach(function (seg) {
+      timelineEl.appendChild(buildSpeechItem(seg))
+    })
+    if (audioCheckbox && audioCheckbox.checked && speechSegments.length === 0) {
+      var note = document.createElement('p')
+      note.className = 'dv-no-speech-note'
+      note.textContent = 'No speech detected in this video — showing visual descriptions only.'
+      timelineEl.appendChild(note)
+    }
+    updateTranscript()
+
     for (var i = 0; i < times.length; i++) {
       if (stopRequested || myRun !== runId) break
       var t = times[i]
@@ -360,33 +464,62 @@ import {
     setTimeout(function () { stopBtn.disabled = false }, 500)
   })
 
+  function buildItemBody(time, text, extraTimeClass) {
+    var body = document.createElement('div')
+    body.className = 'dv-item-body'
+    var ts = document.createElement('span')
+    ts.className = 'dv-item-time' + (extraTimeClass ? ' ' + extraTimeClass : '')
+    ts.textContent = formatTimestamp(time)
+    var p = document.createElement('p')
+    p.className = 'dv-item-text'
+    p.textContent = text
+    body.appendChild(ts)
+    body.appendChild(p)
+    return body
+  }
+
+  function buildSpeechItem(seg) {
+    var item = document.createElement('div')
+    item.className = 'dv-item dv-item-speech'
+    item.dataset.time = seg.start
+    var icon = document.createElement('span')
+    icon.className = 'dv-speech-icon'
+    icon.textContent = '🗣'
+    icon.setAttribute('aria-label', 'Speech')
+    item.appendChild(icon)
+    item.appendChild(buildItemBody(seg.start, seg.text, 'dv-item-time-speech'))
+    return item
+  }
+
+  // Insert visual items at their timestamp position: speech items are
+  // pre-rendered, so append before the first sibling with a LATER time
+  // (ties keep speech first, matching mergeTimeline's ordering).
   function appendTimelineItem(video, time, caption) {
     var item = document.createElement('div')
     item.className = 'dv-item'
+    item.dataset.time = time
 
     var thumb = drawFrame(video, THUMB_WIDTH)
     thumb.className = 'dv-item-thumb'
+    thumb.setAttribute('role', 'img')
+    thumb.setAttribute('aria-label', 'Frame at ' + formatTimestamp(time))
 
-    var body = document.createElement('div')
-    body.className = 'dv-item-body'
-
-    var ts = document.createElement('span')
-    ts.className = 'dv-item-time'
-    ts.textContent = formatTimestamp(time)
-
-    var text = document.createElement('p')
-    text.className = 'dv-item-text'
-    text.textContent = caption
-
-    body.appendChild(ts)
-    body.appendChild(text)
     item.appendChild(thumb)
-    item.appendChild(body)
+    item.appendChild(buildItemBody(time, caption))
+
+    var siblings = timelineEl.children
+    for (var i = 0; i < siblings.length; i++) {
+      var st = parseFloat(siblings[i].dataset ? siblings[i].dataset.time : '')
+      if (Number.isFinite(st) && st > time) {
+        timelineEl.insertBefore(item, siblings[i])
+        return
+      }
+    }
     timelineEl.appendChild(item)
   }
 
   function updateTranscript() {
-    transcriptEl.value = buildPlainText(results)
+    transcriptEl.value = buildCombinedPlainText(mergeTimeline(results, speechSegments))
   }
 
   // ── Export ──
@@ -411,20 +544,28 @@ import {
     setTimeout(function () { URL.revokeObjectURL(a.href) }, 1000)
   }
 
+  function merged() {
+    return mergeTimeline(results, speechSegments)
+  }
+
   downloadTxtBtn.addEventListener('click', function () {
-    if (results.length) download(buildPlainText(results), '.txt', 'text/plain')
+    var m = merged()
+    if (m.length) download(buildCombinedPlainText(m), '.txt', 'text/plain')
   })
   downloadVttBtn.addEventListener('click', function () {
-    if (results.length) download(buildVtt(results, videoDuration), '.vtt', 'text/vtt')
+    var m = merged()
+    if (m.length) download(buildCombinedVtt(m, videoDuration), '.vtt', 'text/vtt')
   })
   downloadSrtBtn.addEventListener('click', function () {
-    if (results.length) download(buildSrt(results, videoDuration), '.srt', 'text/plain')
+    var m = merged()
+    if (m.length) download(buildCombinedSrt(m, videoDuration), '.srt', 'text/plain')
   })
 
   newBtn.addEventListener('click', function () {
     runId++ // cancel any in-flight describe loop
     stopRequested = true
     results = []
+    speechSegments = []
     timelineEl.innerHTML = ''
     transcriptEl.value = ''
     fileInput.value = ''

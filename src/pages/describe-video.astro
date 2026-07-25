@@ -44,7 +44,7 @@ const seo = {
       {
         '@type': 'Question',
         name: 'What is the difference between this and video-to-text transcription?',
-        acceptedAnswer: { '@type': 'Answer', text: 'Video-to-text transcribes the audio — what is said. This tool describes the visuals — what is shown, frame by frame. Use both together for a complete text version of a video: the spoken words plus a description of what happens on screen.' },
+        acceptedAnswer: { '@type': 'Answer', text: 'Video-to-text transcribes the audio — what is said. This tool describes the visuals — what is shown, frame by frame. Tick "Also transcribe speech" to get both in one timeline: Whisper transcribes the spoken words locally and they are merged with the visual descriptions by timestamp. Only speech is transcribed — music and sound effects are not described.' },
       },
       {
         '@type': 'Question',
@@ -57,14 +57,14 @@ const seo = {
 
 const howTo = [
   'Drop a video file (MP4, WebM, or MOV) or click to select one.',
-  'Pick how often to sample a frame — every second for detail, every 2–5 seconds for longer videos — and click Describe.',
+  'Pick how often to sample a frame, optionally tick "Also transcribe speech" to include what\'s said, and click Describe.',
   'Watch the timestamped descriptions stream in, then copy the transcript or download it as TXT, VTT, or SRT.',
 ]
 
 const faq = [
   { q: 'How does the AI video describer work?', a: 'It grabs a frame at a fixed interval and runs each one through a vision AI model in your browser. With WebGPU it uses Florence-2 (~300 MB one-time download, then cached) for detailed descriptions; otherwise a lighter ~50 MB captioning model. You get a timestamped description of what happens on screen.' },
   { q: 'Is my video uploaded to a server?', a: 'No. Frame extraction and the AI model run entirely on your device. The model is downloaded once and cached — your video never leaves your browser.' },
-  { q: 'What is the difference between this and video-to-text transcription?', a: '<a href="/video-to-text">Video to Text</a> transcribes the audio — what is said. This tool describes the visuals — what is shown, frame by frame. Use both for a complete text version of a video.' },
+  { q: 'What is the difference between this and video-to-text transcription?', a: '<a href="/video-to-text">Video to Text</a> transcribes the audio — what is said. This tool describes the visuals — what is shown, frame by frame. Tick "Also transcribe speech" to get both in one timeline, merged by timestamp. Only speech is transcribed — music and sound effects are not described.' },
   { q: 'How long does it take?', a: 'Roughly 0.5–2 seconds per frame with WebGPU (Chrome/Edge desktop), 5–15 seconds per frame on the WebAssembly fallback. A desktop with 8 GB RAM is recommended; phones are not. Use a longer interval for long videos, and Stop ends the run early while keeping everything described so far.' },
 ]
 
@@ -81,7 +81,7 @@ const breadcrumbs = [
   { label: 'Describe Video with AI' },
 ]
 
-const whatIs = 'The <strong>Describe Video with AI</strong> tool turns the visual content of a video into timestamped text. It samples one frame per interval (every second by default), describes each frame with an on-device vision model, and assembles the captions into a scene-by-scene transcript you can copy or download as TXT, VTT, or SRT. Because the model runs in your browser, nothing is uploaded — useful for accessibility audio-description drafts, video search notes, and dataset labeling.'
+const whatIs = 'The <strong>Describe Video with AI</strong> tool turns a video into timestamped text. It samples one frame per interval (every second by default), describes each frame with an on-device vision model, and can optionally transcribe the speech with Whisper — merging what is <em>shown</em> and what is <em>said</em> into one scene-by-scene transcript you can copy or download as TXT, VTT, or SRT. Because the models run in your browser, nothing is uploaded — useful for accessibility audio-description drafts, video search notes, and dataset labeling.'
 ---
 <Base {...seo}>
   <Layout>
@@ -112,6 +112,10 @@ const whatIs = 'The <strong>Describe Video with AI</strong> tool turns the visua
             </div>
             <button type="button" id="dv-describe" class="tool-button dv-describe-btn">Describe video</button>
           </div>
+          <label class="dv-audio-row">
+            <input type="checkbox" id="dv-audio" />
+            <span>Also transcribe speech (Whisper AI) — adds what's <em>said</em> to the timeline. Extra ~100 MB one-time download (audio engine + model). For language options use <a href="/video-to-text">Video to Text</a>.</span>
+          </label>
           <p id="dv-frame-estimate" class="dv-note"></p>
           <p id="dv-engine-note" class="dv-note"></p>
         </div>
@@ -152,7 +156,7 @@ const whatIs = 'The <strong>Describe Video with AI</strong> tool turns the visua
               <li><strong>Best:</strong> desktop Chrome or Edge with WebGPU — runs Florence-2, ~0.5–2 s per frame. The tool detects this automatically and tells you above.</li>
               <li><strong>Fallback:</strong> any modern desktop browser — a lighter model via WebAssembly, shorter captions, ~5–15 s per frame.</li>
               <li><strong>Memory:</strong> 8 GB RAM recommended; close heavy tabs for long videos.</li>
-              <li><strong>Download:</strong> one-time model download — ~300 MB (WebGPU) or ~50 MB (fallback) — cached by your browser afterwards.</li>
+              <li><strong>Download:</strong> one-time model download — ~300 MB (WebGPU) or ~50 MB (fallback), plus ~100 MB if you enable speech transcription — cached by your browser afterwards.</li>
               <li><strong>Phones:</strong> not recommended — limited memory and usually no WebGPU. On laptops, plug in for long runs.</li>
             </ul>
           </div>
@@ -162,7 +166,7 @@ const whatIs = 'The <strong>Describe Video with AI</strong> tool turns the visua
               <li>Describes sampled <strong>moments, not motion</strong> — it sees "a person near a door", not "a person opens the door".</li>
               <li>Small on-device models make mistakes a cloud model wouldn't. Treat the output as a fast draft to edit, not a final product.</li>
               <li><strong>150 frames max</strong> per run — pick a longer interval to cover long videos end to end.</li>
-              <li>Audio is ignored. Pair with <a href="/video-to-text">Video to Text</a> for the spoken words.</li>
+              <li>Speech transcription is <strong>optional</strong> (checkbox, +~100 MB download). Non-speech audio — music, sound effects — is never described.</li>
               <li>The video must be a format your browser can decode — MP4 (H.264) and WebM work everywhere; MOV support varies.</li>
             </ul>
           </div>
@@ -269,6 +273,42 @@ const whatIs = 'The <strong>Describe Video with AI</strong> tool turns the visua
     line-height: 1.5;
     color: var(--text);
     margin: 0;
+  }
+  .dv-audio-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 0.875rem;
+    font-size: 0.8125rem;
+    color: var(--text-2);
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  .dv-audio-row input {
+    margin-top: 0.2rem;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+  }
+  .dv-item-speech {
+    border-left: 3px solid var(--accent);
+  }
+  .dv-speech-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    padding: 0.25rem;
+    flex-shrink: 0;
+  }
+  .dv-item-time-speech {
+    color: var(--text-2);
+  }
+  .dv-item-speech .dv-item-text {
+    font-style: italic;
+  }
+  .dv-no-speech-note {
+    font-size: 0.8125rem;
+    color: var(--text-3);
+    margin: 0;
+    padding: 0.25rem 0.5rem;
   }
   .dv-actions {
     display: flex;
