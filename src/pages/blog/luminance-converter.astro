@@ -1,0 +1,86 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'luminance-converter'
+const seo = {
+  title: 'Nits to foot-lamberts converter — luminance | maratool',
+  description: 'Convert cd/m² (nits), foot-lamberts, stilbs, and lamberts with NIST factors. Free browser luminance converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert nits to foot-lamberts (screen brightness)',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert cd/m² (nits), foot-lamberts, stilbs, and lamberts with NIST factors. Free browser luminance converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert nits to foot-lamberts (screen brightness)', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert nits to foot-lamberts (screen brightness)"
+      lead="Type a luminance — read nits, fL, stilbs, or lamberts instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Display specs quote nits, projection standards quote foot-lamberts, and photometry texts use stilbs. The <a href="/luminance-converter">Luminance Converter</a> moves between them with exact π-based factors.</p>
+
+      <BlogToolEmbed slug="luminance-converter" title="Try it — convert luminance units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Candela per square meter / Nit (cd/m²)" to "Foot-lambert (fL)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Luminance conversion factors</h2>
+      <p>Every unit converts through the candela per square meter (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many candela per square meters</th></tr></thead>
+        <tbody>
+        <tr><td>Candela per square meter / Nit (cd/m²)</td><td>1</td></tr>
+        <tr><td>Kilocandela per square meter (kcd/m²)</td><td>1,000</td></tr>
+        <tr><td>Stilb (sb)</td><td>10,000</td></tr>
+        <tr><td>Candela per square foot (cd/ft²)</td><td>10.76391041671</td></tr>
+        <tr><td>Candela per square inch (cd/in²)</td><td>1,550.0031000062</td></tr>
+        <tr><td>Foot-lambert (fL)</td><td>3.426259099632</td></tr>
+        <tr><td>Lambert (L)</td><td>3,183.098861837907</td></tr>
+        <tr><td>Apostilb (asb)</td><td>0.318309886184</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>Context: SDR monitors target 80–120 nits, phones peak above 2,000 nits outdoors, and SMPTE recommends ~48 nits (14 fL) for dark-room cinema. If a projector spec says lumens, that is total flux — luminance depends on screen size and gain.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.nist.gov/pml/special-publication-811" rel="noopener" target="_blank">NIST Special Publication 811</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/luminance-converter">Luminance Converter</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

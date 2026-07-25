@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 487 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 496 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -116,6 +116,15 @@ maratool.com is a growing collection of 487 free tools that run in the browser u
 - [Electrical Conductance Converter — Siemens & Mho](https://maratool.com/electrical-conductance-converter): Convert electrical conductance between siemens, millisiemens, microsiemens, and mho instantly. Free conductance unit converter in your browser.
 - [Electrical Resistance Converter — Ohms, kΩ & MΩ](https://maratool.com/electrical-resistance-converter): Convert electrical resistance between ohms, kiloohms, megaohms, and gigaohms instantly. Free resistance unit converter that runs in your browser.
 - [Inductance Converter — Henry, mH & µH](https://maratool.com/inductance-converter): Convert inductance between henries, millihenries, microhenries, and nanohenries instantly. Free inductance unit converter that runs in your browser.
+- [Tesla to Gauss Converter — Magnetic Field](https://maratool.com/magnetic-field-converter): Convert magnetic flux density between tesla, gauss, millitesla, and gamma instantly — 1 T = 10,000 G exactly. Free converter in your browser.
+- [Magnetic Field Strength Converter — A/m & Oersted](https://maratool.com/magnetic-field-strength-converter): Convert magnetic field strength H between amperes per meter and oersteds instantly — 1 Oe = 1000/4π A/m. Free converter in your browser.
+- [Magnetic Flux Converter — Weber & Maxwell](https://maratool.com/magnetic-flux-converter): Convert magnetic flux between webers, milliwebers, and maxwells instantly — 1 Wb = 10⁸ Mx exactly. Free flux unit converter in your browser.
+- [Magnetomotive Force Converter — Ampere-Turns & Gilberts](https://maratool.com/magnetomotive-force-converter): Convert magnetomotive force between ampere-turns and gilberts instantly — 1 Gb = 10/4π At exactly. Free MMF unit converter in your browser.
+- [Lux to Foot-Candles Converter — Illuminance](https://maratool.com/illuminance-converter): Convert illuminance between lux, foot-candles, and phots instantly — 1 fc = 10.764 lx exactly. Free lighting unit converter in your browser.
+- [Luminance Converter — cd/m² (Nits) & Foot-Lamberts](https://maratool.com/luminance-converter): Convert luminance between cd/m² (nits), foot-lamberts, stilbs, and lamberts instantly with exact NIST factors. Free converter in your browser.
+- [Luminous Energy Converter — Lumen-Seconds & Talbots](https://maratool.com/luminous-energy-converter): Convert luminous energy between lumen-seconds, talbots, lumen-minutes, and lumen-hours instantly. Free photometry unit converter in your browser.
+- [Luminous Flux Converter — Lumens](https://maratool.com/luminous-flux-converter): Convert luminous flux between lumens, kilolumens, millilumens, and candela-steradians instantly. Free photometry unit converter in your browser.
+- [Luminous Intensity Converter — Candela & Candlepower](https://maratool.com/luminous-intensity-converter): Convert luminous intensity between candela, millicandela, and candlepower instantly — LED mcd ratings included. Free converter in your browser.
 
 ### Developer
 - [Test Regex Patterns Online](https://maratool.com/regex-tester): Test regular expressions with live match highlighting.

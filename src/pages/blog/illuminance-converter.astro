@@ -1,0 +1,84 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'illuminance-converter'
+const seo = {
+  title: 'Lux to foot-candles converter — illuminance | maratool',
+  description: 'Convert lux, foot-candles, and phots — 1 fc = 10.764 lx exactly. Free browser illuminance converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert lux to foot-candles',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert lux, foot-candles, and phots — 1 fc = 10.764 lx exactly. Free browser illuminance converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert lux to foot-candles', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert lux to foot-candles"
+      lead="Type an illuminance — read lux, foot-candles, or phots instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>US lighting specs quote foot-candles while meters and international standards read lux. The <a href="/illuminance-converter">Lux to Foot-Candles Converter</a> applies the exact 10.7639 ratio both ways.</p>
+
+      <BlogToolEmbed slug="illuminance-converter" title="Try it — convert illuminance units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Foot-candle (fc)" to "Lux (lx)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Illuminance conversion factors</h2>
+      <p>Every unit converts through the lux (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many luxs</th></tr></thead>
+        <tbody>
+        <tr><td>Kilolux (klx)</td><td>1,000</td></tr>
+        <tr><td>Lux (lx)</td><td>1</td></tr>
+        <tr><td>Lumen per square meter (lm/m²)</td><td>1</td></tr>
+        <tr><td>Foot-candle (fc)</td><td>10.76391041671</td></tr>
+        <tr><td>Phot (ph)</td><td>10,000</td></tr>
+        <tr><td>Nox (nx)</td><td>0.001</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>Grow-light and photography charts mix the units freely: 50 fc for houseplants is 538 lx; a 500 lx office is 46.5 fc. For screen brightness (cd/m²), you want <a href="/luminance-converter">luminance</a>, not illuminance.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.nist.gov/pml/special-publication-811" rel="noopener" target="_blank">NIST Special Publication 811</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/illuminance-converter">Lux to Foot-Candles</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
