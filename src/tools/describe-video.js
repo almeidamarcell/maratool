@@ -165,8 +165,8 @@ import {
 
   hasWebGPU().then(function (ok) {
     engineNote.textContent = ok
-      ? 'Your browser supports WebGPU — the Florence-2 model will generate detailed descriptions.'
-      : 'No WebGPU detected — a lighter model will be used (shorter captions). Chrome or Edge on desktop gives the best results.'
+      ? 'Your browser supports WebGPU — the Florence-2 model will generate detailed descriptions (~300 MB one-time download, cached after that).'
+      : 'No WebGPU detected — a lighter model will be used (~50 MB download, shorter captions, slower). Chrome or Edge on desktop gives the best results.'
   })
 
   // ── Model loading ──
