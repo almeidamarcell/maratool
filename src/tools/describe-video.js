@@ -3,7 +3,7 @@
 //
 // Model strategy (mirrors alt-text-generator.js, which established the
 // in-browser transformers.js pattern):
-//   - WebGPU available  → Florence-2 base (rich detailed captions)
+//   - WebGPU available  → SmolVLM-500M (promptable: user context steers it)
 //   - No WebGPU (wasm)  → ViT-GPT2 (short captions, works everywhere)
 // The model only loads after the user clicks "Describe" — page stays light.
 import {
@@ -18,13 +18,17 @@ import {
   buildCombinedSrt,
 } from './describe-video-core.js'
 import { buildAudioExtractArgs, normalizeChunks } from './video-to-text-core.js'
+import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
 
 ;(function () {
   'use strict'
 
-  var TRANSFORMERS_CDN = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.4.1'
-  var FLORENCE_MODEL = 'onnx-community/Florence-2-base-ft'
-  var FLORENCE_TASK = '<DETAILED_CAPTION>'
+  // Same transformers.js build video-to-text runs in production.
+  var TRANSFORMERS_CDN = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.5/dist/transformers.min.js'
+  // Promptable VLM: accepts free-text instructions, so user context ("this is
+  // a padel match") steers the description. Florence-2 only takes fixed task
+  // tokens and can't be steered — that's why it was replaced.
+  var VLM_MODEL = 'HuggingFaceTB/SmolVLM-500M-Instruct'
   var VIT_MODEL = 'Xenova/vit-gpt2-image-captioning'
   var WHISPER_MODEL = 'Xenova/whisper-base'
   var MAX_FRAMES = 150
@@ -37,6 +41,8 @@ import { buildAudioExtractArgs, normalizeChunks } from './video-to-text-core.js'
   var videoPreview = document.getElementById('dv-video-preview')
   var intervalSelect = document.getElementById('dv-interval')
   var audioCheckbox = document.getElementById('dv-audio')
+  var contextInput = document.getElementById('dv-context')
+  var modelNote = document.getElementById('dv-model-note')
   var frameEstimate = document.getElementById('dv-frame-estimate')
   var engineNote = document.getElementById('dv-engine-note')
   var describeBtn = document.getElementById('dv-describe')
@@ -61,7 +67,7 @@ import { buildAudioExtractArgs, normalizeChunks } from './video-to-text-core.js'
   var results = [] // visual: { time, text }
   var speechSegments = [] // Whisper: { start, end, text }
   var stopRequested = false
-  var engine = null // { kind: 'florence' | 'vit', ... }
+  var engine = null // { kind: 'smolvlm' | 'vit', ..., loadError? }
   var transcriber = null // Whisper pipeline, cached across runs
   var ffmpegBundle = null // { ff, fetchFile }
   // Incremented on every run start AND on "New video" — a describe loop
@@ -172,9 +178,29 @@ import { buildAudioExtractArgs, normalizeChunks } from './video-to-text-core.js'
 
   hasWebGPU().then(function (ok) {
     engineNote.textContent = ok
-      ? 'Your browser supports WebGPU — the Florence-2 model will generate detailed descriptions (~300 MB one-time download, cached after that).'
-      : 'No WebGPU detected — a lighter model will be used (~50 MB download, shorter captions, slower). Chrome or Edge on desktop gives the best results.'
+      ? 'Your browser supports WebGPU — the SmolVLM model will generate detailed, context-aware descriptions (~400 MB one-time download, cached after that).'
+      : 'No WebGPU detected — a lighter model will be used (~50 MB download, shorter generic captions, slower; the context field is ignored). Chrome or Edge on desktop gives the best results.'
   })
+
+  // Persistent record of which model produced the current results — shown in
+  // the result state so it's still visible during/after the run.
+  function setModelNote() {
+    if (!modelNote || !engine) return
+    if (engine.kind === 'smolvlm') {
+      modelNote.textContent = 'Described with SmolVLM (WebGPU)' +
+        (contextValue() ? ' — using your context: "' + contextValue() + '"' : '')
+    } else {
+      var reason = engine.loadError
+        ? 'the WebGPU model failed to load (' + engine.loadError + ')'
+        : 'no WebGPU in this browser'
+      modelNote.textContent = 'Described with ViT-GPT2, the lightweight fallback — ' + reason +
+        '. Captions are shorter and generic; the context field is ignored. Chrome or Edge on desktop gives the richer model.'
+    }
+  }
+
+  function contextValue() {
+    return contextInput ? contextInput.value.replace(/\s+/g, ' ').trim() : ''
+  }
 
   // ── Model loading ──
   function onDownloadProgress(progress) {
@@ -191,32 +217,33 @@ import { buildAudioExtractArgs, normalizeChunks } from './video-to-text-core.js'
     progressBar.style.width = '0%'
 
     var transformers = await import(/* @vite-ignore */ TRANSFORMERS_CDN)
+    transformers.env.allowLocalModels = false
 
+    var webgpuError = null
     if (await hasWebGPU()) {
       try {
-        var model = await transformers.Florence2ForConditionalGeneration.from_pretrained(FLORENCE_MODEL, {
+        var processor = await transformers.AutoProcessor.from_pretrained(VLM_MODEL)
+        var model = await transformers.AutoModelForVision2Seq.from_pretrained(VLM_MODEL, {
           dtype: {
             embed_tokens: 'fp16',
-            vision_encoder: 'fp16',
-            encoder_model: 'q4',
+            vision_encoder: 'q4',
             decoder_model_merged: 'q4',
           },
           device: 'webgpu',
           progress_callback: onDownloadProgress,
         })
-        var processor = await transformers.AutoProcessor.from_pretrained(FLORENCE_MODEL)
-        var tokenizer = await transformers.AutoTokenizer.from_pretrained(FLORENCE_MODEL)
         engine = {
-          kind: 'florence',
+          kind: 'smolvlm',
           RawImage: transformers.RawImage,
           model: model,
           processor: processor,
-          tokenizer: tokenizer,
         }
         return engine
       } catch (e) {
-        // WebGPU init can fail on some GPUs — fall through to wasm.
-        console.warn('Florence-2/WebGPU failed, falling back to wasm model:', e)
+        // WebGPU init can fail on some GPUs — fall through to wasm, but keep
+        // the reason so the result note can surface it instead of hiding it.
+        webgpuError = (e && e.message ? e.message : String(e)).split('\n')[0].slice(0, 120)
+        console.warn('SmolVLM/WebGPU failed, falling back to wasm model:', e)
       }
     }
 
@@ -224,14 +251,14 @@ import { buildAudioExtractArgs, normalizeChunks } from './video-to-text-core.js'
       device: 'wasm',
       progress_callback: onDownloadProgress,
     })
-    engine = { kind: 'vit', captioner: captioner }
+    engine = { kind: 'vit', captioner: captioner, loadError: webgpuError }
     return engine
   }
 
   // ── Speech transcription (opt-in) ──
-  // Whisper runs on wasm deliberately even when WebGPU exists: Florence-2
-  // already occupies the GPU, and holding two models in VRAM risks OOM on
-  // 8 GB machines. Sequential + wasm keeps the memory budget predictable.
+  // Whisper runs on wasm deliberately even when WebGPU exists: the vision
+  // model already occupies the GPU, and holding two models in VRAM risks OOM
+  // on 8 GB machines. Sequential + wasm keeps the memory budget predictable.
   async function loadTranscriber() {
     if (transcriber) return transcriber
     var transformers = await import(/* @vite-ignore */ TRANSFORMERS_CDN)
@@ -296,7 +323,8 @@ import { buildAudioExtractArgs, normalizeChunks } from './video-to-text-core.js'
       if (chunks.length === 0 && output.text && output.text.trim()) {
         chunks = [{ start: 0, end: videoDuration, text: output.text.trim() }]
       }
-      return chunks
+      // Drop pure non-speech annotations ("[Music]", "(applause)", "♪").
+      return chunks.filter(function (c) { return !isNonSpeechCue(c.text) })
     } catch (e) {
       console.warn('Speech transcription skipped:', e)
       return []
@@ -305,20 +333,27 @@ import { buildAudioExtractArgs, normalizeChunks } from './video-to-text-core.js'
 
   async function captionCanvas(canvas) {
     var dataUrl = canvas.toDataURL('image/jpeg', 0.85)
-    if (engine.kind === 'florence') {
+    if (engine.kind === 'smolvlm') {
       var image = await engine.RawImage.fromURL(dataUrl)
-      var prompts = engine.processor.construct_prompts(FLORENCE_TASK)
-      var textInputs = engine.tokenizer(prompts)
-      var visionInputs = await engine.processor(image)
+      var messages = [{
+        role: 'user',
+        content: [
+          { type: 'image' },
+          { type: 'text', text: buildVlmPrompt(contextValue()) },
+        ],
+      }]
+      var prompt = engine.processor.apply_chat_template(messages, { add_generation_prompt: true })
+      var inputs = await engine.processor(prompt, image)
       var generatedIds = await engine.model.generate(
-        Object.assign({}, textInputs, visionInputs, { max_new_tokens: 128 })
+        Object.assign({}, inputs, { max_new_tokens: 128 })
       )
-      var raw = engine.tokenizer.batch_decode(generatedIds, { skip_special_tokens: false })[0]
-      var post = engine.processor.post_process_generation(raw, FLORENCE_TASK, image.size)
-      return post[FLORENCE_TASK] || ''
+      // Decode only the newly generated tokens, not the echoed prompt.
+      var newTokens = generatedIds.slice(null, [inputs.input_ids.dims.at(-1), null])
+      var out = engine.processor.batch_decode(newTokens, { skip_special_tokens: true })[0]
+      return (out || '').trim()
     }
-    var out = await engine.captioner(dataUrl)
-    return out && out[0] ? out[0].generated_text : ''
+    var out2 = await engine.captioner(dataUrl)
+    return out2 && out2[0] ? out2[0].generated_text : ''
   }
 
   // ── Frame extraction ──
@@ -413,6 +448,7 @@ import { buildAudioExtractArgs, normalizeChunks } from './video-to-text-core.js'
     stopBtn.style.display = ''
     showState('result') // show results streaming in
     progressEl.style.display = '' // keep progress visible alongside
+    setModelNote() // persistent record of which model is producing this run
 
     // Speech segments are fully known now — render them up front; visual
     // items will be inserted between them by timestamp as they stream in.

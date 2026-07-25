@@ -109,6 +109,36 @@ export function baseName(filename) {
   return filename.replace(/\.[^.]+$/, '') || 'video-description'
 }
 
+// Whisper labels non-speech audio with bracketed annotations ("[Music]",
+// "(applause)", "♪"). A chunk whose text is NOTHING BUT such annotations is
+// not speech and must not appear as a Speech: line. Inline annotations inside
+// real sentences ("then [inaudible] we continue") are kept.
+export function isNonSpeechCue(text) {
+  if (!text) return true
+  const stripped = String(text)
+    .replace(/\[[^\]]*\]/g, ' ')
+    .replace(/\([^)]*\)/g, ' ')
+    .replace(/[♪♫]/g, ' ')
+    .trim()
+  return stripped === ''
+}
+
+// Prompt for the promptable vision model. Optional user context steers the
+// caption ("a padel match" is described as padel, not "a game").
+const VLM_BASE_PROMPT =
+  'Describe what is happening in this frame of a video in one or two short sentences.'
+const VLM_CONTEXT_MAX = 200
+
+export function buildVlmPrompt(context) {
+  const cleaned = String(context || '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, VLM_CONTEXT_MAX)
+    .replace(/[.\s]+$/, '')
+  if (!cleaned) return VLM_BASE_PROMPT
+  return VLM_BASE_PROMPT + ' Context: this video is about ' + cleaned + '.'
+}
+
 // ── Combined audio + visual timeline ──
 // visual: [{ time, text }] from frame captioning
 // speech: [{ start, end, text }] from Whisper (video-to-text-core shape)
