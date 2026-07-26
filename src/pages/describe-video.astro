@@ -125,10 +125,7 @@ const whatIs = 'The <strong>Describe Video with AI</strong> tool turns a video i
         </div>
 
         <div id="dv-progress" class="dv-progress" style="display:none;">
-          <p id="dv-progress-text" class="dv-progress-text">Loading…</p>
-          <div class="dv-progress-track">
-            <div id="dv-progress-bar" class="dv-progress-bar"></div>
-          </div>
+          <div id="dv-phases" class="dv-phases"></div>
           <button type="button" id="dv-stop" class="tool-button dv-stop-btn" style="display:none;">Stop — keep what's done</button>
         </div>
 
@@ -211,30 +208,89 @@ const whatIs = 'The <strong>Describe Video with AI</strong> tool turns a video i
     margin: 0.75rem 0 0;
   }
   .dv-progress {
-    padding: 1.5rem 0;
+    padding: 1.25rem 0 0.5rem;
+  }
+  .dv-phases {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .dv-phase {
+    opacity: 0.35;
+    transition: opacity 0.25s;
+  }
+  .dv-phase-active {
+    opacity: 1;
+  }
+  .dv-phase-done {
+    opacity: 0.65;
+  }
+  .dv-phase-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.3rem;
+  }
+  .dv-phase-icon {
+    font-size: 0.8125rem;
+    width: 1rem;
     text-align: center;
+    flex-shrink: 0;
+    color: var(--text-3);
   }
-  .dv-progress-text {
-    font-size: 0.875rem;
+  .dv-phase-done .dv-phase-icon {
+    color: #16a34a;
+  }
+  .dv-phase-active .dv-phase-icon {
+    color: var(--accent);
+  }
+  .dv-phase-label {
+    font-size: 0.8125rem;
     color: var(--text-2);
-    margin: 0 0 0.75rem;
+    flex: 1;
+    min-width: 0;
   }
-  .dv-progress-track {
+  .dv-phase-active .dv-phase-label {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .dv-phase-pct {
+    font-size: 0.75rem;
+    color: var(--text-3);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+  .dv-phase-track {
     width: 100%;
-    height: 6px;
+    height: 4px;
     background: var(--bg-hover);
-    border-radius: 3px;
+    border-radius: 2px;
     overflow: hidden;
   }
-  .dv-progress-bar {
+  .dv-phase-bar {
     height: 100%;
     background: var(--accent);
-    border-radius: 3px;
+    border-radius: 2px;
     width: 0%;
-    transition: width 0.3s;
+    transition: width 0.35s ease;
+  }
+  .dv-phase-done .dv-phase-bar {
+    background: #16a34a;
+    width: 100% !important;
+    transition: none;
+  }
+  .dv-phase-indeterminate .dv-phase-bar {
+    width: 40% !important;
+    animation: dv-slide 1.4s ease-in-out infinite;
+  }
+  @keyframes dv-slide {
+    0%   { margin-left: 0%;   width: 30%; }
+    50%  { margin-left: 40%;  width: 40%; }
+    100% { margin-left: 70%;  width: 30%; }
   }
   .dv-stop-btn {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
   }
   .dv-timeline {
     display: flex;
