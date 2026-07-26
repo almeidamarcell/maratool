@@ -47,8 +47,7 @@ import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
   var engineNote = document.getElementById('dv-engine-note')
   var describeBtn = document.getElementById('dv-describe')
   var progressEl = document.getElementById('dv-progress')
-  var progressText = document.getElementById('dv-progress-text')
-  var progressBar = document.getElementById('dv-progress-bar')
+  var phasesEl = document.getElementById('dv-phases')
   var stopBtn = document.getElementById('dv-stop')
   var resultEl = document.getElementById('dv-result')
   var timelineEl = document.getElementById('dv-timeline')
@@ -74,6 +73,97 @@ import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
   // compares its captured value against this and bails if it went stale,
   // so resetting mid-run actually cancels the run.
   var runId = 0
+
+  // ── Phase progress tracking ──
+  var _phases = {}
+
+  function _buildPhase(id, label) {
+    var el = document.createElement('div')
+    el.className = 'dv-phase'
+
+    var header = document.createElement('div')
+    header.className = 'dv-phase-header'
+
+    var icon = document.createElement('span')
+    icon.className = 'dv-phase-icon'
+    icon.textContent = '○'
+
+    var lbl = document.createElement('span')
+    lbl.className = 'dv-phase-label'
+    lbl.textContent = label
+
+    var pct = document.createElement('span')
+    pct.className = 'dv-phase-pct'
+
+    header.appendChild(icon)
+    header.appendChild(lbl)
+    header.appendChild(pct)
+
+    var track = document.createElement('div')
+    track.className = 'dv-phase-track'
+    var bar = document.createElement('div')
+    bar.className = 'dv-phase-bar'
+    track.appendChild(bar)
+
+    el.appendChild(header)
+    el.appendChild(track)
+    phasesEl.appendChild(el)
+
+    _phases[id] = { el: el, iconEl: icon, labelEl: lbl, pctEl: pct, barEl: bar }
+  }
+
+  function initPhases(includeAudio) {
+    phasesEl.innerHTML = ''
+    _phases = {}
+    if (includeAudio) {
+      _buildPhase('audio-engine', 'Loading audio engine (~25 MB)')
+      _buildPhase('speech-model', 'Downloading speech model (~100 MB)')
+      _buildPhase('transcribe', 'Transcribing speech')
+    }
+    _buildPhase('vision-model', 'Downloading vision model')
+    _buildPhase('frames', 'Describing frames')
+  }
+
+  function phaseActive(id, label) {
+    var p = _phases[id]
+    if (!p) return
+    p.el.className = 'dv-phase dv-phase-active'
+    p.iconEl.textContent = '▶'
+    p.barEl.style.width = '0%'
+    p.barEl.style.marginLeft = ''
+    p.pctEl.textContent = ''
+    if (label) p.labelEl.textContent = label
+  }
+
+  function phaseIndeterminate(id, label) {
+    var p = _phases[id]
+    if (!p) return
+    p.el.className = 'dv-phase dv-phase-active dv-phase-indeterminate'
+    p.iconEl.textContent = '▶'
+    p.pctEl.textContent = ''
+    if (label) p.labelEl.textContent = label
+  }
+
+  function phaseProgress(id, pct, label) {
+    var p = _phases[id]
+    if (!p) return
+    p.el.className = 'dv-phase dv-phase-active'
+    p.barEl.style.width = pct + '%'
+    p.barEl.style.marginLeft = ''
+    p.pctEl.textContent = pct + '%'
+    if (label) p.labelEl.textContent = label
+  }
+
+  function phaseDone(id, label) {
+    var p = _phases[id]
+    if (!p) return
+    p.el.className = 'dv-phase dv-phase-done'
+    p.iconEl.textContent = '✓'
+    p.barEl.style.width = '100%'
+    p.barEl.style.marginLeft = ''
+    p.pctEl.textContent = ''
+    if (label) p.labelEl.textContent = label
+  }
 
   function showState(state) {
     dropzone.style.display = state === 'dropzone' ? '' : 'none'
@@ -205,16 +295,15 @@ import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
   // ── Model loading ──
   function onDownloadProgress(progress) {
     if (progress.status === 'progress' && progress.progress) {
-      var pct = Math.round(progress.progress)
-      progressBar.style.width = pct + '%'
-      progressText.textContent = 'Downloading AI model… ' + pct + '% (one-time, cached after this)'
+      phaseProgress('vision-model', Math.round(progress.progress))
     }
   }
 
   async function loadEngine() {
-    if (engine) return engine
-    progressText.textContent = 'Loading AI model (first use downloads it — this can take a minute)…'
-    progressBar.style.width = '0%'
+    if (engine) {
+      phaseDone('vision-model', engine.kind === 'smolvlm' ? 'SmolVLM model (cached)' : 'Fallback model (cached)')
+      return engine
+    }
 
     var transformers = await import(/* @vite-ignore */ TRANSFORMERS_CDN)
     transformers.env.allowLocalModels = false
@@ -222,6 +311,7 @@ import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
     var webgpuError = null
     if (await hasWebGPU()) {
       try {
+        phaseActive('vision-model', 'Downloading SmolVLM model (~400 MB, cached after first use)')
         var processor = await transformers.AutoProcessor.from_pretrained(VLM_MODEL)
         var model = await transformers.AutoModelForVision2Seq.from_pretrained(VLM_MODEL, {
           dtype: {
@@ -238,20 +328,21 @@ import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
           model: model,
           processor: processor,
         }
+        phaseDone('vision-model', 'SmolVLM model ready')
         return engine
       } catch (e) {
-        // WebGPU init can fail on some GPUs — fall through to wasm, but keep
-        // the reason so the result note can surface it instead of hiding it.
         webgpuError = (e && e.message ? e.message : String(e)).split('\n')[0].slice(0, 120)
         console.warn('SmolVLM/WebGPU failed, falling back to wasm model:', e)
       }
     }
 
+    phaseActive('vision-model', 'Downloading fallback model (~50 MB, cached after first use)')
     var captioner = await transformers.pipeline('image-to-text', VIT_MODEL, {
       device: 'wasm',
       progress_callback: onDownloadProgress,
     })
     engine = { kind: 'vit', captioner: captioner, loadError: webgpuError }
+    phaseDone('vision-model', 'Fallback model ready')
     return engine
   }
 
@@ -260,31 +351,35 @@ import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
   // model already occupies the GPU, and holding two models in VRAM risks OOM
   // on 8 GB machines. Sequential + wasm keeps the memory budget predictable.
   async function loadTranscriber() {
-    if (transcriber) return transcriber
+    if (transcriber) {
+      phaseDone('speech-model', 'Speech model (cached)')
+      return transcriber
+    }
+    phaseActive('speech-model', 'Downloading speech model (~100 MB, cached after first use)')
     var transformers = await import(/* @vite-ignore */ TRANSFORMERS_CDN)
     transcriber = await transformers.pipeline('automatic-speech-recognition', WHISPER_MODEL, {
       dtype: 'q8',
       device: 'wasm',
       progress_callback: function (p) {
         if (p.status === 'progress' && p.progress) {
-          progressText.textContent = 'Downloading speech model… ' + Math.round(p.progress) + '% (one-time, cached)'
-          progressBar.style.width = Math.round(p.progress) + '%'
+          phaseProgress('speech-model', Math.round(p.progress))
         }
       },
     })
+    phaseDone('speech-model', 'Speech model ready')
     return transcriber
   }
 
   async function extractAudioPcm(file) {
     if (!ffmpegBundle) {
-      progressText.textContent = 'Loading audio engine… (~25 MB, cached after first use)'
+      phaseActive('audio-engine', 'Loading audio engine (~25 MB, cached after first use)')
       var loader = await import('./ffmpeg-loader.js')
       var result = await loader.loadFFmpeg(function (pct, detail) {
-        if (detail) progressText.textContent = detail
+        if (detail) phaseActive('audio-engine', detail)
       })
       ffmpegBundle = { ff: result.ff, fetchFile: result.fetchFile }
     }
-    progressText.textContent = 'Extracting audio…'
+    phaseIndeterminate('audio-engine', 'Extracting audio…')
     var ff = ffmpegBundle.ff
     var dot = file.name.lastIndexOf('.')
     var inName = 'input' + (dot === -1 ? '.mp4' : file.name.substring(dot))
@@ -302,6 +397,7 @@ import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
     var audioBuffer = await ctx.decodeAudioData(buf)
     var pcm = audioBuffer.getChannelData(0)
     try { ctx.close() } catch (e) {}
+    phaseDone('audio-engine', 'Audio extracted')
     return pcm
   }
 
@@ -311,8 +407,7 @@ import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
     try {
       var pcm = await extractAudioPcm(file)
       var asr = await loadTranscriber()
-      progressText.textContent = 'Transcribing speech… (runs on your device)'
-      progressBar.style.width = '100%'
+      phaseIndeterminate('transcribe', 'Transcribing speech (runs on your device)…')
       var output = await asr(pcm, {
         return_timestamps: true,
         chunk_length_s: 30,
@@ -323,10 +418,14 @@ import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
       if (chunks.length === 0 && output.text && output.text.trim()) {
         chunks = [{ start: 0, end: videoDuration, text: output.text.trim() }]
       }
+      phaseDone('transcribe', 'Speech transcribed')
       // Drop pure non-speech annotations ("[Music]", "(applause)", "♪").
       return chunks.filter(function (c) { return !isNonSpeechCue(c.text) })
     } catch (e) {
       console.warn('Speech transcription skipped:', e)
+      phaseDone('audio-engine')
+      phaseDone('speech-model')
+      phaseDone('transcribe', 'Speech skipped (no audio track)')
       return []
     }
   }
@@ -396,14 +495,15 @@ import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
     results = []
     speechSegments = []
     timelineEl.innerHTML = ''
+    var withAudio = !!(audioCheckbox && audioCheckbox.checked && currentFile)
+    initPhases(withAudio)
     showState('progress')
 
     // Phase A (opt-in): transcribe speech BEFORE loading the vision model —
     // sequential keeps peak memory down, and the transcript shows up first.
-    if (audioCheckbox && audioCheckbox.checked && currentFile) {
+    if (withAudio) {
       speechSegments = await transcribeSpeech(currentFile)
       if (myRun !== runId) return
-      progressBar.style.width = '0%'
     }
 
     try {
@@ -463,11 +563,11 @@ import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
     }
     updateTranscript()
 
+    phaseActive('frames', 'Describing frames (0 / ' + times.length + ')')
     for (var i = 0; i < times.length; i++) {
       if (stopRequested || myRun !== runId) break
       var t = times[i]
-      progressText.textContent = 'Describing frame ' + (i + 1) + ' of ' + times.length + ' (' + formatTimestamp(t) + ')…'
-      progressBar.style.width = Math.round(((i + 1) / times.length) * 100) + '%'
+      phaseProgress('frames', Math.round(((i + 1) / times.length) * 100), 'Describing frames (' + (i + 1) + ' / ' + times.length + ')')
 
       try {
         await seekTo(video, t)
@@ -487,6 +587,7 @@ import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
 
     // Only touch the UI if this run still owns it.
     if (myRun === runId) {
+      phaseDone('frames', 'All frames described')
       progressEl.style.display = 'none'
       stopBtn.style.display = 'none'
     }
