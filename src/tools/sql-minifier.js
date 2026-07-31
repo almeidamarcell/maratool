@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import { minifySql } from './sql-minify-core.js'
 
 ;(function () {
@@ -8,10 +9,7 @@ import { minifySql } from './sql-minify-core.js'
   function update() { output.textContent = minifySql(input.value) }
   input.addEventListener('input', update)
   copy.addEventListener('click', function () {
-    navigator.clipboard.writeText(output.textContent).then(function () {
-      copy.textContent = 'Copied!'
-      setTimeout(function () { copy.textContent = 'Copy' }, 2000)
-    })
+    copyWithFeedback(copy, output.textContent, { idle: 'Copy' })
   })
   update()
 })()

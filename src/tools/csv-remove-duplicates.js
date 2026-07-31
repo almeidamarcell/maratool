@@ -1,3 +1,4 @@
+import { attachCopyButton } from './tool-utils.js'
 import { dedupCsv } from './csv-tools-core.js'
 
 ;(function () {
@@ -11,10 +12,5 @@ import { dedupCsv } from './csv-tools-core.js'
     try { output.value = dedupCsv(input.value, colIdx) } catch (e) { output.value = 'Error: ' + e.message }
   }
   ;[input, col].forEach(function (el) { el.addEventListener('input', update); el.addEventListener('change', update) })
-  copy.addEventListener('click', function () {
-    navigator.clipboard.writeText(output.value).then(function () {
-      copy.textContent = 'Copied!'
-      setTimeout(function () { copy.textContent = 'Copy' }, 2000)
-    })
-  })
+  attachCopyButton(copy, function () { return output.value }, { idle: 'Copy' })
 })()

@@ -1,6 +1,7 @@
 import { loadPdfJs, readFileAsArrayBuffer, formatBytes } from './pdf-common.js'
 import { parsePageRange, computePdfRenderScale, getPdfOutputFilename } from './ezgif-pdf-core.js'
 import { encodeGifFrames } from './ezgif-gif-ext-ui.js'
+import { downloadBlob } from './tool-utils.js'
 
 export function initPdfTool(config) {
   var mode = config.mode
@@ -42,6 +43,14 @@ export function initPdfTool(config) {
   var currentFile = null
   var resultBlob = null
   var imageBlobs = []
+  // Preview URLs (thumbnails + GIF) are recreated on every run; without
+  // revoking, each re-process orphans the previous batch of blobs.
+  var previewUrls = []
+
+  function releasePreviewUrls() {
+    previewUrls.forEach(function (u) { URL.revokeObjectURL(u) })
+    previewUrls = []
+  }
 
   function showState(s) {
     dropzone.style.display = s === 'upload' ? '' : 'none'
@@ -81,6 +90,7 @@ export function initPdfTool(config) {
       var quality = (parseInt(document.getElementById('ep-quality')?.value, 10) || 75) / 100
 
       gallery.innerHTML = ''
+      releasePreviewUrls()
       imageBlobs = []
       var rgbaFrames = []
       var w = 0
@@ -101,8 +111,11 @@ export function initPdfTool(config) {
             canvas.toBlob(res, mime, mode === 'to-jpg' ? quality : undefined)
           })
           imageBlobs.push(blob)
+          var thumbUrl = URL.createObjectURL(blob)
+          previewUrls.push(thumbUrl)
           var thumb = document.createElement('img')
-          thumb.src = URL.createObjectURL(blob)
+          thumb.src = thumbUrl
+          thumb.alt = 'Page ' + pages[i] + ' preview'
           thumb.style.maxWidth = '160px'
           gallery.appendChild(thumb)
         }
@@ -110,7 +123,10 @@ export function initPdfTool(config) {
 
       if (mode === 'to-gif') {
         resultBlob = await encodeGifFrames(rgbaFrames, w, h, 0)
-        gifPreview.src = URL.createObjectURL(resultBlob)
+        var gifUrl = URL.createObjectURL(resultBlob)
+        previewUrls.push(gifUrl)
+        gifPreview.src = gifUrl
+        gifPreview.alt = 'Converted GIF preview'
         gifPreview.style.display = ''
         gallery.style.display = 'none'
       } else if (mode === 'compress') {
@@ -153,21 +169,15 @@ export function initPdfTool(config) {
 
   downloadBtn.addEventListener('click', function () {
     if (mode === 'to-png' || mode === 'to-jpg') {
+      var ext = mode === 'to-jpg' ? '.jpg' : '.png'
       imageBlobs.forEach(function (blob, idx) {
-        var a = document.createElement('a')
-        a.href = URL.createObjectURL(blob)
-        var ext = mode === 'to-jpg' ? '.jpg' : '.png'
-        a.download = getPdfOutputFilename(currentFile.name, suffix + '-' + (idx + 1), ext)
-        a.click()
+        downloadBlob(blob, getPdfOutputFilename(currentFile.name, suffix + '-' + (idx + 1), ext))
       })
       return
     }
     if (!resultBlob) return
     var ext2 = mode === 'to-gif' ? '.gif' : '.pdf'
-    var a2 = document.createElement('a')
-    a2.href = URL.createObjectURL(resultBlob)
-    a2.download = getPdfOutputFilename(currentFile.name, suffix, ext2)
-    a2.click()
+    downloadBlob(resultBlob, getPdfOutputFilename(currentFile.name, suffix, ext2))
   })
 
   showState('upload')

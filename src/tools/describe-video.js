@@ -18,6 +18,7 @@ import {
   buildCombinedSrt,
 } from './describe-video-core.js'
 import { buildAudioExtractArgs, normalizeChunks } from './video-to-text-core.js'
+import { copyWithFeedback } from './tool-utils.js'
 import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
 
 ;(function () {
@@ -662,14 +663,7 @@ import { isNonSpeechCue, buildVlmPrompt } from './describe-video-core.js'
   // ── Export ──
   copyBtn.addEventListener('click', function () {
     if (!transcriptEl.value) return
-    navigator.clipboard.writeText(transcriptEl.value).then(function () {
-      copyBtn.textContent = 'Copied!'
-      copyBtn.classList.add('copied')
-      setTimeout(function () {
-        copyBtn.textContent = 'Copy transcript'
-        copyBtn.classList.remove('copied')
-      }, 2000)
-    })
+    copyWithFeedback(copyBtn, transcriptEl.value, { idle: 'Copy transcript' })
   })
 
   function download(content, ext, mime) {

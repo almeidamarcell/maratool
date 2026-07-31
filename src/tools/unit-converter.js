@@ -1,4 +1,5 @@
-(function () {
+import { copyWithFeedback } from './tool-utils.js'
+;(function () {
   var tabs = document.getElementById('uc-tabs')
   var fromUnit = document.getElementById('uc-from-unit')
   var toUnit = document.getElementById('uc-to-unit')
@@ -178,15 +179,7 @@
 
   copyBtn.addEventListener('click', function () {
     if (!lastResult) return
-    navigator.clipboard.writeText(lastResult).then(function () {
-      var orig = copyBtn.textContent
-      copyBtn.textContent = 'Copied!'
-      copyBtn.classList.add('copied')
-      setTimeout(function () {
-        copyBtn.textContent = orig
-        copyBtn.classList.remove('copied')
-      }, 2000)
-    })
+    copyWithFeedback(copyBtn, lastResult)
   })
 
   // ── Init ──

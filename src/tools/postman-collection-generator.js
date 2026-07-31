@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import { toPostmanCollection } from './curl-convert-core.js'
 
 ;(function () {
@@ -28,10 +29,7 @@ import { toPostmanCollection } from './curl-convert-core.js'
 
   ;[url, method, headers, body, name].forEach(function (el) { el.addEventListener('input', build) })
   copy.addEventListener('click', function () {
-    navigator.clipboard.writeText(output.textContent).then(function () {
-      copy.textContent = 'Copied!'
-      setTimeout(function () { copy.textContent = 'Copy' }, 2000)
-    })
+    copyWithFeedback(copy, output.textContent, { idle: 'Copy' })
   })
   build()
 })()

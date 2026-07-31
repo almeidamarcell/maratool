@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import { jsonToInsert } from './sql-insert-core.js'
 
 ;(function () {
@@ -14,10 +15,7 @@ import { jsonToInsert } from './sql-insert-core.js'
 
   ;[table, json].forEach(function (el) { el.addEventListener('input', update) })
   copy.addEventListener('click', function () {
-    navigator.clipboard.writeText(output.textContent).then(function () {
-      copy.textContent = 'Copied!'
-      setTimeout(function () { copy.textContent = 'Copy' }, 2000)
-    })
+    copyWithFeedback(copy, output.textContent, { idle: 'Copy' })
   })
   update()
 })()

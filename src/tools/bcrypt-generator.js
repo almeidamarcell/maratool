@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import './hash-state.js'
 import { validateCostFactor, hashPassword, verifyPassword } from './bcrypt-generator-core.js'
 // Bcrypt Generator
@@ -90,11 +91,7 @@ import { validateCostFactor, hashPassword, verifyPassword } from './bcrypt-gener
 
   hashCopyBtn.addEventListener('click', function () {
     if (!hashOutput.value) return
-    navigator.clipboard.writeText(hashOutput.value).then(function () {
-      var orig = hashCopyBtn.textContent
-      hashCopyBtn.textContent = 'Copied!'
-      setTimeout(function () { hashCopyBtn.textContent = orig }, 2000)
-    })
+    copyWithFeedback(hashCopyBtn, hashOutput.value)
   })
 
   verifyBtn.addEventListener('click', async function () {

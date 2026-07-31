@@ -1,3 +1,4 @@
+import { attachCopyButton } from './tool-utils.js'
 import './hash-state.js'
 // Base64 Encode/Decode
 (function () {
@@ -69,16 +70,7 @@ import './hash-state.js'
     saveHash()
   })
 
-  copyTextBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(b64Output.value).then(() => {
-      copyTextBtn.textContent = 'Copied!'
-      copyTextBtn.classList.add('copied')
-      setTimeout(() => {
-        copyTextBtn.textContent = 'Copy Base64'
-        copyTextBtn.classList.remove('copied')
-      }, 2000)
-    })
-  })
+  attachCopyButton(copyTextBtn, () => b64Output.value, { idle: 'Copy Base64' })
 
   // ---- IMAGE TAB ----
   const imageInput = document.getElementById('b64-image-file')
@@ -101,16 +93,7 @@ import './hash-state.js'
     reader.readAsDataURL(file)
   })
 
-  copyImageBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(imageOutput.value).then(() => {
-      copyImageBtn.textContent = 'Copied!'
-      copyImageBtn.classList.add('copied')
-      setTimeout(() => {
-        copyImageBtn.textContent = 'Copy Base64'
-        copyImageBtn.classList.remove('copied')
-      }, 2000)
-    })
-  })
+  attachCopyButton(copyImageBtn, () => imageOutput.value, { idle: 'Copy Base64' })
 
   // ---- HASH STATE RESTORE ----
   var saved = HashState.parse()

@@ -1,4 +1,5 @@
-(function () {
+import { copyWithFeedback } from './tool-utils.js'
+;(function () {
   var dist = document.getElementById('rpc-dist')
   var unit = document.getElementById('rpc-unit')
   var hh = document.getElementById('rpc-h')
@@ -70,14 +71,6 @@
 
   copyBtn.addEventListener('click', function () {
     if (!summary) return
-    navigator.clipboard.writeText(summary).then(function () {
-      var orig = copyBtn.textContent
-      copyBtn.textContent = 'Copied!'
-      copyBtn.classList.add('copied')
-      setTimeout(function () {
-        copyBtn.textContent = orig
-        copyBtn.classList.remove('copied')
-      }, 2000)
-    })
+    copyWithFeedback(copyBtn, summary)
   })
 })()

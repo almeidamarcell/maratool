@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import './hash-state.js'
 // Alt Text Generator — uses HuggingFace transformers
 ;(function () {
@@ -113,14 +114,7 @@ import './hash-state.js'
 
   copyBtn.addEventListener('click', function () {
     if (!output.value) return
-    navigator.clipboard.writeText(output.value).then(function () {
-      copyBtn.textContent = 'Copied!'
-      copyBtn.classList.add('copied')
-      setTimeout(function () {
-        copyBtn.textContent = 'Copy alt text'
-        copyBtn.classList.remove('copied')
-      }, 2000)
-    })
+    copyWithFeedback(copyBtn, output.value, { idle: 'Copy alt text' })
   })
 
   regenerateBtn.addEventListener('click', async function () {

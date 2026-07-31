@@ -1,22 +1,9 @@
 // Shared GIF parse/composite/encode helpers for maratool image tools.
 
+export { formatSize, downloadBlob } from './tool-utils.js'
+
 var gifuctModule = null
 var gifencModule = null
-
-export function formatSize(bytes) {
-  if (bytes < 1024) return bytes + ' B'
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB'
-  return (bytes / (1024 * 1024)).toFixed(1) + ' MB'
-}
-
-export function downloadBlob(blob, filename) {
-  var url = URL.createObjectURL(blob)
-  var a = document.createElement('a')
-  a.href = url
-  a.download = filename
-  a.click()
-  setTimeout(function () { URL.revokeObjectURL(url) }, 1000)
-}
 
 export async function loadGifuct() {
   if (gifuctModule) return gifuctModule

@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import './hash-state.js'
 import { detectDelimiter, csvToJson, jsonToCsv } from './csv-parser.js'
 // CSV to JSON Converter
@@ -65,14 +66,7 @@ import { detectDelimiter, csvToJson, jsonToCsv } from './csv-parser.js'
   function setupCopy(btn, textarea, label) {
     btn.addEventListener('click', function () {
       if (!textarea.value) return
-      navigator.clipboard.writeText(textarea.value).then(function () {
-        btn.textContent = 'Copied!'
-        btn.classList.add('copied')
-        setTimeout(function () {
-          btn.textContent = label
-          btn.classList.remove('copied')
-        }, 2000)
-      })
+      copyWithFeedback(btn, textarea.value, { idle: label })
     })
   }
   setupCopy(copyJsonBtn, jsonOutput, 'Copy JSON')

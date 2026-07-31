@@ -3,6 +3,7 @@ import { encodeGifFrames } from './ezgif-gif-ext-ui.js'
 import { getGifOutputFilename } from './gif-anim-core.js'
 import { initFfmpegTool } from './ezgif-ffmpeg-ui.js'
 import { buildVideoToApngArgs, buildVideoToWebpArgs, buildVideoToAvifArgs, getVideoExtOutputFilename } from './ezgif-video-ext-core.js'
+import { downloadBlob } from './tool-utils.js'
 
 var MAX_IMAGE = 25 * 1024 * 1024
 
@@ -36,9 +37,9 @@ export function initAnimMakerTool(config) {
       '<p>Drop images or click to upload (multiple for frame animation)</p>' +
     '</div>' +
     '<div id="am-settings" hidden>' +
-      '<label class="tool-label">Frame delay (cs)</label><input class="tool-input" id="am-delay" type="number" value="20" min="2" max="200" />' +
-      '<label class="tool-label">Animation style (single image)</label><select class="tool-input" id="am-style"><option value="zoom-in">Zoom in</option><option value="zoom-out">Zoom out</option><option value="pan-right">Pan right</option><option value="pulse">Pulse</option></select>' +
-      '<label class="tool-label">Frames (single image)</label><input class="tool-input" id="am-frames" type="number" value="12" min="4" max="40" />' +
+      '<label class="tool-label" for="am-delay">Frame delay (cs)</label><input class="tool-input" id="am-delay" type="number" value="20" min="2" max="200" />' +
+      '<label class="tool-label" for="am-style">Animation style (single image)</label><select class="tool-input" id="am-style"><option value="zoom-in">Zoom in</option><option value="zoom-out">Zoom out</option><option value="pan-right">Pan right</option><option value="pulse">Pulse</option></select>' +
+      '<label class="tool-label" for="am-frames">Frames (single image)</label><input class="tool-input" id="am-frames" type="number" value="12" min="4" max="40" />' +
       '<button type="button" class="tool-btn" id="am-process" style="margin-top:1rem;">Create ' + format.toUpperCase() + '</button>' +
     '</div>' +
     '<div id="am-progress" hidden><p>Encoding...</p></div>' +
@@ -57,6 +58,7 @@ export function initAnimMakerTool(config) {
 
   var files = []
   var resultBlob = null
+  var lastPreviewUrl = null
 
   function showState(s) {
     dropzone.style.display = s === 'upload' ? '' : 'none'
@@ -148,7 +150,9 @@ export function initAnimMakerTool(config) {
         resultBlob = new Blob([out.buffer || out], { type: 'application/octet-stream' })
       }
 
-      preview.src = URL.createObjectURL(resultBlob)
+      if (lastPreviewUrl) URL.revokeObjectURL(lastPreviewUrl)
+      lastPreviewUrl = URL.createObjectURL(resultBlob)
+      preview.src = lastPreviewUrl
       showState('result')
     } catch (e) {
       errorText.textContent = e.message || String(e)
@@ -163,11 +167,8 @@ export function initAnimMakerTool(config) {
   document.getElementById('am-process').addEventListener('click', process)
   downloadBtn.addEventListener('click', function () {
     if (!resultBlob) return
-    var a = document.createElement('a')
-    a.href = URL.createObjectURL(resultBlob)
     var ext = format === 'gif' ? '.gif' : format === 'webp' ? '.webp' : format === 'apng' ? '.apng' : format === 'avif' ? '.avif' : '.jxl'
-    a.download = format === 'gif' ? getGifOutputFilename(files[0]?.name || 'anim', suffix) : getVideoExtOutputFilename(files[0]?.name || 'anim', suffix, ext)
-    a.click()
+    downloadBlob(resultBlob, format === 'gif' ? getGifOutputFilename(files[0]?.name || 'anim', suffix) : getVideoExtOutputFilename(files[0]?.name || 'anim', suffix, ext))
   })
   showState('upload')
 }

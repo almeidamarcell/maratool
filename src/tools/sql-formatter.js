@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import { formatSql } from './sql-format-core.js'
 
 ;(function () {
@@ -12,9 +13,6 @@ import { formatSql } from './sql-format-core.js'
   input.addEventListener('input', update)
 
   copyBtn.addEventListener('click', function () {
-    navigator.clipboard.writeText(output.textContent).then(function () {
-      copyBtn.textContent = 'Copied!'
-      setTimeout(function () { copyBtn.textContent = 'Copy' }, 2000)
-    })
+    copyWithFeedback(copyBtn, output.textContent, { idle: 'Copy' })
   })
 })()
