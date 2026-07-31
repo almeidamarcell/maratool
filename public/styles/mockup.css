@@ -389,10 +389,15 @@ select.ctrl-input { appearance: auto; }
   color: #111B21;
 }
 
-/* Bubble tails */
+/* Bubble tails.
+   The tail overhangs outside the bubble body, so the margin lives on every
+   bubble (not just the tailed one) — otherwise the first message of a group
+   would be indented 8px relative to the ones below it. */
+.wa-screen .wa-msg.outgoing { margin-right: 8px; }
+.wa-screen .wa-msg.incoming { margin-left: 8px; }
+
 .wa-msg.outgoing.has-tail {
   border-radius: 7.5px 0px 7.5px 7.5px;
-  margin-right: 8px;
 }
 .wa-msg.outgoing.has-tail::after {
   content: '';
@@ -407,7 +412,6 @@ select.ctrl-input { appearance: auto; }
 }
 .wa-msg.incoming.has-tail {
   border-radius: 0px 7.5px 7.5px 7.5px;
-  margin-left: 8px;
 }
 .wa-msg.incoming.has-tail::after {
   content: '';
