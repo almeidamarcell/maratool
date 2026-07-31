@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import './hash-state.js'
 import {
   buildArticleSchema,
@@ -104,11 +105,7 @@ import {
 
   copyBtn.addEventListener('click', function () {
     if (!output.value) return
-    navigator.clipboard.writeText(output.value).then(function () {
-      var orig = copyBtn.textContent
-      copyBtn.textContent = 'Copied!'
-      setTimeout(function () { copyBtn.textContent = orig }, 2000)
-    })
+    copyWithFeedback(copyBtn, output.value)
   })
 
   generate()

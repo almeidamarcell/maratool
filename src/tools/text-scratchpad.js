@@ -1,4 +1,5 @@
-(function () {
+import { copyWithFeedback } from './tool-utils.js'
+;(function () {
   var textarea = document.getElementById('ts-textarea')
   var wordsEl = document.getElementById('ts-words')
   var charsEl = document.getElementById('ts-chars')
@@ -161,15 +162,7 @@
   copyBtn.addEventListener('click', function () {
     var text = textarea.value
     if (!text) return
-    navigator.clipboard.writeText(text).then(function () {
-      var orig = copyBtn.textContent
-      copyBtn.textContent = 'Copied!'
-      copyBtn.classList.add('copied')
-      setTimeout(function () {
-        copyBtn.textContent = orig
-        copyBtn.classList.remove('copied')
-      }, 2000)
-    })
+    copyWithFeedback(copyBtn, text)
   })
 
   // Stats update

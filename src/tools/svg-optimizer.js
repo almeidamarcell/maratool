@@ -1,4 +1,5 @@
-(function () {
+import { copyWithFeedback } from './tool-utils.js'
+;(function () {
   var input = document.getElementById('so-input')
   var output = document.getElementById('so-output')
   var outputSection = document.getElementById('so-output-section')
@@ -203,10 +204,6 @@
   })
 
   copyBtn.addEventListener('click', function () {
-    navigator.clipboard.writeText(output.textContent).then(function () {
-      var orig = copyBtn.textContent
-      copyBtn.textContent = 'Copied!'
-      setTimeout(function () { copyBtn.textContent = orig }, 2000)
-    })
+    copyWithFeedback(copyBtn, output.textContent)
   })
 })()

@@ -1,4 +1,6 @@
-(function () {
+import { downloadBlob } from './tool-utils.js'
+
+;(function () {
   var uploadEl = document.getElementById('wm-upload')
   var fileInput = document.getElementById('wm-file')
   var browseBtn = document.getElementById('wm-browse')
@@ -306,12 +308,9 @@
   downloadBtn.addEventListener('click', function () {
     if (!baseImg) return
     canvas.toBlob(function (blob) {
-      var url = URL.createObjectURL(blob)
-      var a = document.createElement('a')
-      a.href = url
-      a.download = 'watermarked.png'
-      a.click()
-      URL.revokeObjectURL(url)
+      // Revoking synchronously right after click() can abort the download in
+      // Firefox/Safari — downloadBlob defers the revoke by 1s.
+      downloadBlob(blob, 'watermarked.png')
     }, 'image/png')
   })
 })()

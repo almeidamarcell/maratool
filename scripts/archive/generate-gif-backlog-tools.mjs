@@ -6,7 +6,7 @@
 import fs from 'fs'
 import path from 'path'
 
-const ROOT = path.join(import.meta.dirname, '..')
+const ROOT = path.join(import.meta.dirname, '..', '..')
 const PAGES = path.join(ROOT, 'src', 'pages')
 const BLOG = path.join(PAGES, 'blog')
 const DATE = 'June 28, 2026'

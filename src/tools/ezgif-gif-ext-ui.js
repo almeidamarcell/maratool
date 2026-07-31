@@ -6,6 +6,7 @@ import {
   formatFrameFilename,
 } from './ezgif-gif-ext-core.js'
 import { combineLayoutDims, getGifOutputFilename } from './gif-anim-core.js'
+import { downloadBlob } from './tool-utils.js'
 
 var MAX_GIF = 50 * 1024 * 1024
 
@@ -108,6 +109,8 @@ export function initGifExtTool(config) {
   var overlayImg = null
   var resultBlob = null
   var frameBlobs = []
+  var lastPreviewUrl = null
+  var frameUrls = []
 
   function showState(state) {
     dropzone.style.display = state === 'upload' ? '' : 'none'
@@ -126,17 +129,17 @@ export function initGifExtTool(config) {
     var html = ''
     if (mode === 'overlay') {
       html += '<button type="button" class="tool-btn tool-btn-secondary" id="ge-pick-overlay">Choose overlay image</button>'
-      html += '<label class="tool-label">Position</label><select class="tool-input" id="ge-opt-pos"><option value="br">Bottom right</option><option value="mc">Center</option><option value="tl">Top left</option></select>'
+      html += '<label class="tool-label" for="ge-opt-pos">Position</label><select class="tool-input" id="ge-opt-pos"><option value="br">Bottom right</option><option value="mc">Center</option><option value="tl">Top left</option></select>'
     }
     if (mode === 'add-text') {
-      html += '<label class="tool-label">Caption text</label><input class="tool-input" id="ge-opt-text" type="text" value="Hello" />'
-      html += '<label class="tool-label">Font size</label><input class="tool-input" id="ge-opt-font" type="number" value="24" min="10" max="72" />'
+      html += '<label class="tool-label" for="ge-opt-text">Caption text</label><input class="tool-input" id="ge-opt-text" type="text" value="Hello" />'
+      html += '<label class="tool-label" for="ge-opt-font">Font size</label><input class="tool-input" id="ge-opt-font" type="number" value="24" min="10" max="72" />'
     }
     if (mode === 'effects') {
-      html += '<label class="tool-label">Effect</label><select class="tool-input" id="ge-opt-effect"><option value="grayscale">Grayscale</option><option value="sepia">Sepia</option><option value="invert">Invert</option><option value="blur">Blur</option></select>'
+      html += '<label class="tool-label" for="ge-opt-effect">Effect</label><select class="tool-input" id="ge-opt-effect"><option value="grayscale">Grayscale</option><option value="sepia">Sepia</option><option value="invert">Invert</option><option value="blur">Blur</option></select>'
     }
     if (mode === 'combine') {
-      html += '<label class="tool-label">Layout</label><select class="tool-input" id="ge-opt-layout"><option value="horizontal">Side by side</option><option value="vertical">Stacked</option></select>'
+      html += '<label class="tool-label" for="ge-opt-layout">Layout</label><select class="tool-input" id="ge-opt-layout"><option value="horizontal">Side by side</option><option value="vertical">Stacked</option></select>'
     }
     if (mode !== 'analyzer') {
       html += '<button type="button" class="tool-btn" id="ge-process" style="margin-top:1rem;">Process</button>'
@@ -195,6 +198,8 @@ export function initGifExtTool(config) {
         framesEl.innerHTML = ''
         preview.style.display = 'none'
         frameBlobs = []
+        frameUrls.forEach(function (u) { URL.revokeObjectURL(u) })
+        frameUrls = []
         for (var fi = 0; fi < parsedF.frames.length; fi++) {
           var c = document.createElement('canvas')
           c.width = parsedF.width
@@ -203,7 +208,9 @@ export function initGifExtTool(config) {
           var blob = await new Promise(function (res) { c.toBlob(res, 'image/png') })
           frameBlobs.push(blob)
           var thumb = document.createElement('img')
-          thumb.src = URL.createObjectURL(blob)
+          var thumbUrl = URL.createObjectURL(blob)
+          frameUrls.push(thumbUrl)
+          thumb.src = thumbUrl
           thumb.style.width = '80px'
           thumb.alt = 'Frame ' + (fi + 1)
           framesEl.appendChild(thumb)
@@ -292,7 +299,9 @@ export function initGifExtTool(config) {
       }
 
       resultBlob = await encodeGifFrames(outFrames, outW, outH)
-      preview.src = URL.createObjectURL(resultBlob)
+      if (lastPreviewUrl) URL.revokeObjectURL(lastPreviewUrl)
+      lastPreviewUrl = URL.createObjectURL(resultBlob)
+      preview.src = lastPreviewUrl
       preview.style.display = ''
       statsEl.style.display = 'none'
       framesEl.style.display = 'none'
@@ -328,18 +337,12 @@ export function initGifExtTool(config) {
     if (mode === 'to-frames' && frameBlobs.length) {
       var stem = gifFiles[0].name.replace(/\.gif$/i, '')
       for (var i = 0; i < frameBlobs.length; i++) {
-        var a = document.createElement('a')
-        a.href = URL.createObjectURL(frameBlobs[i])
-        a.download = formatFrameFilename(stem, i + 1, frameBlobs.length, '.png')
-        a.click()
+        downloadBlob(frameBlobs[i], formatFrameFilename(stem, i + 1, frameBlobs.length, '.png'))
       }
       return
     }
     if (!resultBlob) return
-    var a2 = document.createElement('a')
-    a2.href = URL.createObjectURL(resultBlob)
-    a2.download = getGifOutputFilename(gifFiles[0].name, suffix)
-    a2.click()
+    downloadBlob(resultBlob, getGifOutputFilename(gifFiles[0].name, suffix))
   })
 
   showState('upload')

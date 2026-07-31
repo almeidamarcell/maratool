@@ -1,3 +1,5 @@
+import { copyWithFeedback } from './tool-utils.js'
+
 /**
  * Shared linear-factor conversion engine for Wave 5 converters.
  * Mirrors unit-converter.js UI wiring (from/to selects, live result, swap,
@@ -18,7 +20,7 @@
  * (temperature-style) are intentionally not supported — configs stay
  * auditable line-by-line against NIST SP 811.
  */
-(function () {
+;(function () {
   window.maratoolConvertEngine = function (config) {
     var p = config.prefix
     var tabs = document.getElementById(p + '-tabs')
@@ -122,15 +124,7 @@
     if (copyBtn) {
       copyBtn.addEventListener('click', function () {
         if (!lastResult || lastResult === '—') return
-        navigator.clipboard.writeText(lastResult).then(function () {
-          var orig = copyBtn.textContent
-          copyBtn.textContent = 'Copied!'
-          copyBtn.classList.add('copied')
-          setTimeout(function () {
-            copyBtn.textContent = orig
-            copyBtn.classList.remove('copied')
-          }, 2000)
-        })
+        copyWithFeedback(copyBtn, lastResult)
       })
     }
 

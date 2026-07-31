@@ -239,6 +239,7 @@ import { formatBytes } from './pdf-common.js'
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
-    URL.revokeObjectURL(url)
+    // Deferred: a synchronous revoke here aborts the download in Firefox/Safari.
+    setTimeout(function () { URL.revokeObjectURL(url) }, 1000)
   }
 })()

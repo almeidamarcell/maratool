@@ -3,8 +3,8 @@
 import fs from 'fs'
 import { WAVE4 } from './generate-wave4.mjs'
 
-const TOOLS_TS = new URL('../src/data/tools.ts', import.meta.url)
-const BLOG_INDEX = new URL('../src/pages/blog/index.astro', import.meta.url)
+const TOOLS_TS = new URL('../../src/data/tools.ts', import.meta.url)
+const BLOG_INDEX = new URL('../../src/pages/blog/index.astro', import.meta.url)
 
 function esc(s) {
   return String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'")

@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 ;(function () {
   var template = document.getElementById('pv-template')
   var vars = document.getElementById('pv-vars')
@@ -18,10 +19,7 @@
 
   ;[template, vars].forEach(function (el) { el.addEventListener('input', render) })
   copy.addEventListener('click', function () {
-    navigator.clipboard.writeText(output.textContent).then(function () {
-      copy.textContent = 'Copied!'
-      setTimeout(function () { copy.textContent = 'Copy' }, 2000)
-    })
+    copyWithFeedback(copy, output.textContent, { idle: 'Copy' })
   })
   render()
 })()

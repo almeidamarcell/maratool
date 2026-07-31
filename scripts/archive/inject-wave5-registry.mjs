@@ -9,7 +9,7 @@ import path from 'path'
 import { LINEAR } from './wave5-data-linear.mjs'
 import { SPECIAL } from './wave5-data-special.mjs'
 
-const ROOT = path.join(import.meta.dirname, '..')
+const ROOT = path.join(import.meta.dirname, '..', '..')
 const TOOLS_TS = path.join(ROOT, 'src', 'data', 'tools.ts')
 const BLOG_INDEX = path.join(ROOT, 'src', 'pages', 'blog', 'index.astro')
 

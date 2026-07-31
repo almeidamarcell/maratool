@@ -1,4 +1,6 @@
-(function () {
+import { copyWithFeedback } from './tool-utils.js'
+
+;(function () {
   'use strict'
 
   var exprInput = document.getElementById('ac-expression')
@@ -79,15 +81,7 @@
   // Copy
   copyBtn.addEventListener('click', function () {
     if (!lastRaw) return
-    navigator.clipboard.writeText(lastRaw).then(function () {
-      var orig = copyBtn.textContent
-      copyBtn.textContent = 'Copied!'
-      copyBtn.classList.add('copied')
-      setTimeout(function () {
-        copyBtn.textContent = orig
-        copyBtn.classList.remove('copied')
-      }, 2000)
-    })
+    copyWithFeedback(copyBtn, lastRaw)
   })
 
   function compute() {

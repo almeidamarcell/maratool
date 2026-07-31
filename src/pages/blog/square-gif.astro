@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
 const seo = {
   title: 'How to make a square GIF for Instagram | maratool',
@@ -39,6 +40,7 @@ const seo = {
       </header>
       <div class="blog-body">
         <p>The <a href="/square-gif">Square GIF</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <BlogToolEmbed slug="square-gif" title="Try it — crop or pad a GIF to a 1:1 square" height={520} />
         <h2>How it works</h2>
         <ol>
           <li>Upload an animated GIF.</li>

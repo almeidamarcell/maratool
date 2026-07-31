@@ -1,3 +1,4 @@
+import { copyWithFeedback, attachCopyButton } from './tool-utils.js'
 import './hash-state.js'
 // UUID Generator
 (function () {
@@ -65,16 +66,7 @@ import './hash-state.js'
     copyAllBtn.style.display = 'inline-flex'
 
     output.querySelectorAll('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        navigator.clipboard.writeText(btn.dataset.value).then(() => {
-          btn.textContent = 'Copied!'
-          btn.classList.add('copied')
-          setTimeout(() => {
-            btn.textContent = 'Copy'
-            btn.classList.remove('copied')
-          }, 2000)
-        })
-      })
+      attachCopyButton(btn, () => btn.dataset.value, { idle: 'Copy' })
     })
   }
 
@@ -92,14 +84,7 @@ import './hash-state.js'
 
   copyAllBtn.addEventListener('click', () => {
     const all = [...output.querySelectorAll('.uuid-value')].map(el => el.textContent).join('\n')
-    navigator.clipboard.writeText(all).then(() => {
-      copyAllBtn.textContent = 'Copied!'
-      copyAllBtn.classList.add('copied')
-      setTimeout(() => {
-        copyAllBtn.textContent = 'Copy all'
-        copyAllBtn.classList.remove('copied')
-      }, 2000)
-    })
+    copyWithFeedback(copyAllBtn, all, { idle: 'Copy all' })
   })
 
   // Restore from hash state

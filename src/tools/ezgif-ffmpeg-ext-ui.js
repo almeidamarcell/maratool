@@ -2,6 +2,7 @@ import { loadFFmpeg } from './ffmpeg-loader.js'
 import { buildMergeVideosArgs, buildImagesToVideoArgs, buildVideoFiltersArgs, buildVideoStabilizerArgs, buildSubtitlesArgs, buildInterpolateArgs, getVideoExtOutputFilename } from './ezgif-video-ext-core.js'
 import { buildMergeAudioArgs, buildAudioDenoiseArgs, buildWaveformImageArgs, getAudioOutputFilename } from './ezgif-audio-core.js'
 import { validateVideoFile, formatFileSize } from './fps-converter-core.js'
+import { downloadBlob } from './tool-utils.js'
 
 var MAX_BYTES = 200 * 1024 * 1024
 
@@ -13,7 +14,7 @@ function buildFfmpegShell(prefix, accept, multi) {
     '</div>' +
     '<div id="' + prefix + '-settings" hidden></div>' +
     '<div id="' + prefix + '-progress" hidden><p id="' + prefix + '-progress-text">Loading FFmpeg...</p><div class="tool-progress-bar"><div id="' + prefix + '-progress-fill" class="tool-progress-fill"></div></div></div>' +
-    '<div id="' + prefix + '-result" hidden><video id="' + prefix + '-video" controls style="max-width:100%;display:none;"></video><img id="' + prefix + '-img" style="max-width:100%;display:none;" /><button type="button" class="tool-btn" id="' + prefix + '-download" style="margin-top:1rem;">Download</button></div>' +
+    '<div id="' + prefix + '-result" hidden><video id="' + prefix + '-video" controls style="max-width:100%;display:none;"></video><img id="' + prefix + '-img" alt="Result preview" style="max-width:100%;display:none;" /><button type="button" class="tool-btn" id="' + prefix + '-download" style="margin-top:1rem;">Download</button></div>' +
     '<p id="' + prefix + '-error" class="tool-error" hidden><span id="' + prefix + '-error-text"></span></p>'
   )
 }
@@ -31,6 +32,7 @@ export function initFfmpegMergeTool(config) {
   var files = []
   var ffmpeg = null
   var resultBlob = null
+  var lastPreviewUrl = null
   var resultExt = type === 'audio' ? '.mp3' : '.mp4'
 
   var dropzone = document.getElementById(prefix + '-dropzone')
@@ -95,7 +97,9 @@ export function initFfmpegMergeTool(config) {
       var out = await ffmpeg.readFile(outputName)
       resultBlob = new Blob([out.buffer || out], { type: type === 'audio' ? 'audio/mpeg' : 'video/mp4' })
       if (type === 'video') {
-        videoEl.src = URL.createObjectURL(resultBlob)
+        if (lastPreviewUrl) URL.revokeObjectURL(lastPreviewUrl)
+        lastPreviewUrl = URL.createObjectURL(resultBlob)
+        videoEl.src = lastPreviewUrl
         videoEl.style.display = ''
       }
       showState('result')
@@ -110,10 +114,7 @@ export function initFfmpegMergeTool(config) {
   fileInput.addEventListener('change', function () { if (fileInput.files.length) handleFiles(fileInput.files) })
   downloadBtn.addEventListener('click', function () {
     if (!resultBlob) return
-    var a = document.createElement('a')
-    a.href = URL.createObjectURL(resultBlob)
-    a.download = type === 'audio' ? getAudioOutputFilename(files[0].name, suffix) : getVideoExtOutputFilename(files[0].name, suffix, resultExt)
-    a.click()
+    downloadBlob(resultBlob, type === 'audio' ? getAudioOutputFilename(files[0].name, suffix) : getVideoExtOutputFilename(files[0].name, suffix, resultExt))
   })
   showState('upload')
 }
@@ -128,6 +129,7 @@ export function initImagesToVideoTool(config) {
   var files = []
   var ffmpeg = null
   var resultBlob = null
+  var lastPreviewUrl = null
 
   var dropzone = document.getElementById(prefix + '-dropzone')
   var fileInput = document.getElementById(prefix + '-file')
@@ -161,7 +163,7 @@ export function initImagesToVideoTool(config) {
 
   function handleFiles(fl) {
     files = Array.from(fl)
-    settingsEl.innerHTML = '<label class="tool-label">FPS</label><input class="tool-input" id="iv-fps" type="number" value="2" min="1" max="30" />' +
+    settingsEl.innerHTML = '<label class="tool-label" for="iv-fps">FPS</label><input class="tool-input" id="iv-fps" type="number" value="2" min="1" max="30" />' +
       '<button class="tool-btn" id="iv-process" style="margin-top:1rem;">Create video</button>'
     document.getElementById('iv-process').addEventListener('click', process)
     showState('settings')
@@ -182,7 +184,9 @@ export function initImagesToVideoTool(config) {
       await ffmpeg.exec(buildImagesToVideoArgs({ pattern: 'img%03d.png', outputName: outputName, fps: fps }))
       var out = await ffmpeg.readFile(outputName)
       resultBlob = new Blob([out.buffer || out], { type: 'video/mp4' })
-      videoEl.src = URL.createObjectURL(resultBlob)
+      if (lastPreviewUrl) URL.revokeObjectURL(lastPreviewUrl)
+      lastPreviewUrl = URL.createObjectURL(resultBlob)
+      videoEl.src = lastPreviewUrl
       videoEl.style.display = ''
       showState('result')
     } catch (e) {
@@ -192,10 +196,7 @@ export function initImagesToVideoTool(config) {
 
   downloadBtn.addEventListener('click', function () {
     if (!resultBlob) return
-    var a = document.createElement('a')
-    a.href = URL.createObjectURL(resultBlob)
-    a.download = getVideoExtOutputFilename(files[0]?.name || 'slideshow', suffix, '.mp4')
-    a.click()
+    downloadBlob(resultBlob, getVideoExtOutputFilename(files[0]?.name || 'slideshow', suffix, '.mp4'))
   })
   showState('upload')
 }
@@ -215,6 +216,7 @@ export function initFfmpegEffectsTool(config) {
   var srtFile = null
   var ffmpeg = null
   var resultBlob = null
+  var lastPreviewUrl = null
   var resultExt = mode === 'waveform' ? '.png' : mode === 'denoise' ? '.mp3' : '.mp4'
 
   var dropzone = document.getElementById(prefix + '-dropzone')
@@ -263,10 +265,10 @@ export function initFfmpegEffectsTool(config) {
     currentFile = file
     var html = ''
     if (mode === 'filters') {
-      html += '<label class="tool-label">Filter</label><select class="tool-input" id="fx-filter"><option value="eq=brightness=0.06:saturation=1.3">Vivid</option><option value="hue=s=0">Grayscale</option><option value="negate">Negative</option></select>'
+      html += '<label class="tool-label" for="fx-filter">Filter</label><select class="tool-input" id="fx-filter"><option value="eq=brightness=0.06:saturation=1.3">Vivid</option><option value="hue=s=0">Grayscale</option><option value="negate">Negative</option></select>'
     }
     if (mode === 'interpolate') {
-      html += '<label class="tool-label">Target FPS</label><input class="tool-input" id="fx-fps" type="number" value="30" min="24" max="60" />'
+      html += '<label class="tool-label" for="fx-fps">Target FPS</label><input class="tool-input" id="fx-fps" type="number" value="30" min="24" max="60" />'
     }
     html += '<button class="tool-btn" id="fx-process" style="margin-top:1rem;">Process</button>'
     settingsEl.innerHTML = html
@@ -297,11 +299,13 @@ export function initFfmpegEffectsTool(config) {
       var out = await ffmpeg.readFile(outputName)
       var mime = resultExt === '.png' ? 'image/png' : resultExt === '.mp3' ? 'audio/mpeg' : 'video/mp4'
       resultBlob = new Blob([out.buffer || out], { type: mime })
+      if (lastPreviewUrl) URL.revokeObjectURL(lastPreviewUrl)
+      lastPreviewUrl = URL.createObjectURL(resultBlob)
       if (mime.startsWith('video')) {
-        videoEl.src = URL.createObjectURL(resultBlob)
+        videoEl.src = lastPreviewUrl
         videoEl.style.display = ''
       } else if (mime.startsWith('image')) {
-        imgEl.src = URL.createObjectURL(resultBlob)
+        imgEl.src = lastPreviewUrl
         imgEl.style.display = ''
       }
       showState('result')
@@ -316,14 +320,13 @@ export function initFfmpegEffectsTool(config) {
   fileInput.addEventListener('change', function () { if (fileInput.files[0]) handleFile(fileInput.files[0]) })
   downloadBtn.addEventListener('click', function () {
     if (!resultBlob) return
-    var a = document.createElement('a')
-    a.href = URL.createObjectURL(resultBlob)
+    var filename
     if (mode === 'waveform' || mode === 'denoise') {
-      a.download = mode === 'waveform' ? getVideoExtOutputFilename(currentFile.name, suffix, '.png') : getAudioOutputFilename(currentFile.name, suffix)
+      filename = mode === 'waveform' ? getVideoExtOutputFilename(currentFile.name, suffix, '.png') : getAudioOutputFilename(currentFile.name, suffix)
     } else {
-      a.download = getVideoExtOutputFilename(currentFile.name, suffix, resultExt)
+      filename = getVideoExtOutputFilename(currentFile.name, suffix, resultExt)
     }
-    a.click()
+    downloadBlob(resultBlob, filename)
   })
   showState('upload')
 }

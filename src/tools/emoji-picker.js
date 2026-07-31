@@ -60,7 +60,14 @@
     if (!btn) return
     var char = btn.dataset.char
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(char).then(function () { showToast(char) })
+      navigator.clipboard.writeText(char).then(function () { showToast(char) }, function () {
+        toast.textContent = 'Copy failed'
+        toast.classList.add('show')
+        clearTimeout(toastTimer)
+        toastTimer = setTimeout(function () {
+          toast.classList.remove('show')
+        }, 1500)
+      })
     } else {
       var ta = document.createElement('textarea')
       ta.value = char

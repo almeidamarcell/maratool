@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import './hash-state.js'
 // Unix Timestamp Converter
 (function () {
@@ -83,14 +84,7 @@ import './hash-state.js'
   })
 
   tsCopyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(tsOutput.textContent).then(() => {
-      tsCopyBtn.textContent = 'Copied!'
-      tsCopyBtn.classList.add('copied')
-      setTimeout(() => {
-        tsCopyBtn.textContent = 'Copy'
-        tsCopyBtn.classList.remove('copied')
-      }, 2000)
-    })
+    copyWithFeedback(tsCopyBtn, tsOutput.textContent, { idle: 'Copy' })
   })
 
   // Date → timestamp
@@ -123,14 +117,7 @@ import './hash-state.js'
   })
 
   dtCopyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(dtOutput.textContent).then(() => {
-      dtCopyBtn.textContent = 'Copied!'
-      dtCopyBtn.classList.add('copied')
-      setTimeout(() => {
-        dtCopyBtn.textContent = 'Copy'
-        dtCopyBtn.classList.remove('copied')
-      }, 2000)
-    })
+    copyWithFeedback(dtCopyBtn, dtOutput.textContent, { idle: 'Copy' })
   })
 
   // ---- HASH STATE RESTORE ----

@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import './hash-state.js'
 import { loadPdfJs, readFileAsArrayBuffer, setupDropzone, formatBytes } from './pdf-common.js'
 // PDF to Text Extractor
@@ -65,14 +66,7 @@ import { loadPdfJs, readFileAsArrayBuffer, setupDropzone, formatBytes } from './
 
   copyBtn.addEventListener('click', function () {
     if (!output.value) return
-    navigator.clipboard.writeText(output.value).then(function () {
-      copyBtn.textContent = 'Copied!'
-      copyBtn.classList.add('copied')
-      setTimeout(function () {
-        copyBtn.textContent = 'Copy text'
-        copyBtn.classList.remove('copied')
-      }, 2000)
-    })
+    copyWithFeedback(copyBtn, output.value, { idle: 'Copy text' })
   })
 
   newBtn.addEventListener('click', function () {

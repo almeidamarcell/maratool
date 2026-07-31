@@ -1,4 +1,5 @@
-(function () {
+import { copyWithFeedback, copyText } from './tool-utils.js'
+;(function () {
   var baseInput = document.getElementById('pr-base')
   var pxInput = document.getElementById('pr-px-input')
   var remInput = document.getElementById('pr-rem-input')
@@ -77,11 +78,7 @@
 
   function copyText(text, btn) {
     if (!text) return
-    navigator.clipboard.writeText(text).then(function () {
-      var orig = btn.textContent
-      btn.textContent = 'Copied!'
-      setTimeout(function () { btn.textContent = orig }, 2000)
-    })
+    copyWithFeedback(btn, text)
   }
 
   pxInput.addEventListener('input', convertPxToRem)
@@ -108,9 +105,15 @@
     if (!td) return
     var colIndex = Array.prototype.indexOf.call(tr.children, td)
     var text = colIndex === 0 ? tr.getAttribute('data-px') : tr.getAttribute('data-rem')
-    navigator.clipboard.writeText(text).then(function () {
-      td.classList.add('copied')
-      setTimeout(function () { td.classList.remove('copied') }, 2000)
+    copyText(text).then(function (ok) {
+      if (ok) {
+        td.classList.add('copied')
+        setTimeout(function () { td.classList.remove('copied') }, 2000)
+      } else {
+        var orig = td.textContent
+        td.textContent = 'Copy failed'
+        setTimeout(function () { td.textContent = orig }, 2000)
+      }
     })
   })
 

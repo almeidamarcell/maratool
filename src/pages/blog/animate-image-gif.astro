@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
 const seo = {
   title: 'How to animate a still image into a GIF | maratool',
@@ -39,6 +40,7 @@ const seo = {
       </header>
       <div class="blog-body">
         <p>The <a href="/animate-image-gif">Animate Image to GIF</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <BlogToolEmbed slug="animate-image-gif" title="Try it — turn a still image into an animated GIF" height={520} />
         <h2>How it works</h2>
         <ol>
           <li>Upload a static image.</li>

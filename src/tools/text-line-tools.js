@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 ;(function () {
   var input = document.getElementById('tlt-input')
   var output = document.getElementById('tlt-output')
@@ -24,9 +25,6 @@
   })
 
   copyBtn.addEventListener('click', function () {
-    navigator.clipboard.writeText(output.value).then(function () {
-      copyBtn.textContent = 'Copied!'
-      setTimeout(function () { copyBtn.textContent = 'Copy' }, 2000)
-    })
+    copyWithFeedback(copyBtn, output.value, { idle: 'Copy' })
   })
 })()

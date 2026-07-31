@@ -1,4 +1,5 @@
 import { validateQuality, calculateDimensions, formatBytes, compressionRatio, getOutputMime, isSupportedMime } from './image-compressor-core.js'
+import { downloadBlob } from './tool-utils.js'
 
 ;(function () {
   var dropzone = document.getElementById('icm-dropzone')
@@ -26,6 +27,9 @@ import { validateQuality, calculateDimensions, formatBytes, compressionRatio, ge
   var originalDataUrl = null
   var compressedBlob = null
   var compressedName = 'compressed.jpg'
+  // Each re-compress swaps resultImg.src; without revoking, every slider
+  // adjustment orphans the previous blob for the page lifetime.
+  var resultUrl = null
 
   function handleFile(file) {
     if (!file || !isSupportedMime(file.type)) return
@@ -69,6 +73,7 @@ import { validateQuality, calculateDimensions, formatBytes, compressionRatio, ge
     currentFile = null
     originalDataUrl = null
     compressedBlob = null
+    if (resultUrl) { URL.revokeObjectURL(resultUrl); resultUrl = null }
     dropzone.style.display = ''
     settings.style.display = 'none'
     resultEl.style.display = 'none'
@@ -102,7 +107,10 @@ import { validateQuality, calculateDimensions, formatBytes, compressionRatio, ge
       var ext = formatSelect.value === 'png' ? 'png' : formatSelect.value === 'webp' ? 'webp' : 'jpg'
       compressedName = (currentFile.name.replace(/\.[^.]+$/, '') || 'image') + '-compressed.' + ext
       originalResultImg.src = originalDataUrl
-      resultImg.src = URL.createObjectURL(blob)
+      if (resultUrl) URL.revokeObjectURL(resultUrl)
+      resultUrl = URL.createObjectURL(blob)
+      resultImg.src = resultUrl
+      resultImg.alt = 'Compressed image preview'
       newSize.textContent = formatBytes(blob.size)
       var pct = compressionRatio(currentFile.size, blob.size)
       savings.textContent = (pct > 0 ? pct.toFixed(1) + '% smaller' : 'No reduction')
@@ -113,10 +121,7 @@ import { validateQuality, calculateDimensions, formatBytes, compressionRatio, ge
 
   downloadBtn.addEventListener('click', function () {
     if (!compressedBlob) return
-    var a = document.createElement('a')
-    a.href = URL.createObjectURL(compressedBlob)
-    a.download = compressedName
-    a.click()
+    downloadBlob(compressedBlob, compressedName)
   })
 
   var changeResultBtn = document.getElementById('icm-change-result')

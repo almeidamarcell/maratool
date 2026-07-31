@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import './hash-state.js'
 import { convertYamlToJson, convertJsonToYaml } from './yaml-to-json-core.js'
 // YAML to JSON Converter
@@ -46,11 +47,7 @@ import { convertYamlToJson, convertJsonToYaml } from './yaml-to-json-core.js'
     btn.addEventListener('click', function () {
       var text = getContent()
       if (!text) return
-      navigator.clipboard.writeText(text).then(function () {
-        var orig = btn.textContent
-        btn.textContent = 'Copied!'
-        setTimeout(function () { btn.textContent = orig }, 2000)
-      })
+      copyWithFeedback(btn, text)
     })
   }
 

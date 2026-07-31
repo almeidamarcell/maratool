@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import './hash-state.js'
 import { TOKEN_MODELS, getTextStats } from './ai-token-calculator-core.js'
 
@@ -36,14 +37,7 @@ import { TOKEN_MODELS, getTextStats } from './ai-token-calculator-core.js'
   copyBtn.addEventListener('click', function () {
     var text = statTokens.textContent
     if (!text || text === '0') return
-    navigator.clipboard.writeText(text).then(function () {
-      copyBtn.textContent = 'Copied!'
-      copyBtn.classList.add('copied')
-      setTimeout(function () {
-        copyBtn.textContent = 'Copy token count'
-        copyBtn.classList.remove('copied')
-      }, 2000)
-    })
+    copyWithFeedback(copyBtn, text, { idle: 'Copy token count' })
   })
 
   var saved = HashState.parse()

@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import './hash-state.js'
 import {
   hexToRgb, rgbToHex, rgbToHsl, hslToRgb,
@@ -222,6 +223,11 @@ import {
                 btn.textContent = 'Copy'
                 btn.classList.remove('copied')
               }, 1500)
+            }).catch(function () {
+              btn.textContent = 'Copy failed'
+              setTimeout(function () {
+                btn.textContent = 'Copy'
+              }, 1500)
             })
           })
         })(shade, copyBtn)
@@ -316,18 +322,6 @@ import {
     update()
   }
 
-  // ── Copy export ──
-  function copyWithFeedback(btn, text, label) {
-    navigator.clipboard.writeText(text).then(function () {
-      btn.textContent = 'Copied!'
-      btn.classList.add('copied')
-      setTimeout(function () {
-        btn.textContent = label
-        btn.classList.remove('copied')
-      }, 2000)
-    })
-  }
-
   // ── Hash state ──
   function saveHashState() {
     HashState.save({
@@ -404,7 +398,7 @@ import {
   })
 
   copyExport.addEventListener('click', function () {
-    copyWithFeedback(copyExport, exportOutput.textContent, 'Copy')
+    copyWithFeedback(copyExport, exportOutput.textContent, { idle: 'Copy' })
   })
 
   // Setup RGB channel track dragging

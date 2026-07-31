@@ -1,4 +1,6 @@
-(function () {
+import { copyWithFeedback } from './tool-utils.js'
+
+;(function () {
   var picker = document.getElementById('cc-picker')
   var swatch = document.getElementById('cc-swatch')
   var hexInput = document.getElementById('cc-hex')
@@ -202,24 +204,11 @@
 
   // ── Copy buttons ──
 
-  function copyText(text, btn) {
-    if (!text) return
-    navigator.clipboard.writeText(text).then(function () {
-      var orig = btn.textContent
-      btn.textContent = 'Copied!'
-      btn.classList.add('copied')
-      setTimeout(function () {
-        btn.textContent = orig
-        btn.classList.remove('copied')
-      }, 2000)
-    })
-  }
-
   document.querySelectorAll('[data-cc-copy]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var field = btn.getAttribute('data-cc-copy')
       var input = document.getElementById('cc-' + field)
-      if (input) copyText(input.value, btn)
+      if (input && input.value) copyWithFeedback(btn, input.value)
     })
   })
 

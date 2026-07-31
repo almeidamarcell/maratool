@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
 const seo = {
   title: 'How to add text and captions to a GIF | maratool',
@@ -39,6 +40,7 @@ const seo = {
       </header>
       <div class="blog-body">
         <p>The <a href="/add-text-to-gif">Add Text to GIF</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <BlogToolEmbed slug="add-text-to-gif" title="Try it — upload a GIF and add your caption" height={520} />
         <h2>How it works</h2>
         <ol>
           <li>Upload an animated GIF.</li>

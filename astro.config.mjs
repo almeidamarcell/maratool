@@ -1,11 +1,16 @@
 import { defineConfig } from 'astro/config'
-import { execSync } from 'child_process'
 import sitemap from '@astrojs/sitemap'
+import { buildLastModMap } from './scripts/lib/git-lastmod.mjs'
 
 const CATEGORY_PAGES = [
   '/converter/', '/pdf/', '/text/', '/image/', '/color/', '/developer/', '/marketing/', '/health/', '/mockup/',
 ]
 const SUBCATEGORY_RE = /\/(converter|pdf|text|image|color|developer|marketing|health|mockup)\/[^/]+\/$/
+
+// Single git pass shared across all sitemap entries (was one `git log -1`
+// subprocess per URL — ~900 spawns per build).
+const gitDates = buildLastModMap(process.cwd())
+const BUILD_DATE = new Date().toISOString().split('T')[0]
 
 /**
  * Get the last git commit date for a page's source file.
@@ -14,23 +19,11 @@ const SUBCATEGORY_RE = /\/(converter|pdf|text|image|color|developer|marketing|he
 function getPageLastMod(url) {
   // Map URL path to source file
   const path = new URL(url).pathname.replace(/\/$/, '') || '/index'
-  const candidates = [
-    `src/pages${path}.astro`,
-    `src/pages${path}/index.astro`,
-  ]
-
-  for (const file of candidates) {
-    try {
-      const date = execSync(`git log -1 --format=%aI -- "${file}"`, {
-        encoding: 'utf-8',
-        stdio: ['pipe', 'pipe', 'ignore'],
-      }).trim()
-      if (date) return date.split('T')[0]
-    } catch { /* file not tracked */ }
-  }
-
-  // Fallback: build date
-  return new Date().toISOString().split('T')[0]
+  return (
+    gitDates.get(`src/pages${path}.astro`) ||
+    gitDates.get(`src/pages${path}/index.astro`) ||
+    BUILD_DATE
+  )
 }
 
 export default defineConfig({

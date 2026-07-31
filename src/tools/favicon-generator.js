@@ -147,7 +147,8 @@
     a.href = url
     a.download = filename
     a.click()
-    URL.revokeObjectURL(url)
+    // Deferred: a synchronous revoke here aborts the download in Firefox/Safari.
+    setTimeout(function () { URL.revokeObjectURL(url) }, 1000)
   }
 
   // ── ICO generation ──

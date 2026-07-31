@@ -2,6 +2,10 @@
   var opentypeLoaded = false
   var font = null
   var fontFamilyName = 'fe-preview-' + Date.now()
+  // Loading a second font would otherwise orphan the previous face's blob
+  // and leave a dead @font-face rule in <head>.
+  var lastFontUrl = null
+  var lastFontStyle = null
 
   var dropzone = document.getElementById('fe-dropzone')
   var fileInput = document.getElementById('fe-file-input')
@@ -86,9 +90,13 @@
       var buffer = font.toArrayBuffer()
       var blob = new Blob([buffer], { type: 'font/opentype' })
       var url = URL.createObjectURL(blob)
+      if (lastFontUrl) URL.revokeObjectURL(lastFontUrl)
+      if (lastFontStyle) lastFontStyle.remove()
+      lastFontUrl = url
       var style = document.createElement('style')
       style.textContent = '@font-face { font-family: "' + fontFamilyName + '"; src: url("' + url + '"); }'
       document.head.appendChild(style)
+      lastFontStyle = style
       previewRender.style.fontFamily = '"' + fontFamilyName + '", sans-serif'
     } catch (err) {
       // Font preview may not work but metadata still shows

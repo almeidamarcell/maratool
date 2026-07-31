@@ -478,14 +478,17 @@
 
   copyBtn.addEventListener('click', function () {
     if (!qrInstance) return
+    var orig = copyBtn.textContent
     qrInstance.getRawData('png').then(function (blob) {
-      navigator.clipboard.write([
+      return navigator.clipboard.write([
         new ClipboardItem({ 'image/png': blob })
       ]).then(function () {
-        var orig = copyBtn.textContent
         copyBtn.textContent = 'Copied!'
         setTimeout(function () { copyBtn.textContent = orig }, 2000)
       })
+    }).catch(function () {
+      copyBtn.textContent = 'Copy failed'
+      setTimeout(function () { copyBtn.textContent = orig }, 2000)
     })
   })
 
@@ -602,7 +605,8 @@
     a.href = url
     a.download = filename
     a.click()
-    URL.revokeObjectURL(url)
+    // Deferred: a synchronous revoke here aborts the download in Firefox/Safari.
+    setTimeout(function () { URL.revokeObjectURL(url) }, 1000)
   }
 
   batchGenerate.addEventListener('click', function () {

@@ -1,3 +1,4 @@
+import { attachCopyButton } from './tool-utils.js'
 import { minifyCss } from './css-minify-core.js'
 
 ;(function () {
@@ -7,11 +8,6 @@ import { minifyCss } from './css-minify-core.js'
 
   function update() { output.textContent = minifyCss(input.value) }
   input.addEventListener('input', update)
-  copy.addEventListener('click', function () {
-    navigator.clipboard.writeText(output.textContent).then(function () {
-      copy.textContent = 'Copied!'
-      setTimeout(function () { copy.textContent = 'Copy' }, 2000)
-    })
-  })
+  attachCopyButton(copy, function () { return output.textContent }, { idle: 'Copy' })
   update()
 })()

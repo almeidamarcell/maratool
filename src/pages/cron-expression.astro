@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Cron Expression Builder & Decoder — visual cron editor | maratool',
-  description: 'Build cron expressions visually with a live editor. Get plain-English descriptions, next 5 run times, and common presets. Free, no sign-up.',
+  description: 'Build cron expressions visually with a live editor. Get plain-English descriptions, next 5 run times, and common presets. Free cron builder, no sign-up.',
   canonical: 'https://maratool.com/cron-expression',
   schema: {
     '@context': 'https://schema.org',
@@ -171,7 +171,7 @@ const breadcrumbs = [
     </ToolShell>
   </Layout>
 </Base>
-<style>
+<style is:global>
   .cron-fields {
     display: flex;
     gap: 0.5rem;

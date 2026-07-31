@@ -1,4 +1,5 @@
 // Percentage Calculator — UI logic
+import { copyWithFeedback } from './tool-utils.js'
 import {
   percentOf,
   whatPercent,
@@ -136,14 +137,7 @@ import {
       var targetId = btn.getAttribute('data-target')
       var el = document.getElementById(targetId)
       if (!el || el.classList.contains('error') || el.textContent === '—') return
-      navigator.clipboard.writeText(el.textContent).then(function () {
-        btn.textContent = 'Copied!'
-        btn.classList.add('copied')
-        setTimeout(function () {
-          btn.textContent = 'Copy'
-          btn.classList.remove('copied')
-        }, 2000)
-      })
+      copyWithFeedback(btn, el.textContent, { idle: 'Copy' })
     })
   })
 })()

@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
 const seo = {
   title: 'How to shuffle GIF frames for glitch effects | maratool',
@@ -39,6 +40,7 @@ const seo = {
       </header>
       <div class="blog-body">
         <p>The <a href="/shuffle-gif-frames">Shuffle GIF Frames</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <BlogToolEmbed slug="shuffle-gif-frames" title="Try it — shuffle the frame order of a GIF" height={520} />
         <h2>How it works</h2>
         <ol>
           <li>Upload a GIF.</li>

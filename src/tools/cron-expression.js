@@ -1,3 +1,4 @@
+import { attachCopyButton } from './tool-utils.js'
 import './hash-state.js'
 // Cron Expression Generator
 (function () {
@@ -269,16 +270,7 @@ import './hash-state.js'
   })
 
   // ── Copy ──
-  copyBtn.addEventListener('click', function () {
-    navigator.clipboard.writeText(exprEl.textContent).then(function () {
-      copyBtn.textContent = 'Copied!'
-      copyBtn.classList.add('copied')
-      setTimeout(function () {
-        copyBtn.textContent = 'Copy'
-        copyBtn.classList.remove('copied')
-      }, 2000)
-    })
-  })
+  attachCopyButton(copyBtn, function () { return exprEl.textContent }, { idle: 'Copy' })
 
   // Restore from hash state
   var _hs = HashState.parse()

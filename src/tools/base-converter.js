@@ -1,4 +1,6 @@
-(function () {
+import { copyWithFeedback } from './tool-utils.js'
+
+;(function () {
   var decInput = document.getElementById('bc-dec')
   var hexInput = document.getElementById('bc-hex')
   var binInput = document.getElementById('bc-bin')
@@ -101,24 +103,11 @@
 
   // ── Copy buttons ──
 
-  function copyText(text, btn) {
-    if (!text) return
-    navigator.clipboard.writeText(text).then(function () {
-      var orig = btn.textContent
-      btn.textContent = 'Copied!'
-      btn.classList.add('copied')
-      setTimeout(function () {
-        btn.textContent = orig
-        btn.classList.remove('copied')
-      }, 2000)
-    })
-  }
-
   document.querySelectorAll('[data-bc-copy]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var field = btn.getAttribute('data-bc-copy')
       var input = document.getElementById('bc-' + field)
-      if (input) copyText(input.value, btn)
+      if (input && input.value) copyWithFeedback(btn, input.value)
     })
   })
 
