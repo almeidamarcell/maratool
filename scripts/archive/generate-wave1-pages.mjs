@@ -6,7 +6,7 @@
 import fs from 'fs'
 import path from 'path'
 
-const ROOT = path.join(import.meta.dirname, '..', 'src', 'pages')
+const ROOT = path.join(import.meta.dirname, '..', '..', 'src', 'pages')
 
 function page(cfg) {
   const catSlug = cfg.categorySlug

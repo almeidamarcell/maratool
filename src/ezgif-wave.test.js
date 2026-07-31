@@ -2,7 +2,7 @@ import { describe, test, expect } from 'vitest'
 import { readFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
 import { tools } from './data/tools.ts'
-import { EZGIF_TOOLS } from '../scripts/generate-ezgif-wave.mjs'
+import { EZGIF_TOOLS } from '../scripts/archive/generate-ezgif-wave.mjs'
 
 function readSrc(rel) {
   return readFileSync(resolve(import.meta.dirname, '..', rel), 'utf-8')

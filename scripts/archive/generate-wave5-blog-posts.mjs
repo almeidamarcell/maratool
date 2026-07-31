@@ -10,7 +10,7 @@ import path from 'path'
 import { LINEAR, REFS } from './wave5-data-linear.mjs'
 import { SPECIAL } from './wave5-data-special.mjs'
 
-const OUT = path.join(import.meta.dirname, '..', 'src', 'pages', 'blog')
+const OUT = path.join(import.meta.dirname, '..', '..', 'src', 'pages', 'blog')
 const DATE = 'July 25, 2026'
 const DATE_ISO = '2026-07-25'
 const ROUNDUP_SLUG = 'new-unit-converters'

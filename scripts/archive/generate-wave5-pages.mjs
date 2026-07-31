@@ -9,8 +9,8 @@ import path from 'path'
 import { LINEAR, REFS } from './wave5-data-linear.mjs'
 import { SPECIAL } from './wave5-data-special.mjs'
 
-const PAGES = path.join(import.meta.dirname, '..', 'src', 'pages')
-const TOOLS = path.join(import.meta.dirname, '..', 'src', 'tools')
+const PAGES = path.join(import.meta.dirname, '..', '..', 'src', 'pages')
+const TOOLS = path.join(import.meta.dirname, '..', '..', 'src', 'tools')
 
 const SUB_SLUGS = { Unit: 'unit', Science: 'science', Electrical: 'electrical', Magnetism: 'magnetism', Light: 'light', Radiation: 'radiation', Sizing: 'sizing' }
 

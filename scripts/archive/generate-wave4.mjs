@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === __filename
 
-const ROOT = path.join(import.meta.dirname, '..')
+const ROOT = path.join(import.meta.dirname, '..', '..')
 const PAGES = path.join(ROOT, 'src', 'pages')
 const BLOG = path.join(ROOT, 'src', 'pages', 'blog')
 const TOOLS_JS = path.join(ROOT, 'src', 'tools')

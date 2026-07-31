@@ -9,7 +9,7 @@
 import fs from 'fs'
 import path from 'path'
 
-const OUT = path.join(import.meta.dirname, '..', 'src', 'pages', 'blog')
+const OUT = path.join(import.meta.dirname, '..', '..', 'src', 'pages', 'blog')
 const DATE = 'June 28, 2026'
 const DATE_ISO = '2026-06-28'
 
