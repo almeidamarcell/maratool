@@ -10,14 +10,14 @@ const liveCategoryTools = categoryTools.filter(t => t.live)
 
 const seo = {
   title: 'Marketing Tools — maratool',
-  description: 'Free browser-based marketing tools. Generate QR codes, build UTM-tagged URLs for campaign tracking — no sign-up, runs in your browser.',
+  description: 'Free browser-based marketing tools: generate QR codes, build UTM-tagged campaign URLs, calculate ROI and ad spend. No sign-up, nothing leaves your browser.',
   canonical: 'https://maratool.com/marketing',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'Marketing Tools',
     url: 'https://maratool.com/marketing',
-    description: 'Free browser-based marketing tools. Generate QR codes, build UTM-tagged URLs for campaign tracking — no sign-up, runs in your browser.',
+    description: 'Free browser-based marketing tools: generate QR codes, build UTM-tagged campaign URLs, calculate ROI and ad spend. No sign-up, nothing leaves your browser.',
     hasPart: liveCategoryTools.map(tool => ({
       '@type': 'SoftwareApplication',
       name: tool.name,

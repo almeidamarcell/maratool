@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Color Converter — HEX, RGB, HSL, OKLCH | maratool',
-  description: 'Convert colors between HEX, RGB, HSL, and OKLCH formats instantly. Includes a live color picker preview. Free, no sign-up.',
+  description: 'Convert colors between HEX, RGB, HSL, and OKLCH formats instantly with a live color picker preview. Free color code converter, runs in your browser.',
   canonical: 'https://maratool.com/color-converter',
   schema: {
     '@context': 'https://schema.org',
@@ -127,7 +127,7 @@ const breadcrumbs = [
     </ToolShell>
   </Layout>
 </Base>
-<style>
+<style is:global>
   .cc-preview-row {
     display: flex;
     align-items: center;

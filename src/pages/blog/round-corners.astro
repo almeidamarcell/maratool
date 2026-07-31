@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
 const seo = {
   title: 'How to add rounded corners to images and GIFs | maratool',
@@ -39,6 +40,7 @@ const seo = {
       </header>
       <div class="blog-body">
         <p>The <a href="/round-corners">Round Corners</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <BlogToolEmbed slug="round-corners" title="Try it — round the corners of any image" height={520} />
         <h2>How it works</h2>
         <ol>
           <li>Upload an image or GIF.</li>

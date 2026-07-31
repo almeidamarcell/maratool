@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
 const seo = {
   title: 'How to combine GIFs side by side | maratool',
@@ -39,6 +40,7 @@ const seo = {
       </header>
       <div class="blog-body">
         <p>The <a href="/combine-gifs">Combine GIFs</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <BlogToolEmbed slug="combine-gifs" title="Try it — merge two or more GIFs into one" height={520} />
         <h2>How it works</h2>
         <ol>
           <li>Upload two or more GIF files.</li>
