@@ -61,6 +61,7 @@ import { formatDuration, formatFileSize } from './fps-converter-core.js'
   var fetchFile = null
   var transcriber = null
   var transcriberModelId = null
+  var transcriberDevice = null
 
   // ── Populate language dropdown ──
   if (langSelect) {
@@ -139,29 +140,37 @@ import { formatDuration, formatFileSize } from './fps-converter-core.js'
     return ffmpeg
   }
 
-  async function loadTranscriber(modelId, onProgress) {
-    if (transcriber && transcriberModelId === modelId) return transcriber
+  async function loadTranscriber(modelId, onProgress, forceWasm) {
+    if (transcriber && transcriberModelId === modelId && (!forceWasm || transcriberDevice === 'wasm')) return transcriber
     var mod = await import(/* @vite-ignore */ TRANSFORMERS_CDN + '/dist/transformers.min.js')
     mod.env.allowLocalModels = false
     var device = 'wasm'
     var dtype = 'q8'
-    try {
-      if (typeof navigator !== 'undefined' && navigator.gpu) {
-        var adapter = await navigator.gpu.requestAdapter()
-        if (adapter) { device = 'webgpu'; dtype = 'fp16' }
-      }
-    } catch (_) { device = 'wasm'; dtype = 'q8' }
+    if (!forceWasm) {
+      try {
+        if (typeof navigator !== 'undefined' && navigator.gpu) {
+          var adapter = await navigator.gpu.requestAdapter()
+          // NOTE: whole-model fp16 Whisper on WebGPU returns broken/empty output
+          // on many GPUs (notably Apple Metal). fp32 encoder + q4 decoder is the
+          // config the transformers.js whisper-webgpu demos ship and the only
+          // combination that transcribes reliably on the GPU backend.
+          if (adapter) { device = 'webgpu'; dtype = { encoder_model: 'fp32', decoder_model_merged: 'q4' } }
+        }
+      } catch (_) { device = 'wasm'; dtype = 'q8' }
+    }
 
     try {
       transcriber = await mod.pipeline('automatic-speech-recognition', modelId, {
         dtype: dtype, device: device, progress_callback: onProgress,
       })
+      transcriberDevice = device
     } catch (err) {
       // Fall back to CPU/WASM if WebGPU init fails on this device.
       if (device !== 'wasm') {
         transcriber = await mod.pipeline('automatic-speech-recognition', modelId, {
           dtype: 'q8', device: 'wasm', progress_callback: onProgress,
         })
+        transcriberDevice = 'wasm'
       } else {
         throw err
       }
@@ -214,18 +223,38 @@ import { formatDuration, formatFileSize } from './fps-converter-core.js'
 
       setProgress(72, 'Transcribing…', 'This runs entirely on your device')
       var language = resolveLanguage(langSelect ? langSelect.value : 'auto')
-      var output = await asr(audio, {
+      var asrOpts = {
         return_timestamps: true,
         chunk_length_s: 30,
         stride_length_s: 5,
         task: 'transcribe',
         language: language,
-      })
+      }
+      var output = await asr(audio, asrOpts)
 
       chunks = normalizeChunks(output.chunks || [])
       if (chunks.length === 0 && output.text) {
         chunks = [{ start: 0, end: 0, text: output.text.trim() }]
       }
+
+      // A GPU backend can occasionally return an empty transcription for audio
+      // that clearly contains speech. Before reporting "no speech", retry once on
+      // the reliable CPU/WASM path.
+      if (chunks.length === 0 && transcriberDevice !== 'wasm') {
+        setProgress(72, 'Retrying on CPU…', 'The GPU returned no text — using the reliable engine')
+        var asrCpu = await loadTranscriber(model.id, function (p) {
+          if (p && p.status === 'progress' && typeof p.progress === 'number') {
+            setProgress(35 + p.progress * 0.35, null, 'Downloading model… ' + Math.round(p.progress) + '%')
+          }
+        }, true)
+        setProgress(72, 'Transcribing…', 'This runs entirely on your device')
+        output = await asrCpu(audio, asrOpts)
+        chunks = normalizeChunks(output.chunks || [])
+        if (chunks.length === 0 && output.text) {
+          chunks = [{ start: 0, end: 0, text: output.text.trim() }]
+        }
+      }
+
       if (chunks.length === 0) throw new Error('No speech detected in this file.')
 
       renderResult()
