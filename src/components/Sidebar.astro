@@ -131,7 +131,7 @@ const siblingTools = effectiveScope === 'tool' && activeTool
       </a>
       {hubSubs.map(sub => (
         <a
-          href={`/${activeCategorySlug}/${sub.toLowerCase()}`}
+          href={`/${activeCategorySlug}/${sub.toLowerCase().replace(/\s+/g, '-')}`}
           class:list={['sidebar-hub-sub', { active: activeSubcategory === sub.toLowerCase() }]}
         >
           {sub}

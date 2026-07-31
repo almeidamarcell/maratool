@@ -298,7 +298,7 @@ export const comparePairs: ComparePair[] = [
     category: 'Health',
     intro: '<p>Both <strong>DAS28-CRP</strong> and <strong>DAS28-ESR</strong> are composite measures of rheumatoid arthritis disease activity, combining tender joint count, swollen joint count, patient global assessment, and an acute-phase reactant. The two scores share inputs except for the inflammatory marker — CRP (C-reactive protein) in DAS28-CRP, ESR (erythrocyte sedimentation rate) in DAS28-ESR. They are not interchangeable: the cutoffs differ and the scores can disagree by category in the same patient.</p>',
     whenToUseA: '<p>Use <a href="/das28-crp">DAS28-CRP</a> when CRP is the more reliable inflammatory marker available — which is most modern practice. CRP responds faster to treatment changes, is less affected by anemia or hypergammaglobulinemia, and is the marker tracked in most clinical trials and registries.</p>',
-    whenToUseB: '<p>Use <a href="/das28-erst">DAS28-ESR</a> when comparing to historical literature (most RA outcome studies through ~2010 used ESR) or institutional protocols still anchored on ESR. ESR remains accessible and inexpensive, but is less responsive to acute changes than CRP.</p>',
+    whenToUseB: '<p>Use <a href="/das28-esr">DAS28-ESR</a> when comparing to historical literature (most RA outcome studies through ~2010 used ESR) or institutional protocols still anchored on ESR. ESR remains accessible and inexpensive, but is less responsive to acute changes than CRP.</p>',
     comparison: [
       { feature: 'Inputs',             a: 'TJC28, SJC28, PGA, CRP',                b: 'TJC28, SJC28, PGA, ESR' },
       { feature: 'Remission cutoff',   a: '< 2.6',                                 b: '< 2.6' },

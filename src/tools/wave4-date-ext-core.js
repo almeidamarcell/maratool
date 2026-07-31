@@ -5,6 +5,8 @@ const US_HOLIDAYS_2026 = [
   '2026-09-07', '2026-10-12', '2026-11-11', '2026-11-26', '2026-12-25',
 ]
 
+// All date math uses UTC so results don't shift by the visitor's timezone:
+// 'YYYY-MM-DD' parses as UTC midnight, so weekday/format must be UTC too.
 function parseDate(s) {
   const d = new Date(s)
   return isNaN(d.getTime()) ? null : d
@@ -24,12 +26,12 @@ export function businessDaysBetween(start, end, holidays = US_HOLIDAYS_2026) {
   const forward = cur <= e
   if (!forward) return businessDaysBetween(end, start, holidays)
   while (cur <= e) {
-    const day = cur.getDay()
+    const day = cur.getUTCDay()
     const key = fmt(cur)
     if (day !== 0 && day !== 6 && !holidaySet.has(key)) count++
-    cur.setDate(cur.getDate() + 1)
+    cur.setUTCDate(cur.getUTCDate() + 1)
   }
-  return { businessDays: Math.max(0, count - (fmt(s) === fmt(e) ? 0 : 0)), calendarDays: Math.round((e - s) / 86400000) + 1 }
+  return { businessDays: Math.max(0, count), calendarDays: Math.round((e - s) / 86400000) + 1 }
 }
 
 export function addBusinessDays(start, days, holidays = US_HOLIDAYS_2026) {
@@ -40,8 +42,8 @@ export function addBusinessDays(start, days, holidays = US_HOLIDAYS_2026) {
   const cur = new Date(s)
   let added = 0
   while (added < n) {
-    cur.setDate(cur.getDate() + 1)
-    const day = cur.getDay()
+    cur.setUTCDate(cur.getUTCDate() + 1)
+    const day = cur.getUTCDay()
     if (day !== 0 && day !== 6 && !holidaySet.has(fmt(cur))) added++
   }
   return { resultDate: fmt(cur) }

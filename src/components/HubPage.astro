@@ -105,7 +105,7 @@ function axisValueFor(tool: Tool, source: 'specialty' | 'purpose'): string {
         </a>
         {subcategories.filter(sub => subCounts[sub] > 0).map(sub => (
           <a
-            href={`${basePath}/${sub.toLowerCase()}`}
+            href={`${basePath}/${sub.toLowerCase().replace(/\s+/g, '-')}`}
             class:list={[
               'facet-pill',
               { active: activeSubcategory?.toLowerCase() === sub.toLowerCase() }
