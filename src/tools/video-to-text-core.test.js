@@ -7,6 +7,9 @@ import {
   toSRT,
   toVTT,
   toPlainText,
+  toParagraphs,
+  buildAsrOptions,
+  sanitizeVocabulary,
   getOutputFilename,
   LANGUAGES,
   isSupportedLanguage,
@@ -163,6 +166,144 @@ describe('toPlainText', () => {
 
   it('returns an empty string for no chunks', () => {
     expect(toPlainText([])).toBe('')
+  })
+})
+
+describe('toParagraphs', () => {
+  it('breaks paragraphs on a silence gap larger than gapSeconds', () => {
+    const chunks = [
+      { start: 0, end: 2, text: 'First part' },
+      { start: 2.2, end: 4, text: 'still going' },
+      { start: 6, end: 8, text: 'new thought' }, // gap 2s > 1.5
+    ]
+    expect(toParagraphs(chunks)).toBe('First part still going\n\nnew thought')
+  })
+
+  it('does not break when the gap equals gapSeconds (strict >)', () => {
+    const chunks = [
+      { start: 0, end: 2, text: 'one' },
+      { start: 3.5, end: 5, text: 'two' }, // gap exactly 1.5
+    ]
+    expect(toParagraphs(chunks)).toBe('one two')
+  })
+
+  it('breaks after maxSentences completed sentences', () => {
+    const chunks = [
+      { start: 0, end: 1, text: 'A.' },
+      { start: 1, end: 2, text: 'B.' },
+      { start: 2, end: 3, text: 'C.' },
+      { start: 3, end: 4, text: 'D.' },
+      { start: 4, end: 5, text: 'E.' },
+    ]
+    expect(toParagraphs(chunks)).toBe('A. B. C. D.\n\nE.')
+  })
+
+  it('soft char cap only breaks at a sentence end, never mid-sentence', () => {
+    const long = 'x'.repeat(400)
+    const chunks = [
+      { start: 0, end: 1, text: long + '.' },
+      { start: 1, end: 2, text: long + '.' },
+    ]
+    // cap crossed after the first (ends in '.') → break; each is its own paragraph
+    expect(toParagraphs(chunks, { maxChars: 300 })).toBe(long + '.\n\n' + long + '.')
+  })
+
+  it('keeps a run-on with no terminal punctuation as one paragraph', () => {
+    const chunks = [
+      { start: 0, end: 1, text: 'no punctuation here' },
+      { start: 1, end: 2, text: 'and still none' },
+    ]
+    expect(toParagraphs(chunks, { maxChars: 5 })).toBe('no punctuation here and still none')
+  })
+
+  it('respects custom gapSeconds', () => {
+    const chunks = [
+      { start: 0, end: 1, text: 'a' },
+      { start: 2, end: 3, text: 'b' }, // gap 1s
+    ]
+    expect(toParagraphs(chunks, { gapSeconds: 0.5 })).toBe('a\n\nb')
+  })
+
+  it('handles degenerate/missing timestamps without breaking', () => {
+    expect(toParagraphs([{ start: 0, end: 0, text: 'only text' }])).toBe('only text')
+    expect(toParagraphs([{ text: 'no ts' }, { text: 'still no ts' }])).toBe('no ts still no ts')
+  })
+
+  it('returns empty string for empty or non-array input', () => {
+    expect(toParagraphs([])).toBe('')
+    expect(toParagraphs(null)).toBe('')
+    expect(toParagraphs(undefined)).toBe('')
+  })
+
+  it('counts closing punctuation and ellipsis as sentence ends', () => {
+    const chunks = [
+      { start: 0, end: 1, text: 'He said "go."' },
+      { start: 1, end: 2, text: 'Wait…' },
+      { start: 2, end: 3, text: 'Done!)' },
+      { start: 3, end: 4, text: 'Next.' },
+      { start: 4, end: 5, text: 'After' },
+    ]
+    // 4 sentence-ends reached at 'Next.' → break before 'After'
+    expect(toParagraphs(chunks)).toBe('He said "go." Wait… Done!) Next.\n\nAfter')
+  })
+})
+
+describe('buildAsrOptions', () => {
+  it('sets the baseline pipeline keys', () => {
+    const o = buildAsrOptions({ language: 'pt' })
+    expect(o.return_timestamps).toBe(true)
+    expect(o.chunk_length_s).toBe(30)
+    expect(o.stride_length_s).toBe(5)
+    expect(o.task).toBe('transcribe')
+  })
+
+  it('passes language through, defaulting nullish to null', () => {
+    expect(buildAsrOptions({ language: 'es' }).language).toBe('es')
+    expect(buildAsrOptions({ language: null }).language).toBe(null)
+    expect(buildAsrOptions({}).language).toBe(null)
+    expect(buildAsrOptions().language).toBe(null)
+  })
+
+  it('includes the anti-repetition guard', () => {
+    expect(buildAsrOptions({ language: null }).no_repeat_ngram_size).toBe(3)
+  })
+
+  it('includes prompt_ids only for a non-empty array', () => {
+    expect(buildAsrOptions({ language: null, promptIds: [1, 2, 3] }).prompt_ids).toEqual([1, 2, 3])
+    expect('prompt_ids' in buildAsrOptions({ language: null })).toBe(false)
+    expect('prompt_ids' in buildAsrOptions({ language: null, promptIds: [] })).toBe(false)
+    expect('prompt_ids' in buildAsrOptions({ language: null, promptIds: null })).toBe(false)
+  })
+})
+
+describe('sanitizeVocabulary', () => {
+  it('returns empty string for non-strings and whitespace-only', () => {
+    expect(sanitizeVocabulary(null)).toBe('')
+    expect(sanitizeVocabulary(undefined)).toBe('')
+    expect(sanitizeVocabulary(42)).toBe('')
+    expect(sanitizeVocabulary('   ')).toBe('')
+  })
+
+  it('trims and collapses internal whitespace', () => {
+    expect(sanitizeVocabulary('  Astro   Cloudflare\n\tmaratool ')).toBe('Astro Cloudflare maratool')
+  })
+
+  it('leaves input at or below the cap untouched', () => {
+    const s = 'a'.repeat(200)
+    expect(sanitizeVocabulary(s)).toBe(s)
+  })
+
+  it('truncates on a word boundary without a trailing separator', () => {
+    const input = Array(60).fill('brand').join(', ') // well over 200 chars
+    const out = sanitizeVocabulary(input)
+    expect(out.length).toBeLessThanOrEqual(200)
+    expect(out.endsWith(',')).toBe(false)
+    expect(out.endsWith(' ')).toBe(false)
+    expect(out.split(' ').every((w) => w.replace(/,$/, '') === 'brand')).toBe(true)
+  })
+
+  it('respects a custom maxChars', () => {
+    expect(sanitizeVocabulary('one two three four', { maxChars: 7 })).toBe('one two')
   })
 })
 

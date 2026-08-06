@@ -49,7 +49,7 @@ const seo = {
       {
         '@type': 'Question',
         name: 'Why does the first transcription take a while?',
-        acceptedAnswer: { '@type': 'Answer', text: 'On first use the browser downloads the FFmpeg engine (~25 MB) and the Whisper model (40–240 MB depending on the quality you choose). Both are cached afterwards. Transcription speed also depends on your device — machines with WebGPU support are much faster than CPU-only.' }
+        acceptedAnswer: { '@type': 'Answer', text: 'On first use the browser downloads the FFmpeg engine (~25 MB) and the Whisper model (from 40 MB up to ~1.6 GB for the optional Max model, depending on the quality you choose). Both are cached afterwards. Transcription speed also depends on your device — machines with WebGPU support are much faster than CPU-only.' }
       }
     ]
   }
@@ -59,7 +59,7 @@ const whatIs = 'Video to Text is a free, browser-based transcription tool that t
 
 const howTo = [
   'Drop a video or audio file (MP4, WebM, MOV, MP3, WAV, and more).',
-  'Choose a language (or leave Auto-detect) and a model — Fast, Balanced, or Accurate.',
+  'Choose a language (or leave Auto-detect) and a model — Fast, Balanced, Accurate, or Max (best accuracy, WebGPU).',
   'Click Transcribe, then copy or download the text as TXT, SRT, or VTT.'
 ]
 
@@ -67,7 +67,7 @@ const faq = [
   { q: 'How do I convert a video to text for free?', a: 'Drop your video or audio file, pick a language and model, then click Transcribe. The tool extracts the audio and runs OpenAI Whisper directly in your browser, then gives you the transcript as plain text, SRT, or VTT. Nothing is uploaded and there is no signup.' },
   { q: 'Is my video uploaded to a server?', a: 'No. Everything runs locally in your browser using FFmpeg (WebAssembly) for audio extraction and a Whisper model compiled to run on your device. Your file never leaves your computer, which makes it safe for private or confidential recordings.' },
   { q: 'What languages are supported?', a: 'Whisper is multilingual and supports dozens of languages including English, Spanish, Portuguese, French, German, Japanese, and Chinese. Leave the language on Auto-detect and it will figure it out, or pick a specific language to improve accuracy.' },
-  { q: 'Why does the first transcription take a while?', a: 'On first use the browser downloads the FFmpeg engine (~25 MB) and the Whisper model (40–240 MB depending on the quality you choose). Both are cached afterwards. Transcription speed also depends on your device — machines with WebGPU support are much faster than CPU-only.' },
+  { q: 'Why does the first transcription take a while?', a: 'On first use the browser downloads the FFmpeg engine (~25 MB) and the Whisper model (from 40 MB up to ~1.6 GB for the optional Max model, depending on the quality you choose). Both are cached afterwards. Transcription speed also depends on your device — machines with WebGPU support are much faster than CPU-only.' },
 ]
 
 const relatedTools = [
@@ -145,8 +145,22 @@ const breadcrumbs = [
                 <span class="vtt-model-name">Accurate</span>
                 <span class="vtt-model-size">small · ~240 MB</span>
               </button>
+              <button type="button" class="vtt-model-btn" data-model="large" disabled>
+                <span class="vtt-model-name">Max</span>
+                <span class="vtt-model-size">large-v3-turbo · ~1.6 GB</span>
+              </button>
             </div>
+            <p class="vtt-model-hint" id="vtt-model-hint">Max quality requires WebGPU (Chrome or Edge on a recent GPU).</p>
           </div>
+
+          <details class="vtt-advanced" id="vtt-advanced">
+            <summary class="vtt-advanced-summary">Advanced: names &amp; terms</summary>
+            <div class="vtt-advanced-body">
+              <label class="vtt-advanced-label" for="vtt-vocab">Names, brands, or jargon that appear in the audio</label>
+              <input type="text" id="vtt-vocab" class="vtt-select" maxlength="200" placeholder="e.g. Astro, Cloudflare, maratool, João" autocomplete="off" spellcheck="false" />
+              <p class="vtt-advanced-hint">Helps Whisper spell these correctly. It's a spelling hint, not an instruction — sentences like "ignore the music" won't work.</p>
+            </div>
+          </details>
 
           <div class="vtt-actions">
             <button class="tool-button" id="vtt-transcribe">Transcribe</button>
@@ -257,8 +271,18 @@ const breadcrumbs = [
   }
   .vtt-model-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--bg-soft); }
   .vtt-model-btn.active { border-color: var(--accent); background: var(--bg-soft); color: var(--accent); }
+  .vtt-model-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .vtt-model-btn:disabled:hover { border-color: var(--border); color: var(--text-2); background: var(--bg); }
   .vtt-model-name { font-size: 0.9375rem; font-weight: 600; }
   .vtt-model-size { font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.03em; opacity: 0.8; }
+  .vtt-model-hint { font-size: 0.75rem; color: var(--text-3); margin: 0.5rem 0 0; }
+
+  /* Advanced: vocabulary field */
+  .vtt-advanced { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1rem; }
+  .vtt-advanced-summary { padding: 0.75rem 1rem; font-size: 0.8125rem; font-weight: 600; color: var(--text-2); cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; }
+  .vtt-advanced-body { padding: 0 1rem 1rem; }
+  .vtt-advanced-label { display: block; font-size: 0.8125rem; color: var(--text-2); margin-bottom: 0.5rem; }
+  .vtt-advanced-hint { font-size: 0.75rem; color: var(--text-3); margin: 0.5rem 0 0; }
 
   .vtt-actions { display: flex; gap: 0.75rem; align-items: center; margin-top: 0.25rem; }
 

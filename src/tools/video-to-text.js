@@ -5,6 +5,9 @@ import {
   toSRT,
   toVTT,
   toPlainText,
+  toParagraphs,
+  buildAsrOptions,
+  sanitizeVocabulary,
   getOutputFilename,
   LANGUAGES,
   resolveLanguage,
@@ -16,10 +19,25 @@ import { formatDuration, formatFileSize } from './fps-converter-core.js'
 
   var TRANSFORMERS_CDN = 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.5'
 
+  // The default WebGPU dtype for Whisper. Whole-model fp16 returns broken/empty
+  // output on some GPUs (Apple Metal); fp32 encoder + q4 decoder is reliable and
+  // small for tiny/base/small.
+  var WEBGPU_DTYPE = { encoder_model: 'fp32', decoder_model_merged: 'q4' }
+
   var MODELS = {
     tiny: { id: 'Xenova/whisper-tiny', label: 'Fast', size: '~40 MB' },
     base: { id: 'Xenova/whisper-base', label: 'Balanced', size: '~75 MB' },
     small: { id: 'Xenova/whisper-small', label: 'Accurate', size: '~240 MB' },
+    // Max: full whisper-large-v3-turbo, WebGPU only (the fp32 encoder is ~2.5 GB,
+    // so this tier uses the fp16 encoder + q4 decoder combo the transformers.js
+    // turbo demos ship — ~1.6 GB, and far too heavy/slow for the wasm path).
+    large: {
+      id: 'onnx-community/whisper-large-v3-turbo',
+      label: 'Max',
+      size: '~1.6 GB',
+      webgpuOnly: true,
+      webgpuDtype: { encoder_model: 'fp16', decoder_model_merged: 'q4' },
+    },
   }
 
   // ── DOM refs ──
@@ -33,6 +51,8 @@ import { formatDuration, formatFileSize } from './fps-converter-core.js'
   var filesizeEl = $('vtt-filesize')
   var langSelect = $('vtt-language')
   var modelBtns = document.querySelectorAll('.vtt-model-btn')
+  var modelHint = $('vtt-model-hint')
+  var vocabInput = $('vtt-vocab')
   var transcribeBtn = $('vtt-transcribe')
   var changeBtn = $('vtt-change')
   var progressEl = $('vtt-progress')
@@ -62,6 +82,8 @@ import { formatDuration, formatFileSize } from './fps-converter-core.js'
   var transcriber = null
   var transcriberModelId = null
   var transcriberDevice = null
+  var webgpuAvailable = false
+  var promptSupported = null   // null = untested, true/false once probed
 
   // ── Populate language dropdown ──
   if (langSelect) {
@@ -120,10 +142,30 @@ import { formatDuration, formatFileSize } from './fps-converter-core.js'
   // ── Model selector ──
   modelBtns.forEach(function (btn) {
     btn.addEventListener('click', function () {
+      if (btn.disabled) return
       selectedModel = btn.dataset.model
       modelBtns.forEach(function (b) { b.classList.remove('active') })
       btn.classList.add('active')
     })
+  })
+
+  // ── WebGPU capability probe — gates the WebGPU-only "Max" model ──
+  // The Max button ships disabled in static HTML (no flash, no CLS); we enable it
+  // only once an adapter is confirmed. `navigator.gpu` can exist while
+  // requestAdapter() returns null (blocklisted GPUs), so probe the adapter.
+  async function detectWebGPU() {
+    try {
+      if (typeof navigator === 'undefined' || !navigator.gpu) return false
+      return !!(await navigator.gpu.requestAdapter())
+    } catch (_) { return false }
+  }
+  detectWebGPU().then(function (ok) {
+    webgpuAvailable = ok
+    if (!ok) return
+    modelBtns.forEach(function (b) {
+      if (b.dataset.model && MODELS[b.dataset.model] && MODELS[b.dataset.model].webgpuOnly) b.disabled = false
+    })
+    if (modelHint) modelHint.textContent = 'Max runs on your GPU via WebGPU — large first download, cached afterwards.'
   })
 
   // ── Lazy loaders ──
@@ -140,7 +182,8 @@ import { formatDuration, formatFileSize } from './fps-converter-core.js'
     return ffmpeg
   }
 
-  async function loadTranscriber(modelId, onProgress, forceWasm) {
+  async function loadTranscriber(model, onProgress, forceWasm) {
+    var modelId = model.id
     if (transcriber && transcriberModelId === modelId && (!forceWasm || transcriberDevice === 'wasm')) return transcriber
     var mod = await import(/* @vite-ignore */ TRANSFORMERS_CDN + '/dist/transformers.min.js')
     mod.env.allowLocalModels = false
@@ -152,11 +195,17 @@ import { formatDuration, formatFileSize } from './fps-converter-core.js'
           var adapter = await navigator.gpu.requestAdapter()
           // NOTE: whole-model fp16 Whisper on WebGPU returns broken/empty output
           // on many GPUs (notably Apple Metal). fp32 encoder + q4 decoder is the
-          // config the transformers.js whisper-webgpu demos ship and the only
-          // combination that transcribes reliably on the GPU backend.
-          if (adapter) { device = 'webgpu'; dtype = { encoder_model: 'fp32', decoder_model_merged: 'q4' } }
+          // config the transformers.js whisper-webgpu demos ship; the Max model
+          // overrides it via webgpuDtype (fp16 encoder — its fp32 encoder is ~2.5 GB).
+          if (adapter) { device = 'webgpu'; dtype = model.webgpuDtype || WEBGPU_DTYPE }
         }
       } catch (_) { device = 'wasm'; dtype = 'q8' }
+    }
+
+    // WebGPU-only models (Max) must never touch the wasm path — that would mean a
+    // second multi-hundred-MB download and minutes-per-minute transcription.
+    if (model.webgpuOnly && device !== 'webgpu') {
+      throw new Error('Max quality needs WebGPU, which this browser does not support. Pick another model.')
     }
 
     try {
@@ -165,8 +214,8 @@ import { formatDuration, formatFileSize } from './fps-converter-core.js'
       })
       transcriberDevice = device
     } catch (err) {
-      // Fall back to CPU/WASM if WebGPU init fails on this device.
-      if (device !== 'wasm') {
+      // Fall back to CPU/WASM if WebGPU init fails — but never for webgpuOnly models.
+      if (device !== 'wasm' && !model.webgpuOnly) {
         transcriber = await mod.pipeline('automatic-speech-recognition', modelId, {
           dtype: 'q8', device: 'wasm', progress_callback: onProgress,
         })
@@ -177,6 +226,27 @@ import { formatDuration, formatFileSize } from './fps-converter-core.js'
     }
     transcriberModelId = modelId
     return transcriber
+  }
+
+  // Best-effort Whisper prompt biasing from the optional vocabulary field.
+  // transformers.js 3.7.5 has no WhisperProcessor.get_prompt_ids, so we build the
+  // prompt manually: <|startofprev|> followed by the tokenized vocabulary. Any
+  // failure (missing special token, API drift) returns null and the feature
+  // silently no-ops — it must never break transcription.
+  function buildPromptIds(asr, vocab) {
+    try {
+      var tok = asr && asr.tokenizer
+      if (!tok || !vocab) return null
+      var sop = null
+      if (tok.model && tok.model.tokens_to_ids && typeof tok.model.tokens_to_ids.get === 'function') {
+        sop = tok.model.tokens_to_ids.get('<|startofprev|>')
+      }
+      if (sop == null) return null
+      var textIds = tok.encode(' ' + vocab, { add_special_tokens: false })
+      if (!textIds || !textIds.length) return null
+      var ids = [sop].concat(Array.from(textIds))
+      return ids.every(function (n) { return Number.isInteger(n) }) ? ids : null
+    } catch (_) { return null }
   }
 
   // ── Extract 16 kHz mono audio → Float32Array ──
@@ -214,23 +284,36 @@ import { formatDuration, formatFileSize } from './fps-converter-core.js'
       var audio = await extractAudio(currentFile)
 
       var model = MODELS[selectedModel] || MODELS.base
-      setProgress(35, 'Loading transcription model…', 'Downloading ' + model.size + ' (cached after first use)')
-      var asr = await loadTranscriber(model.id, function (p) {
+      var sizeNote = model.webgpuOnly ? ' — the Max model is big; cached after first use' : ' (cached after first use)'
+      setProgress(35, 'Loading transcription model…', 'Downloading ' + model.size + sizeNote)
+      var onModelProgress = function (p) {
         if (p && p.status === 'progress' && typeof p.progress === 'number') {
           setProgress(35 + p.progress * 0.35, null, 'Downloading model… ' + Math.round(p.progress) + '%')
         }
-      })
+      }
+      var asr = await loadTranscriber(model, onModelProgress)
 
       setProgress(72, 'Transcribing…', 'This runs entirely on your device')
       var language = resolveLanguage(langSelect ? langSelect.value : 'auto')
-      var asrOpts = {
-        return_timestamps: true,
-        chunk_length_s: 30,
-        stride_length_s: 5,
-        task: 'transcribe',
-        language: language,
+
+      // Optional vocabulary biasing (best-effort, feature-detected).
+      var vocab = sanitizeVocabulary(vocabInput ? vocabInput.value : '')
+      var promptIds = vocab ? buildPromptIds(asr, vocab) : null
+      if (vocab && promptSupported === null) promptSupported = promptIds != null
+
+      // Run the pipeline with the enhanced decoder options; if this transformers.js
+      // version rejects any of them (or prompt_ids), retry once with the minimal
+      // known-good options so a transcription always completes.
+      var runAsr = async function (pipe) {
+        try {
+          return await pipe(audio, buildAsrOptions({ language: language, promptIds: promptIds }))
+        } catch (err) {
+          console.warn('Enhanced ASR options rejected; retrying with minimal options.', err)
+          return await pipe(audio, buildAsrOptions({ language: language }))
+        }
       }
-      var output = await asr(audio, asrOpts)
+
+      var output = await runAsr(asr)
 
       chunks = normalizeChunks(output.chunks || [])
       if (chunks.length === 0 && output.text) {
@@ -239,16 +322,14 @@ import { formatDuration, formatFileSize } from './fps-converter-core.js'
 
       // A GPU backend can occasionally return an empty transcription for audio
       // that clearly contains speech. Before reporting "no speech", retry once on
-      // the reliable CPU/WASM path.
-      if (chunks.length === 0 && transcriberDevice !== 'wasm') {
+      // the reliable CPU/WASM path — except for WebGPU-only models, which cannot
+      // run on wasm.
+      if (chunks.length === 0 && transcriberDevice !== 'wasm' && !model.webgpuOnly) {
         setProgress(72, 'Retrying on CPU…', 'The GPU returned no text — using the reliable engine')
-        var asrCpu = await loadTranscriber(model.id, function (p) {
-          if (p && p.status === 'progress' && typeof p.progress === 'number') {
-            setProgress(35 + p.progress * 0.35, null, 'Downloading model… ' + Math.round(p.progress) + '%')
-          }
-        }, true)
+        var asrCpu = await loadTranscriber(model, onModelProgress, true)
         setProgress(72, 'Transcribing…', 'This runs entirely on your device')
-        output = await asrCpu(audio, asrOpts)
+        promptIds = vocab ? buildPromptIds(asrCpu, vocab) : null
+        output = await runAsr(asrCpu)
         chunks = normalizeChunks(output.chunks || [])
         if (chunks.length === 0 && output.text) {
           chunks = [{ start: 0, end: 0, text: output.text.trim() }]
@@ -269,7 +350,7 @@ import { formatDuration, formatFileSize } from './fps-converter-core.js'
   function currentText() {
     if (currentFormat === 'srt') return toSRT(chunks)
     if (currentFormat === 'vtt') return toVTT(chunks)
-    return toPlainText(chunks)
+    return toParagraphs(chunks)
   }
 
   function renderResult() {
