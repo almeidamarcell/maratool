@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'organize-pdf'
+const seo = {
+  title: 'How to rearrange, rotate and delete PDF pages online | maratool',
+  description: 'Reorder, rotate, and delete PDF pages in your browser — drag thumbnails, turn sideways scans upright, and drop pages you don\'t need. No upload, no watermark.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to rearrange, rotate and delete PDF pages online',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-08-03',
+    dateModified: '2026-08-03',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Reorder, rotate, and delete PDF pages in your browser — drag thumbnails, turn sideways scans upright, and drop pages you don\'t need.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell title="How to rearrange, rotate and delete PDF pages online" lead="Drag PDF pages into a new order, rotate the sideways ones, and delete what you don't need — all in your browser, no upload." date="August 3, 2026" dateIso="2026-08-03">
+      <p>The free <a href="/organize-pdf">Rearrange PDF Pages</a> tool on maratool shows every page as a thumbnail so you can fix the order, rotation, and page selection visually. Rendering uses pdf.js and editing uses pdf-lib — both run locally, so the file never leaves your device.</p>
+      <BlogToolEmbed slug="organize-pdf" title="Try it live" height={520} />
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Upload</strong> — drop your PDF and every page renders as a thumbnail.</li>
+        <li><strong>Edit</strong> — drag to reorder, click ↻ to rotate 90°, ✕ to delete; Undo or Reset if you change your mind.</li>
+        <li><strong>Download</strong> — click "Download PDF" and the edited file is assembled locally with pdf-lib.</li>
+      </ol>
+      <h2>Why nothing is uploaded</h2>
+      <p>Everything happens in your browser: pdf.js draws the page thumbnails, and pdf-lib rewrites the document when you export. That matters for contracts, scans, and anything you'd rather not hand to a third-party server — the PDF stays on your machine the whole time.</p>
+      <h2>Rotation without quality loss</h2>
+      <p>Rotating a page doesn't re-render it. The rotation is stored as a page-metadata flag and the page content is <em>copied</em> into the new PDF untouched, so text stays selectable and images keep their original resolution. Files up to about 50 MB work smoothly on most devices.</p>
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">More <a href="/pdf">PDF tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
