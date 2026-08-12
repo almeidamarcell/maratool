@@ -49,7 +49,7 @@ const seo = {
       {
         '@type': 'Question',
         name: 'How accurate is the transcription?',
-        acceptedAnswer: { '@type': 'Answer', text: 'Accuracy depends on the model you pick and the audio quality. The Accurate (small) model handles accents and noisy recordings best; Fast (tiny) trades some accuracy for speed. Clear speech with little background noise gives the best results in any mode.' }
+        acceptedAnswer: { '@type': 'Answer', text: 'Accuracy depends on the model you pick and the audio quality. The Max (large-v3-turbo) model is the most accurate — great for accents, proper nouns, and technical terms — and needs WebGPU; Accurate (small) is a good CPU-friendly middle ground, while Fast (tiny) trades accuracy for speed. Clear speech with little background noise gives the best results in any mode.' }
       }
     ]
   }
@@ -59,7 +59,7 @@ const whatIs = 'Audio to Text is a free, browser-based transcription tool that t
 
 const howTo = [
   'Drop an audio file (MP3, WAV, M4A, AAC, OGG, FLAC…).',
-  'Choose a language (or leave Auto-detect) and a model — Fast, Balanced, or Accurate.',
+  'Choose a language (or leave Auto-detect) and a model — Fast, Balanced, Accurate, or Max (best accuracy, WebGPU).',
   'Click Transcribe, then copy or download the text as TXT, SRT, or VTT.'
 ]
 
@@ -67,7 +67,7 @@ const faq = [
   { q: 'How do I convert audio to text for free?', a: 'Drop your MP3, WAV, or M4A file, pick a language and model, then click Transcribe. The tool runs OpenAI Whisper directly in your browser and gives you the transcript as plain text, SRT, or VTT. Nothing is uploaded and there is no signup.' },
   { q: 'Can I transcribe an MP3 or voice memo without uploading it?', a: 'Yes. Everything runs locally in your browser using a Whisper model compiled to run on your device. Your audio never leaves your computer, which makes it safe for interviews, voice memos, and other private recordings.' },
   { q: 'What audio formats are supported?', a: 'MP3, WAV, M4A, AAC, OGG, FLAC, and any other audio your browser can decode. The audio is resampled to 16 kHz mono before transcription, which is the format Whisper expects.' },
-  { q: 'How accurate is the transcription?', a: 'Accuracy depends on the model you pick and the audio quality. The Accurate (small) model handles accents and noisy recordings best; Fast (tiny) trades some accuracy for speed. Clear speech with little background noise gives the best results in any mode.' },
+  { q: 'How accurate is the transcription?', a: 'Accuracy depends on the model you pick and the audio quality. The Max (large-v3-turbo) model is the most accurate — great for accents, proper nouns, and technical terms — and needs WebGPU; Accurate (small) is a good CPU-friendly middle ground, while Fast (tiny) trades accuracy for speed. Clear speech with little background noise gives the best results in any mode.' },
 ]
 
 const relatedTools = [
@@ -145,8 +145,22 @@ const breadcrumbs = [
                 <span class="vtt-model-name">Accurate</span>
                 <span class="vtt-model-size">small · ~240 MB</span>
               </button>
+              <button type="button" class="vtt-model-btn" data-model="large" disabled>
+                <span class="vtt-model-name">Max</span>
+                <span class="vtt-model-size">large-v3-turbo · ~1.6 GB</span>
+              </button>
             </div>
+            <p class="vtt-model-hint" id="vtt-model-hint">Max quality requires WebGPU (Chrome or Edge on a recent GPU).</p>
           </div>
+
+          <details class="vtt-advanced" id="vtt-advanced">
+            <summary class="vtt-advanced-summary">Advanced: names &amp; terms</summary>
+            <div class="vtt-advanced-body">
+              <label class="vtt-advanced-label" for="vtt-vocab">Names, brands, or jargon that appear in the audio</label>
+              <input type="text" id="vtt-vocab" class="vtt-select" maxlength="200" placeholder="e.g. Astro, Cloudflare, maratool, João" autocomplete="off" spellcheck="false" />
+              <p class="vtt-advanced-hint">Helps Whisper spell these correctly. It's a spelling hint, not an instruction — sentences like "ignore the music" won't work.</p>
+            </div>
+          </details>
 
           <div class="vtt-actions">
             <button class="tool-button" id="vtt-transcribe">Transcribe</button>
@@ -254,8 +268,18 @@ const breadcrumbs = [
   }
   .vtt-model-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--bg-soft); }
   .vtt-model-btn.active { border-color: var(--accent); background: var(--bg-soft); color: var(--accent); }
+  .vtt-model-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .vtt-model-btn:disabled:hover { border-color: var(--border); color: var(--text-2); background: var(--bg); }
   .vtt-model-name { font-size: 0.9375rem; font-weight: 600; }
   .vtt-model-size { font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.03em; opacity: 0.8; }
+  .vtt-model-hint { font-size: 0.75rem; color: var(--text-3); margin: 0.5rem 0 0; }
+
+  /* Advanced: vocabulary field */
+  .vtt-advanced { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1rem; }
+  .vtt-advanced-summary { padding: 0.75rem 1rem; font-size: 0.8125rem; font-weight: 600; color: var(--text-2); cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; }
+  .vtt-advanced-body { padding: 0 1rem 1rem; }
+  .vtt-advanced-label { display: block; font-size: 0.8125rem; color: var(--text-2); margin-bottom: 0.5rem; }
+  .vtt-advanced-hint { font-size: 0.75rem; color: var(--text-3); margin: 0.5rem 0 0; }
 
   .vtt-actions { display: flex; gap: 0.75rem; align-items: center; margin-top: 0.25rem; }
 

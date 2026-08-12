@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'framingham-vs-ascvd-vs-prevent'
+const seo = {
+  title: 'Framingham vs ASCVD vs PREVENT: which risk score to use | maratool',
+  description: 'Three generations of heart risk calculators give three different answers for the same patient. What each one measures, and which to trust in 2026.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'Framingham vs ASCVD vs PREVENT: three generations of heart risk scores',
+    image: 'https://maratool.com/og/health.png',
+    datePublished: '2026-08-11',
+    dateModified: '2026-08-11',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How the Framingham, ASCVD (Pooled Cohort) and AHA PREVENT risk calculators differ, and which one current guidance prefers.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Framingham vs ASCVD vs PREVENT', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="Framingham vs ASCVD vs PREVENT: three generations of heart risk scores"
+      lead="Run the same patient through all three calculators and you'll get three different numbers. That's not a bug. Each model was built on different people, different outcomes, and a different decade."
+      date="August 11, 2026"
+      dateIso="2026-08-11"
+    >
+      <p>All three of these calculators answer the same question, "what are my odds of cardiovascular trouble," and they routinely disagree. A 55-year-old man with total cholesterol 213, HDL 50 and untreated systolic BP 120 gets roughly 5% from <a href="/ascvd-risk-calculator">ASCVD</a>, a couple of points less from <a href="/prevent-risk-calculator">PREVENT</a>, and a points-table answer from <a href="/framingham-risk">Framingham</a> that doesn't even count stroke. Understanding why they disagree tells you which one to use.</p>
+
+      <h2>The short version</h2>
+      <table>
+        <thead>
+          <tr><th>Model</th><th>Year</th><th>Predicts</th><th>Ages</th><th>Status in 2026</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="/framingham-risk">Framingham (ATP III)</a></td><td>2001</td><td>Heart attack or coronary death, 10 yr</td><td>20–79</td><td>Legacy, still cited</td></tr>
+          <tr><td><a href="/ascvd-risk-calculator">ASCVD (Pooled Cohort)</a></td><td>2013</td><td>Heart attack + stroke, 10 yr</td><td>40–79</td><td>Still in US guidelines</td></tr>
+          <tr><td><a href="/prevent-risk-calculator">PREVENT (AHA)</a></td><td>2023</td><td>Total CVD, ASCVD and heart failure, 10 + 30 yr</td><td>30–79</td><td>Preferred by recent guidance</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Framingham: the points table that started it</h2>
+      <p>The Framingham Risk Score came out of a single Massachusetts town study that started in 1948, and the ATP III version from 2001 is the one calculators still implement. Six inputs, integer points, a lookup table at the end. Its outcome is narrow: "hard" coronary events only, meaning heart attack or coronary death. No stroke, no heart failure. Its cohort was also almost entirely white, which is a real limitation when you apply it to anyone else. It survives because generations of doctors trained on it and because you can compute it without a computer.</p>
+
+      <h2>ASCVD: stroke joins the outcome</h2>
+      <p>The 2013 Pooled Cohort Equations pooled several cohorts beyond Framingham, derived separate equations for White and African American men and women, and widened the outcome to include stroke. That matters: for women and Black adults especially, stroke is a large share of cardiovascular risk that Framingham simply ignored. The 7.5% statin threshold that anchored a decade of US guidelines refers to this score. Its known weakness runs the other way: validation studies in modern cohorts found it overestimates risk, sometimes substantially, because it was calibrated on people from the 1960s through the 1990s who smoked more and were treated less.</p>
+
+      <h2>PREVENT: kidneys, metabolism, and a 30-year view</h2>
+      <p>PREVENT, published by the AHA in late 2023, was derived from over 6 million contemporary US adults. It made four big changes. It dropped race as an input, on the argument that race is a social category that was standing in for physiology and access to care. It added eGFR, BMI and statin use, connecting cardiovascular risk to kidney and metabolic health. It extended prediction to 30 years for people aged 30 to 59, which changes the conversation for younger patients whose 10-year risk is almost always reassuring. And it predicts heart failure, which neither older model touches. The trade-off: PREVENT's estimates run lower than ASCVD's for the same person, so applying old statin thresholds to the new score is an ongoing guideline debate rather than a settled question.</p>
+
+      <BlogToolEmbed slug="prevent-risk-calculator" title="PREVENT, with all six outputs" height={700} />
+
+      <h2>So which one should you use?</h2>
+      <p>If you're checking your own numbers in 2026, start with <a href="/prevent-risk-calculator">PREVENT</a>. It's the model recent guidance prefers, and the 30-year estimate is genuinely useful if you're under 60. Run <a href="/ascvd-risk-calculator">ASCVD</a> too if you want the number most US guidelines and EHR banners still quote; expect it to read higher. Framingham is worth running mostly to see how far these models have come, or if you're following older literature that reports it. If the three disagree about you, that disagreement is itself worth bringing to your doctor, along with the things no calculator captures: family history, Lp(a), coronary calcium, and everything else in your chart.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">All three calculators are free and run in your browser: <a href="/framingham-risk">Framingham</a>, <a href="/ascvd-risk-calculator">ASCVD</a>, <a href="/prevent-risk-calculator">PREVENT</a>. For the full map of cardiac scores, see <a href="/blog/cardiovascular-risk-calculators">every cardiovascular calculator, explained</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
