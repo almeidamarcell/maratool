@@ -184,6 +184,11 @@ Every new live tool **must** ship with a matching blog post. This is enforced vi
 **Also required:**
 - Add entry to `src/pages/blog/index.astro` posts array (newest first)
 - Set `blogPost: true` on the tool in `tools.ts`
+- **Always run the `/humanizer` skill on blog post prose** (every new post and any
+  substantial edit to an existing one). Write the draft, then apply the humanizer
+  pass: no em dashes, no bold-header bullet lists, no "-ing" filler analyses, no
+  AI vocabulary (delve, crucial, showcase, landscape...), varied sentence rhythm,
+  concrete specifics over vague claims.
 
 **Quality gate:** `npm test` verifies every `blogPost: true` tool has a blog file containing `BlogToolEmbed`.
 
