@@ -64,7 +64,7 @@ const howTo = [
 const faq = [
   { q: 'How does the AI video describer work?', a: 'It grabs a frame at a fixed interval and runs each one through a vision AI model in your browser. With WebGPU it uses SmolVLM (~400 MB one-time download, then cached), which accepts an optional context hint — tell it "a padel match" and frames are described as padel, not just "a game". Otherwise a lighter ~50 MB captioning model with generic captions. You get a timestamped description of what happens on screen.' },
   { q: 'Is my video uploaded to a server?', a: 'No. Frame extraction and the AI model run entirely on your device. The model is downloaded once and cached — your video never leaves your browser.' },
-  { q: 'What is the difference between this and video-to-text transcription?', a: '<a href="/video-to-text">Video to Text</a> transcribes the audio — what is said. This tool describes the visuals — what is shown, frame by frame. Tick "Also transcribe speech" to get both in one timeline, merged by timestamp. Only speech is transcribed — music and sound effects are not described.' },
+  { q: 'What is the difference between this and video-to-text transcription?', a: '<a href="/video-to-text/">Video to Text</a> transcribes the audio — what is said. This tool describes the visuals — what is shown, frame by frame. Tick "Also transcribe speech" to get both in one timeline, merged by timestamp. Only speech is transcribed — music and sound effects are not described.' },
   { q: 'How long does it take?', a: 'Roughly 1–3 seconds per frame with WebGPU (Chrome/Edge desktop), 5–15 seconds per frame on the WebAssembly fallback. A desktop with 8 GB RAM is recommended; phones are not. Use a longer interval for long videos, and Stop ends the run early while keeping everything described so far.' },
 ]
 
@@ -118,7 +118,7 @@ const whatIs = 'The <strong>Describe Video with AI</strong> tool turns a video i
           </div>
           <label class="dv-audio-row">
             <input type="checkbox" id="dv-audio" />
-            <span>Also transcribe speech (Whisper AI) — adds what's <em>said</em> to the timeline. Extra ~100 MB one-time download (audio engine + model). For language options use <a href="/video-to-text">Video to Text</a>.</span>
+            <span>Also transcribe speech (Whisper AI) — adds what's <em>said</em> to the timeline. Extra ~100 MB one-time download (audio engine + model). For language options use <a href="/video-to-text/">Video to Text</a>.</span>
           </label>
           <p id="dv-frame-estimate" class="dv-note"></p>
           <p id="dv-engine-note" class="dv-note"></p>

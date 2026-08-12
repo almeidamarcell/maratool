@@ -178,7 +178,7 @@ const itemListSchema = {
       </div>
       <div class="home-query-chips">
         {heroQueryChips.map(chip => (
-          <a href={`/${chip.slug}`} class="home-query-chip">{chip.label}</a>
+          <a href={`/${chip.slug}/`} class="home-query-chip">{chip.label}</a>
         ))}
       </div>
       <p class="hero-tagline">No accounts. No installs. Nothing leaves your browser.</p>
@@ -203,7 +203,7 @@ const itemListSchema = {
     </h2>
     <div class="verticals-grid">
       {verticals.map(v => (
-        <a href={`/${v.slug}`} class="vertical-card" data-cat={v.slug}>
+        <a href={`/${v.slug}/`} class="vertical-card" data-cat={v.slug}>
           <div class="vertical-card-head">
             <span class="vertical-card-name">{v.name}</span>
             <span class="vertical-card-count">{v.count} {v.count === 1 ? 'tool' : 'tools'}</span>
@@ -223,11 +223,11 @@ const itemListSchema = {
       <>
         <h2 class="home-section-h2">
           Popular this week
-          <a href="/all" class="h2-see-all">All tools →</a>
+          <a href="/all/" class="h2-see-all">All tools →</a>
         </h2>
         <div class="popular-grid">
           {popularThisWeek.map(tool => (
-            <a href={`/${tool.slug}`} class="pop-card" data-cat={tool.category.toLowerCase()}>
+            <a href={`/${tool.slug}/`} class="pop-card" data-cat={tool.category.toLowerCase()}>
               <span class="pop-card-emoji">{tool.emoji}</span>
               <div class="pop-card-body">
                 <div class="pop-card-name">{tool.name}</div>
@@ -250,7 +250,7 @@ const itemListSchema = {
         </h2>
         <div class="popular-grid">
           {newTools.map(tool => (
-            <a href={`/${tool.slug}`} class="pop-card" data-cat={tool.category.toLowerCase()}>
+            <a href={`/${tool.slug}/`} class="pop-card" data-cat={tool.category.toLowerCase()}>
               <span class="pop-card-emoji">{tool.emoji}</span>
               <div class="pop-card-body">
                 <div class="pop-card-name">{tool.name}</div>
@@ -268,7 +268,7 @@ const itemListSchema = {
     <section style="margin-top: 3rem;">
       <h2>Why maratool?</h2>
       <p style="color: var(--text-2); line-height: 1.7; margin-top: 0.75rem; max-width: 560px;">
-        No sign-ups. No "free tier" limits. maratool runs {liveTools.length}+ tools directly in your browser. Your files stay on your device. Results appear instantly. The one tool that needs a server is the <a href="/instagram-video-downloader" style="color: var(--accent);">Instagram video downloader</a>, because Instagram blocks direct browser fetches; the <a href="/privacy" style="color: var(--accent);">privacy page</a> explains exactly what it does.
+        No sign-ups. No "free tier" limits. maratool runs {liveTools.length}+ tools directly in your browser. Your files stay on your device. Results appear instantly. The one tool that needs a server is the <a href="/instagram-video-downloader/" style="color: var(--accent);">Instagram video downloader</a>, because Instagram blocks direct browser fetches; the <a href="/privacy/" style="color: var(--accent);">privacy page</a> explains exactly what it does.
       </p>
     </section>
 
@@ -280,7 +280,7 @@ const itemListSchema = {
       </div>
       <div class="faq-item">
         <h3 class="faq-question">Is my data safe?</h3>
-        <p class="faq-answer">Yes. Almost every tool runs entirely in your browser using JavaScript. Your files and text stay on your device and nothing is uploaded. The one exception is the <a href="/instagram-video-downloader" class="about-link">Instagram video downloader</a>, which has to proxy through a small server because Instagram blocks direct browser fetches. The <a href="/privacy" class="about-link">privacy policy</a> documents it in detail.</p>
+        <p class="faq-answer">Yes. Almost every tool runs entirely in your browser using JavaScript. Your files and text stay on your device and nothing is uploaded. The one exception is the <a href="/instagram-video-downloader/" class="about-link">Instagram video downloader</a>, which has to proxy through a small server because Instagram blocks direct browser fetches. The <a href="/privacy/" class="about-link">privacy policy</a> documents it in detail.</p>
       </div>
       <div class="faq-item">
         <h3 class="faq-question">Do I need to create an account?</h3>
@@ -342,7 +342,7 @@ const itemListSchema = {
       el.hidden = false
       grid.innerHTML = items.map(function (item: any) {
         var emoji = item.emoji ? '<span>' + item.emoji + '</span>' : ''
-        return '<a href="/' + item.slug + '" class="recently-used-chip">' + emoji + item.name + '</a>'
+        return '<a href="/' + item.slug + '/" class="recently-used-chip">' + emoji + item.name + '</a>'
       }).join('')
     }
 
@@ -354,7 +354,7 @@ const itemListSchema = {
       if (items.length === 0) { el.hidden = true; return }
       el.hidden = false
       grid.innerHTML = items.map(function (item: any) {
-        return '<a href="/' + item.slug + '" class="pinned-chip"><span class="pin-icon">★</span>' + item.name + '</a>'
+        return '<a href="/' + item.slug + '/" class="pinned-chip"><span class="pin-icon">★</span>' + item.name + '</a>'
       }).join('')
     }
 

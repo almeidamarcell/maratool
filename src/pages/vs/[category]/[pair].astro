@@ -88,7 +88,7 @@ const siblings = comparePairs
       <Breadcrumb crumbs={breadcrumbs} />
       <h1>{pair.title}</h1>
       <p class="compare-deck">
-        A side-by-side comparison of <a href={`/${toolA.slug}`}>{toolA.name}</a> and <a href={`/${toolB.slug}`}>{toolB.name}</a>.
+        A side-by-side comparison of <a href={`/${toolA.slug}/`}>{toolA.name}</a> and <a href={`/${toolB.slug}/`}>{toolB.name}</a>.
       </p>
 
       <section class="compare-intro" set:html={pair.intro} />
@@ -105,8 +105,8 @@ const siblings = comparePairs
           <thead>
             <tr>
               <th></th>
-              <th><a href={`/${toolA.slug}`}>{toolA.name.replace(/\s+(Calculator|Score|Tool)\s*$/i, '')}</a></th>
-              <th><a href={`/${toolB.slug}`}>{toolB.name.replace(/\s+(Calculator|Score|Tool)\s*$/i, '')}</a></th>
+              <th><a href={`/${toolA.slug}/`}>{toolA.name.replace(/\s+(Calculator|Score|Tool)\s*$/i, '')}</a></th>
+              <th><a href={`/${toolB.slug}/`}>{toolB.name.replace(/\s+(Calculator|Score|Tool)\s*$/i, '')}</a></th>
             </tr>
           </thead>
           <tbody>
@@ -134,11 +134,11 @@ const siblings = comparePairs
 
       <h2>Use the calculators</h2>
       <div class="compare-cta-row">
-        <a class="compare-cta" href={`/${toolA.slug}`}>
+        <a class="compare-cta" href={`/${toolA.slug}/`}>
           <strong>{toolA.name}</strong>
           <span>{toolA.description}</span>
         </a>
-        <a class="compare-cta" href={`/${toolB.slug}`}>
+        <a class="compare-cta" href={`/${toolB.slug}/`}>
           <strong>{toolB.name}</strong>
           <span>{toolB.description}</span>
         </a>
@@ -150,11 +150,11 @@ const siblings = comparePairs
           <ul>
             {siblings.map(s => (
               <li>
-                <a href={`/vs/${catSlug}/${s.slug}`}>{s.title}</a>
+                <a href={`/vs/${catSlug}/${s.slug}/`}>{s.title}</a>
               </li>
             ))}
             <li>
-              <a href={`/vs/${catSlug}`}>All {pair.category} comparisons →</a>
+              <a href={`/vs/${catSlug}/`}>All {pair.category} comparisons →</a>
             </li>
           </ul>
         </section>

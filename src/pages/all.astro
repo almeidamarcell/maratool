@@ -92,7 +92,7 @@ const breadcrumbs = [
         <div class="facet-group">
           <span class="facet-label">Tags</span>
           {tagList.map(({ tag, count }) => (
-            <a href={`/tag/${tag}`} class="facet-pill">{tag}<span class="count">{count}</span></a>
+            <a href={`/tag/${tag}/`} class="facet-pill">{tag}<span class="count">{count}</span></a>
           ))}
         </div>
       </div>
@@ -106,7 +106,7 @@ const breadcrumbs = [
         <section>
           <h2 class="all-letter-head" id={anchorId}>{L}</h2>
           {items.map(tool => (
-            <a href={`/${tool.slug}`} class="all-row">
+            <a href={`/${tool.slug}/`} class="all-row">
               <div>
                 <div class="all-row-name">{tool.name}</div>
                 <div class="all-row-desc">{tool.description}</div>

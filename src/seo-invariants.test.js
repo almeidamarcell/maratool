@@ -63,6 +63,40 @@ describe('internal links resolve', () => {
     }
     expect(broken, `related links to missing/dead tools:\n${broken.join('\n')}`).toEqual([])
   })
+
+  test('every internal href ends with a trailing slash', () => {
+    // Cloudflare Pages 308-redirects /foo to /foo/ (directory build format).
+    // A slash-less internal link makes every crawl hop through a redirect —
+    // GSC logged 224 "Page with redirect" pages from exactly this.
+    const EXT = /\.[a-zA-Z0-9]{2,12}$/
+    const needsSlash = raw => {
+      const path = raw.split(/[?#]/)[0]
+      return path !== '/' && !path.endsWith('/') && !EXT.test(path)
+    }
+    const offenders = []
+    const walk = dir => {
+      for (const entry of readdirSync(resolve(ROOT, dir), { withFileTypes: true })) {
+        const rel = `${dir}/${entry.name}`
+        if (entry.isDirectory()) walk(rel)
+        else if (entry.name.endsWith('.astro') || entry.name.endsWith('.ts')) {
+          const src = readFileSync(resolve(ROOT, rel), 'utf-8')
+          for (const m of src.matchAll(/href="(\/[^"]*)"/g)) {
+            if (needsSlash(m[1])) offenders.push(`${rel}: href="${m[1]}"`)
+          }
+          for (const m of src.matchAll(/href=\{`(\/[^`]*)`\}/g)) {
+            if (needsSlash(m[1])) offenders.push(`${rel}: href={\`${m[1]}\`}`)
+          }
+          for (const m of src.matchAll(/href="\/' \+ [^\n]*? \+ '([^"]*)"/g)) {
+            if (needsSlash('/x' + m[1])) offenders.push(`${rel}: concatenated href missing trailing slash`)
+          }
+        }
+      }
+    }
+    walk('src/pages')
+    walk('src/components')
+    walk('src/data')
+    expect(offenders, `internal links without trailing slash (each one is a 308 redirect in prod):\n${offenders.join('\n')}`).toEqual([])
+  })
 })
 
 describe('meta descriptions', () => {

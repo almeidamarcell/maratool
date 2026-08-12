@@ -3,7 +3,16 @@ interface Props {
   crumbs: Array<{ label: string; href?: string }>
 }
 
-const { crumbs } = Astro.props
+const { crumbs: rawCrumbs } = Astro.props
+
+// Internal paths must end with a trailing slash: Cloudflare Pages
+// 308-redirects /foo to /foo/, so a slash-less link costs a redirect hop
+// on every crawl. Normalize here so no caller can regress it.
+const crumbs = rawCrumbs.map(c =>
+  c.href && c.href.startsWith('/') && !c.href.endsWith('/')
+    ? { ...c, href: c.href + '/' }
+    : c
+)
 ---
 <nav class="breadcrumb" aria-label="Breadcrumb">
   {crumbs.map((crumb, i) => (
