@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 512 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 513 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -324,6 +324,7 @@ maratool.com is a growing collection of 512 free tools that run in the browser u
 ### PDF
 - [Extract Text from PDF](https://maratool.com/pdf-to-text): Extract text from any PDF file instantly in your browser. No upload to servers — runs 100% locally.
 - [Convert PDF to Markdown](https://maratool.com/pdf-to-markdown): Convert PDF files to clean Markdown with heading detection. Ideal for LLM context and documentation.
+- [Convert PDF to PPT (editable PowerPoint)](https://maratool.com/pdf-to-ppt): Convert PDF to editable PowerPoint slides — text, images and shapes, not screenshots. Runs 100% in your browser.
 - [Merge and Split PDF Pages](https://maratool.com/pdf-merge-split): Merge multiple PDF files or extract specific pages into a new PDF. Runs entirely in your browser.
 - [JPG to PDF Converter Online](https://maratool.com/image-to-pdf): Convert JPG, PNG, and WebP images into a single PDF. Runs in your browser — no upload, no watermark.
 - [Rearrange PDF Pages — Reorder, Rotate & Delete](https://maratool.com/organize-pdf): Rearrange PDF pages online — drag to reorder, rotate pages 90°, and delete pages you don't need. Free, runs in your browser with no upload needed.

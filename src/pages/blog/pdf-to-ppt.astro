@@ -1,0 +1,47 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'pdf-to-ppt'
+const seo = {
+  title: 'How to convert a PDF to an editable PowerPoint (free, no upload) | maratool',
+  description: 'Convert PDF to editable PowerPoint slides in your browser: real text boxes and images, not screenshots. Free, private, works with Google Slides.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert a PDF to an editable PowerPoint (free, no upload)',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-08-11',
+    dateModified: '2026-08-11',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert PDF to editable PowerPoint slides in your browser: real text boxes and images, not screenshots. Free, private, works with Google Slides.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell title="How to convert a PDF to an editable PowerPoint (free, no upload)" lead="Most free PDF to PPT converters hand you a deck of page screenshots. You can't fix a typo, you can't move anything. This one rebuilds the actual elements, in your browser." date="August 11, 2026" dateIso="2026-08-11">
+      <p>Use the free <a href="/pdf-to-ppt">PDF to PPT converter</a> on maratool. It reads the PDF with pdf.js and writes a normal <code>.pptx</code> file. Nothing gets uploaded anywhere, which also means it works on a plane.</p>
+      <BlogToolEmbed slug="pdf-to-ppt" title="Try it live" height={560} />
+      <h2>How it works</h2>
+      <ol>
+        <li>Drop your PDF. If it has a password, the tool asks for it locally.</li>
+        <li>Pick a mode. "Editable elements" is the default and rebuilds everything as slide objects. "Page image + editable text" keeps each page as a background picture and puts editable text on top, which is the safer choice for dense layouts.</li>
+        <li>Download the .pptx and open it in PowerPoint. Google Slides imports it too, under File then Import slides.</li>
+      </ol>
+      <h2>What "editable" actually means here</h2>
+      <p>A PDF doesn't know what a slide is. Internally it's text placed at coordinates, some embedded images, and a pile of drawing commands. The converter groups that text into paragraph blocks and turns each block into a PowerPoint text box at the same position, keeping the font size and color it found. When I tested this with a report that had a colored callout box on page one, the box came through as a native rectangle shape with the exact same fill. You can drag it around, retype the heading next to it, whatever you need.</p>
+      <p>Charts and gradients are a different story. Rebuilding those as shapes would mangle them, so anything complicated gets cropped out of the page render and placed as an image in the right spot. The slide looks correct, and the text around it stays editable.</p>
+      <h2>Limitations worth knowing</h2>
+      <p>A browser can't embed fonts into a .pptx, so the converter maps to close system fonts (Helvetica becomes Arial, Times becomes Times New Roman) and PowerPoint substitutes whatever else is missing. Tables come through as text boxes sitting where the table was, not as real PPT tables. Scanned PDFs have no text to extract at all; for those the tool offers OCR with a language picker, and the recognized words end up as editable boxes over the page image. The OCR engine downloads on demand and runs on your machine like everything else.</p>
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">More <a href="/pdf/extract">PDF extraction tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

@@ -356,6 +356,17 @@ export const tools: Tool[] = [
     keywords: ['pdf to markdown', 'convert pdf to md', 'pdf to markdown converter', 'extract markdown from pdf', 'pdf to md online'],
     live: true,
   },
+  {
+    slug: 'pdf-to-ppt',
+    name: 'Convert PDF to PPT (editable PowerPoint)',
+    emoji: '📽️',
+    description: 'Convert PDF to editable PowerPoint slides — text, images and shapes, not screenshots. Runs 100% in your browser.',
+    category: 'PDF',
+    subcategory: 'Extract',
+    keywords: ['pdf to ppt', 'pdf to powerpoint', 'pdf to pptx', 'convert pdf to ppt', 'pdf to ppt converter', 'pdf to google slides', 'pdf to editable powerpoint'],
+    live: true,
+    blogPost: true,
+  },
   // ── PDF / Edit ──
   {
     slug: 'pdf-merge-split',
