@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'prevent-risk-calculator'
+const seo = {
+  title: 'AHA PREVENT calculator: 10 & 30-year heart risk online | maratool',
+  description: 'Use the AHA PREVENT equations to estimate 10- and 30-year risk of cardiovascular disease, ASCVD and heart failure — free, private, in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to use the AHA PREVENT calculator for 10- and 30-year heart risk',
+    image: 'https://maratool.com/og/health.png',
+    datePublished: '2026-08-11',
+    dateModified: '2026-08-11',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How the AHA PREVENT calculator estimates 10- and 30-year risk of total CVD, ASCVD and heart failure.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'PREVENT Risk Calculator guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to use the AHA PREVENT calculator for 10- and 30-year heart risk"
+      lead="The American Heart Association's newest risk model estimates heart attack, stroke, and heart failure risk, out to 30 years."
+      date="August 11, 2026"
+      dateIso="2026-08-11"
+    >
+      <p>PREVENT (Predicting Risk of cardiovascular disease EVENTs) is the AHA's 2023 replacement for the decade-old Pooled Cohort Equations. It was derived from over 6 million contemporary US adults. It starts at age 30 instead of 40, drops race from the model, adds kidney function and BMI, and predicts heart failure, which no mainstream risk calculator did before. The <a href="/prevent-risk-calculator">PREVENT Risk Calculator</a> implements the base model in your browser, and nothing you type leaves the page.</p>
+
+      <BlogToolEmbed slug="prevent-risk-calculator" title="Try it. You'll need cholesterol, BP, BMI and eGFR" height={760} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Enter sex, age (30–79), total cholesterol, HDL, and systolic blood pressure.</li>
+        <li>Add BMI and eGFR, and mark diabetes, smoking, BP medication, and statin use. If you don't know BMI or eGFR, the <a href="/bmi-calculator">BMI calculator</a> and the <a href="/ckd-epi-creatinine">CKD-EPI calculator</a> compute them from height/weight and creatinine.</li>
+        <li>Read six estimates: 10- and 30-year risk of total CVD, ASCVD (heart attack plus stroke), and heart failure. The 30-year model is only defined for ages 30–59, so at 60 and older the tool shows 10-year risk only, same as the official AHA calculator.</li>
+      </ol>
+
+      <h2>What's actually new here</h2>
+      <p>The headline change is heart failure prediction, driven by BMI and kidney function. The 30-year horizon matters too: a 40-year-old with a mediocre profile can have a reassuring 10-year risk and a sobering 30-year one, and that second number is often what changes the conversation. PREVENT also removed race from the model, replacing it with physiology (eGFR) and, in the full model, a measure of social deprivation. And it knows about statins, so being on treatment no longer confuses the estimate.</p>
+
+      <h2>The math behind it</h2>
+      <p>Each of the six estimates is a logistic model over centred, spline-knotted terms: age per 10 years centred at 55, non-HDL and HDL cholesterol converted to mmol/L, systolic BP knotted at 110 mmHg, eGFR at 60, and BMI at 30 (heart-failure models). Our implementation carries the published coefficients from Khan et al. (Circulation 2024), cross-verified against three independent open-source implementations, and is unit-tested to reproduce the official AHA calculator's outputs exactly. While verifying, we found and worked around a truncated coefficient in one of those open-source ports, which is a good argument for testing against the official tool rather than trusting any single source.</p>
+
+      <h2>Base model vs full model</h2>
+      <p>This tool implements the base model, which is what the official AHA calculator defaults to. The full model can also use HbA1c, urine albumin-creatinine ratio, and a US zip-code social deprivation index. If you have those labs, your clinician can refine the estimate. Either way, treat the output as decision support and discuss it with a doctor before changing anything.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/prevent-risk-calculator">PREVENT Risk Calculator</a> is free and runs locally. Compare it with older models in <a href="/blog/framingham-vs-ascvd-vs-prevent">Framingham vs ASCVD vs PREVENT</a>, or browse the <a href="/health/score">Health → Score</a> hub.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

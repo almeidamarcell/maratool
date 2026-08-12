@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'ascvd-risk-calculator'
+const seo = {
+  title: 'How to calculate your 10-year ASCVD risk online | maratool',
+  description: 'Estimate your 10-year risk of heart attack and stroke with the ACC/AHA Pooled Cohort Equations — free, in your browser, no account needed.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate your 10-year ASCVD risk (Pooled Cohort Equations)',
+    image: 'https://maratool.com/og/health.png',
+    datePublished: '2026-08-11',
+    dateModified: '2026-08-11',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How the ASCVD risk calculator estimates 10-year heart attack and stroke risk with the ACC/AHA Pooled Cohort Equations.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'ASCVD Risk Calculator guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate your 10-year ASCVD risk (Pooled Cohort Equations)"
+      lead="Enter nine numbers from your last check-up and get the same 10-year heart attack and stroke estimate clinicians use for statin decisions."
+      date="August 11, 2026"
+      dateIso="2026-08-11"
+    >
+      <p>ASCVD stands for atherosclerotic cardiovascular disease: heart attacks and strokes caused by plaque building up in arteries. When a doctor talks about "your 10-year risk" before suggesting a statin, this is usually the number they mean. The <a href="/ascvd-risk-calculator">ASCVD Risk Calculator</a> implements the ACC/AHA Pooled Cohort Equations, published with the 2013 cardiovascular risk guideline, and runs entirely in your browser. Nothing you type leaves the page.</p>
+
+      <BlogToolEmbed slug="ascvd-risk-calculator" title="Try it with values from your last blood panel" height={640} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Select sex and race group. The equations were derived separately for White/other and African American men and women.</li>
+        <li>Enter age (40–79), total cholesterol, HDL, and systolic blood pressure, and mark whether you take BP medication, have diabetes, or smoke.</li>
+        <li>Read the result. The 10-year risk percentage and its ACC/AHA category update as you type.</li>
+      </ol>
+
+      <h2>What the risk bands mean</h2>
+      <p>The 2018 AHA/ACC cholesterol guideline splits the result into four bands. Below 5% is low risk, and the advice is mostly about lifestyle. From 5 to 7.4% is borderline: things the equations don't capture, like family history or a high Lp(a), can tip the decision toward a statin. From 7.5 to 19.9% is intermediate, where a moderate-intensity statin is usually on the table and a coronary calcium score can settle a close call. At 20% or above, guidelines generally recommend a high-intensity statin.</p>
+
+      <h2>The math behind it</h2>
+      <p>The Pooled Cohort Equations are sex- and race-specific Cox proportional hazards models. Each input is log-transformed, multiplied by a published coefficient, and summed; the 10-year risk is <code>1 − S₀^exp(sum − mean)</code>, where S₀ is the group's baseline survival. Our implementation uses the coefficient set from the ONC Million Hearts reference implementation and is unit-tested against the worked example in the 2013 guideline appendix. One quirk worth knowing: the appendix prints 5.3% for its example patient because it rounds an intermediate sum, while full-precision implementations (including the official ACC estimator and this one) get 5.4%.</p>
+
+      <h2>Limitations to know</h2>
+      <p>The equations apply to adults 40–79 without known cardiovascular disease, and studies have found they overestimate risk in some modern, higher-income populations. They also predate the AHA's 2023 <a href="/prevent-risk-calculator">PREVENT equations</a>, which add kidney function and BMI, remove race, and predict heart failure. Treat the output as a conversation starter, and bring the number to your clinician rather than acting on it alone.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/ascvd-risk-calculator">ASCVD Risk Calculator</a> is free and runs locally in your browser. See every cardiology score in the <a href="/health/score">Health → Score</a> hub, or compare calculators in <a href="/blog/framingham-vs-ascvd-vs-prevent">Framingham vs ASCVD vs PREVENT</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
