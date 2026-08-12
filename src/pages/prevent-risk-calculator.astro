@@ -1,0 +1,73 @@
+---
+import HealthCalc from '../components/HealthCalc.astro'
+
+const faq = [
+  { q: 'What is the AHA PREVENT calculator?', a: 'PREVENT (Predicting Risk of cardiovascular disease EVENTs) is the American Heart Association\'s 2023 risk model. It estimates 10- and 30-year risk of total cardiovascular disease, atherosclerotic CVD, and — new versus older calculators — heart failure.' },
+  { q: 'How is PREVENT different from the ASCVD calculator?', a: 'PREVENT adds kidney function (eGFR), BMI and statin use, removes race from the model, starts at age 30 instead of 40, and predicts heart failure and 30-year risk. It was derived from over 6 million contemporary US patients.' },
+  { q: 'Why do I not see 30-year results?', a: 'The 30-year equations are only defined for ages 30–59. For ages 60–79 the calculator reports 10-year risk only, matching the official AHA tool.' },
+  { q: 'Is this the base or full PREVENT model?', a: 'This is the base model, the default of the official AHA calculator. The full model optionally adds HbA1c, urine albumin-creatinine ratio, and a US zip-code deprivation index, which require extra labs and US-specific data.' },
+]
+const references = [
+  { citation: 'Khan SS, Matsushita K, Sang Y, et al. Development and Validation of the American Heart Association’s PREVENT Equations. <em>Circulation</em>. 2024;149(6):430-449.' },
+  { citation: 'Khan SS, Coresh J, Pencina MJ, et al. Novel Prediction Equations for Absolute Risk Assessment of Total Cardiovascular Disease Incorporating Cardiovascular-Kidney-Metabolic Health: A Scientific Statement From the American Heart Association. <em>Circulation</em>. 2023;148(24):1982-2004.' },
+]
+const relatedTools = [
+  { slug: 'ascvd-risk-calculator', name: 'ASCVD Risk Calculator' },
+  { slug: 'framingham-risk', name: 'Framingham Risk Score' },
+  { slug: 'ckd-epi-creatinine', name: 'CKD-EPI eGFR' },
+]
+---
+<HealthCalc
+  slug="prevent-risk-calculator"
+  name="PREVENT Risk Calculator (AHA 10- & 30-Year CVD Risk)"
+  schemaName="AHA PREVENT Risk Calculator"
+  shortDescription="AHA PREVENT base-model 10- and 30-year risk of total CVD, ASCVD and heart failure."
+  metaTitle="PREVENT Risk Calculator — AHA 10 & 30-Year CVD Risk | maratool"
+  metaDescription="Free AHA PREVENT calculator. Estimate 10- and 30-year risk of cardiovascular disease, ASCVD and heart failure from labs, blood pressure, BMI and eGFR."
+  subcategory="Score"
+  subcategorySlug="score"
+  howTo={[
+    'Select sex and enter age (30–79), total cholesterol, HDL, and systolic BP.',
+    'Enter BMI and eGFR, then mark diabetes, smoking, BP medication, and statin use.',
+    'All six risk estimates and the risk category update instantly; ages 60+ show 10-year risk only.',
+  ]}
+  faq={faq}
+  relatedTools={relatedTools}
+  references={references}
+  whatIs="The AHA PREVENT calculator implements the American Heart Association's 2023 PREVENT equations (base model), the risk model recommended by recent guidance for primary prevention. Derived from more than 6 million contemporary US adults, PREVENT estimates 10-year and 30-year risk of total cardiovascular disease, atherosclerotic cardiovascular disease (heart attack and stroke), and heart failure. It is sex-specific and race-free, and uses age (30–79), total and HDL cholesterol, systolic blood pressure, diabetes, smoking, BMI, eGFR, and antihypertensive and statin use. Heart failure prediction and cardiovascular-kidney-metabolic inputs are new relative to the 2013 Pooled Cohort Equations. This is a decision-support tool — interpret results with a clinician alongside family history, Lp(a), coronary calcium, and other risk enhancers."
+>
+  <div class="hcalc-inputs cols-2">
+    <label class="hcalc-field"><span class="hcalc-label">Sex</span>
+      <div class="hcalc-input-wrap"><select id="prevent-sex"><option value="male" selected>Male</option><option value="female">Female</option></select></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Age (years, 30–79)</span>
+      <div class="hcalc-input-wrap"><input id="prevent-age" type="number" inputmode="numeric" min="30" max="79" step="1" placeholder="e.g. 50" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Total cholesterol (mg/dL, 130–320)</span>
+      <div class="hcalc-input-wrap"><input id="prevent-tc" type="number" inputmode="numeric" min="130" max="320" step="1" placeholder="e.g. 200" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">HDL cholesterol (mg/dL, 20–100)</span>
+      <div class="hcalc-input-wrap"><input id="prevent-hdl" type="number" inputmode="numeric" min="20" max="100" step="1" placeholder="e.g. 45" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Systolic BP (mmHg, 90–200)</span>
+      <div class="hcalc-input-wrap"><input id="prevent-sbp" type="number" inputmode="numeric" min="90" max="200" step="1" placeholder="e.g. 130" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">BMI (kg/m², 18.5–39.9)</span>
+      <div class="hcalc-input-wrap"><input id="prevent-bmi" type="number" inputmode="decimal" min="18.5" max="39.9" step="0.1" placeholder="e.g. 27.5" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">eGFR (mL/min/1.73 m², 15–140)</span>
+      <div class="hcalc-input-wrap"><input id="prevent-egfr" type="number" inputmode="numeric" min="15" max="140" step="1" placeholder="e.g. 90" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Diabetes</span>
+      <div class="hcalc-input-wrap"><input id="prevent-diabetes" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">Current smoker</span>
+      <div class="hcalc-input-wrap"><input id="prevent-smoker" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">On BP-lowering medication</span>
+      <div class="hcalc-input-wrap"><input id="prevent-bpmeds" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+    <label class="hcalc-field"><span class="hcalc-label">On a statin</span>
+      <div class="hcalc-input-wrap"><input id="prevent-statin" type="checkbox" style="width:auto;margin:10px 12px" /></div></label>
+  </div>
+  <div class="hcalc-outputs">
+    <div class="hcalc-output"><div class="hcalc-output-label">10-yr total CVD</div><div class="hcalc-output-value" id="prevent-cvd10">—</div><button class="copy-btn" data-target="prevent-cvd10">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">10-yr ASCVD</div><div class="hcalc-output-value" id="prevent-ascvd10">—</div><button class="copy-btn" data-target="prevent-ascvd10">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">10-yr heart failure</div><div class="hcalc-output-value" id="prevent-hf10">—</div><button class="copy-btn" data-target="prevent-hf10">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">30-yr total CVD</div><div class="hcalc-output-value" id="prevent-cvd30">—</div><button class="copy-btn" data-target="prevent-cvd30">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">30-yr ASCVD</div><div class="hcalc-output-value" id="prevent-ascvd30">—</div><button class="copy-btn" data-target="prevent-ascvd30">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">30-yr heart failure</div><div class="hcalc-output-value" id="prevent-hf30">—</div><button class="copy-btn" data-target="prevent-hf30">Copy</button></div>
+    <div class="hcalc-output"><div class="hcalc-output-label">Risk category (10-yr ASCVD)</div><div class="hcalc-output-value" id="prevent-class">—</div><button class="copy-btn" data-target="prevent-class">Copy</button></div>
+  </div>
+</HealthCalc>
+<script src="../tools/health/prevent-ui.js"></script>

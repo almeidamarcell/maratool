@@ -8,6 +8,7 @@ import {
   camIcu, camIcuLabel,
   scorad, scoradRisk, pasi, pasiRisk,
   psiPort, psiPortRisk, framinghamRisk, framinghamCategory,
+  ascvdRisk, ascvdCategory,
 } from './score-formula.js'
 
 describe('meldScore', () => {
@@ -287,5 +288,81 @@ describe('framinghamRisk (ATP III)', () => {
     expect(framinghamCategory('4%')).toMatch(/Low/)
     expect(framinghamCategory('15%')).toMatch(/Intermediate/)
     expect(framinghamCategory('≥ 30%')).toMatch(/High/)
+  })
+})
+
+describe('ascvdRisk (Pooled Cohort Equations)', () => {
+  // Reference profile from Goff et al. 2013 (Circulation), Appendix 7:
+  // age 55, TC 213, HDL 50, SBP 120 untreated, non-smoker, non-diabetic.
+  // Expected values from full-precision computation (ONC Million Hearts
+  // implementation, matching the official tools.acc.org estimator). The paper
+  // appendix prints 5.3% for the white male because it rounds the group mean
+  // to 61.18; full precision (61.1816) gives 5.4%.
+  const base = { ageYears: 55, totalChol: 213, hdl: 50, sbp: 120, treatedBp: false, smoker: false, diabetic: false }
+  it('white male 55 → 5.4%', () => {
+    expect(ascvdRisk({ ...base, male: true, black: false }).riskPct).toBe(5.4)
+  })
+  it('african american male 55 → 6.1%', () => {
+    expect(ascvdRisk({ ...base, male: true, black: true }).riskPct).toBe(6.1)
+  })
+  it('white female 55 → 2.1%', () => {
+    expect(ascvdRisk({ ...base, male: false, black: false }).riskPct).toBe(2.1)
+  })
+  it('african american female 55 → 3.0%', () => {
+    expect(ascvdRisk({ ...base, male: false, black: true }).riskPct).toBe(3)
+  })
+  it('risk rises with treated BP, smoking and diabetes', () => {
+    const low = ascvdRisk({ ...base, male: true, black: false }).riskPct
+    const high = ascvdRisk({ ...base, male: true, black: false, sbp: 160, treatedBp: true, smoker: true, diabetic: true }).riskPct
+    expect(high).toBeGreaterThan(low)
+  })
+  it('rejects out-of-range inputs', () => {
+    expect(ascvdRisk({ ...base, male: true, black: false, ageYears: 39 })).toBeNull()
+    expect(ascvdRisk({ ...base, male: true, black: false, ageYears: 80 })).toBeNull()
+    expect(ascvdRisk({ ...base, male: true, black: false, totalChol: 129 })).toBeNull()
+    expect(ascvdRisk({ ...base, male: true, black: false, hdl: 19 })).toBeNull()
+    expect(ascvdRisk({ ...base, male: true, black: false, sbp: 89 })).toBeNull()
+    expect(ascvdRisk({ ...base, male: true, black: false, sbp: NaN })).toBeNull()
+  })
+  it('categorises per ACC/AHA bands', () => {
+    expect(ascvdCategory(3)).toMatch(/Low/)
+    expect(ascvdCategory(6)).toMatch(/Borderline/)
+    expect(ascvdCategory(10)).toMatch(/Intermediate/)
+    expect(ascvdCategory(25)).toMatch(/High/)
+  })
+})
+
+describe('ascvdRisk cross-implementation oracle vectors', () => {
+  // Expected values computed by executing the ONC Million Hearts reference
+  // implementation (onc-healthit/mobilizing-million-hearts, ASCVDRisk.js)
+  // directly on 2026-08-12. Exercises the treated-BP, smoker and diabetes
+  // coefficients that the untreated non-smoker base vectors leave at zero.
+  const base = { ageYears: 55, totalChol: 213, hdl: 50, sbp: 120, treatedBp: false, smoker: false, diabetic: false }
+  it('white male, treated SBP 150 → 9.2%', () => {
+    expect(ascvdRisk({ ...base, male: true, black: false, sbp: 150, treatedBp: true }).riskPct).toBe(9.2)
+  })
+  it('white male smoker → 10%', () => {
+    expect(ascvdRisk({ ...base, male: true, black: false, smoker: true }).riskPct).toBe(10)
+  })
+  it('white female diabetic → 3.9%', () => {
+    expect(ascvdRisk({ ...base, male: false, black: false, diabetic: true }).riskPct).toBe(3.9)
+  })
+  it('african american female, treated SBP 150 → 9.7%', () => {
+    expect(ascvdRisk({ ...base, male: false, black: true, sbp: 150, treatedBp: true }).riskPct).toBe(9.7)
+  })
+  it('rejects above the upper input bounds, accepts inclusive boundaries', () => {
+    expect(ascvdRisk({ ...base, male: true, black: false, totalChol: 321 })).toBeNull()
+    expect(ascvdRisk({ ...base, male: true, black: false, hdl: 101 })).toBeNull()
+    expect(ascvdRisk({ ...base, male: true, black: false, sbp: 201 })).toBeNull()
+    expect(ascvdRisk({ ...base, male: true, black: false, ageYears: 40 })).not.toBeNull()
+    expect(ascvdRisk({ ...base, male: true, black: false, ageYears: 79 })).not.toBeNull()
+    expect(ascvdRisk({ ...base, male: true, black: false, sbp: 200 })).not.toBeNull()
+  })
+  it('category thresholds sit exactly at 5, 7.5 and 20', () => {
+    expect(ascvdCategory(4.9)).toMatch(/Low/)
+    expect(ascvdCategory(5)).toMatch(/Borderline/)
+    expect(ascvdCategory(7.5)).toMatch(/Intermediate/)
+    expect(ascvdCategory(20)).toMatch(/High/)
+    expect(ascvdCategory(NaN)).toBeNull()
   })
 })
