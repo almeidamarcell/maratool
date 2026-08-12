@@ -367,6 +367,28 @@ export const tools: Tool[] = [
     keywords: ['merge pdf', 'split pdf', 'combine pdf files', 'extract pdf pages', 'pdf merge online', 'split pdf pages'],
     live: true,
   },
+  {
+    slug: 'image-to-pdf',
+    name: 'JPG to PDF Converter Online',
+    emoji: '🖼️',
+    description: 'Convert JPG, PNG, and WebP images into a single PDF. Runs in your browser — no upload, no watermark.',
+    category: 'PDF',
+    subcategory: 'Edit',
+    keywords: ['jpg to pdf', 'jpg to pdf converter', 'convert jpg to pdf', 'image to pdf', 'png to pdf', 'webp to pdf', 'combine images into one pdf', 'photo to pdf converter'],
+    live: true,
+    blogPost: true,
+  },
+  {
+    slug: 'organize-pdf',
+    name: 'Rearrange PDF Pages — Reorder, Rotate & Delete',
+    emoji: '🗂️',
+    description: 'Rearrange PDF pages online — drag to reorder, rotate pages 90°, and delete pages you don\'t need. Free, runs in your browser with no upload needed.',
+    category: 'PDF',
+    subcategory: 'Edit',
+    keywords: ['rearrange pdf pages', 'organize pdf pages', 'reorder pdf pages', 'rotate pdf pages', 'delete pages from pdf', 'move pages in pdf', 'change pdf page order', 'remove pages from pdf'],
+    live: true,
+    blogPost: true,
+  },
   // ── PDF / Edit (new) ──
   {
     slug: 'print-imposer',
