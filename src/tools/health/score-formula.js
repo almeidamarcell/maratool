@@ -407,3 +407,46 @@ export function framinghamCategory(riskPct) {
   if (n <= 20) return 'Intermediate 10-year CHD risk (10–20%)'
   return 'High 10-year CHD risk (> 20%)'
 }
+
+// ACC/AHA Pooled Cohort Equations (Goff et al., Circulation 2013).
+// Coefficients, group means, and baseline survivals from the ONC Million Hearts
+// reference implementation (onc-healthit/mobilizing-million-hearts), which
+// carries more decimal places than the rounded appendix tables in the paper.
+export function ascvdRisk({ male, black, ageYears, totalChol, hdl, sbp, treatedBp, diabetic, smoker }) {
+  if ([ageYears, totalChol, hdl, sbp].some(v => !Number.isFinite(v) || v <= 0)) return null
+  if (ageYears < 40 || ageYears > 79) return null
+  if (totalChol < 130 || totalChol > 320) return null
+  if (hdl < 20 || hdl > 100) return null
+  if (sbp < 90 || sbp > 200) return null
+  const lnA = Math.log(ageYears), lnT = Math.log(totalChol), lnH = Math.log(hdl), lnS = Math.log(sbp)
+  const tr = treatedBp ? lnS : 0, nt = treatedBp ? 0 : lnS
+  const smk = smoker ? 1 : 0, dm = diabetic ? 1 : 0
+  let s0, mean, x
+  if (black && !male) {
+    s0 = 0.95334; mean = 86.6081
+    x = 17.1141 * lnA + 0.9396 * lnT - 18.9196 * lnH + 4.4748 * lnA * lnH +
+      29.2907 * tr - 6.4321 * lnA * tr + 27.8197 * nt - 6.0873 * lnA * nt + 0.6908 * smk + 0.8738 * dm
+  } else if (!black && !male) {
+    s0 = 0.96652; mean = -29.1817
+    x = -29.799 * lnA + 4.884 * lnA * lnA + 13.54 * lnT - 3.114 * lnA * lnT - 13.578 * lnH +
+      3.149 * lnA * lnH + 2.019 * tr + 1.957 * nt + 7.574 * smk - 1.665 * lnA * smk + 0.661 * dm
+  } else if (black && male) {
+    s0 = 0.89536; mean = 19.5425
+    x = 2.469 * lnA + 0.302 * lnT - 0.307 * lnH + 1.916 * tr + 1.809 * nt + 0.549 * smk + 0.645 * dm
+  } else {
+    s0 = 0.91436; mean = 61.1816
+    x = 12.344 * lnA + 11.853 * lnT - 2.664 * lnA * lnT - 7.99 * lnH + 1.769 * lnA * lnH +
+      1.797 * tr + 1.764 * nt + 7.837 * smk - 1.795 * lnA * smk + 0.658 * dm
+  }
+  const pct = (1 - Math.pow(s0, Math.exp(x - mean))) * 100
+  return { riskPct: Math.round(pct * 10) / 10 }
+}
+// Keep in sync with preventCategory in prevent.js — duplicated (not shared)
+// so each tool page ships a single self-contained bundle.
+export function ascvdCategory(pct) {
+  if (!Number.isFinite(pct)) return null
+  if (pct < 5) return 'Low risk (< 5%)'
+  if (pct < 7.5) return 'Borderline risk (5 – 7.4%)'
+  if (pct < 20) return 'Intermediate risk (7.5 – 19.9%)'
+  return 'High risk (≥ 20%)'
+}
