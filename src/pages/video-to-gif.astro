@@ -44,7 +44,7 @@ const seo = {
       {
         '@type': 'Question',
         name: 'Can I trim the video before converting?',
-        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Use the start and end time controls to select the exact segment you want to convert. You can also use the "Use current position" buttons while previewing the video.' }
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Use the start and end time controls to select the exact segment you want to convert. Tick "Until end of video" to capture everything from the start point onward, or use the "Use current position" buttons while previewing.' }
       },
       {
         '@type': 'Question',
@@ -64,7 +64,7 @@ const howTo = [
 const faq = [
   { q: 'Is this video to GIF converter free?', a: 'Yes. 100% free, no watermarks, no sign-up, no limits. Everything runs in your browser.' },
   { q: 'What video formats can I convert to GIF?', a: 'MP4, WebM, and MOV. The tool uses FFmpeg WebAssembly for conversion entirely in your browser.' },
-  { q: 'Can I trim the video before converting?', a: 'Yes. Set start and end times to select the exact segment. Use "Use current position" while previewing for precise trimming.' },
+  { q: 'Can I trim the video before converting?', a: 'Yes. Set start and end times to select the exact segment, or tick "Until end of video" to run to the end. Use "Use current position" while previewing for precise trimming.' },
   { q: 'Why does it download ~25 MB on first use?', a: 'The FFmpeg engine runs as WebAssembly in your browser. It downloads once and is cached for future use.' }
 ]
 
@@ -146,6 +146,10 @@ const breadcrumbs = [
                   <span class="vtg-time-unit">sec</span>
                   <button type="button" class="vtg-use-pos" id="vtg-use-end" title="Use current video position">&#9654;</button>
                 </div>
+                <label class="vtg-until-end">
+                  <input type="checkbox" id="vtg-until-end" />
+                  <span>Until end of video</span>
+                </label>
               </div>
               <div class="vtg-trim-field">
                 <span class="vtg-label">Selected</span>
@@ -244,6 +248,8 @@ const breadcrumbs = [
             </div>
           </div>
 
+          <p class="vtg-frame-warning" id="vtg-frame-warning" style="display:none;"></p>
+
           <div class="vtg-actions">
             <button class="tool-button" id="vtg-convert">Convert to GIF</button>
             <button class="copy-btn" id="vtg-change">Change video</button>
@@ -257,6 +263,7 @@ const breadcrumbs = [
             <div class="vtg-progress-fill" id="vtg-progress-fill"></div>
           </div>
           <div class="vtg-progress-detail" id="vtg-progress-detail"></div>
+          <button type="button" class="vtg-cancel" id="vtg-cancel">Cancel</button>
         </div>
 
         <!-- Error -->
@@ -358,6 +365,18 @@ const breadcrumbs = [
     transition: border-color 0.15s;
   }
   .vtg-use-pos:hover { border-color: var(--accent); color: var(--accent); }
+  .vtg-use-pos:disabled { opacity: 0.4; cursor: not-allowed; border-color: var(--border); color: var(--text-2); }
+  .vtg-frame-warning {
+    margin: 0 0 0.75rem; padding: 8px 12px;
+    font-size: 0.8125rem; line-height: 1.4; color: #8a6d1a;
+    background: #fdf6e3; border: 1px solid #f0e0b0; border-radius: var(--radius);
+  }
+  .vtg-time-input:disabled { background: var(--bg-soft); color: var(--text-3); cursor: not-allowed; }
+  .vtg-until-end {
+    display: flex; align-items: center; gap: 5px; margin-top: 6px;
+    font-size: 0.75rem; color: var(--text-2); cursor: pointer; user-select: none;
+  }
+  .vtg-until-end input { cursor: pointer; margin: 0; }
   .vtg-trim-duration {
     font-size: 1rem; font-weight: 600; font-family: var(--font-mono);
     color: var(--accent);
@@ -412,6 +431,13 @@ const breadcrumbs = [
   .vtg-progress-detail {
     font-size: 0.75rem; color: var(--text-3); margin-top: 0.5rem;
   }
+  .vtg-cancel {
+    margin-top: 1rem; padding: 6px 14px; background: var(--bg);
+    border: 1px solid var(--border); border-radius: 6px;
+    font-size: 0.8125rem; cursor: pointer; color: var(--text-2);
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .vtg-cancel:hover { border-color: #d33; color: #d33; }
 
   /* Error */
   .vtg-error {
