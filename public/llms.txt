@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 508 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 510 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -443,6 +443,8 @@ maratool.com is a growing collection of 508 free tools that run in the browser u
 - [Child-Pugh Score (Cirrhosis)](https://maratool.com/child-pugh): Child-Pugh score for prognosis of chronic liver disease and cirrhosis.
 - [NAFLD Fibrosis Score](https://maratool.com/nafld-fibrosis): Non-alcoholic fatty liver disease (NAFLD) fibrosis score.
 - [Framingham Risk Score](https://maratool.com/framingham-risk): 10-year cardiovascular disease risk by Framingham equations.
+- [ASCVD Risk Calculator](https://maratool.com/ascvd-risk-calculator): 10-year heart attack and stroke risk by the ACC/AHA Pooled Cohort Equations.
+- [PREVENT Risk Calculator](https://maratool.com/prevent-risk-calculator): 10- and 30-year risk of CVD, ASCVD and heart failure by the AHA PREVENT equations.
 - [Khorana Score (VTE Risk in Cancer)](https://maratool.com/khorana-vte): Khorana score for predicting chemotherapy-associated VTE risk.
 - [Lee Revised Cardiac Risk Index (RCRI)](https://maratool.com/lee-rcri): Lee RCRI for preoperative cardiac risk in non-cardiac surgery.
 - [Maddrey Discriminant Function](https://maratool.com/maddrey-discriminant): Maddrey discriminant function for severity of alcoholic hepatitis.
