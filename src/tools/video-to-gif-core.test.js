@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { buildBaseFilters, buildDrawtextFilter, escapeDrawtext, buildPalettePassArgs, buildEncodePassArgs, validateGifOptions } from './video-to-gif-core.js'
+import { buildBaseFilters, buildDrawtextFilter, escapeDrawtext, buildPalettePassArgs, buildEncodePassArgs, validateGifOptions, estimateFrameCount, FRAME_WARN_THRESHOLD } from './video-to-gif-core.js'
 
 describe('buildBaseFilters', () => {
   it('returns fps filter when only fps provided', () => {
@@ -196,9 +196,46 @@ describe('validateGifOptions', () => {
     expect(r.error).toBeTruthy()
   })
 
-  it('rejects trimLen > 60', () => {
-    var r = validateGifOptions({ trimLen: 61, fps: 10, speed: 1 })
+  it('accepts trimLen over 60 (long GIFs allowed)', () => {
+    expect(validateGifOptions({ trimLen: 120, fps: 10, speed: 1 })).toEqual({ valid: true })
+  })
+
+  it('rejects output duration > 600', () => {
+    var r = validateGifOptions({ trimLen: 601, fps: 10, speed: 1 })
     expect(r.valid).toBe(false)
+  })
+
+  it('caps by output duration, not source duration (speed-aware)', () => {
+    // 900s source at 2x speed = 450s output — allowed
+    expect(validateGifOptions({ trimLen: 900, fps: 10, speed: 2 }).valid).toBe(true)
+    // 400s source at 0.5x speed = 800s output — rejected
+    expect(validateGifOptions({ trimLen: 400, fps: 10, speed: 0.5 }).valid).toBe(false)
+  })
+
+  it('rejects non-finite trimLen (Infinity/NaN video duration)', () => {
+    expect(validateGifOptions({ trimLen: NaN, fps: 10, speed: 1 }).valid).toBe(false)
+    expect(validateGifOptions({ trimLen: Infinity, fps: 10, speed: 1 }).valid).toBe(false)
+  })
+
+  it('rejects non-finite fps', () => {
+    expect(validateGifOptions({ trimLen: 5, fps: NaN, speed: 1 }).valid).toBe(false)
+  })
+
+  it('rejects reverse over 60s of output', () => {
+    var r = validateGifOptions({ trimLen: 61, fps: 10, speed: 1, reverse: true })
+    expect(r.valid).toBe(false)
+    expect(r.error).toMatch(/[Rr]everse/)
+  })
+
+  it('accepts reverse at or under 60s of output', () => {
+    expect(validateGifOptions({ trimLen: 60, fps: 10, speed: 1, reverse: true }).valid).toBe(true)
+    // 120s source at 2x speed = 60s output — allowed
+    expect(validateGifOptions({ trimLen: 120, fps: 10, speed: 2, reverse: true }).valid).toBe(true)
+  })
+
+  it('long non-reversed clips are unaffected by the reverse cap', () => {
+    expect(validateGifOptions({ trimLen: 300, fps: 10, speed: 1, reverse: false }).valid).toBe(true)
+    expect(validateGifOptions({ trimLen: 300, fps: 10, speed: 1 }).valid).toBe(true)
   })
 
   it('rejects fps < 1', () => {
@@ -216,5 +253,31 @@ describe('validateGifOptions', () => {
 
   it('accepts speed undefined (defaults to 1)', () => {
     expect(validateGifOptions({ trimLen: 5, fps: 10 }).valid).toBe(true)
+  })
+})
+
+describe('estimateFrameCount', () => {
+  it('computes output frames from length, fps, and speed', () => {
+    expect(estimateFrameCount({ trimLen: 10, fps: 10, speed: 1 })).toBe(100)
+    expect(estimateFrameCount({ trimLen: 10, fps: 10, speed: 2 })).toBe(50)
+    expect(estimateFrameCount({ trimLen: 10, fps: 10, speed: 0.5 })).toBe(200)
+  })
+
+  it('treats invalid speed as 1', () => {
+    expect(estimateFrameCount({ trimLen: 10, fps: 10, speed: 0 })).toBe(100)
+    expect(estimateFrameCount({ trimLen: 10, fps: 10, speed: NaN })).toBe(100)
+    expect(estimateFrameCount({ trimLen: 10, fps: 10 })).toBe(100)
+  })
+
+  it('returns 0 for invalid length or fps', () => {
+    expect(estimateFrameCount({ trimLen: 0, fps: 10, speed: 1 })).toBe(0)
+    expect(estimateFrameCount({ trimLen: NaN, fps: 10, speed: 1 })).toBe(0)
+    expect(estimateFrameCount({ trimLen: 10, fps: 0, speed: 1 })).toBe(0)
+  })
+
+  it('threshold is exported and sane', () => {
+    expect(FRAME_WARN_THRESHOLD).toBe(6000)
+    // 600s at 10 fps (the default) sits exactly at the threshold — no warning
+    expect(estimateFrameCount({ trimLen: 600, fps: 10, speed: 1 })).toBe(FRAME_WARN_THRESHOLD)
   })
 })

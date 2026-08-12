@@ -211,8 +211,9 @@ export const tools: Tool[] = [
     description: 'Convert MP4, WebM, and MOV videos to animated GIFs in your browser. Trim start/end, set FPS, adjust size — no upload to servers.',
     category: 'Converter',
     subcategory: 'Video',
-    keywords: ['video to gif', 'mp4 to gif', 'convert video to gif', 'video to gif converter', 'webm to gif', 'mov to gif', 'make gif from video'],
+    keywords: ['video to gif', 'mp4 to gif', 'convert video to gif', 'video to gif converter', 'webm to gif', 'mov to gif', 'make gif from video', 'long video to gif', 'convert whole video to gif'],
     live: true,
+    blogPost: true,
   },
   {
     slug: 'webp-to-mp4',
