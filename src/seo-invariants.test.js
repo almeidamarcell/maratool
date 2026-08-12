@@ -163,6 +163,24 @@ describe('og:image is a social-renderable format', () => {
   })
 })
 
+describe('tool scripts are bundled by Astro', () => {
+  test('no tool page loads ../tools/*.js with type="module"', () => {
+    // Astro bundles `<script src="../tools/x.js">` into a hashed /_astro/*.js
+    // asset. Adding type="module" opts the tag out of bundling, so Astro emits
+    // the raw src verbatim (`/tools/x.js`) — which 404s because there is no
+    // dist/tools/ dir, and the tool's JS silently never runs. Build and tests
+    // pass anyway; only loading the page in a browser catches it. This locks
+    // the whole batch (PR #65 shipped 82 pages broken this way).
+    const offenders = []
+    for (const tool of liveTools) {
+      for (const m of pageSrc(tool.slug).matchAll(/<script([^>]*\bsrc="\.\.\/tools\/[^"]+"[^>]*)>/g)) {
+        if (/\btype\s*=\s*"module"/.test(m[1])) offenders.push(`${tool.slug}: <script${m[1]}>`)
+      }
+    }
+    expect(offenders, `tool scripts with type="module" (remove it so Astro bundles them):\n${offenders.join('\n')}`).toEqual([])
+  })
+})
+
 describe('Astro scoping rule', () => {
   test('no tool page uses a scoped <style> block', () => {
     // Scoped styles add [data-astro-cid-*] selectors that JS-created elements

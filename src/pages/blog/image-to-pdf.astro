@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'image-to-pdf'
+const seo = {
+  title: 'How to convert JPG images to PDF (free, no upload) | maratool',
+  description: 'Combine JPG, PNG, or WebP images into a single PDF in your browser — reorder pages, pick A4 or fit-to-image, and keep full quality. No upload, no watermark.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert JPG images to PDF (free, no upload)',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-08-03',
+    dateModified: '2026-08-03',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Combine JPG, PNG, or WebP images into a single PDF in your browser — reorder pages, pick A4 or fit-to-image, and keep full quality.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell title="How to convert JPG images to PDF (free, no upload)" lead="Combine JPG, PNG, or WebP images into a single PDF right in your browser — no upload, no watermark, no signup." date="August 3, 2026" dateIso="2026-08-03">
+      <p>Need to turn a stack of photos or scans into one document? The free <a href="/image-to-pdf">JPG to PDF Converter</a> on maratool builds the PDF entirely in your browser — your images never leave your device.</p>
+      <BlogToolEmbed slug="image-to-pdf" title="Try it live" height={520} />
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Upload</strong> — drop your JPG, PNG, or WebP images into the tool; add as many as you need.</li>
+        <li><strong>Arrange</strong> — reorder pages with the arrows and choose A4, Letter, or fit-to-image, plus orientation and margins.</li>
+        <li><strong>Download</strong> — click Convert to PDF and save one combined file; nothing leaves your device.</li>
+      </ol>
+      <h2>Why the quality doesn't drop</h2>
+      <p>JPG and PNG images are embedded directly into the PDF with <a href="https://pdf-lib.js.org" rel="noopener noreferrer">pdf-lib</a> — no re-compression, so each page is a pixel-perfect copy of your original. WebP isn't a format PDF supports natively, so it's converted to lossless PNG first, which keeps every pixel intact.</p>
+      <h2>Page size: fit-to-image vs A4/Letter</h2>
+      <p>Pick <strong>fit-to-image</strong> and each page wraps exactly around the photo (one pixel maps to 0.75 pt), which is ideal for image-only PDFs. Pick <strong>A4</strong> or <strong>Letter</strong> and each image is scaled and centered inside the printable area with your chosen margin — the right choice when you'll print or email the result as a standard document.</p>
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">More <a href="/pdf">PDF tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
