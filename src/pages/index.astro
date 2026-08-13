@@ -9,7 +9,10 @@ const liveTools = tools.filter(t => t.live)
 const verticalMeta: Record<string, { description: string; popularSlugs: string[] }> = {
   Health: {
     description: 'Medical calculators, scores, scales, references',
-    popularSlugs: ['bmi-calculator', 'mean-arterial-pressure', 'cha2ds2-vasc', 'corrected-qt-interval'],
+    // Picked from GSC + Semrush (Aug 2026): pages already ranking on
+    // low-difficulty queries with volume, not the ones with the biggest
+    // impression counts on queries we can't win.
+    popularSlugs: ['rope-paradoxical-embolism', 'aldrete-recovery', 'pack-year', 'candida-score'],
   },
   Developer: {
     description: 'Inspect, decode, generate, hash, parse',
@@ -37,7 +40,7 @@ const verticalMeta: Record<string, { description: string; popularSlugs: string[]
   },
   Mockup: {
     description: 'Generate fake chats, posts, screenshots',
-    popularSlugs: ['whatsapp-chat-mockup', 'imessage-chat-mockup', 'x-post-mockup', 'chatgpt-mockup'],
+    popularSlugs: ['gmail-mockup', 'imessage-chat-mockup', 'x-post-mockup', 'whatsapp-chat-mockup'],
   },
   Marketing: {
     description: 'QR codes, UTM links, barcodes',
