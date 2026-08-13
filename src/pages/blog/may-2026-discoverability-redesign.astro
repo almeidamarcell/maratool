@@ -43,12 +43,12 @@ const seo = {
     <article class="blog-post">
       <header class="blog-post-header">
         <div class="blog-post-meta">
-          <a href="/blog" class="blog-back">&larr; Blog</a>
+          <a href="/blog/" class="blog-back">&larr; Blog</a>
           <time datetime="2026-05-23" class="blog-post-date">May 23, 2026</time>
           <span class="blog-post-author">by <a href="http://marcell.com.br/" target="_blank" rel="noopener">Marcell Almeida</a></span>
         </div>
         <h1 class="blog-post-title">Scaling to 235 tools: ⌘K palette, hub pages, tags, and a new homepage</h1>
-        <p class="blog-post-lead">Two months ago maratool had 79 tools and the old homepage was already getting crowded. After shipping the <a href="/health">Health category</a>, we crossed 235 tools — and the shell that worked at 8 simply stopped working at 235. This is what we rebuilt.</p>
+        <p class="blog-post-lead">Two months ago maratool had 79 tools and the old homepage was already getting crowded. After shipping the <a href="/health/">Health category</a>, we crossed 235 tools — and the shell that worked at 8 simply stopped working at 235. This is what we rebuilt.</p>
       </header>
 
       <div class="blog-body">
@@ -73,7 +73,7 @@ const seo = {
         </figure>
 
         <h2>Every vertical is now a real destination</h2>
-        <p>Each category used to be a flat dump. Now <a href="/health">/health</a>, <a href="/developer">/developer</a>, <a href="/image">/image</a>, <a href="/text">/text</a>, <a href="/converter">/converter</a>, <a href="/color">/color</a>, <a href="/pdf">/pdf</a>, <a href="/marketing">/marketing</a>, and <a href="/mockup">/mockup</a> share a hub template with:</p>
+        <p>Each category used to be a flat dump. Now <a href="/health/">/health</a>, <a href="/developer/">/developer</a>, <a href="/image/">/image</a>, <a href="/text/">/text</a>, <a href="/converter/">/converter</a>, <a href="/color/">/color</a>, <a href="/pdf/">/pdf</a>, <a href="/marketing/">/marketing</a>, and <a href="/mockup/">/mockup</a> share a hub template with:</p>
         <ul>
           <li><strong>Scoped search</strong> — filters the list live as you type, only inside the current vertical.</li>
           <li><strong>Faceted filter pills</strong> — click a subcategory pill to narrow down. URL syncs via query params, so links are shareable.</li>
@@ -87,7 +87,7 @@ const seo = {
         </figure>
 
         <h2>Subcategory landing pages</h2>
-        <p>Every subcategory now gets its own page — <a href="/health/cardiology">/health/cardiology</a>, <a href="/developer/crypto">/developer/crypto</a>, <a href="/image/transform">/image/transform</a>, and so on. These are auto-generated from the tool registry and exist for one reason: people search for "cardiology calculators online", not for "maratool". The subcategory page is the destination Google sends them to.</p>
+        <p>Every subcategory now gets its own page — <a href="/health/cardiology/">/health/cardiology</a>, <a href="/developer/crypto/">/developer/crypto</a>, <a href="/image/transform/">/image/transform</a>, and so on. These are auto-generated from the tool registry and exist for one reason: people search for "cardiology calculators online", not for "maratool". The subcategory page is the destination Google sends them to.</p>
 
         <h2>New homepage: a compendium index</h2>
         <p>The homepage used to be 3-card sections per category — fine for 7 categories, broken at 9. The new <a href="/">homepage</a> is a verticals grid: each vertical gets a card showing its name, tool count, and 3 popular tools. Health leads (145 tools), then Developer (17), Image (17), Converter (14), Text (13), Color (9), PDF (8), Mockup (8), Marketing (3).</p>
@@ -99,7 +99,7 @@ const seo = {
         <hr class="blog-divider" />
 
         <h2>/all — alphabet jump index</h2>
-        <p><a href="/all">/all</a> lists every tool A-Z with a sticky alphabet jump at the top, MDCalc-style. If you know the name — "MELD", "Friedewald", "Pomodoro" — this is faster than scrolling categories. Letters with no tools are dimmed; tag pills above the list give cross-cutting entry points.</p>
+        <p><a href="/all/">/all</a> lists every tool A-Z with a sticky alphabet jump at the top, MDCalc-style. If you know the name — "MELD", "Friedewald", "Pomodoro" — this is faster than scrolling categories. Letters with no tools are dimmed; tag pills above the list give cross-cutting entry points.</p>
 
         <figure class="blog-figure">
           <img src="/blog/may-2026-discoverability/all-index.png" alt="The /all page titled 'All tools' showing the A-Z alphabet jump row with letter '0-9' and 'J' dimmed (no tools). Below, a 'TAGS' row with pills: instant 213, no-upload 183, clinical 131, realtime 90, file-upload 36. Below that, tools sorted A-Z with vertical color dot and subcategory badge per row." loading="lazy" width="1440" height="900" />
@@ -109,13 +109,13 @@ const seo = {
         <h2>Tags: a cross-cutting axis</h2>
         <p>Categories answer "what kind of thing is this?". Tags answer "how does it behave?". Five tags exist today and every tool is auto-tagged from its metadata:</p>
         <ul>
-          <li><a href="/tag/instant">instant</a> — runs in your browser with zero round trips.</li>
-          <li><a href="/tag/no-upload">no-upload</a> — never sends your data anywhere.</li>
-          <li><a href="/tag/file-upload">file-upload</a> — works on local files you drop in.</li>
-          <li><a href="/tag/realtime">realtime</a> — updates as you type, no submit button.</li>
-          <li><a href="/tag/clinical">clinical</a> — medical calculators and clinical scores.</li>
+          <li><a href="/tag/instant/">instant</a> — runs in your browser with zero round trips.</li>
+          <li><a href="/tag/no-upload/">no-upload</a> — never sends your data anywhere.</li>
+          <li><a href="/tag/file-upload/">file-upload</a> — works on local files you drop in.</li>
+          <li><a href="/tag/realtime/">realtime</a> — updates as you type, no submit button.</li>
+          <li><a href="/tag/clinical/">clinical</a> — medical calculators and clinical scores.</li>
         </ul>
-        <p>Each tag has its own page — for example, <a href="/tag/clinical">/tag/clinical</a> shows all 145 medical tools regardless of specialty, grouped by area.</p>
+        <p>Each tag has its own page — for example, <a href="/tag/clinical/">/tag/clinical</a> shows all 145 medical tools regardless of specialty, grouped by area.</p>
 
         <figure class="blog-figure">
           <img src="/blog/may-2026-discoverability/tag-clinical.png" alt="The /tag/clinical page titled 'Clinical tools' with breadcrumb 'Home / All tools / Clinical tools'. Description: 'Medical calculators, scores, and scales for healthcare professionals. 131 tools across 1 category.' Below, a Health section header with green dot and tool count, then dense tool rows with subcategory badges in green on the right." loading="lazy" width="1440" height="900" />
@@ -143,7 +143,7 @@ const seo = {
         <hr class="blog-divider" />
 
         <h2>A small thing for clinicians: dual-axis filter on Health</h2>
-        <p>Health is 62% of the site and has its own discovery problem. A cardiologist doesn't think "Score" vs "Calculator" — they think "I need a cardiology score". So <a href="/health">/health</a> gets a second axis: a Specialty dropdown layered on top of the subcategory facet. <a href="/health/?specialty=cardiology">/health/?specialty=cardiology</a> pulls MAP, QTc, Friedewald, CHA2DS2-VASc, NYHA, HAS-BLED, Killip, and the rest — across whatever subcategory bucket they happened to land in.</p>
+        <p>Health is 62% of the site and has its own discovery problem. A cardiologist doesn't think "Score" vs "Calculator" — they think "I need a cardiology score". So <a href="/health/">/health</a> gets a second axis: a Specialty dropdown layered on top of the subcategory facet. <a href="/health/?specialty=cardiology">/health/?specialty=cardiology</a> pulls MAP, QTc, Friedewald, CHA2DS2-VASc, NYHA, HAS-BLED, Killip, and the rest — across whatever subcategory bucket they happened to land in.</p>
         <p>The specialty is inferred from each tool's keywords, so it stays accurate as tools are added.</p>
 
         <h2>Pagination that doesn't break SEO</h2>
@@ -181,7 +181,7 @@ const seo = {
 
         <hr class="blog-divider" />
 
-        <p class="blog-footer-note">Everything at <a href="/">maratool.com</a> is free, runs in your browser, and needs no sign-up. If you find something broken or have a tool to suggest, <a href="/contact">tell me</a>.</p>
+        <p class="blog-footer-note">Everything at <a href="/">maratool.com</a> is free, runs in your browser, and needs no sign-up. If you find something broken or have a tool to suggest, <a href="/contact/">tell me</a>.</p>
       </div>
     </article>
   </Layout>

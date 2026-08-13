@@ -132,7 +132,7 @@ categoryOrderLocal.sort((a, b) => byCategory[b].length - byCategory[a].length)
           </h2>
           <div class="hub-tool-list">
             {items.map((tool: PageTool) => (
-              <a href={`/${tool.slug}`} class="hub-tool-row">
+              <a href={`/${tool.slug}/`} class="hub-tool-row">
                 <div>
                   <div class="tool-row-name">{tool.name}</div>
                   <div class="tool-row-desc">{tool.description}</div>

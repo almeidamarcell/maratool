@@ -50,28 +50,28 @@ const seo = {
 
       <h2>"Will I have a heart attack or stroke in the coming years?"</h2>
       <p>This is primary prevention: you feel fine and want to know your long-term odds. Three generations of calculators answer it.</p>
-      <p>The <a href="/framingham-risk">Framingham Risk Score</a> (2001, ATP III version) is the classic. Six inputs, a points table you could work out on paper, and a 10-year estimate of hard coronary events. It's still around because it's simple, but it predates statin-era data and only covers coronary disease, not stroke.</p>
-      <p>The <a href="/ascvd-risk-calculator">ASCVD Risk Calculator</a> (2013 Pooled Cohort Equations) added stroke to the outcome, split the model by sex and race, and became the backbone of US statin guidelines. If your doctor mentioned "your ten-year risk" any time in the last decade, it was probably this one.</p>
-      <p>The <a href="/prevent-risk-calculator">PREVENT Risk Calculator</a> (AHA, 2023) is the current recommendation. It starts at age 30, removes race, adds kidney function, BMI and statin use, extends the horizon to 30 years, and predicts heart failure as well. We wrote a <a href="/blog/framingham-vs-ascvd-vs-prevent">detailed comparison of the three</a> if you want to see how their answers differ for the same patient.</p>
+      <p>The <a href="/framingham-risk/">Framingham Risk Score</a> (2001, ATP III version) is the classic. Six inputs, a points table you could work out on paper, and a 10-year estimate of hard coronary events. It's still around because it's simple, but it predates statin-era data and only covers coronary disease, not stroke.</p>
+      <p>The <a href="/ascvd-risk-calculator/">ASCVD Risk Calculator</a> (2013 Pooled Cohort Equations) added stroke to the outcome, split the model by sex and race, and became the backbone of US statin guidelines. If your doctor mentioned "your ten-year risk" any time in the last decade, it was probably this one.</p>
+      <p>The <a href="/prevent-risk-calculator/">PREVENT Risk Calculator</a> (AHA, 2023) is the current recommendation. It starts at age 30, removes race, adds kidney function, BMI and statin use, extends the horizon to 30 years, and predicts heart failure as well. We wrote a <a href="/blog/framingham-vs-ascvd-vs-prevent/">detailed comparison of the three</a> if you want to see how their answers differ for the same patient.</p>
 
       <BlogToolEmbed slug="prevent-risk-calculator" title="PREVENT, the newest of the three" height={640} />
 
       <h2>"Is this chest pain dangerous right now?"</h2>
       <p>Different question entirely: someone is in front of you with symptoms, and the horizon is weeks, not decades.</p>
-      <p>The <a href="/heart-score">HEART Score</a> is the emergency department favourite. History, ECG, age, risk factors and troponin, each scored 0 to 2. Low scores identify patients safe for early discharge; it was designed for exactly that triage decision.</p>
-      <p>Once an acute coronary syndrome is confirmed, the <a href="/grace-acs">GRACE Score</a> estimates in-hospital and 6-month mortality, and the TIMI scores stratify by syndrome type: <a href="/timi-stemi">TIMI for STEMI</a> when the artery is fully blocked, <a href="/timi-nstemi-ua">TIMI for NSTEMI/UA</a> for the rest. These guide how aggressive treatment should be, not whether you need a statin in 2040.</p>
+      <p>The <a href="/heart-score/">HEART Score</a> is the emergency department favourite. History, ECG, age, risk factors and troponin, each scored 0 to 2. Low scores identify patients safe for early discharge; it was designed for exactly that triage decision.</p>
+      <p>Once an acute coronary syndrome is confirmed, the <a href="/grace-acs/">GRACE Score</a> estimates in-hospital and 6-month mortality, and the TIMI scores stratify by syndrome type: <a href="/timi-stemi/">TIMI for STEMI</a> when the artery is fully blocked, <a href="/timi-nstemi-ua/">TIMI for NSTEMI/UA</a> for the rest. These guide how aggressive treatment should be, not whether you need a statin in 2040.</p>
 
       <h2>"I have atrial fibrillation. Do I need a blood thinner?"</h2>
-      <p>Atrial fibrillation lets clots form in the heart and travel to the brain, so the risk being scored here is stroke from AF specifically. The <a href="/cha2ds2-vasc">CHA2DS2-VASc Score</a> is the guideline standard; the older <a href="/chads2-score">CHADS2</a> is its simpler predecessor, still seen in older literature. Neither says anything about heart attacks. They exist to weigh stroke risk against bleeding risk when deciding on anticoagulation.</p>
+      <p>Atrial fibrillation lets clots form in the heart and travel to the brain, so the risk being scored here is stroke from AF specifically. The <a href="/cha2ds2-vasc/">CHA2DS2-VASc Score</a> is the guideline standard; the older <a href="/chads2-score/">CHADS2</a> is its simpler predecessor, still seen in older literature. Neither says anything about heart attacks. They exist to weigh stroke risk against bleeding risk when deciding on anticoagulation.</p>
 
       <h2>"How limiting is my angina?"</h2>
-      <p>The <a href="/ccs-angina-grade">CCS Angina Grade</a> is not a risk predictor at all. It classifies how much exertion triggers chest pain, from grade 1 (only strenuous activity) to grade 4 (pain at rest). Think of it as a severity label that tracks symptoms over time and standardises how doctors describe them. If you arrived here looking for future-risk numbers, the section above on prevention calculators is what you want.</p>
+      <p>The <a href="/ccs-angina-grade/">CCS Angina Grade</a> is not a risk predictor at all. It classifies how much exertion triggers chest pain, from grade 1 (only strenuous activity) to grade 4 (pain at rest). Think of it as a severity label that tracks symptoms over time and standardises how doctors describe them. If you arrived here looking for future-risk numbers, the section above on prevention calculators is what you want.</p>
 
       <h2>Which one should you actually use?</h2>
       <p>For a personal "what are my odds" check: PREVENT first, ASCVD if you want the number your guidelines still quote, Framingham mostly for historical comparison. Everything else on this page is a clinical tool that only makes sense in context: HEART, GRACE and TIMI during an acute episode, CHA2DS2-VASc if you have atrial fibrillation, CCS grading if you have established angina. All of them are decision support. None of them replaces a clinician who can see your full picture, your family history, and your labs.</p>
 
       <hr class="blog-divider" />
-      <p class="blog-footer-note">All ten calculators are free and run in your browser. Browse the full collection in the <a href="/health/score">Health → Score</a> hub at <a href="/">maratool.com</a>.</p>
+      <p class="blog-footer-note">All ten calculators are free and run in your browser. Browse the full collection in the <a href="/health/score/">Health → Score</a> hub at <a href="/">maratool.com</a>.</p>
     </BlogPostShell>
   </Layout>
 </Base>

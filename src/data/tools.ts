@@ -1305,7 +1305,7 @@ export const tools: Tool[] = [
   // ── Mockup / Chat ──
   {
     slug: 'whatsapp-chat-mockup',
-    name: 'WhatsApp Chat Mockup Generator',
+    name: 'Fake WhatsApp Chat Generator',
     emoji: '💬',
     description: 'Create realistic WhatsApp chat screenshots. Edit messages inline, toggle dark mode, download as PNG.',
     category: 'Mockup',
@@ -1315,12 +1315,12 @@ export const tools: Tool[] = [
   },
   {
     slug: 'imessage-chat-mockup',
-    name: 'iMessage Chat Mockup Generator',
+    name: 'Fake Text Message Generator',
     emoji: '💬',
     description: 'Create realistic iMessage chat screenshots. Blue and gray bubbles, delivered/read receipts, download as PNG.',
     category: 'Mockup',
     subcategory: 'Chat',
-    keywords: ['imessage generator', 'fake imessage', 'imessage mockup', 'imessage screenshot generator', 'iphone text mockup'],
+    keywords: ['fake text message generator', 'imessage generator', 'fake imessage', 'imessage mockup', 'imessage screenshot generator', 'iphone text mockup'],
     live: true,
   },
   {
@@ -1335,12 +1335,12 @@ export const tools: Tool[] = [
   },
   {
     slug: 'instagram-chat-mockup',
-    name: 'Instagram DM Mockup Generator',
+    name: 'Fake Instagram DM Generator',
     emoji: '💬',
     description: 'Create realistic Instagram DM screenshots. Purple gradient header, heart reactions, disappearing messages.',
     category: 'Mockup',
     subcategory: 'Chat',
-    keywords: ['instagram dm mockup', 'fake instagram messages', 'instagram chat generator', 'instagram direct message mockup'],
+    keywords: ['fake instagram chat generator', 'instagram dm mockup', 'fake instagram messages', 'instagram chat generator', 'instagram direct message mockup'],
     live: true,
   },
 
@@ -1369,7 +1369,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'x-post-mockup',
-    name: 'X (Twitter) Post Mockup Generator',
+    name: 'Fake Tweet Generator',
     emoji: '🐦',
     description: 'Create realistic X/Twitter post screenshots. Profile, tweet text, likes, retweets, and reply counts.',
     category: 'Mockup',
@@ -1381,12 +1381,12 @@ export const tools: Tool[] = [
   // ── Mockup / Email ──
   {
     slug: 'gmail-mockup',
-    name: 'Gmail Email Mockup Generator',
+    name: 'Gmail Mockup Generator',
     emoji: '📧',
     description: 'Create realistic Gmail email screenshots. From, to, subject, body with the official Gmail UI.',
     category: 'Mockup',
     subcategory: 'Email',
-    keywords: ['gmail mockup', 'fake gmail email', 'gmail screenshot generator', 'email mockup generator'],
+    keywords: ['gmail mockup generator', 'gmail mockup', 'fake gmail email', 'gmail screenshot generator', 'email mockup generator'],
     live: true,
   },
 
@@ -1509,12 +1509,12 @@ export const tools: Tool[] = [
   },
   {
     slug: 'saag-albumin-gradient',
-    name: 'Serum-Ascites Albumin Gradient (SAAG)',
+    name: 'SAAG Calculator',
     emoji: '💧',
     description: 'Calculate SAAG to differentiate portal hypertensive from non-portal hypertensive ascites.',
     category: 'Health',
     subcategory: 'Hepatology',
-    keywords: ['saag', 'serum ascites albumin gradient', 'ascites calculator', 'gasa'],
+    keywords: ['saag calculator', 'saag', 'serum ascites albumin gradient', 'ascites calculator', 'gasa'],
     live: true,
   },
   {
@@ -1765,7 +1765,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'finnegan-score',
-    name: 'Finnegan Neonatal Abstinence Score',
+    name: 'Finnegan Score Calculator',
     emoji: '👶',
     description: 'Score severity of neonatal abstinence syndrome using the Finnegan scale.',
     category: 'Health',
@@ -2065,7 +2065,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'aldrete-recovery',
-    name: 'Aldrete Recovery Score',
+    name: 'Aldrete Score Calculator',
     emoji: '💤',
     description: 'Aldrete and Kroulik post-anesthesia recovery score.',
     category: 'Health',
@@ -2087,12 +2087,12 @@ export const tools: Tool[] = [
   },
   {
     slug: 'karnofsky-performance',
-    name: 'Karnofsky Performance Scale (KPS)',
+    name: 'Karnofsky Score Calculator (KPS)',
     emoji: '📈',
     description: 'Karnofsky Performance Status scale (0–100) for assessing oncology patient function.',
     category: 'Health',
     subcategory: 'Prognosis',
-    keywords: ['karnofsky scale', 'kps calculator', 'karnofsky performance', 'oncology functional status'],
+    keywords: ['karnofsky score', 'karnofsky scale', 'kps calculator', 'karnofsky performance', 'oncology functional status'],
     live: true,
   },
   {
@@ -2149,7 +2149,7 @@ export const tools: Tool[] = [
   // ── Health / Score (clinical scores — implemented last) ──
   {
     slug: 'pack-year',
-    name: 'Pack-Year Smoking Calculator',
+    name: 'Pack Year Calculator',
     emoji: '🚬',
     description: 'Calculate cumulative cigarette smoking exposure in pack-years.',
     category: 'Health',
@@ -2411,7 +2411,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'maddrey-discriminant',
-    name: 'Maddrey Discriminant Function',
+    name: 'Maddrey Score Calculator',
     emoji: '🩺',
     description: 'Maddrey discriminant function for severity of alcoholic hepatitis.',
     category: 'Health',
@@ -2771,7 +2771,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'uceis-uc',
-    name: 'UCEIS (Ulcerative Colitis Endoscopic Index)',
+    name: 'UCEIS Score Calculator',
     emoji: '🩺',
     description: 'Ulcerative Colitis Endoscopic Index of Severity (UCEIS).',
     category: 'Health',
@@ -2861,7 +2861,7 @@ export const tools: Tool[] = [
   },
   {
     slug: 'mascc-febrile-neutropenia',
-    name: 'MASCC Risk Index (Febrile Neutropenia)',
+    name: 'MASCC Score Calculator',
     emoji: '🦠',
     description: 'MASCC risk index for low-risk febrile neutropenia in cancer patients.',
     category: 'Health',
@@ -5746,6 +5746,30 @@ const manualBoost: Record<string, number> = {
   'html-minifier': 6,
   'jwt-security-checker': 6,
   'rag-chunk-calculator': 6,
+
+  // GSC/Semrush priority cluster (Aug 2026). These pages already rank or sit
+  // on low-difficulty queries with real volume — the boost buys them internal
+  // links from the homepage and hub "Popular" strips, where they were buried
+  // under ~950 same-weight siblings. Re-derive from GSC before changing.
+  'gmail-mockup': 9,          // pos 8, only mockup page converting clicks
+  'imessage-chat-mockup': 8,  // "fake text message generator" 1.9k/mo, KD 18
+  'x-post-mockup': 8,         // "fake tweet generator" 3.6k/mo
+  'uceis-uc': 9,              // pos 6, 96 impressions
+  'candida-score': 8,         // pos 16, KD 9
+  'rope-paradoxical-embolism': 8, // pos 36, 2.4k/mo, KD 22
+  'aldrete-recovery': 8,      // 4.4k/mo, KD 20
+  'maddrey-discriminant': 8,  // 3.6k/mo, KD 34
+  'pack-year': 8,             // 1.9k/mo, KD 35
+  'karnofsky-performance': 7, // 1.9k/mo, KD 35
+  'saag-albumin-gradient': 7, // 1k/mo, KD 20
+  'san-francisco-syncope': 7, // 880/mo, KD 25
+  'benzodiazepine-conversion': 7, // 880/mo, KD 42
+  'finnegan-score': 7,        // 590/mo, KD 10
+  'mascc-febrile-neutropenia': 7, // pos 42, KD 14
+  'ramsay-sedation': 7,       // 390/mo, KD 15
+  'pao2-fio2-ratio': 7,       // pos 13, KD 28
+  'abcd2-tia': 6,             // KD 19
+  'tokuhashi-score': 6,       // KD 17
 }
 
 /** Heuristic popularity score for a tool. Deterministic given the data. */

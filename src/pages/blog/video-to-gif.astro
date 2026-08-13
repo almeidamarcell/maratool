@@ -27,7 +27,7 @@ const seo = {
 <Base {...seo}>
   <Layout>
     <BlogPostShell title="How to turn a long video into a GIF (up to 10 minutes, free)" lead="Most online converters cut you off at 10 or 15 seconds of GIF. If you need the whole clip, that limit is the whole problem. This one goes to 10 minutes and has a checkbox for exactly that." date="August 12, 2026" dateIso="2026-08-12">
-      <p>Use the free <a href="/video-to-gif">video to GIF converter</a> on maratool. It runs FFmpeg as WebAssembly inside your browser, so the video never leaves your machine. Drop an MP4, WebM, or MOV, tick "Until end of video", and it converts everything from your chosen start point to the last frame.</p>
+      <p>Use the free <a href="/video-to-gif/">video to GIF converter</a> on maratool. It runs FFmpeg as WebAssembly inside your browser, so the video never leaves your machine. Drop an MP4, WebM, or MOV, tick "Until end of video", and it converts everything from your chosen start point to the last frame.</p>
       <BlogToolEmbed slug="video-to-gif" title="Try it live" height={560} />
       <h2>How it works</h2>
       <ol>
@@ -42,7 +42,7 @@ const seo = {
       <p>Frame rate matters more than anything else. A screen recording or tutorial reads fine at 5 fps, and dropping from 10 to 5 halves both the file size and the memory needed. Width helps too, and 480 px is plenty for chat apps and README files. There's also a sneakier trick: a 2× speed GIF has half the frames, so a 20 minute lecture at 2× becomes a 10 minute GIF that fits under the limit.</p>
       <p>One option does stay short: reverse. Playing a clip backwards forces FFmpeg to hold every single frame in memory before it can write the last one first, so the tool caps reversed GIFs at 60 seconds. Everything else, including text overlays and loop settings, works the same on a 9 minute clip as on a 9 second one.</p>
       <hr class="blog-divider" />
-      <p class="blog-footer-note">Open the full <a href="/video-to-gif">Video to GIF converter</a>, or browse more <a href="/converter/video">video tools</a> at <a href="/">maratool.com</a>.</p>
+      <p class="blog-footer-note">Open the full <a href="/video-to-gif/">Video to GIF converter</a>, or browse more <a href="/converter/video/">video tools</a> at <a href="/">maratool.com</a>.</p>
     </BlogPostShell>
   </Layout>
 </Base>

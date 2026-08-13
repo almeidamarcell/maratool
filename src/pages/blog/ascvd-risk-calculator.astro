@@ -46,7 +46,7 @@ const seo = {
       date="August 11, 2026"
       dateIso="2026-08-11"
     >
-      <p>ASCVD stands for atherosclerotic cardiovascular disease: heart attacks and strokes caused by plaque building up in arteries. When a doctor talks about "your 10-year risk" before suggesting a statin, this is usually the number they mean. The <a href="/ascvd-risk-calculator">ASCVD Risk Calculator</a> implements the ACC/AHA Pooled Cohort Equations, published with the 2013 cardiovascular risk guideline, and runs entirely in your browser. Nothing you type leaves the page.</p>
+      <p>ASCVD stands for atherosclerotic cardiovascular disease: heart attacks and strokes caused by plaque building up in arteries. When a doctor talks about "your 10-year risk" before suggesting a statin, this is usually the number they mean. The <a href="/ascvd-risk-calculator/">ASCVD Risk Calculator</a> implements the ACC/AHA Pooled Cohort Equations, published with the 2013 cardiovascular risk guideline, and runs entirely in your browser. Nothing you type leaves the page.</p>
 
       <BlogToolEmbed slug="ascvd-risk-calculator" title="Try it with values from your last blood panel" height={640} />
 
@@ -64,10 +64,10 @@ const seo = {
       <p>The Pooled Cohort Equations are sex- and race-specific Cox proportional hazards models. Each input is log-transformed, multiplied by a published coefficient, and summed; the 10-year risk is <code>1 − S₀^exp(sum − mean)</code>, where S₀ is the group's baseline survival. Our implementation uses the coefficient set from the ONC Million Hearts reference implementation and is unit-tested against the worked example in the 2013 guideline appendix. One quirk worth knowing: the appendix prints 5.3% for its example patient because it rounds an intermediate sum, while full-precision implementations (including the official ACC estimator and this one) get 5.4%.</p>
 
       <h2>Limitations to know</h2>
-      <p>The equations apply to adults 40–79 without known cardiovascular disease, and studies have found they overestimate risk in some modern, higher-income populations. They also predate the AHA's 2023 <a href="/prevent-risk-calculator">PREVENT equations</a>, which add kidney function and BMI, remove race, and predict heart failure. Treat the output as a conversation starter, and bring the number to your clinician rather than acting on it alone.</p>
+      <p>The equations apply to adults 40–79 without known cardiovascular disease, and studies have found they overestimate risk in some modern, higher-income populations. They also predate the AHA's 2023 <a href="/prevent-risk-calculator/">PREVENT equations</a>, which add kidney function and BMI, remove race, and predict heart failure. Treat the output as a conversation starter, and bring the number to your clinician rather than acting on it alone.</p>
 
       <hr class="blog-divider" />
-      <p class="blog-footer-note">The <a href="/ascvd-risk-calculator">ASCVD Risk Calculator</a> is free and runs locally in your browser. See every cardiology score in the <a href="/health/score">Health → Score</a> hub, or compare calculators in <a href="/blog/framingham-vs-ascvd-vs-prevent">Framingham vs ASCVD vs PREVENT</a>.</p>
+      <p class="blog-footer-note">The <a href="/ascvd-risk-calculator/">ASCVD Risk Calculator</a> is free and runs locally in your browser. See every cardiology score in the <a href="/health/score/">Health → Score</a> hub, or compare calculators in <a href="/blog/framingham-vs-ascvd-vs-prevent/">Framingham vs ASCVD vs PREVENT</a>.</p>
     </BlogPostShell>
   </Layout>
 </Base>

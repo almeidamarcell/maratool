@@ -5,7 +5,7 @@ interface Props {
   height?: number
 }
 const { slug, title, height = 520 } = Astro.props
-const toolUrl = `/${slug}`
+const toolUrl = `/${slug}/`
 const embedUrl = `${toolUrl}?embed=1`
 ---
 <figure class="blog-tool-embed">

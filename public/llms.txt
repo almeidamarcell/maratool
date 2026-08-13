@@ -349,14 +349,14 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [YouTube Timestamp Link Generator](https://maratool.com/youtube-timestamp-generator): YouTube Timestamp Link Generator. Free, instant, runs in your browser.
 
 ### Mockup
-- [WhatsApp Chat Mockup Generator](https://maratool.com/whatsapp-chat-mockup): Create realistic WhatsApp chat screenshots. Edit messages inline, toggle dark mode, download as PNG.
-- [iMessage Chat Mockup Generator](https://maratool.com/imessage-chat-mockup): Create realistic iMessage chat screenshots. Blue and gray bubbles, delivered/read receipts, download as PNG.
+- [Fake WhatsApp Chat Generator](https://maratool.com/whatsapp-chat-mockup): Create realistic WhatsApp chat screenshots. Edit messages inline, toggle dark mode, download as PNG.
+- [Fake Text Message Generator](https://maratool.com/imessage-chat-mockup): Create realistic iMessage chat screenshots. Blue and gray bubbles, delivered/read receipts, download as PNG.
 - [Discord Chat Mockup Generator](https://maratool.com/discord-chat-mockup): Create realistic Discord chat screenshots. Server-style messages with avatars, timestamps, and reactions.
-- [Instagram DM Mockup Generator](https://maratool.com/instagram-chat-mockup): Create realistic Instagram DM screenshots. Purple gradient header, heart reactions, disappearing messages.
+- [Fake Instagram DM Generator](https://maratool.com/instagram-chat-mockup): Create realistic Instagram DM screenshots. Purple gradient header, heart reactions, disappearing messages.
 - [ChatGPT Conversation Mockup](https://maratool.com/chatgpt-mockup): Create realistic ChatGPT conversation screenshots. User prompts and AI responses with the official ChatGPT UI.
 - [Instagram Post Mockup Generator](https://maratool.com/instagram-post-mockup): Create realistic Instagram post screenshots. Profile, caption, likes, comments, and image placeholders.
-- [X (Twitter) Post Mockup Generator](https://maratool.com/x-post-mockup): Create realistic X/Twitter post screenshots. Profile, tweet text, likes, retweets, and reply counts.
-- [Gmail Email Mockup Generator](https://maratool.com/gmail-mockup): Create realistic Gmail email screenshots. From, to, subject, body with the official Gmail UI.
+- [Fake Tweet Generator](https://maratool.com/x-post-mockup): Create realistic X/Twitter post screenshots. Profile, tweet text, likes, retweets, and reply counts.
+- [Gmail Mockup Generator](https://maratool.com/gmail-mockup): Create realistic Gmail email screenshots. From, to, subject, body with the official Gmail UI.
 
 ### Health
 - [BMI Calculator](https://maratool.com/bmi-calculator): Calculate Body Mass Index (BMI) and body surface area from weight and height. Includes BMI classification.
@@ -369,7 +369,7 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [CAM-ICU Delirium Assessment](https://maratool.com/cam-icu-delirium): Confusion Assessment Method for the ICU (CAM-ICU) for delirium screening in critically ill patients.
 - [GINA Asthma Control Classification (2025)](https://maratool.com/gina-asthma-control): Classify asthma control using the GINA 2025 criteria (well-controlled, partly controlled, uncontrolled).
 - [CAGE Alcohol Screening Test](https://maratool.com/cage-alcohol-screening): CAGE questionnaire for alcohol use disorder screening (4 questions).
-- [Serum-Ascites Albumin Gradient (SAAG)](https://maratool.com/saag-albumin-gradient): Calculate SAAG to differentiate portal hypertensive from non-portal hypertensive ascites.
+- [SAAG Calculator](https://maratool.com/saag-albumin-gradient): Calculate SAAG to differentiate portal hypertensive from non-portal hypertensive ascites.
 - [Transferrin Saturation (TSAT) Calculator](https://maratool.com/transferrin-saturation): Calculate transferrin saturation index from serum iron and total iron-binding capacity (TIBC).
 - [Mini-Mental State Examination (MMSE)](https://maratool.com/mmse-mini-mental): Score cognitive function with the 30-point Mini-Mental State Examination.
 - [Lille Model for Alcoholic Hepatitis](https://maratool.com/lille-model): Predict 6-month mortality in alcoholic hepatitis patients on steroid therapy using the Lille model.
@@ -390,7 +390,7 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [Pediatric Endotracheal Tube Size Calculator](https://maratool.com/pediatric-ett-size): Estimate uncuffed and cuffed ETT size and depth by age in children.
 - [Pediatric Infusion Calculator (mcg/kg/min)](https://maratool.com/pediatric-infusion-mcg-kg-min): Pediatric drug infusion rate calculator in mcg/kg/min.
 - [Pediatric Infusion Calculator (mg/kg/hour)](https://maratool.com/pediatric-infusion-mg-kg-hour): Pediatric drug infusion rate calculator in mg/kg/hour.
-- [Finnegan Neonatal Abstinence Score](https://maratool.com/finnegan-score): Score severity of neonatal abstinence syndrome using the Finnegan scale.
+- [Finnegan Score Calculator](https://maratool.com/finnegan-score): Score severity of neonatal abstinence syndrome using the Finnegan scale.
 - [Raimondi Coma Scale (Pediatric)](https://maratool.com/raimondi-coma-scale): Pediatric coma scale by Raimondi for assessing consciousness in infants and children.
 - [Rodwell Score for Neonatal Sepsis](https://maratool.com/rodwell-neonatal-sepsis): Score for screening neonatal sepsis using hematologic criteria.
 - [Capurro Gestational Age (Somatic)](https://maratool.com/capurro-somatic): Estimate gestational age in newborns using somatic features (Capurro method).
@@ -417,15 +417,15 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [RASS Scale (Richmond Agitation-Sedation)](https://maratool.com/rass-scale): Richmond Agitation-Sedation Scale (RASS) for ICU sedation assessment.
 - [SAS Sedation Scale (Riker)](https://maratool.com/sas-scale): Riker Sedation-Agitation Scale (SAS) for ICU sedation.
 - [CCS Angina Grading Scale](https://maratool.com/ccs-angina-grade): Canadian Cardiovascular Society (CCS) functional classification of angina pectoris.
-- [Aldrete Recovery Score](https://maratool.com/aldrete-recovery): Aldrete and Kroulik post-anesthesia recovery score.
+- [Aldrete Score Calculator](https://maratool.com/aldrete-recovery): Aldrete and Kroulik post-anesthesia recovery score.
 - [ECOG Performance Status](https://maratool.com/ecog-performance): Eastern Cooperative Oncology Group performance status scale (0–5).
-- [Karnofsky Performance Scale (KPS)](https://maratool.com/karnofsky-performance): Karnofsky Performance Status scale (0–100) for assessing oncology patient function.
+- [Karnofsky Score Calculator (KPS)](https://maratool.com/karnofsky-performance): Karnofsky Performance Status scale (0–100) for assessing oncology patient function.
 - [Palliative Performance Scale (PPS)](https://maratool.com/palliative-performance-scale): Palliative Performance Scale (PPS) for hospice and palliative care prognosis.
 - [Tokuhashi Score for Spinal Metastasis](https://maratool.com/tokuhashi-score): Revised Tokuhashi score for prognosis in metastatic spinal disease.
 - [Tomita Score for Spinal Metastasis](https://maratool.com/tomita-score): Tomita score for surgical strategy in spinal metastasis.
 - [Palliative Prognostic Score (PaP)](https://maratool.com/pap-palliative-prognostic): PaP score for 30-day survival probability in palliative cancer patients.
 - [Palliative Prognostic Index (PPI)](https://maratool.com/ppi-palliative-prognostic): Palliative Prognostic Index for predicting survival in terminal cancer patients.
-- [Pack-Year Smoking Calculator](https://maratool.com/pack-year): Calculate cumulative cigarette smoking exposure in pack-years.
+- [Pack Year Calculator](https://maratool.com/pack-year): Calculate cumulative cigarette smoking exposure in pack-years.
 - [Candida Score](https://maratool.com/candida-score): Candida Score for identifying ICU patients who may benefit from antifungal therapy.
 - [CHADS2 Score](https://maratool.com/chads2-score): CHADS2 score for stroke risk in non-valvular atrial fibrillation.
 - [NYHA Functional Classification](https://maratool.com/nyha-classification): New York Heart Association functional classification of heart failure.
@@ -450,7 +450,7 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [PREVENT Risk Calculator](https://maratool.com/prevent-risk-calculator): 10- and 30-year risk of CVD, ASCVD and heart failure by the AHA PREVENT equations.
 - [Khorana Score (VTE Risk in Cancer)](https://maratool.com/khorana-vte): Khorana score for predicting chemotherapy-associated VTE risk.
 - [Lee Revised Cardiac Risk Index (RCRI)](https://maratool.com/lee-rcri): Lee RCRI for preoperative cardiac risk in non-cardiac surgery.
-- [Maddrey Discriminant Function](https://maratool.com/maddrey-discriminant): Maddrey discriminant function for severity of alcoholic hepatitis.
+- [Maddrey Score Calculator](https://maratool.com/maddrey-discriminant): Maddrey discriminant function for severity of alcoholic hepatitis.
 - [Mayo Score for Ulcerative Colitis](https://maratool.com/mayo-uc): Mayo Score for assessing ulcerative colitis disease activity.
 - [Padua Prediction Score](https://maratool.com/padua-prediction): Padua score for VTE risk in hospitalized medical patients.
 - [Ranson Criteria for Acute Pancreatitis](https://maratool.com/ranson-pancreatitis): Ranson Criteria for mortality in acute pancreatitis (admission and 48h).
@@ -481,7 +481,7 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [Malignant Hyperthermia Score](https://maratool.com/malignant-hyperthermia): Clinical Grading Scale for likelihood of malignant hyperthermia.
 - [CDAI (Crohn's Disease Activity Index)](https://maratool.com/cdai-crohns): Crohn's Disease Activity Index (CDAI) for assessing Crohn's disease activity.
 - [Bishop Score (Cervical Ripening)](https://maratool.com/bishop-score): Bishop score for predicting successful labor induction.
-- [UCEIS (Ulcerative Colitis Endoscopic Index)](https://maratool.com/uceis-uc): Ulcerative Colitis Endoscopic Index of Severity (UCEIS).
+- [UCEIS Score Calculator](https://maratool.com/uceis-uc): Ulcerative Colitis Endoscopic Index of Severity (UCEIS).
 - [Detsky Cardiac Risk Index](https://maratool.com/detsky-cardiac-risk): Detsky modified multifactorial cardiac risk index for non-cardiac surgery.
 - [Goldman Cardiac Risk Index](https://maratool.com/goldman-cardiac-risk): Goldman multifactorial cardiac risk index for non-cardiac surgery.
 - [Harvey-Bradshaw Index (Crohn's)](https://maratool.com/harvey-bradshaw): Harvey-Bradshaw Index for Crohn's disease activity (simplified CDAI).
@@ -490,7 +490,7 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [R-ISS Score (Multiple Myeloma)](https://maratool.com/r-iss-myeloma): Revised International Staging System for multiple myeloma prognosis.
 - [PERC Rule (Pulmonary Embolism)](https://maratool.com/perc-rule): Pulmonary Embolism Rule-out Criteria (PERC) to safely exclude PE.
 - [GWTG-HF Risk Score](https://maratool.com/gwtg-hf-risk): Get With The Guidelines Heart Failure (GWTG-HF) in-hospital mortality risk.
-- [MASCC Risk Index (Febrile Neutropenia)](https://maratool.com/mascc-febrile-neutropenia): MASCC risk index for low-risk febrile neutropenia in cancer patients.
+- [MASCC Score Calculator](https://maratool.com/mascc-febrile-neutropenia): MASCC risk index for low-risk febrile neutropenia in cancer patients.
 - [TASH Score (Massive Transfusion)](https://maratool.com/tash-massive-transfusion): Trauma Associated Severe Hemorrhage (TASH) score for massive transfusion prediction.
 - [Running Pace Calculator — Min/km, Min/mile & Race Times](https://maratool.com/running-pace-calculator): Calculate running pace per km and per mile from distance and time, plus projected 5K, 10K, half and marathon finish times. Free, in your browser.
 - [Pregnancy Due Date Calculator](https://maratool.com/due-date-calculator): Calculate your pregnancy due date from LMP, conception date, or IVF transfer using Naegele’s rule, plus current gestational age and trimester.

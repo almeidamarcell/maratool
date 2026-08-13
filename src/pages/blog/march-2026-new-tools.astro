@@ -43,7 +43,7 @@ const seo = {
     <article class="blog-post">
       <header class="blog-post-header">
         <div class="blog-post-meta">
-          <a href="/blog" class="blog-back">← Blog</a>
+          <a href="/blog/" class="blog-back">← Blog</a>
           <time datetime="2026-03-17" class="blog-post-date">March 17, 2026</time>
           <span class="blog-post-author">by <a href="http://marcell.com.br/" target="_blank" rel="noopener">Marcell Almeida</a></span>
         </div>
@@ -56,19 +56,19 @@ const seo = {
 
         <hr class="blog-divider" />
 
-        <h2><a href="/password-generator">Password Generator</a></h2>
+        <h2><a href="/password-generator/">Password Generator</a></h2>
         <p>Generates cryptographically secure passwords using <code>crypto.getRandomValues()</code> — the same entropy source as TLS. Choose length (8–64 characters), toggle uppercase, digits, and symbols, and exclude ambiguous characters like <code>0</code>, <code>O</code>, <code>I</code>, and <code>l</code>. A strength bar shows Weak / Fair / Good / Strong based on length and character variety. Nothing is sent anywhere.</p>
 
-        <h2><a href="/bcrypt-generator">Bcrypt Generator</a></h2>
+        <h2><a href="/bcrypt-generator/">Bcrypt Generator</a></h2>
         <p>Hash and verify passwords with bcrypt directly in the browser, powered by <a href="https://github.com/dcodeIO/bcrypt.js">bcryptjs</a> loaded from a CDN. The Hash tab lets you pick a cost factor from 4 to 12 — higher costs take longer but are more resistant to brute force. The Verify tab checks a plaintext password against an existing hash. Useful for testing backend auth logic without spinning up a server.</p>
 
-        <h2><a href="/schema-markup-generator">Schema Markup Generator</a></h2>
+        <h2><a href="/schema-markup-generator/">Schema Markup Generator</a></h2>
         <p>Generates valid JSON-LD structured data for six schema types: Article, Product, FAQ, HowTo, LocalBusiness, and Person. Fill in the fields, copy the <code>&lt;script type="application/ld+json"&gt;</code> block, paste it into your page's <code>&lt;head&gt;</code>. Google uses this to power rich results — FAQ dropdowns, product prices, star ratings, breadcrumbs.</p>
 
-        <h2><a href="/meta-tag-generator">Meta Tag Generator</a></h2>
+        <h2><a href="/meta-tag-generator/">Meta Tag Generator</a></h2>
         <p>Generates the full set of meta tags needed for SEO and social sharing: <code>&lt;title&gt;</code>, meta description, canonical URL, Open Graph tags, and Twitter Card tags. Title and description fields show live character counts with color feedback — green when you're in the optimal range, amber when too short, red when too long. Open Graph and Twitter Card fields fall back to your basic title and description if left empty, so you only fill in what's different.</p>
 
-        <h2><a href="/robots-txt-generator">Robots.txt Generator</a></h2>
+        <h2><a href="/robots-txt-generator/">Robots.txt Generator</a></h2>
         <p>Builds a valid <code>robots.txt</code> file from a visual rule builder. Four presets get you started fast:</p>
         <ul>
           <li><strong>Allow All</strong> — <code>User-agent: * / Allow: /</code></li>
@@ -78,13 +78,13 @@ const seo = {
         </ul>
         <p>You can add custom rules, mix user agents, and include your sitemap URL. Optional crawl-delay field included.</p>
 
-        <h2><a href="/yaml-to-json">YAML to JSON Converter</a></h2>
+        <h2><a href="/yaml-to-json/">YAML to JSON Converter</a></h2>
         <p>Converts YAML to JSON and JSON to YAML, bidirectionally. Paste into either panel and the other updates instantly. Powered by <a href="https://github.com/nodeca/js-yaml">js-yaml</a> loaded from jsDelivr. Useful for working with Kubernetes configs, GitHub Actions workflows, or any API that needs one format and you have the other.</p>
 
-        <h2><a href="/xml-to-json">XML to JSON Converter</a></h2>
+        <h2><a href="/xml-to-json/">XML to JSON Converter</a></h2>
         <p>Converts XML to JSON using the browser's built-in <code>DOMParser</code> — no library needed. Attributes become keys prefixed with <code>@</code> (e.g. <code>&lt;item id="1"&gt;</code> → <code>&#123;"item": &#123;"@id": "1"&#125;&#125;</code>). Repeated sibling elements with the same tag name are automatically merged into a JSON array. Works with any well-formed XML: RSS feeds, SOAP responses, config files, SVG metadata.</p>
 
-        <h2><a href="/api-key-generator">API Key Generator</a></h2>
+        <h2><a href="/api-key-generator/">API Key Generator</a></h2>
         <p>Generates cryptographically secure API keys in three formats:</p>
         <ul>
           <li><strong>Hex</strong> — lowercase <code>a-f</code> and <code>0-9</code>. Standard format, widely supported.</li>
@@ -93,7 +93,7 @@ const seo = {
         </ul>
         <p>Choose byte length from 8 to 128. At 32 bytes (64 hex chars), you get 256 bits of entropy — the same as AES-256. Generate up to 20 keys at once. All generation happens locally via <code>crypto.getRandomValues()</code>.</p>
 
-        <h2><a href="/utm-builder">UTM Builder</a></h2>
+        <h2><a href="/utm-builder/">UTM Builder</a></h2>
         <p>Builds UTM-tagged URLs for Google Analytics campaign tracking. Paste a destination URL, fill in source, medium, campaign, and optional term and content parameters, and get the tagged URL instantly. The full configuration is saved in the URL hash — bookmark it or share it with your team to reuse the same UTM setup.</p>
 
         <hr class="blog-divider" />
@@ -103,7 +103,7 @@ const seo = {
 
         <hr class="blog-divider" />
 
-        <p class="blog-footer-note">All tools at <a href="/">maratool.com</a> are free, run in your browser, and require no sign-up. If something doesn't work the way you expect, <a href="/contact">reach out</a>.</p>
+        <p class="blog-footer-note">All tools at <a href="/">maratool.com</a> are free, run in your browser, and require no sign-up. If something doesn't work the way you expect, <a href="/contact/">reach out</a>.</p>
       </div>
     </article>
   </Layout>
