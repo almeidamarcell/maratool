@@ -15,6 +15,7 @@ import {
   describeFitPlan,
 } from './gif-anim-core.js'
 import { computeScaledDims, mergeDelays } from './gif-compressor-core.js'
+import { setVisible } from './tool-utils.js'
 
 var MAX_FILE_SIZE = 50 * 1024 * 1024
 // MAX_FILE_SIZE only caps the *compressed* bytes. We hold every frame as
@@ -75,17 +76,11 @@ export function getCropRegionForFrame(srcW, srcH, opts, scale) {
   )
 }
 
-// Show or hide a state container.
-//
-// Exported so the `hidden`-attribute contract is pinned by a test: global CSS
-// carries `[hidden] { display: none !important }`, so clearing the inline
-// display is not enough to reveal an element that shipped with the attribute.
-// Getting this wrong left every GIF tool looking dead after upload.
-export function setVisible(el, visible) {
-  if (!el) return
-  el.hidden = !visible
-  el.style.display = visible ? '' : 'none'
-}
+// Re-exported so the `hidden`-attribute contract stays pinned by this module's
+// test. The implementation lives in tool-utils.js because every upload tool
+// needs it, not just the GIF family — getting it wrong left 70 tool pages
+// looking dead after upload.
+export { setVisible }
 
 export function initGifAnimTool(config) {
   var op = config.op

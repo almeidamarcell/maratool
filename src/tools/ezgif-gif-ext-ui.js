@@ -6,7 +6,7 @@ import {
   formatFrameFilename,
 } from './ezgif-gif-ext-core.js'
 import { combineLayoutDims, getGifOutputFilename } from './gif-anim-core.js'
-import { downloadBlob } from './tool-utils.js'
+import { downloadBlob, setVisible, nextPaint, makeProgress, formatSize } from './tool-utils.js'
 import { streamGifFrames } from './gif-shared.js'
 
 var MAX_GIF = 50 * 1024 * 1024
@@ -18,12 +18,16 @@ async function loadGifenc() {
 // Delegates to the shared streaming decoder so a large GIF costs one
 // source-size canvas instead of every frame at once. Keeps this module's
 // { frames, width, height, raw } shape for its callers.
-async function parseGifFile(file) {
-  var r = await streamGifFrames(file)
+//
+// onProgress(done, total) is optional and forwarded to the decoder. Streaming
+// a large GIF is the slowest step in every one of these tools, so without it
+// the progress panel sits frozen for the whole decode.
+async function parseGifFile(file, onProgress) {
+  var r = await streamGifFrames(file, onProgress ? { onProgress: onProgress } : undefined)
   return { frames: r.parsedFrames, width: r.width, height: r.height, raw: r.gif, notice: r.notice }
 }
 
-async function encodeGifFrames(frameData, w, h, repeat) {
+async function encodeGifFrames(frameData, w, h, repeat, onProgress) {
   var mod = await loadGifenc()
   var enc = mod.GIFEncoder()
   for (var i = 0; i < frameData.length; i++) {
@@ -33,6 +37,12 @@ async function encodeGifFrames(frameData, w, h, repeat) {
     var opts = { palette: palette, delay: Math.max(frameData[i].delay || 20, 20) }
     if (i === 0 && repeat !== undefined) opts.repeat = repeat
     enc.writeFrame(indexed, w, h, opts)
+    // Quantizing a frame blocks the main thread for tens of milliseconds; yield
+    // between frames so the progress bar actually advances on screen.
+    if (onProgress) {
+      onProgress((i + 1) / frameData.length, i + 1, frameData.length)
+      await nextPaint()
+    }
   }
   enc.finish()
   return new Blob([enc.bytes()], { type: 'image/gif' })
@@ -54,7 +64,11 @@ export function initGifExtTool(config) {
       '<p>Drop GIF' + (multi ? 's' : '') + ' or click to upload</p>' +
     '</div>' +
     '<div id="ge-settings" hidden></div>' +
-    '<div id="ge-progress" hidden><p id="ge-progress-text">Processing...</p></div>' +
+    '<div id="ge-progress" class="tool-progress" hidden>' +
+      '<p id="ge-progress-text" class="tool-progress-text">Reading GIF…</p>' +
+      '<div class="tool-progress-bar"><div id="ge-progress-fill" class="tool-progress-fill"></div></div>' +
+      '<p id="ge-progress-detail" class="tool-progress-detail"></p>' +
+    '</div>' +
     '<div id="ge-result" hidden>' +
       '<img id="ge-preview" alt="Result" style="max-width:100%;" />' +
       '<pre id="ge-stats" class="tool-hint" style="white-space:pre-wrap;display:none;"></pre>' +
@@ -67,6 +81,11 @@ export function initGifExtTool(config) {
   var fileInput = document.getElementById('ge-file')
   var settingsEl = document.getElementById('ge-settings')
   var progressEl = document.getElementById('ge-progress')
+  var progressDetail = document.getElementById('ge-progress-detail')
+  var progress = makeProgress(
+    document.getElementById('ge-progress-text'),
+    document.getElementById('ge-progress-fill')
+  )
   var resultEl = document.getElementById('ge-result')
   var preview = document.getElementById('ge-preview')
   var statsEl = document.getElementById('ge-stats')
@@ -83,16 +102,30 @@ export function initGifExtTool(config) {
   var frameUrls = []
 
   function showState(state) {
-    dropzone.style.display = state === 'upload' ? '' : 'none'
-    settingsEl.style.display = state === 'settings' ? '' : 'none'
-    progressEl.style.display = state === 'progress' ? '' : 'none'
-    resultEl.style.display = state === 'result' ? '' : 'none'
-    errorEl.style.display = state === 'error' ? '' : 'none'
+    setVisible(dropzone, state === 'upload')
+    setVisible(settingsEl, state === 'settings')
+    setVisible(progressEl, state === 'progress')
+    setVisible(resultEl, state === 'result')
+    setVisible(errorEl, state === 'error')
+    if (state !== 'progress') progress.reset()
   }
 
   function showError(msg) {
     errorText.textContent = msg
     showState('error')
+  }
+
+  function setDetail(text) {
+    if (progressDetail) progressDetail.textContent = text || ''
+  }
+
+  // Streaming a large GIF is the slowest step in every one of these tools.
+  // streamGifFrames reports (done, total) frames as it composites them.
+  function decodeProgress(label) {
+    return function (done, total) {
+      progress.set(label, total ? done / total : 0)
+      setDetail('Frame ' + (done + 1) + ' of ' + total)
+    }
   }
 
   function buildSettings() {
@@ -147,10 +180,13 @@ export function initGifExtTool(config) {
 
   async function process() {
     if (!gifFiles.length) return
+    progress.set('Decoding GIF…', 0)
+    setDetail(gifFiles[0].name + ' · ' + formatSize(gifFiles[0].size))
     showState('progress')
+    await nextPaint()
     try {
       if (mode === 'analyzer') {
-        var parsed0 = await parseGifFile(gifFiles[0])
+        var parsed0 = await parseGifFile(gifFiles[0], decodeProgress('Decoding GIF…'))
         var delays = parsed0.frames.map(function (f) { return f.delay })
         var stats = computeGifStats(parsed0.frames.length, delays, parsed0.width, parsed0.height)
         statsEl.style.display = ''
@@ -163,7 +199,7 @@ export function initGifExtTool(config) {
       }
 
       if (mode === 'to-frames') {
-        var parsedF = await parseGifFile(gifFiles[0])
+        var parsedF = await parseGifFile(gifFiles[0], decodeProgress('Decoding GIF…'))
         framesEl.style.display = 'flex'
         framesEl.innerHTML = ''
         preview.style.display = 'none'
@@ -171,6 +207,8 @@ export function initGifExtTool(config) {
         frameUrls.forEach(function (u) { URL.revokeObjectURL(u) })
         frameUrls = []
         for (var fi = 0; fi < parsedF.frames.length; fi++) {
+          progress.set('Extracting frames…', fi / parsedF.frames.length)
+          setDetail('Frame ' + (fi + 1) + ' of ' + parsedF.frames.length)
           var c = document.createElement('canvas')
           c.width = parsedF.width
           c.height = parsedF.height
@@ -190,10 +228,14 @@ export function initGifExtTool(config) {
         return
       }
 
-      var parsed = await parseGifFile(gifFiles[0])
+      var parsed = await parseGifFile(gifFiles[0], decodeProgress('Decoding GIF…'))
       var outFrames = parsed.frames
       var outW = parsed.width
       var outH = parsed.height
+
+      progress.pending('Applying changes…')
+      setDetail(parsed.frames.length + ' frames · ' + parsed.width + '×' + parsed.height)
+      await nextPaint()
 
       if (mode === 'effects') {
         var effect = document.getElementById('ge-opt-effect')?.value || 'grayscale'
@@ -241,7 +283,7 @@ export function initGifExtTool(config) {
       }
 
       if (mode === 'combine' && gifFiles.length >= 2) {
-        var parsedB = await parseGifFile(gifFiles[1])
+        var parsedB = await parseGifFile(gifFiles[1], decodeProgress('Decoding second GIF…'))
         var layout = document.getElementById('ge-opt-layout')?.value || 'horizontal'
         var sizes = [{ w: parsed.width, h: parsed.height }, { w: parsedB.width, h: parsedB.height }]
         var dims = combineLayoutDims(layout, sizes)
@@ -268,7 +310,10 @@ export function initGifExtTool(config) {
         }
       }
 
-      resultBlob = await encodeGifFrames(outFrames, outW, outH)
+      resultBlob = await encodeGifFrames(outFrames, outW, outH, undefined, function (ratio, done, total) {
+        progress.set('Encoding GIF…', ratio)
+        setDetail('Frame ' + done + ' of ' + total)
+      })
       if (lastPreviewUrl) URL.revokeObjectURL(lastPreviewUrl)
       lastPreviewUrl = URL.createObjectURL(resultBlob)
       preview.src = lastPreviewUrl
@@ -294,9 +339,14 @@ export function initGifExtTool(config) {
   }
 
   dropzone.addEventListener('click', function () { fileInput.click() })
-  dropzone.addEventListener('dragover', function (e) { e.preventDefault() })
+  dropzone.addEventListener('dragover', function (e) {
+    e.preventDefault()
+    dropzone.classList.add('drag-over')
+  })
+  dropzone.addEventListener('dragleave', function () { dropzone.classList.remove('drag-over') })
   dropzone.addEventListener('drop', function (e) {
     e.preventDefault()
+    dropzone.classList.remove('drag-over')
     if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files)
   })
   fileInput.addEventListener('change', function () {

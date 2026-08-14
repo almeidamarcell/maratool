@@ -1,7 +1,7 @@
 import { loadPdfJs, readFileAsArrayBuffer, formatBytes } from './pdf-common.js'
 import { parsePageRange, computePdfRenderScale, getPdfOutputFilename } from './ezgif-pdf-core.js'
 import { encodeGifFrames } from './ezgif-gif-ext-ui.js'
-import { downloadBlob } from './tool-utils.js'
+import { downloadBlob, setVisible, nextPaint, makeProgress, formatSize } from './tool-utils.js'
 
 export function initPdfTool(config) {
   var mode = config.mode
@@ -20,7 +20,11 @@ export function initPdfTool(config) {
       (mode === 'compress' ? '<label class="tool-label">Image quality (1-100)</label><input class="tool-input" id="ep-quality" type="number" value="75" min="30" max="100" />' : '') +
       '<button type="button" class="tool-btn" id="ep-process" style="margin-top:1rem;">Process</button>' +
     '</div>' +
-    '<div id="ep-progress" hidden><p id="ep-progress-text">Processing...</p></div>' +
+    '<div id="ep-progress" class="tool-progress" hidden>' +
+      '<p id="ep-progress-text" class="tool-progress-text">Processing…</p>' +
+      '<div class="tool-progress-bar"><div id="ep-progress-fill" class="tool-progress-fill"></div></div>' +
+      '<p id="ep-progress-detail" class="tool-progress-detail"></p>' +
+    '</div>' +
     '<div id="ep-result" hidden>' +
       '<div id="ep-gallery" style="display:flex;flex-wrap:wrap;gap:8px;"></div>' +
       '<img id="ep-gif-preview" style="max-width:100%;display:none;" />' +
@@ -32,7 +36,11 @@ export function initPdfTool(config) {
   var fileInput = document.getElementById('ep-file')
   var settingsEl = document.getElementById('ep-settings')
   var progressEl = document.getElementById('ep-progress')
-  var progressText = document.getElementById('ep-progress-text')
+  var progressDetail = document.getElementById('ep-progress-detail')
+  var progress = makeProgress(
+    document.getElementById('ep-progress-text'),
+    document.getElementById('ep-progress-fill')
+  )
   var resultEl = document.getElementById('ep-result')
   var gallery = document.getElementById('ep-gallery')
   var gifPreview = document.getElementById('ep-gif-preview')
@@ -53,16 +61,21 @@ export function initPdfTool(config) {
   }
 
   function showState(s) {
-    dropzone.style.display = s === 'upload' ? '' : 'none'
-    settingsEl.style.display = s === 'settings' ? '' : 'none'
-    progressEl.style.display = s === 'progress' ? '' : 'none'
-    resultEl.style.display = s === 'result' ? '' : 'none'
-    errorEl.style.display = s === 'error' ? '' : 'none'
+    setVisible(dropzone, s === 'upload')
+    setVisible(settingsEl, s === 'settings')
+    setVisible(progressEl, s === 'progress')
+    setVisible(resultEl, s === 'result')
+    setVisible(errorEl, s === 'error')
+    if (s !== 'progress') progress.reset()
   }
 
   function showError(msg) {
     errorText.textContent = msg
     showState('error')
+  }
+
+  function setDetail(text) {
+    if (progressDetail) progressDetail.textContent = text || ''
   }
 
   async function renderPage(pdf, pageNum, scale) {
@@ -77,9 +90,13 @@ export function initPdfTool(config) {
 
   async function process() {
     if (!currentFile) return
+    progress.pending('Loading PDF engine…')
+    setDetail(currentFile.name + ' · ' + formatSize(currentFile.size))
     showState('progress')
+    await nextPaint()
     try {
       var pdfjs = await loadPdfJs()
+      progress.pending('Reading PDF…')
       var data = await readFileAsArrayBuffer(currentFile)
       var pdf = await pdfjs.getDocument({ data: data }).promise
       var pageSpec = document.getElementById('ep-pages').value
@@ -97,7 +114,8 @@ export function initPdfTool(config) {
       var h = 0
 
       for (var i = 0; i < pages.length; i++) {
-        if (progressText) progressText.textContent = 'Rendering page ' + (i + 1) + ' / ' + pages.length
+        progress.set('Rendering pages…', i / pages.length)
+        setDetail('Page ' + (i + 1) + ' of ' + pages.length)
         var canvas = await renderPage(pdf, pages[i], scale)
         w = canvas.width
         h = canvas.height
@@ -122,7 +140,10 @@ export function initPdfTool(config) {
       }
 
       if (mode === 'to-gif') {
-        resultBlob = await encodeGifFrames(rgbaFrames, w, h, 0)
+        resultBlob = await encodeGifFrames(rgbaFrames, w, h, 0, function (ratio, done, total) {
+          progress.set('Encoding GIF…', ratio)
+          setDetail('Frame ' + done + ' of ' + total)
+        })
         var gifUrl = URL.createObjectURL(resultBlob)
         previewUrls.push(gifUrl)
         gifPreview.src = gifUrl
@@ -130,6 +151,8 @@ export function initPdfTool(config) {
         gifPreview.style.display = ''
         gallery.style.display = 'none'
       } else if (mode === 'compress') {
+        progress.pending('Rewriting PDF…')
+        setDetail('')
         var PDFLib = await import('https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js')
         var pdfDoc = await PDFLib.PDFDocument.load(data)
         var saved = await pdfDoc.save({ useObjectStreams: true })
@@ -157,8 +180,13 @@ export function initPdfTool(config) {
   }
 
   dropzone.addEventListener('click', function () { fileInput.click() })
-  dropzone.addEventListener('dragover', function (e) { e.preventDefault() })
+  dropzone.addEventListener('dragover', function (e) {
+    e.preventDefault()
+    dropzone.classList.add('drag-over')
+  })
+  dropzone.addEventListener('dragleave', function () { dropzone.classList.remove('drag-over') })
   dropzone.addEventListener('drop', function (e) {
+    dropzone.classList.remove('drag-over')
     e.preventDefault()
     if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0])
   })
