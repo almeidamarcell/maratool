@@ -71,9 +71,10 @@ const breadcrumbs = [
           <input class="tool-input" id="ga-endSec" type="number" data-ga-opt="endSec" value="5" />
           <button type="button" class="tool-btn" id="ga-process" style="margin-top:1rem;">Process GIF</button>
         </div>
-        <div id="ga-progress" hidden>
-          <p id="ga-progress-text">Processing...</p>
+        <div id="ga-progress" class="tool-progress" hidden>
+          <p id="ga-progress-text" class="tool-progress-text">Processing...</p>
           <div class="tool-progress-bar"><div id="ga-progress-fill" class="tool-progress-fill"></div></div>
+          <p id="ga-progress-detail" class="tool-progress-detail"></p>
         </div>
         <div id="ga-result" hidden>
           <img id="ga-result-img" alt="Result" style="max-width:100%;" />
