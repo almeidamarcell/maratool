@@ -7,55 +7,24 @@ import {
 } from './ezgif-gif-ext-core.js'
 import { combineLayoutDims, getGifOutputFilename } from './gif-anim-core.js'
 import { downloadBlob, setVisible, nextPaint, makeProgress, formatSize } from './tool-utils.js'
+import { streamGifFrames } from './gif-shared.js'
 
 var MAX_GIF = 50 * 1024 * 1024
-
-async function loadGifuct() {
-  var mod = await import('https://cdn.jsdelivr.net/npm/gifuct-js@2.1.2/+esm')
-  return { parseGIF: mod.parseGIF, decompressFrames: mod.decompressFrames }
-}
 
 async function loadGifenc() {
   return import('https://cdn.jsdelivr.net/npm/gifenc@1.0.3/dist/gifenc.esm.js')
 }
 
-function compositeGifFrames(frames, w, h) {
-  var canvas = document.createElement('canvas')
-  canvas.width = w
-  canvas.height = h
-  var ctx = canvas.getContext('2d')
-  var result = []
-  for (var i = 0; i < frames.length; i++) {
-    var frame = frames[i]
-    var patch = new ImageData(new Uint8ClampedArray(frame.patch), frame.dims.width, frame.dims.height)
-    var tmp = document.createElement('canvas')
-    tmp.width = frame.dims.width
-    tmp.height = frame.dims.height
-    tmp.getContext('2d').putImageData(patch, 0, 0)
-    ctx.drawImage(tmp, frame.dims.left, frame.dims.top)
-    var full = ctx.getImageData(0, 0, w, h)
-    result.push({ rgba: new Uint8ClampedArray(full.data), delay: frame.delay })
-    if (frame.disposalType === 2) {
-      ctx.clearRect(frame.dims.left, frame.dims.top, frame.dims.width, frame.dims.height)
-    }
-  }
-  return result
-}
-
-// onProgress(ratio, phase) is optional; callers that pass it get a moving bar
-// instead of a frozen panel while the decode runs.
+// Delegates to the shared streaming decoder so a large GIF costs one
+// source-size canvas instead of every frame at once. Keeps this module's
+// { frames, width, height, raw } shape for its callers.
+//
+// onProgress(done, total) is optional and forwarded to the decoder. Streaming
+// a large GIF is the slowest step in every one of these tools, so without it
+// the progress panel sits frozen for the whole decode.
 async function parseGifFile(file, onProgress) {
-  if (onProgress) onProgress(0, 'read')
-  var buf = await file.arrayBuffer()
-  if (onProgress) onProgress(0.3, 'decode')
-  var gifuct = await loadGifuct()
-  var gif = gifuct.parseGIF(buf)
-  var frames = gifuct.decompressFrames(gif, true)
-  if (!frames || !frames.length) throw new Error('Could not read GIF frames.')
-  var w = (gif.lsd && gif.lsd.width) || frames[0].dims.width
-  var h = (gif.lsd && gif.lsd.height) || frames[0].dims.height
-  if (onProgress) onProgress(0.7, 'composite')
-  return { frames: compositeGifFrames(frames, w, h), width: w, height: h, raw: gif }
+  var r = await streamGifFrames(file, onProgress ? { onProgress: onProgress } : undefined)
+  return { frames: r.parsedFrames, width: r.width, height: r.height, raw: r.gif, notice: r.notice }
 }
 
 async function encodeGifFrames(frameData, w, h, repeat, onProgress) {
@@ -150,9 +119,13 @@ export function initGifExtTool(config) {
     if (progressDetail) progressDetail.textContent = text || ''
   }
 
-  // Decoding a 40 MB GIF is the slowest step in every one of these tools.
+  // Streaming a large GIF is the slowest step in every one of these tools.
+  // streamGifFrames reports (done, total) frames as it composites them.
   function decodeProgress(label) {
-    return function (ratio) { progress.set(label, ratio) }
+    return function (done, total) {
+      progress.set(label, total ? done / total : 0)
+      setDetail('Frame ' + (done + 1) + ' of ' + total)
+    }
   }
 
   function buildSettings() {
@@ -395,4 +368,4 @@ export function initGifExtTool(config) {
   showState('upload')
 }
 
-export { parseGifFile, encodeGifFrames, compositeGifFrames }
+export { parseGifFile, encodeGifFrames }

@@ -6,6 +6,7 @@ import {
   getOutputFilename,
   formatSavings,
 } from './gif-compressor-core.js'
+import { streamGifFrames, STALE_LOAD } from './gif-shared.js'
 
 ;(function () {
   'use strict'
@@ -48,6 +49,11 @@ import {
   var previewUrl = null
   var resultBlobUrl = null
   var parsedFrames = null // [{ rgba, delay }]
+  // Decoding a large GIF takes tens of seconds. Without a sequence guard a
+  // second upload started mid-decode races the first, and whichever finishes
+  // LAST wins, leaving the preview and the frames out of sync.
+  var loadSeq = 0
+  var fitNoticeEl = null
   var gifWidth = 0
   var gifHeight = 0
   var originalSize = 0
@@ -96,40 +102,22 @@ import {
     if (fileInput.files.length > 0) handleFile(fileInput.files[0])
   })
 
-  // ── gifuct-js loader ──
-  var gifuctModule = null
-  async function loadGifuct() {
-    if (gifuctModule) return gifuctModule
-    var mod = await import('https://cdn.jsdelivr.net/npm/gifuct-js@2.1.2/+esm')
-    gifuctModule = { parseGIF: mod.parseGIF, decompressFrames: mod.decompressFrames }
-    return gifuctModule
-  }
-
-  // ── Frame compositing (full RGBA per frame, honoring disposal) ──
-  function compositeFrames(frames, w, h) {
-    var canvas = document.createElement('canvas')
-    canvas.width = w
-    canvas.height = h
-    var ctx = canvas.getContext('2d')
-    var result = []
-
-    for (var i = 0; i < frames.length; i++) {
-      var frame = frames[i]
-      var patch = new ImageData(new Uint8ClampedArray(frame.patch), frame.dims.width, frame.dims.height)
-      var tmpCanvas = document.createElement('canvas')
-      tmpCanvas.width = frame.dims.width
-      tmpCanvas.height = frame.dims.height
-      tmpCanvas.getContext('2d').putImageData(patch, 0, 0)
-      ctx.drawImage(tmpCanvas, frame.dims.left, frame.dims.top)
-
-      var fullFrame = ctx.getImageData(0, 0, w, h)
-      result.push({ rgba: new Uint8ClampedArray(fullFrame.data), delay: frame.delay })
-
-      if (frame.disposalType === 2) {
-        ctx.clearRect(frame.dims.left, frame.dims.top, frame.dims.width, frame.dims.height)
-      }
+  // Silently handing back a 702x413 GIF for a 2808x1650 upload would read as
+  // the tool mangling the file. Say what was done and why.
+  function showFitNotice(message) {
+    if (!settingsEl) return
+    if (!message) {
+      if (fitNoticeEl) fitNoticeEl.hidden = true
+      return
     }
-    return result
+    if (!fitNoticeEl) {
+      fitNoticeEl = document.createElement('p')
+      fitNoticeEl.className = 'tool-note'
+      fitNoticeEl.id = 'gc-fit-notice'
+      settingsEl.insertBefore(fitNoticeEl, settingsEl.firstChild)
+    }
+    fitNoticeEl.hidden = false
+    fitNoticeEl.textContent = message
   }
 
   // ── File handling ──
@@ -152,25 +140,32 @@ import {
       progressFill.style.width = '10%'
       progressDetail.textContent = 'Loading decoder...'
 
-      var arrayBuffer = await file.arrayBuffer()
-      var gifuctJs = await loadGifuct()
-      var gif = gifuctJs.parseGIF(arrayBuffer)
-      var frames = gifuctJs.decompressFrames(gif, true)
-      if (!frames || frames.length === 0) { showError('Could not read GIF frames.'); return }
+      var seq = ++loadSeq
+      var isCurrent = function () { return seq === loadSeq }
 
-      gifWidth = (gif.lsd && gif.lsd.width) ? gif.lsd.width : frames[0].dims.width
-      gifHeight = (gif.lsd && gif.lsd.height) ? gif.lsd.height : frames[0].dims.height
+      var parsed = await streamGifFrames(file, {
+        isCurrent: isCurrent,
+        onProgress: function (done, total) {
+          progressDetail.textContent = 'Reading frame ' + (done + 1) + ' / ' + total + '...'
+          progressFill.style.width = (10 + Math.round((done / total) * 30)) + '%'
+        },
+      })
+      if (!isCurrent()) return
 
-      progressDetail.textContent = 'Reading ' + frames.length + ' frames...'
-      progressFill.style.width = '40%'
-      parsedFrames = compositeFrames(frames, gifWidth, gifHeight)
+      parsedFrames = parsed.parsedFrames
+      gifWidth = parsed.width
+      gifHeight = parsed.height
 
-      metaFrames.textContent = frames.length
-      metaDims.textContent = gifWidth + '×' + gifHeight
+      // Report the source file's real shape, not the decode size — the notice
+      // below is what explains the difference.
+      metaFrames.textContent = parsed.rawFrames.length
+      metaDims.textContent = parsed.sourceWidth + '×' + parsed.sourceHeight
       metaSize.textContent = formatSize(originalSize)
+      showFitNotice(parsed.notice)
 
       showState('configure')
     } catch (err) {
+      if (err && err.message === STALE_LOAD) return
       console.error('GIF read error:', err)
       showError('Failed to read GIF: ' + (err.message || String(err)))
     }

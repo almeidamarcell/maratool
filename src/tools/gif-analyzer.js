@@ -46,7 +46,7 @@ import { parseGifFile, formatSize, downloadBlob, isGifFile } from './gif-shared.
 
     workspace.innerHTML =
       '<div class="' + P + '-summary">' +
-      '<div class="' + P + '-stat"><span class="' + P + '-stat-val">' + a.width + '×' + a.height + '</span><span>Dimensions</span></div>' +
+      '<div class="' + P + '-stat"><span class="' + P + '-stat-val">' + a.sourceWidth + '×' + a.sourceHeight + '</span><span>Dimensions</span></div>' +
       '<div class="' + P + '-stat"><span class="' + P + '-stat-val">' + formatSize(a.fileSize) + '</span><span>File size</span></div>' +
       '<div class="' + P + '-stat"><span class="' + P + '-stat-val">' + a.rawFrames.length + '</span><span>Frames</span></div>' +
       '<div class="' + P + '-stat"><span class="' + P + '-stat-val">' + loop + '</span><span>Loop count</span></div>' +
@@ -82,7 +82,7 @@ import { parseGifFile, formatSize, downloadBlob, isGifFile } from './gif-shared.
   function exportJson() {
     var a = analysis
     var payload = {
-      dimensions: { width: a.width, height: a.height },
+      dimensions: { width: a.sourceWidth, height: a.sourceHeight },
       fileSize: a.fileSize,
       frameCount: a.rawFrames.length,
       loopCount: a.gif.lsd ? a.gif.lsd.loopCount : null,
@@ -109,12 +109,12 @@ import { parseGifFile, formatSize, downloadBlob, isGifFile } from './gif-shared.
     dropzone.style.display = 'none'
     progress.style.display = ''
     try {
-      var data = await parseGifFile(file)
+      var data = await parseGifFile(file, { metadataOnly: true })
       analysis = {
         gif: data.gif,
         rawFrames: data.rawFrames,
-        width: data.width,
-        height: data.height,
+        width: data.sourceWidth,
+        height: data.sourceHeight,
         fileSize: file.size,
         fileName: file.name,
       }
