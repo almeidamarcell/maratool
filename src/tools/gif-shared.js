@@ -1,6 +1,17 @@
 // Shared GIF parse/composite/encode helpers for maratool image tools.
 
 export { formatSize, downloadBlob } from './tool-utils.js'
+import { computeFitPlan, describeFitPlan, decodedSizeError } from './gif-anim-core.js'
+import { mergeDelays } from './gif-compressor-core.js'
+
+// A GIF's file size says nothing about what it costs to decode: every frame
+// becomes width x height x 4 bytes of RGBA. A 14.9 MB 2808x1650 GIF with 597
+// frames wants 10.3 GB and Chrome kills the tab ("Error code: 5"). Cap the
+// decoded pixels, not the download.
+export var MAX_DECODED_PIXELS = 120e6
+
+// Thrown to unwind a decode whose upload has been superseded.
+export var STALE_LOAD = 'gif-shared:stale-load'
 
 var gifuctModule = null
 var gifencModule = null
@@ -8,7 +19,11 @@ var gifencModule = null
 export async function loadGifuct() {
   if (gifuctModule) return gifuctModule
   var mod = await import('https://cdn.jsdelivr.net/npm/gifuct-js@2.1.2/+esm')
-  gifuctModule = { parseGIF: mod.parseGIF, decompressFrames: mod.decompressFrames }
+  gifuctModule = {
+    parseGIF: mod.parseGIF,
+    decompressFrame: mod.decompressFrame,
+    decompressFrames: mod.decompressFrames,
+  }
   return gifuctModule
 }
 
@@ -18,65 +33,145 @@ export async function loadGifenc() {
   return gifencModule
 }
 
-export function getGifDimensions(gif, frames) {
-  var width = (gif.lsd && gif.lsd.width) ? gif.lsd.width : frames[0].dims.width
-  var height = (gif.lsd && gif.lsd.height) ? gif.lsd.height : frames[0].dims.height
-  return { width: width, height: height }
-}
-
-export function compositeFrames(frames, w, h) {
-  var canvas = document.createElement('canvas')
-  canvas.width = w
-  canvas.height = h
-  var ctx = canvas.getContext('2d')
-  var result = []
-
-  for (var i = 0; i < frames.length; i++) {
-    var frame = frames[i]
-    var patch = new ImageData(
-      new Uint8ClampedArray(frame.patch),
-      frame.dims.width,
-      frame.dims.height
-    )
-
-    var tmpCanvas = document.createElement('canvas')
-    tmpCanvas.width = frame.dims.width
-    tmpCanvas.height = frame.dims.height
-    var tmpCtx = tmpCanvas.getContext('2d')
-    tmpCtx.putImageData(patch, 0, 0)
-    ctx.drawImage(tmpCanvas, frame.dims.left, frame.dims.top)
-
-    var fullFrame = ctx.getImageData(0, 0, w, h)
-    result.push({
-      rgba: new Uint8ClampedArray(fullFrame.data),
-      delay: frame.delay,
-      meta: frame,
-    })
-
-    if (frame.disposalType === 2) {
-      ctx.clearRect(frame.dims.left, frame.dims.top, frame.dims.width, frame.dims.height)
-    }
+// Metadata every consumer reads off a frame, kept after the pixels are freed.
+function frameMetaOf(frame) {
+  return {
+    dims: frame.dims,
+    delay: frame.delay,
+    disposalType: frame.disposalType,
+    colorTable: frame.colorTable,
   }
-
-  return result
 }
 
-export async function parseGifFile(file) {
+// Decode a GIF one frame at a time, shrinking each frame to the plan size and
+// dropping the full-resolution copy before the next one. Peak memory is a
+// single source-size canvas rather than every frame at once.
+//
+// GIF frames are deltas, so every frame must still be composited even when
+// frames are being dropped; skipping a decode would punch holes in the frames
+// that are kept.
+var decodeChain = Promise.resolve()
+
+// Decodes are serialized process-wide.
+//
+// Yielding mid-decode is what keeps the tab alive on a 597-frame GIF, but it
+// also lets two uploads interleave: drop a huge GIF then a small one and the
+// small one finishes first, only to be overwritten when the huge one catches
+// up. Queuing makes "last upload wins" true for every caller without each one
+// needing its own guard. Callers that pass isCurrent still abort early instead
+// of waiting the queue out.
+export function streamGifFrames(file, options) {
+  var run = decodeChain.then(
+    function () { return decodeGifFile(file, options) },
+    function () { return decodeGifFile(file, options) }
+  )
+  decodeChain = run.catch(function () {})
+  return run
+}
+
+async function decodeGifFile(file, options) {
+  var opts = options || {}
+  var budget = opts.budgetPixels || MAX_DECODED_PIXELS
+  var onProgress = opts.onProgress
+  var isCurrent = opts.isCurrent
+  // Callers that only report on a GIF (frame table, palette sizes) never touch
+  // the pixels, so compositing them is pure cost. Skip it and the fit plan
+  // stops mattering: nothing is retained.
+  var metadataOnly = opts.metadataOnly === true
+
   var arrayBuffer = await file.arrayBuffer()
   var gifuctJs = await loadGifuct()
   var gif = gifuctJs.parseGIF(arrayBuffer)
-  var frames = gifuctJs.decompressFrames(gif, true)
-  if (!frames || frames.length === 0) throw new Error('Could not read GIF frames.')
-  var dims = getGifDimensions(gif, frames)
-  var parsedFrames = compositeFrames(frames, dims.width, dims.height)
+  var imageFrames = (gif.frames || []).filter(function (f) { return f.image })
+  if (!imageFrames.length) throw new Error('Could not read GIF frames.')
+
+  var first = imageFrames[0].image && imageFrames[0].image.descriptor
+  var w = (gif.lsd && gif.lsd.width) || (first && first.width)
+  var h = (gif.lsd && gif.lsd.height) || (first && first.height)
+
+  var plan = metadataOnly
+    ? { scale: 100, skip: 1, width: w, height: h, frameCount: imageFrames.length,
+        sourceFrameCount: imageFrames.length, compressed: false }
+    : computeFitPlan(w, h, imageFrames.length, budget)
+  if (!plan) throw new Error(decodedSizeError(w, h, imageFrames.length, budget))
+  plan.sourceWidth = w
+  plan.sourceHeight = h
+
+  var canvas = null, ctx = null, patchCanvas = null, patchCtx = null, out = null, outCtx = null
+  if (!metadataOnly) {
+    canvas = document.createElement('canvas')
+    canvas.width = w
+    canvas.height = h
+    ctx = canvas.getContext('2d', { willReadFrequently: true })
+    patchCanvas = document.createElement('canvas')
+    patchCtx = patchCanvas.getContext('2d', { willReadFrequently: true })
+    out = document.createElement('canvas')
+    out.width = plan.width
+    out.height = plan.height
+    outCtx = out.getContext('2d', { willReadFrequently: true })
+  }
+
+  var parsedFrames = []
+  var frameMeta = []
+  var allDelays = []
+
+  for (var i = 0; i < imageFrames.length; i++) {
+    var frame = gifuctJs.decompressFrame(imageFrames[i], gif.gct, !metadataOnly)
+    var d = frame.dims
+    frameMeta.push(frameMetaOf(frame))
+    allDelays.push(frame.delay)
+
+    if (!metadataOnly) {
+      patchCanvas.width = d.width
+      patchCanvas.height = d.height
+      patchCtx.putImageData(new ImageData(new Uint8ClampedArray(frame.patch), d.width, d.height), 0, 0)
+      ctx.drawImage(patchCanvas, d.left, d.top)
+
+      if (i % plan.skip === 0) {
+        outCtx.clearRect(0, 0, plan.width, plan.height)
+        outCtx.drawImage(canvas, 0, 0, w, h, 0, 0, plan.width, plan.height)
+        parsedFrames.push({
+          rgba: new Uint8ClampedArray(outCtx.getImageData(0, 0, plan.width, plan.height).data),
+          delay: frame.delay,
+        })
+      }
+      if (frame.disposalType === 2) ctx.clearRect(d.left, d.top, d.width, d.height)
+    }
+    frame.patch = null
+    frame.pixels = null
+
+    // Hundreds of frames take tens of seconds. Yield so the tab stays alive and
+    // the caller can paint progress or abandon a superseded upload.
+    if (i % 8 === 0) {
+      if (isCurrent && !isCurrent()) throw new Error(STALE_LOAD)
+      if (onProgress) onProgress(i, imageFrames.length)
+      await new Promise(function (r) { setTimeout(r, 0) })
+    }
+  }
+
+  // Dropped frames hand their delay to the frame that survived, so the
+  // animation still runs for its original length.
+  var merged = mergeDelays(allDelays, plan.skip)
+  for (var k = 0; k < parsedFrames.length; k++) {
+    if (merged[k] !== undefined) parsedFrames[k].delay = merged[k]
+  }
+
   return {
     gif: gif,
-    rawFrames: frames,
+    rawFrames: frameMeta,
     parsedFrames: parsedFrames,
-    width: dims.width,
-    height: dims.height,
+    width: plan.width,
+    height: plan.height,
+    sourceWidth: w,
+    sourceHeight: h,
+    plan: plan,
+    notice: describeFitPlan(plan, w, h),
     arrayBuffer: arrayBuffer,
   }
+}
+
+export async function parseGifFile(file, options) {
+  return streamGifFrames(file, options)
 }
 
 export function frameRangeIndices(total, start, end) {
