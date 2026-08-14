@@ -12,8 +12,32 @@ import {
   formatImageOutputName,
 } from './ezgif-image-core.js'
 import { combineLayoutDims } from './gif-anim-core.js'
+import {
+  setVisible,
+  nextPaint,
+  makeProgress,
+  readFileAsDataURL,
+  copyWithFeedback,
+  downloadBlob,
+  formatSize,
+} from './tool-utils.js'
 
 var MAX_IMAGE = 25 * 1024 * 1024
+
+// Human label for the work each mode does, shown while the canvas pass runs.
+var PROCESS_LABEL = {
+  exif: 'Converting image…',
+  halftone: 'Applying halftone…',
+  enlarge: 'Enlarging image…',
+  aspect: 'Changing aspect ratio…',
+  censor: 'Blurring region…',
+  passport: 'Building passport photo…',
+  sprite: 'Cutting sprite…',
+  collage: 'Building collage…',
+  compare: 'Building comparison…',
+  rounded: 'Rounding corners…',
+  invert: 'Inverting colors…',
+}
 
 export function initImageTool(config) {
   var mode = config.mode
@@ -27,7 +51,11 @@ export function initImageTool(config) {
       '<p id="ei-drop-text">Drop image' + (mode === 'compare' ? 's (2)' : mode === 'collage' ? 's' : '') + ' or click to upload</p>' +
     '</div>' +
     '<div id="ei-settings" hidden></div>' +
-    '<div id="ei-progress" hidden><p id="ei-progress-text">Processing...</p></div>' +
+    '<div id="ei-progress" class="tool-progress" hidden>' +
+      '<p id="ei-progress-text" class="tool-progress-text">Reading file…</p>' +
+      '<div class="tool-progress-bar"><div id="ei-progress-fill" class="tool-progress-fill"></div></div>' +
+      '<p id="ei-progress-detail" class="tool-progress-detail"></p>' +
+    '</div>' +
     '<div id="ei-result" hidden>' +
       '<canvas id="ei-canvas" style="max-width:100%;"></canvas>' +
       '<img id="ei-preview" alt="Result" style="max-width:100%;display:none;" />' +
@@ -42,6 +70,11 @@ export function initImageTool(config) {
   var fileInput = document.getElementById('ei-file')
   var settingsEl = document.getElementById('ei-settings')
   var progressEl = document.getElementById('ei-progress')
+  var progressDetail = document.getElementById('ei-progress-detail')
+  var progress = makeProgress(
+    document.getElementById('ei-progress-text'),
+    document.getElementById('ei-progress-fill')
+  )
   var resultEl = document.getElementById('ei-result')
   var canvas = document.getElementById('ei-canvas')
   var preview = document.getElementById('ei-preview')
@@ -58,11 +91,12 @@ export function initImageTool(config) {
   var currentNames = []
 
   function showState(state) {
-    dropzone.style.display = state === 'upload' ? '' : 'none'
-    settingsEl.style.display = state === 'settings' ? '' : 'none'
-    progressEl.style.display = state === 'progress' ? '' : 'none'
-    resultEl.style.display = state === 'result' ? '' : 'none'
-    errorEl.style.display = state === 'error' ? '' : 'none'
+    setVisible(dropzone, state === 'upload')
+    setVisible(settingsEl, state === 'settings')
+    setVisible(progressEl, state === 'progress')
+    setVisible(resultEl, state === 'result')
+    setVisible(errorEl, state === 'error')
+    if (state !== 'progress') progress.reset()
   }
 
   function showError(msg) {
@@ -70,20 +104,21 @@ export function initImageTool(config) {
     showState('error')
   }
 
-  function loadImage(file) {
-    return new Promise(function (resolve, reject) {
-      if (!file || !file.type.match(/^image\//)) { reject(new Error('Not an image')); return }
-      if (file.size > MAX_IMAGE) { reject(new Error('File too large (max 25 MB).')); return }
-      var reader = new FileReader()
-      reader.onload = function () {
-        var img = new Image()
-        img.onload = function () { resolve({ img: img, file: file }) }
-        img.onerror = function () { reject(new Error('Failed to load image')) }
-        img.src = reader.result
-      }
-      reader.onerror = function () { reject(new Error('Read failed')) }
-      reader.readAsDataURL(file)
+  function setDetail(text) {
+    if (progressDetail) progressDetail.textContent = text || ''
+  }
+
+  async function loadImage(file, onProgress) {
+    if (!file || !file.type.match(/^image\//)) throw new Error(file ? file.name + ' is not an image.' : 'Not an image')
+    if (file.size > MAX_IMAGE) throw new Error(file.name + ' is too large (max 25 MB).')
+    var dataUrl = await readFileAsDataURL(file, onProgress)
+    var img = await new Promise(function (resolve, reject) {
+      var el = new Image()
+      el.onload = function () { resolve(el) }
+      el.onerror = function () { reject(new Error('Could not decode ' + file.name + '.')) }
+      el.src = dataUrl
     })
+    return { img: img, file: file }
   }
 
   function buildSettings() {
@@ -170,7 +205,12 @@ export function initImageTool(config) {
 
   async function process() {
     if (!images.length) return
+    // The canvas pass below is synchronous — without yielding a frame first the
+    // browser never paints the progress panel and the click looks like a no-op.
+    progress.pending(PROCESS_LABEL[mode] || 'Processing…')
+    setDetail(currentNames[0] || '')
     showState('progress')
+    await nextPaint()
     try {
       if (mode === 'metadata') {
         var f = images[0].file
@@ -188,8 +228,19 @@ export function initImageTool(config) {
 
       if (mode === 'datauri') {
         var buf = await images[0].file.arrayBuffer()
-        var b64 = btoa(String.fromCharCode.apply(null, new Uint8Array(buf)))
-        var uri = buildDataUri(images[0].file.type || 'image/png', b64)
+        var bytes = new Uint8Array(buf)
+        // fromCharCode.apply over the whole array throws RangeError once the
+        // file is more than ~100 KB, so walk it in chunks and report progress.
+        var CHUNK = 0x8000
+        var binary = ''
+        for (var bi = 0; bi < bytes.length; bi += CHUNK) {
+          binary += String.fromCharCode.apply(null, bytes.subarray(bi, bi + CHUNK))
+          if (bi % (CHUNK * 32) === 0) {
+            progress.set('Encoding base64…', bi / bytes.length)
+            await nextPaint()
+          }
+        }
+        var uri = buildDataUri(images[0].file.type || 'image/png', btoa(binary))
         outputEl.style.display = ''
         outputEl.value = uri
         canvas.style.display = 'none'
@@ -197,11 +248,7 @@ export function initImageTool(config) {
         metaEl.style.display = 'none'
         copyBtn.style.display = ''
         downloadBtn.style.display = 'none'
-        copyBtn.onclick = function () {
-          navigator.clipboard.writeText(uri)
-          copyBtn.textContent = 'Copied!'
-          setTimeout(function () { copyBtn.textContent = 'Copy' }, 2000)
-        }
+        copyBtn.onclick = function () { copyWithFeedback(copyBtn, uri) }
         showState('result')
         return
       }
@@ -326,6 +373,7 @@ export function initImageTool(config) {
       downloadBtn.style.display = ''
       copyBtn.style.display = 'none'
 
+      progress.pending('Encoding ' + (resultMime === 'image/jpeg' ? 'JPG' : 'PNG') + '…')
       resultBlob = await new Promise(function (resolve) {
         canvas.toBlob(function (b) { resolve(b) }, resultMime, 0.92)
       })
@@ -336,13 +384,28 @@ export function initImageTool(config) {
   }
 
   async function handleFiles(fileList) {
+    // Reading a 20 MB image off disk and decoding it takes real time. Show the
+    // progress panel before the first read so the upload never looks ignored.
+    var total = fileList.length
+    progress.set(total > 1 ? 'Reading 1 of ' + total + '…' : 'Reading file…', 0)
+    setDetail(fileList[0] ? fileList[0].name + ' · ' + formatSize(fileList[0].size) : '')
+    showState('progress')
+    await nextPaint()
+
     try {
       images = []
       currentNames = []
-      for (var i = 0; i < fileList.length; i++) {
-        var loaded = await loadImage(fileList[i])
+      for (var i = 0; i < total; i++) {
+        var file = fileList[i]
+        var base = i / total
+        setDetail(file.name + ' · ' + formatSize(file.size))
+        var label = total > 1 ? 'Reading ' + (i + 1) + ' of ' + total + '…' : 'Reading file…'
+        progress.set(label, base)
+        var loaded = await loadImage(file, (function (b, l) {
+          return function (ratio) { progress.set(l, b + ratio / total) }
+        })(base, label))
         images.push(loaded)
-        currentNames.push(fileList[i].name)
+        currentNames.push(file.name)
       }
       if (mode === 'compare' && images.length < 2) {
         showError('Please upload two images to compare.')
@@ -356,9 +419,14 @@ export function initImageTool(config) {
   }
 
   dropzone.addEventListener('click', function () { fileInput.click() })
-  dropzone.addEventListener('dragover', function (e) { e.preventDefault() })
+  dropzone.addEventListener('dragover', function (e) {
+    e.preventDefault()
+    dropzone.classList.add('drag-over')
+  })
+  dropzone.addEventListener('dragleave', function () { dropzone.classList.remove('drag-over') })
   dropzone.addEventListener('drop', function (e) {
     e.preventDefault()
+    dropzone.classList.remove('drag-over')
     if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files)
   })
   fileInput.addEventListener('change', function () {
@@ -368,10 +436,7 @@ export function initImageTool(config) {
   downloadBtn.addEventListener('click', function () {
     if (!resultBlob) return
     var ext = resultMime === 'image/jpeg' ? '.jpg' : '.png'
-    var a = document.createElement('a')
-    a.href = URL.createObjectURL(resultBlob)
-    a.download = formatImageOutputName(currentNames[0] || 'image', suffix, ext)
-    a.click()
+    downloadBlob(resultBlob, formatImageOutputName(currentNames[0] || 'image', suffix, ext))
   })
 
   showState('upload')
