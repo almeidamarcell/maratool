@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'random-number-generator'
+const seo = {
+  title: 'How to generate random numbers that are actually uniform | maratool',
+  description: 'Pick random numbers in any range without the modulo bias that makes Math.random favour the low end. Integers, decimals, unique draws, presets.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to generate random numbers that are actually uniform',
+    image: 'https://maratool.com/og/developer.png',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Modulo bias, rejection sampling, and drawing without replacement, as implemented in the maratool random number generator.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Random number generator guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to generate random numbers that are actually uniform"
+      lead="Set a range, pick how many numbers you want, and get a draw where every value has the same chance of showing up."
+      date="August 15, 2026"
+      dateIso="2026-08-15"
+    >
+      <p>Most random number pickers on the web run <code>Math.floor(Math.random() * (max - min + 1)) + min</code> and call it done. That line is close enough for a background animation and wrong for a raffle. The <a href="/random-number-generator/">random number generator</a> uses the browser cryptographic random source and throws away the draws that would skew the result.</p>
+
+      <BlogToolEmbed slug="random-number-generator" title="Try it — set a range and draw" height={680} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Type a minimum and maximum, or click a preset: dice for 1 to 6, coin for 1 to 2, lottery for six numbers from 60, percentage for 1 to 100.</li>
+        <li>Choose the quantity, up to 1000, and whether repeats are allowed. Switch to decimal mode if you need fractions.</li>
+        <li>Press Generate. Copy one value with the button beside it, or the whole list with Copy all.</li>
+      </ol>
+
+      <h2>Where modulo bias comes from</h2>
+      <p>A browser gives you 32 random bits at a time, which is a number from 0 to 4,294,967,295. To turn that into a number from 1 to 100 the tempting move is <code>value % 100</code>. But 4,294,967,296 divided by 100 leaves a remainder of 96. The residues 0 through 95 each appear one extra time in that span, so those outcomes are about 0.000002% more likely than the rest.</p>
+      <p>At a hundred draws nobody notices. At a hundred million draws it shows up in the histogram, and for small entropy sources rather than 32-bit ones the skew gets much worse. The standard fix is rejection sampling: compute the largest multiple of 100 that fits under 4,294,967,296, discard any draw at or above it, and redraw. You waste a draw roughly once every 45 million attempts and the distribution comes out flat.</p>
+
+      <h2>Why not Math.random</h2>
+      <p>V8 implements <code>Math.random</code> with xorshift128+, seeded once per context from an unspecified source. It is fast and its output looks fine, but it is predictable given enough observed values, and browsers make no promise about its quality. <code>crypto.getRandomValues</code> pulls from the operating system entropy pool, the same one that seeds TLS keys. It costs a few microseconds more and removes the whole question.</p>
+      <p>None of this makes the tool suitable for regulated gambling or an official lottery. Those need certified hardware and an audit trail. It does make it fine for picking a giveaway winner, seeding test data, or settling an argument.</p>
+
+      <h2>Drawing without repeats</h2>
+      <p>Untick "allow duplicates" and the draw happens without replacement. The naive approach keeps a set and redraws on a collision, which works until the quantity approaches the size of the range. Asking for all 60 lottery balls that way means the last few draws spend thousands of attempts hunting for the numbers not yet taken.</p>
+      <p>Instead the generator runs a partial Fisher-Yates shuffle over a sparse map, which produces the requested count in exactly that many steps no matter how full the range gets. And when you ask for 10 unique numbers between 1 and 5, it says so and stops, rather than spinning forever on a request that has no answer.</p>
+
+      <h2>Decimals</h2>
+      <p>Decimal mode does not multiply a random float by the range. It scales the bounds to integers at the precision you asked for, draws an integer uniformly across that larger space, then divides back down. Ask for two places between 0 and 1 and you get an even draw across 101 possible values, with no clustering caused by floating point spacing near zero.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/random-number-generator/">random number generator</a> runs in your browser and never sends a draw anywhere. For other kinds of random output see the <a href="/uuid-generator/">UUID generator</a> and the <a href="/password-generator/">password generator</a>, or browse <a href="/developer/generate/">maratool.com/developer/generate</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

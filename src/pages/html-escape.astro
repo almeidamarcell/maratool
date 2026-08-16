@@ -1,0 +1,131 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'HTML Escape and Unescape Online — Encode HTML Entities | maratool',
+  description: 'Escape HTML entities online or decode them back. Converts angle brackets, ampersands, and quotes, and reads named, decimal, and hex entity forms.',
+  canonical: 'https://maratool.com/html-escape',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'HTML Escape and Unescape Online',
+    url: 'https://maratool.com/html-escape',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Escape and unescape HTML entities in the browser, including named, decimal, and hexadecimal references.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Web', item: 'https://maratool.com/developer/web' },
+      { '@type': 'ListItem', position: 4, name: 'HTML Escape and Unescape Online', item: 'https://maratool.com/html-escape' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Which characters must be escaped in HTML?', acceptedAnswer: { '@type': 'Answer', text: 'In element text you must escape the ampersand and the less-than sign; the greater-than sign is escaped by convention to avoid ambiguity. Inside an attribute value you must also escape whichever quote character delimits the attribute. Escaping all five of & < > double quote and apostrophe is the safe default and is what this tool does.' } },
+      { '@type': 'Question', name: 'Does escaping HTML stop XSS?', acceptedAnswer: { '@type': 'Answer', text: 'It stops injection in HTML text and quoted attribute contexts, which covers most cases. It does not help inside a script block, a style block, an unquoted attribute, or a URL attribute such as href, where a javascript: value is still dangerous. Escape at the point of output, in the context of that output.' } },
+      { '@type': 'Question', name: 'What is the difference between an entity, a decimal reference, and a hex reference?', acceptedAnswer: { '@type': 'Answer', text: 'They are three spellings of the same character. The copyright sign can be written as the named entity, as the decimal reference for code point 169, or as the hex reference for A9. Named entities are readable but only a fixed list exists; numeric references work for any code point. This tool decodes all three.' } },
+      { '@type': 'Question', name: 'Is unescaping done with innerHTML?', acceptedAnswer: { '@type': 'Answer', text: 'No. Assigning untrusted text to innerHTML to let the browser decode entities also executes any script tag or onerror handler in that text. Decoding here uses a lookup table for named entities plus a regular expression for the numeric forms, so no markup is ever parsed or run.' } },
+    ]
+  }
+}
+
+const howTo = [
+  'Paste raw HTML or plain text in the left pane to see the escaped version on the right.',
+  'Paste entity-encoded text in the right pane to decode it back to readable characters.',
+  'Tick the non-ASCII option to convert accents and emoji to numeric entities, then copy either side.',
+]
+
+const faq = [
+  { q: 'Which characters must be escaped in HTML?', a: 'The ampersand and less-than sign are mandatory in text; the greater-than sign and quotes are escaped by convention and are mandatory inside attribute values. This tool escapes all five by default.' },
+  { q: 'Does escaping HTML stop XSS?', a: 'It stops injection in HTML text and quoted attributes. It does nothing for script blocks, unquoted attributes, or a javascript: URL in an href, so escape at the point of output for that context.' },
+  { q: 'What is the difference between named, decimal, and hex entities?', a: 'Three spellings of the same character. A named entity is readable but limited to a fixed list; decimal and hex references work for any Unicode code point. All three decode here.' },
+  { q: 'Is unescaping done with innerHTML?', a: 'No. innerHTML would run any script or onerror handler in the input. Decoding uses a named-entity lookup table plus a regex for numeric references, so nothing is parsed as markup.' },
+]
+
+const relatedTools = [
+  { slug: 'html-minifier', name: 'HTML Minifier Online' },
+  { slug: 'html-preview', name: 'HTML Preview Online' },
+  { slug: 'text-to-binary', name: 'Text to Binary' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Web', href: '/developer/web' },
+  { label: 'HTML Escape and Unescape' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell
+      slug="html-escape"
+      name="HTML Escape and Unescape Online"
+      description="Convert HTML special characters to entities, or decode entities back to text. Both panes are editable and update each other as you type."
+      howTo={howTo}
+      faq={faq}
+      relatedTools={relatedTools}
+      breadcrumbs={breadcrumbs}
+      whatIs="HTML escaping replaces characters that the parser would otherwise read as markup with character references. The five that matter are <strong>&amp;</strong>, <strong>&lt;</strong>, <strong>&gt;</strong>, the double quote, and the apostrophe; each becomes a named entity such as <strong>&amp;amp;</strong> or a numeric reference such as <strong>&amp;#39;</strong>. Escaping is what lets you print a code sample, a query string, or user-supplied text inside a page without the browser treating it as a tag, and it is the first line of defense against cross-site scripting in HTML text and quoted attribute values. Unescaping goes the other way, turning named entities, decimal references, and hexadecimal references back into the characters they stand for."
+    >
+      <div class="tool-container" style="min-height:480px;">
+        <div class="hesc-options">
+          <label><input type="checkbox" id="hesc-quotes" checked /> Escape quotes <code>&quot;</code> and <code>&#39;</code></label>
+          <label><input type="checkbox" id="hesc-nonascii" /> Escape all non-ASCII to numeric entities</label>
+        </div>
+
+        <div class="tool-row hesc-row">
+          <div class="tool-panel">
+            <div class="tool-panel-header">
+              <label class="tool-label" for="hesc-raw">Plain text or raw HTML</label>
+              <button type="button" id="hesc-copy-raw" class="copy-btn">Copy plain text</button>
+            </div>
+            <textarea id="hesc-raw" class="tool-textarea" rows="9" spellcheck="false" placeholder="Paste text or markup to escape..." aria-label="Plain text input"></textarea>
+          </div>
+          <div class="tool-panel">
+            <div class="tool-panel-header">
+              <label class="tool-label" for="hesc-escaped">Escaped entities</label>
+              <button type="button" id="hesc-copy-escaped" class="copy-btn">Copy escaped</button>
+            </div>
+            <textarea id="hesc-escaped" class="tool-textarea" rows="9" spellcheck="false" placeholder="Or paste &amp;amp; &amp;#169; &amp;#xA9; style text here to decode..." aria-label="Escaped HTML output"></textarea>
+          </div>
+        </div>
+
+        <p id="hesc-error" class="tool-error" role="status" hidden></p>
+
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="hesc-stat-entities">0</span><span class="tool-stat-label">Entities</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="hesc-stat-unknown">0</span><span class="tool-stat-label">Unrecognized</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="hesc-stat-growth">—</span><span class="tool-stat-label">Size change</span></div>
+        </div>
+
+        <div class="hesc-actions">
+          <button type="button" id="hesc-clear" class="tool-btn tool-btn-secondary">Clear both</button>
+        </div>
+
+        <p class="tool-hint hesc-note">Decoding covers around 250 named entities plus every decimal <code>&amp;#169;</code> and hexadecimal <code>&amp;#xA9;</code> reference. An unrecognized name is left exactly as written rather than deleted, and is counted above.</p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .hesc-options { display: flex; gap: 1.5rem; flex-wrap: wrap; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-soft); margin-bottom: 1.25rem; }
+  .hesc-options label { display: flex; align-items: center; gap: 0.375rem; font-size: 13px; color: var(--text-2); cursor: pointer; }
+  .hesc-options code { font-family: var(--font-mono); font-size: 12px; color: var(--text-3); }
+  .hesc-actions { display: flex; gap: 0.625rem; flex-wrap: wrap; margin-top: 1rem; }
+  .hesc-note { margin-top: 1rem; margin-bottom: 0; }
+  .hesc-note code { font-family: var(--font-mono); font-size: 12px; }
+  #hesc-error { margin-top: 0.25rem; }
+  @media (max-width: 700px) { .hesc-row { flex-direction: column; } }
+</style>
+<script src="../tools/html-escape.js"></script>

@@ -1,0 +1,80 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'slug-generator'
+const seo = {
+  title: 'How to turn a title into a URL slug that does not break | maratool',
+  description: 'Accents, stop words, and length limits are where slug generation goes wrong. How NFD normalization works and why word-boundary truncation matters.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to turn a title into a URL slug that does not break',
+    image: 'https://maratool.com/og/developer.png',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How slug generation handles accents, stop words, separators, and length limits.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Slug generator guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to turn a title into a URL slug that does not break"
+      lead="Lowercase it, swap spaces for hyphens, strip the rest. That covers English. Everything else is where slug generators quietly produce garbage."
+      date="August 15, 2026"
+      dateIso="2026-08-15"
+    >
+      <p>A slug is the readable tail of a URL. In <code>example.com/blog/how-to-bake-bread</code>, the slug is <code>how-to-bake-bread</code>. It should survive being typed by hand, pasted into Slack, and stored as a database key, which means plain ASCII letters, digits, and a separator. Nothing that needs percent-encoding.</p>
+
+      <BlogToolEmbed slug="slug-generator" title="Try it — type a title on the left" height={640} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Type or paste a title. The slug appears on the right while you type, no button to press.</li>
+        <li>Set the options: hyphen or underscore, lowercase on or off, stop-word removal, and a maximum length.</li>
+        <li>Turn on batch mode to paste a whole list of headlines and get one slug per line, then copy the lot.</li>
+      </ol>
+
+      <h2>Accents are two characters pretending to be one</h2>
+      <p>Unicode can spell <code>é</code> two ways: as a single code point (U+00E9), or as a plain <code>e</code> followed by a combining acute accent (U+0065 U+0301). Both render identically. Calling <code>normalize(&#39;NFD&#39;)</code> forces the second form for every character that has one, which turns the problem into an easy one: delete every combining mark in the range U+0300 to U+036F and what remains is the base letter.</p>
+      <p>So <code>Ação Rápida</code> decomposes, loses its tilde and acute, and comes out as <code>acao-rapida</code>. Same mechanism handles <code>ü</code>, <code>ñ</code>, <code>ç</code>, and the rest of the Latin diacritics.</p>
+      <p>A handful of letters have no decomposition at all. <code>ß</code>, <code>ø</code>, <code>đ</code>, <code>ł</code>, and <code>æ</code> are single indivisible code points, so NFD leaves them untouched and the ASCII filter then deletes them. That is how <code>Straße</code> becomes <code>strae</code> in naive implementations. These get an explicit mapping instead: <code>ss</code>, <code>o</code>, <code>d</code>, <code>l</code>, <code>ae</code>.</p>
+
+      <h2>Hyphen or underscore</h2>
+      <p>Use a hyphen for anything public. Google treats the two characters differently: a hyphen is a word separator, an underscore is a word joiner. <code>red-shoes</code> is indexed as two words, <code>red_shoes</code> as one token, and nobody searches for <code>red_shoes</code>. The underscore option exists because slugs also end up as file names, S3 keys, and column values, where an underscore is often the house style.</p>
+
+      <h2>Stop words, and when to leave them alone</h2>
+      <p>Dropping <code>a, an, the, of, and, or, in, on, at, to, for</code> shortens a slug without losing much meaning. <code>The Best of the Year in Review</code> becomes <code>best-year-review</code>. Worth doing when your titles are long and your CMS shows the full URL in the SERP.</p>
+      <p>It has failure modes. Band names and titles built out of small words come apart: <cite>The Who</cite> reduces to <code>who</code>, <cite>In and Out</cite> to <code>out</code>. A title made only of stop words would filter down to nothing at all, so the generator keeps the original words in that case rather than handing you an empty slug. The list is also English-only, so leave the toggle off for Portuguese or German titles where <code>in</code>, <code>an</code>, and <code>or</code> mean something else entirely.</p>
+
+      <h2>Truncating without cutting a word in half</h2>
+      <p>Setting a limit of 40 characters on <code>ten-tips-for-a-faster-website-in-2026</code> should not give you <code>ten-tips-for-a-faster-website-in-20</code>. The generator adds words one at a time and stops before the one that would push past the limit, so the result always ends on a complete word. The single exception is a first word already longer than the limit, which gets a hard cut because there is no boundary to find.</p>
+      <p>Around 50 to 60 characters, or three to five words, is a reasonable target. Long slugs are not a ranking penalty, but they get truncated in search results and look broken when pasted into a chat window.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/slug-generator/">slug generator</a> runs in your browser and handles batches of titles at once. To check title length before you commit to it, try the <a href="/word-counter/">word counter</a>. More at <a href="/developer/">maratool.com/developer</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

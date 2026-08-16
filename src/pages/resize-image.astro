@@ -1,0 +1,189 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Resize Image to Exact Pixel Size — Width & Height | maratool',
+  description: 'Resize an image to exact pixel dimensions in your browser. Lock the aspect ratio, use percent mode or a preset, then download as JPEG, PNG, or WebP.',
+  canonical: 'https://maratool.com/resize-image',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Resize Image to Exact Pixel Size',
+    url: 'https://maratool.com/resize-image',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Resize an image to an exact width and height in the browser, with aspect-ratio lock, percent mode, and presets.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Resize Image', item: 'https://maratool.com/resize-image' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do I resize an image to an exact size in pixels?', acceptedAnswer: { '@type': 'Answer', text: 'Drop the image, type the width you need, and the height follows automatically while the ratio lock is on. Turn the lock off to type both numbers independently, then download.' } },
+      { '@type': 'Question', name: 'How do I resize an image without stretching it?', acceptedAnswer: { '@type': 'Answer', text: 'Keep the aspect-ratio lock enabled. It recomputes the other side from the original proportions, so the picture never squashes. Stretching only happens when the lock is off and the two numbers disagree with the source ratio.' } },
+      { '@type': 'Question', name: 'Does resizing reduce image quality?', acceptedAnswer: { '@type': 'Answer', text: 'Shrinking discards pixels and the result stays sharp. Enlarging invents pixels and softens edges, so going past the original size is a trade-off. The estimated output size updates as you change the numbers.' } },
+      { '@type': 'Question', name: 'Is the image uploaded anywhere?', acceptedAnswer: { '@type': 'Answer', text: 'No. The file is decoded and redrawn with the Canvas API inside your browser. Nothing is sent to a server, so it also works with the network off once the page has loaded.' } },
+    ],
+  },
+}
+
+const howTo = [
+  'Drop a JPG, PNG, or WebP file into the upload box.',
+  'Type the width or height you need, or switch to percent mode and pick a preset.',
+  'Choose the output format and download the resized file.',
+]
+
+const faq = [
+  { q: 'How do I resize an image to an exact size in pixels?', a: 'Type the width you need. With the ratio lock on, the height follows. Turn the lock off to set both numbers yourself.' },
+  { q: 'How do I resize an image without stretching it?', a: 'Leave the aspect-ratio lock on. It derives the second dimension from the original proportions.' },
+  { q: 'Does resizing reduce quality?', a: 'Shrinking stays sharp. Enlarging past the original size softens edges, since the extra pixels are interpolated.' },
+  { q: 'Is my image uploaded to a server?', a: 'No. Everything is drawn on a canvas in your browser.' },
+]
+
+const relatedTools = [
+  { slug: 'image-compressor', name: 'Compress Image Online — Reduce JPG, PNG & WebP Size' },
+  { slug: 'image-converter', name: 'Image Converter — HEIC to PNG, PNG to JPEG, WebP' },
+  { slug: 'enlarge-image', name: 'Enlarge Image Online — Upscale Photo' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'Resize Image' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="resize-image" name="Resize Image to Exact Pixel Size" description="Set a precise width and height, or scale by percent. Aspect-ratio lock, common presets, live output size estimate. Runs entirely in your browser." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:460px;">
+        <div class="tool-dropzone rsz-dropzone" id="rsz-dropzone">
+          <input type="file" id="rsz-file" accept="image/jpeg,image/png,image/webp,image/gif,image/bmp" hidden />
+          <p class="rsz-dropzone-title">Drop an image here</p>
+          <p class="rsz-dropzone-sub">or click to select — JPG, PNG, WebP, GIF, BMP</p>
+        </div>
+
+        <div id="rsz-editor" hidden>
+          <div class="rsz-layout">
+            <div class="rsz-preview-col">
+              <img id="rsz-preview" class="rsz-preview" alt="Resized image preview" />
+              <p class="rsz-preview-note" id="rsz-preview-note">Preview shows the resized result.</p>
+            </div>
+
+            <div class="rsz-controls">
+              <div class="rsz-field">
+                <label class="tool-label" for="rsz-mode">Resize by</label>
+                <select id="rsz-mode" class="tool-input">
+                  <option value="px">Pixels</option>
+                  <option value="pct">Percentage</option>
+                </select>
+              </div>
+
+              <div id="rsz-px-fields">
+                <div class="rsz-pair">
+                  <div class="rsz-field">
+                    <label class="tool-label" for="rsz-width">Width (px)</label>
+                    <input type="number" id="rsz-width" class="tool-input" min="1" max="10000" step="1" />
+                  </div>
+                  <div class="rsz-field">
+                    <label class="tool-label" for="rsz-height">Height (px)</label>
+                    <input type="number" id="rsz-height" class="tool-input" min="1" max="10000" step="1" />
+                  </div>
+                </div>
+                <label class="rsz-check"><input type="checkbox" id="rsz-lock" checked /> Lock aspect ratio</label>
+                <div class="rsz-field">
+                  <label class="tool-label" for="rsz-preset">Common sizes</label>
+                  <select id="rsz-preset" class="tool-input">
+                    <option value="">Custom</option>
+                    <option value="1920x1080">1920 × 1080 — Full HD</option>
+                    <option value="1280x720">1280 × 720 — HD</option>
+                    <option value="1080x1080">1080 × 1080 — square post</option>
+                    <option value="800x600">800 × 600</option>
+                    <option value="640x480">640 × 480</option>
+                    <option value="512x512">512 × 512 — icon</option>
+                  </select>
+                </div>
+              </div>
+
+              <div id="rsz-pct-fields" hidden>
+                <div class="rsz-field">
+                  <label class="tool-label" for="rsz-percent">Scale: <span id="rsz-percent-val">50%</span></label>
+                  <input type="range" id="rsz-percent" min="1" max="200" step="1" value="50" />
+                </div>
+              </div>
+
+              <div class="rsz-pair">
+                <div class="rsz-field">
+                  <label class="tool-label" for="rsz-format">Output format</label>
+                  <select id="rsz-format" class="tool-input">
+                    <option value="jpeg">JPEG</option>
+                    <option value="png">PNG</option>
+                    <option value="webp">WebP</option>
+                  </select>
+                </div>
+                <div class="rsz-field" id="rsz-quality-field">
+                  <label class="tool-label" for="rsz-quality">Quality: <span id="rsz-quality-val">90%</span></label>
+                  <input type="range" id="rsz-quality" min="10" max="100" step="1" value="90" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-stats rsz-stats">
+            <div class="tool-stat">
+              <span class="tool-stat-value" id="rsz-orig-dims">—</span>
+              <span class="tool-stat-label">Original</span>
+            </div>
+            <div class="tool-stat">
+              <span class="tool-stat-value" id="rsz-new-dims">—</span>
+              <span class="tool-stat-label">New size</span>
+            </div>
+            <div class="tool-stat">
+              <span class="tool-stat-value" id="rsz-est-size">—</span>
+              <span class="tool-stat-label">Estimated file</span>
+            </div>
+          </div>
+
+          <p class="tool-error" id="rsz-error" hidden></p>
+
+          <div class="rsz-actions">
+            <button type="button" class="tool-btn" id="rsz-download">Download resized image</button>
+            <button type="button" class="tool-btn tool-btn-secondary" id="rsz-change">Choose another image</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  /* Visuals come from .tool-dropzone in tools.css — this class is the JS hook only. */
+  .rsz-dropzone-title { font-weight: 600; margin: 0 0 0.25rem; }
+  .rsz-dropzone-sub { color: var(--text-2); font-size: 0.875rem; margin: 0; }
+  .rsz-layout { display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap; margin-bottom: 1rem; }
+  .rsz-preview-col { flex: 1 1 260px; min-width: 0; }
+  .rsz-preview { display: block; max-width: 100%; max-height: 300px; width: auto; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-soft); }
+  .rsz-preview-note { font-size: 12px; color: var(--text-3); margin: 0.5rem 0 0; }
+  .rsz-controls { flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 0.875rem; }
+  .rsz-field { display: flex; flex-direction: column; gap: 0.25rem; }
+  .rsz-field .tool-input, .rsz-field input[type="range"] { width: 100%; box-sizing: border-box; }
+  .rsz-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.625rem; }
+  .rsz-check { display: flex; align-items: center; gap: 0.4rem; font-size: 13px; color: var(--text-2); margin-bottom: 0.625rem; }
+  .rsz-stats { margin-bottom: 1rem; }
+  .rsz-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  @media (max-width: 600px) { .rsz-pair { grid-template-columns: 1fr; } }
+</style>
+
+<script src="../tools/resize-image.js"></script>

@@ -1,0 +1,363 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import References from '../components/References.astro'
+
+const seo = {
+  title: 'TDEE Calculator — Daily Calorie Needs & Maintenance Calories | maratool',
+  description: 'Free TDEE calculator. Turn BMR and activity level into total daily energy expenditure, plus calorie targets for weight loss, maintenance, and weight gain.',
+  canonical: 'https://maratool.com/tdee-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'TDEE Calculator — Total Daily Energy Expenditure',
+    url: 'https://maratool.com/tdee-calculator',
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate total daily energy expenditure from BMR and activity level, with calorie targets for weight loss, maintenance and weight gain.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Health', item: 'https://maratool.com/health' },
+      { '@type': 'ListItem', position: 3, name: 'Anthropometric', item: 'https://maratool.com/health/anthropometric' },
+      { '@type': 'ListItem', position: 4, name: 'TDEE Calculator', item: 'https://maratool.com/tdee-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How is TDEE calculated?',
+        acceptedAnswer: { '@type': 'Answer', text: 'TDEE = BMR × activity multiplier. This calculator gets BMR from the Mifflin-St Jeor equation, then multiplies by 1.2 for sedentary, 1.375 for lightly active, 1.55 for moderately active, 1.725 for very active, or 1.9 for extra active.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Which activity level should I pick?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Sedentary means a desk job and no training. Lightly active is 1 to 3 sessions a week, moderately active 3 to 5, very active 6 to 7, and extra active covers twice-daily training or physical labour. Most people who work at a desk and train three times a week are lightly to moderately active, not very active.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How many calories should I eat to lose weight?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A deficit of 500 kcal per day against TDEE loses roughly half a kilogram, or one pound, per week. Deeper cuts work faster but get harder to sustain. Do not go below about 1200 kcal a day for women or 1500 for men without medical supervision.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Why is my real weight loss slower than the calculator predicts?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The 3500 kcal per pound rule assumes a fixed metabolism. In practice TDEE falls as you lose weight because there is less body to carry, and non-exercise movement tends to drop during a deficit. Recalculate every 4 to 6 kg lost.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Pick metric or imperial units, then enter sex, age, height, and weight.',
+  'Choose the activity level that matches a normal week, not your best week.',
+  'Read your TDEE, then pick a calorie target from the table below it.'
+]
+
+const faq = [
+  { q: 'How is TDEE calculated?', a: 'TDEE = BMR × activity multiplier. BMR here comes from <a href="/bmr-calculator/">Mifflin-St Jeor</a>; the multipliers are 1.2 (sedentary), 1.375 (lightly active), 1.55 (moderately active), 1.725 (very active) and 1.9 (extra active).' },
+  { q: 'Which activity level should I pick?', a: 'Sedentary is a desk job with no training. Lightly active is 1–3 sessions a week, moderately active 3–5, very active 6–7, extra active is twice-daily training or physical labour. Most desk workers who train three times a week land on <strong>lightly</strong> or <strong>moderately</strong> active. Overshooting here is the most common reason a calculated target does not work.' },
+  { q: 'How many calories should I eat to lose weight?', a: 'A 500 kcal daily deficit is the classic target: roughly 0.5 kg (1 lb) per week. A 250 kcal cut is slower but easier to hold; 1000 kcal is aggressive and rarely sustainable. Do not drop below about <strong>1200 kcal/day for women or 1500 for men</strong> without medical supervision — this tool flags it when a target crosses that line.' },
+  { q: 'Why is my real weight loss slower than the calculator predicts?', a: 'The 3500 kcal per pound rule treats metabolism as fixed. It is not. TDEE falls as body mass falls, and spontaneous movement quietly drops during a deficit. Recalculate after every 4–6 kg of change and adjust.' }
+]
+
+const relatedTools = [
+  { slug: 'bmr-calculator', name: 'BMR Calculator' },
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+  { slug: 'ideal-body-weight', name: 'Ideal Body Weight' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Health', href: '/health' },
+  { label: 'Anthropometric', href: '/health/anthropometric' },
+  { label: 'TDEE Calculator' },
+]
+
+const references = [
+  { citation: 'Mifflin MD, St Jeor ST, Hill LA, Scott BJ, Daugherty SA, Koh YO. A new predictive equation for resting energy expenditure in healthy individuals. <em>Am J Clin Nutr</em>. 1990;51(2):241-247.' },
+  { citation: 'Roza AM, Shizgal HM. The Harris Benedict equation reevaluated: resting energy requirements and the body cell mass. <em>Am J Clin Nutr</em>. 1984;40(1):168-182.' },
+  { citation: 'Institute of Medicine. <em>Dietary Reference Intakes for Energy, Carbohydrate, Fiber, Fat, Fatty Acids, Cholesterol, Protein, and Amino Acids</em>. Washington, DC: National Academies Press; 2005.' },
+]
+
+const whatIs = 'Total daily energy expenditure (TDEE) is every calorie you burn in 24 hours: basal metabolic rate, the energy spent digesting food, incidental movement like walking and fidgeting, and deliberate exercise. It is the number that decides whether you gain, lose, or hold weight — eat above it and you gain, below it and you lose. Because measuring it directly needs doubly labelled water, calculators estimate it by taking BMR from a regression equation (Mifflin-St Jeor here) and multiplying by an activity factor between 1.2 and 1.9. Expect the result to sit within about 10% of your real expenditure, and treat it as a starting point you adjust from after two or three weeks of actual scale data.'
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="tdee-calculator" name="TDEE Calculator — Total Daily Energy Expenditure" description="Calculate the calories you burn per day from sex, age, height, weight and activity level, then get calorie targets for losing, maintaining, or gaining weight." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs={whatIs}>
+      <div class="tool-container" style="min-height:860px;">
+        <div class="calc-disclaimer">
+          Educational estimate, not medical advice. Calorie targets are not a prescription — see the <a href="/medical-disclaimer/">medical disclaimer</a>.
+        </div>
+
+        <div class="calc-row calc-row-3">
+          <div class="calc-field">
+            <label class="tool-label" for="tdee-units">Units</label>
+            <select id="tdee-units" class="tool-input">
+              <option value="metric">Metric (kg, cm)</option>
+              <option value="imperial">Imperial (lb, ft/in)</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label class="tool-label" for="tdee-sex">Sex</label>
+            <select id="tdee-sex" class="tool-input">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label class="tool-label" for="tdee-age">Age (years)</label>
+            <input type="number" id="tdee-age" class="tool-input" placeholder="30" min="1" max="120" step="1" inputmode="numeric" />
+          </div>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-field" id="tdee-height-metric">
+            <label class="tool-label" for="tdee-height-cm">Height (cm)</label>
+            <input type="number" id="tdee-height-cm" class="tool-input" placeholder="175" min="0" step="any" inputmode="decimal" />
+          </div>
+          <div class="calc-field calc-field-split" id="tdee-height-imperial" hidden>
+            <div>
+              <label class="tool-label" for="tdee-height-ft">Height (ft)</label>
+              <input type="number" id="tdee-height-ft" class="tool-input" placeholder="5" min="0" step="1" inputmode="numeric" />
+            </div>
+            <div>
+              <label class="tool-label" for="tdee-height-in">(in)</label>
+              <input type="number" id="tdee-height-in" class="tool-input" placeholder="9" min="0" step="any" inputmode="decimal" />
+            </div>
+          </div>
+          <div class="calc-field">
+            <label class="tool-label" for="tdee-weight"><span id="tdee-weight-label">Weight (kg)</span></label>
+            <input type="number" id="tdee-weight" class="tool-input" placeholder="70" min="0" step="any" inputmode="decimal" />
+          </div>
+        </div>
+
+        <div class="calc-field">
+          <label class="tool-label" for="tdee-activity">Activity level</label>
+          <select id="tdee-activity" class="tool-input">
+            <option value="1.2">Sedentary — desk job, little or no exercise (× 1.2)</option>
+            <option value="1.375">Lightly active — light exercise 1–3 days/week (× 1.375)</option>
+            <option value="1.55" selected>Moderately active — moderate exercise 3–5 days/week (× 1.55)</option>
+            <option value="1.725">Very active — hard exercise 6–7 days/week (× 1.725)</option>
+            <option value="1.9">Extra active — twice-daily training or physical job (× 1.9)</option>
+          </select>
+        </div>
+
+        <div class="calc-headline">
+          <div class="calc-headline-main">
+            <span class="calc-headline-value" id="tdee-main">—</span>
+            <span class="calc-headline-unit">kcal / day</span>
+          </div>
+          <div class="calc-headline-meta">
+            <span>Maintenance calories — BMR <span id="tdee-bmr">—</span> × activity <span id="tdee-mult">—</span></span>
+            <button type="button" id="tdee-copy" class="copy-btn">Copy</button>
+          </div>
+        </div>
+
+        <div class="calc-warning" id="tdee-warning" hidden><strong>One or more targets below is under a safe intake floor.</strong> Sustained intake below roughly <strong>1200 kcal/day for women</strong> or <strong>1500 kcal/day for men</strong> makes it hard to hit protein and micronutrient needs and should not be attempted without medical supervision. Flagged rows are marked below.</div>
+
+        <table class="calc-table" id="tdee-targets">
+          <caption class="calc-table-caption">Daily calorie targets</caption>
+          <thead>
+            <tr><th scope="col">Goal</th><th scope="col">Calories</th><th scope="col">Expected change</th></tr>
+          </thead>
+          <tbody>
+            <tr data-delta="-1000"><th scope="row">Extreme weight loss</th><td class="calc-num"><span class="calc-cell">—</span></td><td class="calc-hint">−1000 kcal/day • about 1 kg (2 lb) per week</td></tr>
+            <tr data-delta="-500"><th scope="row">Weight loss</th><td class="calc-num"><span class="calc-cell">—</span></td><td class="calc-hint">−500 kcal/day • about 0.5 kg (1 lb) per week</td></tr>
+            <tr data-delta="-250"><th scope="row">Mild weight loss</th><td class="calc-num"><span class="calc-cell">—</span></td><td class="calc-hint">−250 kcal/day • about 0.25 kg (0.5 lb) per week</td></tr>
+            <tr data-delta="0" class="calc-row-highlight"><th scope="row">Maintenance</th><td class="calc-num"><span class="calc-cell">—</span></td><td class="calc-hint">Weight holds steady</td></tr>
+            <tr data-delta="250"><th scope="row">Mild weight gain</th><td class="calc-num"><span class="calc-cell">—</span></td><td class="calc-hint">+250 kcal/day • about 0.25 kg (0.5 lb) per week</td></tr>
+            <tr data-delta="500"><th scope="row">Weight gain</th><td class="calc-num"><span class="calc-cell">—</span></td><td class="calc-hint">+500 kcal/day • about 0.5 kg (1 lb) per week</td></tr>
+          </tbody>
+        </table>
+
+        <section class="calc-macros" aria-labelledby="tdee-macros-heading">
+          <h2 id="tdee-macros-heading">Suggested macro split</h2>
+          <div class="calc-row">
+            <div class="calc-field">
+              <label class="tool-label" for="tdee-goal">Apply to</label>
+              <select id="tdee-goal" class="tool-input">
+                <option value="-1000">Extreme weight loss (−1000)</option>
+                <option value="-500">Weight loss (−500)</option>
+                <option value="-250">Mild weight loss (−250)</option>
+                <option value="0" selected>Maintenance</option>
+                <option value="250">Mild weight gain (+250)</option>
+                <option value="500">Weight gain (+500)</option>
+              </select>
+            </div>
+            <div class="calc-field">
+              <label class="tool-label" for="tdee-split">Split</label>
+              <select id="tdee-split" class="tool-input">
+                <option value="30-40-30" selected>Balanced — 30% protein / 40% carbs / 30% fat</option>
+                <option value="40-25-35">Lower carb — 40% / 25% / 35%</option>
+                <option value="25-55-20">Higher carb — 25% / 55% / 20%</option>
+              </select>
+            </div>
+          </div>
+          <div class="tool-stats">
+            <div class="tool-stat"><span class="tool-stat-value" id="tdee-macro-cal">—</span><span class="tool-stat-label">kcal/day</span></div>
+            <div class="tool-stat"><span class="tool-stat-value" id="tdee-protein">—</span><span class="tool-stat-label">Protein</span></div>
+            <div class="tool-stat"><span class="tool-stat-value" id="tdee-carbs">—</span><span class="tool-stat-label">Carbs</span></div>
+            <div class="tool-stat"><span class="tool-stat-value" id="tdee-fat">—</span><span class="tool-stat-label">Fat</span></div>
+          </div>
+          <p class="calc-hint">Grams come from 4 kcal per gram of protein and carbohydrate and 9 kcal per gram of fat. The split is a starting template, not a requirement.</p>
+        </section>
+
+        <section class="calc-formulas" aria-labelledby="tdee-formulas-heading">
+          <h2 id="tdee-formulas-heading">The formula</h2>
+          <div class="calc-formula">
+            <span class="calc-formula-name">Step 1 — BMR, Mifflin-St Jeor (1990)</span>
+            <code>Men:   BMR = 10 × weight(kg) + 6.25 × height(cm) − 5 × age + 5</code>
+            <code>Women: BMR = 10 × weight(kg) + 6.25 × height(cm) − 5 × age − 161</code>
+          </div>
+          <div class="calc-formula">
+            <span class="calc-formula-name">Step 2 — apply the activity factor</span>
+            <code>TDEE = BMR × activity multiplier</code>
+            <span class="calc-hint">1.2 sedentary • 1.375 lightly active • 1.55 moderately active • 1.725 very active • 1.9 extra active</span>
+          </div>
+          <div class="calc-formula">
+            <span class="calc-formula-name">Step 3 — set a calorie target</span>
+            <code>Target = TDEE + deficit or surplus</code>
+            <span class="calc-hint">7700 kcal ≈ 1 kg of body mass, so 500 kcal/day ≈ 0.5 kg per week.</span>
+          </div>
+        </section>
+
+        <div class="tool-note"><strong>Where the multipliers come from.</strong> The 1.2 to 1.9 range is a convention carried over from the original Harris-Benedict literature and later physical-activity-level work; it is a rounded band, not a measurement. Two people who both call themselves moderately active can differ by 400 kcal a day. Use the number as a hypothesis, weigh yourself over 2–3 weeks, and adjust by 100–200 kcal if the trend does not match.</div>
+      </div>
+      <References references={references} />
+    </ToolShell>
+  </Layout>
+</Base>
+
+<script src="../tools/tdee-calculator.js"></script>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.5rem; }
+  .calc-row-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .calc-field { margin-bottom: 0.75rem; min-width: 0; }
+  .calc-field-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+
+  .calc-disclaimer {
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-soft);
+    border-left: 3px solid var(--text-3);
+    color: var(--text-2);
+    font-size: 0.8125rem;
+    margin-bottom: 1.25rem;
+    border-radius: 4px;
+  }
+  .calc-disclaimer a { color: var(--accent); }
+
+  .calc-headline {
+    margin: 1rem 0;
+    padding: 1.125rem 1.25rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .calc-headline-main { display: flex; align-items: baseline; gap: 0.5rem; }
+  .calc-headline-value {
+    font-family: var(--font-mono);
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text);
+  }
+  .calc-headline-unit { font-size: 0.9375rem; color: var(--text-2); }
+  .calc-headline-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--text-2);
+    flex-wrap: wrap;
+  }
+
+  .calc-warning {
+    padding: 0.75rem 0.875rem;
+    border: 1px solid #f0c9a4;
+    border-left: 3px solid #b45309;
+    background: #fdf6ec;
+    color: #7c4a12;
+    border-radius: var(--radius);
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    margin: 0.75rem 0 1rem;
+  }
+
+  .calc-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin-top: 0.5rem; }
+  .calc-table-caption {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-3);
+    padding-bottom: 0.375rem;
+  }
+  .calc-table th, .calc-table td {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-top: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .calc-table thead th {
+    background: var(--bg-soft);
+    font-weight: 600;
+    color: var(--text-2);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .calc-table tbody th { font-weight: 600; color: var(--text); }
+  .calc-num { font-family: var(--font-mono); font-weight: 600; white-space: nowrap; }
+  .calc-hint { font-size: 0.8125rem; color: var(--text-3); line-height: 1.5; }
+  .calc-row-highlight { background: var(--bg-soft); }
+  .calc-row-warn .calc-cell { color: #b45309; }
+  .calc-row-warn .calc-cell::after {
+    content: ' ⚠';
+    font-family: var(--font);
+  }
+  .calc-row-warn th { color: #b45309; }
+
+  .calc-macros { margin-top: 1.75rem; }
+  .calc-macros h2 { font-size: 1rem; margin: 0 0 0.75rem; color: var(--text); }
+
+  .calc-formulas { margin-top: 1.5rem; }
+  .calc-formulas h2 { font-size: 1rem; margin: 0 0 0.75rem; color: var(--text); }
+  .calc-formula {
+    padding: 0.75rem 0.875rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 0.625rem;
+  }
+  .calc-formula-name { display: block; font-size: 0.8125rem; font-weight: 600; color: var(--text-2); margin-bottom: 0.375rem; }
+  .calc-formula code {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--text);
+    background: var(--bg-soft);
+    padding: 0.4375rem 0.625rem;
+    border-radius: 6px;
+    margin-bottom: 0.25rem;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  @media (max-width: 700px) {
+    .calc-row, .calc-row-3 { grid-template-columns: 1fr !important; }
+    .calc-field-split { grid-template-columns: 1fr 1fr; }
+    .calc-headline-value { font-size: 1.875rem; }
+    .calc-table th, .calc-table td { padding: 0.5rem 0.5rem; }
+  }
+</style>

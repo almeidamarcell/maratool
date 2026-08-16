@@ -1,0 +1,161 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Rotate Image Online — Turn, Straighten & Flip Photos | maratool',
+  description: 'Rotate an image 90 degrees left or right, flip it, or pick any free angle from -180 to 180. The canvas grows so nothing gets clipped when you download.',
+  canonical: 'https://maratool.com/rotate-image',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Rotate Image Online',
+    url: 'https://maratool.com/rotate-image',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Rotate images by 90 degree steps or any free angle, with horizontal and vertical flip, in the browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Rotate Image', item: 'https://maratool.com/rotate-image' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do I rotate a photo 90 degrees?', acceptedAnswer: { '@type': 'Answer', text: 'Drop the photo, then click Rotate left or Rotate right. Each click turns the image a quarter turn and the preview updates immediately. Click twice, or use the 180 button, to flip it end over end.' } },
+      { '@type': 'Question', name: 'Can I straighten a crooked photo by a few degrees?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. The angle slider covers -180 to 180 in one-degree steps, so a horizon that leans by three degrees can be corrected with a small nudge. The corners are filled rather than cropped.' } },
+      { '@type': 'Question', name: 'Why does the image get bigger after rotating?', acceptedAnswer: { '@type': 'Answer', text: 'A rectangle turned at an angle needs a larger bounding box or the corners would be cut off. The output canvas is sized to that bounding box, so the new width and height are larger than the original at any angle that is not a multiple of 90.' } },
+      { '@type': 'Question', name: 'Does rotating re-compress the photo?', acceptedAnswer: { '@type': 'Answer', text: 'Saving as JPEG or WebP re-encodes the pixels once. Choose PNG for a lossless file if the image will be edited again afterwards.' } },
+    ],
+  },
+}
+
+const howTo = [
+  'Drop a photo into the upload box.',
+  'Use the 90 degree buttons for quarter turns, or drag the angle slider to straighten by a few degrees.',
+  'Toggle horizontal or vertical flip if you need a mirror, then download the result.',
+]
+
+const faq = [
+  { q: 'How do I rotate a photo 90 degrees?', a: 'Click Rotate left or Rotate right. Each click is a quarter turn, and the preview updates right away.' },
+  { q: 'Can I straighten a crooked horizon?', a: 'Yes. The slider runs from -180 to 180 in one-degree steps, so small corrections are easy.' },
+  { q: 'Why is the output bigger than the original?', a: 'A rotated rectangle needs a larger bounding box. The canvas grows to fit it so the corners are never clipped.' },
+  { q: 'Does rotating re-compress the image?', a: 'JPEG and WebP re-encode once. Pick PNG if you want a lossless file.' },
+]
+
+const relatedTools = [
+  { slug: 'image-compressor', name: 'Compress Image Online — Reduce JPG, PNG & WebP Size' },
+  { slug: 'image-converter', name: 'Image Converter — HEIC to PNG, PNG to JPEG, WebP' },
+  { slug: 'social-media-cropper', name: 'Social Media Image Cropper' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'Rotate Image' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="rotate-image" name="Rotate Image Online" description="Quarter turns, a free angle slider for straightening, and horizontal or vertical flip. The canvas grows to fit the rotated image so no corner is cut off." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:520px;">
+        <div class="rot-dropzone" id="rot-dropzone">
+          <input type="file" id="rot-file" accept="image/jpeg,image/png,image/webp,image/gif,image/bmp" hidden />
+          <p class="rot-dropzone-title">Drop an image here</p>
+          <p class="rot-dropzone-sub">or click to select — JPG, PNG, WebP, GIF, BMP</p>
+        </div>
+
+        <div id="rot-editor" hidden>
+          <div class="rot-canvas-wrap">
+            <canvas id="rot-canvas" class="rot-canvas"></canvas>
+          </div>
+
+          <div class="rot-quick">
+            <button type="button" class="tool-btn tool-btn-secondary" id="rot-left">↺ Rotate left 90°</button>
+            <button type="button" class="tool-btn tool-btn-secondary" id="rot-right">↻ Rotate right 90°</button>
+            <button type="button" class="tool-btn tool-btn-secondary" id="rot-180">↕ Rotate 180°</button>
+            <button type="button" class="tool-btn tool-btn-secondary" id="rot-flip-h">⇋ Flip horizontal</button>
+            <button type="button" class="tool-btn tool-btn-secondary" id="rot-flip-v">⇅ Flip vertical</button>
+            <button type="button" class="tool-btn tool-btn-secondary" id="rot-reset">Reset</button>
+          </div>
+
+          <div class="rot-angle-row">
+            <label class="tool-label" for="rot-angle">Free angle: <span id="rot-angle-val">0°</span></label>
+            <input type="range" id="rot-angle" min="-180" max="180" step="1" value="0" />
+          </div>
+
+          <div class="rot-fields">
+            <div class="rot-field">
+              <label class="tool-label" for="rot-format">Output format</label>
+              <select id="rot-format" class="tool-input">
+                <option value="png">PNG</option>
+                <option value="jpeg">JPEG</option>
+                <option value="webp">WebP</option>
+              </select>
+            </div>
+            <div class="rot-field">
+              <label class="tool-label" for="rot-bg">Background behind corners</label>
+              <select id="rot-bg" class="tool-input">
+                <option value="transparent">Transparent (PNG and WebP only)</option>
+                <option value="#ffffff">White</option>
+                <option value="#000000">Black</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="tool-stats rot-stats">
+            <div class="tool-stat">
+              <span class="tool-stat-value" id="rot-orig-dims">—</span>
+              <span class="tool-stat-label">Original</span>
+            </div>
+            <div class="tool-stat">
+              <span class="tool-stat-value" id="rot-new-dims">—</span>
+              <span class="tool-stat-label">Output size</span>
+            </div>
+            <div class="tool-stat">
+              <span class="tool-stat-value" id="rot-transform">—</span>
+              <span class="tool-stat-label">Transform</span>
+            </div>
+          </div>
+
+          <p class="tool-error" id="rot-error" hidden></p>
+
+          <div class="rot-actions">
+            <button type="button" class="tool-btn" id="rot-download">Download rotated image</button>
+            <button type="button" class="tool-btn tool-btn-secondary" id="rot-change">Choose another image</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .rot-dropzone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 3rem 1.5rem; text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .rot-dropzone:hover, .rot-dropzone.drag-over { border-color: var(--accent); background: var(--bg-soft); }
+  .rot-dropzone-title { font-weight: 600; margin: 0 0 0.25rem; }
+  .rot-dropzone-sub { color: var(--text-2); font-size: 0.875rem; margin: 0; }
+  .rot-canvas-wrap { display: flex; align-items: center; justify-content: center; min-height: 260px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; margin-bottom: 0.875rem; }
+  .rot-canvas { display: block; max-width: 100%; max-height: 320px; width: auto; height: auto; }
+  .rot-quick { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.875rem; }
+  .rot-quick .tool-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .rot-angle-row { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 1rem; }
+  .rot-angle-row input[type="range"] { width: 100%; }
+  .rot-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin-bottom: 1rem; }
+  .rot-field { display: flex; flex-direction: column; gap: 0.25rem; }
+  .rot-field .tool-input { width: 100%; }
+  .rot-stats { margin-bottom: 1rem; }
+  .rot-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+</style>
+
+<script src="../tools/rotate-image.js"></script>

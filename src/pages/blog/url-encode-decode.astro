@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'url-encode-decode'
+const seo = {
+  title: 'How to URL encode and decode text — encodeURI vs encodeURIComponent | maratool',
+  description: 'Percent-encoding explained: which characters get escaped, why %26 breaks query strings, and what to do when decodeURIComponent throws URI malformed.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to URL encode and decode text, and when to use encodeURI vs encodeURIComponent',
+    image: 'https://maratool.com/og/developer.png',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'A practical guide to percent-encoding: the two JavaScript encoders, UTF-8 bytes, and malformed input.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'URL encode and decode guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to URL encode and decode text, and when to use encodeURI vs encodeURIComponent"
+      lead="Paste text, pick an encoder, copy the result. Choosing between the two encoders is the part that trips people up, so most of this page is about that."
+      date="August 15, 2026"
+      dateIso="2026-08-15"
+    >
+      <p>A URL has a grammar. Slashes separate path segments, a question mark starts the query, an ampersand separates parameters, and a hash starts the fragment. When your data contains one of those characters, the parser on the other end has no way to know you meant it literally. Percent-encoding is how you say so: replace the character with <code>%</code> followed by the hex value of each of its UTF-8 bytes.</p>
+
+      <BlogToolEmbed slug="url-encode-decode" title="Try it — type on either side" height={620} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Pick a mode. <code>encodeURIComponent</code> for a single value you are about to drop into a query string or path segment. <code>encodeURI</code> for a whole address you want to stay clickable.</li>
+        <li>Type in the left pane to encode. Paste percent-encoded text in the right pane to decode. Both panes are live, and either one updates the other.</li>
+        <li>Copy the side you need, or hit Swap to move the encoded output back into the input for a second pass.</li>
+      </ol>
+
+      <h2>The difference between the two encoders</h2>
+      <p>Both functions leave the unreserved set alone: letters, digits, and <code>- _ . ~</code>. They differ on the reserved delimiters, the characters that carry structural meaning in a URL.</p>
+      <p><code>encodeURI</code> preserves <code>: / ? # [ ] @ ! $ &amp; &#39; ( ) * + , ; =</code> because a complete URL needs them to still be a URL. Feed it <code>https://example.com/a b?q=1</code> and you get <code>https://example.com/a%20b?q=1</code>, which still resolves.</p>
+      <p><code>encodeURIComponent</code> escapes those same delimiters. That is the whole point: your value is not supposed to be structure. Encoding the search term <code>rock &amp; roll</code> with it gives <code>rock%20%26%20roll</code>, and dropping that into <code>?q=</code> works. Encoding it with <code>encodeURI</code> gives <code>rock%20&amp;%20roll</code>, and now the server sees a parameter named <code>roll</code> that you never sent.</p>
+      <p>The short version: one URL, one call to <code>encodeURI</code>. One value inside a URL, one call to <code>encodeURIComponent</code>. Never call either one twice on the same string, or <code>%20</code> turns into <code>%2520</code> and you get double-encoding bugs that only show up in production logs.</p>
+
+      <h2>Why decoding throws</h2>
+      <p><code>decodeURIComponent(&#39;%E0%A4%A&#39;)</code> raises <code>URIError: URI malformed</code>. Nothing exotic is going on. <code>%E0</code> announces a three-byte UTF-8 sequence, the second byte arrives, and the third is cut off at <code>%A</code>. There is no character to produce, so the function refuses rather than guessing.</p>
+      <p>The same error fires when a percent sign is followed by anything other than two hex digits, which is what happens when a raw <code>%</code> from user input reaches a decoder untouched. Discount codes are a good source of these: <code>SAVE50%</code> pasted into a query string decodes to an exception. The tool above catches the throw and tells you the encoding is broken instead of blanking the output.</p>
+
+      <h2>Non-ASCII is bytes, not characters</h2>
+      <p>Percent-encoding operates on bytes, and the byte encoding for URLs is UTF-8. So <code>é</code> becomes <code>%C3%A9</code>, two bytes, and a rocket emoji becomes <code>%F0%9F%9A%80</code>, four bytes. This is why an encoded string of Japanese or Arabic text looks so much longer than the original. It also explains a common mixed-encoding failure: text that was percent-encoded from Latin-1 gives <code>%E9</code> for <code>é</code>, and a UTF-8 decoder cannot read that at all.</p>
+      <p>One character will not encode: an unpaired surrogate, the orphaned half of an emoji that survived a bad string slice. JavaScript has no UTF-8 bytes to emit for it, so <code>encodeURIComponent</code> throws too. That case gets its own message in the tool.</p>
+
+      <h2>Spaces, plus signs, and forms</h2>
+      <p>Both encoders turn a space into <code>%20</code>. The plus sign means space only in <code>application/x-www-form-urlencoded</code> data, which is what browsers submit for a GET form and what most query-string parsers expect. In a path segment, <code>+</code> is just a plus. If you build query strings with <code>URLSearchParams</code>, note that it uses the form encoding and will write <code>+</code> where <code>encodeURIComponent</code> writes <code>%20</code>. A form-encoding parser reads both correctly, so pick one and stay consistent.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/url-encode-decode/">URL encoder and decoder</a> runs entirely in your browser, so signed URLs and tokens never leave your machine. To split a URL into its parts instead, use the <a href="/url-parser/">URL parser</a>. More at <a href="/developer/">maratool.com/developer</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

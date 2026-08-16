@@ -1,0 +1,80 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'rotate-image'
+const seo = {
+  title: 'How to rotate a photo online without cropping the corners | maratool',
+  description: 'Quarter turns, a free angle slider for straightening a crooked horizon, and mirror flips. The canvas grows to fit, so no corner gets cut off.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to rotate a photo online without cropping the corners',
+    image: 'https://maratool.com/og/image.png',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Rotating and flipping images in the browser, and the geometry behind the growing canvas.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Rotate image guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to rotate a photo online without cropping the corners"
+      lead="Two clicks for a quarter turn, one slider for the three degrees your horizon is off by."
+      date="August 15, 2026"
+      dateIso="2026-08-15"
+    >
+      <p>A scan lands upside down. A skyline leans two degrees to the left and now you cannot unsee it. The <a href="/rotate-image/">rotate tool</a> fixes both, and it does not throw away the corners while doing it.</p>
+
+      <BlogToolEmbed slug="rotate-image" title="Try it — drop a photo and turn it" height={640} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Drop a photo. It appears on a live canvas at its current orientation.</li>
+        <li>Click Rotate left or Rotate right for quarter turns, or drag the angle slider for anything in between.</li>
+        <li>Toggle horizontal or vertical flip if you need a mirror image, then download as PNG, JPEG, or WebP.</li>
+      </ol>
+
+      <h2>Why the output gets bigger</h2>
+      <p>Turn a 1000 by 600 rectangle by 30 degrees and it no longer fits in a 1000 by 600 frame. Its corners stick out. Plenty of tools solve that by cropping, which quietly eats part of the picture.</p>
+      <p>Here the canvas is sized to the bounding box of the rotated rectangle instead. The width comes out as <code>w·cos θ + h·sin θ</code> and the height as <code>w·sin θ + h·cos θ</code>, using absolute values so the sign of the angle does not matter. For that 1000 by 600 image at 30 degrees, the result is 1166 by 1020. The "Output size" readout shows the exact figures before you download.</p>
+      <p>The new area around the corners has to be filled with something, so the background menu offers transparent, white, or black. Transparent only survives in PNG and WebP, so a transparent choice with JPEG selected falls back to white rather than turning black, which is what a naive canvas export would produce.</p>
+
+      <h2>Multiples of 90 are the free case</h2>
+      <p>At 90, 180, or 270 degrees the sine and cosine terms collapse to a clean swap: a 1000 by 600 image becomes 600 by 1000 with no filler and no interpolation. Every pixel maps exactly onto a new pixel. If all you need is to turn a sideways phone photo upright, use the quarter-turn buttons rather than the slider and the image comes through untouched.</p>
+      <p>Angles in between resample. A three degree straightening pass softens fine detail very slightly, which is a fair price for a level horizon but not something to repeat five times.</p>
+
+      <h2>Flip is not the same as rotate</h2>
+      <p>Rotating 180 degrees and flipping both axes look similar on a symmetrical subject and are completely different on text. A 180 degree turn leaves words readable upside down. A horizontal flip mirrors them. Flip is what you want to correct a selfie camera that reverses your shirt logo, or to make a pair of arrows point at each other. Rotation is what you want when the camera was simply held the wrong way up.</p>
+      <p>Both flips can stack on top of any angle here, and the transform readout spells out what is currently applied.</p>
+
+      <h2>Local only</h2>
+      <p>The browser decodes the image and draws it onto a canvas through a transform matrix. Nothing is uploaded, so scanned documents and personal photos stay on your machine. After the rotation you may want the <a href="/crop-image/">cropper</a> to trim the filled corners, or the <a href="/image-compressor/">compressor</a> if the re-encoded file came out heavier than the original.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/rotate-image/">rotate tool</a> is free and works offline once the page has loaded. More image tools at <a href="/image/">maratool.com/image</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

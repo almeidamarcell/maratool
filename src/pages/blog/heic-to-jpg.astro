@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'heic-to-jpg'
+const seo = {
+  title: 'How to convert HEIC to JPG — and why iPhone photos are HEIC | maratool',
+  description: 'Convert iPhone HEIC photos to JPG in the browser, several at a time, with a quality slider and the size saved on each file.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert HEIC to JPG, and why iPhone photos are HEIC in the first place',
+    image: 'https://maratool.com/og/image.png',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Why iPhone photos arrive as HEIC, why Windows refuses to open them, and how to batch convert them to JPG without installing anything.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'HEIC to JPG guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert HEIC to JPG, and why iPhone photos are HEIC in the first place"
+      lead="Drop in a folder of .heic files and get ordinary JPGs back. The decoding happens inside the page, on your own CPU."
+      date="August 15, 2026"
+      dateIso="2026-08-15"
+    >
+      <p>You AirDrop a few photos to a Windows laptop and the Photos app shrugs at them. Attach one to a support ticket and the reviewer writes back that the file will not open. The culprit is HEIC, and the <a href="/heic-to-jpg/">HEIC to JPG converter</a> turns those files into something every piece of software on earth already reads.</p>
+
+      <BlogToolEmbed slug="heic-to-jpg" title="Try it — drop your .heic photos" height={620} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Drop in as many .heic or .heif files as you like. Anything that is not HEIC gets filtered out with a note rather than silently ignored.</li>
+        <li>Set the quality slider, which is the JPEG quality used for the re-encode. 85% is the default and it is hard to tell apart from the original at normal viewing size.</li>
+        <li>Hit Convert. The tool decodes files one after another with a progress bar naming the current photo, shows the old size next to the new one on each result, and offers a Download all button for the batch.</li>
+      </ol>
+
+      <h2>Why your iPhone stopped making JPGs</h2>
+      <p>Apple switched the default camera format to HEIC with iOS 11, back in 2017. The reason was storage. HEIC wraps the same picture in HEVC intra-frame compression, which typically lands around half the size of an equivalent JPEG at similar visual quality. On a phone with thousands of photos that adds up to gigabytes.</p>
+      <p>The catch is everything outside the Apple ecosystem. Windows 10 and 11 do not ship the HEVC codec that decodes HEIC, and Microsoft sells the extension in the Store rather than bundling it. Plenty of web forms, CMS uploaders, and print services reject the extension outright. That gap between "the phone makes it" and "the rest of the world reads it" is what sends people looking for a converter.</p>
+      <p>If you would rather not convert every time, iPhone can be told to stop: Settings, then Camera, then Formats, then Most Compatible. New photos come out as JPEG. Older ones stay HEIC.</p>
+
+      <h2>What the conversion changes</h2>
+      <p>JPEG has no equivalent of the HEIC container, so a few things do not survive the trip:</p>
+      <ul>
+        <li>EXIF metadata is dropped. Camera model, lens, and GPS coordinates do not carry over, which is usually a bonus when the photo is headed somewhere public.</li>
+        <li>Rotation is baked in. The orientation flag is applied while decoding, so the JPEG is right way up on any viewer.</li>
+        <li>Live Photo motion is gone. A Live Photo stores a short video alongside the still, and only the still is converted. To keep the movement, use the <a href="/livephoto-to-gif/">Live Photo to GIF</a> tool instead.</li>
+        <li>Depth and Portrait mode data disappear, along with any HDR gain map.</li>
+      </ul>
+      <p>File size usually goes up. A 2 MB HEIC often lands somewhere between 3 and 5 MB as JPEG at 85% quality, because JPEG is simply an older and less efficient codec. Drag the slider down to about 70% if the size matters more than the last few percent of detail, or run the result through the <a href="/image-compressor/">image compressor</a>.</p>
+
+      <h2>Nothing leaves your device</h2>
+      <p>The HEIC decoder is a WebAssembly build of libheif that gets fetched the first time you convert, roughly 2.7 MB, then cached. After that the work happens on your own CPU. Photos are never uploaded, which matters more than usual here since camera roll files tend to carry location data and faces.</p>
+      <p>Decoding is genuinely slow compared to a JPEG. A 12 megapixel photo takes a second or two per file, and a batch of thirty will keep the tab busy for a minute. The progress bar names the file it is on so you can tell the difference between working and stuck.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/heic-to-jpg/">HEIC to JPG converter</a> is free and runs offline once the page and decoder have loaded. More image tools at <a href="/image/">maratool.com/image</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

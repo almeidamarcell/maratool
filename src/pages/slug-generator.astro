@@ -1,0 +1,142 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Slug Generator — Convert a Title to a URL Slug Online | maratool',
+  description: 'Turn any title into a clean URL slug. Strips accents, removes stop words, picks hyphen or underscore, truncates on word boundaries, and handles batches.',
+  canonical: 'https://maratool.com/slug-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Slug Generator — Convert a Title to a URL Slug',
+    url: 'https://maratool.com/slug-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert titles into URL-safe slugs with accent stripping, stop-word removal, and word-boundary truncation.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Generate', item: 'https://maratool.com/developer/generate' },
+      { '@type': 'ListItem', position: 4, name: 'Slug Generator', item: 'https://maratool.com/slug-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is a URL slug?', acceptedAnswer: { '@type': 'Answer', text: 'A slug is the human-readable part of a URL that identifies one page, usually the last segment: in example.com/blog/url-slug-guide the slug is url-slug-guide. Slugs are lowercase, use hyphens between words, and avoid characters that would need percent-encoding.' } },
+      { '@type': 'Question', name: 'How do accented characters become plain letters?', acceptedAnswer: { '@type': 'Answer', text: 'The text is normalized to NFD, which splits é into e plus a combining acute accent, and then every combining mark in the U+0300 to U+036F range is removed. Characters with no decomposition are mapped by hand, so ß becomes ss and ø becomes o rather than disappearing.' } },
+      { '@type': 'Question', name: 'Should a slug use hyphens or underscores?', acceptedAnswer: { '@type': 'Answer', text: 'Hyphens. Google treats a hyphen as a word separator and an underscore as a word joiner, so red_shoes reads as one token while red-shoes reads as two words. Underscores are still useful for file names and database keys, which is why both options are here.' } },
+      { '@type': 'Question', name: 'How long should a URL slug be?', acceptedAnswer: { '@type': 'Answer', text: 'Three to five words, roughly 50 to 60 characters, is a common target. Set the max length field and the slug is cut at the last whole word that fits rather than in the middle of one, so you never ship a slug ending in a half word.' } },
+    ]
+  }
+}
+
+const howTo = [
+  'Type or paste a title in the left box; the slug appears on the right as you type.',
+  'Choose hyphen or underscore, toggle lowercase and stop-word removal, and set a max length.',
+  'Turn on batch mode to paste many titles at once and get one slug per line, then copy.',
+]
+
+const faq = [
+  { q: 'What is a URL slug?', a: 'The readable segment of a URL that names one page, like url-slug-guide in example.com/blog/url-slug-guide. Lowercase, hyphen-separated, and free of characters that need percent-encoding.' },
+  { q: 'How do accented characters become plain letters?', a: 'NFD normalization splits é into e plus a combining accent, then the combining marks in U+0300 to U+036F are stripped. Letters with no decomposition are mapped by hand, so ß becomes ss.' },
+  { q: 'Should a slug use hyphens or underscores?', a: 'Hyphens. Google reads a hyphen as a word separator and an underscore as a joiner, so red-shoes ranks as two words while red_shoes reads as one token.' },
+  { q: 'How long should a URL slug be?', a: 'Three to five words, around 50 to 60 characters. The max length setting cuts at the last whole word that fits, never mid-word.' },
+]
+
+const relatedTools = [
+  { slug: 'word-counter', name: 'Word Counter & Character Counter' },
+  { slug: 'meta-tag-generator', name: 'Meta Tag Generator' },
+  { slug: 'uuid-generator', name: 'Generate UUID v4 Online' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Generate', href: '/developer/generate' },
+  { label: 'Slug Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell
+      slug="slug-generator"
+      name="Slug Generator — Convert a Title to a URL Slug"
+      description="Paste a headline and get a clean, URL-safe slug. Accents are folded to plain ASCII, punctuation is dropped, and long titles are cut on a word boundary."
+      howTo={howTo}
+      faq={faq}
+      relatedTools={relatedTools}
+      breadcrumbs={breadcrumbs}
+      whatIs="A URL slug is the part of a web address that names a single page in words a human can read, usually the last path segment: in <strong>example.com/blog/how-to-bake-bread</strong> the slug is <strong>how-to-bake-bread</strong>. Good slugs stay lowercase, separate words with hyphens, and use only unreserved ASCII characters so no browser or CMS has to percent-encode them. This generator folds accents to their base letters, drops punctuation and emoji, optionally removes English stop words such as <strong>the</strong> and <strong>of</strong>, and truncates on a word boundary so the result never ends in half a word."
+    >
+      <div class="tool-container" style="min-height:520px;">
+        <div class="slg-options">
+          <div class="slg-option">
+            <span class="tool-label">Separator</span>
+            <div class="slg-radios">
+              <label><input type="radio" name="slg-sep" value="-" checked /> Hyphen <code>-</code></label>
+              <label><input type="radio" name="slg-sep" value="_" /> Underscore <code>_</code></label>
+            </div>
+          </div>
+          <div class="slg-option">
+            <label class="tool-label" for="slg-maxlen">Max length</label>
+            <input type="number" id="slg-maxlen" class="tool-input" min="0" max="300" step="1" value="0" />
+            <span class="slg-hint">0 = no limit. Cuts on a word boundary.</span>
+          </div>
+          <div class="slg-option slg-toggles">
+            <label><input type="checkbox" id="slg-lower" checked /> Lowercase</label>
+            <label><input type="checkbox" id="slg-stopwords" /> Remove stop words</label>
+            <label><input type="checkbox" id="slg-batch" /> Batch: one slug per line</label>
+          </div>
+        </div>
+
+        <div class="tool-row slg-row">
+          <div class="tool-panel">
+            <div class="tool-panel-header">
+              <label class="tool-label" for="slg-input">Title</label>
+            </div>
+            <textarea id="slg-input" class="tool-textarea" rows="8" spellcheck="false" placeholder="10 Tips for a Faster Website" aria-label="Title input"></textarea>
+          </div>
+          <div class="tool-panel">
+            <div class="tool-panel-header">
+              <label class="tool-label" for="slg-output">Slug</label>
+              <button type="button" id="slg-copy" class="copy-btn">Copy slug</button>
+            </div>
+            <textarea id="slg-output" class="tool-textarea" rows="8" readonly spellcheck="false" aria-label="Generated slug"></textarea>
+          </div>
+        </div>
+
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="slg-stat-count">0</span><span class="tool-stat-label">Slugs</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="slg-stat-longest">0</span><span class="tool-stat-label">Longest slug</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="slg-stat-chars">0</span><span class="tool-stat-label">Output characters</span></div>
+        </div>
+
+        <p class="tool-hint slg-note">Stop words removed when the toggle is on: a, an, the, of, and, or, in, on, at, to, for. If a title is nothing but stop words, they are kept so the slug is never empty.</p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .slg-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-soft); margin-bottom: 1.25rem; }
+  .slg-option { display: flex; flex-direction: column; gap: 0.375rem; }
+  .slg-option .tool-label { margin-bottom: 0; }
+  .slg-radios { display: flex; flex-direction: column; gap: 0.25rem; }
+  .slg-radios label, .slg-toggles label { display: flex; align-items: center; gap: 0.375rem; font-size: 13px; color: var(--text-2); cursor: pointer; }
+  .slg-radios code { font-family: var(--font-mono); font-size: 12px; color: var(--text-3); }
+  .slg-toggles { gap: 0.375rem; justify-content: center; }
+  .slg-option input[type="number"] { max-width: 120px; }
+  .slg-hint { font-size: 12px; color: var(--text-3); }
+  .slg-note { margin-top: 1rem; margin-bottom: 0; }
+  @media (max-width: 700px) { .slg-row { flex-direction: column; } }
+</style>
+<script src="../tools/slug-generator.js"></script>

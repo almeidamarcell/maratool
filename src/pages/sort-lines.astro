@@ -1,0 +1,140 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Sort Lines Alphabetically — Alphabetize a List | maratool',
+  description: 'Sort lines alphabetically, by number, or by length. Natural sort puts item2 before item10, plus reverse, shuffle, case toggle and blank line removal.',
+  canonical: 'https://maratool.com/sort-lines',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Sort Lines Alphabetically',
+    url: 'https://maratool.com/sort-lines',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Alphabetize a list of lines A to Z or Z to A, sort numerically or by line length, reverse the order, or shuffle it, with natural sort and case-sensitivity toggles.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Text', item: 'https://maratool.com/text' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/text/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Sort Lines Alphabetically', item: 'https://maratool.com/sort-lines' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do I put a list in alphabetical order?', acceptedAnswer: { '@type': 'Answer', text: 'Paste one item per line and click A to Z. The sorted list appears below and updates as you keep typing.' } },
+      { '@type': 'Question', name: 'What does natural sort do?', acceptedAnswer: { '@type': 'Answer', text: 'Natural sort reads runs of digits as numbers, so item2 lands before item10. A plain alphabetical sort compares character by character and puts item10 first because the character 1 sorts before 2.' } },
+      { '@type': 'Question', name: 'Why do uppercase lines sort separately?', acceptedAnswer: { '@type': 'Answer', text: 'That happens when case-sensitive is on, because uppercase letters have lower character codes than lowercase ones. Turn case-sensitive off to sort Apple and apple together.' } },
+      { '@type': 'Question', name: 'Does sorting change my indentation?', acceptedAnswer: { '@type': 'Answer', text: 'No. The ignore leading whitespace option only affects the comparison, so lines keep the exact spaces or tabs they started with.' } },
+    ]
+  }
+}
+
+const howTo = [
+  'Paste your list in the input box, one item per line.',
+  'Pick a sort order and tick the options you need, such as natural sort or remove blank lines.',
+  'Copy the sorted list from the result box.',
+]
+
+const faq = [
+  { q: 'How do I put a list in alphabetical order?', a: 'Paste one item per line and click <strong>A → Z</strong>. The sorted list appears below and updates as you keep typing.' },
+  { q: 'What does natural sort do?', a: 'Natural sort reads runs of digits as numbers, so <code>item2</code> lands before <code>item10</code>. A plain alphabetical sort compares character by character and puts <code>item10</code> first because the character <code>1</code> sorts before <code>2</code>.' },
+  { q: 'Why do uppercase lines sort separately?', a: 'That happens when case-sensitive is on, because uppercase letters have lower character codes than lowercase ones. Turn case-sensitive off to sort <em>Apple</em> and <em>apple</em> together.' },
+  { q: 'Does sorting change my indentation?', a: 'No. The <em>ignore leading whitespace</em> option only affects the comparison, so lines keep the exact spaces or tabs they started with.' },
+]
+
+const relatedTools = [
+  { slug: 'remove-duplicate-lines', name: 'Remove Duplicate Lines' },
+  { slug: 'case-converter', name: 'Case Converter' },
+  { slug: 'text-line-tools', name: 'Sort, Dedupe & Convert Text Lines' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Text', href: '/text' },
+  { label: 'Transform', href: '/text/transform' },
+  { label: 'Sort Lines' },
+]
+
+const modes = [
+  { id: 'az', label: 'A → Z' },
+  { id: 'za', label: 'Z → A' },
+  { id: 'num-asc', label: 'Numeric ↑' },
+  { id: 'num-desc', label: 'Numeric ↓' },
+  { id: 'len-asc', label: 'Length ↑' },
+  { id: 'len-desc', label: 'Length ↓' },
+  { id: 'reverse', label: 'Reverse order' },
+  { id: 'shuffle', label: 'Shuffle' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="sort-lines" name="Sort Lines Alphabetically" description="Alphabetize a list, sort it by number or by length, reverse it, or shuffle it. Natural sort keeps item2 ahead of item10." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:620px;">
+        <label class="tool-label" for="srt-input">Your list</label>
+        <textarea id="srt-input" class="tool-textarea" rows="7" placeholder="One item per line..." spellcheck="false"></textarea>
+
+        <span class="tool-label" id="srt-mode-label">Sort order</span>
+        <div class="srt-modes" role="group" aria-labelledby="srt-mode-label">
+          {modes.map((m, i) => (
+            <button type="button" class={`srt-mode${i === 0 ? ' active' : ''}`} data-mode={m.id} aria-pressed={i === 0 ? 'true' : 'false'}>{m.label}</button>
+          ))}
+        </div>
+
+        <div class="srt-options">
+          <label class="srt-option"><input type="checkbox" id="srt-natural" checked /> Natural sort (item2 before item10)</label>
+          <label class="srt-option"><input type="checkbox" id="srt-case" /> Case-sensitive</label>
+          <label class="srt-option"><input type="checkbox" id="srt-indent" /> Ignore leading whitespace</label>
+          <label class="srt-option"><input type="checkbox" id="srt-blanks" /> Remove blank lines</label>
+        </div>
+
+        <div class="tool-stats srt-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="srt-in-count">0</span><span class="tool-stat-label">Lines in</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="srt-out-count">0</span><span class="tool-stat-label">Lines out</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="srt-removed">0</span><span class="tool-stat-label">Removed</span></div>
+        </div>
+
+        <div class="srt-output-head">
+          <label class="tool-label" for="srt-output" style="margin:0;">Sorted result</label>
+          <div class="srt-output-actions">
+            <button type="button" id="srt-clear" class="copy-btn">Clear</button>
+            <button type="button" id="srt-copy" class="copy-btn">Copy</button>
+          </div>
+        </div>
+        <textarea id="srt-output" class="tool-textarea" rows="7" readonly spellcheck="false"></textarea>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .srt-modes { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0 1rem; }
+  .srt-mode {
+    font-size: 13px;
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .srt-mode:hover { background: var(--bg-hover); color: var(--text); }
+  .srt-mode.active { border-color: var(--accent); color: var(--accent); background: var(--bg-soft); font-weight: 600; }
+  .srt-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.5rem 1.25rem; margin-bottom: 1rem; }
+  .srt-option { display: flex; align-items: center; gap: 0.5rem; font-size: 13px; color: var(--text-2); cursor: pointer; }
+  .srt-option input { cursor: pointer; }
+  .srt-stats { margin-bottom: 1rem; }
+  .srt-output-head { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+  .srt-output-actions { display: flex; gap: 0.5rem; }
+  @media (max-width: 600px) { .srt-options { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/sort-lines.js"></script>

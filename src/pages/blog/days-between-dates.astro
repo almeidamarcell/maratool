@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'days-between-dates'
+const seo = {
+  title: 'How to count the days between two dates | maratool',
+  description: 'Count days between two dates, with weeks, hours, business days, and the include-the-end-date question that changes every answer by one.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to count the days between two dates',
+    image: 'https://maratool.com/og/converter.png',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Why two people counting the same date range get different answers, and how the maratool days between dates calculator handles it.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Days between dates guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to count the days between two dates"
+      lead="Pick two dates and read the total, the years-months-days breakdown, and how many of those days are working days."
+      date="August 15, 2026"
+      dateIso="2026-08-15"
+    >
+      <p>Two people can count the same date range and disagree by one. Usually both of them are right, because the question of whether the last day counts has two honest answers. The <a href="/days-between-dates/">days between dates calculator</a> gives you both and lets you pick.</p>
+
+      <BlogToolEmbed slug="days-between-dates" title="Try it — pick two dates" height={620} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Set the start and end date. They open on today and today plus 30, so there is always something on screen.</li>
+        <li>Decide whether the end date counts as a full day. The toggle changes the total by exactly one.</li>
+        <li>Read across: total days, weeks, hours, minutes, business days, weekend days, and the calendar breakdown in years, months, and days.</li>
+      </ol>
+
+      <h2>The off-by-one argument</h2>
+      <p>From 1 March to 8 March is seven days if you are measuring elapsed time. It is eight days if you booked a hotel room on the first and check out on the eighth, because you were charged for eight calendar days.</p>
+      <p>Neither reading is wrong. Elapsed time is a subtraction between two instants. Occupancy is a count of the boxes on a calendar you coloured in. Payroll, rental agreements, vacation policies, and prison sentences almost always mean the second one. Project deadlines and age almost always mean the first. When the toggle is on, the tool extends the span by one day and recomputes everything from that, so the breakdown and the business day figure stay consistent with the headline number instead of drifting apart.</p>
+
+      <h2>Why timestamp subtraction gets it wrong</h2>
+      <p>The obvious way to write this is <code>(end - start) / 86400000</code>. It works until the range crosses a daylight saving boundary. In most of Europe and North America, one day each spring is 23 hours long and one day each autumn is 25. Divide by 86,400,000 across the March change and you get 30.958 days, which floors to 30 when the calendar clearly shows 31.</p>
+      <p>The fix is to stop measuring time and start counting dates. The tool moves both inputs to UTC midnight before it subtracts anything. UTC has no clock changes, so every day in it is exactly 86,400 seconds and the division is always a whole number. The hours and minutes figures still assume 24-hour days, which is the right assumption for planning and the wrong one if you need the true elapsed seconds across a clock change.</p>
+
+      <h2>Business days, and what the number leaves out</h2>
+      <p>The business days figure removes Saturdays and Sundays. It does that with arithmetic rather than a loop: full weeks contribute five working days each, and only the leftover days at the end need checking individually. That keeps a span of four centuries as fast as a span of four days.</p>
+      <p>What it cannot know is your holidays. Christmas, Eid, Diwali, Golden Week, and the Monday your company closes for a local festival all differ by country, region, and employer. Any tool claiming to handle them without asking where you are is guessing. Subtract yours from the figure the tool gives you. For a version where you enter the holiday dates yourself, use the <a href="/business-days-calculator/">business days calculator</a>.</p>
+
+      <h2>Years, months, and days</h2>
+      <p>The breakdown walks the calendar rather than dividing by an average month length. From 31 January to 1 March reads as one month and one day, not 29 days converted into 0.95 months. Leap years take care of themselves because February simply has the length it has. This is the same arithmetic behind the <a href="/age-calculator/">age calculator</a>, which is why the two tools always agree.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/days-between-dates/">days between dates calculator</a> runs entirely in your browser and keeps working offline once the page has loaded. More date and time tools at <a href="/converter/date/">maratool.com/converter/date</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
