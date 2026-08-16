@@ -1,0 +1,87 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'bmr-calculator'
+const seo = {
+  title: 'How to calculate BMR — and why calculators disagree | maratool',
+  description: 'Mifflin-St Jeor, Harris-Benedict and Katch-McArdle applied to the same person, with the equations written out and the gap between them explained.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate your BMR (and why every calculator gives a different number)',
+    image: 'https://maratool.com/og/health.png',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'The three BMR equations written out in full, run on the same person, with an explanation of why the results differ by a few hundred calories.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate your BMR', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate your BMR (and why every calculator gives a different number)"
+      lead="Enter sex, age, height and weight. Get Mifflin-St Jeor as the headline, with Harris-Benedict and Katch-McArdle next to it so you can see the spread."
+      date="August 15, 2026"
+      dateIso="2026-08-15"
+    >
+      <p>Basal metabolic rate is what your body costs to run while doing nothing: heart, lungs, kidneys, brain, body temperature, all of it, over 24 hours at complete rest. For most people it is 60 to 70 percent of everything they burn in a day. The <a href="/bmr-calculator/">BMR calculator</a> estimates it three different ways and shows all three, because the first thing anyone notices when they check a second site is that the number moved.</p>
+
+      <BlogToolEmbed slug="bmr-calculator" title="Try it — sex, age, height, weight" height={640} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Pick metric or imperial. Imperial switches height to feet and inches and weight to pounds.</li>
+        <li>Enter sex, age, height and weight. The headline number updates on every keystroke.</li>
+        <li>Add a body fat percentage if you have a real one. That unlocks the Katch-McArdle row.</li>
+      </ol>
+
+      <h2>The three equations, written out</h2>
+      <p>Mifflin-St Jeor came out of a 1990 study on 498 adults and is the one most dietitians reach for now:</p>
+      <p><code>BMR = 10 × weight(kg) + 6.25 × height(cm) − 5 × age + 5</code> for men, and the same expression ending in <code>− 161</code> for women.</p>
+      <p>Harris-Benedict is older. The original dates to 1919; Roza and Shizgal refit the coefficients in 1984 on 337 subjects, and that revision is what this tool uses:</p>
+      <p><code>Men: 88.362 + 13.397 × weight(kg) + 4.799 × height(cm) − 5.677 × age</code><br /><code>Women: 447.593 + 9.247 × weight(kg) + 3.098 × height(cm) − 4.330 × age</code></p>
+      <p>Katch-McArdle throws out sex and age entirely and works from lean body mass: <code>LBM = weight × (1 − body fat% / 100)</code>, then <code>BMR = 370 + 21.6 × LBM</code>. That is why it needs a body fat number and why it is left blank until you supply one.</p>
+
+      <h2>Same person, three answers</h2>
+      <p>Take a 35-year-old man, 180 cm, 80 kg, 18 percent body fat. Mifflin-St Jeor gives 1755 kcal. Revised Harris-Benedict gives 1825. Katch-McArdle, working from 65.6 kg of lean mass, gives 1787. The spread is about 70 kcal, or roughly 4 percent.</p>
+      <p>Run the same three on a 55-year-old woman at 160 cm and 85 kg and the gap widens: 1414, 1491, and (at 38 percent body fat) 1508. The equations were fitted on different samples, so they drift apart the further you get from the middle of those samples. Older, heavier, much leaner or much more muscular than average, and the disagreement grows.</p>
+
+      <h2>Which one to believe</h2>
+      <p>Mifflin-St Jeor is the default for a reason: validation studies put it within 10 percent of measured resting energy expenditure for about 70 percent of healthy adults, which beats Harris-Benedict on the same test. It is what the tool shows as the headline number.</p>
+      <p>Katch-McArdle is the better bet when you actually know your body composition from a DEXA scan or reliable calipers, especially at the extremes. A bodybuilder at 8 percent body fat and a sedentary person of identical height, weight and age burn noticeably different amounts at rest, and only Katch-McArdle can tell them apart. Guessing at your body fat percentage defeats the whole point, so leave the field empty if you are estimating.</p>
+      <p>None of them is a measurement. Indirect calorimetry is the measurement, and it involves a metabolic cart and a hood over your face. Treat any calculated BMR as a number with a ±10 percent band around it.</p>
+
+      <h2>What to do with the number</h2>
+      <p>On its own, not much. BMR is the base of the stack, not the total. Add the energy spent digesting food, walking to the kitchen, fidgeting, and training, and you get total daily energy expenditure, which is the number that decides whether you gain or lose weight. The <a href="/tdee-calculator/">TDEE calculator</a> does that multiplication and turns it into calorie targets.</p>
+      <p>One thing worth knowing before you set a target: BMR falls as you lose weight, because there is less tissue to keep alive. A 100 kg person who drops to 85 kg loses roughly 150 kcal/day of basal expenditure along the way. Recalculate every few kilos rather than holding the original number for six months.</p>
+
+      <h2>Sources</h2>
+      <p>Mifflin MD, St Jeor ST, Hill LA, Scott BJ, Daugherty SA, Koh YO. A new predictive equation for resting energy expenditure in healthy individuals. <em>Am J Clin Nutr</em>. 1990;51(2):241-247. Roza AM, Shizgal HM. The Harris Benedict equation reevaluated. <em>Am J Clin Nutr</em>. 1984;40(1):168-182. Everything runs client-side; nothing you type is uploaded.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/bmr-calculator/">BMR Calculator</a> is free and runs entirely in your browser. It is an educational estimate rather than medical advice, so read the <a href="/medical-disclaimer/">medical disclaimer</a>. More <a href="/health/">health calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

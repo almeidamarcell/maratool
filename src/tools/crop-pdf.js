@@ -1,3 +1,5 @@
-import { initPdfTool } from './ezgif-pdf-ui.js'
+import { initPdfCropTool } from './pdf-crop-ui.js'
 
-initPdfTool({ mode: 'compress', suffix: 'cropped' })
+// Not initPdfTool: that module's `compress` mode only re-saves the file, which
+// made this page a duplicate of /compress-pdf/ under a cropping title.
+initPdfCropTool({ suffix: 'cropped' })

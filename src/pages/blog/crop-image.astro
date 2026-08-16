@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'crop-image'
+const seo = {
+  title: 'How to crop an image online with exact pixel coordinates | maratool',
+  description: 'Draw a crop box, drag the corners, or type X, Y, width and height. Free-form or locked to 1:1, 4:3, 16:9. Runs in your browser, nothing uploaded.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to crop an image online with exact pixel coordinates',
+    image: 'https://maratool.com/og/image.png',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Using the maratool free-form cropper: drag handles, numeric coordinates, and ratio locks.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Crop image guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to crop an image online with exact pixel coordinates"
+      lead="Drag a box over the photo, or type the four numbers. Both stay in sync, and the crop happens on your device."
+      date="August 15, 2026"
+      dateIso="2026-08-15"
+    >
+      <p>Cropping is a two-second job that turns into a ten-minute one when the tool insists on a fixed shape or hides the pixel values behind a drag handle. The <a href="/crop-image/">image cropper</a> gives you a selection rectangle you can drag anywhere, plus the four numbers behind it.</p>
+
+      <BlogToolEmbed slug="crop-image" title="Try it — drop a photo and drag a selection" height={680} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Drop a photo. A selection box appears over the middle 80% of the frame.</li>
+        <li>Drag inside the box to move it, pull a corner handle to resize it, or drag on the dark area outside to start a fresh selection.</li>
+        <li>Adjust X, Y, width, and height directly if you need round numbers, then download as PNG, JPEG, or WebP.</li>
+      </ol>
+
+      <h2>The numbers and the box are the same thing</h2>
+      <p>The crop rectangle lives in the image's own pixel coordinates, not in screen coordinates. A 6000 pixel wide photo displayed at 620 pixels still reports a crop of 2400 by 1600 rather than whatever the preview happened to measure. Drag the box and the fields update. Type into the fields and the box moves. Resize the browser window and the numbers hold steady while the box redraws at the new scale.</p>
+      <p>This matters when a spec is precise. "Take the top-left 512 by 512" is a five-second job: type four numbers and download. Guessing at it with a mouse takes far longer and lands a few pixels off.</p>
+
+      <h2>Ratio locks, and when to skip them</h2>
+      <p>Pick 1:1, 4:3, 16:9, or 3:2 and the box keeps that shape while you drag a corner. Free mode lets the rectangle be any shape at all.</p>
+      <p>The ratio lock is for output that has to fit a slot: a square avatar, a 16:9 video thumbnail, a 3:2 print. If you already know the platform, <a href="/social-media-cropper/">the social media cropper</a> carries the current dimensions for Instagram, Threads, Bluesky, and the rest, so you do not have to look them up. Use free mode when the subject decides the shape rather than the destination, which covers most photo work.</p>
+
+      <h2>Cropping does not degrade the pixels you keep</h2>
+      <p>The kept region is copied one to one onto a new canvas, with no scaling or resampling in between. The only quality question is the format you save to. PNG stores the crop exactly as it came out. JPEG and WebP re-encode it once, which is invisible at normal quality settings but does accumulate if you crop the same photo four times in a row. PNG is the default here for that reason.</p>
+      <p>If the crop still comes out larger than you want, run it through the <a href="/resize-image/">resizer</a> or the <a href="/image-compressor/">compressor</a> afterwards.</p>
+
+      <h2>Where the file goes</h2>
+      <p>Nowhere. The browser reads the file, decodes it, and draws the selected region onto a canvas element, and the download comes off that canvas in memory. There is no upload step anywhere in the code. Worth knowing if what you are about to crop is an ID or a medical scan.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/crop-image/">image cropper</a> is free, has no watermark, and needs no sign-up. More image tools at <a href="/image/">maratool.com/image</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

@@ -21,31 +21,31 @@ const seo = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
-      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
-      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+      { '@type': 'Question', name: 'Can I convert more than one JPG at a time?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Drop or select the whole batch and every file is converted in one pass, with a separate download for each and a download-all for the set.' } },
+      { '@type': 'Question', name: 'Will the PNG be smaller than the JPG?', acceptedAnswer: { '@type': 'Answer', text: 'Almost never. PNG is lossless, so a photo saved as PNG is usually several times larger than the JPG it came from. Convert for editing headroom or transparency support, not to save space.' } },
+      { '@type': 'Question', name: 'Does converting to PNG restore quality the JPG lost?', acceptedAnswer: { '@type': 'Answer', text: 'No. Compression artefacts already baked into the JPG stay baked in. What PNG gives you is that no further quality is lost on each later save.' } },
+      { '@type': 'Question', name: 'Are my images uploaded anywhere?', acceptedAnswer: { '@type': 'Answer', text: 'No. Decoding and re-encoding both happen on a canvas in your browser, so the files never leave your device.' } },
     ],
   },
 }
 
 const howTo = [
-  'Upload or drop your file.',
-  'Adjust settings if needed.',
-  'Click Process and download the result.',
+  'Drop in as many JPG files as you like — the whole batch loads at once.',
+  'Click Convert to PNG. Every file in the batch is re-encoded, not just the first.',
+  'Download each PNG on its own, or take the whole set with Download all.',
 ]
 
 const faq = [
-  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
-  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
-  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
-  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+  { q: 'Can I convert more than one JPG at a time?', a: 'Yes. Drop or select the whole batch and every file is converted in one pass, with a separate download for each and a download-all for the set.' },
+  { q: 'Will the PNG be smaller than the JPG?', a: 'Almost never. PNG is lossless, so a photo saved as PNG is usually several times larger than the JPG it came from. Convert for editing headroom or transparency support, not to save space.' },
+  { q: 'Does converting to PNG restore quality the JPG lost?', a: 'No. Compression artefacts already baked into the JPG stay baked in. What PNG gives you is that no further quality is lost on each later save.' },
+  { q: 'Are my images uploaded anywhere?', a: 'No. Decoding and re-encoding both happen on a canvas in your browser, so the files never leave your device.' },
 ]
 
 const relatedTools = [
-  { slug: 'gif-maker', name: 'GIF Maker' },
-  { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'video-to-gif', name: 'Video to GIF' },
+  { slug: 'bulk-png-to-jpg', name: 'Bulk PNG to JPG Converter' },
+  { slug: 'image-converter', name: 'Image Converter' },
+  { slug: 'image-compressor', name: 'Compress Image Online' },
 ]
 
 const breadcrumbs = [
@@ -57,7 +57,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="bulk-jpg-to-png" name="Bulk JPG to PNG Converter" description="Bulk JPG to PNG Converter. Free, runs in your browser — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="bulk-jpg-to-png" name="Bulk JPG to PNG Converter" description="Convert a whole batch of JPG files to PNG at once. Every file is re-encoded in your browser and downloads individually or as a set." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container" style="min-height:420px;" data-ui="image">
         <p class="tool-hint">Upload a file to get started. Processing runs entirely in your browser.</p>
         <div id="ez-root" data-slug="bulk-jpg-to-png"></div>

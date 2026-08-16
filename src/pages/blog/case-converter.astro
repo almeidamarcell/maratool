@@ -1,0 +1,76 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'case-converter'
+const seo = {
+  title: 'How to convert text case online — uppercase, title case, camelCase | maratool',
+  description: 'Change text between uppercase, lowercase, title case, sentence case and six programmer cases, with a title case rule that leaves small words alone.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert text case online, including a title case that gets small words right',
+    image: 'https://maratool.com/og/text.png',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Ten case transforms in one box, and why title case needs a small-word list to be correct.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Case Converter guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert text case online, including a title case that gets small words right"
+      lead="Paste text, pick a case, copy the result. Ten transforms, zero retyping, and nothing leaves the browser."
+      date="August 15, 2026"
+      dateIso="2026-08-15"
+    >
+      <p>A colleague sends over a spreadsheet column typed in SHOUTING CAPS, and the catalogue wants it in title case. Somebody else hands you a headline that has to become a CSS class name. The <a href="/case-converter/">Case Converter</a> does both without you touching the shift key once.</p>
+
+      <BlogToolEmbed slug="case-converter" title="Try it — paste text and pick a case" height={620} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Paste or type your text in the top box. The character, word and line counts update immediately.</li>
+        <li>Click one of the ten case buttons. The result appears below and re-renders on every keystroke, so you can keep editing with the target case already applied.</li>
+        <li>Hit Copy. The button flips to "Copied!" for two seconds so you know the clipboard write actually landed.</li>
+      </ol>
+
+      <h2>Why title case is harder than it looks</h2>
+      <p>Most online converters implement title case as a one-line regex: uppercase the letter after every word boundary. Feed that "the lord of the rings" and you get "The Lord Of The Rings", which no style guide anywhere endorses.</p>
+      <p>Real title case keeps articles, short conjunctions and short prepositions in lowercase. This tool holds a list of fifteen of them: <em>a, an, the, and, but, or, for, nor, on, at, to, from, by, of, in</em>. There is one override that trips up naive implementations. The first and last word of a line always get capitalised, whatever they are, so "of mice and men" becomes "Of Mice and Men" rather than "of Mice and Men".</p>
+      <p>Capitalisation targets the first letter, not the first character. A quoted phrase like <code>"hello world"</code> comes back as <code>"Hello World"</code> with the quote intact, instead of the converter giving up because position zero was punctuation.</p>
+
+      <h2>The six programmer cases</h2>
+      <p>camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE and alternating all run per line, so a list of forty names converts to forty identifiers in one click.</p>
+      <p>The word splitter matters more than the joining. It breaks on spaces and punctuation, but it also breaks on case boundaries already present in the input, and it treats a run of capitals followed by a capitalised word as two words. That is what makes <code>parseHTMLValue</code> split into parse, HTML and Value, so you get <code>parse_html_value</code> instead of the mangled <code>parse_h_t_m_l_value</code> a simpler splitter produces. Round-tripping an identifier from snake_case to camelCase and back gives you what you started with.</p>
+
+      <h2>Sentence case and where it stops</h2>
+      <p>Sentence case lowercases everything, then restores a capital at the start of the text, after each period, question mark or exclamation mark, and at the start of every new line. It does not know that "nasa" is an acronym or that "john" is a name. For prose that is fine. For anything with proper nouns, expect to fix a handful of words by hand.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/case-converter/">Case Converter</a> runs entirely in your browser and keeps working offline once the page has loaded. Sorting and dedupe live next door at <a href="/sort-lines/">Sort Lines</a> and <a href="/remove-duplicate-lines/">Remove Duplicate Lines</a>. More at <a href="/text/">maratool.com/text</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

@@ -1,0 +1,148 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'URL Encode and Decode Online — Percent-Encoding Tool | maratool',
+  description: 'Encode and decode URLs online. Switch between encodeURIComponent and encodeURI, fix broken percent-encoding, and handle UTF-8 accents and emoji safely.',
+  canonical: 'https://maratool.com/url-encode-decode',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'URL Encode and Decode Online',
+    url: 'https://maratool.com/url-encode-decode',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Percent-encode and decode URLs in the browser, with a toggle between encodeURIComponent and encodeURI.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Web', item: 'https://maratool.com/developer/web' },
+      { '@type': 'ListItem', position: 4, name: 'URL Encode and Decode Online', item: 'https://maratool.com/url-encode-decode' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is the difference between encodeURI and encodeURIComponent?', acceptedAnswer: { '@type': 'Answer', text: 'encodeURIComponent escapes the reserved characters : / ? # [ ] @ $ & + , ; = as well as spaces, so it is the right choice for one query-string value or one path segment. encodeURI leaves those reserved characters alone because they are part of the URL syntax, so it is the right choice when you are encoding an entire URL and want it to stay clickable.' } },
+      { '@type': 'Question', name: 'Why do I get URIError: URI malformed when decoding?', acceptedAnswer: { '@type': 'Answer', text: 'decodeURIComponent throws when a percent sign is not followed by two hex digits, or when a multi-byte UTF-8 sequence is cut short. Decoding %E0%A4%A fails because the three-byte sequence is missing its last byte. This tool catches the error and tells you where the encoding is broken instead of returning nothing.' } },
+      { '@type': 'Question', name: 'How are spaces encoded in a URL?', acceptedAnswer: { '@type': 'Answer', text: 'Both encodeURI and encodeURIComponent turn a space into %20. The plus sign is only a space inside application/x-www-form-urlencoded form bodies and query strings written by HTML forms, so + and %20 are not interchangeable in a path.' } },
+      { '@type': 'Question', name: 'Does this handle emoji and accented characters?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Text is encoded as UTF-8 first, so é becomes %C3%A9 and a rocket emoji becomes %F0%9F%9A%80. Decoding reverses it. Nothing is sent to a server, so tokens and signed URLs stay on your machine.' } },
+    ]
+  }
+}
+
+const howTo = [
+  'Pick a mode: encodeURIComponent for a single query value, encodeURI for a whole URL.',
+  'Type in the left pane to encode, or paste percent-encoded text in the right pane to decode.',
+  'Copy either side, or hit Swap to move the encoded result back to the input.',
+]
+
+const faq = [
+  { q: 'What is the difference between encodeURI and encodeURIComponent?', a: 'encodeURIComponent escapes reserved characters like & = ? / # so a value survives being dropped into a query string. encodeURI leaves them alone because they are URL syntax, which is what you want when encoding a whole URL.' },
+  { q: 'Why do I get URIError: URI malformed when decoding?', a: 'A % must be followed by two hex digits and multi-byte sequences must be complete. %E0%A4%A is a truncated three-byte sequence, so decodeURIComponent throws. This page shows the error instead of failing silently.' },
+  { q: 'How are spaces encoded in a URL?', a: 'As %20 by both functions. The + sign only means space in form-encoded bodies, so + and %20 are not interchangeable inside a path.' },
+  { q: 'Does this handle emoji and accented characters?', a: 'Yes. Text is UTF-8 encoded first, so é becomes %C3%A9. Everything runs in your browser and nothing is uploaded.' },
+]
+
+const relatedTools = [
+  { slug: 'url-parser', name: 'URL Parser — Decode URL Components' },
+  { slug: 'base64', name: 'Base64 Encode / Decode' },
+  { slug: 'json-formatter', name: 'Format and Validate JSON Online' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Web', href: '/developer/web' },
+  { label: 'URL Encode and Decode' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell
+      slug="url-encode-decode"
+      name="URL Encode and Decode Online"
+      description="Percent-encode text for a URL, or decode %20 and %C3%A9 back to readable characters. Both panes are editable and update each other as you type."
+      howTo={howTo}
+      faq={faq}
+      relatedTools={relatedTools}
+      breadcrumbs={breadcrumbs}
+      whatIs="URL encoding, also called percent-encoding, replaces characters that are unsafe or reserved in a URL with a <strong>%</strong> followed by the two hex digits of each UTF-8 byte. A space becomes <strong>%20</strong>, an ampersand becomes <strong>%26</strong>, and <strong>é</strong> becomes <strong>%C3%A9</strong> because it is two bytes in UTF-8. The rules come from RFC 3986, which splits characters into unreserved (letters, digits, and <strong>- _ . ~</strong>), reserved delimiters that carry meaning in the URL grammar, and everything else. JavaScript exposes two encoders: <strong>encodeURIComponent</strong> escapes the reserved delimiters as well, which is what you want for a single query-string value, and <strong>encodeURI</strong> preserves them so a complete URL stays valid."
+    >
+      <div class="tool-container" style="min-height:460px;">
+        <div class="ued-modes" role="radiogroup" aria-label="Encoding mode">
+          <label class="ued-mode">
+            <input type="radio" name="ued-mode" value="component" checked />
+            <span class="ued-mode-body">
+              <span class="ued-mode-name">encodeURIComponent</span>
+              <span class="ued-mode-desc">Escapes the reserved characters too, including &amp; = ? / # + and space. Use it for one query-string value or one path segment.</span>
+            </span>
+          </label>
+          <label class="ued-mode">
+            <input type="radio" name="ued-mode" value="uri" />
+            <span class="ued-mode-body">
+              <span class="ued-mode-name">encodeURI</span>
+              <span class="ued-mode-desc">Leaves : / ? # &amp; = @ intact so the URL keeps working. Use it for a whole address you still want to be clickable.</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="tool-row ued-row">
+          <div class="tool-panel">
+            <div class="tool-panel-header">
+              <label class="tool-label" for="ued-plain">Decoded text</label>
+              <button type="button" id="ued-copy-plain" class="copy-btn">Copy decoded</button>
+            </div>
+            <textarea id="ued-plain" class="tool-textarea" rows="9" spellcheck="false" placeholder="Type or paste plain text or a readable URL..." aria-label="Decoded text"></textarea>
+          </div>
+          <div class="tool-panel">
+            <div class="tool-panel-header">
+              <label class="tool-label" for="ued-encoded">Percent-encoded</label>
+              <button type="button" id="ued-copy-encoded" class="copy-btn">Copy encoded</button>
+            </div>
+            <textarea id="ued-encoded" class="tool-textarea" rows="9" spellcheck="false" placeholder="Or paste %20%C3%A9 style text here to decode..." aria-label="Percent-encoded text"></textarea>
+          </div>
+        </div>
+
+        <p id="ued-error" class="tool-error" role="alert" hidden></p>
+
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="ued-stat-chars">0</span><span class="tool-stat-label">Characters in</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="ued-stat-bytes">0</span><span class="tool-stat-label">UTF-8 bytes</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="ued-stat-growth">—</span><span class="tool-stat-label">Size change</span></div>
+        </div>
+
+        <div class="ued-actions">
+          <button type="button" id="ued-swap" class="tool-btn tool-btn-secondary">Swap ↔ move encoded to input</button>
+          <button type="button" id="ued-clear" class="tool-btn tool-btn-secondary">Clear both</button>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .ued-modes { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .ued-mode { display: flex; gap: 0.625rem; align-items: flex-start; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .ued-mode:hover { background: var(--bg-soft); }
+  .ued-mode:has(input:checked) { border-color: var(--accent); background: var(--bg-soft); }
+  .ued-mode input { margin-top: 3px; flex-shrink: 0; }
+  .ued-mode-body { display: block; }
+  .ued-mode-name { display: block; font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .ued-mode-desc { display: block; font-size: 12px; line-height: 1.5; color: var(--text-2); }
+  .ued-actions { display: flex; gap: 0.625rem; flex-wrap: wrap; margin-top: 1rem; }
+  #ued-error { margin-top: 0.25rem; }
+  @media (max-width: 700px) {
+    .ued-modes { grid-template-columns: 1fr; }
+    .ued-row { flex-direction: column; }
+  }
+</style>
+<script src="../tools/url-encode-decode.js"></script>

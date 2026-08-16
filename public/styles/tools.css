@@ -12,6 +12,46 @@
   margin-bottom: 2.5rem;
 }
 
+/* The inline min-height on each tool-container reserves room for the loaded UI
+   so CLS stays at zero. On an upload tool that room is empty until a file is
+   picked, which left a dead gap between the dropzone and "How to use" — 311px
+   on resize-image, 233px on heic-to-jpg, right inside the first viewport.
+   Stretching the dropzone to fill the reservation keeps CLS at zero AND gives
+   the user a bigger drop target instead of a hole.
+   Matched by class shape, not by one class name, because the upload tools never
+   converged: .tool-dropzone, .icm-dropzone, .ei-dropzone, .ge-dropzone and
+   .pdf-dropzone all exist, and 8 more pages (gif-maker, image-converter,
+   watermarker, ...) call the same thing `<prefix>-upload` instead.
+   The :not([class*="dropzone-"]) is load-bearing: a plain *= also matches the
+   .*-dropzone-title / -sub children, and giving those flex-grow pushed the two
+   lines of label to opposite ends of the box. Same reason `$=` is used on the
+   upload variant, so it skips .gm-upload-content. */
+.tool-container:has([class*="dropzone"]:not([class*="dropzone-"])),
+.tool-container:has([class$="-upload"]) {
+  display: flex;
+  flex-direction: column;
+}
+/* The drop area is a direct child on some tools and sits one wrapper down on
+   others (compare-images builds an unclassed div around it), so the wrapper has
+   to stretch too or the child's flex-grow has nothing to grow inside. */
+.tool-container > [class*="dropzone"]:not([class*="dropzone-"]),
+.tool-container > [class$="-upload"],
+.tool-container > *:has(> [class*="dropzone"]:not([class*="dropzone-"])),
+.tool-container > *:has(> [class$="-upload"]) {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.tool-container > *:has(> [class*="dropzone"]:not([class*="dropzone-"])) > [class*="dropzone"]:not([class*="dropzone-"]),
+.tool-container > *:has(> [class$="-upload"]) > [class$="-upload"] {
+  flex: 1 0 auto;
+}
+.tool-container [class*="dropzone"]:not([class*="dropzone-"]),
+.tool-container > [class$="-upload"] {
+  align-items: center;
+  justify-content: center;
+}
+
 /* ========== TEXTAREAS / INPUTS ========== */
 .tool-textarea {
   width: 100%;
@@ -59,29 +99,17 @@
   color: #c53030;
 }
 
-/* ========== BUTTONS ========== */
-.tool-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 8px 16px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  font-family: var(--font);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.15s;
-  white-space: nowrap;
-}
-
-.tool-button:hover {
-  background: var(--accent-hover);
-}
-
-.tool-button:active {
+/* ========== BUTTONS ==========
+   `.tool-button` and `.tool-btn` grew independently and drifted: 8px/16px
+   padding vs 9px/18px, 13px vs 14px type, borderless vs 1px accent border.
+   The split ran ~60 pages to ~45, so neither was "the wrong one" by usage,
+   and two sibling tools could look like two products.
+   `.tool-btn` is canonical: it is what the shared JS emits and the only one
+   with a `-secondary` variant. `.tool-button` is kept as an alias rather than
+   renamed across ~105 pages — same pixels, no page churn, trivially revertible.
+   The real definition lives with `.tool-btn` further down this file. */
+.tool-button:active,
+.tool-btn:active {
   transform: scale(0.98);
 }
 
@@ -662,10 +690,13 @@ html.embed .embed-modal-overlay {
    nothing had happened. Per-page `.ef-dropzone` / `.ga-dropzone` blocks
    declare the same dropzone values and are now redundant, not conflicting. */
 
+/* Sibling upload tools were rendering dropzones of visibly different heights
+   (48px, 40px and 36px of vertical padding) because each page re-declared its
+   own copy of this rule. One value here, no per-page override. */
 .tool-dropzone {
   border: 2px dashed var(--border);
   border-radius: var(--radius);
-  padding: 2rem;
+  padding: 2.5rem 1.5rem;
   text-align: center;
   cursor: pointer;
   color: var(--text-2);
@@ -745,7 +776,8 @@ html.embed .embed-modal-overlay {
    `.tool-btn` is emitted by 6 tool modules and 39 pages and had no rules,
    so every Process / Download control rendered as a raw browser button. */
 
-.tool-btn {
+.tool-btn,
+.tool-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -754,7 +786,7 @@ html.embed .embed-modal-overlay {
   background: var(--accent);
   color: #fff;
   border: 1px solid var(--accent);
-  border-radius: 6px;
+  border-radius: var(--radius);
   font-family: var(--font);
   font-size: 14px;
   font-weight: 500;
@@ -762,8 +794,10 @@ html.embed .embed-modal-overlay {
   transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
   white-space: nowrap;
 }
-.tool-btn:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
-.tool-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.tool-btn:hover,
+.tool-button:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.tool-btn:disabled,
+.tool-button:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .tool-btn-secondary {
   background: var(--bg);
@@ -786,4 +820,424 @@ html.embed .embed-modal-overlay {
   color: var(--text-2);
   margin: 0 0 0.75rem;
   line-height: 1.5;
+}
+
+/* Video effects tools (ezgif-ffmpeg-ext-ui.js): filter sliders, one-frame
+   preview, and the subtitle caption editor. These elements are created by JS,
+   so the rules have to live here — a scoped <style> on the page would never
+   match them. */
+
+.fx-presets {
+  margin-bottom: 1rem;
+}
+
+.fx-preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.375rem;
+}
+
+.fx-slider {
+  margin-bottom: 0.875rem;
+}
+
+.fx-slider .tool-label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.fx-slider-value {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.75rem;
+  color: var(--text-2);
+}
+
+.fx-range {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.fx-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text);
+  margin: 0.5rem 0 0.75rem;
+  cursor: pointer;
+}
+
+.fx-preview {
+  margin-bottom: 1rem;
+}
+
+.fx-preview-canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+}
+
+.fx-cues {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.fx-cue {
+  display: grid;
+  grid-template-columns: 8.5rem 8.5rem 1fr auto;
+  gap: 0.5rem;
+  align-items: start;
+}
+
+.fx-cue-time {
+  font-variant-numeric: tabular-nums;
+}
+
+.fx-cue-text {
+  resize: vertical;
+  min-height: 38px;
+  font-family: var(--font);
+  line-height: 1.4;
+}
+
+.fx-sub-style {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.fx-field {
+  flex: 1 1 10rem;
+}
+
+@media (max-width: 640px) {
+  .fx-cue {
+    grid-template-columns: 1fr 1fr;
+  }
+  .fx-cue-text {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ── GIF split: frame timeline + segment cards ──────────────────────────────
+   Emitted by src/tools/ezgif-gif-ext-ui.js (mode 'split'). JS-created elements
+   never get an Astro scope attribute, so these rules have to live here. */
+
+.gif-timeline {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+  margin: 0.5rem 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  min-height: 72px;
+}
+
+.gif-timeline-frame {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 3px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  color: var(--text-2);
+}
+
+.gif-timeline-frame:hover {
+  background: var(--bg-hover);
+  border-color: var(--border);
+}
+
+.gif-timeline-frame img {
+  display: block;
+  height: 44px;
+  width: auto;
+  border-radius: 3px;
+}
+
+.gif-timeline-index {
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.gif-timeline-frame.seg-odd {
+  background: rgba(45, 110, 246, 0.08);
+}
+
+.gif-timeline-frame.is-cut {
+  border-left: 2px solid var(--accent);
+  margin-left: 6px;
+}
+
+.gif-segments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.gif-segment-card {
+  flex: 0 1 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+}
+
+.gif-segment-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  background: var(--bg);
+}
+
+.gif-segment-meta {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--text-2);
+}
+
+/* ── GIF repair: diagnostic readout ────────────────────────────────────────
+   Emitted by src/tools/gif-anim-ui.js (op 'repair'). */
+
+.gif-report {
+  margin-bottom: 1rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+}
+
+.gif-report-summary {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.gif-report-list {
+  margin: 0 0 0.5rem;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.gif-report-item {
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.gif-report-found {
+  display: block;
+  color: var(--text);
+}
+
+.gif-report-fix {
+  display: block;
+  color: var(--text-2);
+}
+
+.gif-report-stats {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--text-2);
+}
+
+/* ── Image tool result panels (ezgif-image-ui.js) ─────────────────────
+   Emitted from JS, so these have to be global: a JS-created element never
+   carries the [data-astro-cid-*] attribute a scoped rule selects on. */
+
+.ei-info {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text-2);
+  margin: 0.75rem 0 0;
+}
+
+.ei-range {
+  width: 100%;
+  max-width: 320px;
+  accent-color: var(--accent);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.ei-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--text-2);
+  margin-top: 0.75rem;
+  cursor: pointer;
+}
+.ei-check input { accent-color: var(--accent); }
+
+/* Per-file results: one row per converted image, one cell per sprite tile. */
+.ei-files {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.ei-files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+
+.ei-file {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  min-width: 0;
+}
+.ei-files-grid .ei-file {
+  flex-direction: column;
+  align-items: stretch;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.ei-file-thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+  /* A tile can be any aspect ratio; the checkerboard makes a transparent
+     PNG readable instead of looking like a blank square. */
+  background-image:
+    linear-gradient(45deg, var(--bg-hover) 25%, transparent 25%, transparent 75%, var(--bg-hover) 75%),
+    linear-gradient(45deg, var(--bg-hover) 25%, transparent 25%, transparent 75%, var(--bg-hover) 75%);
+  background-size: 12px 12px;
+  background-position: 0 0, 6px 6px;
+}
+.ei-files-grid .ei-file-thumb {
+  width: 100%;
+  height: 96px;
+}
+
+.ei-file-body { flex: 1; min-width: 0; }
+.ei-file-name {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ei-file-meta {
+  margin: 0.125rem 0 0;
+  font-size: 0.75rem;
+  color: var(--text-3);
+  font-family: var(--font-mono);
+}
+.ei-file-btn { flex-shrink: 0; }
+
+/* Metadata table */
+.ei-meta-table {
+  margin-top: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.ei-meta-section {
+  margin: 0;
+  padding: 0.5rem 0.875rem;
+  background: var(--bg-hover);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.ei-meta-row {
+  display: flex;
+  gap: 1rem;
+  padding: 0.4375rem 0.875rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.8125rem;
+}
+.ei-meta-row:last-child { border-bottom: none; }
+.ei-meta-label {
+  flex: 0 0 40%;
+  max-width: 220px;
+  color: var(--text-2);
+}
+.ei-meta-value {
+  flex: 1;
+  min-width: 0;
+  color: var(--text);
+  font-family: var(--font-mono);
+  word-break: break-word;
+}
+.ei-meta-note {
+  margin: 0;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text-2);
+  border-bottom: 1px solid var(--border);
+}
+.ei-meta-note:last-child { border-bottom: none; }
+
+/* ========== TOUCH TARGETS ==========
+   The desk layout is deliberately dense: .tool-input is 7px/10px at 13px type,
+   which lands around 32px tall, and buttons sit at 33-39px. That is fine with a
+   mouse and below the 44px minimum with a thumb. Measured across the catalog,
+   not just new pages: bmi-calculator 27-39px, mortgage-calculator 32px,
+   uuid-generator 27-34px.
+   Gated on (pointer: coarse) so touch devices get the bigger target and the
+   density that makes this site fast on a desktop is left alone. */
+@media (pointer: coarse) {
+  .tool-input,
+  .tool-select,
+  select.tool-input {
+    min-height: 44px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /* iOS Safari zooms the viewport when a focused field is under 16px. */
+    font-size: 16px;
+  }
+
+  .tool-btn,
+  .tool-button,
+  .copy-btn,
+  .tool-tab {
+    min-height: 44px;
+  }
+
+  .tool-textarea {
+    font-size: 16px;
+  }
 }

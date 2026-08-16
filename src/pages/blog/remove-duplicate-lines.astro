@@ -1,0 +1,75 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'remove-duplicate-lines'
+const seo = {
+  title: 'How to remove duplicate lines from a list online | maratool',
+  description: 'Dedupe a list without re-sorting it, keep the first or the last copy, and switch to a mode that shows only the duplicates you are about to delete.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to remove duplicate lines from a list without losing its order',
+    image: 'https://maratool.com/og/text.png',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Four dedupe modes for a list of lines, and the whitespace problem behind most missed matches.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Remove Duplicate Lines guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to remove duplicate lines from a list without losing its order"
+      lead="Paste a list, see how many lines repeat, and delete the copies while everything else stays where it was."
+      date="August 15, 2026"
+      dateIso="2026-08-15"
+    >
+      <p>Merged two exports and now the email list has 1,400 rows where it should have 900. The <a href="/remove-duplicate-lines/">Remove Duplicate Lines</a> tool strips the repeats, tells you how many it dropped, and leaves the surviving lines in the order you pasted them.</p>
+
+      <BlogToolEmbed slug="remove-duplicate-lines" title="Try it — paste a list and dedupe it" height={660} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Paste your list into the top box, one item per line.</li>
+        <li>Leave the mode on Keep first copy, or switch to one of the other three depending on what you are after.</li>
+        <li>Read the summary line, which spells out how many duplicates went and how many lines survived, then copy the result.</li>
+      </ol>
+
+      <h2>Four modes, four different questions</h2>
+      <p>Keep first copy is the ordinary dedupe. Each line stays at the position where it first appeared and every later repeat disappears. Keep last copy does the reverse and holds each line at its final position, which is what you want when later rows in an export are the fresher ones.</p>
+      <p>Only duplicates flips the output. Instead of the cleaned list you get one copy of every line that shows up two or more times, which is how you audit an import before you commit to deleting anything. Only unique lines is the mirror of that: the lines that appear exactly once and nowhere else. That differs from Keep first copy, which still hands you one of every repeat. A line appearing three times survives the dedupe once and vanishes entirely from unique mode.</p>
+
+      <h2>The invisible reason two identical lines do not match</h2>
+      <p>Deduplication is an exact string comparison, and <code>"apple "</code> with a trailing space is not <code>"apple"</code>. Copy a column out of a spreadsheet or a PDF and you will pick up trailing spaces, non-breaking spaces and stray tabs you cannot see in a textarea.</p>
+      <p>Trim whitespace before comparing is on by default for that reason. It strips leading and trailing whitespace from the comparison key only. The line that survives keeps its original spacing, so nothing gets silently reformatted behind your back. Case-sensitive is off by default, so <em>Apple</em> and <em>apple</em> count as one item. Turn it on when the list holds identifiers, API keys or anything where capitalisation carries meaning.</p>
+
+      <h2>What this will not catch</h2>
+      <p>Near-duplicates stay put. "John Smith" and "john  smith" with two spaces are different strings, and no toggle here collapses internal whitespace. Same for "Ltd" against "Ltd." or an email with a plus-tag against the one without. For that kind of cleanup you want a fuzzy match, and it is worth doing by eye at the row level rather than in bulk.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/remove-duplicate-lines/">Remove Duplicate Lines</a> tool runs in your browser, so the list never leaves your machine. Sort the result with <a href="/sort-lines/">Sort Lines</a> or normalise capitalisation first with the <a href="/case-converter/">Case Converter</a>. More at <a href="/text/">maratool.com/text</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

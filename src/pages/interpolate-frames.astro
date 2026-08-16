@@ -21,31 +21,31 @@ const seo = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
-      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
-      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+      { '@type': 'Question', name: 'Can I smooth a GIF with this?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Drop a GIF in and you get a GIF back, run through a palette pass so the extra frames do not wreck the colours.' } },
+      { '@type': 'Question', name: 'How does it invent frames that were never filmed?', acceptedAnswer: { '@type': 'Answer', text: 'Motion interpolation estimates how each block of pixels moves between two real frames and renders the intermediate positions. It works well on smooth panning and poorly on cuts or fast, chaotic motion.' } },
+      { '@type': 'Question', name: 'Why does the result look smeared in places?', acceptedAnswer: { '@type': 'Answer', text: 'Where motion is ambiguous the estimate is wrong and you get warping around edges. Lowering the target frame rate usually helps, since fewer frames have to be invented.' } },
+      { '@type': 'Question', name: 'How high can I push the frame rate?', acceptedAnswer: { '@type': 'Answer', text: 'Up to sixty. Going far above the source rate multiplies both the artefacts and the processing time without adding real detail.' } },
     ],
   },
 }
 
 const howTo = [
-  'Upload or drop your file.',
-  'Adjust settings if needed.',
-  'Click Process and download the result.',
+  'Drop in a choppy GIF, or an MP4, WebM or MOV clip.',
+  'Set the target frame rate and pick how the in-between frames are generated.',
+  'Process, then download. A GIF comes back as a GIF; a video comes back as MP4.',
 ]
 
 const faq = [
-  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
-  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
-  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
-  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+  { q: 'Can I smooth a GIF with this?', a: 'Yes. Drop a GIF in and you get a GIF back, run through a palette pass so the extra frames do not wreck the colours.' },
+  { q: 'How does it invent frames that were never filmed?', a: 'Motion interpolation estimates how each block of pixels moves between two real frames and renders the intermediate positions. It works well on smooth panning and poorly on cuts or fast, chaotic motion.' },
+  { q: 'Why does the result look smeared in places?', a: 'Where motion is ambiguous the estimate is wrong and you get warping around edges. Lowering the target frame rate usually helps, since fewer frames have to be invented.' },
+  { q: 'How high can I push the frame rate?', a: 'Up to sixty. Going far above the source rate multiplies both the artefacts and the processing time without adding real detail.' },
 ]
 
 const relatedTools = [
-  { slug: 'gif-maker', name: 'GIF Maker' },
-  { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'video-to-gif', name: 'Video to GIF' },
+  { slug: 'fps-converter', name: 'FPS Converter' },
+  { slug: 'gif-speed', name: 'Change GIF Speed' },
+  { slug: 'video-speed', name: 'Change Video Speed' },
 ]
 
 const breadcrumbs = [
@@ -57,7 +57,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="interpolate-frames" name="GIF Frame Interpolation — Smooth Motion" description="GIF Frame Interpolation. Free, runs in your browser — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="interpolate-frames" name="GIF Frame Interpolation — Smooth Motion" description="Raise the frame rate of a choppy GIF or video by generating the missing in-between frames. GIF in, GIF out, or MP4 for video." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container" style="min-height:420px;" data-ui="interpolate-frames">
         <p class="tool-hint">Upload a file to get started. Processing runs entirely in your browser.</p>
         <div id="ez-root" data-slug="interpolate-frames"></div>

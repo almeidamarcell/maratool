@@ -15,6 +15,7 @@ import {
   describeFitPlan,
 } from './gif-anim-core.js'
 import { computeScaledDims, mergeDelays } from './gif-compressor-core.js'
+import { planGifRepair, repairDelaysMs, summarizeRepair } from './gif-repair-core.js'
 import { setVisible } from './tool-utils.js'
 
 var MAX_FILE_SIZE = 50 * 1024 * 1024
@@ -120,6 +121,13 @@ export function initGifAnimTool(config) {
   // (2808×1650 × 597 frames = 10.3 GB decoded) can be processed at all.
   var isByteRewrite = op === 'speed'
 
+  // Repair reads the raw bytes first, salvages a decodable stream out of them
+  // and reports what it found, then re-encodes from the frames it recovered.
+  var isRepair = op === 'repair'
+  var repairReport = null
+  var repairPanelEl = null
+  var repairResultEl = null
+
   function showState(state) {
     setVisible(dropzone, state === 'upload')
     setVisible(settingsEl, state === 'settings')
@@ -149,6 +157,74 @@ export function initGifAnimTool(config) {
     }
     fitNoticeEl.hidden = false
     fitNoticeEl.textContent = message
+  }
+
+  // The diagnostic readout. Naming the damage is the point of a repair tool —
+  // "here is your file back" with no explanation is indistinguishable from a
+  // re-encode that changed nothing.
+  function buildReportList(report) {
+    var list = document.createElement('ul')
+    list.className = 'gif-report-list'
+    report.issues.forEach(function (issue) {
+      var li = document.createElement('li')
+      li.className = 'gif-report-item'
+      var found = document.createElement('span')
+      found.className = 'gif-report-found'
+      found.textContent = issue.found
+      var fix = document.createElement('span')
+      fix.className = 'gif-report-fix'
+      fix.textContent = 'Fix: ' + issue.fix
+      li.appendChild(found)
+      li.appendChild(fix)
+      list.appendChild(li)
+    })
+    return list
+  }
+
+  function describeRepairStats(stats) {
+    if (!stats) return ''
+    var parts = [
+      stats.frameCount + (stats.frameCount === 1 ? ' frame' : ' frames'),
+      stats.width + '×' + stats.height,
+      (stats.durationMs / 1000).toFixed(2) + 's',
+    ]
+    if (stats.droppedFrames) parts.push(stats.droppedFrames + ' unrecoverable frame(s) dropped')
+    parts.push(
+      stats.loopCount === null ? 'no loop setting found'
+        : stats.loopCount === 0 ? 'loops forever'
+        : 'plays ' + stats.loopCount + ' time(s)'
+    )
+    return 'Recovered: ' + parts.join(' · ')
+  }
+
+  function showRepairReport(report) {
+    if (!settingsEl) return
+    if (!repairPanelEl) {
+      repairPanelEl = document.createElement('div')
+      repairPanelEl.className = 'gif-report'
+      repairPanelEl.id = prefix + '-repair-report'
+      settingsEl.insertBefore(repairPanelEl, settingsEl.firstChild)
+    }
+    repairPanelEl.innerHTML = ''
+    var summary = document.createElement('p')
+    summary.className = 'gif-report-summary'
+    summary.textContent = summarizeRepair(report)
+    repairPanelEl.appendChild(summary)
+    if (report.issues.length) repairPanelEl.appendChild(buildReportList(report))
+    var stats = document.createElement('p')
+    stats.className = 'gif-report-stats'
+    stats.textContent = describeRepairStats(report.stats)
+    repairPanelEl.appendChild(stats)
+  }
+
+  function showRepairResult(text) {
+    if (!resultEl) return
+    if (!repairResultEl) {
+      repairResultEl = document.createElement('p')
+      repairResultEl.className = 'gif-report-summary'
+      resultEl.insertBefore(repairResultEl, resultEl.firstChild)
+    }
+    repairResultEl.textContent = text
   }
 
   function readOpts() {
@@ -319,8 +395,15 @@ export function initGifAnimTool(config) {
   }
 
   async function handleFile(file) {
-    if (!file || file.type !== 'image/gif') {
+    // Repair takes whatever it is given: a file that will not open often has a
+    // wrong or missing type, and the diagnosis is what tells the user it is a
+    // PNG with a .gif name. Every other tool still demands a real GIF.
+    if (!file || (!isRepair && file.type !== 'image/gif')) {
       showError('Please select a GIF file.')
+      return
+    }
+    if (isRepair && !file.size) {
+      showError('That file is empty (0 bytes), so there is nothing to recover.')
       return
     }
     if (file.size > MAX_FILE_SIZE) {
@@ -337,6 +420,41 @@ export function initGifAnimTool(config) {
     showState('progress')
     if (progressText) progressText.textContent = 'Reading GIF...'
     try {
+      if (isRepair) {
+        var repairBytes = new Uint8Array(await file.arrayBuffer())
+        if (!isCurrent()) return
+        // Throws with a reason specific to this file when nothing is left to
+        // rebuild — never a generic "processing failed".
+        repairReport = planGifRepair(repairBytes)
+        var salvaged = new Blob([repairReport.bytes], { type: 'image/gif' })
+        var recovered
+        try {
+          recovered = await parseGifFile(salvaged, isCurrent)
+        } catch (decodeError) {
+          if (!isCurrent() || (decodeError && decodeError.message === STALE_LOAD)) return
+          throw new Error(
+            'The file structure was rebuilt, but the compressed pixel data itself is damaged: ' +
+            (decodeError.message || String(decodeError)) +
+            ' Nothing past the header could be recovered from this copy.'
+          )
+        }
+        if (!isCurrent()) return
+        parsedFrames = recovered.frames
+        gifWidth = recovered.width
+        gifHeight = recovered.height
+        decodeScale = recovered.plan.width / recovered.plan.sourceWidth
+        showFitNotice(describeFitPlan(recovered.plan, recovered.plan.sourceWidth, recovered.plan.sourceHeight))
+        showRepairReport(repairReport)
+        if (previewImg) {
+          // Preview the salvaged bytes, not the upload: the upload is broken by
+          // definition and would render as a broken-image icon.
+          if (previewBlobUrl) URL.revokeObjectURL(previewBlobUrl)
+          previewBlobUrl = URL.createObjectURL(salvaged)
+          previewImg.src = previewBlobUrl
+        }
+        showState('settings')
+        return
+      }
       if (isByteRewrite) {
         var bytes = new Uint8Array(await file.arrayBuffer())
         if (!isCurrent()) return
@@ -384,7 +502,38 @@ export function initGifAnimTool(config) {
     }
   }
 
+  async function processRepair() {
+    if (!parsedFrames || !parsedFrames.length) return
+    showState('progress')
+    if (progressText) progressText.textContent = 'Rebuilding GIF...'
+    if (progressFill) progressFill.style.width = '50%'
+    try {
+      var sourceDelays = parsedFrames.map(function (f) { return f.delay })
+      var fixed = repairDelaysMs(sourceDelays)
+      var frames = parsedFrames.map(function (f, i) {
+        return { rgba: f.rgba, delay: fixed.delays[i] }
+      })
+      var loop = normalizeLoopCount(readOpts().loopCount)
+      var blob = await encodeGif(frames, gifWidth, gifHeight, loop)
+      showResultBlob(blob)
+      var parts = [summarizeRepair(repairReport)]
+      parts.push(
+        'Rebuilt with ' + frames.length + ' frame(s), a fresh loop block (' +
+        (loop === 0 ? 'loops forever' : 'plays ' + loop + ' time(s)') + ') and a valid trailer.'
+      )
+      if (fixed.zeroFixed) parts.push(fixed.zeroFixed + ' frame delay(s) were missing and are now 100 ms.')
+      if (fixed.cappedFixed) parts.push(fixed.cappedFixed + ' frame delay(s) were over 60 s and were capped.')
+      showRepairResult(parts.join(' '))
+    } catch (e) {
+      showError(
+        'The frames were recovered but the rebuilt file could not be encoded: ' +
+        (e.message || String(e))
+      )
+    }
+  }
+
   async function process() {
+    if (isRepair) return processRepair()
     if (isByteRewrite) return processByteRewrite()
     if (!parsedFrames || !parsedFrames.length) return
     showState('progress')

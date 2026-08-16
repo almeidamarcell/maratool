@@ -21,31 +21,31 @@ const seo = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
-      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
-      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+      { '@type': 'Question', name: 'Can I set the values myself or only use presets?', acceptedAnswer: { '@type': 'Answer', text: 'Both. Each of the five controls is a slider you can set freely, and the three presets are starting points that fill the sliders in rather than locking you to a fixed look.' } },
+      { '@type': 'Question', name: 'What is gamma for?', acceptedAnswer: { '@type': 'Answer', text: 'It shifts the midtones without moving black and white, which is the control you want when footage looks flat or washed out. Brightness moves everything at once and tends to crush the highlights.' } },
+      { '@type': 'Question', name: 'Why is processing slow?', acceptedAnswer: { '@type': 'Answer', text: 'The video is re-encoded frame by frame by ffmpeg compiled to WebAssembly, running in your browser rather than on a server. Longer clips and higher resolutions take proportionally longer.' } },
+      { '@type': 'Question', name: 'Does the audio survive?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Only the video stream is filtered; the audio is carried through unchanged.' } },
     ],
   },
 }
 
 const howTo = [
-  'Upload or drop your file.',
-  'Adjust settings if needed.',
-  'Click Process and download the result.',
+  'Drop in an MP4, WebM or MOV clip.',
+  'Adjust brightness, contrast, saturation, gamma and blur, or start from the Vivid, Grayscale and Negative presets.',
+  'Check the preview frame, then process and download.',
 ]
 
 const faq = [
-  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
-  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
-  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
-  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+  { q: 'Can I set the values myself or only use presets?', a: 'Both. Each of the five controls is a slider you can set freely, and the three presets are starting points that fill the sliders in rather than locking you to a fixed look.' },
+  { q: 'What is gamma for?', a: 'It shifts the midtones without moving black and white, which is the control you want when footage looks flat or washed out. Brightness moves everything at once and tends to crush the highlights.' },
+  { q: 'Why is processing slow?', a: 'The video is re-encoded frame by frame by ffmpeg compiled to WebAssembly, running in your browser rather than on a server. Longer clips and higher resolutions take proportionally longer.' },
+  { q: 'Does the audio survive?', a: 'Yes. Only the video stream is filtered; the audio is carried through unchanged.' },
 ]
 
 const relatedTools = [
-  { slug: 'gif-maker', name: 'GIF Maker' },
-  { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'video-to-gif', name: 'Video to GIF' },
+  { slug: 'video-speed', name: 'Change Video Speed' },
+  { slug: 'compress-video', name: 'Compress Video' },
+  { slug: 'video-stabilizer', name: 'Video Stabilizer' },
 ]
 
 const breadcrumbs = [
@@ -57,7 +57,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="video-filters" name="Apply Video Filters Online" description="Apply Video Filters Online. Free, runs in your browser — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="video-filters" name="Apply Video Filters Online" description="Grade a clip with brightness, contrast, saturation, gamma and blur sliders, or start from a preset. Runs in your browser, no upload." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container" style="min-height:420px;" data-ui="video-filters">
         <p class="tool-hint">Upload a file to get started. Processing runs entirely in your browser.</p>
         <div id="ez-root" data-slug="video-filters"></div>

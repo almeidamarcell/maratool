@@ -132,6 +132,86 @@ export function buildImagesToVideoArgs({ pattern, outputName, fps }) {
   ]
 }
 
+// ---------------------------------------------------------------------------
+// Video filters — slider values mapped onto ffmpeg's `eq` filter.
+// ---------------------------------------------------------------------------
+
+export var VIDEO_FILTER_DEFAULTS = {
+  brightness: 0,
+  contrast: 1,
+  saturation: 1,
+  gamma: 1,
+  blur: 0,
+  negate: false,
+}
+
+export var VIDEO_FILTER_RANGES = {
+  brightness: { min: -1, max: 1, step: 0.01 },
+  contrast: { min: 0, max: 3, step: 0.01 },
+  saturation: { min: 0, max: 3, step: 0.01 },
+  gamma: { min: 0.1, max: 3, step: 0.01 },
+  blur: { min: 0, max: 20, step: 0.5 },
+}
+
+// The three fixed options this tool used to ship as a <select>, expressed as
+// slider positions so the old one-click results stay reachable.
+export var VIDEO_FILTER_PRESETS = {
+  original: {},
+  vivid: { brightness: 0.06, saturation: 1.3 },
+  grayscale: { saturation: 0 },
+  negative: { negate: true },
+}
+
+function clampFilterValue(value, key) {
+  var range = VIDEO_FILTER_RANGES[key]
+  var n = Number(value)
+  if (!isFinite(n)) return VIDEO_FILTER_DEFAULTS[key]
+  return Math.min(range.max, Math.max(range.min, n))
+}
+
+export function normalizeVideoFilterOptions(opts) {
+  var o = opts || {}
+  var out = { negate: !!o.negate }
+  Object.keys(VIDEO_FILTER_RANGES).forEach(function (key) {
+    out[key] = o[key] === undefined || o[key] === null || o[key] === ''
+      ? VIDEO_FILTER_DEFAULTS[key]
+      : clampFilterValue(o[key], key)
+  })
+  return out
+}
+
+export function getVideoFilterPreset(name) {
+  var preset = VIDEO_FILTER_PRESETS[name]
+  if (!preset) return normalizeVideoFilterOptions({})
+  var merged = {}
+  Object.keys(VIDEO_FILTER_DEFAULTS).forEach(function (k) { merged[k] = VIDEO_FILTER_DEFAULTS[k] })
+  Object.keys(preset).forEach(function (k) { merged[k] = preset[k] })
+  return normalizeVideoFilterOptions(merged)
+}
+
+// 0.06 * 3 lands on 0.18000000000000002 in binary floating point; ffmpeg
+// accepts it but the filter string is also shown to the user.
+function filterNum(n) {
+  return String(Math.round(n * 100) / 100)
+}
+
+export function buildEqFilterString(opts) {
+  var o = normalizeVideoFilterOptions(opts)
+  var parts = ['eq=brightness=' + filterNum(o.brightness) +
+    ':contrast=' + filterNum(o.contrast) +
+    ':saturation=' + filterNum(o.saturation) +
+    ':gamma=' + filterNum(o.gamma)]
+  if (o.blur > 0) parts.push('gblur=sigma=' + filterNum(o.blur))
+  if (o.negate) parts.push('negate')
+  return parts.join(',')
+}
+
+export function isVideoFilterIdentity(opts) {
+  var o = normalizeVideoFilterOptions(opts)
+  return !o.negate && o.blur === 0 && o.brightness === 0 &&
+    o.contrast === 1 && o.saturation === 1 && o.gamma === 1
+}
+
 export function buildVideoFiltersArgs({ inputName, outputName, filter }) {
   var vf = filter || 'eq=brightness=0.06:saturation=1.2'
   return [
@@ -153,25 +233,68 @@ export function buildVideoStabilizerArgs({ inputName, outputName }) {
   ]
 }
 
-export function buildSubtitlesArgs({ inputName, outputName, subtitlesFile }) {
+// `fontsDir` matters more than it looks: the wasm build of libass ships with no
+// fontconfig and no bundled face, so `subtitles=subs.srt` on its own encodes
+// happily and burns in nothing at all. Point it at a directory holding a TTF
+// and name that face in force_style, or the captions are invisible.
+export function buildSubtitlesArgs({ inputName, outputName, subtitlesFile, fontsDir, style }) {
+  var filter = 'subtitles=' + subtitlesFile
+  if (fontsDir) filter += ':fontsdir=' + fontsDir
+  if (style) filter += ":force_style='" + style + "'"
   return [
     '-i', inputName,
-    '-vf', 'subtitles=' + subtitlesFile,
+    '-vf', filter,
     '-c:v', 'libx264',
     '-c:a', 'copy',
     '-y', outputName,
   ]
 }
 
-export function buildInterpolateArgs({ inputName, outputName, fps }) {
-  var target = Math.max(24, Math.min(60, Number(fps) || 30))
+export function clampInterpolateFps(fps) {
+  return Math.max(24, Math.min(60, Number(fps) || 30))
+}
+
+// `blend` cross-fades neighbouring frames — much faster, no motion artefacts on
+// hard cuts. The default motion-compensated mode is what makes panning smooth.
+export function buildInterpolateFilter(fps, method) {
+  return 'minterpolate=fps=' + clampInterpolateFps(fps) + (method === 'blend' ? ':mi_mode=blend' : '')
+}
+
+export function buildInterpolateArgs({ inputName, outputName, fps, method }) {
   return [
     '-i', inputName,
-    '-vf', 'minterpolate=fps=' + target,
+    '-vf', buildInterpolateFilter(fps, method),
     '-c:v', 'libx264',
     '-c:a', 'copy',
     '-y', outputName,
   ]
+}
+
+// GIF in → GIF out needs the same two-pass palette treatment as any other GIF
+// encode; a straight `-i in.gif out.gif` quantises per frame and bands badly.
+export function buildInterpolateGifPaletteArgs({ inputName, paletteName, fps, method }) {
+  return [
+    '-i', inputName,
+    '-vf', buildInterpolateFilter(fps, method) + ',palettegen=stats_mode=diff',
+    '-y', paletteName,
+  ]
+}
+
+export function buildInterpolateGifArgs({ inputName, paletteName, outputName, fps, method }) {
+  return [
+    '-i', inputName,
+    '-i', paletteName,
+    '-lavfi', buildInterpolateFilter(fps, method) +
+      ' [x]; [x][1:v] paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle',
+    '-loop', '0',
+    '-y', outputName,
+  ]
+}
+
+export function isGifFile(file) {
+  if (!file) return false
+  if (file.type && file.type.toLowerCase() === 'image/gif') return true
+  return /\.gif$/i.test(file.name || '')
 }
 
 export function buildVideoToImageArgs({ inputName, outputName, atSeconds }) {

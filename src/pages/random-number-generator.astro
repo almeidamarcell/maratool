@@ -1,0 +1,153 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Random Number Generator — Pick Numbers in Any Range | maratool',
+  description: 'Generate random numbers in any range with crypto grade randomness. Set min, max, quantity up to 1000, integers or decimals, unique values, and sorting.',
+  canonical: 'https://maratool.com/random-number-generator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Random Number Generator — Pick Numbers in Any Range',
+    url: 'https://maratool.com/random-number-generator',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Generate random numbers in any range with crypto grade randomness. Set min, max, quantity up to 1000, integers or decimals, unique values, and sorting.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Developer', item: 'https://maratool.com/developer' },
+      { '@type': 'ListItem', position: 3, name: 'Generate', item: 'https://maratool.com/developer/generate' },
+      { '@type': 'ListItem', position: 4, name: 'Random Number Generator', item: 'https://maratool.com/random-number-generator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Is this random number generator actually random?', acceptedAnswer: { '@type': 'Answer', text: 'It uses crypto.getRandomValues, the browser cryptographic random source, instead of Math.random. Values are drawn with rejection sampling so every number in the range is equally likely.' } },
+      { '@type': 'Question', name: 'Why not just use Math.random with a modulo?', acceptedAnswer: { '@type': 'Answer', text: 'Modulo folds a power-of-two range onto an arbitrary one, which leaves the low end of the range slightly more likely than the high end. Rejection sampling throws away the leftover draws instead, so the bias disappears.' } },
+      { '@type': 'Question', name: 'How do I generate numbers with no repeats?', acceptedAnswer: { '@type': 'Answer', text: 'Untick "allow duplicates". The generator then draws without replacement. If you ask for more numbers than the range holds, such as 10 unique values between 1 and 5, it tells you instead of hanging.' } },
+      { '@type': 'Question', name: 'Can I generate random decimals instead of whole numbers?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Switch the mode to decimal and set how many places you want, up to 10. Each value is drawn uniformly across the range at that precision.' } },
+    ]
+  }
+}
+
+const howTo = [
+  'Set a minimum and maximum, or click a preset such as dice or lottery.',
+  'Choose how many numbers you want and whether repeats are allowed.',
+  'Hit Generate, then copy a single result or the whole list.',
+]
+
+const faq = [
+  { q: 'Is this random number generator actually random?', a: 'It uses <code>crypto.getRandomValues</code>, the browser cryptographic random source, instead of <code>Math.random</code>. Values are drawn with rejection sampling so every number in the range is equally likely.' },
+  { q: 'Why not just use Math.random with a modulo?', a: 'Modulo folds a power-of-two range onto an arbitrary one, which leaves the low end slightly more likely than the high end. Rejection sampling throws away the leftover draws instead, so the bias disappears.' },
+  { q: 'How do I generate numbers with no repeats?', a: 'Untick "allow duplicates". The generator then draws without replacement. Ask for more numbers than the range holds, say 10 unique values between 1 and 5, and it tells you instead of hanging.' },
+  { q: 'Can I generate random decimals instead of whole numbers?', a: 'Yes. Switch the mode to decimal and set how many places you want, up to 10. Each value is drawn uniformly across the range at that precision.' },
+]
+
+const relatedTools = [
+  { slug: 'uuid-generator', name: 'Generate UUID v4 Online' },
+  { slug: 'password-generator', name: 'Password Generator' },
+  { slug: 'api-key-generator', name: 'API Key Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Developer', href: '/developer' },
+  { label: 'Generate', href: '/developer/generate' },
+  { label: 'Random Number Generator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="random-number-generator" name="Random Number Generator" description="Pick random numbers in any range using the browser cryptographic random source. Integers or decimals, with or without repeats, up to 1000 at a time." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:520px;">
+        <div class="rng-presets">
+          <span class="tool-label rng-presets-label">Presets</span>
+          <button type="button" class="rng-preset" data-min="1" data-max="6" data-count="1">🎲 Dice 1–6</button>
+          <button type="button" class="rng-preset" data-min="1" data-max="2" data-count="1">🪙 Coin 1–2</button>
+          <button type="button" class="rng-preset" data-min="1" data-max="60" data-count="6" data-unique="1">🎰 Lottery 1–60</button>
+          <button type="button" class="rng-preset" data-min="1" data-max="100" data-count="1">💯 Percentage 1–100</button>
+        </div>
+
+        <div class="rng-row">
+          <div class="rng-field">
+            <label class="tool-label" for="rng-min">Minimum</label>
+            <input type="number" id="rng-min" class="tool-input" value="1" step="any" />
+          </div>
+          <div class="rng-field">
+            <label class="tool-label" for="rng-max">Maximum</label>
+            <input type="number" id="rng-max" class="tool-input" value="100" step="any" />
+          </div>
+          <div class="rng-field">
+            <label class="tool-label" for="rng-count">How many</label>
+            <input type="number" id="rng-count" class="tool-input" value="1" min="1" max="1000" step="1" />
+          </div>
+          <div class="rng-field">
+            <label class="tool-label" for="rng-mode">Mode</label>
+            <select id="rng-mode" class="tool-input">
+              <option value="int">Whole numbers</option>
+              <option value="dec">Decimals</option>
+            </select>
+          </div>
+          <div class="rng-field" id="rng-places-field" hidden>
+            <label class="tool-label" for="rng-places">Decimal places</label>
+            <input type="number" id="rng-places" class="tool-input" value="2" min="1" max="10" step="1" />
+          </div>
+        </div>
+
+        <div class="rng-checks">
+          <label class="rng-check"><input type="checkbox" id="rng-duplicates" checked /> Allow duplicates</label>
+          <label class="rng-check"><input type="checkbox" id="rng-sort" /> Sort results low to high</label>
+        </div>
+
+        <div class="rng-actions">
+          <button type="button" class="tool-button" id="rng-generate">Generate</button>
+          <button type="button" class="copy-btn" id="rng-copy">Copy all</button>
+        </div>
+
+        <p class="rng-error error-state" id="rng-error" hidden></p>
+
+        <div class="tool-stats" id="rng-stats" hidden>
+          <div class="tool-stat"><span class="tool-stat-value" id="rng-stat-count">—</span><span class="tool-stat-label">Numbers</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="rng-stat-sum">—</span><span class="tool-stat-label">Sum</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="rng-stat-mean">—</span><span class="tool-stat-label">Average</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="rng-stat-low">—</span><span class="tool-stat-label">Lowest</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="rng-stat-high">—</span><span class="tool-stat-label">Highest</span></div>
+        </div>
+
+        <ul class="uuid-list rng-list" id="rng-list"></ul>
+
+        <p class="tool-note">Numbers come from <code>crypto.getRandomValues()</code>, the same source browsers use for cryptographic keys, drawn with rejection sampling so no value in the range is favoured. Nothing is sent anywhere — the draw happens on your device. Not a substitute for a certified randomness source in regulated gambling or lotteries.</p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .rng-presets { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .rng-presets-label { margin-bottom: 0; }
+  .rng-preset { padding: 5px 12px; border: 1px solid var(--border); border-radius: 100px; background: var(--bg); color: var(--text-2); font-family: var(--font); font-size: 13px; cursor: pointer; transition: background 120ms ease, border-color 150ms ease, color 150ms ease; }
+  .rng-preset:hover { background: var(--bg-hover); border-color: var(--text-3); color: var(--text); }
+  .rng-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+  .rng-field { display: flex; flex-direction: column; }
+  .rng-field .tool-input { width: 100%; }
+  .rng-checks { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .rng-check { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 13px; color: var(--text-2); cursor: pointer; }
+  .rng-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .rng-error { display: block; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; margin: 0 0 1rem; }
+  .rng-list { margin: 0; }
+  .rng-index { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); min-width: 34px; }
+  .rng-copy-one { padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text-2); font-family: var(--font); font-size: 11px; cursor: pointer; }
+  .rng-copy-one:hover { background: var(--bg-hover); color: var(--text); }
+  .rng-copy-one.copied { border-color: var(--accent); color: var(--accent); }
+  @media (max-width: 600px) { .rng-row { grid-template-columns: 1fr 1fr; } }
+</style>
+<script src="../tools/random-number-generator.js"></script>

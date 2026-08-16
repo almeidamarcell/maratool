@@ -1,0 +1,86 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'tdee-calculator'
+const seo = {
+  title: 'How to calculate TDEE and set a calorie target | maratool',
+  description: 'Work out total daily energy expenditure from BMR and an activity multiplier, then turn it into deficit and surplus targets that hold up in practice.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate TDEE and turn it into a calorie target',
+    image: 'https://maratool.com/og/health.png',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How TDEE is calculated from BMR and an activity multiplier, which multiplier to pick, and how to set a calorie deficit that does not drop below a safe floor.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate TDEE', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate TDEE and turn it into a calorie target"
+      lead="BMR times an activity multiplier gives maintenance calories. The hard part is picking the multiplier honestly."
+      date="August 15, 2026"
+      dateIso="2026-08-15"
+    >
+      <p>Everything you burn in 24 hours adds up to total daily energy expenditure, and that total is what decides which direction the scale moves. The <a href="/tdee-calculator/">TDEE calculator</a> works it out from sex, age, height, weight and activity level, then lays out six calorie targets running from an aggressive cut to a lean bulk.</p>
+
+      <BlogToolEmbed slug="tdee-calculator" title="Try it — body stats plus activity level" height={720} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Enter sex, age, height and weight, in metric or imperial.</li>
+        <li>Pick the activity level that describes an ordinary week, not the week you wish you had.</li>
+        <li>Read maintenance calories at the top, then pick a row from the target table.</li>
+      </ol>
+
+      <h2>The arithmetic</h2>
+      <p>Two steps. First BMR, using <a href="/bmr-calculator/">Mifflin-St Jeor</a>: <code>10 × weight(kg) + 6.25 × height(cm) − 5 × age</code>, then <code>+ 5</code> for men or <code>− 161</code> for women. Then multiply by an activity factor.</p>
+      <p>The factors are 1.2 for sedentary, 1.375 for lightly active, 1.55 for moderately active, 1.725 for very active, and 1.9 for extra active. A 30-year-old woman at 165 cm and 65 kg has a BMR of 1370 kcal. Moderately active, her TDEE is 1370 × 1.55, or about 2124 kcal a day.</p>
+
+      <h2>Nearly everyone overshoots the multiplier</h2>
+      <p>This is where calculated targets go wrong. Sedentary means a desk job and no training at all. Lightly active is one to three sessions a week. Moderately active is three to five. Very active is six to seven hard sessions, and extra active is twice-daily training or a job that keeps you on your feet moving weight.</p>
+      <p>Someone who sits at a computer all day and lifts three times a week is lightly to moderately active. The jump from 1.375 to 1.725 on a BMR of 1600 is 560 kcal a day, which is enough to turn a planned deficit into maintenance. If your weight has been flat for a month and the calculator says you should be losing, the multiplier is the first thing to reconsider.</p>
+
+      <h2>Picking a target</h2>
+      <p>Roughly 7700 kcal separates one kilogram of body mass, so a 500 kcal daily deficit works out to about half a kilo, or one pound, a week. That is the conventional target and it is popular because it is fast enough to stay motivating and slow enough to stay livable. A 250 kcal cut halves the rate and is far easier to hold through a busy month. The 1000 kcal row exists because people search for it, not because it is usually a good idea.</p>
+      <p>The calculator flags any target that falls below about 1200 kcal/day for women or 1500 for men. Below those, hitting protein and micronutrient needs stops being realistic on ordinary food, and sustained very low intake belongs under medical supervision. For the woman in the example above, the extreme loss row lands at 1124 kcal and gets marked immediately.</p>
+
+      <h2>Why the scale disagrees with the math</h2>
+      <p>The 3500-kcal-per-pound rule treats metabolism as a constant, and it is not. TDEE drops as you lose weight because there is less tissue to maintain and less mass to move. Spontaneous movement also falls in a deficit: people fidget less, take fewer steps, and sit down sooner, often without noticing. Both effects push actual loss below prediction after the first few weeks.</p>
+      <p>The fix is not a better formula. Weigh yourself over two to three weeks, take the trend rather than any single morning, and adjust by 100 to 200 kcal if the direction is wrong. Recalculate after every 4 to 6 kg of change.</p>
+
+      <h2>About the macro split</h2>
+      <p>The macro block converts whichever target you pick into grams at 4 kcal per gram for protein and carbohydrate and 9 for fat. The balanced 30/40/30 default is a template, not a rule. Protein is the part worth being deliberate about in a deficit, since it protects lean mass; the carbohydrate and fat share can move to whatever you find easier to eat consistently.</p>
+
+      <h2>Sources</h2>
+      <p>BMR comes from Mifflin MD, St Jeor ST, et al. <em>Am J Clin Nutr</em>. 1990;51(2):241-247. The activity multipliers are a convention from the Harris-Benedict literature and later physical-activity-level work, not a measurement. Everything runs in your browser and nothing is uploaded.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/tdee-calculator/">TDEE Calculator</a> is free and runs entirely in your browser. It is an educational estimate rather than medical advice, so read the <a href="/medical-disclaimer/">medical disclaimer</a>. More <a href="/health/">health calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

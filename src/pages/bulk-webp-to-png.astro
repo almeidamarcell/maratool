@@ -21,31 +21,31 @@ const seo = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
-      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
-      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+      { '@type': 'Question', name: 'Can I convert a batch of WebP files in one go?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Select or drop them all and each one is converted, with an individual download and a download-all for the set.' } },
+      { '@type': 'Question', name: 'Does transparency survive?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. WebP and PNG both support an alpha channel, so transparent areas come through intact.' } },
+      { '@type': 'Question', name: 'What about animated WebP?', acceptedAnswer: { '@type': 'Answer', text: 'Only the first frame is converted, because PNG holds a single image. For the full animation use the WebP to GIF converter instead.' } },
+      { '@type': 'Question', name: 'Are my images uploaded anywhere?', acceptedAnswer: { '@type': 'Answer', text: 'No. Decoding and encoding both happen locally in your browser.' } },
     ],
   },
 }
 
 const howTo = [
-  'Upload or drop your file.',
-  'Adjust settings if needed.',
-  'Click Process and download the result.',
+  'Drop in as many WebP files as you like — the whole batch loads at once.',
+  'Click Convert to PNG. Every file in the batch is re-encoded, not just the first.',
+  'Download each PNG on its own, or take the whole set with Download all.',
 ]
 
 const faq = [
-  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
-  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
-  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
-  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+  { q: 'Can I convert a batch of WebP files in one go?', a: 'Yes. Select or drop them all and each one is converted, with an individual download and a download-all for the set.' },
+  { q: 'Does transparency survive?', a: 'Yes. WebP and PNG both support an alpha channel, so transparent areas come through intact.' },
+  { q: 'What about animated WebP?', a: 'Only the first frame is converted, because PNG holds a single image. For the full animation use the WebP to GIF converter instead.' },
+  { q: 'Are my images uploaded anywhere?', a: 'No. Decoding and encoding both happen locally in your browser.' },
 ]
 
 const relatedTools = [
-  { slug: 'gif-maker', name: 'GIF Maker' },
-  { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'video-to-gif', name: 'Video to GIF' },
+  { slug: 'webp-maker', name: 'WebP Maker' },
+  { slug: 'webp-to-gif', name: 'WebP to GIF Converter' },
+  { slug: 'image-converter', name: 'Image Converter' },
 ]
 
 const breadcrumbs = [
@@ -57,7 +57,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="bulk-webp-to-png" name="Bulk WebP to PNG Converter" description="Bulk WebP to PNG Converter. Free, runs in your browser — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="bulk-webp-to-png" name="Bulk WebP to PNG Converter" description="Convert a whole batch of WebP files to PNG at once. Every file is re-encoded in your browser and downloads individually or as a set." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container" style="min-height:420px;" data-ui="image">
         <p class="tool-hint">Upload a file to get started. Processing runs entirely in your browser.</p>
         <div id="ez-root" data-slug="bulk-webp-to-png"></div>

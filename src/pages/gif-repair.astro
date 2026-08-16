@@ -21,31 +21,31 @@ const seo = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
-      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
-      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+      { '@type': 'Question', name: 'What can it actually repair?', acceptedAnswer: { '@type': 'Answer', text: 'A missing or truncated trailer, junk before the header or after the terminator, a missing or malformed Netscape loop block, frames with a zero or absurd delay, and a missing colour table. Frames whose pixel data was cut off get dropped and everything before them is kept.' } },
+      { '@type': 'Question', name: 'Why will my GIF not animate?', acceptedAnswer: { '@type': 'Answer', text: 'Usually a missing Netscape looping block, or delays of zero that leave viewers guessing at a frame rate. The scan names which one it is, and the rebuilt file gets a real loop block and sane delays.' } },
+      { '@type': 'Question', name: 'What if the file cannot be recovered?', acceptedAnswer: { '@type': 'Answer', text: 'You get the specific reason: it is a PNG with a .gif name, the header stops after six bytes, the first frame never finished downloading. Never a generic invalid file message.' } },
+      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Very large GIFs are scaled down to fit browser memory.' } },
     ],
   },
 }
 
 const howTo = [
-  'Upload or drop your file.',
-  'Adjust settings if needed.',
-  'Click Process and download the result.',
+  'Drop in the GIF that will not open or will not animate.',
+  'Read the scan — it lists every problem it found and what the rebuild will do about each one.',
+  'Click Repair GIF and download the rebuilt file.',
 ]
 
 const faq = [
-  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
-  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
-  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
-  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+  { q: 'What can it actually repair?', a: 'A missing or truncated trailer, junk before the header or after the terminator, a missing or malformed Netscape loop block, frames with a zero or absurd delay, and a missing colour table. Frames whose pixel data was cut off get dropped and everything before them is kept.' },
+  { q: 'Why will my GIF not animate?', a: 'Usually a missing Netscape looping block, or delays of zero that leave viewers guessing at a frame rate. The scan names which one it is, and the rebuilt file gets a real loop block and sane delays.' },
+  { q: 'What if the file cannot be recovered?', a: 'You get the specific reason: it is a PNG with a .gif name, the header stops after six bytes, the first frame never finished downloading. Never a generic "invalid file".' },
+  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Very large GIFs are scaled down to fit browser memory, and the tool tells you when that happens.' },
 ]
 
 const relatedTools = [
-  { slug: 'gif-maker', name: 'GIF Maker' },
+  { slug: 'gif-loop-count', name: 'Change GIF Loop Count' },
   { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'video-to-gif', name: 'Video to GIF' },
+  { slug: 'gif-maker', name: 'GIF Maker' },
 ]
 
 const breadcrumbs = [
@@ -65,9 +65,9 @@ const breadcrumbs = [
         </div>
         <div id="ga-settings" hidden>
           <img id="ga-preview" alt="Preview" style="max-width:100%;max-height:200px;" />
-                    <label class="tool-label" for="ga-loopCount">Loop count (0 = infinite)</label>
-          <input class="tool-input" id="ga-loopCount" type="number" data-ga-opt="loopCount" value="0" />
-          <button type="button" class="tool-btn" id="ga-process" style="margin-top:1rem;">Process GIF</button>
+          <label class="tool-label" for="ga-loopCount">Loop count for the rebuilt file (0 = loop forever)</label>
+          <input class="tool-input" id="ga-loopCount" type="number" min="0" data-ga-opt="loopCount" value="0" />
+          <button type="button" class="tool-btn" id="ga-process" style="margin-top:1rem;">Repair GIF</button>
         </div>
         <div id="ga-progress" class="tool-progress" hidden>
           <p id="ga-progress-text" class="tool-progress-text">Processing...</p>

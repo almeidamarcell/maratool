@@ -1,3 +1,3 @@
 import { initImageTool } from './ezgif-image-ui.js'
 
-initImageTool({ mode: 'exif', suffix: 'jpg' })
+initImageTool({ mode: 'convert', target: 'jpg', suffix: 'jpg' })

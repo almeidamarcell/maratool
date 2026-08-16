@@ -1,0 +1,312 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+import References from '../components/References.astro'
+
+const seo = {
+  title: 'BMR Calculator — Basal Metabolic Rate (Mifflin-St Jeor) | maratool',
+  description: 'Free BMR calculator. Estimate basal metabolic rate with Mifflin-St Jeor, then compare Harris-Benedict and Katch-McArdle side by side in your browser.',
+  canonical: 'https://maratool.com/bmr-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'BMR Calculator — Basal Metabolic Rate',
+    url: 'https://maratool.com/bmr-calculator',
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Estimate basal metabolic rate from sex, age, height and weight using the Mifflin-St Jeor, Harris-Benedict and Katch-McArdle equations.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Health', item: 'https://maratool.com/health' },
+      { '@type': 'ListItem', position: 3, name: 'Anthropometric', item: 'https://maratool.com/health/anthropometric' },
+      { '@type': 'ListItem', position: 4, name: 'BMR Calculator', item: 'https://maratool.com/bmr-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the Mifflin-St Jeor formula for BMR?',
+        acceptedAnswer: { '@type': 'Answer', text: 'BMR = (10 × weight in kg) + (6.25 × height in cm) − (5 × age in years) + 5 for men, or − 161 for women. A 30-year-old woman, 165 cm, 65 kg: 650 + 1031.25 − 150 − 161 = 1370 kcal/day.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Why do BMR calculators give different numbers?',
+        acceptedAnswer: { '@type': 'Answer', text: 'They use different equations fitted to different populations. Harris-Benedict was derived in 1919 and revised by Roza and Shizgal in 1984; Mifflin-St Jeor was fitted in 1990 on a more modern sample and typically lands 5 to 10 percent lower. Katch-McArdle ignores sex and age entirely and works from lean body mass, so it needs a body fat percentage.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Which BMR formula is the most accurate?',
+        acceptedAnswer: { '@type': 'Answer', text: 'For the general population, Mifflin-St Jeor is the current default and predicts measured resting energy expenditure within 10 percent for about 70 percent of people. If you know your body fat percentage from a DEXA scan or calipers, Katch-McArdle is usually closer for lean or very muscular bodies.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is BMR the same as the calories I burn per day?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. BMR is what your body burns completely at rest. Total daily energy expenditure adds digestion, daily movement and exercise, and is typically 1.2 to 1.9 times BMR depending on how active you are.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Pick metric or imperial units, then enter sex, age, height, and weight.',
+  'Read the Mifflin-St Jeor result as your headline BMR in kcal per day.',
+  'Add a body fat percentage if you know it to unlock the Katch-McArdle estimate.'
+]
+
+const faq = [
+  { q: 'What is the Mifflin-St Jeor formula for BMR?', a: 'BMR = (10 × weight<sub>kg</sub>) + (6.25 × height<sub>cm</sub>) − (5 × age) <strong>+ 5</strong> for men, <strong>− 161</strong> for women. A 30-year-old woman at 165 cm and 65 kg: 650 + 1031.25 − 150 − 161 = <strong>1370 kcal/day</strong>.' },
+  { q: 'Why do BMR calculators give different numbers?', a: 'Because they use different equations fitted to different samples. Harris-Benedict dates to 1919 and was refitted by Roza and Shizgal in 1984; Mifflin-St Jeor came out of a 1990 study on a more modern population and usually reads 5–10% lower. Katch-McArdle drops sex and age and works purely from lean mass, so it needs a body fat percentage. This page shows all three so you can see the spread.' },
+  { q: 'Which BMR formula is the most accurate?', a: 'Mifflin-St Jeor is the general-purpose default and lands within 10% of measured resting energy expenditure for roughly 70% of people. If you have a real body fat number from DEXA or calipers, <strong>Katch-McArdle</strong> tends to fit better at the extremes — very lean, very muscular, or high body fat.' },
+  { q: 'Is BMR the same as the calories I burn per day?', a: 'No. BMR is the energy your body spends at complete rest. Add digestion, walking around, and training and you get total daily energy expenditure, which runs about 1.2–1.9 × BMR. The <a href="/tdee-calculator/">TDEE calculator</a> does that multiplication for you.' }
+]
+
+const relatedTools = [
+  { slug: 'tdee-calculator', name: 'TDEE Calculator' },
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+  { slug: 'ideal-body-weight', name: 'Ideal Body Weight' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Health', href: '/health' },
+  { label: 'Anthropometric', href: '/health/anthropometric' },
+  { label: 'BMR Calculator' },
+]
+
+const references = [
+  { citation: 'Mifflin MD, St Jeor ST, Hill LA, Scott BJ, Daugherty SA, Koh YO. A new predictive equation for resting energy expenditure in healthy individuals. <em>Am J Clin Nutr</em>. 1990;51(2):241-247.' },
+  { citation: 'Roza AM, Shizgal HM. The Harris Benedict equation reevaluated: resting energy requirements and the body cell mass. <em>Am J Clin Nutr</em>. 1984;40(1):168-182.' },
+  { citation: 'Katch FI, McArdle WD. <em>Nutrition, Weight Control, and Exercise</em>. 2nd ed. Philadelphia: Lea &amp; Febiger; 1983.' },
+]
+
+const whatIs = 'Basal metabolic rate (BMR) is the energy your body spends doing nothing at all — keeping the heart beating, the lungs moving, the brain running, and body temperature steady — measured over 24 hours while awake, fasted, and completely at rest. It accounts for roughly 60–70% of what most people burn in a day. Nobody measures it directly outside a metabolic lab, so calculators estimate it from sex, age, height and weight with a regression equation. This page runs three of them: Mifflin-St Jeor (1990, the current default), the Harris-Benedict equation as revised by Roza and Shizgal in 1984, and Katch-McArdle, which skips sex and age and works from lean body mass instead.'
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="bmr-calculator" name="BMR Calculator — Basal Metabolic Rate" description="Estimate your basal metabolic rate from sex, age, height and weight. Mifflin-St Jeor as the headline number, with Harris-Benedict and Katch-McArdle side by side." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs={whatIs}>
+      <div class="tool-container" style="min-height:660px;">
+        <div class="calc-disclaimer">
+          Educational estimate, not medical advice. Predictive equations carry a real error margin — see the <a href="/medical-disclaimer/">medical disclaimer</a>.
+        </div>
+
+        <div class="calc-row calc-row-3">
+          <div class="calc-field">
+            <label class="tool-label" for="bmr-units">Units</label>
+            <select id="bmr-units" class="tool-input">
+              <option value="metric">Metric (kg, cm)</option>
+              <option value="imperial">Imperial (lb, ft/in)</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label class="tool-label" for="bmr-sex">Sex</label>
+            <select id="bmr-sex" class="tool-input">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label class="tool-label" for="bmr-age">Age (years)</label>
+            <input type="number" id="bmr-age" class="tool-input" placeholder="30" min="1" max="120" step="1" inputmode="numeric" />
+          </div>
+        </div>
+
+        <div class="calc-row calc-row-3">
+          <div class="calc-field" id="bmr-height-metric">
+            <label class="tool-label" for="bmr-height-cm">Height (cm)</label>
+            <input type="number" id="bmr-height-cm" class="tool-input" placeholder="175" min="0" step="any" inputmode="decimal" />
+          </div>
+          <div class="calc-field calc-field-split" id="bmr-height-imperial" hidden>
+            <div>
+              <label class="tool-label" for="bmr-height-ft">Height (ft)</label>
+              <input type="number" id="bmr-height-ft" class="tool-input" placeholder="5" min="0" step="1" inputmode="numeric" />
+            </div>
+            <div>
+              <label class="tool-label" for="bmr-height-in">(in)</label>
+              <input type="number" id="bmr-height-in" class="tool-input" placeholder="9" min="0" step="any" inputmode="decimal" />
+            </div>
+          </div>
+          <div class="calc-field">
+            <label class="tool-label" for="bmr-weight"><span id="bmr-weight-label">Weight (kg)</span></label>
+            <input type="number" id="bmr-weight" class="tool-input" placeholder="70" min="0" step="any" inputmode="decimal" />
+          </div>
+          <div class="calc-field">
+            <label class="tool-label" for="bmr-bodyfat">Body fat % <span class="calc-optional">optional</span></label>
+            <input type="number" id="bmr-bodyfat" class="tool-input" placeholder="20" min="1" max="70" step="any" inputmode="decimal" />
+          </div>
+        </div>
+
+        <div class="calc-headline">
+          <div class="calc-headline-main">
+            <span class="calc-headline-value" id="bmr-main">—</span>
+            <span class="calc-headline-unit">kcal / day</span>
+          </div>
+          <div class="calc-headline-meta">
+            <span>Basal metabolic rate — Mifflin-St Jeor (1990)</span>
+            <button type="button" id="bmr-copy" class="copy-btn">Copy</button>
+          </div>
+        </div>
+
+        <table class="calc-table" id="bmr-compare">
+          <caption class="calc-table-caption">All three equations, same inputs</caption>
+          <thead>
+            <tr><th scope="col">Equation</th><th scope="col">BMR</th><th scope="col">What it assumes</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Mifflin-St Jeor</th>
+              <td class="calc-num" id="bmr-mifflin">—</td>
+              <td class="calc-hint">Fitted in 1990 on 498 adults. The current default for healthy adults.</td>
+            </tr>
+            <tr>
+              <th scope="row">Harris-Benedict (rev. 1984)</th>
+              <td class="calc-num" id="bmr-harris">—</td>
+              <td class="calc-hint">Roza and Shizgal refit of the 1919 original. Usually reads a few percent higher.</td>
+            </tr>
+            <tr id="bmr-katch-row" hidden>
+              <th scope="row">Katch-McArdle</th>
+              <td class="calc-num" id="bmr-katch">—</td>
+              <td class="calc-hint">Ignores sex and age. Uses lean body mass: <span id="bmr-lbm">—</span>.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="calc-hint" id="bmr-katch-note">Enter a body fat percentage to add the Katch-McArdle estimate.</p>
+
+        <section class="calc-formulas" aria-labelledby="bmr-formulas-heading">
+          <h2 id="bmr-formulas-heading">The three equations</h2>
+          <div class="calc-formula">
+            <span class="calc-formula-name">Mifflin-St Jeor (1990)</span>
+            <code>BMR = 10 × weight(kg) + 6.25 × height(cm) − 5 × age + 5</code>
+            <code>BMR = 10 × weight(kg) + 6.25 × height(cm) − 5 × age − 161</code>
+            <span class="calc-hint">Top line: men. Bottom line: women.</span>
+          </div>
+          <div class="calc-formula">
+            <span class="calc-formula-name">Harris-Benedict, revised by Roza &amp; Shizgal (1984)</span>
+            <code>Men: BMR = 88.362 + 13.397 × weight(kg) + 4.799 × height(cm) − 5.677 × age</code>
+            <code>Women: BMR = 447.593 + 9.247 × weight(kg) + 3.098 × height(cm) − 4.330 × age</code>
+          </div>
+          <div class="calc-formula">
+            <span class="calc-formula-name">Katch-McArdle</span>
+            <code>LBM = weight(kg) × (1 − body fat% / 100)</code>
+            <code>BMR = 370 + 21.6 × LBM(kg)</code>
+            <span class="calc-hint">No sex or age term — lean mass carries all of it.</span>
+          </div>
+        </section>
+
+        <div class="tool-note"><strong>Why the numbers disagree.</strong> Each equation is a regression fitted to a different sample: 239 subjects in 1919, 337 in the 1984 refit, 498 in 1990. Mifflin-St Jeor typically lands 5–10% below revised Harris-Benedict for the same person. Treat any of them as a starting estimate with a ±10% band, not a measurement.</div>
+      </div>
+      <References references={references} />
+    </ToolShell>
+  </Layout>
+</Base>
+
+<script src="../tools/bmr-calculator.js"></script>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.5rem; }
+  .calc-row-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .calc-field { margin-bottom: 0.75rem; min-width: 0; }
+  .calc-field-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .calc-optional { color: var(--text-3); font-weight: 400; text-transform: none; letter-spacing: 0; }
+
+  .calc-disclaimer {
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-soft);
+    border-left: 3px solid var(--text-3);
+    color: var(--text-2);
+    font-size: 0.8125rem;
+    margin-bottom: 1.25rem;
+    border-radius: 4px;
+  }
+  .calc-disclaimer a { color: var(--accent); }
+
+  .calc-headline {
+    margin: 1rem 0;
+    padding: 1.125rem 1.25rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .calc-headline-main { display: flex; align-items: baseline; gap: 0.5rem; }
+  .calc-headline-value {
+    font-family: var(--font-mono);
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text);
+  }
+  .calc-headline-unit { font-size: 0.9375rem; color: var(--text-2); }
+  .calc-headline-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--text-2);
+  }
+
+  .calc-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin-top: 0.5rem; }
+  .calc-table-caption {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-3);
+    padding-bottom: 0.375rem;
+  }
+  .calc-table th, .calc-table td {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-top: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .calc-table thead th {
+    background: var(--bg-soft);
+    font-weight: 600;
+    color: var(--text-2);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .calc-table tbody th { font-weight: 600; color: var(--text); white-space: nowrap; }
+  .calc-num { font-family: var(--font-mono); font-weight: 600; white-space: nowrap; }
+  .calc-hint { font-size: 0.8125rem; color: var(--text-3); line-height: 1.5; }
+
+  .calc-formulas { margin-top: 1.5rem; }
+  .calc-formulas h2 { font-size: 1rem; margin: 0 0 0.75rem; color: var(--text); }
+  .calc-formula {
+    padding: 0.75rem 0.875rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 0.625rem;
+  }
+  .calc-formula-name { display: block; font-size: 0.8125rem; font-weight: 600; color: var(--text-2); margin-bottom: 0.375rem; }
+  .calc-formula code {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--text);
+    background: var(--bg-soft);
+    padding: 0.4375rem 0.625rem;
+    border-radius: 6px;
+    margin-bottom: 0.25rem;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  @media (max-width: 700px) {
+    .calc-row, .calc-row-3 { grid-template-columns: 1fr !important; }
+    .calc-field-split { grid-template-columns: 1fr 1fr; }
+    .calc-headline-value { font-size: 1.875rem; }
+    .calc-table th, .calc-table td { padding: 0.5rem 0.5rem; }
+  }
+</style>

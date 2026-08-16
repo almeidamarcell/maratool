@@ -1,0 +1,78 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'sort-lines'
+const seo = {
+  title: 'How to sort lines alphabetically online (and why item10 comes first) | maratool',
+  description: 'Alphabetize a list, sort it numerically or by length, and use natural sort so item2 lands before item10 instead of after it.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to sort lines alphabetically, and why item10 keeps jumping the queue',
+    image: 'https://maratool.com/og/text.png',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Eight sort orders for a plain list of lines, plus the natural sort rule most online sorters skip.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Sort Lines guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to sort lines alphabetically, and why item10 keeps jumping the queue"
+      lead="Paste a list, choose one of eight orders, copy it back out. Natural numbering is on by default, so item2 lands before item10."
+      date="August 15, 2026"
+      dateIso="2026-08-15"
+    >
+      <p>Alphabetizing a list is the kind of task that takes two seconds in a spreadsheet and fifteen minutes if you have to open one first. The <a href="/sort-lines/">Sort Lines</a> tool takes a block of text, one item per line, and reorders it while you watch.</p>
+
+      <BlogToolEmbed slug="sort-lines" title="Try it — paste a list and pick a sort order" height={680} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Paste your list into the top box with one item on each line.</li>
+        <li>Pick a sort order. A to Z and Z to A handle text, the numeric modes read the first number on each line, and length sorts by character count.</li>
+        <li>Check the line counts, then copy the result. Nothing is submitted anywhere; the sort runs in the page.</li>
+      </ol>
+
+      <h2>Natural sort, or why 10 keeps beating 2</h2>
+      <p>Give a plain alphabetical sorter these five lines:</p>
+      <p><code>item1, item2, item10, item11, item20</code></p>
+      <p>and it returns item1, item10, item11, item2, item20. Nothing is broken. A string comparison walks left to right and compares one character at a time, and the character <code>1</code> sorts before the character <code>2</code>, so anything starting "item1" beats everything starting "item2" no matter how long it is.</p>
+      <p>Natural sort reads consecutive digits as a single number before comparing. item2 becomes item followed by 2, item10 becomes item followed by 10, and 2 is less than 10, so the order comes out the way a human would write it. This tool has natural sort ticked by default, which is the opposite of most online sorters. Untick it if you specifically need raw character order, which is what a database index or a <code>sort</code> shell command without <code>-V</code> would give you.</p>
+
+      <h2>The three toggles</h2>
+      <p>Case-sensitive is off by default so Apple and apple end up next to each other. Turn it on and every capitalised line moves ahead of the lowercase ones, because uppercase letters carry lower character codes.</p>
+      <p>Ignore leading whitespace changes only what gets compared. Indented lines sort by their content but keep every space and tab they arrived with, which matters when the list is a chunk of code or a nested outline.</p>
+      <p>Remove blank lines drops empty rows before sorting. Without it, blanks are empty strings and collect at the top of an A to Z sort. The counters under the options show lines in, lines out and how many were removed, so you can see exactly what the toggle did.</p>
+
+      <h2>Reverse and shuffle are not sorts</h2>
+      <p>Reverse order flips the list as it stands and ignores the alphabet entirely. It is the fastest way to invert a log file or a changelog. Shuffle uses a Fisher-Yates pass over the array with values from <code>crypto.getRandomValues</code> where the browser offers it. The trick you see in a lot of code, <code>sort(() =&gt; Math.random() - 0.5)</code>, is not a fair shuffle and leaves short lists suspiciously close to where they started.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/sort-lines/">Sort Lines</a> tool is free and runs offline once the page loads. Pair it with <a href="/remove-duplicate-lines/">Remove Duplicate Lines</a> to clean a list, or <a href="/case-converter/">Case Converter</a> to normalise it first. More at <a href="/text/">maratool.com/text</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

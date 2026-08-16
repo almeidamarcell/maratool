@@ -82,3 +82,80 @@ export function formatFrameFilename(stem, index, total, ext) {
   var num = String(index).padStart(pad, '0')
   return stem + '-frame-' + num + ext
 }
+
+// ── sprite sheet ─────────────────────────────────────────────────────────────
+// A sprite sheet is one composited grid image, not a folder of stills. The GIF
+// to Sprite Sheet page used to run the frame extractor, so it produced exactly
+// the same output as GIF to Frames and satisfied neither query.
+
+// columns <= 0 means "lay every frame out in a single row", which is what a
+// CSS `steps()` animation wants.
+export function computeSpriteLayout(frameCount, frameWidth, frameHeight, columns) {
+  var n = Math.max(0, Math.floor(Number(frameCount) || 0))
+  var fw = Math.max(1, Math.round(Number(frameWidth) || 1))
+  var fh = Math.max(1, Math.round(Number(frameHeight) || 1))
+  if (!n) return { columns: 0, rows: 0, width: 0, height: 0, frameWidth: fw, frameHeight: fh, cells: [] }
+  var cols = Math.floor(Number(columns) || 0)
+  if (cols <= 0) cols = n
+  if (cols > n) cols = n
+  var rows = Math.ceil(n / cols)
+  var cells = []
+  for (var i = 0; i < n; i++) {
+    cells.push({ x: (i % cols) * fw, y: Math.floor(i / cols) * fh })
+  }
+  return {
+    columns: cols,
+    rows: rows,
+    width: cols * fw,
+    height: rows * fh,
+    frameWidth: fw,
+    frameHeight: fh,
+    cells: cells,
+  }
+}
+
+// Browsers refuse to allocate a canvas past a per-side and a total-area limit,
+// and a refusal shows up as a blank white image rather than an exception. Check
+// the numbers first so the failure can say what to change.
+export function spriteSheetLimitError(layout, maxDimension, maxPixels) {
+  if (!layout || !layout.width || !layout.height) return null
+  var maxDim = maxDimension || 16384
+  var maxPx = maxPixels || 100e6
+  if (layout.width > maxDim || layout.height > maxDim) {
+    return 'That layout is ' + layout.width + '×' + layout.height + ' pixels, past the ' + maxDim +
+      '-pixel limit browsers put on a single image. Use more columns to make it squarer, or split the GIF first.'
+  }
+  if (layout.width * layout.height > maxPx) {
+    return 'That layout needs ' + Math.round((layout.width * layout.height) / 1e6) + ' megapixels, more than a ' +
+      'browser will draw in one image. Use a smaller GIF or fewer frames.'
+  }
+  return null
+}
+
+// The snippet is the reason to use a sprite sheet at all, so hand it over
+// instead of leaving the user to work out the background-position maths.
+export function spriteSheetCss(layout, frameCount, durationMs, className) {
+  var name = className || 'sprite'
+  var n = Math.max(1, Math.floor(Number(frameCount) || 1))
+  var seconds = Math.max(0.1, (Number(durationMs) || n * 100) / 1000)
+  var lines = [
+    '.' + name + ' {',
+    '  width: ' + layout.frameWidth + 'px;',
+    '  height: ' + layout.frameHeight + 'px;',
+    '  background-image: url("' + name + '.png");',
+    '  background-repeat: no-repeat;',
+    '  animation: ' + name + '-play ' + seconds.toFixed(2) + 's steps(' + layout.columns + ') infinite;',
+    '}',
+    '',
+    '@keyframes ' + name + '-play {',
+    '  from { background-position: 0 0; }',
+    '  to   { background-position: -' + layout.width + 'px 0; }',
+    '}',
+  ]
+  if (layout.rows > 1) {
+    lines.push('')
+    lines.push('/* ' + layout.rows + ' rows: a steps() animation only walks one row.')
+    lines.push('   Set columns to ' + n + ' for a single-row strip if you want the CSS above to play the whole GIF. */')
+  }
+  return lines.join('\n')
+}

@@ -21,31 +21,31 @@ const seo = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
-      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
-      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+      { '@type': 'Question', name: 'What does EXIF actually contain?', acceptedAnswer: { '@type': 'Answer', text: 'Camera make and model, lens, ISO, shutter speed, aperture, focal length, orientation, and the date the shot was taken. Many phone photos also carry GPS coordinates.' } },
+      { '@type': 'Question', name: 'Why does my image show no EXIF?', acceptedAnswer: { '@type': 'Answer', text: 'PNG and WebP files generally carry none, screenshots never do, and most social networks strip it on upload. A missing EXIF block means the data is not in the file, not that reading failed.' } },
+      { '@type': 'Question', name: 'Can other people see the GPS location in my photos?', acceptedAnswer: { '@type': 'Answer', text: 'If the file still has EXIF, yes. Anyone who receives the original can read exactly where it was taken. Run it through the EXIF remover before sharing.' } },
+      { '@type': 'Question', name: 'Is my photo uploaded to check it?', acceptedAnswer: { '@type': 'Answer', text: 'No. The file is parsed byte by byte in your browser. That is the point of using this rather than an online metadata viewer.' } },
     ],
   },
 }
 
 const howTo = [
-  'Upload or drop your file.',
-  'Adjust settings if needed.',
-  'Click Process and download the result.',
+  'Drop in a photo. Nothing is uploaded, so this is safe for images you would not hand to a web service.',
+  'Read the File block for size and dimensions, and the EXIF block for camera, lens, exposure and location.',
+  'Copy the whole readout as text if you need to paste it into a bug report or a listing.',
 ]
 
 const faq = [
-  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
-  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
-  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
-  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+  { q: 'What does EXIF actually contain?', a: 'Camera make and model, lens, ISO, shutter speed, aperture, focal length, orientation, and the date the shot was taken. Many phone photos also carry GPS coordinates.' },
+  { q: 'Why does my image show no EXIF?', a: 'PNG and WebP files generally carry none, screenshots never do, and most social networks strip it on upload. A missing EXIF block means the data is not in the file, not that reading failed.' },
+  { q: 'Can other people see the GPS location in my photos?', a: 'If the file still has EXIF, yes. Anyone who receives the original can read exactly where it was taken. Run it through the EXIF remover before sharing.' },
+  { q: 'Is my photo uploaded to check it?', a: 'No. The file is parsed byte by byte in your browser. That is the point of using this rather than an online metadata viewer.' },
 ]
 
 const relatedTools = [
-  { slug: 'gif-maker', name: 'GIF Maker' },
-  { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'video-to-gif', name: 'Video to GIF' },
+  { slug: 'exif-remover', name: 'EXIF Remover' },
+  { slug: 'image-compressor', name: 'Compress Image Online' },
+  { slug: 'image-converter', name: 'Image Converter' },
 ]
 
 const breadcrumbs = [
@@ -57,7 +57,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="view-metadata" name="View Image EXIF Metadata Online" description="View Image EXIF Metadata Online. Free, runs in your browser — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="view-metadata" name="View Image EXIF Metadata Online" description="Read the EXIF a photo carries: camera, lens, exposure, orientation, date taken and GPS. Parsed in your browser, so the file goes nowhere." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container" style="min-height:420px;" data-ui="view-metadata">
         <p class="tool-hint">Upload a file to get started. Processing runs entirely in your browser.</p>
         <div id="ez-root" data-slug="view-metadata"></div>

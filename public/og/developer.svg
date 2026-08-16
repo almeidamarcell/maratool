@@ -22,7 +22,7 @@
   <text x="180" y="345" font-size="200" fill="#ffffff" text-anchor="middle" font-family="Inter, system-ui, sans-serif" opacity="0.95">⚡</text>
 
   <!-- Right content area -->
-  <text x="420" y="240" class="b" font-size="22" font-weight="500" fill="#6b6b63" letter-spacing="2">80 TOOLS</text>
+  <text x="420" y="240" class="b" font-size="22" font-weight="500" fill="#6b6b63" letter-spacing="2">84 TOOLS</text>
   <text x="420" y="335" class="h" font-size="84" fill="#2a2a28">Developer tools</text>
   <text x="420" y="395" class="b" font-size="28" fill="#6b6b63">JWT, hash, UUID, regex, cron</text>
 
