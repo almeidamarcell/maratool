@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 513 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 528 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -57,40 +57,40 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [CSV Delimiter Converter](https://maratool.com/csv-delimiter-converter): CSV Delimiter Converter. Free, instant, runs in your browser.
 - [CSV Column Mapper & Renamer](https://maratool.com/csv-column-mapper): CSV Column Mapper & Renamer. Free, instant, runs in your browser.
 - [Transpose CSV Online](https://maratool.com/csv-transpose): Transpose CSV Online. Free, instant, runs in your browser.
-- [Convert GIF to MP4 Online](https://maratool.com/gif-to-mp4): Convert GIF to MP4 Online. Runs in your browser — no upload, no watermark.
-- [Video to APNG Converter Online](https://maratool.com/video-to-apng): Video to APNG Converter Online. Runs in your browser — no upload, no watermark.
-- [Video to WebP Converter Online](https://maratool.com/video-to-webp): Video to WebP Converter Online. Runs in your browser — no upload, no watermark.
-- [Video to AVIF Converter Online](https://maratool.com/video-to-avif): Video to AVIF Converter Online. Runs in your browser — no upload, no watermark.
-- [Merge Videos Online — Join Video Clips](https://maratool.com/merge-videos): Merge Videos Online. Runs in your browser — no upload, no watermark.
-- [Reverse Video Online](https://maratool.com/reverse-video): Reverse Video Online. Runs in your browser — no upload, no watermark.
-- [Change Video Speed Online](https://maratool.com/video-speed): Change Video Speed Online. Runs in your browser — no upload, no watermark.
-- [Add Freeze Frame to Video Online](https://maratool.com/freeze-video): Add Freeze Frame to Video Online. Runs in your browser — no upload, no watermark.
-- [Video Screenshot — Extract Frame as Image](https://maratool.com/video-screenshot): Video Screenshot. Runs in your browser — no upload, no watermark.
-- [Images to Video — Slideshow MP4 Maker](https://maratool.com/images-to-video): Images to Video. Runs in your browser — no upload, no watermark.
+- [Convert GIF to MP4 Online](https://maratool.com/gif-to-mp4): Turn an animated GIF into an MP4 a fraction of the size, which is the format Twitter, Discord, and most CMS uploads actually prefer.
+- [Video to APNG Converter Online](https://maratool.com/video-to-apng): Pick a clip range, frame rate, and width, then export it as an animated PNG with lossless color and real alpha instead of GIF dithering.
+- [Video to WebP Converter Online](https://maratool.com/video-to-webp): Trim a clip range, set frame rate and output width, and export animated WebP. Sharper than a GIF at a fraction of the bytes for web embeds.
+- [Video to AVIF Converter Online](https://maratool.com/video-to-avif): Export a clip as animated AVIF, the smallest of the modern animation formats. Start, end, frame rate, and width are all set before encoding.
+- [Merge Videos Online — Join Video Clips](https://maratool.com/merge-videos): Queue MP4, WebM, or MOV clips, arrange the order, and join them end to end into one continuous file you can download in a single click.
+- [Reverse Video Online](https://maratool.com/reverse-video): Play an MP4, WebM, or MOV clip backwards and export it. Both picture and audio are reversed, so the soundtrack runs with the footage.
+- [Change Video Speed Online](https://maratool.com/video-speed): Retime a clip anywhere from 0.25x to 4x and export the result, whether you want a timelapse or slow motion out of a phone recording.
+- [Add Freeze Frame to Video Online](https://maratool.com/freeze-video): Hold one frame in the middle of a clip. Pick the timestamp and how many seconds it pauses, then export the video with the freeze baked in.
+- [Video Screenshot — Extract Frame as Image](https://maratool.com/video-screenshot): Scrub to a timestamp and save that exact frame as a PNG or JPG, which beats screenshotting the player and cropping the browser chrome off.
+- [Images to Video — Slideshow MP4 Maker](https://maratool.com/images-to-video): Order a stack of photos, set the frame rate, and render them into an MP4 slideshow you can post anywhere a video file is accepted.
 - [Convert OGG to MP3 — Free Online Converter](https://maratool.com/ogg-to-mp3): Convert OGG (Vorbis or Opus) files to MP3 in your browser. No upload, no signup — files never leave your device.
 - [Convert Opus to MP3 — Free Online Converter](https://maratool.com/opus-to-mp3): Convert Opus files to MP3 in your browser — including WhatsApp voice messages. No upload, no signup, files never leave your device.
 - [Audio to Text](https://maratool.com/audio-to-text): Convert audio to text online for free. Transcribe MP3, WAV, M4A, and more to text, SRT, or VTT in your browser — no upload, no signup.
-- [Cut Audio Online — Trim MP3 WAV FLAC](https://maratool.com/cut-audio): Cut Audio Online. Runs in your browser — no upload, no watermark.
-- [Compress Audio Online — Reduce MP3 Size](https://maratool.com/compress-audio): Compress Audio Online. Runs in your browser — no upload, no watermark.
-- [Merge Audio Files Online](https://maratool.com/merge-audio): Merge Audio Files Online. Runs in your browser — no upload, no watermark.
-- [Audio Fade In Out Online](https://maratool.com/audio-fade): Audio Fade In Out Online. Runs in your browser — no upload, no watermark.
-- [Change Audio Speed Online](https://maratool.com/audio-speed): Change Audio Speed Online. Runs in your browser — no upload, no watermark.
-- [Boost Audio Volume Online](https://maratool.com/boost-volume): Boost Audio Volume Online. Runs in your browser — no upload, no watermark.
-- [GIF Frame Interpolation — Smooth Motion](https://maratool.com/interpolate-frames): GIF Frame Interpolation. Runs in your browser — no upload, no watermark.
-- [Video to JXL Converter Online](https://maratool.com/video-to-jxl): Video to JXL Converter Online. Runs in your browser — no upload, no watermark.
-- [Apply Video Filters Online](https://maratool.com/video-filters): Apply Video Filters Online. Runs in your browser — no upload, no watermark.
-- [Video Stabilizer Online](https://maratool.com/video-stabilizer): Video Stabilizer Online. Runs in your browser — no upload, no watermark.
-- [Add Subtitles to Video Online](https://maratool.com/video-subtitles): Add Subtitles to Video Online. Runs in your browser — no upload, no watermark.
-- [Audio Waveform Image Generator](https://maratool.com/audio-waveform): Audio Waveform Image Generator. Runs in your browser — no upload, no watermark.
-- [Remove Audio Noise Online](https://maratool.com/audio-denoise): Remove Audio Noise Online. Runs in your browser — no upload, no watermark.
-- [Bulk WebP to PNG Converter](https://maratool.com/bulk-webp-to-png): Bulk WebP to PNG Converter. Runs in your browser — no upload, no watermark.
-- [Bulk AVIF to PNG Converter](https://maratool.com/bulk-avif-to-png): Bulk AVIF to PNG Converter. Runs in your browser — no upload, no watermark.
-- [Bulk AVIF to JPG Converter](https://maratool.com/bulk-avif-to-jpg): Bulk AVIF to JPG Converter. Runs in your browser — no upload, no watermark.
-- [Bulk PNG to JPG Converter](https://maratool.com/bulk-png-to-jpg): Bulk PNG to JPG Converter. Runs in your browser — no upload, no watermark.
-- [Bulk JPG to PNG Converter](https://maratool.com/bulk-jpg-to-png): Bulk JPG to PNG Converter. Runs in your browser — no upload, no watermark.
-- [Add Audio to Video Online](https://maratool.com/video-sound): Add Audio to Video Online. Runs in your browser — no upload, no watermark.
-- [Video to PNG — Extract Frames](https://maratool.com/video-to-png): Video to PNG. Runs in your browser — no upload, no watermark.
-- [Video to JPG — Extract Frame](https://maratool.com/video-to-jpg): Video to JPG. Runs in your browser — no upload, no watermark.
+- [Cut Audio Online — Trim MP3 WAV FLAC](https://maratool.com/cut-audio): Give a start and end time to keep one section of an MP3, WAV, or FLAC file, then download just that piece as a new track.
+- [Compress Audio Online — Reduce MP3 Size](https://maratool.com/compress-audio): Pick a target bitrate and re-encode down to it. Taking a spoken-word track from 320 to 96 kbps cuts the file by roughly two thirds.
+- [Merge Audio Files Online](https://maratool.com/merge-audio): Line up MP3, WAV, or OGG tracks in whatever order you want and stitch them into a single file with no silence dropped in between.
+- [Audio Fade In Out Online](https://maratool.com/audio-fade): Set fade in and fade out lengths in seconds so a track eases in and ends without a hard cut. Total duration tells it where the tail sits.
+- [Change Audio Speed Online](https://maratool.com/audio-speed): Speed a track up or slow it down, then download the retimed file. Built for lecture recordings, practice loops, and audiobook pacing.
+- [Boost Audio Volume Online](https://maratool.com/boost-volume): Amplify a quiet recording by a set number of decibels and download the louder file, so an interview taken at arms length becomes audible.
+- [GIF Frame Interpolation — Smooth Motion](https://maratool.com/interpolate-frames): Lift choppy footage to 30, 48, or 60 fps by generating the missing in-between frames with motion interpolation. Takes MP4, WebM, and MOV.
+- [Video to JXL Converter Online](https://maratool.com/video-to-jxl): Encode video frames as JPEG XL instead of PNG or JPG, for photo quality stills at a fraction of the file size. Accepts MP4, WebM, and MOV.
+- [Apply Video Filters Online](https://maratool.com/video-filters): Push a clip through one of three looks: vivid color, flat grayscale, or full negative. The graded video is re-encoded to MP4 on your own machine.
+- [Video Stabilizer Online](https://maratool.com/video-stabilizer): Take the jitter out of handheld footage. Motion is tracked across frames and the clip is re-rendered along a steadier path, no tripod required.
+- [Add Subtitles to Video Online](https://maratool.com/video-subtitles): Burn an SRT or VTT file permanently into the picture so the captions survive re-uploads to platforms that quietly strip subtitle tracks.
+- [Audio Waveform Image Generator](https://maratool.com/audio-waveform): Render any audio track as a 1200 by 200 pixel waveform PNG, the kind of image podcast pages, audiograms, and release posts run above the player.
+- [Remove Audio Noise Online](https://maratool.com/audio-denoise): Strip constant hiss, mains hum, and air conditioner rumble out of a recording, then download the cleaned voice track as an MP3.
+- [Bulk WebP to PNG Converter](https://maratool.com/bulk-webp-to-png): Turn a stack of WebP files into PNGs with transparency intact, for the apps and CMSes that still refuse to read WebP.
+- [Bulk AVIF to PNG Converter](https://maratool.com/bulk-avif-to-png): AVIF keeps files small but half the editors out there cannot open one. Convert a batch to PNG and get images that paste anywhere.
+- [Bulk AVIF to JPG Converter](https://maratool.com/bulk-avif-to-jpg): Convert a folder of AVIF photos to JPG at the quality you choose, for uploaders and marketplaces that reject the newer format.
+- [Bulk PNG to JPG Converter](https://maratool.com/bulk-png-to-jpg): Flatten a batch of PNGs to JPG and set the compression level, for when screenshots and exports keep hitting an upload limit.
+- [Bulk JPG to PNG Converter](https://maratool.com/bulk-jpg-to-png): Convert JPG photos to PNG in one pass, so every later edit and re-save avoids stacking another round of lossy compression.
+- [Add Audio to Video Online](https://maratool.com/video-sound): Drop in a silent clip and an audio track, set the volume, trim where the sound starts, and export an MP4 that plays with music.
+- [Video to PNG — Extract Frames](https://maratool.com/video-to-png): Pull frames out of a video as lossless PNGs. Grab one exact moment, or export a whole sequence at the interval you set.
+- [Video to JPG — Extract Frame](https://maratool.com/video-to-jpg): Take a still from a video without screen recording it. Export a single JPG or every frame at a fixed interval.
 - [Area Converter — Square Feet, Square Meters, Acres & Hectares](https://maratool.com/area-converter): Convert square feet to square meters, acres to hectares, and every common area unit instantly. Free area converter that runs in your browser.
 - [Volume Converter — Liters, Gallons, Cups & More](https://maratool.com/volume-converter): Convert liters to gallons, cups to milliliters, and every common volume unit instantly. Free volume converter that runs entirely in your browser.
 - [Pressure Converter — PSI, Bar, kPa & Atm](https://maratool.com/pressure-converter): Convert psi to bar, kPa to psi, atmospheres, torr, and mmHg instantly with NIST conversion factors. Free pressure converter, runs in your browser.
@@ -135,6 +135,7 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [Clothing Size Converter — US, EU & UK Dress and Suit Sizes](https://maratool.com/clothing-size-converter): Convert clothing sizes between US, UK, EU, Italian, and Japanese charts for women’s dresses, men’s suits, and shirts. Free, in your browser.
 - [Hat Size Converter — US, UK & CM](https://maratool.com/hat-size-converter): Convert hat sizes between head circumference in cm or inches, US and UK numeric sizes, and S/M/L letters. Free hat size converter in your browser.
 - [Describe Video with AI](https://maratool.com/describe-video): Get a text description of every second of your video — an AI model describes each frame locally in your browser. No upload, no signup.
+- [Days Between Dates](https://maratool.com/days-between-dates): Count the days between two dates, with a years-months-days breakdown, weeks, hours, and business days that skip weekends.
 
 ### Developer
 - [Test Regex Patterns Online](https://maratool.com/regex-tester): Test regular expressions with live match highlighting.
@@ -217,6 +218,10 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [XML Formatter Online](https://maratool.com/xml-formatter): XML Formatter Online. Free, instant, runs in your browser.
 - [JSON Flatten — Nested to Dot Notation](https://maratool.com/json-flatten): JSON Flatten — Nested to Dot Notation. Free, instant, runs in your browser.
 - [JSON Path Tester Online](https://maratool.com/json-path-tester): JSON Path Tester Online. Free, instant, runs in your browser.
+- [HTML Escape and Unescape Online](https://maratool.com/html-escape): Escape HTML special characters to entities or decode them back, covering named, decimal, and hexadecimal references without touching innerHTML.
+- [Random Number Generator](https://maratool.com/random-number-generator): Pick random numbers in any range using the browser cryptographic random source. Integers or decimals, with or without repeats.
+- [Slug Generator — Convert a Title to a URL Slug](https://maratool.com/slug-generator): Turn a headline into a URL-safe slug: accents folded to ASCII, punctuation dropped, optional stop-word removal, and truncation on a word boundary.
+- [URL Encode and Decode Online](https://maratool.com/url-encode-decode): Percent-encode text for a URL or decode %20 and %C3%A9 back to readable characters, with a toggle between encodeURIComponent and encodeURI.
 
 ### Text
 - [Compare Two Texts Online](https://maratool.com/diff-checker): Compare two blocks of text and highlight added, removed, and unchanged lines.
@@ -232,7 +237,10 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [Dilmes Ipsum](https://maratool.com/dilmes-ipsum): Generate Dilmes Ipsum placeholder text using real quotes from former Brazilian president Dilma Rousseff.
 - [Emoji Picker — Copy & Paste Any Emoji](https://maratool.com/emoji-picker): Click any emoji to instantly copy it to your clipboard. Search and browse 2,300+ Unicode emojis by category.
 - [Word Counter & Character Counter](https://maratool.com/word-counter): Count words, characters, sentences, and paragraphs in real time. Paste or type any text.
-- [Sort, Dedupe & Convert Text Lines](https://maratool.com/text-line-tools): Sort lines alphabetically, remove duplicates, randomize order, and convert case. All text transforms in one place.
+- [Text Line Tools — Every Line Transform in One Place](https://maratool.com/text-line-tools): Run several line transforms on one paste without switching tabs. Sort, dedupe, shuffle, and change case in a single pass over the same text.
+- [Case Converter — Uppercase, Lowercase & Title Case](https://maratool.com/case-converter): Convert text to uppercase, lowercase, title case, sentence case, camelCase, snake_case, kebab-case, and CONSTANT_CASE as you type.
+- [Remove Duplicate Lines — Dedupe a List Online](https://maratool.com/remove-duplicate-lines): Remove duplicate lines from a list keeping the first or last copy, or show only the duplicates, with a count of how many lines were dropped.
+- [Sort Lines Alphabetically — Alphabetize a List](https://maratool.com/sort-lines): Alphabetize a list A to Z or Z to A, sort it numerically or by line length, reverse it, or shuffle it, with natural sort so item2 comes before item10.
 
 ### Image
 - [GIF Maker — Create Animated GIFs from Images](https://maratool.com/gif-maker): Upload images and create animated GIFs instantly in your browser. Drag to reorder frames, set speed, and download — no upload to servers.
@@ -263,52 +271,57 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [Base64 Image Previewer](https://maratool.com/base64-image-preview): Paste a Base64 string or data URL and instantly preview the image with format, dimensions, and size.
 - [Image Alt Text Generator](https://maratool.com/alt-text-generator): Generate alt text for images using AI — runs locally in your browser. No upload, no sign-up required.
 - [GIF Analyzer — Inspect GIF Structure](https://maratool.com/gif-analyzer): Inspect animated GIF internals: dimensions, frame count, delays, palettes, and disposal methods. Export metadata as JSON.
-- [Reverse GIF Online — Play Animation Backwards](https://maratool.com/gif-reverse): Reverse GIF Online. Runs in your browser — no upload, no watermark.
-- [Change GIF Speed Online — Faster or Slower](https://maratool.com/gif-speed): Change GIF Speed Online. Runs in your browser — no upload, no watermark.
-- [Cut GIF Duration Online — Trim Animated GIF](https://maratool.com/gif-cut): Cut GIF Duration Online. Runs in your browser — no upload, no watermark.
-- [Resize GIF Online — Change Animated GIF Size](https://maratool.com/gif-resizer): Resize GIF Online. Runs in your browser — no upload, no watermark.
-- [Crop GIF Online — Crop Animated GIF](https://maratool.com/gif-cropper): Crop GIF Online. Runs in your browser — no upload, no watermark.
-- [Rotate GIF Online — Flip or Rotate Animation](https://maratool.com/gif-rotate): Rotate GIF Online. Runs in your browser — no upload, no watermark.
-- [Ping Pong GIF — Boomerang Loop Online](https://maratool.com/ping-pong-gif): Ping Pong GIF. Runs in your browser — no upload, no watermark.
-- [Shuffle GIF Frames Online](https://maratool.com/gif-randomize): Shuffle GIF Frames Online. Runs in your browser — no upload, no watermark.
-- [Extend GIF Duration — Loop to Target Length](https://maratool.com/extend-gif): Extend GIF Duration. Runs in your browser — no upload, no watermark.
-- [Convert GIF to WebP Online](https://maratool.com/gif-to-webp): Convert GIF to WebP Online. Runs in your browser — no upload, no watermark.
-- [Convert GIF to APNG Online](https://maratool.com/gif-to-apng): Convert GIF to APNG Online. Runs in your browser — no upload, no watermark.
-- [Animate Static Image Online — Photo to GIF](https://maratool.com/static-to-gif): Animate Static Image Online. Runs in your browser — no upload, no watermark.
-- [Sprite Sheet Cutter Online](https://maratool.com/sprite-cutter): Sprite Sheet Cutter Online. Runs in your browser — no upload, no watermark.
-- [Remove EXIF Metadata from Images](https://maratool.com/exif-remover): Remove EXIF Metadata from Images. Runs in your browser — no upload, no watermark.
-- [Compare Two Images Online](https://maratool.com/compare-images): Compare Two Images Online. Runs in your browser — no upload, no watermark.
-- [Photo Collage Maker Online](https://maratool.com/collage-maker): Photo Collage Maker Online. Runs in your browser — no upload, no watermark.
-- [Round Image Corners Online](https://maratool.com/rounded-corners): Round Image Corners Online. Runs in your browser — no upload, no watermark.
-- [Passport Photo Maker Online](https://maratool.com/passport-photo): Passport Photo Maker Online. Runs in your browser — no upload, no watermark.
-- [APNG Maker — Create Animated PNG](https://maratool.com/apng-maker): APNG Maker. Runs in your browser — no upload, no watermark.
-- [WebP Animation Maker Online](https://maratool.com/webp-maker): WebP Animation Maker Online. Runs in your browser — no upload, no watermark.
-- [Change GIF Loop Count Online](https://maratool.com/gif-loop-count): Change GIF Loop Count Online. Runs in your browser — no upload, no watermark.
-- [GIF to Frames — Split GIF into Images](https://maratool.com/gif-to-frames): GIF to Frames. Runs in your browser — no upload, no watermark.
-- [Combine GIFs Side by Side Online](https://maratool.com/gif-combine): Combine GIFs Side by Side Online. Runs in your browser — no upload, no watermark.
-- [Add Text to GIF Online](https://maratool.com/gif-add-text): Add Text to GIF Online. Runs in your browser — no upload, no watermark.
-- [GIF Effects — Filters & Color Online](https://maratool.com/gif-effects): GIF Effects. Runs in your browser — no upload, no watermark.
-- [View Image EXIF Metadata Online](https://maratool.com/view-metadata): View Image EXIF Metadata Online. Runs in your browser — no upload, no watermark.
-- [Enlarge Image Online — Upscale Photo](https://maratool.com/enlarge-image): Enlarge Image Online. Runs in your browser — no upload, no watermark.
-- [Halftone Image Effect Online](https://maratool.com/halftone): Halftone Image Effect Online. Runs in your browser — no upload, no watermark.
-- [Change Image Aspect Ratio Online](https://maratool.com/change-aspect-ratio): Change Image Aspect Ratio Online. Runs in your browser — no upload, no watermark.
-- [Animated JXL Maker Online](https://maratool.com/jxl-maker): Animated JXL Maker Online. Runs in your browser — no upload, no watermark.
-- [AVIF Animation Maker Online](https://maratool.com/avif-maker): AVIF Animation Maker Online. Runs in your browser — no upload, no watermark.
-- [Convert GIF to JXL Online](https://maratool.com/gif-to-jxl): Convert GIF to JXL Online. Runs in your browser — no upload, no watermark.
-- [Image to Data URI Converter](https://maratool.com/image-to-datauri): Image to Data URI Converter. Runs in your browser — no upload, no watermark.
-- [Live Photo to GIF Converter](https://maratool.com/livephoto-to-gif): Live Photo to GIF Converter. Runs in your browser — no upload, no watermark.
-- [Convert WebP to GIF Online](https://maratool.com/webp-to-gif): Convert WebP to GIF Online. Runs in your browser — no upload, no watermark.
-- [Convert AVIF to GIF Online](https://maratool.com/avif-to-gif): Convert AVIF to GIF Online. Runs in your browser — no upload, no watermark.
-- [Convert APNG to GIF Online](https://maratool.com/apng-to-gif): Convert APNG to GIF Online. Runs in your browser — no upload, no watermark.
-- [Convert MNG to GIF Online](https://maratool.com/mng-to-gif): Convert MNG to GIF Online. Runs in your browser — no upload, no watermark.
-- [GIF to Sprite Sheet Online](https://maratool.com/gif-to-sprite): GIF to Sprite Sheet Online. Runs in your browser — no upload, no watermark.
-- [Split GIF into Parts Online](https://maratool.com/gif-split): Split GIF into Parts Online. Runs in your browser — no upload, no watermark.
-- [Repair Corrupted GIF Online](https://maratool.com/gif-repair): Repair Corrupted GIF Online. Runs in your browser — no upload, no watermark.
-- [Instagram GIF Maker — Square Loop](https://maratool.com/instagif): Instagram GIF Maker. Runs in your browser — no upload, no watermark.
-- [Add White Box Caption to GIF](https://maratool.com/white-box-caption): Add White Box Caption to GIF. Runs in your browser — no upload, no watermark.
-- [Telegram Sticker TGS to GIF](https://maratool.com/tgs-to-gif): Telegram Sticker TGS to GIF. Runs in your browser — no upload, no watermark.
-- [Motion Photo MVIMG to GIF](https://maratool.com/mvimg-to-gif): Motion Photo MVIMG to GIF. Runs in your browser — no upload, no watermark.
-- [GIF to Live Photo Converter](https://maratool.com/gif-to-livephoto): GIF to Live Photo Converter. Runs in your browser — no upload, no watermark.
+- [Reverse GIF Online — Play Animation Backwards](https://maratool.com/gif-reverse): Flip the frame order of an animated GIF so it plays backwards, keeping the original size and per-frame timing intact.
+- [Change GIF Speed Online — Faster or Slower](https://maratool.com/gif-speed): Set a speed percentage and the frame delays get rewritten, so the animation runs faster or slower without re-encoding a single pixel.
+- [Cut GIF Duration Online — Trim Animated GIF](https://maratool.com/gif-cut): Type a start and end time in seconds and keep only the frames in between, trimming a long animation down to the part that matters.
+- [Resize GIF Online — Change Animated GIF Size](https://maratool.com/gif-resizer): Enter a new width and every frame is scaled to match, so the animation survives the resize. Leave height blank to hold the aspect ratio.
+- [Crop GIF Online — Crop Animated GIF](https://maratool.com/gif-cropper): Set an X, Y, width, and height crop box and every frame gets cut to it. Handy for chopping black bars or a corner watermark off a loop.
+- [Rotate GIF Online — Flip or Rotate Animation](https://maratool.com/gif-rotate): Turn an animation 90, 180, or 270 degrees, or mirror it horizontally or vertically. All frames rotate together so the loop stays in sync.
+- [Ping Pong GIF — Boomerang Loop Online](https://maratool.com/ping-pong-gif): Append the reversed frames to the end so the animation runs forward then back, giving a boomerang loop with no visible jump at the seam.
+- [Shuffle GIF Frames Online](https://maratool.com/gif-randomize): Scramble the frame order for a glitchy remix of an animation. Each frame keeps its own delay, only the sequence gets shuffled.
+- [Extend GIF Duration — Loop to Target Length](https://maratool.com/extend-gif): Give a target length in seconds and the loop repeats until it gets there, for when a two-second clip has to fill a fixed slot.
+- [Convert GIF to WebP Online](https://maratool.com/gif-to-webp): Re-encode an animated GIF as animated WebP, which usually lands under half the file size while keeping the same frames and timing.
+- [Convert GIF to APNG Online](https://maratool.com/gif-to-apng): Move an animation to APNG when 256 colors and hard-edged transparency are not enough. APNG carries full alpha and 24-bit color per frame.
+- [Animate Static Image Online — Photo to GIF](https://maratool.com/static-to-gif): Give a single photo a zoom, pan, or pulse move and export it as a looping GIF. Frame count and delay control how slow the motion reads.
+- [Sprite Sheet Cutter Online](https://maratool.com/sprite-cutter): Enter the rows and columns of a sprite sheet and it gets sliced on that grid into separate PNG tiles at the original pixel size.
+- [Remove EXIF Metadata from Images](https://maratool.com/exif-remover): Redraw a photo without its EXIF block, dropping GPS coordinates, camera model, and capture time before you post it. The pixels stay untouched.
+- [Compare Two Images Online](https://maratool.com/compare-images): Drop two images and get them laid out side by side at full resolution on one canvas, which makes before and after differences easy to spot.
+- [Photo Collage Maker Online](https://maratool.com/collage-maker): Combine photos into a horizontal strip, a vertical stack, or a 2x2 grid with an adjustable gap, then save the whole arrangement as one image.
+- [Round Image Corners Online](https://maratool.com/rounded-corners): Clip an image into a rounded rectangle. Set the corner radius anywhere from 1 to 50 percent and get a PNG back with the corners knocked out transparent.
+- [Passport Photo Maker Online](https://maratool.com/passport-photo): Fit a headshot to the US 2 by 2 inch or EU 35 by 45 mm passport size, centered on white at print resolution and ready to send to a photo lab.
+- [APNG Maker — Create Animated PNG](https://maratool.com/apng-maker): Stack a set of images into an animated PNG, or hand it a single photo and let a zoom, pan, or pulse motion generate the frames for you.
+- [WebP Animation Maker Online](https://maratool.com/webp-maker): Turn a stack of images into an endlessly looping animated WebP at the frame delay you choose, and land a much smaller file than the same GIF.
+- [Change GIF Loop Count Online](https://maratool.com/gif-loop-count): Set how many times an animated GIF repeats before it stops. Enter 0 to loop forever, 1 to play once and freeze, or any count in between.
+- [GIF to Frames — Split GIF into Images](https://maratool.com/gif-to-frames): Break an animated GIF back into its individual frames, review every one as a thumbnail, and save them all as numbered PNG files in one click.
+- [Combine GIFs Side by Side Online](https://maratool.com/gif-combine): Merge two animated GIFs into one, side by side or stacked. The shorter clip loops so both keep playing until the longer one finishes.
+- [Add Text to GIF Online](https://maratool.com/gif-add-text): Lay a caption bar across the bottom of every frame of a GIF. Type the line, pick the font size, and export the meme in one pass.
+- [GIF Effects — Filters & Color Online](https://maratool.com/gif-effects): Recolor every frame of a GIF at once with grayscale, sepia, invert, or blur, then re-encode the animation with the new look baked in.
+- [View Image EXIF Metadata Online](https://maratool.com/view-metadata): Read what an image file actually is before you use it: format, exact byte size, and pixel dimensions, all without the photo leaving your machine.
+- [Enlarge Image Online — Upscale Photo](https://maratool.com/enlarge-image): Scale a photo up to four times its original size with high quality resampling. Set the percentage, check the preview, and save the bigger file.
+- [Halftone Image Effect Online](https://maratool.com/halftone): Redraw a photo as black dots on white, the way newspapers used to print pictures. Dial the dot density from coarse and punchy to fine and subtle.
+- [Change Image Aspect Ratio Online](https://maratool.com/change-aspect-ratio): Reshape a photo to 16:9, 1:1, or any ratio you type in. Letterbox mode pads the gaps with white, crop mode trims whatever hangs over the edge.
+- [Animated JXL Maker Online](https://maratool.com/jxl-maker): Assemble a set of images into an animated JPEG XL, or animate one photo with zoom and pan motion. Set the frame delay, then download the file.
+- [AVIF Animation Maker Online](https://maratool.com/avif-maker): Build a looping animated AVIF from a batch of images. Same motion as a GIF at a fraction of the byte count, with full color instead of 256.
+- [Convert GIF to JXL Online](https://maratool.com/gif-to-jxl): Swap an animated GIF for a JPEG XL that carries the same picture in far fewer bytes. Drop the file in, wait for the encode, take the result.
+- [Image to Data URI Converter](https://maratool.com/image-to-datauri): Encode a PNG, JPG, SVG, or WebP as a base64 data URI you can paste straight into a CSS background or an img src. One less HTTP request.
+- [Live Photo to GIF Converter](https://maratool.com/livephoto-to-gif): Pull the MOV half out of an iPhone Live Photo and hand back a GIF that posts anywhere. Output runs 480 pixels wide at 10 frames per second.
+- [Convert WebP to GIF Online](https://maratool.com/webp-to-gif): Animated WebP still breaks on older forums and chat clients. Feed one in and take away a plain GIF, 480 pixels wide at 10 frames per second.
+- [Convert AVIF to GIF Online](https://maratool.com/avif-to-gif): AVIF animations compress beautifully and play almost nowhere. Decode one here and get a GIF back at 480 pixels wide and 10 frames per second.
+- [Convert APNG to GIF Online](https://maratool.com/apng-to-gif): APNG keeps full color and alpha, but plenty of apps only read GIF. Decode the animated PNG and download a 480 pixel wide GIF at 10 fps.
+- [Convert MNG to GIF Online](https://maratool.com/mng-to-gif): MNG is a dead animation format that almost no viewer opens today. Drop the old file in and get a standard GIF, 480 pixels wide at 10 fps.
+- [GIF to Sprite Sheet Online](https://maratool.com/gif-to-sprite): Lay every frame of an animated GIF out in a single grid image, ready for a CSS sprite animation or a game engine atlas.
+- [Split GIF into Parts Online](https://maratool.com/gif-split): Cut a long animated GIF into smaller pieces by frame range and download each part on its own.
+- [Repair Corrupted GIF Online](https://maratool.com/gif-repair): Rebuild a GIF that stopped animating. Re-encode the frames, reset the loop flag, and download a copy players will actually open.
+- [Instagram GIF Maker — Square Loop](https://maratool.com/instagif): Crop and resize an animated GIF to the 1:1 square Instagram expects, then download it sized and ready to post.
+- [Add White Box Caption to GIF](https://maratool.com/white-box-caption): Put the classic white caption bar above a GIF instead of over it, so the text stays readable and the frame stays uncovered.
+- [Telegram Sticker TGS to GIF](https://maratool.com/tgs-to-gif): Telegram animated stickers ship as .tgs Lottie files that almost nothing else opens. Drop one in and get a shareable GIF back.
+- [Motion Photo MVIMG to GIF](https://maratool.com/mvimg-to-gif): Android phones hide a short video clip inside MVIMG motion photos. Extract it and export the movement as a plain GIF anyone can view.
+- [GIF to Live Photo Converter](https://maratool.com/gif-to-livephoto): Turn an animated GIF into a MOV clip the iPhone Photos app accepts as a Live Photo, wallpaper and lock screen included.
+- [Crop Image Online](https://maratool.com/crop-image): Crop a photo with a draggable selection box, exact X, Y, width and height fields, and an optional 1:1, 4:3, 16:9, or 3:2 ratio lock.
+- [HEIC to JPG Converter — Convert iPhone Photos](https://maratool.com/heic-to-jpg): Convert iPhone HEIC and HEIF photos to JPG in batches, with a quality slider and the size saved on every file.
+- [Resize Image to Exact Pixel Size](https://maratool.com/resize-image): Resize an image to an exact width and height, or scale by percent. Aspect-ratio lock, common presets, and a live output size estimate.
+- [Rotate Image Online](https://maratool.com/rotate-image): Rotate a photo by 90 degree steps or any free angle, and mirror it horizontally or vertically. The canvas grows so no corner is clipped.
+- [SVG to PNG Converter — Export at 1x, 2x, 3x, 4x](https://maratool.com/svg-to-png): Rasterize SVG markup or an SVG file to PNG at any width and height, with retina multipliers and a transparent background.
 
 ### Color
 - [CSS Gradient Generator with Live Preview](https://maratool.com/css-gradient): Generate CSS gradients visually with live preview.
@@ -326,18 +339,18 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [Convert PDF to Markdown](https://maratool.com/pdf-to-markdown): Convert PDF files to clean Markdown with heading detection. Ideal for LLM context and documentation.
 - [Convert PDF to PPT (editable PowerPoint)](https://maratool.com/pdf-to-ppt): Convert PDF to editable PowerPoint slides — text, images and shapes, not screenshots. Runs 100% in your browser.
 - [Merge and Split PDF Pages](https://maratool.com/pdf-merge-split): Merge multiple PDF files or extract specific pages into a new PDF. Runs entirely in your browser.
-- [JPG to PDF Converter Online](https://maratool.com/image-to-pdf): Convert JPG, PNG, and WebP images into a single PDF. Runs in your browser — no upload, no watermark.
+- [JPG to PDF Converter Online](https://maratool.com/image-to-pdf): Drop JPG, PNG, or WebP files, set the page order, then export one PDF with a page per image. Choose A4, Letter, or fit-to-image, plus margins.
 - [Rearrange PDF Pages — Reorder, Rotate & Delete](https://maratool.com/organize-pdf): Rearrange PDF pages online — drag to reorder, rotate pages 90°, and delete pages you don't need. Free, runs in your browser with no upload needed.
 - [PDF Page Imposer for Booklet Printing](https://maratool.com/print-imposer): Arrange PDF pages for booklet, saddle-stitch, or N-up printing. Runs entirely in your browser — no upload required.
 - [Zine Layout Generator — 8-Page Mini-Zine](https://maratool.com/zine-imposer): Create an 8-page mini-zine imposition layout from a single sheet of paper. Upload a PDF and download the print-ready layout.
 - [PDF Page Counter & Metadata Viewer](https://maratool.com/pdf-metadata): View PDF page count, file size, author, creation date, and other metadata instantly in your browser.
 - [PDF Accessibility Checker](https://maratool.com/pdf-accessibility-checker): Check if your PDF has accessibility tags, document title, language, and other a11y requirements.
 - [PDF Preflight Checker](https://maratool.com/pdf-preflight): Analyze PDF files for print-readiness issues — check page sizes, fonts, color spaces, and image resolution.
-- [Compress PDF Online — Reduce File Size](https://maratool.com/compress-pdf): Compress PDF Online. Runs in your browser — no upload, no watermark.
-- [PDF to GIF Converter Online](https://maratool.com/pdf-to-gif): PDF to GIF Converter Online. Runs in your browser — no upload, no watermark.
-- [PDF to JPG Converter Online](https://maratool.com/pdf-to-jpg): PDF to JPG Converter Online. Runs in your browser — no upload, no watermark.
-- [PDF to PNG Converter Online](https://maratool.com/pdf-to-png): PDF to PNG Converter Online. Runs in your browser — no upload, no watermark.
-- [Crop PDF Pages Online](https://maratool.com/crop-pdf): Crop PDF Pages Online. Runs in your browser — no upload, no watermark.
+- [Compress PDF Online — Reduce File Size](https://maratool.com/compress-pdf): Shrink a PDF until it clears an email or upload cap. The document is rebuilt with compact object streams, and it never leaves your machine.
+- [PDF to GIF Converter Online](https://maratool.com/pdf-to-gif): Flip through a document as an animated GIF. Give it a page range like 1,3-5 and every page becomes one frame in the loop.
+- [PDF to JPG Converter Online](https://maratool.com/pdf-to-jpg): Render document pages as JPG images. Type a page range or leave the box blank for everything, then save the pages as separate files.
+- [PDF to PNG Converter Online](https://maratool.com/pdf-to-png): Render document pages as lossless PNGs, which keeps text edges and line art sharp where JPG would smear them. Export one page or all of them.
+- [Crop PDF Pages Online](https://maratool.com/crop-pdf): Trim the dead margins off scanned pages so the text fills a tablet or e-reader screen. Pick the area to keep once, apply it to every page.
 
 ### Marketing
 - [Barcode Generator — Code128, EAN-13 & More](https://maratool.com/barcode-generator): Generate barcodes in Code 128, EAN-13, UPC-A, QR, Data Matrix, and more. Download as PNG or SVG.
@@ -391,10 +404,10 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [Pediatric Infusion Calculator (mcg/kg/min)](https://maratool.com/pediatric-infusion-mcg-kg-min): Pediatric drug infusion rate calculator in mcg/kg/min.
 - [Pediatric Infusion Calculator (mg/kg/hour)](https://maratool.com/pediatric-infusion-mg-kg-hour): Pediatric drug infusion rate calculator in mg/kg/hour.
 - [Finnegan Score Calculator](https://maratool.com/finnegan-score): Score severity of neonatal abstinence syndrome using the Finnegan scale.
-- [Raimondi Coma Scale (Pediatric)](https://maratool.com/raimondi-coma-scale): Pediatric coma scale by Raimondi for assessing consciousness in infants and children.
-- [Rodwell Score for Neonatal Sepsis](https://maratool.com/rodwell-neonatal-sepsis): Score for screening neonatal sepsis using hematologic criteria.
-- [Capurro Gestational Age (Somatic)](https://maratool.com/capurro-somatic): Estimate gestational age in newborns using somatic features (Capurro method).
-- [Capurro Gestational Age (Neurological)](https://maratool.com/capurro-neurological): Estimate gestational age in newborns using neurological features (Capurro method).
+- [Raimondi Coma Scale (Pediatric)](https://maratool.com/raimondi-coma-scale): Score consciousness in infants and pre-verbal children on three responses, 3 to 11, where the standard Glasgow verbal items do not apply.
+- [Rodwell Score for Neonatal Sepsis](https://maratool.com/rodwell-neonatal-sepsis): Seven CBC findings become a 0 to 7 sepsis screen for newborns, so you can risk-stratify while the blood culture is still pending.
+- [Capurro Gestational Age (Somatic)](https://maratool.com/capurro-somatic): Estimate gestational age from five physical findings in the first day of life, for when ultrasound dating or a last menstrual period is missing.
+- [Capurro Gestational Age (Neurological)](https://maratool.com/capurro-neurological): Combines physical signs with neurological responses to date a newborn, the Capurro variant to reach for after the first 24 hours of life.
 - [Serum Osmolality Calculator](https://maratool.com/serum-osmolality): Calculate serum osmolality from sodium, glucose, and BUN.
 - [Calcium Correction for Albumin](https://maratool.com/calcium-correction-albumin): Correct total serum calcium for hypoalbuminemia.
 - [Sodium Correction for Hyperglycemia](https://maratool.com/sodium-correction-hyperglycemia): Correct serum sodium for hyperglycemia (Katz / Hillier formulas).
@@ -405,7 +418,7 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [Rapid Sequence Intubation (RSI) Dose Calculator](https://maratool.com/rsi-doses): Calculate induction and paralytic doses for rapid sequence intubation by weight.
 - [Phenytoin Total Serum Level Calculator](https://maratool.com/phenytoin-level-correction): Correct total phenytoin level for albumin and renal function (Sheiner-Tozer).
 - [Drops/min to mL/hour Converter](https://maratool.com/drops-to-ml-per-hour): Convert IV drip rate from drops per minute (gtt/min) to mL/hour and vice versa.
-- [mcg/kg/min to mL/hour Converter](https://maratool.com/mcg-kg-min-to-ml-hour): Convert drug infusion rate between mcg/kg/min and mL/hour for vasoactive drugs.
+- [mcg/kg/min to mL/hour Converter](https://maratool.com/mcg-kg-min-to-ml-hour): Convert a vasoactive order written in mcg/kg/min into the pump rate in mL/hour, from patient weight and bag concentration.
 - [Ideal PaO2 by Age Calculator](https://maratool.com/ideal-pao2-by-age): Estimate the expected normal PaO2 based on patient age.
 - [PaO2/FiO2 Ratio Calculator (ARDS)](https://maratool.com/pao2-fio2-ratio): Calculate the PaO2/FiO2 ratio (P/F ratio) and classify ARDS severity by Berlin criteria.
 - [SpO2/FiO2 Ratio Calculator](https://maratool.com/spo2-fio2-ratio): Calculate SpO2/FiO2 ratio and equivalence to PaO2/FiO2 for non-invasive ARDS assessment.
@@ -421,79 +434,81 @@ maratool.com is a growing collection of 513 free tools that run in the browser u
 - [ECOG Performance Status](https://maratool.com/ecog-performance): Eastern Cooperative Oncology Group performance status scale (0–5).
 - [Karnofsky Score Calculator (KPS)](https://maratool.com/karnofsky-performance): Karnofsky Performance Status scale (0–100) for assessing oncology patient function.
 - [Palliative Performance Scale (PPS)](https://maratool.com/palliative-performance-scale): Palliative Performance Scale (PPS) for hospice and palliative care prognosis.
-- [Tokuhashi Score for Spinal Metastasis](https://maratool.com/tokuhashi-score): Revised Tokuhashi score for prognosis in metastatic spinal disease.
-- [Tomita Score for Spinal Metastasis](https://maratool.com/tomita-score): Tomita score for surgical strategy in spinal metastasis.
+- [Tokuhashi Score for Spinal Metastasis](https://maratool.com/tokuhashi-score): Six prognostic parameters that estimate survival in metastatic spinal disease and point toward excisional, palliative, or conservative care.
+- [Tomita Score for Spinal Metastasis](https://maratool.com/tomita-score): Primary tumor grade plus visceral and bone spread give a 2 to 10 score that maps onto a surgical strategy, from wide excision down to supportive care.
 - [Palliative Prognostic Score (PaP)](https://maratool.com/pap-palliative-prognostic): PaP score for 30-day survival probability in palliative cancer patients.
-- [Palliative Prognostic Index (PPI)](https://maratool.com/ppi-palliative-prognostic): Palliative Prognostic Index for predicting survival in terminal cancer patients.
+- [Palliative Prognostic Index (PPI)](https://maratool.com/ppi-palliative-prognostic): Predict remaining weeks in advanced cancer from bedside findings alone: performance status, intake, edema, dyspnea at rest, and delirium. No labs needed.
 - [Pack Year Calculator](https://maratool.com/pack-year): Calculate cumulative cigarette smoking exposure in pack-years.
-- [Candida Score](https://maratool.com/candida-score): Candida Score for identifying ICU patients who may benefit from antifungal therapy.
-- [CHADS2 Score](https://maratool.com/chads2-score): CHADS2 score for stroke risk in non-valvular atrial fibrillation.
-- [NYHA Functional Classification](https://maratool.com/nyha-classification): New York Heart Association functional classification of heart failure.
-- [GELF Criteria for Follicular Lymphoma](https://maratool.com/gelf-criteria): GELF criteria for high tumor burden in follicular lymphoma.
+- [Candida Score](https://maratool.com/candida-score): Add up four ICU risk factors: a total of 3 or more flags invasive candidiasis in non-neutropenic patients and justifies an antifungal work-up.
+- [CHADS2 Score](https://maratool.com/chads2-score): Estimate the yearly stroke risk of non-valvular atrial fibrillation, running from roughly 1.9 percent at zero points to 18 percent at six.
+- [NYHA Functional Classification](https://maratool.com/nyha-classification): Place a heart failure patient in class I through IV by how much ordinary activity it takes to bring the symptoms on.
+- [GELF Criteria for Follicular Lymphoma](https://maratool.com/gelf-criteria): Check the GELF markers of high tumor burden to settle whether follicular lymphoma calls for treatment now or watchful waiting.
 - [DAS-28 CRP (Rheumatoid Arthritis)](https://maratool.com/das28-crp): Disease Activity Score (28 joints) with CRP for rheumatoid arthritis activity.
 - [DAS-28 ESR (Rheumatoid Arthritis)](https://maratool.com/das28-esr): Disease Activity Score (28 joints) with ESR for rheumatoid arthritis activity.
 - [ABCD2 Score for TIA](https://maratool.com/abcd2-tia): ABCD2 score for stroke risk after transient ischemic attack.
-- [AIMS65 Score (Upper GI Bleed)](https://maratool.com/aims65-score): AIMS65 score for predicting in-hospital mortality in upper GI bleeding.
-- [APACHE II Score](https://maratool.com/apache-ii): Acute Physiology and Chronic Health Evaluation II (APACHE II) for ICU mortality.
-- [BISAP Score (Pancreatitis Mortality)](https://maratool.com/bisap-score): Bedside Index for Severity in Acute Pancreatitis (BISAP) for mortality risk.
-- [Clinical Pulmonary Infection Score (CPIS)](https://maratool.com/cpis-score): CPIS for diagnosis of ventilator-associated pneumonia.
-- [CRUSADE Bleeding Score](https://maratool.com/crusade-bleeding): CRUSADE score for in-hospital major bleeding risk after NSTEMI.
+- [AIMS65 Score (Upper GI Bleed)](https://maratool.com/aims65-score): Albumin, INR, mental status, systolic pressure and age combine into a 0 to 5 estimate of in-hospital death after an upper GI bleed.
+- [APACHE II Score](https://maratool.com/apache-ii): Twelve physiologic variables plus age and chronic health status, scored 0 to 71, with the predicted ICU mortality attached to each band.
+- [BISAP Score (Pancreatitis Mortality)](https://maratool.com/bisap-score): Five findings available within the first 24 hours flag which acute pancreatitis admissions carry the higher mortality, well before a CT severity index is usable.
+- [Clinical Pulmonary Infection Score (CPIS)](https://maratool.com/cpis-score): Weigh temperature, white count, secretions, oxygenation, chest film and cultures into a 0 to 12 score; anything above 6 argues for treating ventilator-associated pneumonia.
+- [CRUSADE Bleeding Score](https://maratool.com/crusade-bleeding): Estimate in-hospital major bleeding risk in NSTE-ACS from eight variables, then weigh it against ischemic risk before choosing antithrombotics.
 - [CURB-65 Pneumonia Severity Score](https://maratool.com/curb-65): CURB-65 score for community-acquired pneumonia severity and mortality risk.
-- [Alvarado Score for Appendicitis](https://maratool.com/alvarado-appendicitis): Alvarado score for clinical probability of acute appendicitis.
+- [Alvarado Score for Appendicitis](https://maratool.com/alvarado-appendicitis): Add up the eight MANTRELS findings to gauge how likely acute appendicitis is, and whether to observe, image, or call surgery.
 - [Caprini DVT Risk Score](https://maratool.com/caprini-dvt-risk): Caprini Risk Assessment for venous thromboembolism in surgical patients.
 - [Modified Centor Score (Strep Pharyngitis)](https://maratool.com/centor-modified): Modified Centor score for streptococcal pharyngitis probability.
-- [CHA2DS2-VASc Score](https://maratool.com/cha2ds2-vasc): CHA2DS2-VASc score for stroke risk in non-valvular atrial fibrillation.
+- [CHA2DS2-VASc Score](https://maratool.com/cha2ds2-vasc): Seven risk factors give a 0 to 9 stroke risk score for non-valvular atrial fibrillation, with the annual risk and the anticoagulation threshold for each sex.
 - [Child-Pugh Score (Cirrhosis)](https://maratool.com/child-pugh): Child-Pugh score for prognosis of chronic liver disease and cirrhosis.
-- [NAFLD Fibrosis Score](https://maratool.com/nafld-fibrosis): Non-alcoholic fatty liver disease (NAFLD) fibrosis score.
+- [NAFLD Fibrosis Score](https://maratool.com/nafld-fibrosis): Age, BMI, glucose status, AST/ALT, platelets and albumin give a non-invasive read on advanced fibrosis in fatty liver, with both NFS cutoffs applied.
 - [Framingham Risk Score](https://maratool.com/framingham-risk): 10-year cardiovascular disease risk by Framingham equations.
 - [ASCVD Risk Calculator](https://maratool.com/ascvd-risk-calculator): 10-year heart attack and stroke risk by the ACC/AHA Pooled Cohort Equations.
 - [PREVENT Risk Calculator](https://maratool.com/prevent-risk-calculator): 10- and 30-year risk of CVD, ASCVD and heart failure by the AHA PREVENT equations.
-- [Khorana Score (VTE Risk in Cancer)](https://maratool.com/khorana-vte): Khorana score for predicting chemotherapy-associated VTE risk.
+- [Khorana Score (VTE Risk in Cancer)](https://maratool.com/khorana-vte): Predict chemotherapy-associated clot risk in ambulatory cancer patients from cancer site, blood counts and BMI, plus the threshold where prophylaxis is worth considering.
 - [Lee Revised Cardiac Risk Index (RCRI)](https://maratool.com/lee-rcri): Lee RCRI for preoperative cardiac risk in non-cardiac surgery.
-- [Maddrey Score Calculator](https://maratool.com/maddrey-discriminant): Maddrey discriminant function for severity of alcoholic hepatitis.
-- [Mayo Score for Ulcerative Colitis](https://maratool.com/mayo-uc): Mayo Score for assessing ulcerative colitis disease activity.
+- [Maddrey Score Calculator](https://maratool.com/maddrey-discriminant): Enter prothrombin time, the lab control PT and bilirubin to get the discriminant function and see whether alcohol-associated hepatitis crosses the DF 32 steroid threshold.
+- [Mayo Score for Ulcerative Colitis](https://maratool.com/mayo-uc): Combine stool frequency, rectal bleeding, endoscopy and physician assessment into a 0 to 12 activity score, or drop the endoscopy item for the partial Mayo.
 - [Padua Prediction Score](https://maratool.com/padua-prediction): Padua score for VTE risk in hospitalized medical patients.
-- [Ranson Criteria for Acute Pancreatitis](https://maratool.com/ranson-pancreatitis): Ranson Criteria for mortality in acute pancreatitis (admission and 48h).
+- [Ranson Criteria for Acute Pancreatitis](https://maratool.com/ranson-pancreatitis): Five admission signs plus six at 48 hours give a mortality estimate for acute pancreatitis, with the score of 3 that flags severe disease.
 - [RoPE Score (Paradoxical Embolism)](https://maratool.com/rope-paradoxical-embolism): Risk of Paradoxical Embolism (RoPE) score for cryptogenic stroke with PFO.
-- [Rockall Score (Upper GI Bleed)](https://maratool.com/rockall-score): Rockall score for mortality risk in upper gastrointestinal bleeding.
+- [Rockall Score (Upper GI Bleed)](https://maratool.com/rockall-score): Grade rebleeding and mortality risk after an upper GI bleed, using age, shock and comorbidity alone or the complete score once endoscopy is done.
 - [San Francisco Syncope Rule](https://maratool.com/san-francisco-syncope): San Francisco Syncope Rule for predicting serious outcomes after syncope.
 - [ASPECTS Score (Stroke CT)](https://maratool.com/aspects-score): Alberta Stroke Program Early CT Score (ASPECTS) for early ischemic changes in stroke.
-- [Wells Score for Pulmonary Embolism](https://maratool.com/wells-pe): Wells criteria for clinical probability of pulmonary embolism.
-- [Wells Score for DVT](https://maratool.com/wells-dvt): Wells criteria for clinical probability of deep vein thrombosis.
+- [Wells Score for Pulmonary Embolism](https://maratool.com/wells-pe): Seven findings put a suspected pulmonary embolism into low, moderate or high probability, so you know whether to send a D-dimer or go straight to CTA.
+- [Wells Score for DVT](https://maratool.com/wells-dvt): Ten clinical items, one of them worth minus two, give the pre-test probability of deep vein thrombosis and whether a D-dimer can settle it without ultrasound.
 - [FIB-4 Index](https://maratool.com/fib-4): FIB-4 index for non-invasive liver fibrosis assessment.
-- [HAS-BLED Score](https://maratool.com/has-bled): HAS-BLED bleeding risk score for patients on anticoagulation for AF.
+- [HAS-BLED Score](https://maratool.com/has-bled): Nine factors give the one-year major bleeding risk on anticoagulation for AF, and flag which of them (BP, alcohol, NSAIDs, labile INR) you can actually fix.
 - [HEART Score](https://maratool.com/heart-score): HEART Score for major adverse cardiac events in chest pain patients.
 - [MELD & MELD-Na Score](https://maratool.com/meld-meldna): Model for End-Stage Liver Disease (MELD) and MELD-Na scores for cirrhosis prognosis.
 - [NEWS 2 Score](https://maratool.com/news-2): National Early Warning Score 2 (NEWS 2) for clinical deterioration detection.
 - [NIHSS Stroke Scale](https://maratool.com/nihss-stroke): National Institutes of Health Stroke Scale (NIHSS) for stroke severity.
 - [Pneumonia Severity Index (PSI/PORT)](https://maratool.com/psi-port): Pneumonia Severity Index (PSI/PORT) for mortality risk in community-acquired pneumonia.
 - [qSOFA Score](https://maratool.com/qsofa): Quick Sepsis-Related Organ Failure Assessment (qSOFA) for sepsis screening.
-- [Sepsis-Induced Coagulopathy (SIC) Score](https://maratool.com/sic-coagulopathy): SIC score for diagnosing sepsis-induced coagulopathy.
+- [Sepsis-Induced Coagulopathy (SIC) Score](https://maratool.com/sic-coagulopathy): PT-INR, platelet count and a capped SOFA subscore decide whether sepsis-induced coagulopathy is present, catching it earlier than the overt DIC criteria.
 - [SOFA Score](https://maratool.com/sofa-score): Sequential Organ Failure Assessment (SOFA) score for ICU organ dysfunction.
-- [TIMI Risk Score (STEMI)](https://maratool.com/timi-stemi): TIMI Risk Score for ST-elevation myocardial infarction (STEMI).
-- [TIMI Risk Score (NSTEMI / UA)](https://maratool.com/timi-nstemi-ua): TIMI Risk Score for non-ST-elevation MI and unstable angina.
+- [TIMI Risk Score (STEMI)](https://maratool.com/timi-stemi): Eight weighted variables give 30-day mortality after ST-elevation MI, from under 1 percent to well past 20, for triage and prognosis at the bedside.
+- [TIMI Risk Score (NSTEMI / UA)](https://maratool.com/timi-nstemi-ua): Seven equal-weight criteria give the 14-day risk of death, MI or urgent revascularization in unstable angina and NSTEMI, steering the invasive versus conservative call.
 - [GRACE Score (ACS)](https://maratool.com/grace-acs): GRACE score for in-hospital and 6-month mortality in acute coronary syndrome.
-- [DKA Severity Calculator](https://maratool.com/dka-severity): Classify diabetic ketoacidosis severity (mild, moderate, severe).
+- [DKA Severity Calculator](https://maratool.com/dka-severity): Arterial pH, bicarbonate and mental status grade a diabetic ketoacidosis episode mild, moderate or severe by whichever parameter is worst.
 - [SCORAD Index (Atopic Dermatitis)](https://maratool.com/scorad-atopic-dermatitis): SCORAD Index for severity of atopic dermatitis.
-- [PASI Score (Psoriasis Severity)](https://maratool.com/pasi-psoriasis): Psoriasis Area and Severity Index (PASI) for psoriasis severity assessment.
+- [PASI Score (Psoriasis Severity)](https://maratool.com/pasi-psoriasis): Rate erythema, induration, scaling and area involved for head, arms, trunk and legs; the regional weights add up to a PASI from 0 to 72.
 - [PESI Score (Pulmonary Embolism Severity)](https://maratool.com/pesi-pe-severity): Pulmonary Embolism Severity Index (PESI) for 30-day mortality.
-- [Pediatric Dehydration Severity](https://maratool.com/pediatric-dehydration): Severity assessment for dehydration in children to guide rehydration therapy.
-- [Malignant Hyperthermia Score](https://maratool.com/malignant-hyperthermia): Clinical Grading Scale for likelihood of malignant hyperthermia.
+- [Pediatric Dehydration Severity](https://maratool.com/pediatric-dehydration): Four bedside signs (appearance, eyes, mucous membranes, tears) put a child with gastroenteritis on a 0 to 8 dehydration scale that guides rehydration.
+- [Malignant Hyperthermia Score](https://maratool.com/malignant-hyperthermia): Pick the highest indicator in each clinical process and the Larach scale ranks how likely an intraoperative event really was malignant hyperthermia, rank 1 to 6.
 - [CDAI (Crohn's Disease Activity Index)](https://maratool.com/cdai-crohns): Crohn's Disease Activity Index (CDAI) for assessing Crohn's disease activity.
 - [Bishop Score (Cervical Ripening)](https://maratool.com/bishop-score): Bishop score for predicting successful labor induction.
-- [UCEIS Score Calculator](https://maratool.com/uceis-uc): Ulcerative Colitis Endoscopic Index of Severity (UCEIS).
-- [Detsky Cardiac Risk Index](https://maratool.com/detsky-cardiac-risk): Detsky modified multifactorial cardiac risk index for non-cardiac surgery.
-- [Goldman Cardiac Risk Index](https://maratool.com/goldman-cardiac-risk): Goldman multifactorial cardiac risk index for non-cardiac surgery.
+- [UCEIS Score Calculator](https://maratool.com/uceis-uc): Score vascular pattern, bleeding and erosions at the worst-affected segment for a 0 to 8 endoscopic index that beats the Mayo subscore on inter-observer reliability.
+- [Detsky Cardiac Risk Index](https://maratool.com/detsky-cardiac-risk): Weight MI timing, angina class, pulmonary edema and seven more factors into a Detsky class I to III for cardiac risk before non-cardiac surgery.
+- [Goldman Cardiac Risk Index](https://maratool.com/goldman-cardiac-risk): The original 1977 nine-factor index, scoring perioperative cardiac complication risk from S3 gallop, recent MI, arrhythmia and surgery type into classes I to IV.
 - [Harvey-Bradshaw Index (Crohn's)](https://maratool.com/harvey-bradshaw): Harvey-Bradshaw Index for Crohn's disease activity (simplified CDAI).
-- [Injury Severity Score (ISS)](https://maratool.com/iss-injury-severity): Injury Severity Score (ISS) for trauma anatomical severity.
-- [Simplified PESI Score](https://maratool.com/pesi-simplified): Simplified PESI (sPESI) for pulmonary embolism 30-day mortality.
-- [R-ISS Score (Multiple Myeloma)](https://maratool.com/r-iss-myeloma): Revised International Staging System for multiple myeloma prognosis.
-- [PERC Rule (Pulmonary Embolism)](https://maratool.com/perc-rule): Pulmonary Embolism Rule-out Criteria (PERC) to safely exclude PE.
-- [GWTG-HF Risk Score](https://maratool.com/gwtg-hf-risk): Get With The Guidelines Heart Failure (GWTG-HF) in-hospital mortality risk.
-- [MASCC Score Calculator](https://maratool.com/mascc-febrile-neutropenia): MASCC risk index for low-risk febrile neutropenia in cancer patients.
-- [TASH Score (Massive Transfusion)](https://maratool.com/tash-massive-transfusion): Trauma Associated Severe Hemorrhage (TASH) score for massive transfusion prediction.
+- [Injury Severity Score (ISS)](https://maratool.com/iss-injury-severity): Grade the six body regions on the AIS scale; the three worst get squared and summed into the 0 to 75 trauma score where anything above 15 counts as major trauma.
+- [Simplified PESI Score](https://maratool.com/pesi-simplified): Six yes-or-no criteria split acute PE into low risk (all absent, roughly 1 percent 30-day mortality) and high risk, the first gate for outpatient treatment.
+- [R-ISS Score (Multiple Myeloma)](https://maratool.com/r-iss-myeloma): ISS stage, high-risk FISH cytogenetics and serum LDH combine into R-ISS stage I, II or III for myeloma prognosis and trial stratification.
+- [PERC Rule (Pulmonary Embolism)](https://maratool.com/perc-rule): Eight bedside criteria that, all negative in an already low-risk patient, let you close out pulmonary embolism without a D-dimer or a scan.
+- [GWTG-HF Risk Score](https://maratool.com/gwtg-hf-risk): Seven admission variables (BP, BUN, sodium, age, heart rate, race, COPD) map to in-hospital mortality in acute heart failure, from under 1 percent to over 50.
+- [MASCC Score Calculator](https://maratool.com/mascc-febrile-neutropenia): Total seven items to a maximum of 26; a score of 21 or more marks febrile neutropenia as low risk and opens the door to oral outpatient antibiotics.
+- [TASH Score (Massive Transfusion)](https://maratool.com/tash-massive-transfusion): Hemoglobin, base excess, vitals, FAST and fracture pattern give the probability that a trauma patient will need massive transfusion, so the protocol fires early.
 - [Running Pace Calculator — Min/km, Min/mile & Race Times](https://maratool.com/running-pace-calculator): Calculate running pace per km and per mile from distance and time, plus projected 5K, 10K, half and marathon finish times. Free, in your browser.
 - [Pregnancy Due Date Calculator](https://maratool.com/due-date-calculator): Calculate your pregnancy due date from LMP, conception date, or IVF transfer using Naegele’s rule, plus current gestational age and trimester.
+- [BMR Calculator — Basal Metabolic Rate](https://maratool.com/bmr-calculator): Estimate basal metabolic rate from sex, age, height and weight, with Mifflin-St Jeor, Harris-Benedict and Katch-McArdle side by side.
+- [TDEE Calculator — Total Daily Energy Expenditure](https://maratool.com/tdee-calculator): Calculate total daily energy expenditure from BMR and activity level, with calorie targets for weight loss, maintenance and weight gain.
 
 ### Education
 - [Scientific Calculator Online](https://maratool.com/scientific-calculator): Full-featured scientific calculator with trigonometry, logarithms, exponents, and expression history.
