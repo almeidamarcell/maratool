@@ -21,31 +21,31 @@ const seo = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
-      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
-      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+      { '@type': 'Question', name: 'How do I tell whether two images are identical?', acceptedAnswer: { '@type': 'Answer', text: 'Use the Difference view. It subtracts one image from the other pixel by pixel, so anything that is not black is a real change. Two identical files come out completely black.' } },
+      { '@type': 'Question', name: 'What does the slider view do?', acceptedAnswer: { '@type': 'Answer', text: 'It stacks both images and lets you drag a divider across them, which is the fastest way to judge a before and after crop or a retouch.' } },
+      { '@type': 'Question', name: 'Do the two images need to be the same size?', acceptedAnswer: { '@type': 'Answer', text: 'For side by side, no. For slider and difference the comparison only makes sense when the dimensions match, since the views line the images up pixel for pixel.' } },
+      { '@type': 'Question', name: 'Are the images uploaded to compare them?', acceptedAnswer: { '@type': 'Answer', text: 'No. Both are decoded and composited on a canvas in your browser.' } },
     ],
   },
 }
 
 const howTo = [
-  'Upload or drop your file.',
-  'Adjust settings if needed.',
-  'Click Process and download the result.',
+  'Drop in two images. They load together and the first view opens automatically.',
+  'Switch between Side by side, Slider, and Difference using the tabs above the canvas.',
+  'Drag the divider in Slider view, or read Difference to spot changes too small to see by eye.',
 ]
 
 const faq = [
-  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
-  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
-  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
-  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+  { q: 'How do I tell whether two images are identical?', a: 'Use the Difference view. It subtracts one image from the other pixel by pixel, so anything that is not black is a real change. Two identical files come out completely black.' },
+  { q: 'What does the slider view do?', a: 'It stacks both images and lets you drag a divider across them, which is the fastest way to judge a before and after crop or a retouch.' },
+  { q: 'Do the two images need to be the same size?', a: 'For side by side, no. For slider and difference the comparison only makes sense when the dimensions match, since the views line the images up pixel for pixel.' },
+  { q: 'Are the images uploaded to compare them?', a: 'No. Both are decoded and composited on a canvas in your browser.' },
 ]
 
 const relatedTools = [
-  { slug: 'gif-maker', name: 'GIF Maker' },
-  { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'video-to-gif', name: 'Video to GIF' },
+  { slug: 'image-compressor', name: 'Compress Image Online' },
+  { slug: 'collage-maker', name: 'Collage Maker' },
+  { slug: 'view-metadata', name: 'View Image Metadata' },
 ]
 
 const breadcrumbs = [
@@ -57,7 +57,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="compare-images" name="Compare Two Images Online" description="Compare Two Images Online. Free, runs in your browser — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="compare-images" name="Compare Two Images Online" description="Put two images side by side, drag a slider across them, or subtract one from the other to find changes too small to see." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container" style="min-height:420px;" data-ui="compare-images">
         <p class="tool-hint">Upload a file to get started. Processing runs entirely in your browser.</p>
         <div id="ez-root" data-slug="compare-images"></div>

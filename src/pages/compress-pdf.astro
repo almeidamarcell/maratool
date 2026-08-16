@@ -21,31 +21,31 @@ const seo = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
-      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
-      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+      { '@type': 'Question', name: 'Which compression method should I pick?', acceptedAnswer: { '@type': 'Answer', text: 'Rebuild the file when the PDF is mostly text and you want it to stay selectable and searchable. Flatten pages to images when the file is a scan or is full of photos and you need it under a hard size cap, such as an email attachment limit.' } },
+      { '@type': 'Question', name: 'Why did rebuilding barely shrink my PDF?', acceptedAnswer: { '@type': 'Answer', text: 'Rebuilding repacks the file structure with object streams and drops unreferenced objects. It never touches the images, so a file exported by a modern tool is often already at that size. The tool shows the before and after bytes so you can see it, and suggests flattening when there is nothing left to gain.' } },
+      { '@type': 'Question', name: 'What does the JPEG quality setting change?', acceptedAnswer: { '@type': 'Answer', text: 'It only applies to the flatten method. Each page is rendered at the resolution you choose and stored as a JPEG at that quality, so 40 makes a far smaller file with visible artefacts and 90 stays close to the original. It does nothing on the rebuild method, which is why it only appears when flattening is selected.' } },
+      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. The PDF is read, rendered and rewritten by JavaScript in your own browser tab, and the bytes never leave the machine.' } },
     ],
   },
 }
 
 const howTo = [
-  'Upload or drop your file.',
-  'Adjust settings if needed.',
-  'Click Process and download the result.',
+  'Drop the PDF in. It is read on your device, not uploaded.',
+  'Pick Rebuild to keep the text selectable, or Flatten pages to images and set a JPEG quality and resolution for a much bigger cut.',
+  'Click Process, check the before and after sizes, then download.',
 ]
 
 const faq = [
-  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
+  { q: 'Which method should I pick?', a: 'Rebuild for text documents you still want to select and search. Flatten to images for scans and photo-heavy files that must fit under a size cap.' },
+  { q: 'Why did rebuilding barely shrink my PDF?', a: 'It repacks the file structure but leaves the images alone, so a file that was already exported efficiently has little left to give. The result panel shows the before and after bytes.' },
+  { q: 'What does the JPEG quality setting change?', a: 'It applies only to the flatten method: each page becomes a JPEG at that quality and resolution. That is why it stays hidden while Rebuild is selected.' },
   { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
-  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
-  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
 ]
 
 const relatedTools = [
-  { slug: 'gif-maker', name: 'GIF Maker' },
-  { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'video-to-gif', name: 'Video to GIF' },
+  { slug: 'crop-pdf', name: 'Crop PDF Pages Online' },
+  { slug: 'organize-pdf', name: 'Rearrange PDF Pages' },
+  { slug: 'pdf-merge-split', name: 'Merge and Split PDF Pages' },
 ]
 
 const breadcrumbs = [
@@ -57,7 +57,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="compress-pdf" name="Compress PDF Online — Reduce File Size" description="Compress PDF Online. Free, runs in your browser — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="compress-pdf" name="Compress PDF Online — Reduce File Size" description="Rebuild the file to keep the text selectable, or flatten the pages to JPEG at a quality you choose when the file has to get much smaller. Nothing is uploaded." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container" style="min-height:420px;" data-ui="compress-pdf">
         <p class="tool-hint">Upload a file to get started. Processing runs entirely in your browser.</p>
         <div id="ez-root" data-slug="compress-pdf"></div>

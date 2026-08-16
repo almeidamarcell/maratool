@@ -21,31 +21,31 @@ const seo = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
-      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
-      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+      { '@type': 'Question', name: 'What does it output?', acceptedAnswer: { '@type': 'Answer', text: 'One PNG holding every frame in a grid. A sprite sheet is a static image — the animation comes from your engine or from CSS.' } },
+      { '@type': 'Question', name: 'How do I animate the sheet in CSS?', acceptedAnswer: { '@type': 'Answer', text: 'Leave columns at 0 so all frames sit in a single row, then paste the steps() snippet the tool prints under the preview.' } },
+      { '@type': 'Question', name: 'Does it keep transparency?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, transparent is the default. Pick white or black if your engine needs an opaque sheet.' } },
+      { '@type': 'Question', name: 'Is there a size limit?', acceptedAnswer: { '@type': 'Answer', text: 'The sheet has to fit one canvas: 16384 px per side and roughly 100 megapixels. You are told before anything larger is attempted.' } },
     ],
   },
 }
 
 const howTo = [
-  'Upload or drop your file.',
-  'Adjust settings if needed.',
-  'Click Process and download the result.',
+  'Upload the GIF you want laid out as a sheet.',
+  'Choose how many columns the grid gets — 0 puts every frame in one row, which is what CSS steps() wants.',
+  'Download the PNG and copy the CSS snippet printed under it.',
 ]
 
 const faq = [
-  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
-  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
-  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
-  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+  { q: 'What does it output?', a: 'One PNG holding every frame in a grid. A sprite sheet is a static image — the animation comes from your engine or from CSS.' },
+  { q: 'How do I animate the sheet in CSS?', a: 'Leave columns at 0 so all frames sit in a single row, then paste the steps() snippet the tool prints under the preview.' },
+  { q: 'Does it keep transparency?', a: 'Yes, transparent is the default. Pick white or black if your engine needs an opaque sheet.' },
+  { q: 'Is there a size limit?', a: 'The sheet has to fit one canvas: 16384 px per side and roughly 100 megapixels. You are told before anything larger is attempted.' },
 ]
 
 const relatedTools = [
+  { slug: 'gif-to-frames', name: 'GIF to Frames' },
+  { slug: 'gif-split', name: 'Split GIF into Parts' },
   { slug: 'gif-maker', name: 'GIF Maker' },
-  { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'video-to-gif', name: 'Video to GIF' },
 ]
 
 const breadcrumbs = [
