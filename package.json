@@ -20,7 +20,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "node scripts/build-pandoc-bundle.mjs && node scripts/build-magick-bundle.mjs && node scripts/gen-llms.mjs && node scripts/gen-palette.mjs && node scripts/gen-lastmod.mjs && node scripts/gen-og-images.mjs",
+    "prebuild": "node scripts/build-pandoc-bundle.mjs && node scripts/build-magick-bundle.mjs && node scripts/gen-llms.mjs && node scripts/gen-palette.mjs && node scripts/gen-lastmod.mjs && node scripts/gen-og-images.mjs && node scripts/gen-exercises.mjs",
     "postinstall": "node scripts/build-pandoc-bundle.mjs && node scripts/build-magick-bundle.mjs",
     "build": "astro build",
     "preview": "astro preview",
@@ -29,7 +29,8 @@
     "gen:llms": "node scripts/gen-llms.mjs",
     "gen:palette": "node scripts/gen-palette.mjs",
     "gen:lastmod": "node scripts/gen-lastmod.mjs",
-    "gen:og": "node scripts/gen-og-images.mjs"
+    "gen:og": "node scripts/gen-og-images.mjs",
+    "gen:exercises": "node scripts/gen-exercises.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

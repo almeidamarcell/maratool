@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Ship an exercise database on maratool.com — 1,038 exercise pages, ~41 faceted hubs, and one searchable browser — generated from two openly-licensed datasets, where every page shows the movement plus a muscle map.
+**Goal:** Ship an exercise database on maratool.com — 1,032 exercise pages, ~41 faceted hubs, and one searchable browser — generated from two openly-licensed datasets, where every page shows the movement plus a muscle map.
 
 **Architecture:** Two datasets are vendored at pinned commits and merged at build time by a Node script into one normalized `exercises.json` plus a lightweight browse index. Astro `getStaticPaths` generates every page from that normalized file. Media is rendered by a single client-side viewer component that handles both vector-SVG pairs (Everkinetic) and photo pairs (free-exercise-db) with four display modes.
 
@@ -204,7 +204,9 @@ console.log(`vendored: everkinetic=${ekKept.length}, free-db=${feAll.length}, ph
 - [ ] **Step 4: Run the script, then run the test to verify it passes**
 
 Run: `node scripts/vendor-exercise-sources.mjs && npx vitest run src/exercise-sources.test.js`
-Expected: script prints `vendored: everkinetic=270, free-db=873, photos=1746`; all 5 tests PASS.
+Expected: script prints `vendored: everkinetic=267, free-db=873, photos=1746`; all 5 tests PASS. (As
+actually implemented in Task 1, the kept count is 267, not 270 — two Everkinetic records collide on
+`id_num "0020"` and are both dropped rather than guessed at; see `task-1-report.md`.)
 
 - [ ] **Step 5: Commit**
 
@@ -441,8 +443,8 @@ const load = p => JSON.parse(readFileSync(resolve(ROOT, p), 'utf-8'))
 const all = load('src/data/exercises/exercises.json')
 
 describe('merged exercise dataset', () => {
-  test('has 1038 unique exercises', () => {
-    expect(all.length).toBe(1038)
+  test('has 1032 unique exercises', () => {
+    expect(all.length).toBe(1032)
   })
 
   test('every slug is unique and URL-safe', () => {
@@ -451,11 +453,11 @@ describe('merged exercise dataset', () => {
     for (const s of slugs) expect(s).toMatch(/^[a-z0-9-]+$/)
   })
 
-  test('270 records use vector media, the rest photos', () => {
+  test('266 records use vector media, the rest photos', () => {
     const vector = all.filter(x => x.media.kind === 'vector')
     const photo = all.filter(x => x.media.kind === 'photo')
-    expect(vector.length).toBe(270)
-    expect(photo.length).toBe(768)
+    expect(vector.length).toBe(266)
+    expect(photo.length).toBe(766)
   })
 
   test('every record has a non-empty name, instructions and media pair', () => {
@@ -465,6 +467,13 @@ describe('merged exercise dataset', () => {
       expect(x.instructions.length).toBeGreaterThan(0)
       expect(x.media.start.length).toBeGreaterThan(0)
       expect(x.media.end.length).toBeGreaterThan(0)
+    }
+  })
+
+  test('every record has at least one primary muscle', () => {
+    for (const x of all) {
+      expect(Array.isArray(x.primaryMuscles)).toBe(true)
+      expect(x.primaryMuscles.length).toBeGreaterThan(0)
     }
   })
 
@@ -493,7 +502,7 @@ describe('merged exercise dataset', () => {
 
   test('browse index is lean — only the fields the browser filters on', () => {
     const idx = load('public/exercises/browse-index.json')
-    expect(idx.length).toBe(1038)
+    expect(idx.length).toBe(1032)
     expect(Object.keys(idx[0]).sort()).toEqual(
       ['category', 'equipment', 'level', 'mediaKind', 'name', 'primaryMuscles', 'slug'].sort()
     )
@@ -504,10 +513,20 @@ describe('merged exercise dataset', () => {
 
   test('merge map snapshot — guards against silent fuzzy-match drift', () => {
     const merged = all.filter(x => x.mergedFrom).map(x => x.slug).sort()
-    expect(merged.length).toBe(105)
+    expect(merged.length).toBe(102)
   })
 })
 ```
+
+**Note (as actually implemented in Task 3):** the counts above (1,032 / 266 / 766 / 102)
+supersede the estimates below. Two corrections from the original brief were applied:
+(1) the everkinetic source is 267 records, not 270, and `usedFe` deduplication means a
+free-db record can only be consumed by one Everkinetic match, so the true merge count is
+lower than the original 105 estimate; (2) records that end up with zero primary muscles
+or zero instructions after merging are **dropped and logged** rather than defaulted
+(`['abdominals']` fallback removed — it would have mislabeled anatomy). A
+`primaryMuscles.length > 0` invariant test was added. See `task-3-report.md` for the
+full reconciliation and the list of the 6 dropped records.
 
 - [ ] **Step 2: Run test to verify it fails**
 
@@ -556,6 +575,7 @@ const MATCH_THRESHOLD = 0.75
 
 const usedFe = new Set()
 const out = []
+const dropped = []
 
 // ---- Everkinetic first: it owns the better (vector) media ----
 for (const x of ek) {
@@ -586,10 +606,14 @@ for (const x of ek) {
 
   const instructions = (x.steps?.length ? x.steps : matched?.instructions) ?? []
 
+  // Never invent a muscle or fabricate instructions — drop and log instead.
+  if (primary.length === 0) { dropped.push(`${name} (no primary muscle)`); continue }
+  if (instructions.length === 0) { dropped.push(`${name} (no instructions)`); continue }
+
   out.push({
     slug: slugify(name),
     name,
-    primaryMuscles: primary.length ? primary : ['abdominals'],
+    primaryMuscles: primary,
     secondaryMuscles: secondary,
     equipment: equipment.length ? equipment : ['other'],
     category: matched?.category ?? 'strength',
@@ -616,22 +640,30 @@ for (const x of fe) {
   const primary = uniq((x.primaryMuscles ?? []).map(normalizeMuscle).filter(Boolean))
   const secondary = uniq((x.secondaryMuscles ?? []).map(normalizeMuscle).filter(Boolean))
     .filter(m => !primary.includes(m))
+
+  // Never invent a muscle or fabricate instructions — drop and log instead.
+  if (primary.length === 0) { dropped.push(`${x.name} (no primary muscle)`); continue }
+  const instructions = x.instructions ?? []
+  if (instructions.length === 0) { dropped.push(`${x.name} (no instructions)`); continue }
+
   out.push({
     slug: slugify(x.name),
     name: x.name,
-    primaryMuscles: primary.length ? primary : ['abdominals'],
+    primaryMuscles: primary,
     secondaryMuscles: secondary,
     equipment: [normalizeEquipment(x.equipment)],
     category: x.category ?? 'strength',
     level: x.level ?? null,
     force: x.force ?? null,
     mechanic: x.mechanic ?? null,
-    instructions: x.instructions ?? [],
+    instructions,
     media: { kind: 'photo', start: imgs[0], end: imgs[1] },
     source: 'free-exercise-db',
     attribution: FE_ATTRIBUTION,
   })
 }
+
+for (const name of dropped) console.log(`dropped: ${name}`)
 
 // ---- slug collision resolution: every member of a colliding group is suffixed ----
 const bySlug = new Map()
@@ -661,7 +693,7 @@ const index = out.map(x => ({
 writeFileSync(resolve(ROOT, 'public/exercises/browse-index.json'), JSON.stringify(index))
 
 const vector = out.filter(x => x.media.kind === 'vector').length
-console.log(`gen-exercises: ${out.length} exercises (${vector} vector, ${out.length - vector} photo), ${out.filter(x => x.mergedFrom).length} merged`)
+console.log(`gen-exercises: ${out.length} exercises (${vector} vector, ${out.length - vector} photo), ${out.filter(x => x.mergedFrom).length} merged, ${dropped.length} dropped`)
 ```
 
 - [ ] **Step 4: Wire it into package.json**
@@ -677,7 +709,13 @@ and append `&& node scripts/gen-exercises.mjs` to the end of the existing `"preb
 - [ ] **Step 5: Run the generator and the test**
 
 Run: `node scripts/gen-exercises.mjs && npx vitest run src/exercise-merge.test.js`
-Expected: prints `gen-exercises: 1038 exercises (270 vector, 768 photo), 105 merged`; all tests PASS.
+Expected (as actually implemented): prints `gen-exercises: 1032 exercises (266 vector, 766
+photo), 102 merged, 6 dropped`; all tests PASS. (Original estimate was `1038/270/768/105`
+with no drops — see the reconciliation note above Step 1's test code and `task-3-report.md`
+for why the real numbers differ: 267 vendored Everkinetic records not 270, `usedFe`
+deduplication reduces true merges below the original 105 estimate, and 6 records — 1 with no
+primary muscle, 5 with no instructions in the raw free-exercise-db data — are dropped rather
+than defaulted.)
 
 If counts differ, do **not** edit the test to match — investigate the merge threshold first, then reconcile the spec's numbers with reality and update both together.
 
@@ -710,7 +748,7 @@ import { exercises, exerciseBySlug, byMuscle, byEquipment, byCategory, byLevel, 
 
 describe('exercise helpers', () => {
   test('exercises loads the full merged set', () => {
-    expect(exercises.length).toBe(1038)
+    expect(exercises.length).toBe(1032)
   })
 
   test('exerciseBySlug resolves every slug exactly once', () => {
@@ -1372,7 +1410,7 @@ git commit -m "feat(exercises): 4-mode media viewer with hard-cut animation"
 
 ---
 
-### Task 7: Individual exercise pages (1,038 routes)
+### Task 7: Individual exercise pages (1,032 routes)
 
 **Files:**
 - Create: `src/pages/exercises/[slug].astro`
@@ -1426,7 +1464,7 @@ describe('exercise detail page', () => {
   })
 
   test('the dataset it renders is non-trivial', () => {
-    expect(exercises.length).toBe(1038)
+    expect(exercises.length).toBe(1032)
   })
 })
 ```
@@ -1603,13 +1641,13 @@ const seo = {
 - [ ] **Step 4: Run test and a scoped build to verify**
 
 Run: `npx vitest run src/exercise-pages.test.js && npm run build`
-Expected: tests PASS; build completes with zero errors and reports ~1,038 additional pages.
+Expected: tests PASS; build completes with zero errors and reports ~1,032 additional pages.
 
 - [ ] **Step 5: Commit**
 
 ```bash
 git add src/pages/exercises/[slug].astro src/exercise-pages.test.js
-git commit -m "feat(exercises): 1038 individual exercise pages with HowTo schema"
+git commit -m "feat(exercises): 1032 individual exercise pages with HowTo schema"
 ```
 
 ---
@@ -2536,7 +2574,7 @@ Then append this entry to the `tools` array (before the closing `]`):
     slug: 'exercises',
     name: 'Exercise Database — Browse Exercises by Muscle & Equipment',
     emoji: '💪',
-    description: 'Browse 1,038 exercises by muscle, equipment, and difficulty. Step-by-step instructions and a muscle map for every exercise — free, no sign-up.',
+    description: 'Browse 1,032 exercises by muscle, equipment, and difficulty. Step-by-step instructions and a muscle map for every exercise — free, no sign-up.',
     category: 'Health',
     subcategory: 'Fitness',
     keywords: ['exercise database', 'exercises by muscle group', 'chest exercises', 'back exercises', 'dumbbell exercises', 'bodyweight exercises', 'workout exercise list', 'exercises by equipment'],
@@ -2552,7 +2590,7 @@ In `src/pages/health/[subcategory].astro`, add to the `descriptions` object:
 ```ts
     fitness: {
       title: 'Fitness & Exercise Tools — maratool',
-      description: 'Browse an exercise database of 1,038 movements by muscle group, equipment, and difficulty — with step-by-step instructions and muscle maps.',
+      description: 'Browse an exercise database of 1,032 movements by muscle group, equipment, and difficulty — with step-by-step instructions and muscle maps.',
       intro: 'Exercise reference and fitness tools.',
     },
 ```
@@ -2568,7 +2606,7 @@ import Layout from '../../components/Layout.astro'
 import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
 const title = 'How to find the right exercise for any muscle or equipment'
-const description = 'Filter 1,038 exercises by muscle group, equipment, and difficulty — then get step-by-step instructions and a muscle map for each one.'
+const description = 'Filter 1,032 exercises by muscle group, equipment, and difficulty — then get step-by-step instructions and a muscle map for each one.'
 
 const seo = {
   title: `${title} | maratool`,
@@ -2644,7 +2682,7 @@ Then add it to the `posts` array in `src/pages/blog/index.astro` as the newest (
   {
     slug: 'exercises',
     title: 'How to find the right exercise for any muscle or equipment',
-    description: 'Filter 1,038 exercises by muscle group, equipment, and difficulty — then get step-by-step instructions and a muscle map for each one.',
+    description: 'Filter 1,032 exercises by muscle group, equipment, and difficulty — then get step-by-step instructions and a muscle map for each one.',
     date: '2026-08-16',
   },
 ```
@@ -2839,7 +2877,7 @@ Then update the attribution line in `src/pages/exercises/[slug].astro` to also l
 Add a line to `public/llms.txt` under the tools listing:
 
 ```
-- [Exercise Database](https://maratool.com/exercises/): 1,038 exercises browsable by muscle, equipment, category, and difficulty, each with step-by-step instructions and a muscle map.
+- [Exercise Database](https://maratool.com/exercises/): 1,032 exercises browsable by muscle, equipment, category, and difficulty, each with step-by-step instructions and a muscle map.
 ```
 
 - [ ] **Step 5: Run the full suite and a clean build**
