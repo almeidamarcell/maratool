@@ -1,7 +1,11 @@
 # Exercise Database — Design Spec
 
+> ⚠️ **SUPERSEDED** by [`2026-08-16-exercise-database-design.md`](2026-08-16-exercise-database-design.md).
+> The hasaneyldrm/Gym visual media source was rejected (license + a muscle map
+> alone doesn't show the movement). Kept for decision history.
+
 **Date:** 2026-07-21
-**Status:** Approved (design), pending implementation plan
+**Status:** Superseded
 **Author:** Claude + Marcell
 
 ## 1. Summary
