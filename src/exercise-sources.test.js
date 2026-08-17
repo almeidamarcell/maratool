@@ -63,4 +63,22 @@ describe('vendored exercise sources', () => {
     expect(relaxationCount).toBe(ek.length)
     expect(tensionCount).toBe(ek.length)
   })
+
+  test('every vendored SVG uses only fill="none" or fill="currentColor"', () => {
+    // Regression: the fill normalization used to string-match a fixed set of
+    // literal colors (#FFF, #333) and silently missed off-palette variants
+    // (lowercase #fff, #40413f, #2e2e2c), leaving hardcoded colors in the
+    // output that a later task's CSS-based recoloring would never touch.
+    const svgDir = resolve(ROOT, 'public/exercises/svg')
+    const files = readdirSync(svgDir).filter(f => f.endsWith('.svg'))
+    expect(files.length).toBeGreaterThan(0)
+
+    const fillValues = new Set()
+    for (const f of files) {
+      const svg = readFileSync(resolve(svgDir, f), 'utf-8')
+      for (const m of svg.matchAll(/fill="([^"]*)"/g)) fillValues.add(m[1])
+    }
+
+    expect(fillValues).toEqual(new Set(['none', 'currentColor']))
+  })
 })
