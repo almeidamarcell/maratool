@@ -6,7 +6,7 @@ Regenerate with: `node scripts/vendor-exercise-sources.mjs`
 - Repo: https://github.com/everkinetic/data
 - Commit: `446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6`
 - License: **CC BY-SA 4.0**
-- Records kept (with both SVG phases): 269
+- Records kept (with both SVG phases): 267
 - Obligation: visible attribution on every page using this art, AND our
   recolored/derived versions are published under CC BY-SA 4.0.
 

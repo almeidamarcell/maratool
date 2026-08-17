@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest'
-import { readFileSync, existsSync } from 'fs'
+import { readFileSync, existsSync, readdirSync } from 'fs'
 import { resolve } from 'path'
 
 const ROOT = resolve(import.meta.dirname, '..')
@@ -42,5 +42,25 @@ describe('vendored exercise sources', () => {
     const sample = ek[0].id_num
     expect(existsSync(resolve(ROOT, `public/exercises/svg/${sample}-relaxation.svg`))).toBe(true)
     expect(existsSync(resolve(ROOT, `public/exercises/svg/${sample}-tension.svg`))).toBe(true)
+  })
+
+  test('every kept id_num is unique and maps 1:1 to a distinct SVG pair on disk', () => {
+    // Regression: id_num is an independent numbering, not derived from id — two
+    // different exercises can collide on the same id_num and therefore the same
+    // SVG pair, silently showing one exercise's art on another exercise's page.
+    // Asserting just a record count would not catch this; the relationship
+    // between record count and actual distinct SVG files on disk would.
+    const ek = JSON.parse(read('src/data/exercises/everkinetic.raw.json'))
+
+    const idNums = ek.map(x => x.id_num)
+    expect(new Set(idNums).size).toBe(idNums.length)
+
+    const svgDir = resolve(ROOT, 'public/exercises/svg')
+    const files = readdirSync(svgDir)
+    const relaxationCount = files.filter(f => f.endsWith('-relaxation.svg')).length
+    const tensionCount = files.filter(f => f.endsWith('-tension.svg')).length
+
+    expect(relaxationCount).toBe(ek.length)
+    expect(tensionCount).toBe(ek.length)
   })
 })

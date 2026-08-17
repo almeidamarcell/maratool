@@ -29,14 +29,21 @@ function clone(name, repo) {
   return { dir, sha }
 }
 
-// ---- Everkinetic: keep only records that have BOTH svg phases ----
+// ---- Everkinetic: keep only records that have BOTH svg phases AND a unique id_num ----
+// id_num is an independent numbering, not derived from id — two different
+// exercises can collide on the same id_num (and therefore the same SVG pair).
+// There's no principled way to tell which exercise the art actually depicts,
+// so on collision we drop BOTH records rather than guess.
 const ek = clone('everkinetic', SOURCES.everkinetic.repo)
 const ekAll = JSON.parse(readFileSync(resolve(ek.dir, 'exercises.json'), 'utf-8'))
 const svgDir = resolve(ek.dir, 'dist/svg')
 const svgFiles = new Set(readdirSync(svgDir))
-const ekKept = ekAll.filter(x =>
+const ekBothPhases = ekAll.filter(x =>
   x.id_num && svgFiles.has(`${x.id_num}-relaxation.svg`) && svgFiles.has(`${x.id_num}-tension.svg`)
 )
+const idNumCounts = new Map()
+for (const x of ekBothPhases) idNumCounts.set(x.id_num, (idNumCounts.get(x.id_num) ?? 0) + 1)
+const ekKept = ekBothPhases.filter(x => idNumCounts.get(x.id_num) === 1)
 for (const x of ekKept) {
   for (const phase of ['relaxation', 'tension']) {
     const f = `${x.id_num}-${phase}.svg`

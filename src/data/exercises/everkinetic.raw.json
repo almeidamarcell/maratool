@@ -34,34 +34,6 @@
     ]
   },
   {
-    "id": 27,
-    "id_num": "0020",
-    "id_hex": "f20",
-    "name": "tate-press",
-    "title": "Tate Press",
-    "url": "http://db.everkinetic.com/exercise/tate-press",
-    "primer": "This is an advanced triceps exercise which moves the muscle differently than other exercises.",
-    "type": "isolation",
-    "primary": "triceps",
-    "equipment": [
-      "dumbbell"
-    ],
-    "images": [
-      "http://img.everkinetic.com/?action=image&id=27&number=0&key=69cadbdd2&version=d1a482c2&size=480,480&download=medium",
-      "http://img.everkinetic.com/?action=image&id=27&number=1&key=69cadbdd2&version=b401258e&size=480,480&download=medium"
-    ],
-    "img": [
-      "_images/web/tate-press-1.png",
-      "_images/web/tate-press-2.png"
-    ],
-    "steps": [
-      "Lay flat on a bench with your head at one end and your feet firmly planted on the floor.",
-      "Hold a dumbbell in each hand so your palms are faced towards your feet.",
-      "Drawing your abs in and keeping your back on the bench, raise the weights to the center of your chest.",
-      "Without moving elbows, slowly raise your arms up and out contracting your triceps."
-    ]
-  },
-  {
     "id": 33,
     "id_num": "0001",
     "id_hex": "f1",
@@ -522,43 +494,6 @@
     "tips": [
       "Maintain a good upright posture throughout this exercise.",
       "Ensure the swiss ball is inflated enough to allow for smooth rhythmical circles."
-    ]
-  },
-  {
-    "id": 96,
-    "id_num": "0020",
-    "id_hex": "f20",
-    "name": "back-flys-exercise-band",
-    "title": "Back Fly's with Exercise Band",
-    "url": "http://db.everkinetic.com/exercise/back-flys-exercise-band",
-    "primer": "This is an exercise for shoulder, middle back and triceps strengthening.",
-    "type": "isolation",
-    "primary": "shoulders",
-    "secondary": [
-      "triceps",
-      "middle back"
-    ],
-    "equipment": [
-      "exercise band"
-    ],
-    "images": [
-      "http://img.everkinetic.com/?action=image&id=96&number=0&key=69cadbdd2&version=7b073df3&size=960,960&download=large",
-      "http://img.everkinetic.com/?action=image&id=96&number=1&key=69cadbdd2&version=320ed35e&size=960,960&download=large"
-    ],
-    "img": [
-      "_images/web/back-flys-exercise-band-1.png",
-      "_images/web/back-flys-exercise-band-2.png"
-    ],
-    "steps": [
-      "Place an exercise band around a post or machine at mid chest height.",
-      "Stand with your feet shoulder width apart, abs drawn in and knees slightly bent.",
-      "Stand back from the post so there is tension in the band, grasping the band with your arms extended in front of you and a slight bend in your elbows; this is your starting position.",
-      "Bring your arms back in a controlled motion till they are parallel at your sides and in line with your shoulders.",
-      "Slowly return your arms to the starting position in front of your chest.",
-      "Repeat."
-    ],
-    "tips": [
-      "Maintain a good upright posture at all times during this exercise ensuring you do not arch your back."
     ]
   },
   {
