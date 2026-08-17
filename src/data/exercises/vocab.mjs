@@ -74,6 +74,14 @@ Object.assign(EQUIPMENT_ALIASES, {
   'e-z bar': 'e-z curl bar',
   'stability ball': 'exercise ball',
   'foam roller': 'foam roll',
+  // Clear-cut aliases from vendored data
+  dumbell: 'dumbbell',
+  'swiss ball': 'exercise ball',
+  'bosu ball': 'exercise ball',
+  'hyperextension bench': 'bench',
+  't-bar machine': 'machine',
+  'bench press machine': 'machine',
+  'chest machine': 'machine',
 })
 
 export function normalizeEquipment(raw) {

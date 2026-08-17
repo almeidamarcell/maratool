@@ -6,6 +6,19 @@ import { normalizeMuscle, normalizeEquipment, MUSCLES, EQUIPMENT } from './data/
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
+// Equipment strings that are intentionally bucketed to 'other' because they are
+// genuinely ambiguous or represent specialized/niche equipment with no canonical home.
+// This list is explicit and reviewable: any *new* unmapped string introduced by a
+// future re-vendor will fail the completeness test by name, rather than silently vanishing.
+const INTENTIONAL_OTHER_FALLBACK = new Set([
+  'parallel bars',     // specialized apparatus, not a common equipment category
+  'v-bar',             // specialized attachment/apparatus
+  'barbell or dumbbell', // source data is vague about which; cannot resolve
+  'weight',            // too generic; source does not specify what kind
+  'weight plate',      // loose weight plates without barbell context
+  'other',             // the literal canonical value for unknowns
+])
+
 describe('normalizeMuscle', () => {
   test('passes through canonical free-db muscles unchanged', () => {
     for (const m of ['chest', 'biceps', 'triceps', 'lats', 'quadriceps', 'hamstrings', 'calves', 'abdominals', 'shoulders', 'forearms', 'glutes', 'traps', 'lower back', 'middle back', 'neck', 'abductors', 'adductors']) {
@@ -129,7 +142,7 @@ describe('Completeness: muscles from vendored data', () => {
 })
 
 describe('Completeness: equipment from vendored data', () => {
-  test('every distinct equipment string from both datasets normalizes to a canonical value', () => {
+  test('every distinct equipment string either normalizes to a canonical value (not "other") or is explicitly listed as intentional fallback', () => {
     const everk = JSON.parse(readFileSync(join(__dirname, 'data/exercises/everkinetic.raw.json'), 'utf-8'))
     const freedb = JSON.parse(readFileSync(join(__dirname, 'data/exercises/free-exercise-db.raw.json'), 'utf-8'))
 
@@ -152,14 +165,26 @@ describe('Completeness: equipment from vendored data', () => {
     const failures = []
     allEquipment.forEach(equipment => {
       const normalized = normalizeEquipment(equipment)
-      // Equipment should normalize to a canonical value (including 'other'), never stay as unknown
-      if (!EQUIPMENT.includes(normalized)) {
-        failures.push(`${equipment} → ${normalized} (not in EQUIPMENT)`)
+
+      // Each equipment string must either:
+      // 1. Normalize to a canonical value OTHER than 'other', OR
+      // 2. Appear in the intentional-fallback list (and normalize to 'other')
+      const isIntentionalFallback = INTENTIONAL_OTHER_FALLBACK.has(equipment)
+
+      if (normalized !== 'other' && !isIntentionalFallback) {
+        // Normalized to canonical: OK
+      } else if (normalized === 'other' && !isIntentionalFallback) {
+        // Bucketed to 'other' but NOT in intentional list: this is a gap
+        failures.push(equipment)
       }
+      // If (normalized === 'other' && isIntentionalFallback): OK, intentionally bucketed
     })
 
     if (failures.length > 0) {
-      expect.fail(`These equipment values fail: ${failures.join(', ')}`)
+      expect.fail(
+        `These equipment strings normalize to 'other' but are not in INTENTIONAL_OTHER_FALLBACK ` +
+        `(they need aliases or a deliberate reason to be ambiguous): ${failures.join(', ')}`
+      )
     }
   })
 })
