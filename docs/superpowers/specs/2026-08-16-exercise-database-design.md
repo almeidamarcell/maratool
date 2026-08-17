@@ -141,10 +141,12 @@ category, level, mediaKind}` (~35 KB gz). Raw datasets stay **build-time only**
 
 ## 7. Site integration
 
-- **Category:** reuse **Health** with a new **Fitness** subcategory. Per the
-  user's point, the 145 existing medical calculators get a **Medical**
-  subcategory in the same pass, so Health splits cleanly Medical vs Fitness.
-  *(This touches existing entries — must not change their URLs.)*
+- **Category:** reuse **Health** with a new **Fitness** subcategory. *(Correction
+  to an earlier assumption: the 145 medical calculators are **already** organized
+  into 17 medical subcategories — Anthropometric, Cardiology, Renal, Pediatric,
+  Score, … — so no restructuring is needed. The only change is appending
+  `'Fitness'` to `subcategoryOrderByCategory.Health` and adding a `fitness` entry
+  to `src/pages/health/[subcategory].astro`. No existing URLs change.)*
 - **Registry:** one `tools.ts` entry for the browser (slug `exercises`,
   category Health, subcategory Fitness, `live: true`, `blogPost: true`). The
   ~1,080 generated pages are routes, not registry entries.
@@ -200,5 +202,5 @@ media as a future UX upgrade.
 - [ ] Attribution + ShareAlike notice present and correct.
 - [ ] No Gym visual media anywhere.
 - [ ] Browser: search + 4 facet groups filter instantly; zero CLS; `?embed=1` works.
-- [ ] Health split into Medical + Fitness with no URL changes to existing tools.
+- [ ] `Fitness` subcategory added to Health with no URL changes to existing tools.
 - [ ] Sitemap includes all routes; blog post ships with working embed.
