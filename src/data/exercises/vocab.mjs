@@ -7,7 +7,8 @@ export const MUSCLES = [
   'neck', 'quadriceps', 'shoulders', 'traps', 'triceps',
 ]
 
-const MUSCLE_ALIASES = {
+const MUSCLE_ALIASES = Object.create(null)
+Object.assign(MUSCLE_ALIASES, {
   gluts: 'glutes',
   glute: 'glutes',
   hamstring: 'hamstrings',
@@ -33,7 +34,12 @@ const MUSCLE_ALIASES = {
   pectorals: 'chest',
   'upper back': 'middle back',
   spine: 'lower back',
-}
+  // Real variants from Everkinetic dataset
+  forearm: 'forearms',
+  'hip abductors': 'abductors',
+  bicpes: 'biceps',
+  should: 'shoulders',
+})
 
 export function normalizeMuscle(raw) {
   if (typeof raw !== 'string') return null
@@ -49,7 +55,8 @@ export const EQUIPMENT = [
   'smith machine', 'bench', 'other',
 ]
 
-const EQUIPMENT_ALIASES = {
+const EQUIPMENT_ALIASES = Object.create(null)
+Object.assign(EQUIPMENT_ALIASES, {
   dumbbells: 'dumbbell',
   kettlebells: 'kettlebell',
   'cable machine': 'cable',
@@ -67,7 +74,7 @@ const EQUIPMENT_ALIASES = {
   'e-z bar': 'e-z curl bar',
   'stability ball': 'exercise ball',
   'foam roller': 'foam roll',
-}
+})
 
 export function normalizeEquipment(raw) {
   if (typeof raw !== 'string') return 'other'

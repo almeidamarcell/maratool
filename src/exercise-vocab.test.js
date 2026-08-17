@@ -1,5 +1,10 @@
 import { describe, test, expect } from 'vitest'
+import { readFileSync } from 'fs'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
 import { normalizeMuscle, normalizeEquipment, MUSCLES, EQUIPMENT } from './data/exercises/vocab.mjs'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 describe('normalizeMuscle', () => {
   test('passes through canonical free-db muscles unchanged', () => {
@@ -73,5 +78,104 @@ describe('normalizeEquipment', () => {
     for (const v of ['dumbbell', 'barbell', 'cable', 'body only', 'bench', 'band', 'other']) {
       expect(EQUIPMENT).toContain(v)
     }
+  })
+
+  test('prevents prototype pollution from malicious keys', () => {
+    expect(normalizeEquipment('constructor')).toBe('other')
+    expect(normalizeEquipment('__proto__')).toBe('other')
+    expect(normalizeEquipment('prototype')).toBe('other')
+  })
+})
+
+describe('Completeness: muscles from vendored data', () => {
+  test('every distinct muscle string from both datasets normalizes to a canonical value', () => {
+    const everk = JSON.parse(readFileSync(join(__dirname, 'data/exercises/everkinetic.raw.json'), 'utf-8'))
+    const freedb = JSON.parse(readFileSync(join(__dirname, 'data/exercises/free-exercise-db.raw.json'), 'utf-8'))
+
+    const allMuscles = new Set()
+
+    // Extract from Everkinetic
+    everk.forEach(ex => {
+      if (ex.primary) {
+        ex.primary.split(',').forEach(m => allMuscles.add(m.trim().toLowerCase()))
+      }
+      if (Array.isArray(ex.secondary)) {
+        ex.secondary.forEach(m => allMuscles.add(m.trim().toLowerCase()))
+      }
+    })
+
+    // Extract from free-exercise-db
+    freedb.forEach(ex => {
+      if (Array.isArray(ex.primaryMuscles)) {
+        ex.primaryMuscles.forEach(m => allMuscles.add(m.trim().toLowerCase()))
+      }
+      if (Array.isArray(ex.secondaryMuscles)) {
+        ex.secondaryMuscles.forEach(m => allMuscles.add(m.trim().toLowerCase()))
+      }
+    })
+
+    const failures = []
+    allMuscles.forEach(muscle => {
+      const normalized = normalizeMuscle(muscle)
+      if (normalized === null) {
+        failures.push(muscle)
+      }
+    })
+
+    if (failures.length > 0) {
+      expect.fail(`These muscles from vendored data normalize to null: ${failures.join(', ')}`)
+    }
+  })
+})
+
+describe('Completeness: equipment from vendored data', () => {
+  test('every distinct equipment string from both datasets normalizes to a canonical value', () => {
+    const everk = JSON.parse(readFileSync(join(__dirname, 'data/exercises/everkinetic.raw.json'), 'utf-8'))
+    const freedb = JSON.parse(readFileSync(join(__dirname, 'data/exercises/free-exercise-db.raw.json'), 'utf-8'))
+
+    const allEquipment = new Set()
+
+    // Extract from Everkinetic (equipment is an array)
+    everk.forEach(ex => {
+      if (Array.isArray(ex.equipment)) {
+        ex.equipment.forEach(e => allEquipment.add(e.trim().toLowerCase()))
+      }
+    })
+
+    // Extract from free-exercise-db (equipment is a string)
+    freedb.forEach(ex => {
+      if (typeof ex.equipment === 'string' && ex.equipment) {
+        allEquipment.add(ex.equipment.trim().toLowerCase())
+      }
+    })
+
+    const failures = []
+    allEquipment.forEach(equipment => {
+      const normalized = normalizeEquipment(equipment)
+      // Equipment should normalize to a canonical value (including 'other'), never stay as unknown
+      if (!EQUIPMENT.includes(normalized)) {
+        failures.push(`${equipment} → ${normalized} (not in EQUIPMENT)`)
+      }
+    })
+
+    if (failures.length > 0) {
+      expect.fail(`These equipment values fail: ${failures.join(', ')}`)
+    }
+  })
+})
+
+describe('Prototype pollution regression', () => {
+  test('normalizeMuscle returns null for prototype-pollution keys', () => {
+    expect(normalizeMuscle('constructor')).toBe(null)
+    expect(normalizeMuscle('__proto__')).toBe(null)
+    expect(normalizeMuscle('prototype')).toBe(null)
+    expect(normalizeMuscle('hasOwnProperty')).toBe(null)
+  })
+
+  test('normalizeEquipment returns "other" for prototype-pollution keys', () => {
+    expect(normalizeEquipment('constructor')).toBe('other')
+    expect(normalizeEquipment('__proto__')).toBe('other')
+    expect(normalizeEquipment('prototype')).toBe('other')
+    expect(normalizeEquipment('hasOwnProperty')).toBe('other')
   })
 })
