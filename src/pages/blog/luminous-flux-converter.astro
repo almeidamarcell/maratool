@@ -1,0 +1,90 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'luminous-flux-converter'
+const seo = {
+  title: 'Luminous flux converter — lumens | maratool',
+  description: 'Convert lumens, kilolumens, and candela-steradians instantly. Free browser luminous flux converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert lumens, kilolumens, and cd·sr',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert lumens, kilolumens, and candela-steradians instantly. Free browser luminous flux converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert lumens, kilolumens, and cd·sr', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert lumens, kilolumens, and cd·sr"
+      lead="Type a flux — read lm, klm, mlm, or cd·sr instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Lumens are the headline number on every bulb box. The <a href="/luminous-flux-converter/">Luminous Flux Converter</a> shifts lumen prefixes and shows the underlying candela-steradian identity.</p>
+
+      <BlogToolEmbed slug="luminous-flux-converter" title="Try it — convert luminous flux units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Kilolumen (klm)" to "Lumen (lm)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Luminous flux conversion factors</h2>
+      <p>Every unit converts through the lumen (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many lumens</th></tr></thead>
+        <tbody>
+        <tr><td>Kilolumen (klm)</td><td>1,000</td></tr>
+        <tr><td>Lumen (lm)</td><td>1</td></tr>
+        <tr><td>Millilumen (mlm)</td><td>0.001</td></tr>
+        <tr><td>Candela-steradian (cd·sr)</td><td>1</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>Sizing rule: living rooms need roughly 10–20 lm per square foot, so a 200 ft² room wants 2,000–4,000 lm total. To turn lumens into brightness on a surface, divide by area — that gives <a href="/illuminance-converter/">lux or foot-candles</a>.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.bipm.org/en/publications/si-brochure" rel="noopener" target="_blank">BIPM SI Brochure</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/luminous-intensity-converter/">How to convert mcd to candela and candlepower</a></li>
+        <li><a href="/blog/illuminance-converter/">How to convert lux to foot-candles</a></li>
+        <li><a href="/blog/luminous-energy-converter/">How to convert lumen-seconds, talbots, and lumen-hours</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters/">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/luminous-flux-converter/">Luminous Flux</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter/">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

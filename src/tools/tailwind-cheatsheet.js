@@ -1,4 +1,5 @@
-(function () {
+import { copyWithFeedback } from './tool-utils.js'
+;(function () {
   var CHEATSHEET = [
     {
       name: 'Display',
@@ -430,15 +431,7 @@
     if (td) {
       var text = td.getAttribute('data-copy')
       if (!text) return
-      navigator.clipboard.writeText(text).then(function () {
-        td.classList.add('copied')
-        var orig = td.textContent
-        td.textContent = 'Copied!'
-        setTimeout(function () {
-          td.textContent = orig
-          td.classList.remove('copied')
-        }, 2000)
-      })
+      copyWithFeedback(td, text)
     }
   })
 

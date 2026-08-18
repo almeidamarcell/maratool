@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Change GIF Loop Count Online | maratool',
-  description: 'Change GIF Loop Count Online. Free, runs in your browser — no upload to servers.',
+  description: 'Change the loop count of a GIF online. Make an animated GIF loop forever, play once, or repeat a set number of times, then download. No upload needed.',
   canonical: 'https://maratool.com/gif-loop-count',
   schema: {
     '@context': 'https://schema.org',
@@ -15,7 +15,7 @@ const seo = {
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Change GIF Loop Count Online. Free, runs in your browser — no upload to servers.',
+    description: 'Change the loop count of a GIF online. Make an animated GIF loop forever, play once, or repeat a set number of times, then download. No upload needed.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
@@ -69,9 +69,10 @@ const breadcrumbs = [
           <input class="tool-input" id="ga-loopCount" type="number" data-ga-opt="loopCount" value="0" />
           <button type="button" class="tool-btn" id="ga-process" style="margin-top:1rem;">Process GIF</button>
         </div>
-        <div id="ga-progress" hidden>
-          <p id="ga-progress-text">Processing...</p>
+        <div id="ga-progress" class="tool-progress" hidden>
+          <p id="ga-progress-text" class="tool-progress-text">Processing...</p>
           <div class="tool-progress-bar"><div id="ga-progress-fill" class="tool-progress-fill"></div></div>
+          <p id="ga-progress-detail" class="tool-progress-detail"></p>
         </div>
         <div id="ga-result" hidden>
           <img id="ga-result-img" alt="Result" style="max-width:100%;" />
@@ -88,4 +89,4 @@ const breadcrumbs = [
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/gif-loop-count.js"></script>
+<script src="../tools/gif-loop-count.js"></script>

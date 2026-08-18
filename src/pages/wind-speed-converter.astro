@@ -1,0 +1,100 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Wind Speed Converter — Knots, MPH & Beaufort | maratool',
+  description: 'Convert wind speed between knots, mph, km/h, and m/s and read the Beaufort scale force with description. Free wind converter in your browser.',
+  canonical: 'https://maratool.com/wind-speed-converter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Wind Speed Converter — Knots, MPH, km/h & Beaufort Scale',
+    url: 'https://maratool.com/wind-speed-converter',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert wind speed between knots, mph, km/h, and m/s and read the Beaufort scale force with description. Free wind converter in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Unit', item: 'https://maratool.com/converter/unit' },
+      { '@type': 'ListItem', position: 4, name: 'Wind Speed Converter — Knots, MPH, km/h & Beaufort Scale', item: 'https://maratool.com/wind-speed-converter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How many mph is a knot?', acceptedAnswer: { '@type': 'Answer', text: 'One knot is one nautical mile per hour: exactly 1.852 km/h, about 1.15078 mph and 0.51444 m/s.' } },
+      { '@type': 'Question', name: 'What is the Beaufort scale?', acceptedAnswer: { '@type': 'Answer', text: 'A 0–12 scale mapping wind speed to observed effects, from calm (force 0, under 1 knot) to hurricane force (12, 64+ knots). The bands here follow the NOAA National Weather Service table.' } },
+      { '@type': 'Question', name: 'At what wind speed should small boats be careful?', acceptedAnswer: { '@type': 'Answer', text: 'NWS issues small-craft advisories around 22–33 knots (force 6–7). Force 8 (34+ knots) is gale force.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Conversion and Beaufort lookup run entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the wind speed value.',
+  'Pick its unit — knots, mph, km/h, m/s, or ft/s.',
+  'Read every equivalent plus the Beaufort force and description.'
+]
+
+const faq = [
+  { q: 'How many mph is a knot?', a: 'One knot is one nautical mile per hour: exactly 1.852 km/h, about 1.15078 mph and 0.51444 m/s.' },
+  { q: 'What is the Beaufort scale?', a: 'A 0–12 scale mapping wind speed to observed effects, from calm (force 0, under 1 knot) to hurricane force (12, 64+ knots). The bands here follow the NOAA National Weather Service table.' },
+  { q: 'At what wind speed should small boats be careful?', a: 'NWS issues small-craft advisories around 22–33 knots (force 6–7). Force 8 (34+ knots) is gale force.' },
+  { q: 'Is my data sent to a server?', a: 'No. Conversion and Beaufort lookup run entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'unit-converter', name: 'Unit Converter' },
+  { slug: 'acceleration-converter', name: 'Acceleration Converter' },
+  { slug: 'mpg-to-l100km', name: 'MPG to L/100km' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Unit', href: '/converter/unit' },
+  { label: 'Wind Speed Converter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="wind-speed-converter" name="Wind Speed Converter — Knots, MPH, km/h & Beaufort Scale" description="Enter a wind speed in any unit to see knots, mph, km/h, m/s, ft/s, and the Beaufort force with description." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:420px;">
+      <div class="calc-row">
+        <div class="calc-field"><label class="tool-label" for="wsc-value">Wind speed</label><input type="number" id="wsc-value" class="tool-input" placeholder="15" min="0" step="any" /></div>
+        <div class="calc-field"><label class="tool-label" for="wsc-unit">Unit</label><select id="wsc-unit" class="tool-input calc-select"><option value="kn">Knots (kn)</option><option value="mph">Miles per hour (mph)</option><option value="kmh">Kilometers per hour (km/h)</option><option value="ms">Meters per second (m/s)</option><option value="fts">Feet per second (ft/s)</option></select></div>
+      </div>
+      <div class="tool-stats">
+        <div class="tool-stat"><span class="tool-stat-value" id="wsc-out-kn">—</span><span class="tool-stat-label">Knots</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="wsc-out-mph">—</span><span class="tool-stat-label">mph</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="wsc-out-kmh">—</span><span class="tool-stat-label">km/h</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="wsc-out-ms">—</span><span class="tool-stat-label">m/s</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="wsc-out-fts">—</span><span class="tool-stat-label">ft/s</span></div>
+      </div>
+      <div class="tool-stats" style="margin-top:0.75rem;">
+        <div class="tool-stat"><span class="tool-stat-value" id="wsc-beaufort">—</span><span class="tool-stat-label">Beaufort force</span></div>
+        <div class="tool-stat" style="flex:2;"><span class="tool-stat-value" id="wsc-desc" style="font-size:16px;">—</span><span class="tool-stat-label">Description</span></div>
+      </div>
+      <button type="button" id="wsc-copy" class="copy-btn" style="margin-top:1rem;">Copy summary</button>
+        <div class="tool-note"><strong>How this conversion works.</strong> Linear conversions use the exact knot definition (1.852 km/h); the Beaufort force is a band lookup per the <a href="https://www.weather.gov/mfl/beaufort" rel="noopener" target="_blank">NOAA National Weather Service — Beaufort Scale</a>.</div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.5rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr !important; } }
+</style>
+<script src="../tools/wind-speed-converter.js"></script>

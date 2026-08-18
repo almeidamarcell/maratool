@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'APNG Maker — Create Animated PNG | maratool',
-  description: 'APNG Maker. Free, runs in your browser — no upload to servers.',
+  description: 'Create animated PNG (APNG) files from a set of images in your browser. Set frame order, delay, and loops, then download. Free, no upload to servers.',
   canonical: 'https://maratool.com/apng-maker',
   schema: {
     '@context': 'https://schema.org',
@@ -15,7 +15,7 @@ const seo = {
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'APNG Maker. Free, runs in your browser — no upload to servers.',
+    description: 'Create animated PNG (APNG) files from a set of images in your browser. Set frame order, delay, and loops, then download. Free, no upload to servers.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
@@ -71,4 +71,4 @@ const breadcrumbs = [
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/apng-maker.js"></script>
+<script src="../tools/apng-maker.js"></script>

@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Video to WebP Converter Online | maratool',
-  description: 'Video to WebP Converter Online. Free, runs in your browser — no upload to servers.',
+  description: 'Convert video to animated WebP for sharper quality and smaller files than GIF. Set frame rate, quality, and size — free, runs in your browser.',
   canonical: 'https://maratool.com/video-to-webp',
   schema: {
     '@context': 'https://schema.org',
@@ -15,7 +15,7 @@ const seo = {
     applicationCategory: 'UtilitiesApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Video to WebP Converter Online. Free, runs in your browser — no upload to servers.',
+    description: 'Convert video to animated WebP for sharper quality and smaller files than GIF. Set frame rate, quality, and size — free, runs in your browser.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
@@ -74,9 +74,10 @@ const breadcrumbs = [
           <input class="tool-input" type="number" data-ef-opt="width" value="480" />
           <button type="button" class="tool-btn" id="ef-process" style="margin-top:1rem;">Process</button>
         </div>
-        <div id="ef-progress" hidden>
-          <p id="ef-progress-text">Loading...</p>
+        <div id="ef-progress" class="tool-progress" hidden>
+          <p id="ef-progress-text" class="tool-progress-text">Loading...</p>
           <div class="tool-progress-bar"><div id="ef-progress-fill" class="tool-progress-fill"></div></div>
+          <p id="ef-progress-detail" class="tool-progress-detail"></p>
         </div>
         <div id="ef-result" hidden>
           <img id="ef-result-media" alt="Result" style="max-width:100%;" />
@@ -93,4 +94,4 @@ const breadcrumbs = [
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/video-to-webp.js"></script>
+<script src="../tools/video-to-webp.js"></script>

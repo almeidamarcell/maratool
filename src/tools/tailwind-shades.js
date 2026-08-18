@@ -1,4 +1,5 @@
-(function () {
+import { copyWithFeedback, copyText } from './tool-utils.js'
+;(function () {
   var pickerEl = document.getElementById('ts-picker')
   var hexEl = document.getElementById('ts-hex')
   var nameEl = document.getElementById('ts-name')
@@ -227,19 +228,19 @@
     var shade = e.target.closest('.ts-shade')
     if (!shade) return
     var hex = shade.getAttribute('data-hex')
-    navigator.clipboard.writeText(hex).then(function () {
+    copyText(hex).then(function (ok) {
       var badge = shade.querySelector('.ts-shade-copied')
+      if (!ok) badge.textContent = 'Copy failed'
       badge.classList.add('show')
-      setTimeout(function () { badge.classList.remove('show') }, 1500)
+      setTimeout(function () {
+        badge.classList.remove('show')
+        badge.textContent = 'Copied!'
+      }, 1500)
     })
   })
 
   copyExport.addEventListener('click', function () {
-    navigator.clipboard.writeText(exportOutput.textContent).then(function () {
-      var orig = copyExport.textContent
-      copyExport.textContent = 'Copied!'
-      setTimeout(function () { copyExport.textContent = orig }, 2000)
-    })
+    copyWithFeedback(copyExport, exportOutput.textContent)
   })
 
   // ── Init ──

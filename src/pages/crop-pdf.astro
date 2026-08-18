@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Crop PDF Pages Online | maratool',
-  description: 'Crop PDF Pages Online. Free, runs in your browser — no upload to servers.',
+  description: 'Crop PDF pages online. Trim margins or select an area to keep across all pages, then download. Free PDF cropper, runs in your browser with no upload.',
   canonical: 'https://maratool.com/crop-pdf',
   schema: {
     '@context': 'https://schema.org',
@@ -15,37 +15,37 @@ const seo = {
     applicationCategory: 'UtilitiesApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Crop PDF Pages Online. Free, runs in your browser — no upload to servers.',
+    description: 'Crop PDF pages online. Trim margins or select an area to keep across all pages, then download. Free PDF cropper, runs in your browser with no upload.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
-      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
-      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+      { '@type': 'Question', name: 'Does cropping delete the content outside the crop box?', acceptedAnswer: { '@type': 'Answer', text: 'No. Cropping sets the page CropBox, which tells a viewer how much of the page to display. The text and images outside it are still in the file and can be recovered by resetting the crop box. Never use a crop to hide confidential material — use a redaction tool that deletes the content.' } },
+      { '@type': 'Question', name: 'Can I apply the same crop to every page?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Set the crop on the page you are looking at, then choose All pages, or type a range such as 2,5-9. Margins are measured from the edge of each page, so a document with mixed page sizes still gets the same margin on every page.' } },
+      { '@type': 'Question', name: 'How do I remove the white margins from a scanned PDF?', acceptedAnswer: { '@type': 'Answer', text: 'Click Trim white margins. The page is scanned for the printed area and the crop box snaps to it with 2 mm of breathing room. Tick Detect margins on every page when a scan drifts, and each page gets measured on its own.' } },
+      { '@type': 'Question', name: 'Does the crop survive in other PDF readers?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. The CropBox is part of the PDF spec, so Acrobat, Preview, Chrome and e-readers all honour it, and printing uses the cropped area too. A rotated page is handled as it appears on screen, not as it is stored.' } },
     ],
   },
 }
 
 const howTo = [
-  'Upload or drop your file.',
-  'Adjust settings if needed.',
-  'Click Process and download the result.',
+  'Drop a PDF in, then drag on the page preview to draw the area you want to keep.',
+  'Fine-tune with the top, right, bottom and left margin boxes, or click Trim white margins to snap to the printed area.',
+  'Choose whether to crop this page, a range, or all pages, then crop and download.',
 ]
 
 const faq = [
-  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
-  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
-  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
-  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+  { q: 'Does cropping delete what falls outside the box?', a: 'No. It sets the PDF CropBox, which changes what viewers display. The hidden content is still in the file, so a crop is not a redaction.' },
+  { q: 'Can I crop every page at once?', a: 'Yes. Set the crop once, then pick All pages or type a range such as 2,5-9.' },
+  { q: 'How do I trim the white margins off a scan?', a: 'Click Trim white margins. It finds the printed area and leaves 2 mm around it. Tick the per-page box when the scan drifts.' },
+  { q: 'Will other readers respect the crop?', a: 'Yes. Acrobat, Preview, Chrome and e-readers all read the CropBox, and printing uses it too.' },
 ]
 
 const relatedTools = [
-  { slug: 'gif-maker', name: 'GIF Maker' },
-  { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'video-to-gif', name: 'Video to GIF' },
+  { slug: 'compress-pdf', name: 'Compress PDF Online' },
+  { slug: 'organize-pdf', name: 'Rearrange PDF Pages' },
+  { slug: 'crop-image', name: 'Crop Image Online' },
 ]
 
 const breadcrumbs = [
@@ -57,18 +57,153 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="crop-pdf" name="Crop PDF Pages Online" description="Crop PDF Pages Online. Free, runs in your browser — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
-      <div class="tool-container" style="min-height:420px;" data-ui="pdf">
-        <p class="tool-hint">Upload a file to get started. Processing runs entirely in your browser.</p>
-        <div id="ez-root" data-slug="crop-pdf"></div>
+    <ToolShell slug="crop-pdf" name="Crop PDF Pages Online" description="Draw the area to keep on the page preview, or type exact margins, then apply it to one page, a range, or the whole document. Nothing is uploaded." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:560px;" data-ui="pdf">
+        <div id="ez-root" data-slug="crop-pdf">
+          <div class="pc-dropzone tool-dropzone" id="pc-dropzone">
+            <input type="file" id="pc-file" accept="application/pdf,.pdf" hidden />
+            <p class="pc-dropzone-title">Drop a PDF here</p>
+            <p class="pc-dropzone-sub">or click to select — the file stays on your device</p>
+          </div>
+
+          <div id="pc-editor" hidden>
+            <div class="pc-stage-wrap">
+              <div class="pc-stage" id="pc-stage">
+                <canvas id="pc-canvas" class="pc-canvas" width="620" height="800"></canvas>
+                <div class="pc-box" id="pc-box">
+                  <span class="pc-handle" data-handle="nw"></span>
+                  <span class="pc-handle" data-handle="n"></span>
+                  <span class="pc-handle" data-handle="ne"></span>
+                  <span class="pc-handle" data-handle="e"></span>
+                  <span class="pc-handle" data-handle="se"></span>
+                  <span class="pc-handle" data-handle="s"></span>
+                  <span class="pc-handle" data-handle="sw"></span>
+                  <span class="pc-handle" data-handle="w"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pc-pager">
+              <button type="button" class="tool-btn tool-btn-secondary" id="pc-prev">‹ Previous</button>
+              <span class="pc-page-label" id="pc-page-label">Page 1 of 1</span>
+              <button type="button" class="tool-btn tool-btn-secondary" id="pc-next">Next ›</button>
+            </div>
+
+            <p class="tool-hint">Drag on the page to draw a crop. Drag inside the box to move it, or pull an edge or corner to resize.</p>
+
+            <div class="pc-fields">
+              <div class="pc-field">
+                <label class="tool-label" for="pc-top">Top margin</label>
+                <input type="number" id="pc-top" class="tool-input" min="0" step="0.5" value="0" />
+              </div>
+              <div class="pc-field">
+                <label class="tool-label" for="pc-right">Right margin</label>
+                <input type="number" id="pc-right" class="tool-input" min="0" step="0.5" value="0" />
+              </div>
+              <div class="pc-field">
+                <label class="tool-label" for="pc-bottom">Bottom margin</label>
+                <input type="number" id="pc-bottom" class="tool-input" min="0" step="0.5" value="0" />
+              </div>
+              <div class="pc-field">
+                <label class="tool-label" for="pc-left">Left margin</label>
+                <input type="number" id="pc-left" class="tool-input" min="0" step="0.5" value="0" />
+              </div>
+              <div class="pc-field">
+                <label class="tool-label" for="pc-unit">Units</label>
+                <select id="pc-unit" class="tool-select">
+                  <option value="mm">Millimetres</option>
+                  <option value="pt">Points</option>
+                  <option value="in">Inches</option>
+                </select>
+              </div>
+              <div class="pc-field">
+                <label class="tool-label" for="pc-scope">Apply to</label>
+                <select id="pc-scope" class="tool-select">
+                  <option value="all">All pages</option>
+                  <option value="current">This page only</option>
+                  <option value="range">Page range</option>
+                </select>
+              </div>
+              <div class="pc-field" id="pc-range-field" hidden>
+                <label class="tool-label" for="pc-range">Pages (e.g. 2,5-9)</label>
+                <input type="text" id="pc-range" class="tool-input" placeholder="2,5-9" />
+              </div>
+            </div>
+
+            <label class="pc-check" for="pc-auto-each">
+              <input type="checkbox" id="pc-auto-each" />
+              <span>Detect margins on every page separately (slower, best for scans)</span>
+            </label>
+
+            <div class="tool-stats pc-stats">
+              <div class="tool-stat">
+                <span class="tool-stat-value" id="pc-page-size">—</span>
+                <span class="tool-stat-label">Page size</span>
+              </div>
+              <div class="tool-stat">
+                <span class="tool-stat-value" id="pc-crop-size">—</span>
+                <span class="tool-stat-label">Crop size</span>
+              </div>
+            </div>
+
+            <div class="pc-actions">
+              <button type="button" class="tool-btn" id="pc-crop">Crop PDF</button>
+              <button type="button" class="tool-btn tool-btn-secondary" id="pc-trim">Trim white margins</button>
+              <button type="button" class="tool-btn tool-btn-secondary" id="pc-reset">Reset to full page</button>
+              <button type="button" class="tool-btn tool-btn-secondary" id="pc-change">Choose another PDF</button>
+            </div>
+
+            <div id="pc-progress" class="tool-progress" hidden>
+              <p id="pc-progress-text" class="tool-progress-text">Working…</p>
+              <div class="tool-progress-bar"><div id="pc-progress-fill" class="tool-progress-fill"></div></div>
+              <p id="pc-progress-detail" class="tool-progress-detail"></p>
+            </div>
+
+            <div id="pc-result" class="pc-result" hidden>
+              <p id="pc-result-text" class="pc-result-text"></p>
+              <button type="button" class="tool-btn" id="pc-download">Download cropped PDF</button>
+            </div>
+
+            <p class="tool-error" id="pc-error" hidden></p>
+
+            <p class="tool-note">Cropping sets the page CropBox, so viewers show only the area you kept. The content outside it is hidden, not deleted — do not use a crop to hide sensitive text.</p>
+          </div>
+        </div>
       </div>
     </ToolShell>
   </Layout>
 </Base>
 
 <style is:global>
+  .pc-dropzone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 3rem 1.5rem; text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .pc-dropzone:hover, .pc-dropzone.drag-over { border-color: var(--accent); background: var(--bg-soft); }
+  .pc-dropzone-title { font-weight: 600; margin: 0 0 0.25rem; }
+  .pc-dropzone-sub { color: var(--text-2); font-size: 0.875rem; margin: 0; }
+  .pc-stage-wrap { display: flex; justify-content: center; background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; margin-bottom: 0.75rem; min-height: 300px; }
+  .pc-stage { position: relative; display: inline-block; line-height: 0; max-width: 100%; touch-action: none; user-select: none; cursor: crosshair; }
+  .pc-canvas { display: block; max-width: 100%; max-height: 440px; width: auto; height: auto; background: #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12); }
+  .pc-box { position: absolute; box-sizing: border-box; border: 1px solid #fff; outline: 1px solid rgba(0, 0, 0, 0.55); box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.42); cursor: move; }
+  .pc-handle { position: absolute; width: 13px; height: 13px; background: #fff; border: 1px solid rgba(0, 0, 0, 0.55); border-radius: 3px; }
+  .pc-handle[data-handle="nw"] { top: -7px; left: -7px; cursor: nwse-resize; }
+  .pc-handle[data-handle="ne"] { top: -7px; right: -7px; cursor: nesw-resize; }
+  .pc-handle[data-handle="sw"] { bottom: -7px; left: -7px; cursor: nesw-resize; }
+  .pc-handle[data-handle="se"] { bottom: -7px; right: -7px; cursor: nwse-resize; }
+  .pc-handle[data-handle="n"] { top: -7px; left: 50%; margin-left: -7px; cursor: ns-resize; }
+  .pc-handle[data-handle="s"] { bottom: -7px; left: 50%; margin-left: -7px; cursor: ns-resize; }
+  .pc-handle[data-handle="w"] { left: -7px; top: 50%; margin-top: -7px; cursor: ew-resize; }
+  .pc-handle[data-handle="e"] { right: -7px; top: 50%; margin-top: -7px; cursor: ew-resize; }
+  .pc-pager { display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+  .pc-page-label { font-size: 0.875rem; color: var(--text-2); min-width: 9rem; text-align: center; }
+  .pc-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin-bottom: 0.75rem; }
+  .pc-field { display: flex; flex-direction: column; gap: 0.25rem; }
+  .pc-field .tool-input, .pc-field .tool-select { width: 100%; }
+  .pc-check { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--text-2); margin-bottom: 1rem; cursor: pointer; }
+  .pc-stats { margin-bottom: 1rem; }
+  .pc-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .pc-result { border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; background: var(--bg-soft); margin-bottom: 1rem; }
+  .pc-result-text { margin: 0 0 0.75rem; font-size: 0.9375rem; }
   .ga-dropzone, .ef-dropzone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 2rem; text-align: center; cursor: pointer; }
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/crop-pdf.js"></script>
+<script src="../tools/crop-pdf.js"></script>

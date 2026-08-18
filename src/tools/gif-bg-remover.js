@@ -1,4 +1,5 @@
 import { hexToRgb, rgbToHex, isColorMatch, buildTransparentFrame, findOrAddTransparentIndex } from './gif-bg-remover-core.js'
+import { streamGifFrames, STALE_LOAD } from './gif-shared.js'
 
 ;(function () {
   'use strict'
@@ -36,6 +37,7 @@ import { hexToRgb, rgbToHex, isColorMatch, buildTransparentFrame, findOrAddTrans
   var previewUrl = null
   var resultBlobUrl = null
   var parsedFrames = null
+  var loadSeq = 0
   var gifWidth = 0
   var gifHeight = 0
   var targetColor = { r: 255, g: 255, b: 255 }
@@ -85,27 +87,22 @@ import { hexToRgb, rgbToHex, isColorMatch, buildTransparentFrame, findOrAddTrans
       progressFill.style.width = '10%'
       progressDetail.textContent = 'Loading decoder...'
 
-      var arrayBuffer = await file.arrayBuffer()
-      var gifuctJs = await loadGifuct()
-      var gif = gifuctJs.parseGIF(arrayBuffer)
-      var frames = gifuctJs.decompressFrames(gif, true)
+      var seq = ++loadSeq
+      var isCurrent = function () { return seq === loadSeq }
 
-      if (!frames || frames.length === 0) {
-        showError('Could not parse GIF frames.')
-        return
-      }
+      var parsed = await streamGifFrames(file, {
+        isCurrent: isCurrent,
+        onProgress: function (done, total) {
+          progressDetail.textContent = 'Compositing frame ' + (done + 1) + ' / ' + total + '...'
+          progressFill.style.width = (10 + Math.round((done / total) * 20)) + '%'
+        },
+      })
+      if (!isCurrent()) return
 
-      // Composite frames to full RGBA
-      gifWidth = frames[0].dims.width
-      gifHeight = frames[0].dims.height
-      // Use the GIF logical screen size if available
-      if (gif.lsd && gif.lsd.width) gifWidth = gif.lsd.width
-      if (gif.lsd && gif.lsd.height) gifHeight = gif.lsd.height
-
-      progressDetail.textContent = 'Compositing ' + frames.length + ' frames...'
-      progressFill.style.width = '30%'
-
-      parsedFrames = compositeFrames(frames, gifWidth, gifHeight)
+      parsedFrames = parsed.parsedFrames
+      gifWidth = parsed.width
+      gifHeight = parsed.height
+      if (parsed.notice) progressDetail.textContent = parsed.notice
 
       // Draw first frame on pick canvas
       pickCanvas.width = gifWidth
@@ -114,65 +111,18 @@ import { hexToRgb, rgbToHex, isColorMatch, buildTransparentFrame, findOrAddTrans
       var imgData = new ImageData(new Uint8ClampedArray(parsedFrames[0].rgba), gifWidth, gifHeight)
       ctx.putImageData(imgData, 0, 0)
 
-      statsEl.innerHTML = '<strong>' + frames.length + '</strong> frames \u2014 ' + gifWidth + '\u00d7' + gifHeight
+      statsEl.innerHTML = '<strong>' + parsed.rawFrames.length + '</strong> frames \u2014 ' +
+        parsed.sourceWidth + '\u00d7' + parsed.sourceHeight
 
       // Set default color to white
       setColor(255, 255, 255)
 
       showState('configure')
     } catch (err) {
+      if (err && err.message === STALE_LOAD) return
       console.error('GIF parse error:', err)
       showError('Failed to parse GIF: ' + (err.message || String(err)))
     }
-  }
-
-  // ── gifuct-js loader ──
-  var gifuctModule = null
-  async function loadGifuct() {
-    if (gifuctModule) return gifuctModule
-    var mod = await import('https://cdn.jsdelivr.net/npm/gifuct-js@2.1.2/+esm')
-    gifuctModule = { parseGIF: mod.parseGIF, decompressFrames: mod.decompressFrames }
-    return gifuctModule
-  }
-
-  // ── Frame compositing ──
-  function compositeFrames(frames, w, h) {
-    var canvas = document.createElement('canvas')
-    canvas.width = w
-    canvas.height = h
-    var ctx = canvas.getContext('2d')
-    var result = []
-
-    for (var i = 0; i < frames.length; i++) {
-      var frame = frames[i]
-      var patch = new ImageData(
-        new Uint8ClampedArray(frame.patch),
-        frame.dims.width,
-        frame.dims.height
-      )
-
-      // Create temp canvas for the patch
-      var tmpCanvas = document.createElement('canvas')
-      tmpCanvas.width = frame.dims.width
-      tmpCanvas.height = frame.dims.height
-      var tmpCtx = tmpCanvas.getContext('2d')
-      tmpCtx.putImageData(patch, 0, 0)
-
-      ctx.drawImage(tmpCanvas, frame.dims.left, frame.dims.top)
-
-      var fullFrame = ctx.getImageData(0, 0, w, h)
-      result.push({
-        rgba: new Uint8ClampedArray(fullFrame.data),
-        delay: frame.delay,
-      })
-
-      // Handle disposal
-      if (frame.disposalType === 2) {
-        ctx.clearRect(frame.dims.left, frame.dims.top, frame.dims.width, frame.dims.height)
-      }
-    }
-
-    return result
   }
 
   // ── Color picking ──

@@ -24,6 +24,13 @@ const loadDiscoveryCSS = scope !== 'tool'
 // to a known tool slug. Schema can opt out by setting dateModified themselves.
 const canonicalSlug = canonical.replace(/^https?:\/\/maratool\.com\//, '').replace(/\/$/, '')
 const inferredLastmod = lastmodBySlug[canonicalSlug]
+
+// health-tools.css only styles HealthCalc/ScoreCalc pages. Loading it on the
+// other ~400 pages is a wasted request on every one of them.
+const loadHealthCSS =
+  canonicalSlug === 'health' ||
+  canonicalSlug.startsWith('health/') ||
+  tools.find(t => t.slug === canonicalSlug)?.category === 'Health'
 const enrichedSchema = (
   inferredLastmod && !('dateModified' in schema)
     ? { ...schema, dateModified: inferredLastmod }
@@ -37,19 +44,21 @@ const VERTICAL_OG = [
   'developer', 'health', 'image', 'text', 'color',
   'converter', 'marketing', 'mockup', 'pdf',
 ]
+// PNG, not SVG: Facebook, LinkedIn and X refuse to render SVG og:image and
+// show a blank preview instead. scripts/gen-og-images.mjs emits both.
 function ogImageForCanonical(): string {
   const path = canonicalSlug
   // /developer, /developer/foo, /health, /health/bar, etc.
   const first = path.split('/')[0]?.toLowerCase()
   if (first && VERTICAL_OG.includes(first)) {
-    return `https://maratool.com/og/${first}.svg`
+    return `https://maratool.com/og/${first}.png`
   }
   // Tool slug — look up category.
   const tool = tools.find(t => t.slug === path)
   if (tool) {
     const cat = tool.category.toLowerCase()
     if (VERTICAL_OG.includes(cat)) {
-      return `https://maratool.com/og/${cat}.svg`
+      return `https://maratool.com/og/${cat}.png`
     }
   }
   return 'https://maratool.com/og-image.png'
@@ -110,6 +119,9 @@ const normalizedBreadcrumb = breadcrumbSchema
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:site_name" content="maratool" />
 
     <!-- Twitter Card -->
@@ -131,7 +143,7 @@ const normalizedBreadcrumb = breadcrumbSchema
     <link rel="stylesheet" href={styleHref('global.css')} />
     <link rel="stylesheet" href={styleHref('layout.css')} />
     <link rel="stylesheet" href={styleHref('tools.css')} />
-    <link rel="stylesheet" href={styleHref('health-tools.css')} />
+    {loadHealthCSS && <link rel="stylesheet" href={styleHref('health-tools.css')} />}
     <link rel="stylesheet" href={styleHref('discovery-shared.css')} />
     {loadDiscoveryCSS && <link rel="stylesheet" href={styleHref('discovery.css')} />}
 
@@ -147,7 +159,7 @@ const normalizedBreadcrumb = breadcrumbSchema
     <!-- BreadcrumbList JSON-LD (optional) -->
     {normalizedBreadcrumb && <script type="application/ld+json" set:html={JSON.stringify(normalizedBreadcrumb)} />}
 
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#f5f4f1" />
   </head>
   <body>
     <slot />
@@ -156,7 +168,7 @@ const normalizedBreadcrumb = breadcrumbSchema
         var s = document.createElement('script')
         s.src = 'https://marapulse.com/widget.js'
         s.setAttribute('data-board', '218bd8fb-7300-47c3-8c62-6a1746688729')
-        s.setAttribute('data-color', '#2563eb')
+        s.setAttribute('data-color', '#c4553a')
         document.body.appendChild(s)
       }
     </script>

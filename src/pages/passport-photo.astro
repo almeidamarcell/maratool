@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Passport Photo Maker Online | maratool',
-  description: 'Passport Photo Maker Online. Free, runs in your browser — no upload to servers.',
+  description: 'Make passport photos online. Crop your picture to standard passport and visa sizes and download a print-ready image. Free, no upload, runs in-browser.',
   canonical: 'https://maratool.com/passport-photo',
   schema: {
     '@context': 'https://schema.org',
@@ -15,37 +15,37 @@ const seo = {
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Passport Photo Maker Online. Free, runs in your browser — no upload to servers.',
+    description: 'Make passport photos online. Crop your picture to standard passport and visa sizes and download a print-ready image. Free, no upload, runs in-browser.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
-      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
-      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+      { '@type': 'Question', name: 'What size does it produce?', acceptedAnswer: { '@type': 'Answer', text: 'Pick from the preset list, which covers the common document sizes including US two by two inches and EU thirty-five by forty-five millimetres. The output is scaled to the exact proportions of the one you choose.' } },
+      { '@type': 'Question', name: 'What are the guides for?', acceptedAnswer: { '@type': 'Answer', text: 'They mark where the top of the head and the eye line are supposed to fall. Most rejected photos fail on head size or eye height, so line yours up against them before downloading.' } },
+      { '@type': 'Question', name: 'Does this guarantee my photo will be accepted?', acceptedAnswer: { '@type': 'Answer', text: 'No. It sizes and frames the photo correctly, but it cannot judge lighting, shadows, expression or glare on glasses, and it does not detect faces. Check the requirements your issuing authority publishes.' } },
+      { '@type': 'Question', name: 'Is my photo uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. The crop and resize happen on a canvas in your browser, which matters more than usual for an identity document.' } },
     ],
   },
 }
 
 const howTo = [
-  'Upload or drop your file.',
-  'Adjust settings if needed.',
-  'Click Process and download the result.',
+  'Drop in a head-and-shoulders photo taken against a plain wall.',
+  'Pick the document size, then zoom and drag until your head sits inside the guides.',
+  'Choose a white or light blue background and download the sized photo.',
 ]
 
 const faq = [
-  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
-  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
-  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
-  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+  { q: 'What size does it produce?', a: 'Pick from the preset list, which covers the common document sizes including US two by two inches and EU thirty-five by forty-five millimetres. The output is scaled to the exact proportions of the one you choose.' },
+  { q: 'What are the guides for?', a: 'They mark where the top of the head and the eye line are supposed to fall. Most rejected photos fail on head size or eye height, so line yours up against them before downloading.' },
+  { q: 'Does this guarantee my photo will be accepted?', a: 'No. It sizes and frames the photo correctly, but it cannot judge lighting, shadows, expression or glare on glasses, and it does not detect faces. Check the requirements your issuing authority publishes.' },
+  { q: 'Is my photo uploaded?', a: 'No. The crop and resize happen on a canvas in your browser, which matters more than usual for an identity document.' },
 ]
 
 const relatedTools = [
-  { slug: 'gif-maker', name: 'GIF Maker' },
-  { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'video-to-gif', name: 'Video to GIF' },
+  { slug: 'crop-image', name: 'Crop Image Online' },
+  { slug: 'resize-image', name: 'Resize Image Online' },
+  { slug: 'background-remover', name: 'Background Remover' },
 ]
 
 const breadcrumbs = [
@@ -57,7 +57,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="passport-photo" name="Passport Photo Maker Online" description="Passport Photo Maker Online. Free, runs in your browser — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="passport-photo" name="Passport Photo Maker Online" description="Size a photo to a passport or visa format with head and eye-line guides, adjustable zoom and a white or light blue background." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container" style="min-height:420px;" data-ui="passport-photo">
         <p class="tool-hint">Upload a file to get started. Processing runs entirely in your browser.</p>
         <div id="ez-root" data-slug="passport-photo"></div>
@@ -71,4 +71,4 @@ const breadcrumbs = [
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/passport-photo.js"></script>
+<script src="../tools/passport-photo.js"></script>

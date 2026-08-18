@@ -229,6 +229,13 @@
               cardEl.classList.remove('copied')
               hexEl.textContent = orig
             }, 2000)
+          }).catch(function () {
+            var hexEl = cardEl.querySelector('.cbs-swatch-hex')
+            var orig = hexEl.textContent
+            hexEl.textContent = 'Copy failed'
+            setTimeout(function () {
+              hexEl.textContent = orig
+            }, 2000)
           })
         })
       })(simHex, card)

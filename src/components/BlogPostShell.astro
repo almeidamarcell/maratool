@@ -10,7 +10,7 @@ const { title, lead, date, dateIso } = Astro.props
 <article class="blog-post">
   <header class="blog-post-header">
     <div class="blog-post-meta">
-      <a href="/blog" class="blog-back">&larr; Blog</a>
+      <a href="/blog/" class="blog-back">&larr; Blog</a>
       <time datetime={dateIso} class="blog-post-date">{date}</time>
       <span class="blog-post-author">by <a href="https://marcell.com.br/" target="_blank" rel="noopener">Marcell Almeida</a></span>
     </div>
@@ -88,6 +88,23 @@ const { title, lead, date, dateIso } = Astro.props
     gap: 0.375rem;
   }
   .blog-body li { line-height: 1.6; }
+  .blog-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5rem 0 1.25rem;
+    font-size: 14px;
+  }
+  .blog-body th, .blog-body td {
+    text-align: left;
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+  }
+  .blog-body th {
+    font-weight: 600;
+    color: var(--text-2);
+    font-size: 13px;
+  }
   .blog-body code {
     font-family: var(--font-mono, monospace);
     font-size: 13px;

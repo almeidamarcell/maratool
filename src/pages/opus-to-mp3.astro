@@ -1,0 +1,326 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Opus to MP3 Converter — Free, No Upload | maratool',
+  description: 'Convert Opus audio to MP3 in your browser, including WhatsApp voice messages. Pick a bitrate, convert, and download — no upload, no sign-up, no watermark.',
+  canonical: 'https://maratool.com/opus-to-mp3',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Convert Opus to MP3',
+    url: 'https://maratool.com/opus-to-mp3',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert Opus audio files (including WhatsApp voice messages) to MP3 entirely in your browser. No upload, no signup, no watermark.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Audio', item: 'https://maratool.com/converter/audio' },
+      { '@type': 'ListItem', position: 4, name: 'Convert Opus to MP3', item: 'https://maratool.com/opus-to-mp3' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I convert a WhatsApp voice message to MP3?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Export the voice message from WhatsApp (share or save it — it will be an .opus file), then drop it into this tool, choose a bitrate, and download the MP3. The conversion happens in your browser; the recording is never uploaded anywhere.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is an .opus file?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Opus is a modern audio codec optimized for speech and low bandwidth. WhatsApp, Discord, Telegram, and Signal all use it for voice messages. It sounds great at tiny file sizes, but many players and editors still cannot open it — which is why converting to MP3 is so common.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does Opus to MP3 conversion lose quality?',
+        acceptedAnswer: { '@type': 'Answer', text: 'A little — both formats are lossy, so re-encoding discards some detail. For voice messages the difference is inaudible at 128 kbps or higher. Choose 192 kbps if you want a safe default.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Are my voice messages uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. The conversion runs entirely in your browser using FFmpeg compiled to WebAssembly. Your recordings never leave your device — there is no upload, no server, and no account.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop an Opus file or click to select one (.opus and .ogg both work).',
+  'Choose the MP3 bitrate — 128 kbps is plenty for voice messages.',
+  'Click "Convert to MP3" and download the result.'
+]
+
+const faq = [
+  { q: 'How do I convert a WhatsApp voice message to MP3?', a: 'Export the voice message from WhatsApp (share or save it — it will be an .opus file), then drop it into this tool, choose a bitrate, and download the MP3. The conversion happens in your browser; the recording is never uploaded anywhere.' },
+  { q: 'What is an .opus file?', a: 'Opus is a modern audio codec optimized for speech and low bandwidth. WhatsApp, Discord, Telegram, and Signal all use it for voice messages. It sounds great at tiny file sizes, but many players and editors still cannot open it — which is why converting to MP3 is so common.' },
+  { q: 'Does Opus to MP3 conversion lose quality?', a: 'A little — both formats are lossy, so re-encoding discards some detail. For voice messages the difference is inaudible at 128 kbps or higher. Choose 192 kbps if you want a safe default.' },
+  { q: 'Are my voice messages uploaded to a server?', a: 'No. The conversion runs entirely in your browser using FFmpeg compiled to WebAssembly. Your recordings never leave your device — there is no upload, no server, and no account.' },
+]
+
+const relatedTools = [
+  { slug: 'ogg-to-mp3', name: 'OGG to MP3 Converter' },
+  { slug: 'mp4-to-mp3', name: 'MP4 to MP3 Converter' },
+  { slug: 'compress-audio', name: 'Compress Audio Online' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Audio', href: '/converter/audio' },
+  { label: 'Convert Opus to MP3' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="opus-to-mp3" name="Convert Opus to MP3" description="Convert Opus audio files to MP3 in your browser — including WhatsApp voice messages. No upload, no signup — files never leave your device." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:400px;">
+        <!-- Mobile banner -->
+        <div class="o3-mobile-banner" id="o3-mobile-banner" style="display:none;">
+          <span>This works on mobile but is faster on desktop. Files above 100 MB may fail on phones.</span>
+          <button type="button" class="o3-mobile-banner-dismiss" id="o3-mobile-banner-dismiss" aria-label="Dismiss">&times;</button>
+        </div>
+
+        <!-- Drop zone -->
+        <div class="o3-dropzone" id="o3-dropzone">
+          <input type="file" id="o3-file-input" accept=".opus,.ogg,.oga,audio/opus,audio/ogg,application/ogg" hidden />
+          <div class="o3-dropzone-inner">
+            <svg class="o3-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <p class="o3-dropzone-title">Drop an Opus file here</p>
+            <p class="o3-dropzone-sub">or click to select a file — WhatsApp voice messages work too</p>
+            <p class="o3-dropzone-formats">Opus, OGG, OGA — up to 500 MB</p>
+          </div>
+        </div>
+
+        <div class="o3-info" id="o3-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>The FFmpeg engine (~25 MB) downloads on first use and is cached by your browser. Audio is converted entirely in-browser — nothing is uploaded.</span>
+        </div>
+
+        <!-- Settings -->
+        <div class="o3-settings" id="o3-settings" style="display:none;">
+          <div class="o3-file-row">
+            <div class="o3-audio-wrap" id="o3-audio-wrap">
+              <audio id="o3-audio" controls preload="metadata"></audio>
+            </div>
+            <div class="o3-metadata">
+              <div class="o3-stat o3-stat-wide">
+                <span class="o3-stat-value" id="o3-filename">—</span>
+                <span class="o3-stat-label">File</span>
+              </div>
+              <div class="o3-stat">
+                <span class="o3-stat-value" id="o3-duration">—</span>
+                <span class="o3-stat-label">Duration</span>
+              </div>
+              <div class="o3-stat">
+                <span class="o3-stat-value" id="o3-filesize">—</span>
+                <span class="o3-stat-label">File size</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="o3-section">
+            <span class="o3-section-label">Output quality</span>
+            <div class="o3-bitrate-row">
+              <label class="o3-label" for="o3-bitrate">MP3 bitrate</label>
+              <select id="o3-bitrate" class="o3-select">
+                <option value="128">128 kbps — smaller file, good for voice</option>
+                <option value="192" selected>192 kbps — recommended</option>
+                <option value="320">320 kbps — highest quality</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="o3-actions">
+            <button class="tool-button" id="o3-convert">Convert to MP3</button>
+            <button class="copy-btn" id="o3-change">Change file</button>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="o3-progress" id="o3-progress" style="display:none;">
+          <div class="o3-progress-text" id="o3-progress-text">Loading FFmpeg...</div>
+          <div class="o3-progress-track">
+            <div class="o3-progress-fill" id="o3-progress-fill"></div>
+          </div>
+          <div class="o3-progress-detail" id="o3-progress-detail"></div>
+        </div>
+
+        <!-- Error -->
+        <div class="o3-error" id="o3-error" style="display:none;">
+          <span class="o3-error-text" id="o3-error-text"></span>
+          <button class="o3-error-retry" id="o3-error-retry">Try again</button>
+        </div>
+
+        <!-- Result -->
+        <div class="o3-result" id="o3-result" style="display:none;">
+          <div class="o3-result-preview">
+            <audio id="o3-result-audio" controls></audio>
+          </div>
+          <div class="o3-result-stats" id="o3-result-stats"></div>
+          <div class="o3-result-actions">
+            <button class="tool-button" id="o3-download">Download MP3</button>
+            <button class="copy-btn" id="o3-new">Convert another</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  /* Mobile banner */
+  .o3-mobile-banner {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+    padding: 0.625rem 0.875rem; margin-bottom: 1rem;
+    background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius);
+    font-size: 0.8125rem; color: var(--text-2);
+  }
+  .o3-mobile-banner-dismiss {
+    background: none; border: none; font-size: 1.25rem; line-height: 1; cursor: pointer;
+    color: var(--text-3); padding: 0 0.25rem;
+  }
+  .o3-mobile-banner-dismiss:hover { color: var(--text); }
+
+  /* Dropzone */
+  .o3-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .o3-dropzone:hover, .o3-dropzone.drag-over {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .o3-dropzone-inner {
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  }
+  .o3-upload-icon { color: var(--text-3); margin-bottom: 0.5rem; }
+  .o3-dropzone-title { font-size: 1.125rem; font-weight: 600; color: var(--text); margin: 0; }
+  .o3-dropzone-sub { font-size: 0.875rem; color: var(--text-2); margin: 0; }
+  .o3-dropzone-formats { font-size: 0.75rem; color: var(--text-3); margin: 0.25rem 0 0; }
+
+  .o3-info {
+    display: flex; align-items: flex-start; gap: 0.5rem;
+    padding: 0.75rem 1rem; background: var(--bg-soft);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    margin-top: 1rem; font-size: 0.8125rem; color: var(--text-2); line-height: 1.5;
+  }
+  .o3-info svg { flex-shrink: 0; margin-top: 1px; color: var(--text-3); }
+
+  /* Settings */
+  .o3-file-row {
+    display: flex; gap: 1.5rem; margin-bottom: 1.25rem; align-items: center;
+  }
+  .o3-audio-wrap { flex: 1; min-width: 0; }
+  .o3-audio-wrap audio { width: 100%; }
+  .o3-metadata {
+    display: flex; flex-direction: column; gap: 1rem; min-width: 130px; max-width: 45%;
+  }
+  .o3-stat { display: flex; flex-direction: column; gap: 0.125rem; }
+  .o3-stat-value {
+    font-size: 1.125rem; font-weight: 600; color: var(--text);
+    font-family: var(--font-mono);
+  }
+  .o3-stat-wide .o3-stat-value {
+    font-size: 0.875rem; word-break: break-all;
+  }
+  .o3-stat-label {
+    font-size: 0.75rem; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+
+  .o3-section {
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem;
+  }
+  .o3-section-label {
+    display: block; font-size: 0.8125rem; font-weight: 600;
+    color: var(--text-2); text-transform: uppercase;
+    letter-spacing: 0.05em; margin-bottom: 0.75rem;
+  }
+  .o3-bitrate-row { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+  .o3-label { font-size: 0.75rem; color: var(--text-3); white-space: nowrap; }
+  .o3-select {
+    flex: 1; min-width: 200px; padding: 7px 10px; font-size: 0.875rem;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--bg); color: var(--text); cursor: pointer;
+  }
+  .o3-select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .o3-actions {
+    display: flex; gap: 0.75rem; align-items: center; margin-top: 0.25rem;
+  }
+
+  /* Progress */
+  .o3-progress { text-align: center; padding: 2rem; }
+  .o3-progress-text {
+    font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 1rem;
+  }
+  .o3-progress-track {
+    width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover);
+    border-radius: 4px; margin: 0 auto; overflow: hidden;
+  }
+  .o3-progress-fill {
+    height: 100%; background: var(--accent); border-radius: 4px;
+    width: 0%; transition: width 0.3s;
+  }
+  .o3-progress-detail {
+    font-size: 0.75rem; color: var(--text-3); margin-top: 0.5rem;
+  }
+
+  /* Error */
+  .o3-error {
+    background: var(--error-bg); border: 1px solid var(--error-border);
+    border-radius: var(--radius); padding: 1rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .o3-error-text { color: #c53030; font-size: 0.875rem; }
+  .o3-error-retry {
+    padding: 6px 14px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; font-size: 0.8125rem; cursor: pointer; white-space: nowrap;
+    color: var(--text);
+  }
+  .o3-error-retry:hover { background: var(--bg-hover); }
+
+  /* Result */
+  .o3-result-preview {
+    text-align: center; margin-bottom: 0.75rem;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 1.25rem 1rem; min-height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-soft);
+  }
+  .o3-result-preview audio { width: 100%; max-width: 480px; }
+  .o3-result-stats {
+    font-size: 0.875rem; color: var(--text-2); margin-bottom: 0.75rem;
+    text-align: center; line-height: 1.6;
+  }
+  .o3-result-actions {
+    display: flex; gap: 0.75rem; align-items: center; justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .o3-file-row { flex-direction: column; align-items: stretch; }
+    .o3-metadata { flex-direction: row; min-width: 0; max-width: none; flex-wrap: wrap; }
+    .o3-bitrate-row { flex-direction: column; align-items: stretch; }
+    .o3-select { min-width: 0; }
+  }
+</style>
+<script src="../tools/ogg-to-mp3.js"></script>

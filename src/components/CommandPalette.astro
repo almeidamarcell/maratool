@@ -130,7 +130,7 @@
   }
 
   function renderRow(tool: PaletteTool, idx: number, query: string): string {
-    return '<a class="cmd-row" href="/' + tool.slug + '" data-index="' + idx + '" data-slug="' + tool.slug + '">' +
+    return '<a class="cmd-row" href="/' + tool.slug + '/" data-index="' + idx + '" data-slug="' + tool.slug + '">' +
       '<span class="cmd-row-emoji">' + escapeHtml(tool.emoji) + '</span>' +
       '<span class="cmd-row-body">' +
         '<span class="cmd-row-name">' + highlight(tool.name, query) + '</span>' +

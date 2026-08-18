@@ -1,0 +1,108 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Torque Converter — Nm to Ft-Lb & More | maratool',
+  description: 'Convert newton-meters to foot-pounds, inch-pounds, and kgf·m instantly using exact NIST factors. Free torque unit converter that runs in your browser.',
+  canonical: 'https://maratool.com/torque-converter',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Torque Converter — Nm to Ft-Lb',
+    url: 'https://maratool.com/torque-converter',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert newton-meters to foot-pounds, inch-pounds, and kgf·m instantly using exact NIST factors. Free torque unit converter that runs in your browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Unit', item: 'https://maratool.com/converter/unit' },
+      { '@type': 'ListItem', position: 4, name: 'Torque Converter — Nm to Ft-Lb', item: 'https://maratool.com/torque-converter' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do I convert newton-meter to foot-pound?', acceptedAnswer: { '@type': 'Answer', text: '1 newton-meter = 0.737562 foot-pound. Choose "Newton-meter (N·m)" as From and "Foot-pound (ft·lbf)" as To, type a value, and the result updates instantly.' } },
+      { '@type': 'Question', name: 'What torque is 100 Nm in ft-lb?', acceptedAnswer: { '@type': 'Answer', text: '100 N·m = 73.76 ft·lbf. Going the other way, 100 ft·lbf = 135.58 N·m. Lug nuts on most cars spec around 90–120 N·m (66–89 ft·lbf).' } },
+      { '@type': 'Question', name: 'Are torque and energy the same unit?', acceptedAnswer: { '@type': 'Answer', text: 'Both reduce to N·m dimensionally, but torque is a rotational vector quantity and energy is scalar — a 10 N·m wrench setting is not 10 joules. This tool converts torque units only.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Conversions run entirely in your browser using fixed factors — nothing is uploaded or logged.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Choose the units to convert from and to.',
+  'Enter a value — the converted result updates instantly.',
+  'Click Copy to copy the result to your clipboard.'
+]
+
+const faq = [
+  { q: 'How do I convert newton-meter to foot-pound?', a: '1 newton-meter = 0.737562 foot-pound. Choose "Newton-meter (N·m)" as From and "Foot-pound (ft·lbf)" as To, type a value, and the result updates instantly.' },
+  { q: 'What torque is 100 Nm in ft-lb?', a: '100 N·m = 73.76 ft·lbf. Going the other way, 100 ft·lbf = 135.58 N·m. Lug nuts on most cars spec around 90–120 N·m (66–89 ft·lbf).' },
+  { q: 'Are torque and energy the same unit?', a: 'Both reduce to N·m dimensionally, but torque is a rotational vector quantity and energy is scalar — a 10 N·m wrench setting is not 10 joules. This tool converts torque units only.' },
+  { q: 'Is my data sent to a server?', a: 'No. Conversions run entirely in your browser using fixed factors — nothing is uploaded or logged.' }
+]
+
+const relatedTools = [
+  { slug: 'force-converter', name: 'Force Converter' },
+  { slug: 'power-converter', name: 'Power Converter' },
+  { slug: 'tire-size-calculator', name: 'Tire Size Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Unit', href: '/converter/unit' },
+  { label: 'Torque Converter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="torque-converter" name="Torque Converter — Nm to Ft-Lb" description="Convert between newton-meters, foot-pounds, inch-pounds, and kilogram-force meters using exact NIST factors." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:340px;">
+        <div class="uc-converter">
+          <div class="uc-col">
+            <label class="tool-label" for="tqc-from-unit">From</label>
+            <select id="tqc-from-unit" class="uc-select"></select>
+            <input type="number" id="tqc-from-value" class="tool-input uc-value" placeholder="1" step="any" />
+          </div>
+          <div class="uc-swap-col">
+            <button class="uc-swap-btn" id="tqc-swap" title="Swap units">&hArr;</button>
+          </div>
+          <div class="uc-col">
+            <label class="tool-label" for="tqc-to-unit">To</label>
+            <select id="tqc-to-unit" class="uc-select"></select>
+            <div class="uc-result" id="tqc-result">&mdash;</div>
+            <button class="copy-btn" id="tqc-copy">Copy</button>
+          </div>
+        </div>
+        <div class="tool-note"><strong>How this conversion works.</strong> Every unit is converted through the newton-meter (SI) with exact factors from <a href="https://www.nist.gov/pml/special-publication-811" rel="noopener" target="_blank">NIST Special Publication 811</a>.</div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .uc-converter { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: start; }
+  .uc-col { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+  .uc-select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font-size: 14px; margin-bottom: 0.75rem; cursor: pointer; }
+  .uc-value { width: 100%; font-size: 18px; font-family: var(--font-mono); }
+  .uc-result { font-size: 24px; font-weight: 700; font-family: var(--font-mono); color: var(--text); margin-bottom: 0.5rem; min-height: 36px; word-break: break-all; }
+  .uc-swap-col { display: flex; align-items: center; padding-top: 2rem; }
+  .uc-swap-btn { width: 40px; height: 40px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text-2); font-size: 18px; cursor: pointer; transition: background 0.1s; }
+  .uc-swap-btn:hover { background: var(--bg-soft); }
+  @media (max-width: 600px) {
+    .uc-converter { grid-template-columns: 1fr; }
+    .uc-swap-col { justify-content: center; padding-top: 0; }
+  }
+</style>
+<script src="../tools/torque-converter.js"></script>

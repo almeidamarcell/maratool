@@ -450,3 +450,15 @@ describe('exercise detail page renders the new copy in the right place', () => {
     expect(page.match(/'@type': 'HowTo'/g) ?? []).toHaveLength(1)
   })
 })
+
+// The browser page's meta description must be an inline literal (the
+// registry-wide SEO invariant parses it statically), so its exercise count is
+// hardcoded rather than derived. This pins it to the real dataset.
+describe('browser page copy stays in sync with the dataset', () => {
+  test('the hardcoded count in the meta description matches exercises.length', () => {
+    const src = readFileSync(resolve(ROOT, 'src/pages/exercises/index.astro'), 'utf-8')
+    const m = src.match(/description = 'Browse ([\d,]+) exercises/)
+    expect(m, 'could not find the inline description literal').not.toBeNull()
+    expect(Number(m[1].replace(/,/g, ''))).toBe(exercises.length)
+  })
+})

@@ -1,0 +1,93 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'frequency-converter'
+const seo = {
+  title: 'Frequency converter — Hz, kHz, MHz, RPM | maratool',
+  description: 'Convert hertz, kilohertz, megahertz, RPM, and rad/s instantly. Free browser frequency converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert Hz to RPM and rad/s',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert hertz, kilohertz, megahertz, RPM, and rad/s instantly. Free browser frequency converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert Hz to RPM and rad/s', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert Hz to RPM and rad/s"
+      lead="Type a frequency — read Hz, kHz, MHz, GHz, RPM, or rad/s instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Clock speeds read GHz, motors read RPM, music reads BPM, and control theory reads rad/s. The <a href="/frequency-converter/">Frequency Converter</a> converts between all of them through the hertz.</p>
+
+      <BlogToolEmbed slug="frequency-converter" title="Try it — convert frequency units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Hertz (Hz)" to "Revolutions per minute (RPM)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Frequency conversion factors</h2>
+      <p>Every unit converts through the hertz (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many hertzs</th></tr></thead>
+        <tbody>
+        <tr><td>Hertz (Hz)</td><td>1</td></tr>
+        <tr><td>Kilohertz (kHz)</td><td>1,000</td></tr>
+        <tr><td>Megahertz (MHz)</td><td>1,000,000</td></tr>
+        <tr><td>Gigahertz (GHz)</td><td>1.0000 × 10^9</td></tr>
+        <tr><td>Revolutions per minute (RPM)</td><td>0.016666666667</td></tr>
+        <tr><td>Beats per minute (BPM)</td><td>0.016666666667</td></tr>
+        <tr><td>Radian per second (rad/s)</td><td>0.159154943092</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>Anchors worth knowing: 1 Hz = 60 RPM, mains power is 50 or 60 Hz (3,000/3,600 RPM for synchronous motors), audible sound spans ~20 Hz–20 kHz, and Wi-Fi channels sit at 2.4 and 5 GHz.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.bipm.org/en/publications/si-brochure" rel="noopener" target="_blank">BIPM SI Brochure</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/angle-converter/">How to convert degrees to radians (and gradians)</a></li>
+        <li><a href="/blog/bandwidth-converter/">How to convert Mbps to MB/s (bits vs bytes, decimal vs binary)</a></li>
+        <li><a href="/blog/area-converter/">How to convert square feet to square meters (and any area unit)</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters/">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/frequency-converter/">Frequency Converter</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter/">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

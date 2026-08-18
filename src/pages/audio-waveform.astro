@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Audio Waveform Image Generator | maratool',
-  description: 'Audio Waveform Image Generator. Free, runs in your browser — no upload to servers.',
+  description: 'Generate a waveform image from any audio file in your browser. Customize colors and size, then download as PNG. Free, no upload to servers, no sign-up.',
   canonical: 'https://maratool.com/audio-waveform',
   schema: {
     '@context': 'https://schema.org',
@@ -15,7 +15,7 @@ const seo = {
     applicationCategory: 'UtilitiesApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Audio Waveform Image Generator. Free, runs in your browser — no upload to servers.',
+    description: 'Generate a waveform image from any audio file in your browser. Customize colors and size, then download as PNG. Free, no upload to servers, no sign-up.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
@@ -71,4 +71,4 @@ const breadcrumbs = [
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/audio-waveform.js"></script>
+<script src="../tools/audio-waveform.js"></script>

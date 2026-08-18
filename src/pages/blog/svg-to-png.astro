@@ -1,0 +1,84 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'svg-to-png'
+const seo = {
+  title: 'How to convert SVG to PNG at 1x, 2x, 3x and 4x | maratool',
+  description: 'Rasterize an SVG to PNG at any pixel size in the browser. Paste markup or drop a file, lock the aspect ratio, keep the background transparent.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert SVG to PNG at 1x, 2x, 3x, and 4x',
+    image: 'https://maratool.com/og/image.png',
+    datePublished: '2026-08-15',
+    dateModified: '2026-08-15',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'How to rasterize SVG markup or an SVG file to PNG at exact pixel sizes, including retina multipliers and the no-intrinsic-size trap.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'SVG to PNG guide', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert SVG to PNG at 1x, 2x, 3x, and 4x"
+      lead="Paste the markup and type the pixel size you need. The PNG comes out of your own browser, with no design app in the loop."
+      date="August 15, 2026"
+      dateIso="2026-08-15"
+    >
+      <p>Vectors are the right format right up until something refuses to take one. Slide decks, app store listings, README badges, email clients, older CMS uploaders: all of them want pixels. The <a href="/svg-to-png/">SVG to PNG converter</a> rasterizes the vector at whatever size you name, so a logo can go out at 512, 1024, and 2048 from the same source.</p>
+
+      <BlogToolEmbed slug="svg-to-png" title="Try it — paste SVG markup or drop a file" height={680} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Paste the markup into the box, or switch to the upload tab and drop a .svg file. The upload path reads the text and drops it into the same editor.</li>
+        <li>Set the size. Width and height start at the intrinsic size of the artwork, the aspect lock fills in the second number when you type the first, and the 1x through 4x buttons multiply the original dimensions.</li>
+        <li>Pick a background, which starts transparent, then download. The preview updates as you type and the file is named after the source plus the output dimensions.</li>
+      </ol>
+
+      <h2>Why 2x and 3x are not the same as scaling up</h2>
+      <p>Exporting at 1x and then enlarging the PNG in an image editor gives you soft edges, because the pixels that were not there have to be invented. This tool does it the other way round: the canvas is sized first, then the vector is drawn into it. At 3x the browser redraws every curve at 1536 by 1536 rather than stretching a 512 pixel bitmap. Edges stay crisp because they were never rasterized at the smaller size.</p>
+      <p>That is also why the multipliers are worth using for anything shipping to a phone. A 44 pixel icon on a 3x display needs a 132 pixel asset to look right, and the difference is obvious side by side.</p>
+
+      <h2>The SVG with no size</h2>
+      <p>An SVG only has an intrinsic size if it declares <code>width</code> and <code>height</code>, or a <code>viewBox</code>. Plenty of icons exported from Figma or hand-trimmed for the web have neither, and a browser treats those as zero by zero. Loading one into an <code>&lt;img&gt;</code> and drawing it produces an empty canvas, which is the usual explanation for "my export came out blank".</p>
+      <p>When the tool sees that case it falls back to 512 by 512 and says so above the size fields. The output is still correct, it just needs you to decide what "full size" means. If the SVG has a viewBox but no width and height, the viewBox numbers are used, which is almost always what you want.</p>
+
+      <h2>What does not come across</h2>
+      <p>Rasterizing through a blob URL puts the SVG in its own isolated document, and browsers lock that down:</p>
+      <ul>
+        <li>External references fail. An <code>&lt;image href="https://..."&gt;</code> or a stylesheet loaded with <code>@import</code> will not be fetched, and the tool reports the render failure rather than handing you a half-drawn PNG.</li>
+        <li>Web fonts are not available. Text styled with a font that lives in your CSS falls back to a system font. Convert text to outlines before exporting if the typeface matters.</li>
+        <li>Scripts inside the SVG never run. Anything animated by JavaScript renders in its initial state.</li>
+      </ul>
+      <p>Everything embedded in the file itself is fine: gradients, filters, clip paths, masks, base64 images, and <code>@font-face</code> rules with a data URI source.</p>
+
+      <h2>Shrink the source first</h2>
+      <p>If the SVG came out of a design tool it probably carries editor metadata, empty groups, and coordinates with twelve decimal places. None of that changes the PNG, but it does slow the parse on a large file. The <a href="/svg-optimizer/">SVG optimizer</a> cleans it up. Going the other direction, from a bitmap to a vector, is the job of the <a href="/image-tracer/">image tracer</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/svg-to-png/">SVG to PNG converter</a> is free and works offline after the page loads. More image tools at <a href="/image/">maratool.com/image</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

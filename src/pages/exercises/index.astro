@@ -10,7 +10,12 @@ const categoryValues = facetCounts(byCategory)
 const levelValues = facetCounts(byLevel)
 
 const total = exercises.length
-const description = `Browse ${total} exercises by muscle, equipment, category, and difficulty. Step-by-step instructions and muscle maps — free, no sign-up.`
+
+// The registry-wide description invariant parses `seo.description` statically,
+// so it must be an inline single-quoted literal rather than a template built
+// from `total`. This const carries the same text for the JSON-LD; a test pins
+// the count in it to the dataset so the two cannot drift apart.
+const description = 'Browse 1,035 exercises by muscle, equipment, category, and difficulty. Step-by-step instructions and a muscle map for every exercise — free, no sign-up.'
 
 // The facet sidebar is checkboxes, which emit no crawlable links — so nothing
 // on the site linked to any /exercises/category/ or /exercises/level/ hub and
@@ -69,8 +74,10 @@ const faqs = [
 
 const seo = {
   title: `Exercise Database — ${total} Exercises by Muscle & Equipment | maratool`,
-  description,
-  canonical: 'https://maratool.com/exercises/',
+  // Inline literal, not a derived template: the registry-wide description
+  // invariant parses this statically. A test pins the count to the dataset.
+  description: 'Browse 1,035 exercises by muscle, equipment, category, and difficulty. Step-by-step instructions and a muscle map for every exercise — free, no sign-up.',
+  canonical: 'https://maratool.com/exercises',
   schema: {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',

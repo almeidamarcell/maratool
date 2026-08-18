@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Pregnancy Due Date Calculator — Naegele’s Rule | maratool',
+  description: 'Calculate your pregnancy due date from LMP, conception date, or IVF transfer using Naegele’s rule, plus current gestational age and trimester.',
+  canonical: 'https://maratool.com/due-date-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Pregnancy Due Date Calculator',
+    url: 'https://maratool.com/due-date-calculator',
+    applicationCategory: 'HealthApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate your pregnancy due date from LMP, conception date, or IVF transfer using Naegele’s rule, plus current gestational age and trimester.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Health', item: 'https://maratool.com/health' },
+      { '@type': 'ListItem', position: 3, name: 'Obstetric', item: 'https://maratool.com/health/obstetric' },
+      { '@type': 'ListItem', position: 4, name: 'Pregnancy Due Date Calculator', item: 'https://maratool.com/due-date-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How is the due date calculated from LMP?', acceptedAnswer: { '@type': 'Answer', text: 'Naegele’s rule: due date = first day of the last menstrual period + 280 days (40 weeks), adjusted by (cycle length − 28) days for longer or shorter cycles, per ACOG Committee Opinion 700.' } },
+      { '@type': 'Question', name: 'How accurate is the estimated due date?', acceptedAnswer: { '@type': 'Answer', text: 'Only about 4–5% of babies arrive on the exact date; most are born within two weeks either side. First-trimester ultrasound is the most accurate dating method and takes precedence when it differs.' } },
+      { '@type': 'Question', name: 'How does IVF dating work?', acceptedAnswer: { '@type': 'Answer', text: 'Embryo age is known precisely: due date = transfer date + 261 days for a day-5 blastocyst or + 263 days for a day-3 embryo.' } },
+      { '@type': 'Question', name: 'When do trimesters change?', acceptedAnswer: { '@type': 'Answer', text: 'Using ACOG convention: second trimester begins at 14w0d, third at 28w0d, and full term runs 39w0d to 40w6d.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Pick the dating method — LMP, conception date, or IVF transfer.',
+  'Enter the date (and cycle length for LMP).',
+  'Read the estimated due date, gestational age today, and trimester milestones.'
+]
+
+const faq = [
+  { q: 'How is the due date calculated from LMP?', a: 'Naegele’s rule: due date = first day of the last menstrual period + 280 days (40 weeks), adjusted by (cycle length − 28) days for longer or shorter cycles, per ACOG Committee Opinion 700.' },
+  { q: 'How accurate is the estimated due date?', a: 'Only about 4–5% of babies arrive on the exact date; most are born within two weeks either side. First-trimester ultrasound is the most accurate dating method and takes precedence when it differs.' },
+  { q: 'How does IVF dating work?', a: 'Embryo age is known precisely: due date = transfer date + 261 days for a day-5 blastocyst or + 263 days for a day-3 embryo.' },
+  { q: 'When do trimesters change?', a: 'Using ACOG convention: second trimester begins at 14w0d, third at 28w0d, and full term runs 39w0d to 40w6d.' }
+]
+
+const relatedTools = [
+  { slug: 'gestational-age-lmp', name: 'Gestational Age by LMP Calculator' },
+  { slug: 'gestational-age-ultrasound', name: 'Gestational Age by Ultrasound Calculator' },
+  { slug: 'age-calculator', name: 'Age Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Health', href: '/health' },
+  { label: 'Obstetric', href: '/health/obstetric' },
+  { label: 'Due Date Calculator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="due-date-calculator" name="Pregnancy Due Date Calculator" description="Estimate the due date from last menstrual period, conception date, or IVF transfer day, with gestational age and trimester milestones." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:460px;">
+      <div class="calc-row">
+        <div class="calc-field"><label class="tool-label" for="ddc-method">Dating method</label><select id="ddc-method" class="tool-input calc-select"><option value="lmp">Last menstrual period (LMP)</option><option value="conception">Conception date</option><option value="ivf5">IVF — day-5 transfer</option><option value="ivf3">IVF — day-3 transfer</option></select></div>
+        <div class="calc-field"><label class="tool-label" for="ddc-date">Date</label><input type="date" id="ddc-date" class="tool-input" /></div>
+      </div>
+      <div class="calc-field" id="ddc-cycle-wrap"><label class="tool-label" for="ddc-cycle">Average cycle length (days)</label><input type="number" id="ddc-cycle" class="tool-input" value="28" min="20" max="45" style="max-width:200px;" /></div>
+      <div class="tool-stats">
+        <div class="tool-stat" style="flex:1.4;"><span class="tool-stat-value" id="ddc-edd">—</span><span class="tool-stat-label">Estimated due date</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="ddc-ga">—</span><span class="tool-stat-label">Gestational age today</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="ddc-trimester">—</span><span class="tool-stat-label">Trimester</span></div>
+      </div>
+      <p class="tool-label" style="margin:1.25rem 0 0.5rem;">Milestones</p>
+      <div class="tool-stats">
+        <div class="tool-stat"><span class="tool-stat-value" id="ddc-t2">—</span><span class="tool-stat-label">2nd trimester (14w0d)</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="ddc-t3">—</span><span class="tool-stat-label">3rd trimester (28w0d)</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="ddc-term">—</span><span class="tool-stat-label">Full term (39w0d)</span></div>
+      </div>
+      <p id="ddc-msg" style="font-size:13px;color:var(--text-2);margin:1rem 0 0;"></p>
+        <div class="tool-note"><strong>How this conversion works.</strong> Implements Naegele’s rule (LMP + 280 days, cycle-adjusted) and standard conception/IVF offsets per <a href="https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2017/05/methods-for-estimating-the-due-date" rel="noopener" target="_blank">ACOG Committee Opinion 700 — Methods for Estimating the Due Date</a>. <em>Informational only — not medical advice. Confirm dating with your prenatal care provider; first-trimester ultrasound overrides calendar estimates.</em></div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.5rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr !important; } }
+</style>
+<script src="../tools/due-date-calculator.js"></script>

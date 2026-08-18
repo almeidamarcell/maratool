@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Unit Converter — Length, Weight, Temperature & More | maratool',
-  description: 'Convert between units of length, weight, temperature, data, speed, and time instantly. Free, no sign-up required.',
+  description: 'Convert between units of length, weight, temperature, data, speed, area, and time instantly. One converter for every common unit, free in your browser.',
   canonical: 'https://maratool.com/unit-converter',
   schema: {
     '@context': 'https://schema.org',
@@ -116,7 +116,7 @@ const breadcrumbs = [
     </ToolShell>
   </Layout>
 </Base>
-<style>
+<style is:global>
   .uc-tabs {
     display: flex;
     gap: 0.25rem;

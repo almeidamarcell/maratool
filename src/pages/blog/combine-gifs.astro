@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
 const seo = {
   title: 'How to combine GIFs side by side | maratool',
@@ -31,14 +32,15 @@ const seo = {
     <article class="blog-post">
       <header class="blog-post-header">
         <div class="blog-post-meta">
-          <a href="/blog" class="blog-back">← Blog</a>
+          <a href="/blog/" class="blog-back">← Blog</a>
           <time datetime="2026-06-28" class="blog-post-date">June 28, 2026</time>
         </div>
         <h1 class="blog-post-title">How to combine GIFs side by side</h1>
         <p class="blog-post-lead">Merge multiple animated GIFs into one file — horizontal or vertical layout.</p>
       </header>
       <div class="blog-body">
-        <p>The <a href="/combine-gifs">Combine GIFs</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <p>The <a href="/combine-gifs/">Combine GIFs</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <BlogToolEmbed slug="combine-gifs" title="Try it — merge two or more GIFs into one" height={520} />
         <h2>How it works</h2>
         <ol>
           <li>Upload two or more GIF files.</li>
@@ -47,7 +49,7 @@ const seo = {
         </ol>
         <p>Merge two or more GIFs into one animation — side by side or stacked. Align timing and download the combined GIF.</p>
         <hr class="blog-divider" />
-        <p class="blog-footer-note">Try the <a href="/combine-gifs">Combine GIFs</a> free at <a href="/image">maratool.com/image</a>.</p>
+        <p class="blog-footer-note">Try the <a href="/combine-gifs/">Combine GIFs</a> free at <a href="/image/">maratool.com/image</a>.</p>
       </div>
     </article>
   </Layout>

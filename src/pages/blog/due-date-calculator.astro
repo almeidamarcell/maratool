@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'due-date-calculator'
+const seo = {
+  title: 'Due date calculator — LMP, conception, IVF | maratool',
+  description: 'Calculate the due date from LMP, conception, or IVF transfer with Naegele’s rule per ACOG. Free browser calculator.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate your pregnancy due date (Naegele’s rule)',
+    image: 'https://maratool.com/og/health.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate the due date from LMP, conception, or IVF transfer with Naegele’s rule per ACOG. Free browser calculator.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate your pregnancy due date (Naegele’s rule)', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate your pregnancy due date (Naegele’s rule)"
+      lead="Pick a dating method and a date — get the due date, gestational age, and trimester milestones."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Every due date estimate is calendar math with a documented rule. The <a href="/due-date-calculator/">Pregnancy Due Date Calculator</a> implements Naegele’s rule and the standard conception/IVF offsets from ACOG Committee Opinion 700.</p>
+
+      <BlogToolEmbed slug="due-date-calculator" title="Try it — pick a method and date" height={560} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Method</strong> — LMP, conception date, or IVF transfer day.</li>
+        <li><strong>Date</strong> — plus cycle length if dating by LMP.</li>
+        <li><strong>Results</strong> — due date, weeks + days today, trimester milestones.</li>
+      </ol>
+
+      <h2>The rules</h2>
+      <p>LMP dating: due date = LMP + 280 days, shifted by (cycle − 28) days. Conception dating: + 266 days. IVF: + 261 days from a day-5 transfer, + 263 from day-3. Gestational age counts from LMP, which is why "4 weeks pregnant" happens barely two weeks after conception.</p>
+
+      <h2>What the estimate means</h2>
+      <p>A due date is the middle of a distribution, not an appointment — roughly 96% of births miss the exact day. Per <a href="https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2017/05/methods-for-estimating-the-due-date" rel="noopener" target="_blank">ACOG CO 700</a>, a first-trimester ultrasound measurement supersedes calendar dating when they disagree. Informational only — confirm with your prenatal provider.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Methodology reference: <a href="https://www.acog.org/clinical/clinical-guidance/committee-opinion/articles/2017/05/methods-for-estimating-the-due-date" rel="noopener" target="_blank">ACOG Committee Opinion 700 — Methods for Estimating the Due Date</a>. Informational only — not medical advice. Confirm dating with your prenatal care provider; first-trimester ultrasound overrides calendar estimates. Everything runs client-side in your browser; nothing is uploaded.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/due-date-calculator/">Due Date Calculator</a> tool is free, runs locally, and never sends your data to a server. More <a href="/health/">health calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

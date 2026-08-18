@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Split GIF into Parts Online | maratool',
-  description: 'Split GIF into Parts Online. Free, runs in your browser — no upload to servers.',
+  description: 'Split a GIF into parts online. Cut an animated GIF into separate segments by frame range and download each piece. Free, no upload, no watermark.',
   canonical: 'https://maratool.com/gif-split',
   schema: {
     '@context': 'https://schema.org',
@@ -15,37 +15,37 @@ const seo = {
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Split GIF into Parts Online. Free, runs in your browser — no upload to servers.',
+    description: 'Split a GIF into parts online. Cut an animated GIF into separate segments by frame range and download each piece. Free, no upload, no watermark.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
-      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
-      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+      { '@type': 'Question', name: 'Do the parts stay animated?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Every part is written as its own animated GIF, keeping the original per-frame delays and the same loop setting as the file you uploaded.' } },
+      { '@type': 'Question', name: 'Can I split at exact frames?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Type ranges like 1-12, 13-24 — the first frame is 1 and both ends are included — or click any frame on the timeline to start a new part there.' } },
+      { '@type': 'Question', name: 'How do I get separate images instead?', acceptedAnswer: { '@type': 'Answer', text: 'Use GIF to Frames. It writes every frame as a PNG. This page cuts one animation into shorter animations.' } },
+      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Very large GIFs are scaled down so they fit in browser memory.' } },
     ],
   },
 }
 
 const howTo = [
-  'Upload or drop your file.',
-  'Adjust settings if needed.',
-  'Click Process and download the result.',
+  'Drop your GIF in — every frame shows up on the timeline.',
+  'Choose equal parts, a frame count per part, typed ranges, or click the timeline to place your own cut points.',
+  'Click Split GIF, then download each part or take all of them as a ZIP.',
 ]
 
 const faq = [
-  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
-  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
-  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
-  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+  { q: 'Do the parts stay animated?', a: 'Yes. Every part is written as its own animated GIF, keeping the original per-frame delays and the same loop setting as the file you uploaded.' },
+  { q: 'Can I split at exact frames?', a: 'Yes. Type ranges like 1-12, 13-24 — the first frame is 1 and both ends are included — or click any frame on the timeline to start a new part there.' },
+  { q: 'How do I get separate images instead?', a: 'Use GIF to Frames. It writes every frame as a PNG. This page cuts one animation into shorter animations.' },
+  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Very large GIFs are scaled down so they fit in browser memory, and the tool says so when it does that.' },
 ]
 
 const relatedTools = [
-  { slug: 'gif-maker', name: 'GIF Maker' },
+  { slug: 'gif-to-frames', name: 'GIF to Frames' },
+  { slug: 'gif-cut', name: 'Cut GIF' },
   { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'video-to-gif', name: 'Video to GIF' },
 ]
 
 const breadcrumbs = [
@@ -71,4 +71,4 @@ const breadcrumbs = [
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/gif-split.js"></script>
+<script src="../tools/gif-split.js"></script>

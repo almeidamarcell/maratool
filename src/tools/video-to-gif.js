@@ -1,5 +1,5 @@
 import { validateVideoFile, formatDuration, formatFileSize } from './fps-converter-core.js'
-import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncodePassArgs, validateGifOptions } from './video-to-gif-core.js'
+import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncodePassArgs, validateGifOptions, estimateFrameCount, FRAME_WARN_THRESHOLD } from './video-to-gif-core.js'
 
 ;(function () {
   'use strict'
@@ -17,6 +17,7 @@ import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncod
   var endInput = document.getElementById('vtg-end')
   var useStartBtn = document.getElementById('vtg-use-start')
   var useEndBtn = document.getElementById('vtg-use-end')
+  var untilEndCheckbox = document.getElementById('vtg-until-end')
   var trimDurationEl = document.getElementById('vtg-trim-duration')
   var fpsPresetsEl = document.getElementById('vtg-fps-presets')
   var fpsCustom = document.getElementById('vtg-fps-custom')
@@ -28,9 +29,11 @@ import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncod
   var textSizeSelect = document.getElementById('vtg-text-size')
   var textPosSelect = document.getElementById('vtg-text-pos')
   var textColorSelect = document.getElementById('vtg-text-color')
+  var frameWarningEl = document.getElementById('vtg-frame-warning')
   var convertBtn = document.getElementById('vtg-convert')
   var changeBtn = document.getElementById('vtg-change')
   var progressEl = document.getElementById('vtg-progress')
+  var cancelBtn = document.getElementById('vtg-cancel')
   var progressText = document.getElementById('vtg-progress-text')
   var progressFill = document.getElementById('vtg-progress-fill')
   var progressDetail = document.getElementById('vtg-progress-detail')
@@ -53,6 +56,7 @@ import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncod
   var selectedFps = 10
   var selectedSpeed = 1
   var videoDuration = 0
+  var cancelRequested = false
   var MAX_FILE_SIZE = 200 * 1024 * 1024
 
   // ── State management ──
@@ -104,7 +108,7 @@ import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncod
       endInput.value = defaultEnd.toFixed(1)
       startInput.max = videoDuration.toFixed(1)
       endInput.max = videoDuration.toFixed(1)
-      updateTrimDuration()
+      applyUntilEnd()
     }
     showState('settings')
   }
@@ -114,11 +118,35 @@ import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncod
     var s = parseFloat(startInput.value) || 0
     var e = parseFloat(endInput.value) || 0
     trimDurationEl.textContent = Math.max(0, e - s).toFixed(1) + 's'
+    updateFrameWarning()
+  }
+  function updateFrameWarning() {
+    var s = parseFloat(startInput.value) || 0
+    var e = parseFloat(endInput.value) || 0
+    var frames = estimateFrameCount({ trimLen: e - s, fps: selectedFps, speed: selectedSpeed })
+    if (frames > FRAME_WARN_THRESHOLD) {
+      frameWarningEl.textContent = '⚠ This GIF will have ~' + frames.toLocaleString() + ' frames and may run out of browser memory. Consider lowering the frame rate, reducing the width, or shortening the clip.'
+      frameWarningEl.style.display = ''
+    } else {
+      frameWarningEl.style.display = 'none'
+    }
+  }
+  function applyUntilEnd() {
+    var on = untilEndCheckbox.checked
+    endInput.disabled = on
+    useEndBtn.disabled = on
+    // isFinite guard: streamed/MediaRecorder WebMs report duration as Infinity or NaN
+    if (on && isFinite(videoDuration) && videoDuration > 0) endInput.value = videoDuration.toFixed(1)
+    updateTrimDuration()
   }
   startInput.addEventListener('input', updateTrimDuration)
   endInput.addEventListener('input', updateTrimDuration)
   useStartBtn.addEventListener('click', function () { startInput.value = videoEl.currentTime.toFixed(1); updateTrimDuration() })
-  useEndBtn.addEventListener('click', function () { endInput.value = videoEl.currentTime.toFixed(1); updateTrimDuration() })
+  useEndBtn.addEventListener('click', function () {
+    if (useEndBtn.disabled) return
+    endInput.value = videoEl.currentTime.toFixed(1); updateTrimDuration()
+  })
+  untilEndCheckbox.addEventListener('change', applyUntilEnd)
 
   // ── FPS presets ──
   var fpsBtns = fpsPresetsEl.querySelectorAll('.vtg-fps-btn')
@@ -128,11 +156,13 @@ import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncod
       btn.classList.add('active')
       selectedFps = parseInt(btn.dataset.fps, 10)
       fpsCustom.value = ''
+      updateFrameWarning()
     })
   })
   fpsCustom.addEventListener('input', function () {
     var val = parseInt(fpsCustom.value, 10)
     if (val && val > 0) { fpsBtns.forEach(function (b) { b.classList.remove('active') }); selectedFps = val }
+    updateFrameWarning()
   })
 
   // ── Speed presets ──
@@ -142,6 +172,7 @@ import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncod
       speedBtns.forEach(function (b) { b.classList.remove('active') })
       btn.classList.add('active')
       selectedSpeed = parseFloat(btn.dataset.speed)
+      updateFrameWarning()
     })
   })
 
@@ -170,7 +201,9 @@ import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncod
         if (ff._lastLogs.length > 30) ff._lastLogs.shift()
         var trimStart = parseFloat(startInput.value) || 0
         var trimEnd = parseFloat(endInput.value) || 0
-        var trimLen = Math.max(0.1, trimEnd - trimStart)
+        // ffmpeg reports OUTPUT time; setpts rescales it by speed, so divide
+        // or the progress % is wrong by the speed factor.
+        var trimLen = Math.max(0.1, (trimEnd - trimStart) / (selectedSpeed || 1))
         var timeMatch = e.message.match(/time=(\d+):(\d+):(\d+\.\d+)/)
         if (timeMatch) {
           var secs = parseInt(timeMatch[1]) * 3600 + parseInt(timeMatch[2]) * 60 + parseFloat(timeMatch[3])
@@ -188,20 +221,43 @@ import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncod
   }
 
   // ── Conversion ──
+  // ── Cancel ──
+  // Terminating the worker is the only way to abort a running exec; the dead
+  // instance is discarded so the next convert reloads it (browser-cached).
+  cancelBtn.addEventListener('click', function () {
+    cancelRequested = true
+    try { if (ffmpeg) ffmpeg.terminate() } catch (_) {}
+    ffmpeg = null
+    ffmpegLoaded = false
+    showState('settings')
+  })
+
   convertBtn.addEventListener('click', async function () {
-    var trimStart = parseFloat(startInput.value) || 0
-    var trimEnd = parseFloat(endInput.value) || videoDuration
+    cancelRequested = false
+    // NaN-safe parsing: `|| videoDuration` would silently turn an explicit "0"
+    // end time into a full-length conversion.
+    var startRaw = parseFloat(startInput.value)
+    var endRaw = parseFloat(endInput.value)
+    var trimStart = isNaN(startRaw) ? 0 : startRaw
+    var trimEnd = isNaN(endRaw) ? videoDuration : endRaw
     var trimLen = trimEnd - trimStart
     var fps = selectedFps
     var speed = selectedSpeed
     var reverseEnabled = reverseCheckbox.checked
 
-    var validation = validateGifOptions({ trimLen: trimLen, fps: fps, speed: speed })
+    var validation = validateGifOptions({ trimLen: trimLen, fps: fps, speed: speed, reverse: reverseEnabled })
     if (!validation.valid) { showError(validation.error); return }
 
     try {
       var ff = await loadFfmpeg()
+      // Cancel clicked while the engine was still downloading: the fresh
+      // instance stays cached for next time, but this conversion stops here.
+      if (cancelRequested) return
 
+      // loadFfmpeg only shows the progress state on a cold load; on the cached
+      // path the early return skips it, leaving the settings panel (and a live
+      // Convert button) visible for the whole conversion.
+      showState('progress')
       progressText.textContent = 'Converting video to GIF...'
       progressFill.style.width = '50%'
       progressDetail.textContent = 'Writing file to memory...'
@@ -255,6 +311,7 @@ import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncod
       progressDetail.textContent = 'Reading output...'
 
       var outputData = await ff.readFile(outputName)
+      if (cancelRequested) return
 
       try { await ff.deleteFile(inputName) } catch (_) {}
       try { await ff.deleteFile(paletteName) } catch (_) {}
@@ -272,7 +329,16 @@ import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncod
 
       showState('result')
     } catch (err) {
+      // User-initiated cancel: the terminate() rejection is expected, the
+      // cancel handler already restored the settings state. Not an error.
+      if (cancelRequested) return
       console.error('Video to GIF conversion failed:', err)
+      // A wasm OOM/abort kills the FFmpeg instance; keeping it cached would
+      // make every retry fail until a page reload. Terminate and force a
+      // reload (the ~25 MB download is browser-cached, so this is cheap).
+      try { if (ffmpeg) ffmpeg.terminate() } catch (_) {}
+      ffmpeg = null
+      ffmpegLoaded = false
       showError('Conversion failed: ' + (err.message || String(err)).split('\n')[0])
     }
   })
@@ -299,11 +365,15 @@ import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncod
     fpsBtns.forEach(function (b) { b.classList.toggle('active', b.dataset.fps === '10') })
     speedBtns.forEach(function (b) { b.classList.toggle('active', b.dataset.speed === '1') })
     reverseCheckbox.checked = false
+    untilEndCheckbox.checked = false
+    endInput.disabled = false
+    useEndBtn.disabled = false
     textInput.value = ''
     textSizeSelect.value = '36'
     textPosSelect.value = 'bottom'
     textColorSelect.value = 'white'
     fpsCustom.value = ''; widthInput.value = ''
+    frameWarningEl.style.display = 'none'
     showState('dropzone')
   }
 
@@ -312,7 +382,11 @@ import { buildBaseFilters, buildDrawtextFilter, buildPalettePassArgs, buildEncod
     fileInput.value = ''; currentFile = null; showState('dropzone')
   })
   newBtn.addEventListener('click', reset)
-  errorRetry.addEventListener('click', reset)
+  // Keep the loaded video and settings on retry — a validation error (e.g.
+  // "Until end" on an 11-minute video) shouldn't nuke the whole session.
+  errorRetry.addEventListener('click', function () {
+    if (currentFile) { showState('settings') } else { reset() }
+  })
 
   showState('dropzone')
 })()

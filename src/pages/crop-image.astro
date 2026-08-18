@@ -1,0 +1,178 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Crop Image Online — Free-Form Crop with Drag Handles | maratool',
+  description: 'Crop an image online with a draggable selection box. Set X, Y, width, and height by hand, lock a ratio such as 1:1 or 16:9, then download the result.',
+  canonical: 'https://maratool.com/crop-image',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Crop Image Online',
+    url: 'https://maratool.com/crop-image',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Free-form image cropper with a draggable selection box, numeric X/Y/width/height fields, and optional ratio lock.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Crop Image', item: 'https://maratool.com/crop-image' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do I crop an image to an exact size?', acceptedAnswer: { '@type': 'Answer', text: 'Type the width and height you want into the numeric fields under the preview. The selection box redraws to match, and you can then drag it to the part of the photo you want to keep.' } },
+      { '@type': 'Question', name: 'Can I crop to a square or a 16:9 ratio?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Pick 1:1, 4:3, 16:9, or 3:2 from the ratio menu. The selection then keeps that shape while you drag a corner handle. Choose Free to crop to any shape.' } },
+      { '@type': 'Question', name: 'Does cropping lose quality?', acceptedAnswer: { '@type': 'Answer', text: 'The kept pixels are copied at full resolution, so nothing is scaled or blurred. Saving as JPEG re-encodes the crop, which is why PNG is offered for a lossless result.' } },
+      { '@type': 'Question', name: 'Is my photo uploaded to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. The image is decoded and cropped with the Canvas API on your own device, and the file never leaves the browser tab.' } },
+    ],
+  },
+}
+
+const howTo = [
+  'Drop a photo into the upload box.',
+  'Drag on the image to draw a selection, then move it or pull a corner handle to adjust.',
+  'Fine-tune the X, Y, width, and height numbers if you need exact values, then download.',
+]
+
+const faq = [
+  { q: 'How do I crop to an exact size?', a: 'Type the width and height into the numeric fields. The selection box redraws to match, and you can drag it into place.' },
+  { q: 'Can I lock the crop to a square or 16:9?', a: 'Yes. Pick a ratio from the menu and the box keeps that shape while you drag a corner.' },
+  { q: 'Does cropping lose quality?', a: 'The kept pixels are copied at full resolution. Save as PNG if you want no re-encoding at all.' },
+  { q: 'Is my photo uploaded to a server?', a: 'No. The crop happens on a canvas in your browser.' },
+]
+
+const relatedTools = [
+  { slug: 'social-media-cropper', name: 'Social Media Image Cropper' },
+  { slug: 'image-compressor', name: 'Compress Image Online — Reduce JPG, PNG & WebP Size' },
+  { slug: 'image-splitter', name: 'Split Image Into Grid Tiles' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'Crop Image' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="crop-image" name="Crop Image Online" description="Draw a crop box anywhere on the photo, drag the corners, and read the exact pixel coordinates as you go. Free-form or locked to a ratio. Nothing is uploaded." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:560px;">
+        <div class="tool-dropzone crp-dropzone" id="crp-dropzone">
+          <input type="file" id="crp-file" accept="image/jpeg,image/png,image/webp,image/gif,image/bmp" hidden />
+          <p class="crp-dropzone-title">Drop an image here</p>
+          <p class="crp-dropzone-sub">or click to select — JPG, PNG, WebP, GIF, BMP</p>
+        </div>
+
+        <div id="crp-editor" hidden>
+          <div class="crp-stage-wrap">
+            <div class="crp-stage" id="crp-stage">
+              <img id="crp-img" class="crp-img" alt="Image to crop" draggable="false" />
+              <div class="crp-box" id="crp-box">
+                <span class="crp-handle" data-handle="nw"></span>
+                <span class="crp-handle" data-handle="ne"></span>
+                <span class="crp-handle" data-handle="sw"></span>
+                <span class="crp-handle" data-handle="se"></span>
+              </div>
+            </div>
+          </div>
+
+          <p class="tool-hint">Drag inside the box to move it. Drag a corner to resize. Drag on the darkened area to start a new selection.</p>
+
+          <div class="crp-fields">
+            <div class="crp-field">
+              <label class="tool-label" for="crp-x">X</label>
+              <input type="number" id="crp-x" class="tool-input" min="0" step="1" />
+            </div>
+            <div class="crp-field">
+              <label class="tool-label" for="crp-y">Y</label>
+              <input type="number" id="crp-y" class="tool-input" min="0" step="1" />
+            </div>
+            <div class="crp-field">
+              <label class="tool-label" for="crp-w">Width</label>
+              <input type="number" id="crp-w" class="tool-input" min="1" step="1" />
+            </div>
+            <div class="crp-field">
+              <label class="tool-label" for="crp-h">Height</label>
+              <input type="number" id="crp-h" class="tool-input" min="1" step="1" />
+            </div>
+            <div class="crp-field">
+              <label class="tool-label" for="crp-ratio">Aspect ratio</label>
+              <select id="crp-ratio" class="tool-input">
+                <option value="free">Free</option>
+                <option value="1:1">1:1 square</option>
+                <option value="4:3">4:3</option>
+                <option value="16:9">16:9</option>
+                <option value="3:2">3:2</option>
+              </select>
+            </div>
+            <div class="crp-field">
+              <label class="tool-label" for="crp-format">Output format</label>
+              <select id="crp-format" class="tool-input">
+                <option value="png">PNG</option>
+                <option value="jpeg">JPEG</option>
+                <option value="webp">WebP</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="tool-stats crp-stats">
+            <div class="tool-stat">
+              <span class="tool-stat-value" id="crp-source-dims">—</span>
+              <span class="tool-stat-label">Original</span>
+            </div>
+            <div class="tool-stat">
+              <span class="tool-stat-value" id="crp-readout">—</span>
+              <span class="tool-stat-label">Crop size</span>
+            </div>
+            <div class="tool-stat">
+              <span class="tool-stat-value" id="crp-position">—</span>
+              <span class="tool-stat-label">Position</span>
+            </div>
+          </div>
+
+          <p class="tool-error" id="crp-error" hidden></p>
+
+          <div class="crp-actions">
+            <button type="button" class="tool-btn" id="crp-download">Download cropped image</button>
+            <button type="button" class="tool-btn tool-btn-secondary" id="crp-select-all">Select whole image</button>
+            <button type="button" class="tool-btn tool-btn-secondary" id="crp-change">Choose another image</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  /* Visuals come from .tool-dropzone in tools.css — this class is the JS hook only. */
+  .crp-dropzone-title { font-weight: 600; margin: 0 0 0.25rem; }
+  .crp-dropzone-sub { color: var(--text-2); font-size: 0.875rem; margin: 0; }
+  .crp-stage-wrap { display: flex; justify-content: center; background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; margin-bottom: 0.75rem; }
+  .crp-stage { position: relative; display: inline-block; line-height: 0; overflow: hidden; max-width: 100%; touch-action: none; user-select: none; cursor: crosshair; }
+  .crp-img { display: block; max-width: 100%; max-height: 420px; width: auto; height: auto; -webkit-user-drag: none; user-select: none; }
+  .crp-box { position: absolute; box-sizing: border-box; border: 1px solid #fff; outline: 1px solid rgba(0, 0, 0, 0.55); box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.45); cursor: move; }
+  .crp-handle { position: absolute; width: 14px; height: 14px; background: #fff; border: 1px solid rgba(0, 0, 0, 0.55); border-radius: 3px; }
+  .crp-handle[data-handle="nw"] { top: -7px; left: -7px; cursor: nwse-resize; }
+  .crp-handle[data-handle="ne"] { top: -7px; right: -7px; cursor: nesw-resize; }
+  .crp-handle[data-handle="sw"] { bottom: -7px; left: -7px; cursor: nesw-resize; }
+  .crp-handle[data-handle="se"] { bottom: -7px; right: -7px; cursor: nwse-resize; }
+  .crp-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.75rem; margin-bottom: 1rem; }
+  .crp-field { display: flex; flex-direction: column; gap: 0.25rem; }
+  .crp-field .tool-input { width: 100%; }
+  .crp-stats { margin-bottom: 1rem; }
+  .crp-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+</style>
+
+<script src="../tools/crop-image.js"></script>

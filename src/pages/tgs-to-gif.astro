@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Telegram Sticker TGS to GIF | maratool',
-  description: 'Telegram Sticker TGS to GIF. Free, runs in your browser — no upload to servers.',
+  description: 'Convert Telegram TGS animated stickers to GIF online. Drop the .tgs file, preview the animation, and download — free, nothing is uploaded to a server.',
   canonical: 'https://maratool.com/tgs-to-gif',
   schema: {
     '@context': 'https://schema.org',
@@ -15,7 +15,7 @@ const seo = {
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Telegram Sticker TGS to GIF. Free, runs in your browser — no upload to servers.',
+    description: 'Convert Telegram TGS animated stickers to GIF online. Drop the .tgs file, preview the animation, and download — free, nothing is uploaded to a server.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
@@ -67,9 +67,10 @@ const breadcrumbs = [
           
           <button type="button" class="tool-btn" id="ef-process" style="margin-top:1rem;">Process</button>
         </div>
-        <div id="ef-progress" hidden>
-          <p id="ef-progress-text">Loading...</p>
+        <div id="ef-progress" class="tool-progress" hidden>
+          <p id="ef-progress-text" class="tool-progress-text">Loading...</p>
           <div class="tool-progress-bar"><div id="ef-progress-fill" class="tool-progress-fill"></div></div>
+          <p id="ef-progress-detail" class="tool-progress-detail"></p>
         </div>
         <div id="ef-result" hidden>
           <img id="ef-result-media" alt="Result" style="max-width:100%;" />
@@ -86,4 +87,4 @@ const breadcrumbs = [
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/tgs-to-gif.js"></script>
+<script src="../tools/tgs-to-gif.js"></script>

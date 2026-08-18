@@ -168,7 +168,7 @@ const breadcrumbs = [
           <h2 class="ve-group-heading" id="ve-group-edit">Edit</h2>
           <div class="ve-tool-grid">
             {editTools.map(tool => (
-              <a class="ve-card" href={`/${tool.slug}`}>
+              <a class="ve-card" href={`/${tool.slug}/`}>
                 <span class="ve-card-emoji" aria-hidden="true">{tool.emoji}</span>
                 <div class="ve-card-body">
                   <span class="ve-card-name">{tool.name.replace(/\s*—.*$/, '')}</span>
@@ -189,7 +189,7 @@ const breadcrumbs = [
           <h2 class="ve-group-heading" id="ve-group-convert">Convert</h2>
           <div class="ve-tool-grid">
             {convertTools.map(tool => (
-              <a class="ve-card" href={`/${tool.slug}`}>
+              <a class="ve-card" href={`/${tool.slug}/`}>
                 <span class="ve-card-emoji" aria-hidden="true">{tool.emoji}</span>
                 <div class="ve-card-body">
                   <span class="ve-card-name">{tool.name.replace(/\s*—.*$/, '')}</span>
@@ -210,7 +210,7 @@ const breadcrumbs = [
           <h2 class="ve-group-heading" id="ve-group-generate">Generate</h2>
           <div class="ve-tool-grid">
             {generateTools.map(tool => (
-              <a class="ve-card" href={`/${tool.slug}`}>
+              <a class="ve-card" href={`/${tool.slug}/`}>
                 <span class="ve-card-emoji" aria-hidden="true">{tool.emoji}</span>
                 <div class="ve-card-body">
                   <span class="ve-card-name">{tool.name.replace(/\s*—.*$/, '')}</span>
@@ -231,7 +231,7 @@ const breadcrumbs = [
             <h2 class="ve-group-heading" id="ve-group-other">More tools</h2>
             <div class="ve-tool-grid">
               {otherTools.map(tool => (
-                <a class="ve-card" href={`/${tool.slug}`}>
+                <a class="ve-card" href={`/${tool.slug}/`}>
                   <span class="ve-card-emoji" aria-hidden="true">{tool.emoji}</span>
                   <div class="ve-card-body">
                     <span class="ve-card-name">{tool.name.replace(/\s*—.*$/, '')}</span>
@@ -321,7 +321,7 @@ const breadcrumbs = [
           <h2 class="ve-nav-heading">All video tools</h2>
           <ul class="ve-nav-list">
             {videoTools.map(tool => (
-              <li><a href={`/${tool.slug}`}>{tool.name.replace(/\s*—.*$/, '')}</a></li>
+              <li><a href={`/${tool.slug}/`}>{tool.name.replace(/\s*—.*$/, '')}</a></li>
             ))}
           </ul>
         </nav>

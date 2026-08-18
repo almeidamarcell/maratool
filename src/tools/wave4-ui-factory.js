@@ -1,15 +1,13 @@
-/** Shared copy helper for wave4 tools */
+import { downloadBlob, copyWithFeedback } from './tool-utils.js'
+
+/** Shared copy helper for wave4 tools. Delegates to the site-wide helper so
+ *  clipboard failures surface instead of being swallowed. */
 export function bindCopy(btn, getText) {
   if (!btn) return
-  btn.addEventListener('click', async function () {
+  btn.addEventListener('click', function () {
     const text = getText()
     if (!text) return
-    try {
-      await navigator.clipboard.writeText(text)
-      const orig = btn.textContent
-      btn.textContent = 'Copied!'
-      setTimeout(() => { btn.textContent = orig }, 2000)
-    } catch { /* ignore */ }
+    copyWithFeedback(btn, text)
   })
 }
 
@@ -278,10 +276,7 @@ function initCsvToExcel({ fn }) {
   dl.addEventListener('click', () => {
     const html = fn(input.value)
     const blob = new Blob([html], { type: 'application/vnd.ms-excel' })
-    const a = document.createElement('a')
-    a.href = URL.createObjectURL(blob)
-    a.download = 'export.xls'
-    a.click()
+    downloadBlob(blob, 'export.xls')
   })
 }
 

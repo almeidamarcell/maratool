@@ -8,6 +8,7 @@ import {
   getOutputExtension,
 } from './document-converter-core.js'
 import { initPandoc, convertDocument, zipWithMedia } from './document-converter-pandoc.js'
+import { copyWithFeedback } from './tool-utils.js'
 
 var state = {
   file: null,
@@ -221,13 +222,6 @@ function setupDropzone() {
     var btn = document.getElementById('dc-copy')
     var text = state.output && state.output.content ? state.output.content : ''
     if (!text) return
-    navigator.clipboard.writeText(text).then(function () {
-      btn.textContent = 'Copied!'
-      btn.classList.add('copied')
-      setTimeout(function () {
-        btn.textContent = 'Copy output'
-        btn.classList.remove('copied')
-      }, 2000)
-    })
+    copyWithFeedback(btn, text, { idle: 'Copy output' })
   })
 })()

@@ -1,0 +1,219 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'PDF to PPT Converter — Editable PowerPoint slides | maratool',
+  description: 'Convert PDF to editable PowerPoint slides in your browser. Text, images and shapes stay editable — free PDF to PPT converter, no upload, no signup.',
+  canonical: 'https://maratool.com/pdf-to-ppt',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'PDF to PPT Converter',
+    url: 'https://maratool.com/pdf-to-ppt',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Convert PDF to editable PowerPoint (.pptx) in the browser — text boxes, images and shapes, not page screenshots.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'PDF', item: 'https://maratool.com/pdf' },
+      { '@type': 'ListItem', position: 3, name: 'Extract', item: 'https://maratool.com/pdf/extract' },
+      { '@type': 'ListItem', position: 4, name: 'PDF to PPT', item: 'https://maratool.com/pdf-to-ppt' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Is the converted PowerPoint actually editable?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Text becomes real text boxes you can retype, images become separate image objects, and simple rectangles and lines become native PowerPoint shapes. Most free converters export each page as one flat screenshot — this tool rebuilds the elements.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does the output work with Google Slides?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. The tool produces a standard .pptx file, which Google Slides imports directly via File → Import slides, with the text boxes and images staying editable.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'My PDF is a scan — can I still convert it?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. When the PDF has no text layer, the tool offers OCR (text recognition) with a language picker. Recognized text is placed as editable text boxes over the page image. The OCR engine loads on demand and also runs entirely in your browser.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my PDF uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. The file is parsed with pdf.js and the .pptx is generated with PptxGenJS, both running locally in your browser. Your document never leaves your device.' }
+      }
+    ]
+  }
+}
+
+const howTo = [
+  'Drop a PDF onto the upload area or click to select a file.',
+  'Pick a mode: editable elements (default) or page image with editable text on top.',
+  'Preview the pages as they convert, then download the .pptx file.',
+]
+
+const faq = [
+  { q: 'Is the converted PowerPoint actually editable?', a: 'Yes. Text becomes real text boxes, images become image objects, and simple rectangles and lines become native PowerPoint shapes. Most free converters export flat page screenshots — this tool rebuilds the elements.' },
+  { q: 'Does the output work with Google Slides?', a: 'Yes. The tool produces a standard .pptx file, which Google Slides imports directly via File → Import slides, keeping text boxes and images editable.' },
+  { q: 'My PDF is a scan — can I still convert it?', a: 'Yes. When the PDF has no text layer, the tool offers OCR with a language picker. Recognized text becomes editable text boxes over the page image, all processed locally.' },
+  { q: 'Is my PDF uploaded to a server?', a: 'No. The file is parsed with pdf.js and the .pptx is generated with PptxGenJS, both running in your browser. Your document never leaves your device.' },
+]
+
+const relatedTools = [
+  { slug: 'pdf-to-text', name: 'Extract Text from PDF' },
+  { slug: 'pdf-to-markdown', name: 'Convert PDF to Markdown' },
+  { slug: 'pdf-to-png', name: 'PDF to PNG Converter Online' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'PDF', href: '/pdf' },
+  { label: 'Extract', href: '/pdf/extract' },
+  { label: 'PDF to PPT' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="pdf-to-ppt" name="Convert PDF to PPT (editable PowerPoint)" description="Turn a PDF into a PowerPoint deck where text, images and shapes stay editable — not a stack of page screenshots. Runs 100% in your browser." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container pp-container">
+        <fieldset id="pp-mode" class="pp-mode">
+          <legend class="tool-label">Conversion mode</legend>
+          <label class="pp-mode-option">
+            <input type="radio" name="pp-mode" value="elements" checked />
+            <span><strong>Editable elements</strong> — text boxes, images and shapes rebuilt on each slide</span>
+          </label>
+          <label class="pp-mode-option">
+            <input type="radio" name="pp-mode" value="image" />
+            <span><strong>Page image + editable text</strong> — keeps the page pixel-perfect as a background image with editable text on top</span>
+          </label>
+          <p class="pp-mode-note">Why two modes? Complex layouts (charts, dense graphics) can look broken when rebuilt as separate elements. The image mode preserves the exact look while still letting you edit every piece of text.</p>
+        </fieldset>
+
+        <div class="pdf-dropzone" id="pp-dropzone">
+          <input type="file" id="pp-file" accept="application/pdf" hidden />
+          <div class="pdf-dropzone-inner">
+            <svg class="pdf-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p class="pdf-dropzone-title">Drop a PDF here</p>
+            <p class="pdf-dropzone-sub">or click to select a file — it never leaves your device</p>
+          </div>
+        </div>
+
+        <div id="pp-password" class="pp-panel" style="display:none;">
+          <label class="tool-label" for="pp-password-input">This PDF is password protected</label>
+          <div class="pp-password-row">
+            <input type="password" id="pp-password-input" class="tool-input" placeholder="Enter the PDF password" autocomplete="off" />
+            <button id="pp-password-btn" class="tool-button">Unlock</button>
+          </div>
+          <p id="pp-password-error" class="pp-error"></p>
+        </div>
+
+        <div id="pp-ocr" class="pp-panel" style="display:none;">
+          <label class="tool-label" for="pp-ocr-lang">This PDF looks scanned — no text layer found</label>
+          <p class="pp-mode-note">Run OCR (text recognition) to get editable text boxes over the page image. The engine and language pack download on demand and run locally.</p>
+          <div class="pp-password-row">
+            <select id="pp-ocr-lang" class="tool-input">
+              <option value="eng" selected>English</option>
+              <option value="por">Portuguese</option>
+              <option value="spa">Spanish</option>
+              <option value="fra">French</option>
+              <option value="deu">German</option>
+              <option value="ita">Italian</option>
+              <option value="nld">Dutch</option>
+              <option value="pol">Polish</option>
+              <option value="tur">Turkish</option>
+              <option value="rus">Russian</option>
+              <option value="jpn">Japanese</option>
+              <option value="chi_sim">Chinese (Simplified)</option>
+              <option value="eng+por+spa+fra+deu">Auto-detect (slower — tries 5 languages)</option>
+            </select>
+            <button id="pp-ocr-btn" class="tool-button">Run OCR and convert</button>
+          </div>
+        </div>
+
+        <p id="pp-warning" class="pp-warning" style="display:none;">This PDF has more than 50 pages — large PDFs can take a while. Everything runs on your device.</p>
+        <div id="pp-progress" class="pdf-progress" style="display:none;">Loading...</div>
+        <p id="pp-file-info" class="pdf-file-info"></p>
+
+        <div id="pp-thumbs" class="pp-thumbs"></div>
+
+        <div id="pp-result" style="display:none;">
+          <div class="pdf-actions">
+            <button id="pp-download" class="tool-button">Download .pptx</button>
+            <button id="pp-new" class="tool-button pdf-new-btn">Convert another PDF</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+.pp-container { min-height: 420px; }
+.pp-mode {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+.pp-mode-option {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 10px 0;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text);
+}
+.pp-mode-option input { flex-shrink: 0; }
+.pp-mode-note {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--text-2);
+}
+.pp-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+  background: var(--bg-soft);
+}
+.pp-password-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.pp-password-row .tool-input { flex: 1; }
+.pp-error { color: var(--error, #c0392b); font-size: 13px; margin: 8px 0 0; min-height: 1em; }
+.pp-warning {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--text-2);
+  margin-bottom: 12px;
+}
+.pp-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0;
+}
+.pp-thumb {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 180px;
+  height: auto;
+}
+</style>
+
+<script src="../tools/pdf-to-ppt.js"></script>

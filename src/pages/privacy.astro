@@ -4,7 +4,7 @@ import Layout from '../components/Layout.astro'
 
 const seo = {
   title: 'Privacy policy — maratool',
-  description: 'maratool collects no personal data. Tools run entirely in your browser. We use ad-supported revenue via Google AdSense, which sets its own cookies. Read the full policy.',
+  description: 'maratool collects no personal data and every tool runs in your browser. Ads are served by Google AdSense, which sets its own cookies. Read the full policy.',
   canonical: 'https://maratool.com/privacy',
   schema: {
     '@context': 'https://schema.org',
@@ -38,7 +38,7 @@ const seo = {
         <p>Almost every tool runs entirely in your browser using JavaScript and the standard Web APIs (Web Crypto, DOMParser, FileReader, Canvas, etc.). Inputs you type or files you drop into a tool stay on your device. For these tools, there is no server-side processing of any input.</p>
 
         <h2>The one exception: Instagram video downloader</h2>
-        <p>The <a href="/instagram-video-downloader">Instagram video downloader</a> is the only tool on the site that talks to a server. When you paste an Instagram URL, your browser sends that URL to a small <a href="https://github.com/almeidamarcell/maratool/tree/main/worker" target="_blank" rel="noopener">Cloudflare Worker</a> in this same repository. The worker then calls a third-party Instagram API to fetch the video — RapidAPI&rsquo;s <code>instagram120</code> by default, with public fallbacks to cobalt.tools and kohi if that fails. This indirection is required because Instagram blocks direct fetches from the browser.</p>
+        <p>The <a href="/instagram-video-downloader/">Instagram video downloader</a> is the only tool on the site that talks to a server. When you paste an Instagram URL, your browser sends that URL to a small <a href="https://github.com/almeidamarcell/maratool/tree/main/worker" target="_blank" rel="noopener">Cloudflare Worker</a> in this same repository. The worker then calls a third-party Instagram API to fetch the video — RapidAPI&rsquo;s <code>instagram120</code> by default, with public fallbacks to cobalt.tools and kohi if that fails. This indirection is required because Instagram blocks direct fetches from the browser.</p>
         <p>The worker source is in <code>worker/src/index.js</code> on GitHub. It does not write request data to any database, KV, or analytics. It does emit an error message to Cloudflare logs if the upstream API call fails, and Cloudflare itself records standard infrastructure access logs (timestamp, requesting IP, URL path) that the project does not control. The Instagram URL you paste is also visible to whichever upstream API ends up serving the request (RapidAPI, cobalt.tools, or kohi). If you would rather not share that, skip this tool.</p>
 
         <h2>What is stored locally in your browser</h2>

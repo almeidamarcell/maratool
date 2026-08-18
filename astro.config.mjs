@@ -1,11 +1,35 @@
 import { defineConfig } from 'astro/config'
-import { execSync } from 'child_process'
 import sitemap from '@astrojs/sitemap'
+import { buildLastModMap } from './scripts/lib/git-lastmod.mjs'
+import { loadTools } from './scripts/lib/load-tools.mjs'
+
+// Staged sitemap release. Every large drop this project made (131 pages on
+// 18/May, 235 on 23/May, 101 on 24/Jul) was followed by the indexed-page count
+// falling, so the catalog ships complete while the sitemap grows in small
+// waves. A tool with `sitemapFrom` in the future is built, linked and fully
+// usable — it just is not advertised to crawlers yet.
+const TODAY = new Date().toISOString().split('T')[0]
+const heldBackSlugs = new Set(
+  loadTools({ caller: 'astro.config' })
+    .filter(t => t.live && t.sitemapFrom && t.sitemapFrom > TODAY)
+    .map(t => t.slug),
+)
+if (heldBackSlugs.size) {
+  console.log(
+    `[sitemap] ${heldBackSlugs.size} tool page(s) held back until their sitemapFrom date; ` +
+    'the pages themselves are still built and navigable.',
+  )
+}
 
 const CATEGORY_PAGES = [
   '/converter/', '/pdf/', '/text/', '/image/', '/color/', '/developer/', '/marketing/', '/health/', '/mockup/',
 ]
 const SUBCATEGORY_RE = /\/(converter|pdf|text|image|color|developer|marketing|health|mockup)\/[^/]+\/$/
+
+// Single git pass shared across all sitemap entries (was one `git log -1`
+// subprocess per URL — ~900 spawns per build).
+const gitDates = buildLastModMap(process.cwd())
+const BUILD_DATE = new Date().toISOString().split('T')[0]
 
 /**
  * Get the last git commit date for a page's source file.
@@ -14,23 +38,11 @@ const SUBCATEGORY_RE = /\/(converter|pdf|text|image|color|developer|marketing|he
 function getPageLastMod(url) {
   // Map URL path to source file
   const path = new URL(url).pathname.replace(/\/$/, '') || '/index'
-  const candidates = [
-    `src/pages${path}.astro`,
-    `src/pages${path}/index.astro`,
-  ]
-
-  for (const file of candidates) {
-    try {
-      const date = execSync(`git log -1 --format=%aI -- "${file}"`, {
-        encoding: 'utf-8',
-        stdio: ['pipe', 'pipe', 'ignore'],
-      }).trim()
-      if (date) return date.split('T')[0]
-    } catch { /* file not tracked */ }
-  }
-
-  // Fallback: build date
-  return new Date().toISOString().split('T')[0]
+  return (
+    gitDates.get(`src/pages${path}.astro`) ||
+    gitDates.get(`src/pages${path}/index.astro`) ||
+    BUILD_DATE
+  )
 }
 
 export default defineConfig({
@@ -46,6 +58,12 @@ export default defineConfig({
   site: 'https://maratool.com',
   integrations: [
     sitemap({
+      // Drops held-back tool pages and their blog posts from sitemap.xml only.
+      // Nothing here affects what gets built or what the sidebar links to.
+      filter(page) {
+        const slug = new URL(page).pathname.replace(/^\/(blog\/)?/, '').replace(/\/$/, '')
+        return !heldBackSlugs.has(slug)
+      },
       serialize(item) {
         const url = item.url
         const lastmod = getPageLastMod(url)

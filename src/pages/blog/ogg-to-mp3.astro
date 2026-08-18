@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'ogg-to-mp3'
+const seo = {
+  title: 'How to convert OGG to MP3 in your browser | maratool',
+  description: 'Convert OGG (Vorbis or Opus) files to MP3 without installing anything or uploading your audio. Free, runs entirely in your browser.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert OGG to MP3 in your browser',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-07-24',
+    dateModified: '2026-07-24',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert OGG (Vorbis or Opus) files to MP3 without installing anything or uploading your audio. Free, runs entirely in your browser.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell title="How to convert OGG to MP3 in your browser" lead="Drop an OGG file in, pick a bitrate, download the MP3 — no software to install and nothing gets uploaded." date="July 24, 2026" dateIso="2026-07-24">
+      <p>Use the free <a href="/ogg-to-mp3/">OGG to MP3 converter</a> on maratool. It runs FFmpeg compiled to WebAssembly directly in your browser, so the conversion happens on your device — your audio never touches a server.</p>
+      <BlogToolEmbed slug="ogg-to-mp3" title="Try it live" height={480} />
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Drop your file</strong> — .ogg, .oga, and .opus all work; the tool handles both Vorbis and Opus codecs.</li>
+        <li><strong>Pick a bitrate</strong> — 192 kbps is the safe default; 128 kbps for voice, 320 kbps for maximum quality.</li>
+        <li><strong>Convert and download</strong> — the MP3 keeps your original filename with a .mp3 extension.</li>
+      </ol>
+      <h2>Why convert OGG to MP3?</h2>
+      <p>OGG is technically excellent but poorly supported outside the open-source world. iTunes/Apple Music, most car stereos, older MP3 players, and many video editors simply refuse to open it. MP3 plays everywhere — converting is usually about compatibility, not quality.</p>
+      <h2>Picking the right bitrate</h2>
+      <p>Both OGG and MP3 are lossy, so converting always re-encodes and discards a little detail. You cannot gain quality by choosing a bitrate higher than the source — a 96 kbps OGG converted at 320 kbps just wastes space. As a rule of thumb: match or slightly exceed the source bitrate, and when in doubt use 192 kbps.</p>
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">Also see the <a href="/opus-to-mp3/">Opus to MP3 converter</a> for WhatsApp voice messages, or browse all <a href="/converter/audio/">audio tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

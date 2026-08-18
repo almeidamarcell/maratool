@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Remove Duplicate Lines — Dedupe a List Online | maratool',
+  description: 'Remove duplicate lines from any list, keep the first or the last copy, and see how many were dropped. Case toggle, trim before compare, live output.',
+  canonical: 'https://maratool.com/remove-duplicate-lines',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Remove Duplicate Lines',
+    url: 'https://maratool.com/remove-duplicate-lines',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Deduplicate a list of lines keeping the first or last occurrence, or list only the duplicates or only the lines that appear once.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Text', item: 'https://maratool.com/text' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/text/transform' },
+      { '@type': 'ListItem', position: 4, name: 'Remove Duplicate Lines', item: 'https://maratool.com/remove-duplicate-lines' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do I remove duplicates from a list?', acceptedAnswer: { '@type': 'Answer', text: 'Paste one item per line and leave the mode on Keep first. Every repeat after the first copy is dropped, and the counter shows how many lines were removed.' } },
+      { '@type': 'Question', name: 'Does removing duplicates re-sort my list?', acceptedAnswer: { '@type': 'Answer', text: 'No. The original order is preserved. Keep first holds each line at the position of its first appearance, keep last at the position of its last one.' } },
+      { '@type': 'Question', name: 'How do I see which lines are duplicated?', acceptedAnswer: { '@type': 'Answer', text: 'Switch to Only duplicates. It lists one copy of every line that appears two or more times, which is the fastest way to audit a list before you clean it.' } },
+      { '@type': 'Question', name: 'Why are two lines that look identical not matching?', acceptedAnswer: { '@type': 'Answer', text: 'Usually trailing spaces or a difference in capitalization. Turn on trim whitespace before comparing, and leave case-sensitive off, and both pairs will match.' } },
+    ]
+  }
+}
+
+const howTo = [
+  'Paste your list in the input box, one item per line.',
+  'Choose whether to keep the first copy, keep the last, or list only the duplicates or only the one-off lines.',
+  'Read the removed count and copy the cleaned list.',
+]
+
+const faq = [
+  { q: 'How do I remove duplicates from a list?', a: 'Paste one item per line and leave the mode on <strong>Keep first</strong>. Every repeat after the first copy is dropped, and the counter shows how many lines were removed.' },
+  { q: 'Does removing duplicates re-sort my list?', a: 'No. The original order is preserved. <em>Keep first</em> holds each line at the position of its first appearance, <em>keep last</em> at the position of its last one.' },
+  { q: 'How do I see which lines are duplicated?', a: 'Switch to <strong>Only duplicates</strong>. It lists one copy of every line that appears two or more times, which is the fastest way to audit a list before you clean it.' },
+  { q: 'Why are two lines that look identical not matching?', a: 'Usually trailing spaces or a difference in capitalization. Turn on <em>trim whitespace before comparing</em>, leave <em>case-sensitive</em> off, and both pairs will match.' },
+]
+
+const relatedTools = [
+  { slug: 'sort-lines', name: 'Sort Lines Alphabetically' },
+  { slug: 'case-converter', name: 'Case Converter' },
+  { slug: 'text-line-tools', name: 'Sort, Dedupe & Convert Text Lines' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Text', href: '/text' },
+  { label: 'Transform', href: '/text/transform' },
+  { label: 'Remove Duplicate Lines' },
+]
+
+const modes = [
+  { id: 'first', label: 'Keep first copy' },
+  { id: 'last', label: 'Keep last copy' },
+  { id: 'duplicates', label: 'Only duplicates' },
+  { id: 'unique', label: 'Only unique lines' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="remove-duplicate-lines" name="Remove Duplicate Lines" description="Dedupe a list without re-sorting it. Keep the first or last copy, or isolate just the duplicates." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:600px;">
+        <label class="tool-label" for="dup-input">Your list</label>
+        <textarea id="dup-input" class="tool-textarea" rows="7" placeholder="One item per line..." spellcheck="false"></textarea>
+
+        <span class="tool-label" id="dup-mode-label">Mode</span>
+        <div class="dup-modes" role="group" aria-labelledby="dup-mode-label">
+          {modes.map((m, i) => (
+            <button type="button" class={`dup-mode${i === 0 ? ' active' : ''}`} data-mode={m.id} aria-pressed={i === 0 ? 'true' : 'false'}>{m.label}</button>
+          ))}
+        </div>
+
+        <div class="dup-options">
+          <label class="dup-option"><input type="checkbox" id="dup-trim" checked /> Trim whitespace before comparing</label>
+          <label class="dup-option"><input type="checkbox" id="dup-case" /> Case-sensitive</label>
+          <label class="dup-option"><input type="checkbox" id="dup-blanks" /> Remove blank lines</label>
+        </div>
+
+        <div class="tool-stats dup-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="dup-in-count">0</span><span class="tool-stat-label">Lines in</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="dup-out-count">0</span><span class="tool-stat-label">Lines out</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="dup-removed">0</span><span class="tool-stat-label">Removed</span></div>
+        </div>
+        <p class="dup-summary" id="dup-summary" aria-live="polite">Paste a list above to see the result.</p>
+
+        <div class="dup-output-head">
+          <label class="tool-label" for="dup-output" style="margin:0;">Result</label>
+          <div class="dup-output-actions">
+            <button type="button" id="dup-clear" class="copy-btn">Clear</button>
+            <button type="button" id="dup-copy" class="copy-btn">Copy</button>
+          </div>
+        </div>
+        <textarea id="dup-output" class="tool-textarea" rows="7" readonly spellcheck="false"></textarea>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .dup-modes { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0 1rem; }
+  .dup-mode {
+    font-size: 13px;
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .dup-mode:hover { background: var(--bg-hover); color: var(--text); }
+  .dup-mode.active { border-color: var(--accent); color: var(--accent); background: var(--bg-soft); font-weight: 600; }
+  .dup-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.5rem 1.25rem; margin-bottom: 1rem; }
+  .dup-option { display: flex; align-items: center; gap: 0.5rem; font-size: 13px; color: var(--text-2); cursor: pointer; }
+  .dup-option input { cursor: pointer; }
+  .dup-stats { margin-bottom: 0.5rem; }
+  .dup-summary { font-size: 13px; color: var(--text-2); margin: 0 0 1rem; }
+  .dup-output-head { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+  .dup-output-actions { display: flex; gap: 0.5rem; }
+  @media (max-width: 600px) { .dup-options { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/remove-duplicate-lines.js"></script>

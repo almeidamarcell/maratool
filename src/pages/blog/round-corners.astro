@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
 const seo = {
   title: 'How to add rounded corners to images and GIFs | maratool',
@@ -31,14 +32,15 @@ const seo = {
     <article class="blog-post">
       <header class="blog-post-header">
         <div class="blog-post-meta">
-          <a href="/blog" class="blog-back">← Blog</a>
+          <a href="/blog/" class="blog-back">← Blog</a>
           <time datetime="2026-06-28" class="blog-post-date">June 28, 2026</time>
         </div>
         <h1 class="blog-post-title">How to add rounded corners to images and GIFs</h1>
         <p class="blog-post-lead">Set corner radius or circle crop — works on still images and animated GIFs.</p>
       </header>
       <div class="blog-body">
-        <p>The <a href="/round-corners">Round Corners</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <p>The <a href="/round-corners/">Round Corners</a> tool runs entirely in your browser — no upload, no watermark.</p>
+        <BlogToolEmbed slug="round-corners" title="Try it — round the corners of any image" height={520} />
         <h2>How it works</h2>
         <ol>
           <li>Upload an image or GIF.</li>
@@ -47,7 +49,7 @@ const seo = {
         </ol>
         <p>Add rounded corners or circle crop to images and animated GIFs. Pick radius and background color, then download.</p>
         <hr class="blog-divider" />
-        <p class="blog-footer-note">Try the <a href="/round-corners">Round Corners</a> free at <a href="/image">maratool.com/image</a>.</p>
+        <p class="blog-footer-note">Try the <a href="/round-corners/">Round Corners</a> free at <a href="/image/">maratool.com/image</a>.</p>
       </div>
     </article>
   </Layout>

@@ -1,0 +1,97 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'bandwidth-converter'
+const seo = {
+  title: 'Bandwidth converter — Mbps to MB/s, Gbps | maratool',
+  description: 'Convert Mbps to MB/s, Gbps, and MiB/s with correct decimal and binary prefixes. Free browser bandwidth converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert Mbps to MB/s (bits vs bytes, decimal vs binary)',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert Mbps to MB/s, Gbps, and MiB/s with correct decimal and binary prefixes. Free browser bandwidth converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert Mbps to MB/s (bits vs bytes, decimal vs binary)', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert Mbps to MB/s (bits vs bytes, decimal vs binary)"
+      lead="Type a data rate — read it in Mbps, MB/s, Gbps, or MiB/s with correct prefix math."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Bandwidth confusion is a units problem: ISPs quote megabits, apps show megabytes, and OS task managers show mebibytes. The <a href="/bandwidth-converter/">Bandwidth Converter</a> keeps all three straight.</p>
+
+      <BlogToolEmbed slug="bandwidth-converter" title="Try it — convert bandwidth units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Megabit per second (Mbit/s)" to "Megabyte per second (MB/s)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Bandwidth conversion factors</h2>
+      <p>Every unit converts through the bit per second (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many bit per seconds</th></tr></thead>
+        <tbody>
+        <tr><td>Bit per second (bit/s)</td><td>1</td></tr>
+        <tr><td>Kilobit per second (kbit/s)</td><td>1,000</td></tr>
+        <tr><td>Megabit per second (Mbit/s)</td><td>1,000,000</td></tr>
+        <tr><td>Gigabit per second (Gbit/s)</td><td>1.0000 × 10^9</td></tr>
+        <tr><td>Terabit per second (Tbit/s)</td><td>1.0000 × 10^12</td></tr>
+        <tr><td>Byte per second (B/s)</td><td>8</td></tr>
+        <tr><td>Kilobyte per second (kB/s)</td><td>8,000</td></tr>
+        <tr><td>Megabyte per second (MB/s)</td><td>8,000,000</td></tr>
+        <tr><td>Gigabyte per second (GB/s)</td><td>8.0000 × 10^9</td></tr>
+        <tr><td>Mebibyte per second (MiB/s)</td><td>8,388,608</td></tr>
+        <tr><td>Gibibyte per second (GiB/s)</td><td>8.5899 × 10^9</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>Rules of thumb: divide Mbps by 8 for MB/s; a 1 Gbps link tops out at 125 MB/s (119.2 MiB/s); a 50 GB game at 500 Mbps takes about 13 minutes. Real throughput lands 5–10% lower after protocol overhead.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.bipm.org/en/publications/si-brochure" rel="noopener" target="_blank">BIPM SI Brochure</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/frequency-converter/">How to convert Hz to RPM and rad/s</a></li>
+        <li><a href="/blog/area-converter/">How to convert square feet to square meters (and any area unit)</a></li>
+        <li><a href="/blog/volume-converter/">How to convert liters to gallons, cups, and ounces</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters/">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/bandwidth-converter/">Bandwidth Converter</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter/">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

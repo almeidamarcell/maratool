@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Convert WebP to GIF Online | maratool',
-  description: 'Convert WebP to GIF Online. Free, runs in your browser — no upload to servers.',
+  description: 'Convert animated WebP images to GIF for wider app and chat compatibility. Preserves frame timing and loop count — free, nothing is uploaded anywhere.',
   canonical: 'https://maratool.com/webp-to-gif',
   schema: {
     '@context': 'https://schema.org',
@@ -15,7 +15,7 @@ const seo = {
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Convert WebP to GIF Online. Free, runs in your browser — no upload to servers.',
+    description: 'Convert animated WebP images to GIF for wider app and chat compatibility. Preserves frame timing and loop count — free, nothing is uploaded anywhere.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
@@ -60,16 +60,17 @@ const breadcrumbs = [
     <ToolShell slug="webp-to-gif" name="Convert WebP to GIF Online" description="Convert WebP to GIF Online. Free, runs in your browser — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container" style="min-height:420px;">
         <div class="ef-dropzone tool-dropzone" id="ef-dropzone">
-          <input type="file" id="ef-file-input" accept="video/mp4,video/webm,video/quicktime,audio/mpeg,audio/wav" hidden />
+          <input type="file" id="ef-file-input" accept="image/webp,.webp" hidden />
           <p>Drop a file or click to upload</p>
         </div>
         <div id="ef-settings" hidden>
           
           <button type="button" class="tool-btn" id="ef-process" style="margin-top:1rem;">Process</button>
         </div>
-        <div id="ef-progress" hidden>
-          <p id="ef-progress-text">Loading...</p>
+        <div id="ef-progress" class="tool-progress" hidden>
+          <p id="ef-progress-text" class="tool-progress-text">Loading...</p>
           <div class="tool-progress-bar"><div id="ef-progress-fill" class="tool-progress-fill"></div></div>
+          <p id="ef-progress-detail" class="tool-progress-detail"></p>
         </div>
         <div id="ef-result" hidden>
           <img id="ef-result-media" alt="Result" style="max-width:100%;" />
@@ -86,4 +87,4 @@ const breadcrumbs = [
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/webp-to-gif.js"></script>
+<script src="../tools/webp-to-gif.js"></script>

@@ -1,0 +1,97 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'radioactivity-converter'
+const seo = {
+  title: 'Becquerel to curie converter — activity | maratool',
+  description: 'Convert becquerels, megabecquerels, curies, and dpm — 1 Ci = 3.7×10¹⁰ Bq. Free browser radioactivity converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert becquerels to curies (radioactivity)',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert becquerels, megabecquerels, curies, and dpm — 1 Ci = 3.7×10¹⁰ Bq. Free browser radioactivity converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert becquerels to curies (radioactivity)', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert becquerels to curies (radioactivity)"
+      lead="Type an activity — read Bq, MBq, GBq, Ci, mCi, or dpm instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Lab certificates list kBq, US licenses list mCi, and survey meters count dpm. The <a href="/radioactivity-converter/">Becquerel to Curie Converter</a> moves between all activity units with exact factors.</p>
+
+      <BlogToolEmbed slug="radioactivity-converter" title="Try it — convert radioactivity units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Millicurie (mCi)" to "Megabecquerel (MBq)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Radioactivity conversion factors</h2>
+      <p>Every unit converts through the becquerel (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many becquerels</th></tr></thead>
+        <tbody>
+        <tr><td>Terabecquerel (TBq)</td><td>1.0000 × 10^12</td></tr>
+        <tr><td>Gigabecquerel (GBq)</td><td>1.0000 × 10^9</td></tr>
+        <tr><td>Megabecquerel (MBq)</td><td>1,000,000</td></tr>
+        <tr><td>Kilobecquerel (kBq)</td><td>1,000</td></tr>
+        <tr><td>Becquerel (Bq)</td><td>1</td></tr>
+        <tr><td>Curie (Ci)</td><td>3.7000 × 10^10</td></tr>
+        <tr><td>Millicurie (mCi)</td><td>3.7000 × 10^7</td></tr>
+        <tr><td>Microcurie (µCi)</td><td>37,000</td></tr>
+        <tr><td>Nanocurie (nCi)</td><td>37</td></tr>
+        <tr><td>Picocurie (pCi)</td><td>0.037</td></tr>
+        <tr><td>Disintegrations per minute (dpm)</td><td>0.016666666667</td></tr>
+        <tr><td>Disintegrations per second (dps)</td><td>1</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>Activity measures decays per second, not danger — a gram of natural potassium (31 Bq) and a medical Tc-99m dose (370 MBq) differ by 7 orders of magnitude, and neither number alone describes dose. For dose units, see the <a href="/equivalent-dose-converter/">Sievert to Rem Converter</a>.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.nrc.gov/about-nrc/radiation/health-effects/measuring-radiation.html" rel="noopener" target="_blank">US NRC — Measuring Radiation</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded. Unit conversion only — this does not assess dose, risk, or safety, and is not medical advice.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/absorbed-dose-converter/">How to convert gray to rad (absorbed dose)</a></li>
+        <li><a href="/blog/equivalent-dose-converter/">How to convert sieverts to rem (equivalent dose)</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters/">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/radioactivity-converter/">Becquerel to Curie</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter/">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

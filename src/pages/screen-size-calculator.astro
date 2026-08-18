@@ -1,0 +1,99 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Screen Size Calculator — TV & Monitor Dimensions | maratool',
+  description: 'Turn a diagonal size and aspect ratio into real width, height, area, and PPI for TVs and monitors — inches and centimeters. Free, in-browser.',
+  canonical: 'https://maratool.com/screen-size-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Screen Size Calculator — TV & Monitor Dimensions',
+    url: 'https://maratool.com/screen-size-calculator',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Turn a diagonal size and aspect ratio into real width, height, area, and PPI for TVs and monitors — inches and centimeters. Free, in-browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Sizing', item: 'https://maratool.com/converter/sizing' },
+      { '@type': 'ListItem', position: 4, name: 'Screen Size Calculator — TV & Monitor Dimensions', item: 'https://maratool.com/screen-size-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do you get width and height from a diagonal?', acceptedAnswer: { '@type': 'Answer', text: 'Pythagoras: for ratio w:h, width = diagonal × w/√(w²+h²). A 55″ 16:9 TV is 47.9″ wide and 27.0″ tall — before the bezel.' } },
+      { '@type': 'Question', name: 'How is PPI calculated?', acceptedAnswer: { '@type': 'Answer', text: 'PPI = √(horizontal² + vertical² pixels) ÷ diagonal inches. A 27″ 4K monitor is 163 PPI; the same panel at 1080p is 82 PPI.' } },
+      { '@type': 'Question', name: 'Is a 32:9 ultrawide bigger than two 16:9 monitors?', acceptedAnswer: { '@type': 'Answer', text: 'A 49″ 32:9 panel has exactly the width and height of two 27″ 16:9 panels side by side (identical pixel pitch at matching resolutions).' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All geometry runs in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the diagonal size in inches.',
+  'Pick the aspect ratio (16:9 for most TVs and monitors).',
+  'Optionally add resolution to get PPI; read width, height, and area.'
+]
+
+const faq = [
+  { q: 'How do you get width and height from a diagonal?', a: 'Pythagoras: for ratio w:h, width = diagonal × w/√(w²+h²). A 55″ 16:9 TV is 47.9″ wide and 27.0″ tall — before the bezel.' },
+  { q: 'How is PPI calculated?', a: 'PPI = √(horizontal² + vertical² pixels) ÷ diagonal inches. A 27″ 4K monitor is 163 PPI; the same panel at 1080p is 82 PPI.' },
+  { q: 'Is a 32:9 ultrawide bigger than two 16:9 monitors?', a: 'A 49″ 32:9 panel has exactly the width and height of two 27″ 16:9 panels side by side (identical pixel pitch at matching resolutions).' },
+  { q: 'Is my data sent to a server?', a: 'No. All geometry runs in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'tire-size-calculator', name: 'Tire Size Calculator' },
+  { slug: 'luminance-converter', name: 'Luminance Converter' },
+  { slug: 'unit-converter', name: 'Unit Converter' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Sizing', href: '/converter/sizing' },
+  { label: 'Screen Size Calculator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="screen-size-calculator" name="Screen Size Calculator — TV & Monitor Dimensions" description="Enter a diagonal and aspect ratio to get width, height, and area in inches and centimeters, plus PPI from resolution." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:460px;">
+      <div class="calc-row">
+        <div class="calc-field"><label class="tool-label" for="ssc-diag">Diagonal (inches)</label><input type="number" id="ssc-diag" class="tool-input" placeholder="55" min="0" step="any" /></div>
+        <div class="calc-field"><label class="tool-label" for="ssc-ratio">Aspect ratio</label><select id="ssc-ratio" class="tool-input calc-select"><option value="16:9">16:9 (TV, monitor)</option><option value="16:10">16:10 (laptop)</option><option value="21:9">21:9 (ultrawide)</option><option value="32:9">32:9 (super ultrawide)</option><option value="4:3">4:3 (classic)</option><option value="3:2">3:2 (Surface)</option><option value="1:1">1:1 (square)</option></select></div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-field"><label class="tool-label" for="ssc-rw">Resolution width (px, optional)</label><input type="number" id="ssc-rw" class="tool-input" placeholder="3840" min="0" /></div>
+        <div class="calc-field"><label class="tool-label" for="ssc-rh">Resolution height (px, optional)</label><input type="number" id="ssc-rh" class="tool-input" placeholder="2160" min="0" /></div>
+      </div>
+      <div class="tool-stats">
+        <div class="tool-stat"><span class="tool-stat-value" id="ssc-width">—</span><span class="tool-stat-label">Width</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="ssc-height">—</span><span class="tool-stat-label">Height</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="ssc-area">—</span><span class="tool-stat-label">Area</span></div>
+        <div class="tool-stat"><span class="tool-stat-value" id="ssc-ppi">—</span><span class="tool-stat-label">PPI</span></div>
+      </div>
+      <p id="ssc-cm" style="font-size:13px;color:var(--text-2);margin:1rem 0 0;"></p>
+        <div class="tool-note"><strong>How this conversion works.</strong> Width and height come from the Pythagorean theorem applied to the aspect ratio: width = diagonal × w⁄√(w²+h²); PPI divides the diagonal pixel count by diagonal inches. Methodology shown inline.</div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.5rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr !important; } }
+</style>
+<script src="../tools/screen-size-calculator.js"></script>

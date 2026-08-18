@@ -28,6 +28,10 @@ const { ex, related, content } = Astro.props as {
 }
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 const primaryLabel = ex.primaryMuscles.map(cap).join(', ')
+// Hoisted out of the breadcrumb href: an inline `?.` inside a template literal
+// reads as a query string to the trailing-slash invariant check.
+const primaryMuscle = ex.primaryMuscles[0] ?? ''
+const primaryMuscleSlug = primaryMuscle.replace(/ /g, '-')
 const equipLabel = ex.equipment.map(cap).join(', ')
 
 // Built by a helper that drops whole clauses rather than slicing mid-word.
@@ -64,7 +68,7 @@ const seo = {
     <article class="ex-page">
       <nav class="ex-crumb" aria-label="Breadcrumb">
         <a href="/exercises/">Exercises</a> ›
-        <a href={`/exercises/muscle/${ex.primaryMuscles[0]?.replace(/ /g, '-')}/`}>{cap(ex.primaryMuscles[0] ?? '')}</a> ›
+        <a href={`/exercises/muscle/${primaryMuscleSlug}/`}>{cap(primaryMuscle)}</a> ›
         <span>{ex.name}</span>
       </nav>
 

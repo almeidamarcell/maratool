@@ -10,7 +10,7 @@ describe('tool categories', () => {
 
   test('Health category has expected subcategories', () => {
     expect(subcategoryOrderByCategory['Health']).toEqual([
-      'Anthropometric', 'Cardiology', 'Renal', 'Electrolytes', 'Endocrine', 'Hepatology', 'Ventilation', 'Obstetric', 'Pediatric', 'Drug', 'Infusion', 'Trauma', 'Screening', 'Scale', 'Prognosis', 'Score', 'General', 'Fitness',
+      'Anthropometric', 'Cardiology', 'Renal', 'Electrolytes', 'Endocrine', 'Hepatology', 'Ventilation', 'Obstetric', 'Pediatric', 'Drug', 'Infusion', 'Trauma', 'Screening', 'Scale', 'Prognosis', 'Score', 'Fitness', 'General',
     ])
   })
 
@@ -42,8 +42,8 @@ describe('tool categories', () => {
     }
   })
 
-  test('Converter category has Format, Document, Media, Unit, Video, Audio, CSV, and Date subcategories', () => {
-    expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Document', 'Media', 'Unit', 'Video', 'Audio', 'CSV', 'Date'])
+  test('Converter category has Format through Sizing subcategories (Wave 5 adds Science, Electrical, Magnetism, Light, Radiation, Sizing)', () => {
+    expect(subcategoryOrderByCategory['Converter']).toEqual(['Format', 'Document', 'Media', 'Unit', 'Video', 'Audio', 'CSV', 'Date', 'Science', 'Electrical', 'Magnetism', 'Light', 'Radiation', 'Sizing'])
   })
 
   test('PDF category has Extract, Edit, Inspect subcategories', () => {
@@ -176,6 +176,41 @@ describe('tool categories', () => {
       expect(tool?.live, slug).toBe(true)
       expect(tool?.blogPost, slug).toBe(true)
     }
+  })
+
+  test('Wave 5 tools are registered and live', () => {
+    const slugs = [
+      'area-converter', 'volume-converter', 'pressure-converter', 'energy-converter', 'power-converter',
+      'force-converter', 'torque-converter', 'acceleration-converter', 'density-converter', 'angle-converter',
+      'frequency-converter', 'bandwidth-converter',
+      'amount-of-substance-converter', 'molar-mass-converter', 'dynamic-viscosity-converter',
+      'kinematic-viscosity-converter', 'mass-flow-rate-converter', 'volumetric-flow-rate-converter',
+      'capacitance-converter', 'electric-charge-converter', 'electric-current-converter',
+      'electric-potential-converter', 'electrical-conductance-converter', 'electrical-resistance-converter',
+      'inductance-converter',
+      'magnetic-field-converter', 'magnetic-field-strength-converter', 'magnetic-flux-converter',
+      'magnetomotive-force-converter',
+      'illuminance-converter', 'luminance-converter', 'luminous-energy-converter', 'luminous-flux-converter',
+      'luminous-intensity-converter',
+      'absorbed-dose-converter', 'equivalent-dose-converter', 'radioactivity-converter',
+      'mpg-to-l100km', 'running-pace-calculator', 'wind-speed-converter', 'due-date-calculator',
+      'tire-size-calculator', 'screen-size-calculator', 'clothing-size-converter', 'hat-size-converter',
+    ]
+    expect(slugs.length).toBe(45)
+    for (const slug of slugs) {
+      const tool = tools.find(t => t.slug === slug)
+      expect(tool?.live, slug).toBe(true)
+      expect(tool?.blogPost, slug).toBe(true)
+    }
+  })
+
+  test('Wave 5 health tools live in Health subcategories', () => {
+    const due = tools.find(t => t.slug === 'due-date-calculator')
+    expect(due?.category).toBe('Health')
+    expect(due?.subcategory).toBe('Obstetric')
+    const pace = tools.find(t => t.slug === 'running-pace-calculator')
+    expect(pace?.category).toBe('Health')
+    expect(pace?.subcategory).toBe('Fitness')
   })
 
   test('every blogPost: true tool has a blog page with BlogToolEmbed', async () => {

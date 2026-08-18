@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Extend GIF Duration — Loop to Target Length | maratool',
-  description: 'Extend GIF Duration. Free, runs in your browser — no upload to servers.',
+  description: 'Extend GIF duration online — loop an animated GIF until it reaches a target length. Set the duration, preview the result, and download. No upload needed.',
   canonical: 'https://maratool.com/extend-gif',
   schema: {
     '@context': 'https://schema.org',
@@ -15,7 +15,7 @@ const seo = {
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Extend GIF Duration. Free, runs in your browser — no upload to servers.',
+    description: 'Extend GIF duration online — loop an animated GIF until it reaches a target length. Set the duration, preview the result, and download. No upload needed.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
@@ -69,9 +69,10 @@ const breadcrumbs = [
           <input class="tool-input" id="ga-targetSec" type="number" data-ga-opt="targetSec" value="10" />
           <button type="button" class="tool-btn" id="ga-process" style="margin-top:1rem;">Process GIF</button>
         </div>
-        <div id="ga-progress" hidden>
-          <p id="ga-progress-text">Processing...</p>
+        <div id="ga-progress" class="tool-progress" hidden>
+          <p id="ga-progress-text" class="tool-progress-text">Processing...</p>
           <div class="tool-progress-bar"><div id="ga-progress-fill" class="tool-progress-fill"></div></div>
+          <p id="ga-progress-detail" class="tool-progress-detail"></p>
         </div>
         <div id="ga-result" hidden>
           <img id="ga-result-img" alt="Result" style="max-width:100%;" />
@@ -88,4 +89,4 @@ const breadcrumbs = [
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/extend-gif.js"></script>
+<script src="../tools/extend-gif.js"></script>

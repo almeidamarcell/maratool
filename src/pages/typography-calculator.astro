@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Typography Size Converter — PX, PT, EM, % | maratool',
-  description: 'Convert between px, pt, em, rem, and percent for CSS typography. Enter any value and see all units instantly. Free, no sign-up.',
+  description: 'Convert between px, pt, em, rem, and percent for CSS typography. Enter any value with a root size and see every unit at once — free, no sign-up needed.',
   canonical: 'https://maratool.com/typography-calculator',
   schema: {
     '@context': 'https://schema.org',
@@ -142,7 +142,7 @@ const breadcrumbs = [
     </ToolShell>
   </Layout>
 </Base>
-<style>
+<style is:global>
   .tc-base-row {
     display: flex;
     align-items: center;

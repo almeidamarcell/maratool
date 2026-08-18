@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import './hash-state.js'
 import { generateApiKey, validateApiKeyOptions } from './api-key-generator-core.js'
 // API Key Generator
@@ -46,11 +47,7 @@ import { generateApiKey, validateApiKeyOptions } from './api-key-generator-core.
   if (copyBtn) {
     copyBtn.addEventListener('click', function () {
       if (!output.value) return
-      navigator.clipboard.writeText(output.value).then(function () {
-        var orig = copyBtn.textContent
-        copyBtn.textContent = 'Copied!'
-        setTimeout(function () { copyBtn.textContent = orig }, 2000)
-      })
+      copyWithFeedback(copyBtn, output.value)
     })
   }
 

@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Image to Data URI Converter | maratool',
-  description: 'Image to Data URI Converter. Free, runs in your browser — no upload to servers.',
+  description: 'Convert images to Base64 data URIs for inline CSS and HTML. Drop a PNG, JPG, SVG, or WebP and copy the encoded string instantly. Free, no upload needed.',
   canonical: 'https://maratool.com/image-to-datauri',
   schema: {
     '@context': 'https://schema.org',
@@ -15,7 +15,7 @@ const seo = {
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Image to Data URI Converter. Free, runs in your browser — no upload to servers.',
+    description: 'Convert images to Base64 data URIs for inline CSS and HTML. Drop a PNG, JPG, SVG, or WebP and copy the encoded string instantly. Free, no upload needed.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
@@ -71,4 +71,4 @@ const breadcrumbs = [
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/image-to-datauri.js"></script>
+<script src="../tools/image-to-datauri.js"></script>

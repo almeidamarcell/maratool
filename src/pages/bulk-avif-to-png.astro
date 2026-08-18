@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Bulk AVIF to PNG Converter | maratool',
-  description: 'Bulk AVIF to PNG Converter. Free, runs in your browser — no upload to servers.',
+  description: 'Convert multiple AVIF images to PNG in one batch, right in your browser. Drop files, convert, and download all at once. Free, no upload to servers.',
   canonical: 'https://maratool.com/bulk-avif-to-png',
   schema: {
     '@context': 'https://schema.org',
@@ -15,37 +15,37 @@ const seo = {
     applicationCategory: 'UtilitiesApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Bulk AVIF to PNG Converter. Free, runs in your browser — no upload to servers.',
+    description: 'Convert multiple AVIF images to PNG in one batch, right in your browser. Drop files, convert, and download all at once. Free, no upload to servers.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
-      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
-      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+      { '@type': 'Question', name: 'Does transparency survive the conversion?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Both AVIF and PNG carry an alpha channel, so transparent areas stay transparent.' } },
+      { '@type': 'Question', name: 'Can I convert several AVIF files at once?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. Drop the whole batch and each file is converted and offered as its own download, plus a download-all.' } },
+      { '@type': 'Question', name: 'Why is the PNG so much larger?', acceptedAnswer: { '@type': 'Answer', text: 'PNG is lossless and AVIF is not. Expect the PNG to be several times the size for a photographic image. That is the cost of a format every program can open.' } },
+      { '@type': 'Question', name: 'Are my images uploaded anywhere?', acceptedAnswer: { '@type': 'Answer', text: 'No. The conversion happens in your browser and nothing is sent to a server.' } },
     ],
   },
 }
 
 const howTo = [
-  'Upload or drop your file.',
-  'Adjust settings if needed.',
-  'Click Process and download the result.',
+  'Drop in as many AVIF files as you like — the whole batch loads at once.',
+  'Click Convert to PNG. Every file in the batch is re-encoded, not just the first.',
+  'Download each PNG on its own, or take the whole set with Download all.',
 ]
 
 const faq = [
-  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
-  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
-  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
-  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+  { q: 'Does transparency survive the conversion?', a: 'Yes. Both AVIF and PNG carry an alpha channel, so transparent areas stay transparent.' },
+  { q: 'Can I convert several AVIF files at once?', a: 'Yes. Drop the whole batch and each file is converted and offered as its own download, plus a download-all.' },
+  { q: 'Why is the PNG so much larger?', a: 'PNG is lossless and AVIF is not. Expect the PNG to be several times the size for a photographic image. That is the cost of a format every program can open.' },
+  { q: 'Are my images uploaded anywhere?', a: 'No. The conversion happens in your browser and nothing is sent to a server.' },
 ]
 
 const relatedTools = [
-  { slug: 'gif-maker', name: 'GIF Maker' },
-  { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'video-to-gif', name: 'Video to GIF' },
+  { slug: 'bulk-avif-to-jpg', name: 'Bulk AVIF to JPG Converter' },
+  { slug: 'avif-maker', name: 'AVIF Maker' },
+  { slug: 'image-converter', name: 'Image Converter' },
 ]
 
 const breadcrumbs = [
@@ -57,7 +57,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="bulk-avif-to-png" name="Bulk AVIF to PNG Converter" description="Bulk AVIF to PNG Converter. Free, runs in your browser — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="bulk-avif-to-png" name="Bulk AVIF to PNG Converter" description="Convert a whole batch of AVIF files to PNG at once. Every file is re-encoded in your browser and downloads individually or as a set." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container" style="min-height:420px;" data-ui="image">
         <p class="tool-hint">Upload a file to get started. Processing runs entirely in your browser.</p>
         <div id="ez-root" data-slug="bulk-avif-to-png"></div>
@@ -71,4 +71,4 @@ const breadcrumbs = [
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/bulk-avif-to-png.js"></script>
+<script src="../tools/bulk-avif-to-png.js"></script>

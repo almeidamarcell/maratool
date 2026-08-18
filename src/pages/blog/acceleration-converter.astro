@@ -1,0 +1,92 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'acceleration-converter'
+const seo = {
+  title: 'Acceleration converter — m/s², g-force, ft/s² | maratool',
+  description: 'Convert m/s², g-force, ft/s², and Gal with exact NIST factors. Free browser acceleration converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert m/s² to g-force',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert m/s², g-force, ft/s², and Gal with exact NIST factors. Free browser acceleration converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert m/s² to g-force', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert m/s² to g-force"
+      lead="Type an acceleration — read m/s², g, ft/s², Gal, or mph/s instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Accelerometer datasheets read g, physics problems read m/s², and US dynamics texts read ft/s². The <a href="/acceleration-converter/">Acceleration Converter</a> converts between them using the exact standard-gravity definition.</p>
+
+      <BlogToolEmbed slug="acceleration-converter" title="Try it — convert acceleration units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Standard gravity (g)" to "Meter per second squared (m/s²)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Acceleration conversion factors</h2>
+      <p>Every unit converts through the meter per second squared (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many meter per second squareds</th></tr></thead>
+        <tbody>
+        <tr><td>Meter per second squared (m/s²)</td><td>1</td></tr>
+        <tr><td>Standard gravity (g)</td><td>9.80665</td></tr>
+        <tr><td>Foot per second squared (ft/s²)</td><td>0.3048</td></tr>
+        <tr><td>Gal / centimeter per second squared (Gal)</td><td>0.01</td></tr>
+        <tr><td>Kilometer per hour per second (km/h·s)</td><td>0.277777777778</td></tr>
+        <tr><td>Mile per hour per second (mph/s)</td><td>0.44704</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>Reference points: free fall is 1 g (9.80665 m/s² exactly), a hard car brake is about 1 g, fighter-jet turns reach 9 g, and a smartphone accelerometer typically ranges ±2 g to ±16 g.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.nist.gov/pml/special-publication-811" rel="noopener" target="_blank">NIST Special Publication 811</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/force-converter/">How to convert newtons, kgf, and pounds-force</a></li>
+        <li><a href="/blog/wind-speed-converter/">How to convert knots to mph and read the Beaufort scale</a></li>
+        <li><a href="/blog/area-converter/">How to convert square feet to square meters (and any area unit)</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters/">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/acceleration-converter/">Acceleration Converter</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter/">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

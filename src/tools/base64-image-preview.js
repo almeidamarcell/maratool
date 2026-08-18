@@ -1,3 +1,4 @@
+import { copyWithFeedback } from './tool-utils.js'
 import './hash-state.js'
 // Base64 Image Previewer
 ;(function () {
@@ -100,14 +101,7 @@ import './hash-state.js'
 
   copyBtn.addEventListener('click', function () {
     if (!currentDataUrl) return
-    navigator.clipboard.writeText(currentDataUrl).then(function () {
-      copyBtn.textContent = 'Copied!'
-      copyBtn.classList.add('copied')
-      setTimeout(function () {
-        copyBtn.textContent = 'Copy data URL'
-        copyBtn.classList.remove('copied')
-      }, 2000)
-    })
+    copyWithFeedback(copyBtn, currentDataUrl, { idle: 'Copy data URL' })
   })
 
   // Restore from hash

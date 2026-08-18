@@ -1,5 +1,7 @@
 // Pure helpers for animated GIF frame manipulation — shared by ezgif-gap tools.
 
+import { computeScaledDims } from './gif-compressor-core.js'
+
 export const MIN_DELAY = 2 // hundredths of a second; browsers throttle below this
 
 export function reverseFrameOrder(frames) {
@@ -22,6 +24,65 @@ export function scaleDelays(delays, speedPercent) {
   return delays.map(function (d) {
     return clampDelay(Math.round((Number(d) || 0) * factor))
   })
+}
+
+// Walk past a GIF sub-block chain (length byte, that many bytes, repeat until a
+// zero-length block). Returns the offset just past the terminator.
+function skipSubBlocks(bytes, p) {
+  while (p < bytes.length) {
+    var len = bytes[p]
+    p += 1
+    if (len === 0) break
+    p += len
+  }
+  return p
+}
+
+// Change playback speed by rewriting the delay field of every Graphic Control
+// Extension in place, leaving the compressed pixel data untouched.
+//
+// The decode-and-re-encode path needs width × height × frames × 4 bytes of RAM
+// (a 2808×1650 GIF with 597 frames wants 10.3 GB and kills the tab) and it
+// requantizes to 256 colors on the way out. Speed is pure timing metadata, so
+// none of that is necessary: copy the bytes, patch the delays, done.
+export function rewriteGifDelays(bytes, speedPercent) {
+  if (!bytes || bytes.length < 13) throw new Error('Not a valid GIF file.')
+  if (bytes[0] !== 0x47 || bytes[1] !== 0x49 || bytes[2] !== 0x46) {
+    throw new Error('Not a valid GIF file.')
+  }
+  var factor = speedPercentToDelayFactor(speedPercent)
+  var out = bytes.slice()
+  var packed = out[10]
+  var p = 13
+  if (packed & 0x80) p += 3 * (1 << ((packed & 7) + 1)) // global color table
+  var patched = 0
+  while (p < out.length) {
+    var block = out[p]
+    if (block === 0x3b) break // trailer
+    if (block === 0x21) {
+      // Extension. 0xF9 is the Graphic Control Extension, whose 2-byte
+      // little-endian delay sits at +4 (after label, block size and flags).
+      if (out[p + 1] === 0xf9) {
+        var delay = out[p + 4] | (out[p + 5] << 8)
+        var scaled = Math.min(clampDelay(Math.round(delay * factor)), 0xffff)
+        out[p + 4] = scaled & 0xff
+        out[p + 5] = (scaled >> 8) & 0xff
+        patched += 1
+      }
+      p = skipSubBlocks(out, p + 2)
+    } else if (block === 0x2c) {
+      // Image descriptor: 10-byte header, optional local color table,
+      // then the LZW minimum code size and the compressed sub-blocks.
+      var ipacked = out[p + 9]
+      p += 10
+      if (ipacked & 0x80) p += 3 * (1 << ((ipacked & 7) + 1))
+      p = skipSubBlocks(out, p + 1)
+    } else {
+      break // unrecognized block, stop rather than corrupt the stream
+    }
+  }
+  if (!patched) throw new Error('This GIF has no frame timing to change.')
+  return out
 }
 
 export function cutFramesByIndex(frames, startIdx, endIdx) {
@@ -175,6 +236,90 @@ export function validateLoopCount(n) {
 export function normalizeLoopCount(n) {
   if (!validateLoopCount(n)) return 0
   return Number(n)
+}
+
+// Decoding holds every frame as composited RGBA, so peak memory is
+// width × height × frames × 4 regardless of how small the compressed file is.
+// Returns null when the GIF fits the budget, or a user-facing message when it
+// would blow the tab's memory.
+export function decodedSizeError(width, height, frameCount, maxPixels) {
+  var w = Number(width) || 0
+  var h = Number(height) || 0
+  var n = Number(frameCount) || 0
+  if (w <= 0 || h <= 0 || n <= 0) return null
+  var pixels = w * h * n
+  if (pixels <= maxPixels) return null
+  var mb = Math.round((pixels * 4) / 1048576)
+  return (
+    'This GIF is too big to process in the browser: ' + w + '×' + h + ' at ' + n +
+    ' frames needs about ' + mb + ' MB of memory. Decoded size is what runs out, ' +
+    'not file size. Try smaller dimensions or fewer frames.'
+  )
+}
+
+// Ordered from least to most destructive. Resolution is given up before frames
+// are dropped (a choppy GIF reads worse than a slightly smaller one), then both
+// together once the budget gets tight.
+export var FIT_LADDER = [
+  { scale: 100, skip: 1 },
+  { scale: 75, skip: 1 },
+  { scale: 50, skip: 1 },
+  { scale: 50, skip: 2 },
+  { scale: 35, skip: 2 },
+  { scale: 25, skip: 2 },
+  { scale: 25, skip: 3 },
+  { scale: 20, skip: 4 },
+  { scale: 15, skip: 4 },
+]
+
+export function keptFrameCount(frameCount, skip) {
+  var s = skip && skip > 1 ? skip : 1
+  return Math.ceil(frameCount / s)
+}
+
+// Pick the least destructive downscale + frame-drop combination whose decoded
+// frames fit the memory budget. Returns null when even the last rung overflows.
+//
+// This has to be decided up front so the decoder can shrink each frame as it
+// goes: compressing after a full decode is pointless, because the full decode
+// is what runs out of memory.
+export function computeFitPlan(width, height, frameCount, budgetPixels) {
+  var w = Number(width) || 0
+  var h = Number(height) || 0
+  var n = Number(frameCount) || 0
+  if (w <= 0 || h <= 0 || n <= 0) return null
+  for (var i = 0; i < FIT_LADDER.length; i++) {
+    var rung = FIT_LADDER[i]
+    var dims = computeScaledDims(w, h, rung.scale)
+    var kept = keptFrameCount(n, rung.skip)
+    if (dims.width * dims.height * kept <= budgetPixels) {
+      return {
+        scale: rung.scale,
+        skip: rung.skip,
+        width: dims.width,
+        height: dims.height,
+        frameCount: kept,
+        sourceFrameCount: n,
+        compressed: rung.scale < 100 || rung.skip > 1,
+      }
+    }
+  }
+  return null
+}
+
+// One line the user can act on, or '' when the GIF fit as-is.
+export function describeFitPlan(plan, sourceWidth, sourceHeight) {
+  if (!plan || !plan.compressed) return ''
+  var parts = []
+  if (plan.scale < 100) {
+    parts.push('resized to ' + plan.width + '×' + plan.height +
+      ' (from ' + sourceWidth + '×' + sourceHeight + ')')
+  }
+  if (plan.skip > 1) {
+    parts.push('kept ' + plan.frameCount + ' of ' + plan.sourceFrameCount +
+      ' frames, same total duration')
+  }
+  return 'Too big to process at full size, so it was ' + parts.join(' and ') + '.'
 }
 
 export function getGifOutputFilename(inputName, suffix) {

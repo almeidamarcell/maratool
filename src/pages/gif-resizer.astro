@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Resize GIF Online — Change Animated GIF Size | maratool',
-  description: 'Resize GIF Online. Free, runs in your browser — no upload to servers.',
+  description: 'Resize a GIF online — change animated GIF dimensions while keeping the animation intact. Set width and height, then download. No upload, no watermark.',
   canonical: 'https://maratool.com/gif-resizer',
   schema: {
     '@context': 'https://schema.org',
@@ -15,7 +15,7 @@ const seo = {
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Resize GIF Online. Free, runs in your browser — no upload to servers.',
+    description: 'Resize a GIF online — change animated GIF dimensions while keeping the animation intact. Set width and height, then download. No upload, no watermark.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
@@ -71,9 +71,10 @@ const breadcrumbs = [
           <input class="tool-input" id="ga-height" type="number" data-ga-opt="height" value="" />
           <button type="button" class="tool-btn" id="ga-process" style="margin-top:1rem;">Process GIF</button>
         </div>
-        <div id="ga-progress" hidden>
-          <p id="ga-progress-text">Processing...</p>
+        <div id="ga-progress" class="tool-progress" hidden>
+          <p id="ga-progress-text" class="tool-progress-text">Processing...</p>
           <div class="tool-progress-bar"><div id="ga-progress-fill" class="tool-progress-fill"></div></div>
+          <p id="ga-progress-detail" class="tool-progress-detail"></p>
         </div>
         <div id="ga-result" hidden>
           <img id="ga-result-img" alt="Result" style="max-width:100%;" />
@@ -90,4 +91,4 @@ const breadcrumbs = [
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/gif-resizer.js"></script>
+<script src="../tools/gif-resizer.js"></script>

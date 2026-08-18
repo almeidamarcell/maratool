@@ -1,0 +1,171 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'SVG to PNG Converter — Export at 1x, 2x, 3x, 4x | maratool',
+  description: 'Convert SVG to PNG in your browser. Paste the markup or drop a file, set an exact width and height, and export at 1x, 2x, 3x or 4x with transparency.',
+  canonical: 'https://maratool.com/svg-to-png',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'SVG to PNG Converter',
+    url: 'https://maratool.com/svg-to-png',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Rasterize SVG markup or an SVG file to PNG at any width and height, with retina multipliers and a transparency toggle.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Image', item: 'https://maratool.com/image' },
+      { '@type': 'ListItem', position: 3, name: 'Transform', item: 'https://maratool.com/image/transform' },
+      { '@type': 'ListItem', position: 4, name: 'SVG to PNG Converter', item: 'https://maratool.com/svg-to-png' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do I convert an SVG to PNG without Illustrator?', acceptedAnswer: { '@type': 'Answer', text: 'Paste the SVG markup or drop the file on this page, type the pixel size you want, and click Download PNG. The browser rasterizes the vector on a canvas, so no design app and no upload is involved.' } },
+      { '@type': 'Question', name: 'Will the PNG look blurry at 2x or 3x?', acceptedAnswer: { '@type': 'Answer', text: 'No. The multipliers change the canvas size before drawing, so the vector is rasterized at the final resolution instead of being scaled up afterwards. A 512 by 512 export at 3x is a genuine 1536 by 1536 image.' } },
+      { '@type': 'Question', name: 'Why does my SVG have no size?', acceptedAnswer: { '@type': 'Answer', text: 'An SVG with no width, height, or viewBox attribute has no intrinsic size, so a browser would draw it as a zero pixel image. When that happens the tool falls back to 512 by 512 and says so, and you can type any size you want instead.' } },
+      { '@type': 'Question', name: 'Can I keep the transparent background?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, and it is the default. PNG supports alpha, so whatever the SVG leaves uncovered stays transparent. Switch the background to white when the target is a JPEG-style context or a slide deck that shows dark artwork on dark.' } },
+    ],
+  },
+}
+
+const howTo = [
+  'Paste your SVG markup into the box, or switch to the Upload tab and drop an .svg file.',
+  'Set the output width and height, or click 2x, 3x, or 4x to scale from the original size.',
+  'Pick a transparent or white background, check the preview, then download the PNG.',
+]
+
+const faq = [
+  { q: 'How do I convert an SVG to PNG without Illustrator?', a: 'Paste the markup or drop the file here, type the pixel size you want, and download. The browser rasterizes the vector on a canvas, so no design app and no upload is involved.' },
+  { q: 'Will the PNG look blurry at 2x or 3x?', a: 'No. The multiplier resizes the canvas <em>before</em> drawing, so the vector is rasterized at the final resolution rather than upscaled after the fact. A 512&times;512 logo at 3x is a real 1536&times;1536 PNG.' },
+  { q: 'Why does my SVG have no size?', a: 'An SVG with no <code>width</code>, <code>height</code>, or <code>viewBox</code> has no intrinsic size, and a browser draws it as a zero pixel image. The tool falls back to 512&times;512, tells you it did, and lets you type any size instead.' },
+  { q: 'Can I keep the transparent background?', a: 'Yes, and that is the default. PNG carries an alpha channel, so anything the SVG leaves uncovered stays transparent. Switch to white when the target cannot handle alpha.' },
+]
+
+const relatedTools = [
+  { slug: 'svg-optimizer', name: 'SVG Optimizer' },
+  { slug: 'image-tracer', name: 'Image to SVG — Trace Raster to Vector' },
+  { slug: 'favicon-generator', name: 'Favicon Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Image', href: '/image' },
+  { label: 'Transform', href: '/image/transform' },
+  { label: 'SVG to PNG Converter' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="svg-to-png" name="Convert SVG to PNG" description="Rasterize an SVG to PNG at any size. Paste the markup or drop a file, lock the aspect ratio, and export at 1x, 2x, 3x or 4x." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:560px;">
+        <div class="tool-tabs">
+          <button class="tool-tab active" type="button" data-panel="svp-tab-paste">Paste SVG code</button>
+          <button class="tool-tab" type="button" data-panel="svp-tab-upload">Upload .svg file</button>
+        </div>
+
+        <div id="svp-tab-paste" class="tab-panel">
+          <label class="tool-label" for="svp-input">SVG markup</label>
+          <textarea id="svp-input" class="tool-input svp-textarea" spellcheck="false" placeholder="&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot;&gt;…&lt;/svg&gt;"></textarea>
+        </div>
+
+        <div id="svp-tab-upload" class="tab-panel" style="display:none;">
+          <div class="tool-dropzone svp-dropzone" id="svp-dropzone">
+            <input type="file" id="svp-file" accept=".svg,image/svg+xml" hidden />
+            <p class="svp-drop-title">Drop an .svg file here</p>
+            <p class="svp-drop-sub">or click to select — the markup is loaded into the editor</p>
+          </div>
+        </div>
+
+        <p id="svp-error" class="tool-error" hidden style="display:none;"></p>
+        <p id="svp-hint" class="tool-hint svp-hint" hidden style="display:none;"></p>
+
+        <div id="svp-controls" hidden style="display:none;">
+          <div class="svp-controls-grid">
+            <div class="svp-field">
+              <label class="tool-label" for="svp-width">Width (px)</label>
+              <input type="number" id="svp-width" class="tool-input" min="1" max="8000" step="1" value="512" />
+            </div>
+            <div class="svp-field">
+              <label class="tool-label" for="svp-height">Height (px)</label>
+              <input type="number" id="svp-height" class="tool-input" min="1" max="8000" step="1" value="512" />
+            </div>
+            <div class="svp-field svp-field-inline">
+              <label class="svp-check"><input type="checkbox" id="svp-lock" checked /> Lock aspect ratio</label>
+              <label class="svp-check"><input type="checkbox" id="svp-white" /> White background</label>
+            </div>
+          </div>
+
+          <div class="svp-scales">
+            <span class="tool-label svp-scales-label">Scale from original</span>
+            <div class="svp-scale-row">
+              <button type="button" class="copy-btn svp-scale" data-scale="1">1x</button>
+              <button type="button" class="copy-btn svp-scale" data-scale="2">2x</button>
+              <button type="button" class="copy-btn svp-scale" data-scale="3">3x</button>
+              <button type="button" class="copy-btn svp-scale" data-scale="4">4x</button>
+              <span class="svp-natural" id="svp-natural"></span>
+            </div>
+          </div>
+
+          <div class="svp-preview-wrap">
+            <img id="svp-preview" class="svp-preview" alt="PNG preview" />
+          </div>
+
+          <p class="svp-outmeta" id="svp-outmeta"></p>
+          <div class="svp-actions">
+            <button class="tool-button" id="svp-download">Download PNG</button>
+            <button class="copy-btn" id="svp-reset">Start over</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  .svp-textarea { width: 100%; min-height: 150px; font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.5; resize: vertical; }
+  /* The container reserves height for the loaded preview; before any SVG is
+     pasted that reservation showed as 344px of dead space under the editor.
+     Let the editor take the slack instead of leaving a hole. */
+  .tool-container:has(> .tool-tabs) { display: flex; flex-direction: column; }
+  .tab-panel { flex: 1 0 auto; flex-direction: column; }
+  .tab-panel .svp-textarea { flex: 1 0 auto; }
+  /* Padding comes from .tool-dropzone in tools.css — no override here. */
+  .svp-drop-title { font-weight: 600; color: var(--text); margin: 0 0 0.25rem; }
+  .svp-drop-sub { color: var(--text-2); font-size: 0.875rem; margin: 0; }
+  .svp-hint { margin-top: 0.75rem; }
+  .svp-controls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1.25rem 0 1rem; align-items: end; }
+  .svp-field-inline { display: grid; gap: 0.375rem; }
+  .svp-check { font-size: 0.8125rem; color: var(--text-2); display: flex; align-items: center; gap: 0.375rem; cursor: pointer; }
+  .svp-scales { margin-bottom: 1.25rem; }
+  .svp-scales-label { display: block; margin-bottom: 0.375rem; }
+  .svp-scale-row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+  .svp-scale.active { border-color: var(--accent); color: var(--accent); }
+  .svp-natural { font-size: 0.75rem; color: var(--text-3); }
+  .svp-preview-wrap {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 220px; padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius);
+    background-color: var(--bg-soft);
+    background-image:
+      linear-gradient(45deg, rgba(0,0,0,0.06) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(0,0,0,0.06) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgba(0,0,0,0.06) 75%),
+      linear-gradient(-45deg, transparent 75%, rgba(0,0,0,0.06) 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+  }
+  .svp-preview { max-width: 100%; max-height: 260px; display: block; }
+  .svp-outmeta { font-size: 0.8125rem; color: var(--text-2); margin: 0.75rem 0 1rem; }
+  .svp-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  @media (max-width: 600px) { .svp-controls-grid { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/svg-to-png.js"></script>

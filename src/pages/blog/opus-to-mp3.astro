@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'opus-to-mp3'
+const seo = {
+  title: 'How to convert Opus (WhatsApp voice messages) to MP3 | maratool',
+  description: 'Turn .opus files — including WhatsApp and Telegram voice messages — into MP3s that play anywhere. Free, browser-based, no upload.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert Opus (WhatsApp voice messages) to MP3',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-07-24',
+    dateModified: '2026-07-24',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Turn .opus files — including WhatsApp and Telegram voice messages — into MP3s that play anywhere. Free, browser-based, no upload.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell title="How to convert Opus (WhatsApp voice messages) to MP3" lead="Voice apps save recordings as .opus files that most players can't open. Convert them to MP3 in your browser — nothing gets uploaded." date="July 24, 2026" dateIso="2026-07-24">
+      <p>Use the free <a href="/opus-to-mp3/">Opus to MP3 converter</a> on maratool. The conversion runs on your own device via FFmpeg compiled to WebAssembly — important when the file is a private voice message you'd rather not send to a random server.</p>
+      <BlogToolEmbed slug="opus-to-mp3" title="Try it live" height={480} />
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Export the voice message</strong> — in WhatsApp, share or save the audio; you'll get a .opus file (Telegram and Discord exports work the same way).</li>
+        <li><strong>Drop it into the tool</strong> — .opus and .ogg both work.</li>
+        <li><strong>Convert and download</strong> — 128 kbps is plenty for speech; the MP3 plays on anything.</li>
+      </ol>
+      <h2>What is an .opus file, anyway?</h2>
+      <p>Opus is the codec behind nearly every modern voice app — WhatsApp, Discord, Telegram, Signal. It compresses speech remarkably well, which is why a minute of voice message is only a few hundred kilobytes. The catch: media players, car stereos, and editing software often don't recognize it, so archiving or sharing recordings usually means converting to MP3 first.</p>
+      <h2>Does the conversion lose quality?</h2>
+      <p>Marginally. Opus and MP3 are both lossy, so re-encoding discards a little detail — but for voice recordings the difference is inaudible at 128 kbps and above. If the recording is music or you want headroom, pick 192 kbps.</p>
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">Also see the <a href="/ogg-to-mp3/">OGG to MP3 converter</a>, or browse all <a href="/converter/audio/">audio tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

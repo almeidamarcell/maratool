@@ -1,3 +1,4 @@
+import { attachCopyButton } from './tool-utils.js'
 import './hash-state.js'
 // CSS Gradient Generator
 (function () {
@@ -81,16 +82,7 @@ import './hash-state.js'
   })
 
   // Copy
-  copyBtn.addEventListener('click', function () {
-    navigator.clipboard.writeText(output.textContent).then(function () {
-      copyBtn.textContent = 'Copied!'
-      copyBtn.classList.add('copied')
-      setTimeout(function () {
-        copyBtn.textContent = 'Copy CSS'
-        copyBtn.classList.remove('copied')
-      }, 2000)
-    })
-  })
+  attachCopyButton(copyBtn, function () { return output.textContent }, { idle: 'Copy CSS' })
 
   // Restore from hash state
   var _hs = HashState.parse()

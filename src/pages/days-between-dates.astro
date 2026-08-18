@@ -1,0 +1,127 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Days Between Dates — Count Days Between Two Dates | maratool',
+  description: 'Count the days between two dates, with weeks, hours, minutes, a years months and days breakdown, plus a business days total that skips weekends.',
+  canonical: 'https://maratool.com/days-between-dates',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Days Between Dates — Count Days Between Two Dates',
+    url: 'https://maratool.com/days-between-dates',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Count the days between two dates, with weeks, hours, minutes, a years months and days breakdown, plus a business days total that skips weekends.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Date', item: 'https://maratool.com/converter/date' },
+      { '@type': 'ListItem', position: 4, name: 'Days Between Dates', item: 'https://maratool.com/days-between-dates' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How many days are there between two dates?', acceptedAnswer: { '@type': 'Answer', text: 'Enter both dates and the total appears immediately. The count is the number of calendar days you cross going from the first date to the second, so 1 March to 8 March is 7 days.' } },
+      { '@type': 'Question', name: 'Should I include the end date in the count?', acceptedAnswer: { '@type': 'Answer', text: 'Include it when you are counting days you occupy, such as hotel nights billed per day, vacation days, or a rental period. Leave it out when you are measuring elapsed time between two moments.' } },
+      { '@type': 'Question', name: 'Does the business days number skip public holidays?', acceptedAnswer: { '@type': 'Answer', text: 'No. It removes Saturdays and Sundays only. Public holidays vary by country and region, so subtract them yourself for the calendars you care about.' } },
+      { '@type': 'Question', name: 'Does daylight saving time change the number of days?', acceptedAnswer: { '@type': 'Answer', text: 'Not here. Both dates are compared at UTC midnight, so a 23-hour or 25-hour day caused by a clock change cannot push the result off by one, which is a common bug in timestamp subtraction.' } },
+    ]
+  }
+}
+
+const howTo = [
+  'Pick a start date and an end date — they default to today and 30 days out.',
+  'Tick "include the end date" if the last day should count as a full day.',
+  'Read the total days, the years-months-days breakdown, and the business days figure.',
+]
+
+const faq = [
+  { q: 'How many days are there between two dates?', a: 'Enter both dates and the total appears immediately. The count is the number of calendar days you cross going from the first date to the second, so 1 March to 8 March is 7 days.' },
+  { q: 'Should I include the end date in the count?', a: 'Include it when you are counting days you occupy: hotel nights billed per day, vacation days, a rental period. Leave it out when you are measuring elapsed time between two moments.' },
+  { q: 'Does the business days number skip public holidays?', a: 'No. It removes Saturdays and Sundays only. Public holidays vary by country and region, so subtract them yourself for the calendars you care about.' },
+  { q: 'Does daylight saving time change the number of days?', a: 'Not here. Both dates are compared at UTC midnight, so a 23-hour or 25-hour day caused by a clock change cannot push the result off by one — a common bug in timestamp subtraction.' },
+]
+
+const relatedTools = [
+  { slug: 'age-calculator', name: 'Age Calculator — Exact Age from Birth Date' },
+  { slug: 'business-days-calculator', name: 'Business Days Calculator' },
+  { slug: 'week-number-calculator', name: 'ISO Week Number Calculator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Date', href: '/converter/date' },
+  { label: 'Days Between Dates' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="days-between-dates" name="Days Between Dates" description="Count the days between two dates, broken down into years, months, weeks, hours, minutes, and business days. Updates as you type." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:440px;">
+        <div class="dbd-row">
+          <div class="dbd-field">
+            <label class="tool-label" for="dbd-start">Start date</label>
+            <input type="date" id="dbd-start" class="tool-input" />
+            <span class="dbd-weekday" id="dbd-start-weekday"></span>
+          </div>
+          <div class="dbd-field">
+            <label class="tool-label" for="dbd-end">End date</label>
+            <input type="date" id="dbd-end" class="tool-input" />
+            <span class="dbd-weekday" id="dbd-end-weekday"></span>
+          </div>
+        </div>
+
+        <label class="dbd-toggle"><input type="checkbox" id="dbd-include-end" /> Include the end date as a full day</label>
+
+        <p class="dbd-error error-state" id="dbd-error" hidden>Enter two valid dates.</p>
+
+        <div class="dbd-headline" id="dbd-headline">—</div>
+        <div class="dbd-breakdown" id="dbd-breakdown">—</div>
+
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="dbd-days">—</span><span class="tool-stat-label">Days</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="dbd-weeks">—</span><span class="tool-stat-label">Weeks</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="dbd-hours">—</span><span class="tool-stat-label">Hours</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="dbd-minutes">—</span><span class="tool-stat-label">Minutes</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="dbd-business">—</span><span class="tool-stat-label">Business days</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="dbd-weekend">—</span><span class="tool-stat-label">Weekend days</span></div>
+        </div>
+
+        <div class="dbd-actions">
+          <button type="button" class="tool-button" id="dbd-today">Reset to today</button>
+          <button type="button" class="copy-btn" id="dbd-copy">Copy summary</button>
+        </div>
+
+        <p class="tool-note">Business days count Monday to Friday only. Public holidays are not deducted — they differ by country, state, and company, so subtract the ones on your own calendar. Hours and minutes assume 24-hour days; the day count itself is measured at UTC midnight, so a daylight saving change never shifts it by one.</p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .dbd-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.75rem; }
+  .dbd-field { display: flex; flex-direction: column; align-items: flex-start; }
+  .dbd-field .tool-input { width: 100%; max-width: 240px; }
+  .dbd-weekday { font-size: 12px; color: var(--text-3); margin-top: 0.375rem; min-height: 15px; }
+  .dbd-toggle { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 13px; color: var(--text-2); margin-bottom: 1rem; cursor: pointer; }
+  .dbd-error { display: block; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; margin: 0 0 1rem; }
+  .dbd-headline { font-family: var(--font-mono); font-size: 1.75rem; font-weight: 600; color: var(--text); line-height: 1.2; margin-bottom: 0.25rem; }
+  .dbd-breakdown { font-size: 14px; color: var(--text-2); margin-bottom: 1rem; min-height: 21px; }
+  .dbd-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  @media (max-width: 600px) {
+    .dbd-row { grid-template-columns: 1fr; }
+    .dbd-headline { font-size: 1.375rem; }
+  }
+</style>
+<script src="../tools/days-between-dates.js"></script>

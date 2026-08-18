@@ -1,0 +1,338 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Audio to Text — Transcribe Audio to Text Free | maratool',
+  description: 'Convert audio to text online for free. Transcribe MP3, WAV, M4A, and more to text, SRT, or VTT in your browser — no upload, no signup, no watermark.',
+  canonical: 'https://maratool.com/audio-to-text',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Audio to Text',
+    url: 'https://maratool.com/audio-to-text',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Transcribe audio to text, SRT, or VTT directly in your browser using Whisper. No upload, no signup.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Audio', item: 'https://maratool.com/converter/audio' },
+      { '@type': 'ListItem', position: 4, name: 'Audio to Text', item: 'https://maratool.com/audio-to-text' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I convert audio to text for free?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Drop your MP3, WAV, or M4A file, pick a language and model, then click Transcribe. The tool runs OpenAI Whisper directly in your browser and gives you the transcript as plain text, SRT, or VTT. Nothing is uploaded and there is no signup.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I transcribe an MP3 or voice memo without uploading it?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Everything runs locally in your browser using a Whisper model compiled to run on your device. Your audio never leaves your computer, which makes it safe for interviews, voice memos, and other private recordings.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'What audio formats are supported?',
+        acceptedAnswer: { '@type': 'Answer', text: 'MP3, WAV, M4A, AAC, OGG, FLAC, and any other audio your browser can decode. The audio is resampled to 16 kHz mono before transcription, which is the format Whisper expects.' }
+      },
+      {
+        '@type': 'Question',
+        name: 'How accurate is the transcription?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Accuracy depends on the model you pick and the audio quality. The Max (large-v3-turbo) model is the most accurate — great for accents, proper nouns, and technical terms — and needs WebGPU; Accurate (small) is a good CPU-friendly middle ground, while Fast (tiny) trades accuracy for speed. Clear speech with little background noise gives the best results in any mode.' }
+      }
+    ]
+  }
+}
+
+const whatIs = 'Audio to Text is a free, browser-based transcription tool that turns spoken audio — podcasts, interviews, voice memos, meetings — into written text. It runs OpenAI\'s Whisper speech-recognition model entirely on your device, so nothing is uploaded, and exports the transcript as plain text, SRT, or VTT subtitles.'
+
+const howTo = [
+  'Drop an audio file (MP3, WAV, M4A, AAC, OGG, FLAC…).',
+  'Choose a language (or leave Auto-detect) and a model — Fast, Balanced, Accurate, or Max (best accuracy, WebGPU).',
+  'Click Transcribe, then copy or download the text as TXT, SRT, or VTT.'
+]
+
+const faq = [
+  { q: 'How do I convert audio to text for free?', a: 'Drop your MP3, WAV, or M4A file, pick a language and model, then click Transcribe. The tool runs OpenAI Whisper directly in your browser and gives you the transcript as plain text, SRT, or VTT. Nothing is uploaded and there is no signup.' },
+  { q: 'Can I transcribe an MP3 or voice memo without uploading it?', a: 'Yes. Everything runs locally in your browser using a Whisper model compiled to run on your device. Your audio never leaves your computer, which makes it safe for interviews, voice memos, and other private recordings.' },
+  { q: 'What audio formats are supported?', a: 'MP3, WAV, M4A, AAC, OGG, FLAC, and any other audio your browser can decode. The audio is resampled to 16 kHz mono before transcription, which is the format Whisper expects.' },
+  { q: 'How accurate is the transcription?', a: 'Accuracy depends on the model you pick and the audio quality. The Max (large-v3-turbo) model is the most accurate — great for accents, proper nouns, and technical terms — and needs WebGPU; Accurate (small) is a good CPU-friendly middle ground, while Fast (tiny) trades accuracy for speed. Clear speech with little background noise gives the best results in any mode.' },
+]
+
+const relatedTools = [
+  { slug: 'video-to-text', name: 'Video to Text' },
+  { slug: 'mp4-to-mp3', name: 'MP4 to MP3 Converter' },
+  { slug: 'cut-audio', name: 'Cut Audio Online' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Audio', href: '/converter/audio' },
+  { label: 'Audio to Text' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="audio-to-text" name="Audio to Text" description="Transcribe audio to text, SRT, or VTT in your browser with Whisper. No upload, no signup, no watermark." whatIs={whatIs} howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:400px;">
+        <!-- Drop zone -->
+        <div class="vtt-dropzone" id="vtt-dropzone">
+          <input type="file" id="vtt-file-input" accept="audio/*" hidden />
+          <div class="vtt-dropzone-inner">
+            <svg class="vtt-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <p class="vtt-dropzone-title">Drop an audio file here</p>
+            <p class="vtt-dropzone-sub">or click to select a file</p>
+            <p class="vtt-dropzone-formats">MP3, WAV, M4A, AAC, OGG, FLAC…</p>
+          </div>
+        </div>
+
+        <div class="vtt-info" id="vtt-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>Runs 100% in your browser — the audio engine and the Whisper model download on first use and are cached afterwards. Your file never leaves your device.</span>
+        </div>
+
+        <!-- Settings -->
+        <div class="vtt-settings" id="vtt-settings" style="display:none;">
+          <div class="vtt-preview-row">
+            <div class="vtt-media-wrap">
+              <audio id="vtt-media" controls preload="metadata"></audio>
+            </div>
+            <div class="vtt-metadata">
+              <div class="vtt-stat">
+                <span class="vtt-stat-value" id="vtt-duration">—</span>
+                <span class="vtt-stat-label">Duration</span>
+              </div>
+              <div class="vtt-stat">
+                <span class="vtt-stat-value" id="vtt-filesize">—</span>
+                <span class="vtt-stat-label">File size</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="vtt-section">
+            <label class="vtt-section-label" for="vtt-language">Language</label>
+            <select id="vtt-language" class="vtt-select"></select>
+          </div>
+
+          <div class="vtt-section">
+            <span class="vtt-section-label">Model quality</span>
+            <div class="vtt-model-row">
+              <button type="button" class="vtt-model-btn" data-model="tiny">
+                <span class="vtt-model-name">Fast</span>
+                <span class="vtt-model-size">tiny · ~40 MB</span>
+              </button>
+              <button type="button" class="vtt-model-btn active" data-model="base">
+                <span class="vtt-model-name">Balanced</span>
+                <span class="vtt-model-size">base · ~75 MB</span>
+              </button>
+              <button type="button" class="vtt-model-btn" data-model="small">
+                <span class="vtt-model-name">Accurate</span>
+                <span class="vtt-model-size">small · ~240 MB</span>
+              </button>
+              <button type="button" class="vtt-model-btn" data-model="large" disabled>
+                <span class="vtt-model-name">Max</span>
+                <span class="vtt-model-size">large-v3-turbo · ~1.6 GB</span>
+              </button>
+            </div>
+            <p class="vtt-model-hint" id="vtt-model-hint">Max quality requires WebGPU (Chrome or Edge on a recent GPU).</p>
+          </div>
+
+          <details class="vtt-advanced" id="vtt-advanced">
+            <summary class="vtt-advanced-summary">Advanced: names &amp; terms</summary>
+            <div class="vtt-advanced-body">
+              <label class="vtt-advanced-label" for="vtt-vocab">Names, brands, or jargon that appear in the audio</label>
+              <input type="text" id="vtt-vocab" class="vtt-select" maxlength="200" placeholder="e.g. Astro, Cloudflare, maratool, João" autocomplete="off" spellcheck="false" />
+              <p class="vtt-advanced-hint">Helps Whisper spell these correctly. It's a spelling hint, not an instruction — sentences like "ignore the music" won't work.</p>
+            </div>
+          </details>
+
+          <div class="vtt-actions">
+            <button class="tool-button" id="vtt-transcribe">Transcribe</button>
+            <button class="copy-btn" id="vtt-change">Change file</button>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="vtt-progress" id="vtt-progress" style="display:none;">
+          <div class="vtt-progress-text" id="vtt-progress-text">Working…</div>
+          <div class="vtt-progress-track">
+            <div class="vtt-progress-fill" id="vtt-progress-fill"></div>
+          </div>
+          <div class="vtt-progress-detail" id="vtt-progress-detail"></div>
+        </div>
+
+        <!-- Error -->
+        <div class="vtt-error" id="vtt-error" style="display:none;">
+          <span class="vtt-error-text" id="vtt-error-text"></span>
+          <button class="vtt-error-retry" id="vtt-error-retry">Try again</button>
+        </div>
+
+        <!-- Result -->
+        <div class="vtt-result" id="vtt-result" style="display:none;">
+          <div class="vtt-result-bar">
+            <div class="vtt-result-stats" id="vtt-result-stats"></div>
+            <div class="vtt-format-tabs">
+              <button type="button" class="vtt-format-btn active" data-format="txt">Text</button>
+              <button type="button" class="vtt-format-btn" data-format="srt">SRT</button>
+              <button type="button" class="vtt-format-btn" data-format="vtt">VTT</button>
+            </div>
+          </div>
+          <textarea id="vtt-output" class="vtt-output" readonly spellcheck="false"></textarea>
+          <div class="vtt-result-actions">
+            <button class="copy-btn" id="vtt-copy">Copy</button>
+            <button class="tool-button" id="vtt-download">Download</button>
+            <button class="copy-btn" id="vtt-new">Transcribe another</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+<style is:global>
+  /* Dropzone */
+  .vtt-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .vtt-dropzone:hover, .vtt-dropzone.drag-over {
+    border-color: var(--accent);
+    background: var(--bg-soft);
+  }
+  .vtt-dropzone-inner { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .vtt-upload-icon { color: var(--text-3); margin-bottom: 0.5rem; }
+  .vtt-dropzone-title { font-size: 1.125rem; font-weight: 600; color: var(--text); margin: 0; }
+  .vtt-dropzone-sub { font-size: 0.875rem; color: var(--text-2); margin: 0; }
+  .vtt-dropzone-formats { font-size: 0.75rem; color: var(--text-3); margin: 0.25rem 0 0; }
+
+  .vtt-info {
+    display: flex; align-items: flex-start; gap: 0.5rem;
+    padding: 0.75rem 1rem; background: var(--bg-soft);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    margin-top: 1rem; font-size: 0.8125rem; color: var(--text-2); line-height: 1.5;
+  }
+  .vtt-info svg { flex-shrink: 0; margin-top: 1px; color: var(--text-3); }
+
+  /* Preview */
+  .vtt-preview-row { display: flex; gap: 1.5rem; margin-bottom: 1.25rem; align-items: center; }
+  .vtt-media-wrap { flex: 1; min-width: 0; }
+  .vtt-media-wrap audio { width: 100%; }
+  .vtt-metadata { display: flex; flex-direction: column; gap: 1rem; min-width: 130px; }
+  .vtt-stat { display: flex; flex-direction: column; gap: 0.125rem; }
+  .vtt-stat-value { font-size: 1.125rem; font-weight: 600; color: var(--text); font-family: var(--font-mono); }
+  .vtt-stat-label { font-size: 0.75rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .vtt-section {
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem;
+  }
+  .vtt-section-label {
+    display: block; font-size: 0.8125rem; font-weight: 600;
+    color: var(--text-2); text-transform: uppercase;
+    letter-spacing: 0.05em; margin-bottom: 0.75rem;
+  }
+  .vtt-select {
+    width: 100%; padding: 0.5rem 0.75rem; font-size: 0.9375rem;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius); color: var(--text); font-family: var(--font); cursor: pointer;
+  }
+
+  /* Model buttons */
+  .vtt-model-row { display: flex; gap: 0.75rem; }
+  .vtt-model-btn {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
+    padding: 0.75rem 0.5rem;
+    background: var(--bg); border: 2px solid var(--border);
+    border-radius: var(--radius); cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    color: var(--text-2);
+  }
+  .vtt-model-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--bg-soft); }
+  .vtt-model-btn.active { border-color: var(--accent); background: var(--bg-soft); color: var(--accent); }
+  .vtt-model-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .vtt-model-btn:disabled:hover { border-color: var(--border); color: var(--text-2); background: var(--bg); }
+  .vtt-model-name { font-size: 0.9375rem; font-weight: 600; }
+  .vtt-model-size { font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.03em; opacity: 0.8; }
+  .vtt-model-hint { font-size: 0.75rem; color: var(--text-3); margin: 0.5rem 0 0; }
+
+  /* Advanced: vocabulary field */
+  .vtt-advanced { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1rem; }
+  .vtt-advanced-summary { padding: 0.75rem 1rem; font-size: 0.8125rem; font-weight: 600; color: var(--text-2); cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em; }
+  .vtt-advanced-body { padding: 0 1rem 1rem; }
+  .vtt-advanced-label { display: block; font-size: 0.8125rem; color: var(--text-2); margin-bottom: 0.5rem; }
+  .vtt-advanced-hint { font-size: 0.75rem; color: var(--text-3); margin: 0.5rem 0 0; }
+
+  .vtt-actions { display: flex; gap: 0.75rem; align-items: center; margin-top: 0.25rem; }
+
+  /* Progress */
+  .vtt-progress { text-align: center; padding: 2rem; }
+  .vtt-progress-text { font-size: 0.9375rem; font-weight: 600; color: var(--text); margin-bottom: 1rem; }
+  .vtt-progress-track {
+    width: 100%; max-width: 400px; height: 8px; background: var(--bg-hover);
+    border-radius: 4px; margin: 0 auto; overflow: hidden;
+  }
+  .vtt-progress-fill { height: 100%; background: var(--accent); border-radius: 4px; width: 0%; transition: width 0.3s; }
+  .vtt-progress-detail { font-size: 0.75rem; color: var(--text-3); margin-top: 0.5rem; }
+
+  /* Error */
+  .vtt-error {
+    background: var(--error-bg); border: 1px solid var(--error-border);
+    border-radius: var(--radius); padding: 1rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .vtt-error-text { color: #c53030; font-size: 0.875rem; }
+  .vtt-error-retry {
+    padding: 6px 14px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; font-size: 0.8125rem; cursor: pointer; white-space: nowrap; color: var(--text);
+  }
+  .vtt-error-retry:hover { background: var(--bg-hover); }
+
+  /* Result */
+  .vtt-result-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; margin-bottom: 0.75rem; flex-wrap: wrap;
+  }
+  .vtt-result-stats { font-size: 0.875rem; color: var(--text-2); }
+  .vtt-format-tabs { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .vtt-format-btn {
+    padding: 0.375rem 0.875rem; font-size: 0.8125rem; font-weight: 600;
+    background: var(--bg); border: none; border-left: 1px solid var(--border);
+    cursor: pointer; color: var(--text-2);
+  }
+  .vtt-format-btn:first-child { border-left: none; }
+  .vtt-format-btn.active { background: var(--accent); color: #fff; }
+  .vtt-output {
+    width: 100%; min-height: 260px; resize: vertical;
+    padding: 0.875rem 1rem; font-size: 0.875rem; line-height: 1.6;
+    font-family: var(--font-mono); color: var(--text);
+    background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius);
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .vtt-result-actions { display: flex; gap: 0.75rem; align-items: center; margin-top: 0.75rem; flex-wrap: wrap; }
+
+  @media (max-width: 768px) {
+    .vtt-preview-row { flex-direction: column; align-items: stretch; }
+    .vtt-metadata { flex-direction: row; min-width: 0; flex-wrap: wrap; }
+    .vtt-model-row { flex-direction: column; }
+  }
+</style>
+<script src="../tools/video-to-text.js"></script>

@@ -78,7 +78,10 @@ import './hash-state.js'
     }
   }
 
+  let updateSeq = 0
+
   async function update() {
+    const seq = ++updateSeq
     const text = input.value
     if (!text) {
       Object.values(outputs).forEach(o => { o.querySelector('.hash-value').textContent = '—' })
@@ -96,6 +99,7 @@ import './hash-state.js'
       sha('SHA-256', text),
       sha('SHA-512', text),
     ])
+    if (seq !== updateSeq) return
 
     outputs.sha1.querySelector('.hash-value').textContent = sha1val
     outputs.sha256.querySelector('.hash-value').textContent = sha256val

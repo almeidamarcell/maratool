@@ -1,0 +1,144 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'new-unit-converters'
+const seo = {
+  title: '45 new unit & sizing converters — full tour | maratool',
+  description: 'Area, pressure, energy, electrical, magnetism, light, radiation, fuel economy, tires, screens, clothing, and hats — every new converter, with guides.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: '45 new unit & sizing converters on maratool',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Area, pressure, energy, electrical, magnetism, light, radiation, fuel economy, tires, screens, clothing, and hats — every new converter, with guides.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: '45 new unit & sizing converters on maratool', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="45 new unit & sizing converters on maratool"
+      lead="The conversion section grew by 45 tools in one release. Here is the full map — every converter, its reference standard, and its guide."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Every tool below runs entirely in your browser with zero uploads, and every factor traces to an authoritative reference — NIST SP 811, the BIPM SI Brochure, NOAA, ACOG, ISO, or the US NRC — cited right on the page. Linear conversions share one audited engine; the special tools (tires, due dates, Beaufort winds) implement their published formulas. Pick a family:</p>
+
+      <BlogToolEmbed slug="pressure-converter" title="Try one — the pressure converter (PSI, bar, kPa, atm)" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Find your quantity</strong> — the families below group all 45 tools.</li>
+        <li><strong>Open the tool</strong> — pick units, type a value, copy the result.</li>
+        <li><strong>Read the guide</strong> — each tool ships a post with its factor table and formula.</li>
+      </ol>
+
+      <h2>Dimension & mechanics</h2>
+      <p>The everyday physical quantities — the conversions people reach for when reading a spec sheet, a recipe, or a datasheet from another country.</p>
+      <ul>
+        <li><a href="/area-converter/">Area Converter</a> — <a href="/blog/area-converter/">guide</a></li>
+        <li><a href="/volume-converter/">Volume Converter</a> — <a href="/blog/volume-converter/">guide</a></li>
+        <li><a href="/pressure-converter/">Pressure Converter</a> — <a href="/blog/pressure-converter/">guide</a></li>
+        <li><a href="/energy-converter/">Energy Converter</a> — <a href="/blog/energy-converter/">guide</a></li>
+        <li><a href="/power-converter/">Power Converter</a> — <a href="/blog/power-converter/">guide</a></li>
+        <li><a href="/force-converter/">Force Converter</a> — <a href="/blog/force-converter/">guide</a></li>
+        <li><a href="/torque-converter/">Torque Converter</a> — <a href="/blog/torque-converter/">guide</a></li>
+        <li><a href="/acceleration-converter/">Acceleration Converter</a> — <a href="/blog/acceleration-converter/">guide</a></li>
+        <li><a href="/density-converter/">Density Converter</a> — <a href="/blog/density-converter/">guide</a></li>
+        <li><a href="/angle-converter/">Angle Converter</a> — <a href="/blog/angle-converter/">guide</a></li>
+        <li><a href="/frequency-converter/">Frequency Converter</a> — <a href="/blog/frequency-converter/">guide</a></li>
+        <li><a href="/bandwidth-converter/">Bandwidth Converter</a> — <a href="/blog/bandwidth-converter/">guide</a></li>
+      </ul>
+
+      <h2>Chemistry & flow</h2>
+      <p>Lab and process-engineering units: amounts of substance, viscosities, and flow rates in both SI and US customary systems.</p>
+      <ul>
+        <li><a href="/amount-of-substance-converter/">Amount of Substance</a> — <a href="/blog/amount-of-substance-converter/">guide</a></li>
+        <li><a href="/molar-mass-converter/">Molar Mass Converter</a> — <a href="/blog/molar-mass-converter/">guide</a></li>
+        <li><a href="/dynamic-viscosity-converter/">Dynamic Viscosity</a> — <a href="/blog/dynamic-viscosity-converter/">guide</a></li>
+        <li><a href="/kinematic-viscosity-converter/">Kinematic Viscosity</a> — <a href="/blog/kinematic-viscosity-converter/">guide</a></li>
+        <li><a href="/mass-flow-rate-converter/">Mass Flow Rate</a> — <a href="/blog/mass-flow-rate-converter/">guide</a></li>
+        <li><a href="/volumetric-flow-rate-converter/">Flow Rate Converter</a> — <a href="/blog/volumetric-flow-rate-converter/">guide</a></li>
+      </ul>
+
+      <h2>Electrical</h2>
+      <p>Every prefix jump an electronics bench needs — from picofarads to kiloamps, plus the CGS units that haunt old datasheets.</p>
+      <ul>
+        <li><a href="/capacitance-converter/">Capacitance Converter</a> — <a href="/blog/capacitance-converter/">guide</a></li>
+        <li><a href="/electric-charge-converter/">Electric Charge</a> — <a href="/blog/electric-charge-converter/">guide</a></li>
+        <li><a href="/electric-current-converter/">Electric Current</a> — <a href="/blog/electric-current-converter/">guide</a></li>
+        <li><a href="/electric-potential-converter/">Electric Potential</a> — <a href="/blog/electric-potential-converter/">guide</a></li>
+        <li><a href="/electrical-conductance-converter/">Conductance Converter</a> — <a href="/blog/electrical-conductance-converter/">guide</a></li>
+        <li><a href="/electrical-resistance-converter/">Resistance Converter</a> — <a href="/blog/electrical-resistance-converter/">guide</a></li>
+        <li><a href="/inductance-converter/">Inductance Converter</a> — <a href="/blog/inductance-converter/">guide</a></li>
+      </ul>
+
+      <h2>Magnetism</h2>
+      <p>The SI↔CGS bridges (tesla-gauss, A/m-oersted, weber-maxwell, ampere-turn-gilbert) with their exact 4π relations.</p>
+      <ul>
+        <li><a href="/magnetic-field-converter/">Tesla to Gauss</a> — <a href="/blog/magnetic-field-converter/">guide</a></li>
+        <li><a href="/magnetic-field-strength-converter/">Field Strength</a> — <a href="/blog/magnetic-field-strength-converter/">guide</a></li>
+        <li><a href="/magnetic-flux-converter/">Magnetic Flux</a> — <a href="/blog/magnetic-flux-converter/">guide</a></li>
+        <li><a href="/magnetomotive-force-converter/">Magnetomotive Force</a> — <a href="/blog/magnetomotive-force-converter/">guide</a></li>
+      </ul>
+
+      <h2>Light & photometry</h2>
+      <p>Lighting design, display specs, and photography: lux, foot-candles, nits, lumens, and candelas, kept straight.</p>
+      <ul>
+        <li><a href="/illuminance-converter/">Lux to Foot-Candles</a> — <a href="/blog/illuminance-converter/">guide</a></li>
+        <li><a href="/luminance-converter/">Luminance Converter</a> — <a href="/blog/luminance-converter/">guide</a></li>
+        <li><a href="/luminous-energy-converter/">Luminous Energy</a> — <a href="/blog/luminous-energy-converter/">guide</a></li>
+        <li><a href="/luminous-flux-converter/">Luminous Flux</a> — <a href="/blog/luminous-flux-converter/">guide</a></li>
+        <li><a href="/luminous-intensity-converter/">Luminous Intensity</a> — <a href="/blog/luminous-intensity-converter/">guide</a></li>
+      </ul>
+
+      <h2>Radiation</h2>
+      <p>Gray-rad, sievert-rem, and becquerel-curie with exact regulatory factors. Unit conversion only — never dose assessment.</p>
+      <ul>
+        <li><a href="/absorbed-dose-converter/">Gray to Rad</a> — <a href="/blog/absorbed-dose-converter/">guide</a></li>
+        <li><a href="/equivalent-dose-converter/">Sievert to Rem</a> — <a href="/blog/equivalent-dose-converter/">guide</a></li>
+        <li><a href="/radioactivity-converter/">Becquerel to Curie</a> — <a href="/blog/radioactivity-converter/">guide</a></li>
+      </ul>
+
+      <h2>Everyday & sizing</h2>
+      <p>Real-world numbers: fuel economy, wind, tires, screens, clothing, hats — plus two health calculators, running pace and pregnancy due date.</p>
+      <ul>
+        <li><a href="/mpg-to-l100km/">MPG to L/100km</a> — <a href="/blog/mpg-to-l100km/">guide</a></li>
+        <li><a href="/wind-speed-converter/">Wind Speed Converter</a> — <a href="/blog/wind-speed-converter/">guide</a></li>
+        <li><a href="/tire-size-calculator/">Tire Size Calculator</a> — <a href="/blog/tire-size-calculator/">guide</a></li>
+        <li><a href="/screen-size-calculator/">Screen Size Calculator</a> — <a href="/blog/screen-size-calculator/">guide</a></li>
+        <li><a href="/clothing-size-converter/">Clothing Size Converter</a> — <a href="/blog/clothing-size-converter/">guide</a></li>
+        <li><a href="/hat-size-converter/">Hat Size Converter</a> — <a href="/blog/hat-size-converter/">guide</a></li>
+        <li><a href="/running-pace-calculator/">Running Pace Calculator</a> — <a href="/blog/running-pace-calculator/">guide</a></li>
+        <li><a href="/due-date-calculator/">Due Date Calculator</a> — <a href="/blog/due-date-calculator/">guide</a></li>
+      </ul>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">Every tool above is free, runs locally, and never sends your data to a server. Browse them all in the <a href="/converter/">converter hub</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

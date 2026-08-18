@@ -170,7 +170,7 @@ Every new live tool **must** ship with a matching blog post. This is enforced vi
 
 **File:** `src/pages/blog/<slug>.astro` (slug matches the tool page)
 
-**Template:** Copy an existing tool guide (e.g. `blog/ai-token-calculator.astro`) or run `node scripts/generate-tool-blog-posts.mjs` after adding entry config.
+**Template:** Copy an existing tool guide (e.g. `blog/ai-token-calculator.astro`) or run `node scripts/archive/generate-tool-blog-posts.mjs` after adding entry config.
 
 **Required content:**
 1. `BlogPosting` schema with unique title, description, canonical, `datePublished`
@@ -184,33 +184,70 @@ Every new live tool **must** ship with a matching blog post. This is enforced vi
 **Also required:**
 - Add entry to `src/pages/blog/index.astro` posts array (newest first)
 - Set `blogPost: true` on the tool in `tools.ts`
+- **Always run the `/humanizer` skill on blog post prose** (every new post and any
+  substantial edit to an existing one). Write the draft, then apply the humanizer
+  pass: no em dashes, no bold-header bullet lists, no "-ing" filler analyses, no
+  AI vocabulary (delve, crucial, showcase, landscape...), varied sentence rhythm,
+  concrete specifics over vague claims.
 
 **Quality gate:** `npm test` verifies every `blogPost: true` tool has a blog file containing `BlogToolEmbed`.
 
 ## Quality Gates — Run Before Considering Anything Done
 
 ```bash
+npm test             # enforces the registry invariants below
 npm run build        # zero errors, zero warnings
 ```
+
+`src/seo-invariants.test.js` enforces, across every live tool: canonical matches
+the slug, meta description is 140–160 chars, `relatedTools` slugs resolve to live
+tools (a typo there is an internal 404), no page uses a scoped `<style>`,
+`llms.txt` / `palette-tools.json` aren't stale, and every blog post has an index
+entry. Fix the invariant, don't relax the test.
 
 CLS check: every tool container must have a `min-height` set so there's zero layout shift when the JS loads.
 
 Copy buttons: must change text to "Copied!" for 2 seconds, then revert.
 
+## Shared tool helpers — use these, don't re-hand-roll
+
+`src/tools/tool-utils.js` is the home for cross-tool UI behavior:
+
+- `copyWithFeedback(btn, text)` / `attachCopyButton(btn, getText)` — the "Copied!"
+  + 2s revert convention, with a clipboard fallback and a visible failure state.
+  A bare `navigator.clipboard.writeText(...).then(...)` silently does nothing
+  when the write is rejected.
+- `downloadBlob(blob, filename)` — revokes the object URL after 1s. Revoking
+  synchronously after `.click()` aborts the download in Firefox/Safari.
+- `formatSize(bytes)`.
+
+Any tool that assigns `URL.createObjectURL()` to an `img`/`video` `src` must
+revoke the previous URL before assigning a new one, and on reset — otherwise
+every re-run orphans the last blob for the page lifetime.
+
+Async tools that update on every keystroke need a sequence guard (`const seq =
+++updateSeq` … `if (seq !== updateSeq) return`), or a slow early result can
+land after a newer one and overwrite it.
+
+## OG images
+
+`og:image` must be PNG — Facebook, LinkedIn and X do not render SVG previews.
+`scripts/gen-og-images.mjs` emits both `.svg` (editable source) and `.png` (what
+the meta tags point at), derives per-vertical tool counts from `tools.ts`, and
+reads card colors from the `--cat-*` tokens in `global.css` instead of
+hardcoding either.
+
 ## astro.config.mjs
 
-```js
-import { defineConfig } from 'astro/config'
-import cloudflare from '@astrojs/cloudflare'
-import sitemap from '@astrojs/sitemap'
+Read the real file — it is the source of truth. Two things not to undo:
 
-export default defineConfig({
-  output: 'static',
-  adapter: cloudflare(),
-  site: 'https://maratool.com',
-  integrations: [sitemap()],
-})
-```
+- **No adapter.** `output: 'static'` with no `@astrojs/cloudflare` adapter. The
+  adapter emitted a `_worker.js` + `_routes.json` that returned 500 on
+  `/compare/*` because nested dynamic routes weren't excluded from worker
+  routing. Cloudflare Pages serves the static output directly.
+- **Sitemap `lastmod` comes from one batched `git log`** via
+  `scripts/lib/git-lastmod.mjs`. It used to spawn `git log -1` per URL (~1300
+  spawns/build, 17s); don't reintroduce per-page subprocesses.
 
 ## Per-Tool Functional Specs
 

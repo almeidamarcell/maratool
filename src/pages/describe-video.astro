@@ -1,0 +1,460 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Describe Video with AI — Frame-by-Frame Descriptions | maratool',
+  description: 'Describe video content with AI — get a text description of every second of your video. Runs locally in your browser, no upload, no signup. Export TXT, VTT, SRT.',
+  canonical: 'https://maratool.com/describe-video',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Describe Video with AI',
+    url: 'https://maratool.com/describe-video',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'AI video describer that captions sampled frames of a video locally in the browser and exports the descriptions as text, VTT, or SRT.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Video', item: 'https://maratool.com/converter/video' },
+      { '@type': 'ListItem', position: 4, name: 'Describe Video with AI', item: 'https://maratool.com/describe-video' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How does the AI video describer work?',
+        acceptedAnswer: { '@type': 'Answer', text: 'The tool grabs a frame from your video at a fixed interval (every second by default) and runs each frame through a vision AI model in your browser. With WebGPU it uses SmolVLM (~400 MB one-time download), which accepts an optional context hint — tell it "a padel match" and frames are described as padel, not just "a game". Without WebGPU it falls back to a lighter ~50 MB captioning model with shorter, generic captions. Models are cached after the first download.' },
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my video uploaded to a server?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. Frame extraction and the AI model both run entirely on your device. The model files are downloaded once from a CDN and cached — your video never leaves your browser.' },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the difference between this and video-to-text transcription?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Video-to-text transcribes the audio — what is said. This tool describes the visuals — what is shown, frame by frame. Tick "Also transcribe speech" to get both in one timeline: Whisper transcribes the spoken words locally and they are merged with the visual descriptions by timestamp. Only speech is transcribed — music and sound effects are not described.' },
+      },
+      {
+        '@type': 'Question',
+        name: 'How long does it take to describe a video?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Roughly 1–3 seconds per frame with WebGPU (Chrome or Edge on desktop), 5–15 seconds per frame on the WebAssembly fallback. A one-minute video sampled every second is about 60 frames. A desktop with 8 GB RAM is recommended; phones are not. Use a longer interval (2 or 5 seconds) for long videos, and the Stop button ends the run early while keeping everything described so far.' },
+      },
+    ],
+  },
+}
+
+const howTo = [
+  'Drop a video file (MP4, WebM, or MOV) or click to select one.',
+  'Pick how often to sample a frame, optionally tick "Also transcribe speech" to include what\'s said, and click Describe.',
+  'Watch the timestamped descriptions stream in, then copy the transcript or download it as TXT, VTT, or SRT.',
+]
+
+const faq = [
+  { q: 'How does the AI video describer work?', a: 'It grabs a frame at a fixed interval and runs each one through a vision AI model in your browser. With WebGPU it uses SmolVLM (~400 MB one-time download, then cached), which accepts an optional context hint — tell it "a padel match" and frames are described as padel, not just "a game". Otherwise a lighter ~50 MB captioning model with generic captions. You get a timestamped description of what happens on screen.' },
+  { q: 'Is my video uploaded to a server?', a: 'No. Frame extraction and the AI model run entirely on your device. The model is downloaded once and cached — your video never leaves your browser.' },
+  { q: 'What is the difference between this and video-to-text transcription?', a: '<a href="/video-to-text/">Video to Text</a> transcribes the audio — what is said. This tool describes the visuals — what is shown, frame by frame. Tick "Also transcribe speech" to get both in one timeline, merged by timestamp. Only speech is transcribed — music and sound effects are not described.' },
+  { q: 'How long does it take?', a: 'Roughly 1–3 seconds per frame with WebGPU (Chrome/Edge desktop), 5–15 seconds per frame on the WebAssembly fallback. A desktop with 8 GB RAM is recommended; phones are not. Use a longer interval for long videos, and Stop ends the run early while keeping everything described so far.' },
+]
+
+const relatedTools = [
+  { slug: 'video-to-text', name: 'Video to Text' },
+  { slug: 'video-screenshot', name: 'Video Screenshot' },
+  { slug: 'alt-text-generator', name: 'Image Alt Text Generator' },
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Video', href: '/converter/video' },
+  { label: 'Describe Video with AI' },
+]
+
+const whatIs = 'The <strong>Describe Video with AI</strong> tool turns a video into timestamped text. It samples one frame per interval (every second by default), describes each frame with an on-device vision model, and can optionally transcribe the speech with Whisper — merging what is <em>shown</em> and what is <em>said</em> into one scene-by-scene transcript you can copy or download as TXT, VTT, or SRT. Because the models run in your browser, nothing is uploaded — useful for accessibility audio-description drafts, video search notes, and dataset labeling.'
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="describe-video" name="Describe Video with AI" description="Get a text description of every second of your video — an AI model describes each frame locally in your browser. No upload, no signup." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs={whatIs}>
+      <div class="tool-container" style="min-height:480px;">
+        <div class="pdf-dropzone" id="dv-dropzone">
+          <input type="file" id="dv-file" accept="video/mp4,video/webm,video/quicktime" hidden />
+          <div class="pdf-dropzone-inner">
+            <svg class="pdf-upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="10 9 15 12 10 15 10 9"/></svg>
+            <p class="pdf-dropzone-title">Drop a video here</p>
+            <p class="pdf-dropzone-sub">or click to select a file</p>
+            <p class="pdf-dropzone-formats">MP4, WebM, MOV — processed locally, never uploaded</p>
+          </div>
+        </div>
+
+        <div id="dv-settings" style="display:none;">
+          <video id="dv-video-preview" class="dv-video-preview" controls muted playsinline></video>
+          <div class="dv-settings-row">
+            <div>
+              <label class="tool-label" for="dv-interval">Describe a frame every</label>
+              <select id="dv-interval" class="tool-select">
+                <option value="0.5">0.5 seconds</option>
+                <option value="1" selected>1 second</option>
+                <option value="2">2 seconds</option>
+                <option value="5">5 seconds</option>
+                <option value="10">10 seconds</option>
+              </select>
+            </div>
+            <button type="button" id="dv-describe" class="tool-button dv-describe-btn">Describe video</button>
+          </div>
+          <div class="dv-context-row">
+            <label class="tool-label" for="dv-context">What is this video about? <span class="dv-context-optional">(optional — steers the AI)</span></label>
+            <input type="text" id="dv-context" class="tool-input" maxlength="200" placeholder="e.g. a padel match at an indoor club" />
+          </div>
+          <label class="dv-audio-row">
+            <input type="checkbox" id="dv-audio" />
+            <span>Also transcribe speech (Whisper AI) — adds what's <em>said</em> to the timeline. Extra ~100 MB one-time download (audio engine + model). For language options use <a href="/video-to-text/">Video to Text</a>.</span>
+          </label>
+          <p id="dv-frame-estimate" class="dv-note"></p>
+          <p id="dv-engine-note" class="dv-note"></p>
+        </div>
+
+        <div id="dv-progress" class="dv-progress" style="display:none;">
+          <div id="dv-phases" class="dv-phases"></div>
+          <button type="button" id="dv-stop" class="tool-button dv-stop-btn" style="display:none;">Stop — keep what's done</button>
+        </div>
+
+        <div id="dv-result" style="display:none;">
+          <p id="dv-model-note" class="dv-model-note"></p>
+          <div id="dv-timeline" class="dv-timeline"></div>
+          <div class="tool-panel">
+            <label class="tool-label" for="dv-transcript">Timestamped transcript</label>
+            <textarea id="dv-transcript" class="tool-textarea" rows="8" readonly aria-label="Video description transcript"></textarea>
+          </div>
+          <div class="dv-actions">
+            <button id="dv-copy" class="copy-btn">Copy transcript</button>
+            <button id="dv-download-txt" class="tool-button">Download .txt</button>
+            <button id="dv-download-vtt" class="tool-button">Download .vtt</button>
+            <button id="dv-download-srt" class="tool-button">Download .srt</button>
+            <button id="dv-new" class="tool-button">New video</button>
+          </div>
+        </div>
+
+        <p id="dv-error" class="dv-error" style="display:none;"><span id="dv-error-text"></span></p>
+      </div>
+
+      <section class="dv-specs" aria-labelledby="dv-specs-heading">
+        <h2 id="dv-specs-heading">Requirements &amp; limitations</h2>
+        <p class="dv-specs-intro">The AI model runs entirely in your browser — that keeps your video private, but it means your hardware does the work. Know what to expect before a long run:</p>
+        <div class="dv-specs-grid">
+          <div class="dv-specs-col">
+            <h3>Recommended setup</h3>
+            <ul>
+              <li><strong>Best:</strong> desktop Chrome or Edge with WebGPU — runs SmolVLM (~1–3 s per frame), which uses your optional context hint. The tool detects this automatically, and the results panel says which model was used.</li>
+              <li><strong>Fallback:</strong> any modern desktop browser — a lighter model via WebAssembly, shorter captions, ~5–15 s per frame.</li>
+              <li><strong>Memory:</strong> 8 GB RAM recommended; close heavy tabs for long videos.</li>
+              <li><strong>Download:</strong> one-time model download — ~400 MB (WebGPU) or ~50 MB (fallback), plus ~100 MB if you enable speech transcription — cached by your browser afterwards.</li>
+              <li><strong>Phones:</strong> not recommended — limited memory and usually no WebGPU. On laptops, plug in for long runs.</li>
+            </ul>
+          </div>
+          <div class="dv-specs-col">
+            <h3>Limitations</h3>
+            <ul>
+              <li>Describes sampled <strong>moments, not motion</strong> — it sees "a person near a door", not "a person opens the door".</li>
+              <li>Small on-device models make mistakes a cloud model wouldn't, and won't recognize niche subjects on their own — use the context field to tell the model what it's looking at. Treat the output as a fast draft to edit, not a final product.</li>
+              <li><strong>150 frames max</strong> per run — pick a longer interval to cover long videos end to end.</li>
+              <li>Speech transcription is <strong>optional</strong> (checkbox, +~100 MB download). Non-speech audio — music, sound effects — is never described.</li>
+              <li>The video must be a format your browser can decode — MP4 (H.264) and WebM work everywhere; MOV support varies.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  /* Dropzone styles come from the shared .pdf-dropzone rules in tools.css */
+  .dv-video-preview {
+    display: block;
+    width: 100%;
+    max-height: 320px;
+    border-radius: var(--radius);
+    background: #000;
+    margin-bottom: 1rem;
+  }
+  .dv-settings-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .dv-describe-btn {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .dv-describe-btn:hover {
+    opacity: 0.9;
+  }
+  .dv-note {
+    font-size: 0.8125rem;
+    color: var(--text-2);
+    margin: 0.75rem 0 0;
+  }
+  .dv-progress {
+    padding: 1.25rem 0 0.5rem;
+  }
+  .dv-phases {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .dv-phase {
+    opacity: 0.35;
+    transition: opacity 0.25s;
+  }
+  .dv-phase-active {
+    opacity: 1;
+  }
+  .dv-phase-done {
+    opacity: 0.65;
+  }
+  .dv-phase-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.3rem;
+  }
+  .dv-phase-icon {
+    font-size: 0.8125rem;
+    width: 1rem;
+    text-align: center;
+    flex-shrink: 0;
+    color: var(--text-3);
+  }
+  .dv-phase-done .dv-phase-icon {
+    color: #16a34a;
+  }
+  .dv-phase-active .dv-phase-icon {
+    color: var(--accent);
+  }
+  .dv-phase-label {
+    font-size: 0.8125rem;
+    color: var(--text-2);
+    flex: 1;
+    min-width: 0;
+  }
+  .dv-phase-active .dv-phase-label {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .dv-phase-pct {
+    font-size: 0.75rem;
+    color: var(--text-3);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+  .dv-phase-track {
+    width: 100%;
+    height: 4px;
+    background: var(--bg-hover);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .dv-phase-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.35s ease;
+  }
+  .dv-phase-done .dv-phase-bar {
+    background: #16a34a;
+    width: 100% !important;
+    transition: none;
+  }
+  .dv-phase-indeterminate .dv-phase-bar {
+    width: 40% !important;
+    animation: dv-slide 1.4s ease-in-out infinite;
+  }
+  @keyframes dv-slide {
+    0%   { margin-left: 0%;   width: 30%; }
+    50%  { margin-left: 40%;  width: 40%; }
+    100% { margin-left: 70%;  width: 30%; }
+  }
+  .dv-stop-btn {
+    margin-top: 0.5rem;
+  }
+  .dv-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 420px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+  }
+  .dv-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.5rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .dv-item-thumb {
+    width: 120px;
+    height: auto;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .dv-item-body {
+    min-width: 0;
+  }
+  .dv-item-time {
+    display: inline-block;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.75rem;
+    color: var(--accent);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.1rem 0.4rem;
+    margin-bottom: 0.25rem;
+  }
+  .dv-item-text {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text);
+    margin: 0;
+  }
+  .dv-context-row {
+    margin-top: 0.875rem;
+  }
+  .dv-context-row .tool-input {
+    width: 100%;
+    max-width: 480px;
+  }
+  .dv-context-optional {
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--text-3);
+  }
+  .dv-model-note {
+    font-size: 0.8125rem;
+    color: var(--text-2);
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.5rem 0.75rem;
+    margin: 0 0 0.75rem;
+  }
+  .dv-audio-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 0.875rem;
+    font-size: 0.8125rem;
+    color: var(--text-2);
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  .dv-audio-row input {
+    margin-top: 0.2rem;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+  }
+  .dv-item-speech {
+    border-left: 3px solid var(--accent);
+  }
+  .dv-speech-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    padding: 0.25rem;
+    flex-shrink: 0;
+  }
+  .dv-item-time-speech {
+    color: var(--text-2);
+  }
+  .dv-item-speech .dv-item-text {
+    font-style: italic;
+  }
+  .dv-no-speech-note {
+    font-size: 0.8125rem;
+    color: var(--text-3);
+    margin: 0;
+    padding: 0.25rem 0.5rem;
+  }
+  .dv-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+  .dv-error {
+    margin-top: 1rem;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+    color: #b91c1c;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: var(--radius);
+  }
+  .dv-specs {
+    margin: 2rem 0 1rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .dv-specs h2 {
+    font-size: 1.125rem;
+    margin: 0 0 0.5rem;
+    color: var(--text);
+  }
+  .dv-specs-intro {
+    font-size: 0.875rem;
+    color: var(--text-2);
+    margin: 0 0 1rem;
+    line-height: 1.55;
+  }
+  .dv-specs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .dv-specs-col h3 {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--text-2);
+    margin: 0 0 0.5rem;
+  }
+  .dv-specs-col ul {
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+  .dv-specs-col li {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  @media (max-width: 640px) {
+    .dv-specs-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .dv-item-thumb { width: 88px; }
+  }
+</style>
+
+<script src="../tools/describe-video.js"></script>

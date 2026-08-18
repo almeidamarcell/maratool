@@ -1,6 +1,6 @@
 ---
 import Breadcrumb from './Breadcrumb.astro'
-import { getSpecialty, getPurpose } from '../data/tools'
+import { getSpecialty, getPurpose, popularityScore } from '../data/tools'
 import type { Tool } from '../data/tools'
 
 interface SecondaryAxisOption {
@@ -69,6 +69,21 @@ const primaryFilteredTools = activeSubcategory
   ? liveTools.filter(t => t.subcategory.toLowerCase() === activeSubcategory.toLowerCase())
   : liveTools
 
+// Top picks strip. A hub lists every tool in the vertical as a flat row, so
+// the pages we actually want crawled and clicked sit hundreds of same-weight
+// links deep. This surfaces the highest-scoring ones (manualBoost is the
+// curation lever) near the top of the DOM. Skipped on subcategory pages and
+// on hubs that fit in a single page of rows — there the strip would just
+// repeat the list right below it (Mockup has 8 tools, the strip showed 6).
+const HUB_LIST_PAGE_SIZE = 30
+const topPicks = activeSubcategory || liveTools.length <= HUB_LIST_PAGE_SIZE
+  ? []
+  : liveTools
+      .map(t => ({ tool: t, score: popularityScore(t) }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 6)
+      .map(x => x.tool)
+
 // Compute axis values per tool (rendered as data attributes for JS filtering)
 function axisValueFor(tool: Tool, source: 'specialty' | 'purpose'): string {
   if (source === 'specialty') return (getSpecialty(tool) ?? '').toLowerCase()
@@ -100,12 +115,12 @@ function axisValueFor(tool: Tool, source: 'specialty' | 'purpose'): string {
     <div class="facet-row">
       <div class="facet-group">
         <span class="facet-label">{secondaryAxis ? 'Subcategory' : 'Filter'}</span>
-        <a href={basePath} class:list={['facet-pill', { active: !activeSubcategory }]}>
+        <a href={`${basePath}/`} class:list={['facet-pill', { active: !activeSubcategory }]}>
           All<span class="count">{liveTools.length}</span>
         </a>
         {subcategories.filter(sub => subCounts[sub] > 0).map(sub => (
           <a
-            href={`${basePath}/${sub.toLowerCase()}`}
+            href={`${basePath}/${sub.toLowerCase().replace(/\s+/g, '-')}/`}
             class:list={[
               'facet-pill',
               { active: activeSubcategory?.toLowerCase() === sub.toLowerCase() }
@@ -135,14 +150,34 @@ function axisValueFor(tool: Tool, source: 'specialty' | 'purpose'): string {
   )}
 </div>
 
+{topPicks.length > 0 && (
+  <section class="hub-top-picks" aria-labelledby="hub-top-picks-heading">
+    <h2 class="home-section-h2" id="hub-top-picks-heading">Most used in {category}</h2>
+    <div class="popular-grid">
+      {topPicks.map(tool => (
+        <a href={`/${tool.slug}/`} class="pop-card" data-cat={tool.category.toLowerCase()}>
+          <span class="pop-card-emoji">{tool.emoji}</span>
+          <div class="pop-card-body">
+            <div class="pop-card-name">{tool.name}</div>
+            <div class="pop-card-meta">
+              <span class="cat-dot" data-cat={tool.category.toLowerCase()}></span>
+              {tool.subcategory}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
 {primaryFilteredTools.length === 0 ? (
   <div class="hub-empty">No tools in this category yet.</div>
 ) : (
   <>
-    <div class="hub-tool-list" id="hub-tool-list" data-page-size="30">
+    <div class="hub-tool-list" id="hub-tool-list" data-page-size={HUB_LIST_PAGE_SIZE}>
       {primaryFilteredTools.map(tool => (
         <a
-          href={`/${tool.slug}`}
+          href={`/${tool.slug}/`}
           class="hub-tool-row"
           data-tool-name={tool.name.toLowerCase()}
           data-tool-desc={tool.description.toLowerCase()}

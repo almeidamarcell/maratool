@@ -7,6 +7,7 @@ import {
   camIcu, camIcuLabel,
   scorad, scoradRisk, pasi, pasiRisk,
   psiPort, psiPortRisk, framinghamRisk, framinghamCategory,
+  ascvdRisk, ascvdCategory,
 } from './score-formula.js'
 
 function num(id) { const el = document.getElementById(id); if (!el || el.value === '') return NaN; return parseFloat(el.value) }
@@ -303,6 +304,23 @@ if (document.getElementById('fram-age')) {
     setText('fram-class', framinghamCategory(r.riskPct) || '—')
   }
   bindInputs(['fram-age', 'fram-sex', 'fram-tc', 'fram-hdl', 'fram-smoker', 'fram-sbp', 'fram-treated'], upd)
+}
+
+if (document.getElementById('ascvd-age')) {
+  const upd = () => {
+    const ageYears = num('ascvd-age'), totalChol = num('ascvd-tc'), hdl = num('ascvd-hdl'), sbp = num('ascvd-sbp')
+    const blank = () => { setText('ascvd-value', '—'); setText('ascvd-class', '—') }
+    if ([ageYears, totalChol, hdl, sbp].some(isNaN)) return blank()
+    const r = ascvdRisk({
+      male: sel('ascvd-sex') === 'male', black: sel('ascvd-race') === 'aa',
+      ageYears, totalChol, hdl, sbp,
+      treatedBp: checked('ascvd-treated'), diabetic: checked('ascvd-diabetes'), smoker: checked('ascvd-smoker'),
+    })
+    if (!r) return blank()
+    setText('ascvd-value', r.riskPct + '%')
+    setText('ascvd-class', ascvdCategory(r.riskPct) || '—')
+  }
+  bindInputs(['ascvd-sex', 'ascvd-race', 'ascvd-age', 'ascvd-tc', 'ascvd-hdl', 'ascvd-sbp', 'ascvd-treated', 'ascvd-diabetes', 'ascvd-smoker'], upd)
 }
 
 document.querySelectorAll('.copy-btn').forEach(btn => {

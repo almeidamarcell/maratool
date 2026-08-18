@@ -1,4 +1,5 @@
-(function () {
+import { copyWithFeedback, copyText } from './tool-utils.js'
+;(function () {
   var baseInput = document.getElementById('tc-base')
   var pxInput = document.getElementById('tc-px')
   var ptInput = document.getElementById('tc-pt')
@@ -96,20 +97,20 @@
 
   function copyText(text, el) {
     if (!text) return
-    navigator.clipboard.writeText(text).then(function () {
-      if (el.tagName === 'BUTTON') {
-        var orig = el.textContent
-        el.textContent = 'Copied!'
-        el.classList.add('copied')
-        setTimeout(function () {
-          el.textContent = orig
-          el.classList.remove('copied')
-        }, 2000)
-      } else {
-        el.classList.add('copied')
-        setTimeout(function () { el.classList.remove('copied') }, 2000)
-      }
-    })
+    if (el.tagName === 'BUTTON') {
+      copyWithFeedback(el, text)
+    } else {
+      copyText(text).then(function (ok) {
+        if (ok) {
+          el.classList.add('copied')
+          setTimeout(function () { el.classList.remove('copied') }, 2000)
+        } else {
+          var orig = el.textContent
+          el.textContent = 'Copy failed'
+          setTimeout(function () { el.textContent = orig }, 2000)
+        }
+      })
+    }
   }
 
   // Bind input events

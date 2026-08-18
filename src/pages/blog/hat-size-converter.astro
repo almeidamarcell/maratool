@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'hat-size-converter'
+const seo = {
+  title: 'Hat size converter — US, UK, cm, S/M/L | maratool',
+  description: 'Convert head circumference to US and UK hat sizes and S/M/L letters. Free browser hat size converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to find your hat size from head circumference',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert head circumference to US and UK hat sizes and S/M/L letters. Free browser hat size converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to find your hat size from head circumference', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to find your hat size from head circumference"
+      lead="Measure your head, type the number — read US, UK, cm, inch, and letter sizes."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Fitted hats use a numbering system most people meet exactly once — while buying a hat. The <a href="/hat-size-converter/">Hat Size Converter</a> turns a tape measurement into US eighths, UK sizes, and S/M/L letters.</p>
+
+      <BlogToolEmbed slug="hat-size-converter" title="Try it — enter a head measurement" height={460} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Measure</strong> — around the head, 1 cm above the ears.</li>
+        <li><strong>Enter</strong> — cm, inches, or a known US/UK size.</li>
+        <li><strong>Read</strong> — every system, including letter sizes.</li>
+      </ol>
+
+      <h2>The formula</h2>
+      <p>Traditional millinery sizing divides head circumference in inches by π and rounds to the nearest eighth: a 22.75″ (57.8 cm) head → 22.75/3.1416 = 7.24 → size 7 1/4 US. UK sizes sit exactly one eighth lower.</p>
+
+      <h2>Letter sizes</h2>
+      <p>Common bands: S = 55–56 cm, M = 57–58 cm, L = 59–60 cm, XL = 61–62 cm. Between sizes? Go up — most fitted hats shrink slightly and sweatbands can be padded.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>The formula is arithmetic stated inline above — no external dataset is involved. Everything runs client-side in your browser; nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/clothing-size-converter/">How to convert clothing sizes between US, EU, and UK</a></li>
+        <li><a href="/blog/tire-size-calculator/">How to read tire sizes and compare 205/55R16 to another size</a></li>
+        <li><a href="/blog/screen-size-calculator/">How to calculate TV and monitor dimensions from the diagonal</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters/">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/hat-size-converter/">Hat Size Converter</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter/">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

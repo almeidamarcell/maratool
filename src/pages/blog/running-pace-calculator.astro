@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'running-pace-calculator'
+const seo = {
+  title: 'Running pace calculator — min/km, min/mile | maratool',
+  description: 'Calculate pace per km and per mile from any run, plus projected 5K, 10K, half, and marathon times. Free browser tool.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate your running pace (min/km and min/mile)',
+    image: 'https://maratool.com/og/health.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Calculate pace per km and per mile from any run, plus projected 5K, 10K, half, and marathon times. Free browser tool.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate your running pace (min/km and min/mile)', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate your running pace (min/km and min/mile)"
+      lead="Enter distance and time — get pace per km, per mile, and projected race finishes."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Pace is the number runners actually train by. The <a href="/running-pace-calculator/">Running Pace Calculator</a> turns any distance + time into min/km and min/mile, then projects 5K through marathon finishes at that pace.</p>
+
+      <BlogToolEmbed slug="running-pace-calculator" title="Try it — distance and time" height={560} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Distance</strong> — kilometers or miles.</li>
+        <li><strong>Time</strong> — hours, minutes, seconds.</li>
+        <li><strong>Read pace</strong> — per km, per mile, speed, and race projections.</li>
+      </ol>
+
+      <h2>The formula</h2>
+      <p>Pace = time ÷ distance. A 47:30 10K is 4:45 min/km (47.5 ÷ 10) or 7:39 min/mile. Speed is the inverse: 60 ÷ 4.75 = 12.6 km/h.</p>
+
+      <h2>Using the projections</h2>
+      <p>Projections hold pace constant, which flatters longer races — most runners slow 5–8% when doubling race distance. Use them to sanity-check goal splits: a 4-hour marathon needs 5:41 min/km, so tempo runs should sit comfortably below that.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>The formula is arithmetic stated inline above — no external dataset is involved. Everything runs client-side in your browser; nothing is uploaded.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/running-pace-calculator/">Running Pace Calculator</a> tool is free, runs locally, and never sends your data to a server. More <a href="/health/">health calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

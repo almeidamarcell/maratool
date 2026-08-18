@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Remove Audio Noise Online | maratool',
-  description: 'Remove Audio Noise Online. Free, runs in your browser — no upload to servers.',
+  description: 'Remove background noise from audio files in your browser. Clean up hiss, hum, and static, then download the denoised track. Free, no upload to servers.',
   canonical: 'https://maratool.com/audio-denoise',
   schema: {
     '@context': 'https://schema.org',
@@ -15,7 +15,7 @@ const seo = {
     applicationCategory: 'UtilitiesApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Remove Audio Noise Online. Free, runs in your browser — no upload to servers.',
+    description: 'Remove background noise from audio files in your browser. Clean up hiss, hum, and static, then download the denoised track. Free, no upload to servers.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
@@ -71,4 +71,4 @@ const breadcrumbs = [
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/audio-denoise.js"></script>
+<script src="../tools/audio-denoise.js"></script>

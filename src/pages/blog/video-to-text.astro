@@ -1,0 +1,51 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'video-to-text'
+const seo = {
+  title: 'How to convert video to text online (free, no upload) | maratool',
+  description: 'Transcribe any video or audio to text, SRT, or VTT in your browser with Whisper. Free, private, no upload, no signup.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert video to text online (free, no upload)',
+    image: 'https://maratool.com/og/image.svg',
+    datePublished: '2026-07-24',
+    dateModified: '2026-07-24',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: { '@type': 'Organization', name: 'maratool', url: 'https://maratool.com' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Transcribe any video or audio to text, SRT, or VTT in your browser with Whisper. Free, private, no upload, no signup.',
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell title="How to convert video to text online (free, no upload)" lead="Turn any video or audio recording into a clean transcript — plain text, SRT, or VTT — without uploading a single byte." date="July 24, 2026" dateIso="2026-07-24">
+      <p>The free <a href="/video-to-text/">Video to Text</a> tool on maratool transcribes speech straight in your browser. It extracts the audio with FFmpeg and runs OpenAI's <strong>Whisper</strong> model on your own device, so private recordings stay private — nothing is uploaded, and there is no signup or watermark.</p>
+
+      <BlogToolEmbed slug="video-to-text" title="Try it live" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Drop a file</strong> — any video (MP4, WebM, MOV) or audio (MP3, WAV, M4A).</li>
+        <li><strong>Pick language and model</strong> — leave language on Auto-detect, and choose Fast, Balanced, or Accurate depending on how much speed you want to trade for quality.</li>
+        <li><strong>Transcribe and export</strong> — copy the result or download it as <code>.txt</code>, <code>.srt</code>, or <code>.vtt</code>.</li>
+      </ol>
+
+      <h2>Why run it in the browser?</h2>
+      <p>Most "video to text" sites upload your file to a server, cap your minutes, or paywall the export. Because this tool runs Whisper locally via WebAssembly (and WebGPU when your device supports it), there is no upload, no length limit beyond your device's memory, and no cost. The trade-off is the first-run download: the FFmpeg engine (~25 MB) and the Whisper model (40–240 MB depending on quality) are fetched once and then cached by your browser.</p>
+
+      <h2>Text, SRT, or VTT — which do I need?</h2>
+      <p>Pick <strong>plain text</strong> for notes, articles, and search. Pick <strong>SRT</strong> or <strong>VTT</strong> when you need timed subtitles — for example to burn captions into a clip with the <a href="/video-subtitles/">Add Subtitles to Video</a> tool, or to upload alongside a video on the web. All three come from the same transcription, so you can grab whichever format the next step needs.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">Open the full <a href="/video-to-text/">Video to Text</a> tool, or browse more <a href="/converter/video/">video tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

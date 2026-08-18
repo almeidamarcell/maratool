@@ -1,0 +1,116 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Tire Size Calculator — Compare Tire Dimensions | maratool',
+  description: 'Enter a tire size like 205/55R16 to get diameter, sidewall, and circumference — and compare two sizes with speedometer error. Free, in-browser.',
+  canonical: 'https://maratool.com/tire-size-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Tire Size Calculator — Compare Tire Dimensions',
+    url: 'https://maratool.com/tire-size-calculator',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Enter a tire size like 205/55R16 to get diameter, sidewall, and circumference — and compare two sizes with speedometer error. Free, in-browser.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://maratool.com/converter' },
+      { '@type': 'ListItem', position: 3, name: 'Sizing', item: 'https://maratool.com/converter/sizing' },
+      { '@type': 'ListItem', position: 4, name: 'Tire Size Calculator — Compare Tire Dimensions', item: 'https://maratool.com/tire-size-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What does 205/55R16 mean?', acceptedAnswer: { '@type': 'Answer', text: '205 = section width in mm, 55 = aspect ratio (sidewall is 55% of width), R = radial construction, 16 = wheel diameter in inches. Total diameter = 16×25.4 + 2×(205×0.55) mm.' } },
+      { '@type': 'Question', name: 'How is speedometer error calculated?', acceptedAnswer: { '@type': 'Answer', text: 'Speedometers count wheel revolutions. With a new diameter D2, actual speed = indicated × D2/D1 — a 3% larger tire means you travel 3% faster than the gauge shows.' } },
+      { '@type': 'Question', name: 'How much size difference is acceptable?', acceptedAnswer: { '@type': 'Answer', text: 'A common rule of thumb keeps the overall diameter within ±3% of stock to protect speedometer accuracy, gearing, and ABS calibration. Check your vehicle documentation.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. Parsing and comparison run entirely in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Type a tire code such as 205/55R16 (a second tire is optional).',
+  'Read width, sidewall, diameter, and circumference for each.',
+  'Compare diameter difference and speedometer error between the two.'
+]
+
+const faq = [
+  { q: 'What does 205/55R16 mean?', a: '205 = section width in mm, 55 = aspect ratio (sidewall is 55% of width), R = radial construction, 16 = wheel diameter in inches. Total diameter = 16×25.4 + 2×(205×0.55) mm.' },
+  { q: 'How is speedometer error calculated?', a: 'Speedometers count wheel revolutions. With a new diameter D2, actual speed = indicated × D2/D1 — a 3% larger tire means you travel 3% faster than the gauge shows.' },
+  { q: 'How much size difference is acceptable?', a: 'A common rule of thumb keeps the overall diameter within ±3% of stock to protect speedometer accuracy, gearing, and ABS calibration. Check your vehicle documentation.' },
+  { q: 'Is my data sent to a server?', a: 'No. Parsing and comparison run entirely in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'screen-size-calculator', name: 'Screen Size Calculator' },
+  { slug: 'mpg-to-l100km', name: 'MPG to L/100km' },
+  { slug: 'unit-converter', name: 'Unit Converter' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Converter', href: '/converter' },
+  { label: 'Sizing', href: '/converter/sizing' },
+  { label: 'Tire Size Calculator' },
+]
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="tire-size-calculator" name="Tire Size Calculator — Compare Tire Dimensions" description="Parse metric tire codes (205/55R16) into real dimensions and compare two sizes including speedometer error." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+      <div class="tool-container" style="min-height:520px;">
+      <div class="calc-row">
+        <div class="calc-field"><label class="tool-label" for="tsc-a">Tire 1</label><input type="text" id="tsc-a" class="tool-input" placeholder="205/55R16" autocomplete="off" spellcheck="false" /></div>
+        <div class="calc-field"><label class="tool-label" for="tsc-b">Tire 2 (optional)</label><input type="text" id="tsc-b" class="tool-input" placeholder="225/45R17" autocomplete="off" spellcheck="false" /></div>
+      </div>
+      <div id="tsc-out-a" hidden>
+        <p class="tool-label" style="margin:1rem 0 0.5rem;">Tire 1</p>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="tsc-a-width">—</span><span class="tool-stat-label">Width</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="tsc-a-side">—</span><span class="tool-stat-label">Sidewall</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="tsc-a-diam">—</span><span class="tool-stat-label">Diameter</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="tsc-a-circ">—</span><span class="tool-stat-label">Circumference</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="tsc-a-revs">—</span><span class="tool-stat-label">Revs/km</span></div>
+        </div>
+      </div>
+      <div id="tsc-out-b" hidden>
+        <p class="tool-label" style="margin:1rem 0 0.5rem;">Tire 2</p>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="tsc-b-width">—</span><span class="tool-stat-label">Width</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="tsc-b-side">—</span><span class="tool-stat-label">Sidewall</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="tsc-b-diam">—</span><span class="tool-stat-label">Diameter</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="tsc-b-circ">—</span><span class="tool-stat-label">Circumference</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="tsc-b-revs">—</span><span class="tool-stat-label">Revs/km</span></div>
+        </div>
+      </div>
+      <div id="tsc-cmp" hidden>
+        <p class="tool-label" style="margin:1rem 0 0.5rem;">Comparison</p>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="tsc-diff">—</span><span class="tool-stat-label">Diameter difference</span></div>
+          <div class="tool-stat" style="flex:1.6;"><span class="tool-stat-value" id="tsc-speedo">—</span><span class="tool-stat-label">At indicated 100 km/h you travel</span></div>
+        </div>
+      </div>
+      <p id="tsc-msg" style="font-size:13px;color:var(--text-2);margin:1rem 0 0;">Enter a size like 205/55R16 to see dimensions.</p>
+        <div class="tool-note"><strong>How this conversion works.</strong> Dimensions follow the standard metric tire designation (width mm / aspect % R rim inches) defined in <a href="https://www.iso.org/standard/76574.html" rel="noopener" target="_blank">ISO 4000-1 (passenger car tyre designation)</a>.</div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.5rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr !important; } }
+</style>
+<script src="../tools/tire-size-calculator.js"></script>

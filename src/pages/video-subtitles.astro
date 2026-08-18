@@ -5,7 +5,7 @@ import ToolShell from '../components/ToolShell.astro'
 
 const seo = {
   title: 'Add Subtitles to Video Online | maratool',
-  description: 'Add Subtitles to Video Online. Free, runs in your browser — no upload to servers.',
+  description: 'Burn subtitles into a video from an SRT or VTT file, or type captions by hand. Set font, size, and position — free and runs entirely in your browser.',
   canonical: 'https://maratool.com/video-subtitles',
   schema: {
     '@context': 'https://schema.org',
@@ -15,37 +15,37 @@ const seo = {
     applicationCategory: 'UtilitiesApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    description: 'Add Subtitles to Video Online. Free, runs in your browser — no upload to servers.',
+    description: 'Burn subtitles into a video from an SRT or VTT file, or type captions by hand. Set font, size, and position — free and runs entirely in your browser.',
   },
   faqSchema: {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: [
-      { '@type': 'Question', name: 'Is this tool free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. 100% free, no watermark, no sign-up. Everything runs in your browser.' } },
-      { '@type': 'Question', name: 'Does my file get uploaded?', acceptedAnswer: { '@type': 'Answer', text: 'No. All processing happens locally on your device.' } },
-      { '@type': 'Question', name: 'What formats are supported?', acceptedAnswer: { '@type': 'Answer', text: 'See the upload area on the tool page for accepted formats.' } },
-      { '@type': 'Question', name: 'Is there a file size limit?', acceptedAnswer: { '@type': 'Answer', text: 'GIF tools: up to 50 MB. Video/audio tools: up to 200 MB in most browsers.' } },
+      { '@type': 'Question', name: 'Do I need a subtitle file?', acceptedAnswer: { '@type': 'Answer', text: 'No. Type the captions straight into the editor, one row per line with its start and end time. Uploading an SRT or VTT is the alternative, not the requirement.' } },
+      { '@type': 'Question', name: 'Can I fix a subtitle file that is slightly off?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. An uploaded file fills the editor, so you can correct wording or nudge the timings before burning it in.' } },
+      { '@type': 'Question', name: 'What does burning in mean?', acceptedAnswer: { '@type': 'Answer', text: 'The text is drawn into the video frames themselves, so it plays everywhere and cannot be switched off. A soft subtitle track can be toggled but is ignored by many players and by most social platforms.' } },
+      { '@type': 'Question', name: 'What time format do the rows take?', acceptedAnswer: { '@type': 'Answer', text: 'Hours, minutes, seconds and milliseconds, as in 00:00:03.500. The end time of one caption can match the start of the next.' } },
     ],
   },
 }
 
 const howTo = [
-  'Upload or drop your file.',
-  'Adjust settings if needed.',
-  'Click Process and download the result.',
+  'Drop in the clip you want captioned.',
+  'Type the captions row by row with a start and end time, or upload an existing SRT or VTT file to load them in.',
+  'Process to burn the captions into the picture, then download.',
 ]
 
 const faq = [
-  { q: 'Is this tool free?', a: 'Yes. 100% free, no watermark, no sign-up.' },
-  { q: 'Does my file get uploaded?', a: 'No. Everything runs in your browser.' },
-  { q: 'What formats are supported?', a: 'Check the upload area on this page.' },
-  { q: 'Is there a file size limit?', a: 'GIF: 50 MB. Video/audio: typically 200 MB depending on browser memory.' },
+  { q: 'Do I need a subtitle file?', a: 'No. Type the captions straight into the editor, one row per line with its start and end time. Uploading an SRT or VTT is the alternative, not the requirement.' },
+  { q: 'Can I fix a subtitle file that is slightly off?', a: 'Yes. An uploaded file fills the editor, so you can correct wording or nudge the timings before burning it in.' },
+  { q: 'What does burning in mean?', a: 'The text is drawn into the video frames themselves, so it plays everywhere and cannot be switched off. A soft subtitle track can be toggled but is ignored by many players and by most social platforms.' },
+  { q: 'What time format do the rows take?', a: 'Hours, minutes, seconds and milliseconds, as in 00:00:03.500. The end time of one caption can match the start of the next.' },
 ]
 
 const relatedTools = [
-  { slug: 'gif-maker', name: 'GIF Maker' },
-  { slug: 'gif-compressor', name: 'GIF Compressor' },
-  { slug: 'video-to-gif', name: 'Video to GIF' },
+  { slug: 'video-to-text', name: 'Video to Text' },
+  { slug: 'audio-to-text', name: 'Audio to Text' },
+  { slug: 'compress-video', name: 'Compress Video' },
 ]
 
 const breadcrumbs = [
@@ -57,7 +57,7 @@ const breadcrumbs = [
 ---
 <Base {...seo}>
   <Layout>
-    <ToolShell slug="video-subtitles" name="Add Subtitles to Video Online" description="Add Subtitles to Video Online. Free, runs in your browser — no upload to servers." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
+    <ToolShell slug="video-subtitles" name="Add Subtitles to Video Online" description="Burn captions into a video. Type them with start and end times in the built-in editor, or load an existing SRT or VTT file." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs}>
       <div class="tool-container" style="min-height:420px;" data-ui="video-subtitles">
         <p class="tool-hint">Upload a file to get started. Processing runs entirely in your browser.</p>
         <div id="ez-root" data-slug="video-subtitles"></div>
@@ -71,4 +71,4 @@ const breadcrumbs = [
   .ga-dropzone:hover, .ef-dropzone:hover { background: var(--bg-hover); }
 </style>
 
-<script type="module" src="../tools/video-subtitles.js"></script>
+<script src="../tools/video-subtitles.js"></script>

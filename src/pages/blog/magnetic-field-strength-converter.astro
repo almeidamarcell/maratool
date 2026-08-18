@@ -1,0 +1,92 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'magnetic-field-strength-converter'
+const seo = {
+  title: 'Oersted to A/m converter — field strength H | maratool',
+  description: 'Convert oersteds and amperes per meter — 1 Oe = 1000/4π A/m. Free browser magnetizing field converter.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to convert oersted to A/m (magnetic field strength)',
+    image: 'https://maratool.com/og/converter.svg',
+    datePublished: '2026-07-25',
+    dateModified: '2026-07-25',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Convert oersteds and amperes per meter — 1 Oe = 1000/4π A/m. Free browser magnetizing field converter.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to convert oersted to A/m (magnetic field strength)', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to convert oersted to A/m (magnetic field strength)"
+      lead="Type a field strength — read A/m, kA/m, or oersteds instantly."
+      date="July 25, 2026"
+      dateIso="2026-07-25"
+    >
+      <p>Magnet datasheets quote coercivity in oersteds (CGS) or kA/m (SI) depending on origin. The <a href="/magnetic-field-strength-converter/">Magnetic Field Strength Converter</a> applies the exact 1000/4π bridge between them.</p>
+
+      <BlogToolEmbed slug="magnetic-field-strength-converter" title="Try it — convert magnetic field strength units" height={440} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Pick units</strong> — "Oersted (Oe)" to "Ampere per meter (A/m)", or any other pair.</li>
+        <li><strong>Type a value</strong> — the result updates as you type, with swap and copy.</li>
+        <li><strong>Copy</strong> — one click, with "Copied!" feedback.</li>
+      </ol>
+
+      <h2>Magnetic field strength conversion factors</h2>
+      <p>Every unit converts through the ampere per meter (the base unit). To convert A → B, multiply by A's factor and divide by B's:</p>
+      <table>
+        <thead><tr><th>Unit</th><th>= this many ampere per meters</th></tr></thead>
+        <tbody>
+        <tr><td>Kiloampere per meter (kA/m)</td><td>1,000</td></tr>
+        <tr><td>Ampere per meter (A/m)</td><td>1</td></tr>
+        <tr><td>Ampere per centimeter (A/cm)</td><td>100</td></tr>
+        <tr><td>Kilooersted (kOe)</td><td>79,577.47154594767</td></tr>
+        <tr><td>Oersted (Oe)</td><td>79.577471545948</td></tr>
+        <tr><td>Millioersted (mOe)</td><td>0.079577471546</td></tr>
+        </tbody>
+      </table>
+
+      <h2>When you need it</h2>
+      <p>A ferrite magnet’s coercivity of ~3 kOe is 238.7 kA/m; NdFeB grades exceed 12 kOe (955 kA/m). If your two datasheets disagree by a factor near 79.6, one is in Oe and the other in A/m.</p>
+
+      <h2>Sources & methodology</h2>
+      <p>Conversion factors follow <a href="https://www.nist.gov/pml/special-publication-811" rel="noopener" target="_blank">NIST Special Publication 811</a>; exact-by-definition factors are marked in the tool itself. All math runs client-side in your browser — nothing is uploaded.</p>
+
+      <h2>More conversion guides</h2>
+      <ul>
+        <li><a href="/blog/magnetic-field-converter/">How to convert tesla to gauss</a></li>
+        <li><a href="/blog/magnetomotive-force-converter/">How to convert gilberts to ampere-turns (MMF)</a></li>
+        <li><a href="/blog/magnetic-flux-converter/">How to convert weber to maxwell (magnetic flux)</a></li>
+      </ul>
+      <p>Or browse everything at once in the <a href="/blog/new-unit-converters/">new unit &amp; sizing converters roundup</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/magnetic-field-strength-converter/">Field Strength</a> tool is free, runs locally, and never sends your data to a server. More <a href="/converter/">converter tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

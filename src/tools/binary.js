@@ -1,3 +1,4 @@
+import { attachCopyButton } from './tool-utils.js'
 import './hash-state.js'
 // Text to Binary Converter
 (function () {
@@ -50,17 +51,7 @@ import './hash-state.js'
   })
 
   document.querySelectorAll('[data-copy-from]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const text = document.getElementById(btn.dataset.copyFrom).textContent
-      navigator.clipboard.writeText(text).then(() => {
-        btn.textContent = 'Copied!'
-        btn.classList.add('copied')
-        setTimeout(() => {
-          btn.textContent = 'Copy'
-          btn.classList.remove('copied')
-        }, 2000)
-      })
-    })
+    attachCopyButton(btn, () => document.getElementById(btn.dataset.copyFrom).textContent, { idle: 'Copy' })
   })
 
   // ---- Binary → Text ----
@@ -96,16 +87,7 @@ import './hash-state.js'
 
   const copyBinOut = document.getElementById('bin-copy-output')
   if (copyBinOut) {
-    copyBinOut.addEventListener('click', () => {
-      navigator.clipboard.writeText(textOut.textContent).then(() => {
-        copyBinOut.textContent = 'Copied!'
-        copyBinOut.classList.add('copied')
-        setTimeout(() => {
-          copyBinOut.textContent = 'Copy'
-          copyBinOut.classList.remove('copied')
-        }, 2000)
-      })
-    })
+    attachCopyButton(copyBinOut, () => textOut.textContent, { idle: 'Copy' })
   }
 
   // ---- HASH STATE RESTORE ----

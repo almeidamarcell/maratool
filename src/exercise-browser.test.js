@@ -35,7 +35,9 @@ describe('exercise browser page', () => {
 
   test('emits CollectionPage schema with a trailing-slash canonical', () => {
     expect(page).toContain("'@type': 'CollectionPage'")
-    expect(page).toContain("canonical: 'https://maratool.com/exercises/'")
+    // No trailing slash: house convention across every tool page — Base.astro
+    // normalises it, and the registry-wide canonical invariant expects this form.
+    expect(page).toContain("canonical: 'https://maratool.com/exercises'")
   })
 
   test('ships the tool-page contract: a How to use block and FAQPage schema', () => {

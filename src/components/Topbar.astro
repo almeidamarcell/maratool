@@ -20,11 +20,11 @@
     maratool
   </a>
   <nav class="topbar-nav" aria-label="Site navigation">
-    <a href="/blog" class:list={['topbar-nav-link', { active: Astro.url.pathname.startsWith('/blog') }]}>Blog</a>
-    <a href="/about" class:list={['topbar-nav-link', { active: Astro.url.pathname === '/about' || Astro.url.pathname === '/about/' }]}>About</a>
-    <a href="/contact" class:list={['topbar-nav-link', { active: Astro.url.pathname === '/contact' || Astro.url.pathname === '/contact/' }]}>Contact</a>
+    <a href="/blog/" class:list={['topbar-nav-link', { active: Astro.url.pathname.startsWith('/blog') }]}>Blog</a>
+    <a href="/about/" class:list={['topbar-nav-link', { active: Astro.url.pathname === '/about' || Astro.url.pathname === '/about/' }]}>About</a>
+    <a href="/contact/" class:list={['topbar-nav-link', { active: Astro.url.pathname === '/contact' || Astro.url.pathname === '/contact/' }]}>Contact</a>
     <span class="topbar-nav-sep" aria-hidden="true"></span>
-    <a href="/all" class:list={['topbar-nav-link', { active: Astro.url.pathname === '/all' || Astro.url.pathname === '/all/' }]}>All tools</a>
+    <a href="/all/" class:list={['topbar-nav-link', { active: Astro.url.pathname === '/all' || Astro.url.pathname === '/all/' }]}>All tools</a>
   </nav>
   <button
     type="button"
