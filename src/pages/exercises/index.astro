@@ -1,0 +1,123 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import { exercises, byMuscle, byEquipment, byCategory, byLevel, facetCounts } from '../../data/exercises'
+
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+const muscleValues = facetCounts(byMuscle)
+const equipmentValues = facetCounts(byEquipment)
+const categoryValues = facetCounts(byCategory)
+const levelValues = facetCounts(byLevel)
+
+const total = exercises.length
+const description = `Browse ${total} exercises by muscle, equipment, category, and difficulty. Step-by-step instructions and muscle maps — free, no sign-up.`
+
+const seo = {
+  title: `Exercise Database — ${total} Exercises by Muscle & Equipment | maratool`,
+  description,
+  canonical: 'https://maratool.com/exercises/',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Exercise Database',
+    url: 'https://maratool.com/exercises/',
+    description,
+  },
+}
+---
+<Base {...seo} scope="hub">
+  <Layout scope="hub">
+    <div class="exb">
+      <header class="exb-head">
+        <h1>Exercise Database</h1>
+        <p>{total} exercises with step-by-step instructions and muscle maps. Search or filter by muscle, equipment, category, and difficulty.</p>
+      </header>
+
+      <div class="exb-layout">
+        <aside class="exb-side">
+          <section class="exb-group">
+            <h2>Muscle</h2>
+            {muscleValues.map(v => (
+              <label class="exb-facet-row">
+                <input type="checkbox" class="ex-facet" data-facet="muscle" value={v.value} />
+                <span>{cap(v.value)}</span>
+                <b>{v.count}</b>
+              </label>
+            ))}
+          </section>
+          <section class="exb-group">
+            <h2>Equipment</h2>
+            {equipmentValues.map(v => (
+              <label class="exb-facet-row">
+                <input type="checkbox" class="ex-facet" data-facet="equipment" value={v.value} />
+                <span>{cap(v.value)}</span>
+                <b>{v.count}</b>
+              </label>
+            ))}
+          </section>
+          <section class="exb-group">
+            <h2>Category</h2>
+            {categoryValues.map(v => (
+              <label class="exb-facet-row">
+                <input type="checkbox" class="ex-facet" data-facet="category" value={v.value} />
+                <span>{cap(v.value)}</span>
+                <b>{v.count}</b>
+              </label>
+            ))}
+          </section>
+          <section class="exb-group">
+            <h2>Level</h2>
+            {levelValues.map(v => (
+              <label class="exb-facet-row">
+                <input type="checkbox" class="ex-facet" data-facet="level" value={v.value} />
+                <span>{cap(v.value)}</span>
+                <b>{v.count}</b>
+              </label>
+            ))}
+          </section>
+        </aside>
+
+        <div class="exb-main">
+          <div class="exb-searchbar">
+            <span aria-hidden="true">🔎</span>
+            <input id="ex-search" type="search" placeholder="Search exercises…" autocomplete="off" />
+          </div>
+          <p class="exb-count" id="ex-count">Loading…</p>
+          <div class="exb-grid" id="ex-results"></div>
+          <p class="exb-empty" id="ex-empty" hidden>No exercises match those filters.</p>
+        </div>
+      </div>
+
+      <p class="exb-attr">
+        Illustrations: Everkinetic (<a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license noopener" target="_blank">CC BY-SA 4.0</a>) ·
+        Photos: free-exercise-db (public domain). Informational only — not fitness or medical advice.
+      </p>
+    </div>
+  </Layout>
+</Base>
+
+<style is:global>
+  .exb-head h1 { font-size: 30px; font-weight: 600; margin: 0 0 6px; }
+  .exb-head p { font-size: 14px; color: var(--text-2); margin: 0 0 18px; max-width: 640px; line-height: 1.5; }
+  .exb-layout { display: grid; grid-template-columns: 220px 1fr; gap: 24px; }
+  .exb-side { border-right: 1px solid var(--border); padding-right: 16px; }
+  .exb-group { margin-bottom: 18px; }
+  .exb-group h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-3); margin: 0 0 8px; }
+  .exb-facet-row { display: flex; align-items: center; gap: 7px; font-size: 13px; padding: 3px 5px; border-radius: 5px; cursor: pointer; color: var(--text-2); }
+  .exb-facet-row:hover { background: var(--bg-hover); }
+  .exb-facet-row b { margin-left: auto; color: var(--text-3); font-size: 11px; font-weight: 500; }
+  .exb-searchbar { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); background: #fff; border-radius: 8px; padding: 10px 12px; }
+  .exb-searchbar input { border: 0; outline: 0; font: inherit; font-size: 14px; flex: 1; background: none; }
+  .exb-count { font-size: 12px; color: var(--text-2); margin: 10px 2px 12px; }
+  .exb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; min-height: 480px; align-content: start; }
+  .exb-card { background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--cat-health); border-radius: 8px; padding: 12px; text-decoration: none; color: inherit; transition: transform 100ms ease, box-shadow 100ms ease; }
+  .exb-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,.06); }
+  .exb-card h3 { font-size: 13px; margin: 0 0 7px; font-weight: 600; line-height: 1.3; }
+  .exb-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+  .exb-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: var(--bg-soft); color: var(--text-2); }
+  .exb-empty { font-size: 14px; color: var(--text-2); }
+  .exb-attr { font-size: 11px; color: var(--text-3); margin-top: 22px; }
+  @media (max-width: 860px) { .exb-layout { grid-template-columns: 1fr; } .exb-side { border-right: 0; padding-right: 0; } }
+</style>
+
+<script src="../../tools/exercise-browser.js"></script>

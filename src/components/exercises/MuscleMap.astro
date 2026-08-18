@@ -1,5 +1,5 @@
 ---
-import { regionsFor } from '../../data/exercises/muscle-regions.mjs'
+import { regionClasses } from '../../data/exercises/muscle-regions.mjs'
 
 interface Props {
   primary: string[]
@@ -8,14 +8,8 @@ interface Props {
 }
 const { primary, secondary = [], size = 'full' } = Astro.props
 
-function classesFor(view: 'front' | 'back'): Record<string, string> {
-  const out: Record<string, string> = {}
-  for (const m of secondary) for (const r of regionsFor(m, view)) out[r] = 'mm-sec'
-  for (const m of primary) for (const r of regionsFor(m, view)) out[r] = 'mm-tgt'
-  return out
-}
-const f = classesFor('front')
-const b = classesFor('back')
+const f = regionClasses(primary, secondary, 'front')
+const b = regionClasses(primary, secondary, 'back')
 const cf = (map: Record<string, string>, id: string) => `mm-m ${map[id] ?? ''}`.trim()
 
 const label = `Muscles worked: ${primary.join(', ')}${secondary.length ? ` (primary); ${secondary.join(', ')} (secondary)` : ''}`

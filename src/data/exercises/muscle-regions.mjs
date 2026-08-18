@@ -22,7 +22,8 @@ const FRONT = {
   abdominals: ['abs', 'oblique-l', 'oblique-r'],
   quadriceps: ['quad-l', 'quad-r'],
   adductors: ['adductor-l', 'adductor-r'],
-  calves: ['calf-f-l', 'calf-f-r'],
+  // Calves (gastrocnemius/soleus) are posterior-compartment muscles — the
+  // anterior lower leg is the tibialis anterior, a different muscle. Back-only.
   neck: ['neck-f'],
 }
 
@@ -44,4 +45,19 @@ const BACK = {
 export function regionsFor(muscle, view) {
   const table = view === 'back' ? BACK : FRONT
   return table[muscle] ?? []
+}
+
+// Pure region-id -> css-class map for one view, given the primary/secondary
+// muscle lists. A muscle listed in both wins as primary ('mm-tgt') over
+// secondary ('mm-sec') because primary is assigned second and overwrites.
+// Exported (beyond ALL_REGIONS/regionsFor) so MuscleMap.astro's precedence
+// rule can be exercised directly in a unit test — Astro's container API
+// can't render this .astro file under the project's plain vitest config
+// (no Astro Vite plugin registered), so this is the real logic the
+// component runs, not a duplicate reimplementation of it.
+export function regionClasses(primary, secondary, view) {
+  const out = {}
+  for (const m of secondary) for (const r of regionsFor(m, view)) out[r] = 'mm-sec'
+  for (const m of primary) for (const r of regionsFor(m, view)) out[r] = 'mm-tgt'
+  return out
 }

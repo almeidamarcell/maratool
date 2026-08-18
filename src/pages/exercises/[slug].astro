@@ -1,0 +1,157 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import MuscleMap from '../../components/exercises/MuscleMap.astro'
+import ExerciseMedia from '../../components/exercises/ExerciseMedia.astro'
+import { exercises, relatedExercises } from '../../data/exercises'
+import type { Exercise } from '../../data/exercises'
+
+export function getStaticPaths() {
+  return exercises.map(ex => ({
+    params: { slug: ex.slug },
+    props: { ex, related: relatedExercises(ex, 4) },
+  }))
+}
+
+const { ex, related } = Astro.props as { ex: Exercise; related: Exercise[] }
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+const primaryLabel = ex.primaryMuscles.map(cap).join(', ')
+const equipLabel = ex.equipment.map(cap).join(', ')
+
+const description =
+  `How to do the ${ex.name.toLowerCase()}: step-by-step instructions, muscles worked (${primaryLabel}), and equipment (${equipLabel}). Free exercise guide.`.slice(0, 158)
+
+const seo = {
+  title: `${ex.name} — Muscles Worked & How To | maratool`,
+  description,
+  canonical: `https://maratool.com/exercises/${ex.slug}/`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: `How to do the ${ex.name}`,
+    description,
+    step: ex.instructions.map((text, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      text,
+    })),
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Exercises', item: 'https://maratool.com/exercises/' },
+      { '@type': 'ListItem', position: 3, name: ex.name, item: `https://maratool.com/exercises/${ex.slug}/` },
+    ],
+  },
+}
+---
+<Base {...seo} scope="tool">
+  <Layout>
+    <article class="ex-page">
+      <nav class="ex-crumb" aria-label="Breadcrumb">
+        <a href="/exercises/">Exercises</a> ›
+        <a href={`/exercises/muscle/${ex.primaryMuscles[0]?.replace(/ /g, '-')}/`}>{cap(ex.primaryMuscles[0] ?? '')}</a> ›
+        <span>{ex.name}</span>
+      </nav>
+
+      <h1>{ex.name}</h1>
+
+      <div class="ex-pills">
+        <span class="ex-pill ex-pill-on">🎯 {primaryLabel}</span>
+        <span class="ex-pill">🏋️ {equipLabel}</span>
+        {ex.level && <span class="ex-pill">{cap(ex.level)}</span>}
+        {ex.mechanic && <span class="ex-pill">{cap(ex.mechanic)}</span>}
+        {ex.secondaryMuscles.map(m => <span class="ex-pill">{cap(m)} (2°)</span>)}
+      </div>
+
+      <div class="ex-body">
+        <aside class="ex-aside">
+          <ExerciseMedia media={ex.media} name={ex.name} />
+
+          <div class="ex-mapcard">
+            <MuscleMap primary={ex.primaryMuscles} secondary={ex.secondaryMuscles} />
+            <div class="ex-legend">
+              <span><i style="background:#c4553a"></i>Primary</span>
+              <span><i style="background:#e8b9ac"></i>Secondary</span>
+            </div>
+          </div>
+
+          <table class="ex-meta">
+            <tbody>
+              <tr><td>Primary muscles</td><td>{primaryLabel}</td></tr>
+              {ex.secondaryMuscles.length > 0 && <tr><td>Secondary</td><td>{ex.secondaryMuscles.map(cap).join(', ')}</td></tr>}
+              <tr><td>Equipment</td><td>{equipLabel}</td></tr>
+              <tr><td>Category</td><td>{cap(ex.category)}</td></tr>
+              {ex.level && <tr><td>Level</td><td>{cap(ex.level)}</td></tr>}
+              {ex.force && <tr><td>Force</td><td>{cap(ex.force)}</td></tr>}
+            </tbody>
+          </table>
+        </aside>
+
+        <section class="ex-steps">
+          <h2>How to do the {ex.name.toLowerCase()}</h2>
+          <ol>
+            {ex.instructions.map(step => <li>{step}</li>)}
+          </ol>
+
+          {related.length > 0 && (
+            <div class="ex-related">
+              <h2>Related exercises</h2>
+              <ul>
+                {related.map(r => (
+                  <li><a href={`/exercises/${r.slug}/`}>{r.name}</a></li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+      </div>
+
+      <p class="ex-attr">
+        {ex.attribution}
+        {ex.source === 'everkinetic' && (
+          <> — <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license noopener" target="_blank">license</a>. Modified versions are shared under the same license.</>
+        )}
+      </p>
+      <p class="ex-disclaimer">
+        ⓘ Informational only — not a substitute for professional fitness or medical advice.
+      </p>
+    </article>
+  </Layout>
+</Base>
+
+<style is:global>
+  .ex-page { max-width: 1000px; }
+  .ex-crumb { font-size: 12px; color: var(--text-2); margin-bottom: 6px; }
+  .ex-crumb a { color: var(--cat-health); text-decoration: none; }
+  .ex-page h1 { font-size: 30px; font-weight: 600; margin: 6px 0 10px; letter-spacing: -.01em; }
+  .ex-pills { display: flex; gap: 6px; flex-wrap: wrap; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .ex-pill { font-size: 12px; padding: 3px 10px; border-radius: 100px; background: var(--bg-soft); border: 1px solid var(--border); color: var(--text-2); }
+  .ex-pill-on { background: #fdf1ee; border-color: var(--accent); color: var(--accent); }
+  .ex-body { display: grid; grid-template-columns: 340px 1fr; gap: 24px; padding-top: 18px; }
+  .ex-mapcard { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-top: 14px; }
+  .ex-legend { display: flex; gap: 14px; justify-content: center; margin-top: 8px; font-size: 11px; color: var(--text-2); }
+  .ex-legend i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; margin-right: 4px; }
+  .ex-meta { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 14px; }
+  .ex-meta td { padding: 7px 0; border-bottom: 1px solid var(--border); }
+  .ex-meta td:first-child { color: var(--text-2); width: 44%; }
+  .ex-meta td:last-child { font-weight: 500; }
+  .ex-steps h2 { font-size: 17px; margin: 0 0 14px; }
+  .ex-steps ol { margin: 0; padding: 0; list-style: none; counter-reset: exstep; }
+  .ex-steps ol li { counter-increment: exstep; position: relative; padding: 0 0 16px 40px; font-size: 14px; line-height: 1.55; }
+  .ex-steps ol li::before {
+    content: counter(exstep); position: absolute; left: 0; top: -2px;
+    width: 26px; height: 26px; border-radius: 50%; background: var(--bg-soft);
+    border: 1px solid var(--border); color: var(--accent); font-size: 12px;
+    font-weight: 600; display: flex; align-items: center; justify-content: center;
+  }
+  .ex-related { margin-top: 26px; }
+  .ex-related ul { list-style: none; padding: 0; margin: 0; }
+  .ex-related li { padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .ex-related a { color: var(--cat-health); text-decoration: none; }
+  .ex-attr, .ex-disclaimer { font-size: 11px; color: var(--text-3); margin: 16px 0 0; }
+  .ex-attr a { color: var(--text-2); }
+  @media (max-width: 860px) { .ex-body { grid-template-columns: 1fr; } }
+</style>
