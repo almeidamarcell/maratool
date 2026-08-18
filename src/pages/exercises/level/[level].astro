@@ -1,0 +1,70 @@
+---
+import Base from '../../../layouts/Base.astro'
+import Layout from '../../../components/Layout.astro'
+import ExerciseHub from '../../../components/exercises/ExerciseHub.astro'
+import { byLevel } from '../../../data/exercises'
+import type { Exercise } from '../../../data/exercises'
+
+export function getStaticPaths() {
+  return Object.entries(byLevel).map(([level, list]) => ({
+    params: { level: level.replace(/ /g, '-') },
+    props: { level, list },
+  }))
+}
+
+const { level, list } = Astro.props as { level: string; list: Exercise[] }
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+const slug = level.replace(/ /g, '-')
+const title = `${cap(level)} Exercises`
+const description = `${list.length} exercises rated ${level}. Step-by-step instructions, muscles worked, and equipment needed. Free, no sign-up.`.slice(0, 158)
+
+const muscleCounts = new Map<string, number>()
+for (const ex of list) for (const m of ex.primaryMuscles) muscleCounts.set(m, (muscleCounts.get(m) ?? 0) + 1)
+const facets = [...muscleCounts.entries()]
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 8)
+  .map(([value, count]) => ({
+    value,
+    label: cap(value),
+    count,
+    href: `/exercises/muscle/${value.replace(/ /g, '-')}/`,
+  }))
+
+const seo = {
+  title: `${title} — ${list.length} Exercises | maratool`,
+  description,
+  canonical: `https://maratool.com/exercises/level/${slug}/`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: title,
+    url: `https://maratool.com/exercises/level/${slug}/`,
+    description,
+    hasPart: list.slice(0, 50).map(ex => ({
+      '@type': 'HowTo',
+      name: ex.name,
+      url: `https://maratool.com/exercises/${ex.slug}/`,
+    })),
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Exercises', item: 'https://maratool.com/exercises/' },
+      { '@type': 'ListItem', position: 3, name: title, item: `https://maratool.com/exercises/level/${slug}/` },
+    ],
+  },
+}
+---
+<Base {...seo} scope="hub">
+  <Layout scope="hub">
+    <ExerciseHub
+      title={title}
+      subtitle={`${list.length} exercises rated ${level}. Filter by target muscle, then open any exercise for instructions and a muscle map.`}
+      exercises={list}
+      facetLabel="Muscle"
+      facets={facets}
+    />
+  </Layout>
+</Base>

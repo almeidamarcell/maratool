@@ -1,0 +1,82 @@
+---
+import MuscleMap from './MuscleMap.astro'
+import type { Exercise } from '../../data/exercises'
+
+interface Facet { value: string; label: string; count: number; href: string }
+interface Faq { q: string; a: string }
+
+interface Props {
+  title: string
+  subtitle: string
+  exercises: Exercise[]
+  facetLabel: string
+  facets: Facet[]
+  faqs?: Faq[]
+}
+const { title, subtitle, exercises, facetLabel, facets, faqs = [] } = Astro.props
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+---
+<div class="exh">
+  <header class="exh-head">
+    <h1>{title}</h1>
+    <p>{subtitle}</p>
+  </header>
+
+  {facets.length > 0 && (
+    <nav class="exh-facets" aria-label={facetLabel}>
+      <span class="exh-facet-label">{facetLabel}</span>
+      {facets.map(f => (
+        <a class="exh-chip" href={f.href}>{f.label} <b>{f.count}</b></a>
+      ))}
+    </nav>
+  )}
+
+  <div class="exh-grid">
+    {exercises.map(ex => (
+      <a class="exh-card" href={`/exercises/${ex.slug}/`}>
+        <div class="exh-thumb">
+          <MuscleMap primary={ex.primaryMuscles} secondary={ex.secondaryMuscles} size="mini" />
+        </div>
+        <h2>{ex.name}</h2>
+        <div class="exh-tags">
+          {ex.equipment.slice(0, 2).map(e => <span class="exh-tag">{cap(e)}</span>)}
+          <span class="exh-tag">{cap(ex.primaryMuscles[0] ?? '')}</span>
+        </div>
+      </a>
+    ))}
+  </div>
+
+  {faqs.length > 0 && (
+    <section class="exh-faq">
+      <h2>{title} — FAQ</h2>
+      {faqs.map(f => (
+        <details>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </section>
+  )}
+</div>
+
+<style is:global>
+  .exh-head h1 { font-size: 28px; font-weight: 600; margin: 0 0 6px; }
+  .exh-faq { margin-top: 30px; }
+  .exh-faq h2 { font-size: 18px; margin: 0 0 10px; }
+  .exh-faq details { border-bottom: 1px solid var(--border); padding: 10px 0; font-size: 13px; }
+  .exh-faq summary { cursor: pointer; font-weight: 500; }
+  .exh-faq p { color: var(--text-2); margin: 8px 0 0; line-height: 1.55; }
+  .exh-head p { font-size: 14px; color: var(--text-2); margin: 0 0 18px; max-width: 620px; line-height: 1.5; }
+  .exh-facets { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 18px; }
+  .exh-facet-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-3); margin-right: 4px; }
+  .exh-chip { font-size: 12px; padding: 4px 11px; border-radius: 100px; background: #fff; border: 1px solid var(--border); color: var(--text-2); text-decoration: none; }
+  .exh-chip:hover { background: var(--bg-hover); }
+  .exh-chip b { color: var(--text-3); font-weight: 500; }
+  .exh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
+  .exh-card { background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--cat-health); border-radius: 8px; padding: 14px; text-decoration: none; color: inherit; transition: transform 100ms ease, box-shadow 100ms ease; }
+  .exh-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,.06); }
+  .exh-thumb { background: var(--bg-soft); border-radius: 6px; min-height: 96px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+  .exh-card h2 { font-size: 14px; margin: 0 0 8px; font-weight: 600; line-height: 1.3; }
+  .exh-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+  .exh-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: var(--bg-soft); color: var(--text-2); }
+</style>
