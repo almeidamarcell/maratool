@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 458 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 459 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -439,6 +439,7 @@ maratool.com is a growing collection of 458 free tools that run in the browser u
 - [GWTG-HF Risk Score](https://maratool.com/gwtg-hf-risk): Get With The Guidelines Heart Failure (GWTG-HF) in-hospital mortality risk.
 - [MASCC Risk Index (Febrile Neutropenia)](https://maratool.com/mascc-febrile-neutropenia): MASCC risk index for low-risk febrile neutropenia in cancer patients.
 - [TASH Score (Massive Transfusion)](https://maratool.com/tash-massive-transfusion): Trauma Associated Severe Hemorrhage (TASH) score for massive transfusion prediction.
+- [Exercise Database — Browse Exercises by Muscle & Equipment](https://maratool.com/exercises): Browse 1,035 exercises by muscle, equipment, and difficulty. Step-by-step instructions and a muscle map for every exercise — free, no sign-up.
 
 ### Education
 - [Scientific Calculator Online](https://maratool.com/scientific-calculator): Full-featured scientific calculator with trigonometry, logarithms, exponents, and expression history.
