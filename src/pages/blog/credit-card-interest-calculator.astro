@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'credit-card-interest-calculator'
+const seo = {
+  title: 'How long does it take to pay off a credit card? | maratool',
+  description: 'A $5,000 balance at 24% APR takes 19+ years on minimum payments and costs $8,887 in interest. See your own numbers and what a fixed payment saves.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How long does it take to pay off a credit card?',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-08-18',
+    dateModified: '2026-08-18',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'A $5,000 balance at 24% APR takes 19+ years on minimum payments and costs $8,887 in interest. See your own numbers and what a fixed payment saves.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How long does it take to pay off a credit card?', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How long does it take to pay off a credit card?"
+      lead="Minimum payments on a $5,000 balance at 24% APR: 19 and a half years, $8,887 in interest. A flat $250 a month: 26 months, $1,449."
+      date="August 18, 2026"
+      dateIso="2026-08-18"
+    >
+      <p>Card issuers set the minimum payment as your monthly interest plus 1% of the balance, with a floor around $25. That structure is designed to keep the balance alive: as you pay it down, the required payment shrinks with it, so the debt fades out over decades rather than getting killed. The <a href="/credit-card-interest-calculator/">Credit Card Interest Calculator</a> puts your own payment next to that minimum-payment track so you can see both endings.</p>
+
+      <BlogToolEmbed slug="credit-card-interest-calculator" title="Try it — balance, APR, and the payment you can afford" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Card balance</strong> and <strong>APR</strong> come straight from your statement.</li>
+        <li><strong>Your monthly payment</strong> is whatever you can commit to, held constant.</li>
+        <li>The two panels simulate every month until the balance hits zero: payoff time, total interest, and total paid for your plan and for minimums only.</li>
+      </ol>
+
+      <h2>Why the minimum takes decades</h2>
+      <p>At 24% APR, a $5,000 balance accrues about $100 of interest in month one. The minimum payment that month is roughly $150, so only $50 touches the principal. Next month the balance is barely lower, the interest nearly identical. Repeat for 234 months. A fixed payment breaks the pattern because it doesn't shrink as the balance falls; every month a larger share of the same dollars goes to principal.</p>
+
+      <h2>If the numbers say "never"</h2>
+      <p>Enter a payment below the monthly interest and the calculator tells you so instead of pretending. The escape routes are the usual ones: pay more than the interest, move the balance to a 0% intro card, or consolidate at a lower rate. For several cards at once, the <a href="/debt-payoff-calculator/">Debt Payoff Calculator</a> compares snowball and avalanche orders.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/credit-card-interest-calculator/">Credit Card Interest Calculator</a> is free, runs locally, and never sends your data to a server. More <a href="/finance/">finance calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

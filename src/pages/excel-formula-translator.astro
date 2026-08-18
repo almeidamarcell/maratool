@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Excel Formula Translator — English, Portuguese, Spanish | maratool',
+  description: 'Translate Excel function names between English, Portuguese, and Spanish. Search 375 functions — VLOOKUP is PROCV in Portuguese, BUSCARV in Spanish.',
+  canonical: 'https://maratool.com/excel-formula-translator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Excel Formula Translator',
+    url: 'https://maratool.com/excel-formula-translator',
+    applicationCategory: 'EducationApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Translate Excel function names between English, Portuguese, and Spanish. Search 375 functions — VLOOKUP is PROCV in Portuguese, BUSCARV in Spanish.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Education', item: 'https://maratool.com/education' },
+      { '@type': 'ListItem', position: 3, name: 'Reference', item: 'https://maratool.com/education/reference' },
+      { '@type': 'ListItem', position: 4, name: 'Excel Formula Translator', item: 'https://maratool.com/excel-formula-translator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'Why does my Excel formula show a #NAME? error?', acceptedAnswer: { '@type': 'Answer', text: 'Excel localizes function names. Typing =SUM() in a Portuguese installation fails because the function is called SOMA there. Translate the name and the formula works.' } },
+      { '@type': 'Question', name: 'What is VLOOKUP in Portuguese and Spanish?', acceptedAnswer: { '@type': 'Answer', text: 'VLOOKUP is PROCV in Portuguese (Brazil) and BUSCARV in Spanish. The modern XLOOKUP is PROCX and BUSCARX.' } },
+      { '@type': 'Question', name: 'Do I need to translate formulas when opening a foreign spreadsheet?', acceptedAnswer: { '@type': 'Answer', text: 'No. Excel stores formulas in a language-neutral format and displays them in your installation language. Translation is only needed when typing or pasting formula text.' } },
+      { '@type': 'Question', name: 'Do these translations work in Google Sheets?', acceptedAnswer: { '@type': 'Answer', text: 'Mostly yes. Google Sheets uses nearly the same localized names as Excel for the classic functions, though some newer functions differ between the two apps.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Type a function name in any language — English, Portuguese, or Spanish.',
+  'The table filters instantly to matching functions across all three languages.',
+  'Click any name to copy it, then paste it into your formula.'
+]
+
+const faq = [
+  { q: 'Why does my Excel formula show a #NAME? error?', a: 'Excel localizes function names. Typing =SUM() in a Portuguese installation fails because the function is called SOMA there. Translate the name and the formula works. Watch the logicals too: TRUE/FALSE become VERDADEIRO/FALSO in Portuguese and VERDADERO/FALSO in Spanish.' },
+  { q: 'What is VLOOKUP in Portuguese and Spanish?', a: 'VLOOKUP is PROCV in Portuguese (Brazil) and BUSCARV in Spanish. The modern XLOOKUP is PROCX and BUSCARX.' },
+  { q: 'Do I need to translate formulas when opening a foreign spreadsheet?', a: 'No. Excel stores formulas in a language-neutral format and displays them in your installation language. Translation is only needed when typing or pasting formula text from a tutorial or forum in another language.' },
+  { q: 'Do these translations work in Google Sheets?', a: 'Mostly yes. Google Sheets uses nearly the same localized names as Excel for the classic functions, though some newer functions differ between the two apps.' }
+]
+
+const relatedTools = [
+  { slug: 'csv-to-json', name: 'CSV to JSON Converter' },
+  { slug: 'percentage-calculator', name: 'Percentage Calculator' },
+  { slug: 'roman-numeral-converter', name: 'Roman Numeral Converter' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Education', href: '/education' },
+  { label: 'Reference', href: '/education/reference' },
+  { label: 'Excel Formula Translator' }
+]
+
+const whatIs = 'The Excel Formula Translator is a searchable table of all 375 Excel function names in English, Portuguese (pt-BR), and Spanish. Excel translates function names with the interface language — =SUM() becomes =SOMA() in Portuguese and =SUMA() in Spanish — so a formula copied from an English tutorial throws #NAME? on a localized installation. Type a name in any of the three languages to find its equivalents, and click to copy.'
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="excel-formula-translator" name="Excel Formula Translator" description="All 375 Excel function names in English, Portuguese, and Spanish. Search in any language, click to copy — fix #NAME? errors from translated formulas." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs={whatIs}>
+      <div class="tool-container" style="min-height:560px;">
+        <input type="search" id="xl-search" class="tool-input" placeholder="Search a function in any language — VLOOKUP, PROCV, BUSCARV…" aria-label="Search Excel functions" />
+        <p class="tool-hint" id="xl-count">Showing all 375 functions. Click any name to copy it.</p>
+        <div class="xl-table">
+          <div class="xl-head">
+            <span>English</span><span>Portuguese (pt-BR)</span><span>Spanish</span>
+          </div>
+          <div id="xl-body"></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  #xl-search { margin-bottom: 0.5rem; }
+  .xl-table { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .xl-head { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; background: var(--bg-soft); border-bottom: 1px solid var(--border); font-size: 0.75rem; font-weight: 600; color: var(--text-2); }
+  .xl-head span { padding: 0.5rem 0.75rem; }
+  .xl-row { display: grid; grid-template-columns: 1fr 1fr 1fr; border-bottom: 1px solid var(--border); }
+  .xl-row:last-child { border-bottom: none; }
+  .xl-cell { appearance: none; background: none; border: none; border-right: 1px solid var(--border); padding: 0.45rem 0.75rem; font-family: var(--font-mono, monospace); font-size: 0.8125rem; color: var(--text); text-align: left; cursor: pointer; overflow-wrap: anywhere; }
+  .xl-cell:last-child { border-right: none; }
+  .xl-cell:hover { background: var(--bg-hover); color: var(--accent); }
+  @media (max-width: 600px) {
+    .xl-head span, .xl-cell { padding: 0.4rem 0.5rem; font-size: 0.75rem; }
+  }
+</style>
+<script src="../tools/excel-formula-translator.js"></script>

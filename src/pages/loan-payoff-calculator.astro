@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Loan Payoff Calculator — Extra Payments & Time Saved | maratool',
+  description: 'Find your loan payoff date and what extra monthly payments save. Enter balance, rate, and payment to see months cut and interest saved side by side.',
+  canonical: 'https://maratool.com/loan-payoff-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Loan Payoff Calculator',
+    url: 'https://maratool.com/loan-payoff-calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Find your loan payoff date and what extra monthly payments save. Enter balance, rate, and payment to see months cut and interest saved side by side.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Finance', item: 'https://maratool.com/finance' },
+      { '@type': 'ListItem', position: 3, name: 'Loan', item: 'https://maratool.com/finance/loan' },
+      { '@type': 'ListItem', position: 4, name: 'Loan Payoff Calculator', item: 'https://maratool.com/loan-payoff-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How do extra payments shorten a loan?', acceptedAnswer: { '@type': 'Answer', text: 'Every extra dollar goes straight to principal. A smaller principal accrues less interest the next month, so each later payment retires more debt — the effect compounds.' } },
+      { '@type': 'Question', name: 'Is it better to pay extra monthly or as a lump sum?', acceptedAnswer: { '@type': 'Answer', text: 'Earlier is better: a lump sum today saves more than the same total spread over years. Monthly extras are the practical middle ground most budgets can sustain.' } },
+      { '@type': 'Question', name: 'Do all loans allow early payoff?', acceptedAnswer: { '@type': 'Answer', text: 'Most US mortgages, auto loans, and student loans allow prepayment without penalty, but some personal loans charge one. Check your agreement before committing.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your current balance, interest rate, and regular monthly payment.',
+  'Add the extra amount you could pay each month.',
+  'See payoff time and interest with and without the extra — plus exactly what you save.'
+]
+
+const faq = [
+  { q: 'How do extra payments shorten a loan?', a: 'Every extra dollar goes straight to principal. A smaller principal accrues less interest the next month, so each later payment retires more debt — the effect compounds.' },
+  { q: 'Is it better to pay extra monthly or as a lump sum?', a: 'Earlier is better: a lump sum today saves more than the same total spread over years. Monthly extras are the practical middle ground most budgets can sustain.' },
+  { q: 'Do all loans allow early payoff?', a: 'Most US mortgages, auto loans, and student loans allow prepayment without penalty, but some personal loans charge one. Check your agreement before committing.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'loan-calculator', name: 'Loan Calculator' },
+  { slug: 'mortgage-refinance-calculator', name: 'Mortgage Refinance Calculator' },
+  { slug: 'debt-payoff-calculator', name: 'Debt Payoff Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Finance', href: '/finance' },
+  { label: 'Loan', href: '/finance/loan' },
+  { label: 'Loan Payoff Calculator' }
+]
+
+const whatIs = 'The Loan Payoff Calculator simulates your remaining balance month by month from three numbers on your statement: current balance, interest rate, and monthly payment. Add an extra monthly amount and it re-runs the simulation, showing the payoff date and total interest for both plans side by side — so "an extra $100 a month" turns into a concrete answer: months cut and dollars saved.'
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="loan-payoff-calculator" name="Loan Payoff Calculator" description="Enter balance, rate, and monthly payment to see your payoff date — then add an extra payment and watch the months and interest fall." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs={whatIs}>
+      <div class="tool-container" style="min-height:380px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="lp-balance">Current balance ($)</label><input type="number" id="lp-balance" class="tool-input" placeholder="20000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="lp-apr">Interest rate (%)</label><input type="number" id="lp-apr" class="tool-input" placeholder="8" step="any" min="0" /></div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="lp-payment">Monthly payment ($)</label><input type="number" id="lp-payment" class="tool-input" placeholder="400" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="lp-extra">Extra payment per month ($)</label><input type="number" id="lp-extra" class="tool-input" placeholder="100" min="0" /></div>
+        </div>
+        <p class="tool-error" id="lp-warning" hidden></p>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="lp-base-time">—</span><span class="tool-stat-label">Payoff (current plan)</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="lp-base-interest">—</span><span class="tool-stat-label">Interest (current plan)</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="lp-extra-time">—</span><span class="tool-stat-label">Payoff (with extra)</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="lp-extra-interest">—</span><span class="tool-stat-label">Interest (with extra)</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="lp-saved-time">—</span><span class="tool-stat-label">Time saved</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="lp-saved-interest">—</span><span class="tool-stat-label">Interest saved</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/loan-payoff-calculator.js"></script>

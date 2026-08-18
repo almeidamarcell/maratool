@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'debt-payoff-calculator'
+const seo = {
+  title: 'Debt snowball vs avalanche: which pays off faster? | maratool',
+  description: 'Snowball clears the smallest debt first, avalanche the highest APR. List your real debts and see what the motivational route costs in dollars.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'Debt snowball vs avalanche: which pays off faster?',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-08-18',
+    dateModified: '2026-08-18',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Snowball clears the smallest debt first, avalanche the highest APR. List your real debts and see what the motivational route costs in dollars.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Debt snowball vs avalanche: which pays off faster?', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="Debt snowball vs avalanche: which pays off faster?"
+      lead="Both use the same trick: when one debt dies, its payment rolls into the next. They only disagree on which debt dies first."
+      date="August 18, 2026"
+      dateIso="2026-08-18"
+    >
+      <p>Snowball attacks the smallest balance first and banks on momentum; crossing a debt off the list early keeps people paying. Avalanche attacks the highest APR first and banks on arithmetic; it always minimizes total interest. The argument between them has filled forums for years, and the <a href="/debt-payoff-calculator/">Debt Payoff Calculator</a> replaces it with your actual numbers: list each debt, add whatever extra you can pay monthly, and read both plans side by side.</p>
+
+      <BlogToolEmbed slug="debt-payoff-calculator" title="Try it — list your debts and compare both strategies" height={640} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Each row is one debt: name, balance, APR, and minimum payment.</li>
+        <li>The extra budget is what you can pay beyond the minimums each month.</li>
+        <li>Both simulations pay minimums on everything, aim balance plus extra at the focus debt, and roll freed-up payments forward until every balance is zero.</li>
+      </ol>
+
+      <h2>What the choice actually costs</h2>
+      <p>Take a $2,000 store card at 10%, a $9,000 credit card at 26%, and a $12,000 car loan at 7%, with $250 extra a month. Both plans finish in 32 months. Snowball pays $4,666 in interest, avalanche $4,130. So the quick win of clearing the store card in a few months costs $536. Whether that price is worth it is a psychology question, not a math one; people who stick with a plan they can feel progress on beat people who quit an optimal plan.</p>
+
+      <h2>When the plan says "never"</h2>
+      <p>If a minimum payment doesn't cover a debt's monthly interest, that balance grows even while you pay. The calculator names the stuck debt instead of simulating forever. The fix is either a bigger extra budget or restructuring that one debt, and for a single card the <a href="/credit-card-interest-calculator/">Credit Card Interest Calculator</a> shows the escape math in detail.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/debt-payoff-calculator/">Debt Payoff Calculator</a> is free, runs locally, and never sends your data to a server. More <a href="/finance/">finance calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

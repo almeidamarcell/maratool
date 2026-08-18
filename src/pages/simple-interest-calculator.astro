@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Simple Interest Calculator — I = P·r·t | maratool',
+  description: 'Calculate simple interest with the I = P·r·t formula. Enter principal, annual rate, and time in years, months, or days to see interest and total owed.',
+  canonical: 'https://maratool.com/simple-interest-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Simple Interest Calculator',
+    url: 'https://maratool.com/simple-interest-calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Calculate simple interest with the I = P·r·t formula. Enter principal, annual rate, and time in years, months, or days to see interest and total owed.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Finance', item: 'https://maratool.com/finance' },
+      { '@type': 'ListItem', position: 3, name: 'Interest', item: 'https://maratool.com/finance/interest' },
+      { '@type': 'ListItem', position: 4, name: 'Simple Interest Calculator', item: 'https://maratool.com/simple-interest-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is the simple interest formula?', acceptedAnswer: { '@type': 'Answer', text: 'I = P × r × t: interest equals principal times the annual rate times time in years. A $1,000 loan at 5% for 3 years earns $150 in interest.' } },
+      { '@type': 'Question', name: 'What is the difference between simple and compound interest?', acceptedAnswer: { '@type': 'Answer', text: 'Simple interest is charged only on the original principal. Compound interest is charged on principal plus accumulated interest, so it grows faster over time.' } },
+      { '@type': 'Question', name: 'How do I calculate simple interest for months or days?', acceptedAnswer: { '@type': 'Answer', text: 'Convert to years first: divide months by 12 or days by 365. This calculator does the conversion when you pick the time unit.' } },
+      { '@type': 'Question', name: 'Where is simple interest actually used?', acceptedAnswer: { '@type': 'Answer', text: 'Car loans, short-term personal loans, treasury bills, and most late-payment penalties use simple interest. Savings accounts and mortgages compound instead.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the principal amount you are borrowing or lending.',
+  'Set the annual interest rate as a percentage.',
+  'Pick the time period in years, months, or days — interest and total update instantly.'
+]
+
+const faq = [
+  { q: 'What is the simple interest formula?', a: 'I = P × r × t: interest equals principal times the annual rate times time in years. A $1,000 loan at 5% for 3 years earns $150 in interest.' },
+  { q: 'What is the difference between simple and compound interest?', a: 'Simple interest is charged only on the original principal. Compound interest is charged on principal plus accumulated interest, so it grows faster over time. The third result card shows the same rate compounded annually for comparison.' },
+  { q: 'How do I calculate simple interest for months or days?', a: 'Convert to years first: divide months by 12 or days by 365. This calculator does the conversion when you pick the time unit.' },
+  { q: 'Where is simple interest actually used?', a: 'Car loans, short-term personal loans, treasury bills, and most late-payment penalties use simple interest. Savings accounts and mortgages compound instead.' }
+]
+
+const relatedTools = [
+  { slug: 'compound-interest-calculator', name: 'Compound Interest Calculator' },
+  { slug: 'loan-calculator', name: 'Loan Calculator' },
+  { slug: 'percentage-calculator', name: 'Percentage Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Finance', href: '/finance' },
+  { label: 'Interest', href: '/finance/interest' },
+  { label: 'Simple Interest Calculator' }
+]
+
+const whatIs = 'The Simple Interest Calculator applies the I = P·r·t formula: interest is charged only on the original principal, never on accumulated interest. Enter any principal, annual rate, and time period — in years, months, or days — and it returns the interest owed, the total repayment, and what the same rate would produce with annual compounding, so you can see exactly what the "simple" part is worth.'
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="simple-interest-calculator" name="Simple Interest Calculator" description="Interest charged only on the principal: I = P·r·t. Enter amount, rate, and time to see interest, total, and how it compares to compounding." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs={whatIs}>
+      <div class="tool-container" style="min-height:300px;">
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="si-principal">Principal ($)</label><input type="number" id="si-principal" class="tool-input" placeholder="1000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="si-rate">Annual rate (%)</label><input type="number" id="si-rate" class="tool-input" placeholder="5" step="any" min="0" /></div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-field"><label class="tool-label" for="si-time">Time</label><input type="number" id="si-time" class="tool-input" placeholder="3" step="any" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="si-unit">Unit</label><select id="si-unit" class="tool-input calc-select"><option value="years" selected>Years</option><option value="months">Months</option><option value="days">Days</option></select></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="si-interest">—</span><span class="tool-stat-label">Interest</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="si-total">—</span><span class="tool-stat-label">Total (principal + interest)</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="si-compound">—</span><span class="tool-stat-label">Same rate, compounded yearly</span></div>
+        </div>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .calc-select { max-width: 100%; }
+  @media (max-width: 600px) { .calc-row { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/simple-interest-calculator.js"></script>

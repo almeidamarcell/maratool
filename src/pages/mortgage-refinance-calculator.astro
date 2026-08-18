@@ -1,0 +1,103 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Mortgage Refinance Calculator — Savings & Break-Even | maratool',
+  description: 'Should you refinance? Compare your current mortgage against a new rate and term: monthly savings, break-even point on closing costs, lifetime savings.',
+  canonical: 'https://maratool.com/mortgage-refinance-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Mortgage Refinance Calculator',
+    url: 'https://maratool.com/mortgage-refinance-calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Should you refinance? Compare your current mortgage against a new rate and term: monthly savings, break-even point on closing costs, lifetime savings.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Finance', item: 'https://maratool.com/finance' },
+      { '@type': 'ListItem', position: 3, name: 'Loan', item: 'https://maratool.com/finance/loan' },
+      { '@type': 'ListItem', position: 4, name: 'Mortgage Refinance Calculator', item: 'https://maratool.com/mortgage-refinance-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'When is refinancing worth it?', acceptedAnswer: { '@type': 'Answer', text: 'When you stay in the home past the break-even point — the month your accumulated payment savings exceed the closing costs. Before that point, refinancing loses money.' } },
+      { '@type': 'Question', name: 'What is the break-even point on a refinance?', acceptedAnswer: { '@type': 'Answer', text: 'Closing costs divided by monthly savings. $5,000 in costs saving $280 a month breaks even in 18 months.' } },
+      { '@type': 'Question', name: 'Why can a lower payment still cost more overall?', acceptedAnswer: { '@type': 'Answer', text: 'Resetting a loan you are 10 years into back to 30 years lowers the payment but restarts the interest-heavy early years, often raising total interest paid.' } },
+      { '@type': 'Question', name: 'What closing costs should I expect?', acceptedAnswer: { '@type': 'Answer', text: 'Typically 2–6% of the loan amount: origination fees, appraisal, title insurance, and prepaid taxes. Get a Loan Estimate from each lender to compare.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your current balance, rate, and years remaining.',
+  'Add the new rate, new term, and estimated closing costs.',
+  'Read the verdict: monthly savings, break-even month, and lifetime savings after costs.'
+]
+
+const faq = [
+  { q: 'When is refinancing worth it?', a: 'When you stay in the home past the break-even point — the month your accumulated payment savings exceed the closing costs. Before that point, refinancing loses money.' },
+  { q: 'What is the break-even point on a refinance?', a: 'Closing costs divided by monthly savings. $5,000 in costs saving $280 a month breaks even in 18 months.' },
+  { q: 'Why can a lower payment still cost more overall?', a: 'Resetting a loan you are 10 years into back to 30 years lowers the payment but restarts the interest-heavy early years, often raising total interest paid. The lifetime savings figure catches this.' },
+  { q: 'What closing costs should I expect?', a: 'Typically 2–6% of the loan amount: origination fees, appraisal, title insurance, and prepaid taxes. Get a Loan Estimate from each lender to compare.' }
+]
+
+const relatedTools = [
+  { slug: 'mortgage-calculator', name: 'Mortgage Calculator' },
+  { slug: 'loan-payoff-calculator', name: 'Loan Payoff Calculator' },
+  { slug: 'rent-vs-buy-calculator', name: 'Rent vs Buy Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Finance', href: '/finance' },
+  { label: 'Loan', href: '/finance/loan' },
+  { label: 'Mortgage Refinance Calculator' }
+]
+
+const whatIs = 'The Mortgage Refinance Calculator compares your current loan against a proposed one across the three numbers that decide the question: how much the payment drops each month, how many months until the savings repay the closing costs (break-even), and whether you save or lose money over the full life of the loan. That last figure is the one lenders rarely volunteer — a lower payment on a longer term often costs more in total.'
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="mortgage-refinance-calculator" name="Mortgage Refinance Calculator" description="Compare your current mortgage with a new rate and term. See monthly savings, the break-even month on closing costs, and lifetime savings." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs={whatIs}>
+      <div class="tool-container" style="min-height:420px;">
+        <div class="calc-row calc-row-3">
+          <div class="calc-field"><label class="tool-label" for="rf-balance">Current balance ($)</label><input type="number" id="rf-balance" class="tool-input" placeholder="300000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="rf-old-rate">Current rate (%)</label><input type="number" id="rf-old-rate" class="tool-input" placeholder="7" step="any" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="rf-old-years">Years remaining</label><input type="number" id="rf-old-years" class="tool-input" placeholder="25" step="any" min="0" /></div>
+        </div>
+        <div class="calc-row calc-row-3">
+          <div class="calc-field"><label class="tool-label" for="rf-new-rate">New rate (%)</label><input type="number" id="rf-new-rate" class="tool-input" placeholder="5.5" step="any" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="rf-new-years">New term (years)</label><input type="number" id="rf-new-years" class="tool-input" placeholder="25" step="any" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="rf-closing">Closing costs ($)</label><input type="number" id="rf-closing" class="tool-input" placeholder="5000" min="0" /></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="rf-old-payment">—</span><span class="tool-stat-label">Current payment</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="rf-new-payment">—</span><span class="tool-stat-label">New payment</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="rf-monthly-savings">—</span><span class="tool-stat-label">Monthly savings</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="rf-break-even">—</span><span class="tool-stat-label">Break-even point</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="rf-lifetime">—</span><span class="tool-stat-label">Lifetime savings (after costs)</span></div>
+        </div>
+        <p class="tool-note" id="rf-note"></p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-row-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .calc-field { margin-bottom: 0.75rem; }
+  @media (max-width: 700px) { .calc-row, .calc-row-3 { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/mortgage-refinance-calculator.js"></script>

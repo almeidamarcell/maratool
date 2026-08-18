@@ -1,0 +1,114 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Credit Card Interest Calculator — Payoff Time & Cost | maratool',
+  description: 'See how long paying off your credit card balance takes and what it costs in interest. Compare your monthly payment against minimum payments at your APR.',
+  canonical: 'https://maratool.com/credit-card-interest-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Credit Card Interest Calculator',
+    url: 'https://maratool.com/credit-card-interest-calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'See how long paying off your credit card balance takes and what it costs in interest. Compare your monthly payment against minimum payments at your APR.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Finance', item: 'https://maratool.com/finance' },
+      { '@type': 'ListItem', position: 3, name: 'Loan', item: 'https://maratool.com/finance/loan' },
+      { '@type': 'ListItem', position: 4, name: 'Credit Card Interest Calculator', item: 'https://maratool.com/credit-card-interest-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How is credit card interest calculated?', acceptedAnswer: { '@type': 'Answer', text: 'Card issuers divide your APR by 12 and charge that rate on the carried balance each month. A $5,000 balance at 24% APR accrues about $100 in interest per month.' } },
+      { '@type': 'Question', name: 'Why do minimum payments take so long?', acceptedAnswer: { '@type': 'Answer', text: 'The typical minimum is interest plus 1% of the balance, so it shrinks as the balance shrinks. Most of each payment goes to interest, stretching payoff to decades.' } },
+      { '@type': 'Question', name: 'What minimum payment does this calculator assume?', acceptedAnswer: { '@type': 'Answer', text: 'Monthly interest plus 1% of the balance, with a $25 floor — the most common issuer formula. Your card agreement states the exact rule.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter your current card balance and APR from your statement.',
+  'Add the monthly payment you can afford.',
+  'Compare your plan against minimum payments — payoff time, interest, and savings update instantly.'
+]
+
+const faq = [
+  { q: 'How is credit card interest calculated?', a: 'Card issuers divide your APR by 12 and charge that rate on the carried balance each month. A $5,000 balance at 24% APR accrues about $100 in interest per month.' },
+  { q: 'Why do minimum payments take so long?', a: 'The typical minimum is interest plus 1% of the balance, so it shrinks as the balance shrinks. Most of each payment goes to interest, stretching payoff to decades.' },
+  { q: 'What minimum payment does this calculator assume?', a: 'Monthly interest plus 1% of the balance, with a $25 floor — the most common issuer formula. Your card agreement states the exact rule.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'debt-payoff-calculator', name: 'Debt Payoff Calculator' },
+  { slug: 'loan-payoff-calculator', name: 'Loan Payoff Calculator' },
+  { slug: 'loan-calculator', name: 'Loan Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Finance', href: '/finance' },
+  { label: 'Loan', href: '/finance/loan' },
+  { label: 'Credit Card Interest Calculator' }
+]
+
+const whatIs = 'The Credit Card Interest Calculator simulates your balance month by month at your card’s APR. It answers two questions at once: how long your own monthly payment takes to clear the debt, and what happens if you only ever pay the minimum (interest plus 1% of the balance, the standard issuer formula). The gap between the two — often thousands of dollars and a decade or more — is the number card issuers hope you never compute.'
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="credit-card-interest-calculator" name="Credit Card Interest Calculator" description="Enter balance, APR, and your monthly payment to see payoff time and total interest — next to what minimum payments would really cost." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs={whatIs}>
+      <div class="tool-container" style="min-height:420px;">
+        <div class="calc-row calc-row-3">
+          <div class="calc-field"><label class="tool-label" for="cc-balance">Card balance ($)</label><input type="number" id="cc-balance" class="tool-input" placeholder="5000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="cc-apr">APR (%)</label><input type="number" id="cc-apr" class="tool-input" placeholder="24" step="any" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="cc-payment">Your monthly payment ($)</label><input type="number" id="cc-payment" class="tool-input" placeholder="250" min="0" /></div>
+        </div>
+        <p class="tool-error" id="cc-warning" hidden></p>
+        <div class="cc-compare">
+          <div class="cc-plan">
+            <h3 class="cc-plan-title">Your payment</h3>
+            <div class="tool-stats">
+              <div class="tool-stat"><span class="tool-stat-value" id="cc-fixed-time">—</span><span class="tool-stat-label">Time to pay off</span></div>
+              <div class="tool-stat"><span class="tool-stat-value" id="cc-fixed-interest">—</span><span class="tool-stat-label">Total interest</span></div>
+              <div class="tool-stat"><span class="tool-stat-value" id="cc-fixed-total">—</span><span class="tool-stat-label">Total paid</span></div>
+            </div>
+          </div>
+          <div class="cc-plan">
+            <h3 class="cc-plan-title">Minimum payments only</h3>
+            <div class="tool-stats">
+              <div class="tool-stat"><span class="tool-stat-value" id="cc-min-time">—</span><span class="tool-stat-label">Time to pay off</span></div>
+              <div class="tool-stat"><span class="tool-stat-value" id="cc-min-interest">—</span><span class="tool-stat-label">Total interest</span></div>
+              <div class="tool-stat"><span class="tool-stat-value" id="cc-min-total">—</span><span class="tool-stat-label">Total paid</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="tool-note" id="cc-savings"></p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-row-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .calc-field { margin-bottom: 0.75rem; }
+  .cc-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem; }
+  .cc-plan { border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+  .cc-plan-title { font-size: 0.875rem; font-weight: 600; margin: 0 0 0.5rem; color: var(--text-2); }
+  .cc-plan .tool-stats { margin-top: 0; }
+  @media (max-width: 700px) { .calc-row, .calc-row-3, .cc-compare { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/credit-card-interest-calculator.js"></script>

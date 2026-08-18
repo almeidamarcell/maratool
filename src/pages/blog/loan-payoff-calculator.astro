@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'loan-payoff-calculator'
+const seo = {
+  title: 'How much do extra loan payments actually save? | maratool',
+  description: 'An extra $100 a month on a $20,000 loan at 8% cuts 15 months off the payoff and saves $1,070 in interest. Run your own balance and see.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How much do extra loan payments actually save?',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-08-18',
+    dateModified: '2026-08-18',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'An extra $100 a month on a $20,000 loan at 8% cuts 15 months off the payoff and saves $1,070 in interest. Run your own balance and see.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How much do extra loan payments actually save?', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How much do extra loan payments actually save?"
+      lead="Three numbers from your statement plus one what-if: the extra amount. Out come months cut and dollars saved."
+      date="August 18, 2026"
+      dateIso="2026-08-18"
+    >
+      <p>Every extra dollar you put on a loan goes straight to principal, and principal is what interest is charged on. The effect snowballs quietly: a smaller balance this month means less interest next month, which means even more of your regular payment hits principal. The <a href="/loan-payoff-calculator/">Loan Payoff Calculator</a> turns that loop into two concrete numbers, time saved and interest saved.</p>
+
+      <BlogToolEmbed slug="loan-payoff-calculator" title="Try it — balance, rate, payment, and your extra amount" height={480} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Current balance, interest rate, monthly payment</strong>: all three are on your loan statement.</li>
+        <li><strong>Extra payment per month</strong> is the what-if.</li>
+        <li>The simulator runs both plans month by month and reports payoff time and total interest for each, plus the difference.</li>
+      </ol>
+
+      <h2>Worked example</h2>
+      <p>$20,000 at 8% with a $400 payment takes 62 months and costs $4,409 in interest. Add $100 a month and it's done in 47 months with $3,339 of interest: 15 months earlier, $1,070 kept. The savings are not linear in the extra amount, so it's worth trying a few values; going from $100 to $200 extra saves less than the first $100 did.</p>
+
+      <h2>Check the fine print first</h2>
+      <p>US mortgages, auto loans, and federal student loans can be prepaid without penalty. Some personal loans charge a prepayment fee that eats part of the savings, so compare the fee against the interest figure this calculator reports before committing. If your loan is a mortgage and rates have dropped, run the <a href="/mortgage-refinance-calculator/">Mortgage Refinance Calculator</a> too; sometimes a new rate beats extra payments.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/loan-payoff-calculator/">Loan Payoff Calculator</a> is free, runs locally, and never sends your data to a server. More <a href="/finance/">finance calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

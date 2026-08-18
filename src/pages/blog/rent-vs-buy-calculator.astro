@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'rent-vs-buy-calculator'
+const seo = {
+  title: 'Rent or buy? Run the numbers, not the rule of thumb | maratool',
+  description: 'Net cost of buying vs renting over your actual stay: mortgage, taxes, and appreciation against rent growth and what invested savings would earn.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'Rent or buy? Run the numbers, not the rule of thumb',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-08-18',
+    dateModified: '2026-08-18',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Net cost of buying vs renting over your actual stay: mortgage, taxes, and appreciation against rent growth and what invested savings would earn.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Rent or buy? Run the numbers, not the rule of thumb', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="Rent or buy? Run the numbers, not the rule of thumb"
+      lead="Neither 'rent is throwing money away' nor 'a house is the best investment' survives contact with a spreadsheet. Here is the spreadsheet."
+      date="August 18, 2026"
+      dateIso="2026-08-18"
+    >
+      <p>Buying front-loads enormous costs: a down payment, 3% in closing fees, and around 6% to sell on the way out. Renting has no exit fee but builds no equity. Which one wins depends on how long you stay, what homes appreciate at, and what your down payment could earn invested elsewhere. The <a href="/rent-vs-buy-calculator/">Rent vs Buy Calculator</a> tallies the full ledger for both paths over your planned stay and declares a winner in dollars.</p>
+
+      <BlogToolEmbed slug="rent-vs-buy-calculator" title="Try it — your market's price, rent, and rates" height={660} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Buying side:</strong> price, down payment, mortgage rate and term, property tax, maintenance, appreciation, closing costs.</li>
+        <li><strong>Renting side:</strong> monthly rent, annual rent increases, and the return your invested savings would earn.</li>
+        <li>Set the years you plan to stay. The verdict compares net cost: everything paid out minus what you walk away with.</li>
+      </ol>
+
+      <h2>The two numbers that swing the answer</h2>
+      <p>Years of stay is the first. Selling costs mean a buyer who moves after 2 years almost always loses to a renter, whatever the market. The second is the spread between investment returns and home appreciation. If stocks return 7% while houses appreciate 3%, a renter who genuinely invests the down payment can come out ahead even over long stays. Flip the spread (hot housing market, cash sitting in checking) and buying dominates. The calculator treats opportunity cost symmetrically: whichever side pays less per month is credited with investing the difference.</p>
+
+      <h2>What it deliberately leaves out</h2>
+      <p>It skips tax deductions (the 2017 standard-deduction change made mortgage interest deductions irrelevant for most filers), PMI, and HOA fees. If those apply to you, fold them into the maintenance percentage. The point of the tool is the structure of the decision; the inputs are yours to sharpen.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/rent-vs-buy-calculator/">Rent vs Buy Calculator</a> is free, runs locally, and never sends your data to a server. More <a href="/finance/">finance calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

@@ -1,0 +1,128 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Debt Payoff Calculator — Snowball vs Avalanche | maratool',
+  description: 'Plan your debt-free date. List your balances, APRs, and minimum payments, add an extra budget, and compare snowball vs avalanche payoff plans.',
+  canonical: 'https://maratool.com/debt-payoff-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Debt Payoff Calculator',
+    url: 'https://maratool.com/debt-payoff-calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Plan your debt-free date. List your balances, APRs, and minimum payments, add an extra budget, and compare snowball vs avalanche payoff plans.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Finance', item: 'https://maratool.com/finance' },
+      { '@type': 'ListItem', position: 3, name: 'Loan', item: 'https://maratool.com/finance/loan' },
+      { '@type': 'ListItem', position: 4, name: 'Debt Payoff Calculator', item: 'https://maratool.com/debt-payoff-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'What is the debt snowball method?', acceptedAnswer: { '@type': 'Answer', text: 'Pay minimums on everything and throw every spare dollar at the smallest balance. When it clears, roll its payment into the next smallest. Fast early wins keep motivation high.' } },
+      { '@type': 'Question', name: 'What is the debt avalanche method?', acceptedAnswer: { '@type': 'Answer', text: 'Same rollover idea, but target the highest APR first. Mathematically optimal — it always minimizes total interest paid.' } },
+      { '@type': 'Question', name: 'Which is better, snowball or avalanche?', acceptedAnswer: { '@type': 'Answer', text: 'Avalanche saves more interest; snowball clears the first debt sooner. This calculator shows both totals so you can see what the motivation of quick wins actually costs.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'List each debt with its balance, APR, and minimum payment.',
+  'Enter any extra amount you can put toward debt each month.',
+  'Compare snowball vs avalanche: debt-free date, total interest, and payoff order.'
+]
+
+const faq = [
+  { q: 'What is the debt snowball method?', a: 'Pay minimums on everything and throw every spare dollar at the smallest balance. When it clears, roll its payment into the next smallest. Fast early wins keep motivation high.' },
+  { q: 'What is the debt avalanche method?', a: 'Same rollover idea, but target the highest APR first. Mathematically optimal — it always minimizes total interest paid.' },
+  { q: 'Which is better, snowball or avalanche?', a: 'Avalanche saves more interest; snowball clears the first debt sooner. This calculator shows both totals so you can see what the motivation of quick wins actually costs.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'credit-card-interest-calculator', name: 'Credit Card Interest Calculator' },
+  { slug: 'loan-payoff-calculator', name: 'Loan Payoff Calculator' },
+  { slug: 'loan-calculator', name: 'Loan Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Finance', href: '/finance' },
+  { label: 'Loan', href: '/finance/loan' },
+  { label: 'Debt Payoff Calculator' }
+]
+
+const whatIs = 'The Debt Payoff Calculator takes your full debt list — balances, APRs, minimum payments — plus whatever extra you can pay monthly, and simulates two classic strategies to the last dollar. Snowball attacks the smallest balance first for quick wins; avalanche attacks the highest APR first to minimize interest. You get the debt-free date, total interest, and payoff order for both, so the snowball-vs-avalanche debate becomes a number instead of an argument.'
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="debt-payoff-calculator" name="Debt Payoff Calculator" description="List your debts, add an extra monthly budget, and compare the snowball and avalanche strategies: debt-free date, total interest, payoff order." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs={whatIs}>
+      <div class="tool-container" style="min-height:520px;">
+        <div class="dp-header">
+          <span>Debt</span><span>Balance ($)</span><span>APR (%)</span><span>Min. payment ($)</span><span></span>
+        </div>
+        <div id="dp-rows"></div>
+        <div class="dp-controls">
+          <button type="button" id="dp-add" class="tool-btn tool-btn-secondary">+ Add debt</button>
+          <div class="dp-extra-field">
+            <label class="tool-label" for="dp-extra">Extra per month ($)</label>
+            <input type="number" id="dp-extra" class="tool-input" placeholder="200" min="0" />
+          </div>
+        </div>
+        <p class="tool-error" id="dp-warning" hidden></p>
+        <div class="dp-compare">
+          <div class="dp-plan">
+            <h3 class="dp-plan-title">❄️ Snowball — smallest balance first</h3>
+            <div class="tool-stats">
+              <div class="tool-stat"><span class="tool-stat-value" id="dp-snow-time">—</span><span class="tool-stat-label">Debt-free in</span></div>
+              <div class="tool-stat"><span class="tool-stat-value" id="dp-snow-interest">—</span><span class="tool-stat-label">Total interest</span></div>
+            </div>
+            <p class="dp-order" id="dp-snow-order"></p>
+          </div>
+          <div class="dp-plan">
+            <h3 class="dp-plan-title">🏔️ Avalanche — highest APR first</h3>
+            <div class="tool-stats">
+              <div class="tool-stat"><span class="tool-stat-value" id="dp-aval-time">—</span><span class="tool-stat-label">Debt-free in</span></div>
+              <div class="tool-stat"><span class="tool-stat-value" id="dp-aval-interest">—</span><span class="tool-stat-label">Total interest</span></div>
+            </div>
+            <p class="dp-order" id="dp-aval-order"></p>
+          </div>
+        </div>
+        <p class="tool-note" id="dp-verdict"></p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .dp-header { display: grid; grid-template-columns: 2fr 1.2fr 1fr 1.2fr 2.5rem; gap: 0.5rem; font-size: 0.75rem; color: var(--text-2); margin-bottom: 0.35rem; }
+  .dp-row { display: grid; grid-template-columns: 2fr 1.2fr 1fr 1.2fr 2.5rem; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center; }
+  .dp-row .tool-input { min-width: 0; }
+  .dp-remove { padding: 0.4rem 0; text-align: center; }
+  .dp-controls { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin: 0.75rem 0 1rem; flex-wrap: wrap; }
+  .dp-extra-field { max-width: 200px; }
+  .dp-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .dp-plan { border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+  .dp-plan-title { font-size: 0.875rem; font-weight: 600; margin: 0 0 0.5rem; color: var(--text-2); }
+  .dp-plan .tool-stats { margin-top: 0; }
+  .dp-order { font-size: 0.8125rem; color: var(--text-2); margin: 0.5rem 0 0; }
+  @media (max-width: 700px) {
+    .dp-compare { grid-template-columns: 1fr; }
+    .dp-header { display: none; }
+    .dp-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+<script src="../tools/debt-payoff-calculator.js"></script>

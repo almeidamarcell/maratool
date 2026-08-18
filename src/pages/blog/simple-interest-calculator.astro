@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'simple-interest-calculator'
+const seo = {
+  title: 'How to calculate simple interest with I = P·r·t | maratool',
+  description: 'Simple interest charges on the principal only. Work through the I = P·r·t formula with real numbers and see when banks use it instead of compounding.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to calculate simple interest with I = P·r·t',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-08-18',
+    dateModified: '2026-08-18',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Simple interest charges on the principal only. Work through the I = P·r·t formula with real numbers and see when banks use it instead of compounding.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'How to calculate simple interest with I = P·r·t', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to calculate simple interest with I = P·r·t"
+      lead="Multiply principal by rate by time. That's the whole formula, and this calculator runs it in any time unit."
+      date="August 18, 2026"
+      dateIso="2026-08-18"
+    >
+      <p>Simple interest is the one interest formula you can do on a napkin: I = P × r × t. Borrow $1,000 at 5% a year for 3 years and the interest is 1,000 × 0.05 × 3 = $150. The <a href="/simple-interest-calculator/">Simple Interest Calculator</a> runs the same arithmetic and also shows what the money would do if it compounded instead.</p>
+
+      <BlogToolEmbed slug="simple-interest-calculator" title="Try it — principal, rate, and time in years, months, or days" height={420} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Principal</strong> is the amount borrowed or invested.</li>
+        <li><strong>Rate</strong> is the annual percentage. The formula uses it as a decimal, so 5% becomes 0.05.</li>
+        <li><strong>Time</strong> must be in years. Pick months or days in the unit dropdown and the calculator divides by 12 or 365 for you.</li>
+      </ol>
+
+      <h2>Where simple interest still shows up</h2>
+      <p>Most consumer debt compounds, but car loans, short-term personal loans, treasury bills, and late-payment penalties are commonly quoted as simple interest. Course problems in finance classes almost always start here too, because the formula isolates the three variables before compounding complicates them.</p>
+
+      <h2>The gap between simple and compound</h2>
+      <p>The third result card shows the same principal at the same rate, compounded once a year. At 5% over 3 years the difference is small: $150 simple against $157.63 compound. Stretch it to 20 years and the gap widens to $1,000 against $1,653. Interest on interest is the entire story of long-term investing, which is why savings products compound and short loans often don't.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/simple-interest-calculator/">Simple Interest Calculator</a> is free, runs locally, and never sends your data to a server. More <a href="/finance/">finance calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

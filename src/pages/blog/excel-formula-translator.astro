@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'excel-formula-translator'
+const seo = {
+  title: 'Fix #NAME? errors: Excel formulas across languages | maratool',
+  description: 'VLOOKUP is PROCV in Portuguese and BUSCARV in Spanish. Look up any of 375 Excel function names across three languages and fix #NAME? errors fast.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'Fix #NAME? errors: Excel formulas across languages',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-08-18',
+    dateModified: '2026-08-18',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'VLOOKUP is PROCV in Portuguese and BUSCARV in Spanish. Look up any of 375 Excel function names across three languages and fix #NAME? errors fast.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Fix #NAME? errors: Excel formulas across languages', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="Fix #NAME? errors: Excel formulas across languages"
+      lead="You copied =VLOOKUP(...) from a tutorial, pasted it into Excel in Portuguese, and got #NAME?. The function exists; its name doesn't."
+      date="August 18, 2026"
+      dateIso="2026-08-18"
+    >
+      <p>Excel translates function names with the interface language. =SUM() becomes =SOMA() in Portuguese and =SUMA() in Spanish; VLOOKUP becomes PROCV and BUSCARV. Paste an English formula into a localized installation and Excel doesn't recognize the name, so it returns #NAME? and you're left guessing. The <a href="/excel-formula-translator/">Excel Formula Translator</a> is the guessing removed: all 375 function names in the three languages, searchable from any of them, click to copy.</p>
+
+      <BlogToolEmbed slug="excel-formula-translator" title="Try it — search VLOOKUP, PROCV, or BUSCARV" height={640} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li>Type a function name in English, Portuguese, or Spanish (accents optional).</li>
+        <li>The table filters to matches and shows the row across all three languages.</li>
+        <li>Click the name you need and paste it into your formula bar.</li>
+      </ol>
+
+      <h2>The names are only half the fix</h2>
+      <p>Two more things change between localized versions. Logical constants translate: TRUE/FALSE are VERDADEIRO/FALSO in Portuguese and VERDADERO/FALSO in Spanish. And the argument separator often switches from comma to semicolon depending on regional settings, so <code>=VLOOKUP(A2, table, 2, FALSE)</code> becomes <code>=PROCV(A2; tabela; 2; FALSO)</code>. If a translated formula still errors, check the separators.</p>
+
+      <h2>When you don't need to translate anything</h2>
+      <p>Files store formulas in a language-neutral internal format. Open an .xlsx made in English on a Portuguese Excel and every formula displays already translated. Manual translation only matters for formula text that travels as text: tutorials, Stack Overflow answers, documentation, code that writes formulas into cells. Newer functions like LET and LAMBDA keep their English names everywhere, so there's nothing to translate there.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/excel-formula-translator/">Excel Formula Translator</a> is free, runs locally, and never sends your data to a server. More <a href="/education/">education tools</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

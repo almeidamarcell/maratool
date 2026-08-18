@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'mortgage-refinance-calculator'
+const seo = {
+  title: 'Should you refinance? Find your break-even point | maratool',
+  description: 'Refinancing pays off only if you stay past the break-even month. Compare payments, closing costs, and lifetime interest before calling a lender.',
+  canonical: `https://maratool.com/blog/${slug}`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'Should you refinance? Find your break-even point',
+    image: 'https://maratool.com/og/marketing.svg',
+    datePublished: '2026-08-18',
+    dateModified: '2026-08-18',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}` },
+    url: `https://maratool.com/blog/${slug}`,
+    description: 'Refinancing pays off only if you stay past the break-even month. Compare payments, closing costs, and lifetime interest before calling a lender.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog' },
+      { '@type': 'ListItem', position: 3, name: 'Should you refinance? Find your break-even point', item: `https://maratool.com/blog/${slug}` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="Should you refinance? Find your break-even point"
+      lead="A lower payment is not automatically a win. The break-even month and the lifetime savings figure decide it."
+      date="August 18, 2026"
+      dateIso="2026-08-18"
+    >
+      <p>Refinancing swaps your mortgage for a new one at today's rate, and the lender charges 2–6% of the loan in closing costs for the privilege. Whether that trade wins depends on one date: the month your accumulated monthly savings finally cover those costs. Stay past it and the refinance pays for itself; sell before it and you lost money on the deal. The <a href="/mortgage-refinance-calculator/">Mortgage Refinance Calculator</a> computes that date plus the number lenders skip, total interest over the life of both loans.</p>
+
+      <BlogToolEmbed slug="mortgage-refinance-calculator" title="Try it — current loan vs new rate, term, and closing costs" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Current side:</strong> balance, rate, and years remaining from your statement.</li>
+        <li><strong>New side:</strong> the quoted rate, the new term, and estimated closing costs.</li>
+        <li>Read three results: monthly savings, break-even month, and lifetime savings after costs.</li>
+      </ol>
+
+      <h2>The trap: lower payment, higher cost</h2>
+      <p>Say you're 10 years into a 30-year loan and refinance the remaining balance into a fresh 30-year term. The payment drops twice: once from the rate, once from stretching the debt over more years. But those added years are interest-heavy, and total interest often goes up. The calculator flags this case explicitly: monthly savings positive, lifetime savings negative. Sometimes that trade is still right (cash flow matters), but you should make it knowingly.</p>
+
+      <h2>A quick worked example</h2>
+      <p>$300,000 at 7% with 25 years left costs $2,120 a month. Refinanced to 5.5% over the same 25 years, the payment falls to $1,842: $278 a month saved. With $5,000 in closing costs, break-even lands at month 18, and lifetime savings come to about $78,000. If you plan to move in a year, walk away; if this is your ten-year house, take the deal.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">The <a href="/mortgage-refinance-calculator/">Mortgage Refinance Calculator</a> is free, runs locally, and never sends your data to a server. More <a href="/finance/">finance calculators</a> at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>

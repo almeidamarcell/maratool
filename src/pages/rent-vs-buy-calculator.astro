@@ -1,0 +1,115 @@
+---
+import Base from '../layouts/Base.astro'
+import Layout from '../components/Layout.astro'
+import ToolShell from '../components/ToolShell.astro'
+
+const seo = {
+  title: 'Rent vs Buy Calculator — Which Costs Less? | maratool',
+  description: 'Compare renting vs buying a home over your time horizon. Factors in mortgage, taxes, maintenance, appreciation, rent growth, and investment returns.',
+  canonical: 'https://maratool.com/rent-vs-buy-calculator',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Rent vs Buy Calculator',
+    url: 'https://maratool.com/rent-vs-buy-calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Compare renting vs buying a home over your time horizon. Factors in mortgage, taxes, maintenance, appreciation, rent growth, and investment returns.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Finance', item: 'https://maratool.com/finance' },
+      { '@type': 'ListItem', position: 3, name: 'Loan', item: 'https://maratool.com/finance/loan' },
+      { '@type': 'ListItem', position: 4, name: 'Rent vs Buy Calculator', item: 'https://maratool.com/rent-vs-buy-calculator' },
+    ],
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: 'How does this calculator compare renting and buying?', acceptedAnswer: { '@type': 'Answer', text: 'It computes the net cost of each path over your stay: everything paid out, minus what you walk away with — home equity after selling costs for buyers, investment gains for renters.' } },
+      { '@type': 'Question', name: 'Why does how long I stay matter so much?', acceptedAnswer: { '@type': 'Answer', text: 'Buying front-loads roughly 9% of the home price in closing and selling costs. Short stays cannot recover that; longer stays spread it across years of equity building.' } },
+      { '@type': 'Question', name: 'What does the investment return input mean?', acceptedAnswer: { '@type': 'Answer', text: 'The return a renter earns by investing the down payment and any monthly savings instead of buying. The S&P 500 has averaged about 7% after inflation historically.' } },
+      { '@type': 'Question', name: 'Is my data sent to a server?', acceptedAnswer: { '@type': 'Answer', text: 'No. All calculations happen in your browser.' } }
+    ]
+  }
+}
+
+const howTo = [
+  'Enter the home price, down payment, mortgage rate, and your monthly rent.',
+  'Adjust taxes, maintenance, appreciation, rent growth, and investment return — or keep the typical defaults.',
+  'Set how many years you plan to stay and read the verdict.'
+]
+
+const faq = [
+  { q: 'How does this calculator compare renting and buying?', a: 'It computes the net cost of each path over your stay: everything paid out, minus what you walk away with — home equity after 6% selling costs for buyers, investment gains for renters. Opportunity cost runs both ways: whoever pays less each month invests the difference.' },
+  { q: 'Why does how long I stay matter so much?', a: 'Buying front-loads roughly 9% of the home price in closing and selling costs. Short stays cannot recover that; longer stays spread it across years of equity building.' },
+  { q: 'What does the investment return input mean?', a: 'The return a renter earns by investing the down payment and any monthly savings instead of buying. The S&P 500 has averaged about 7% after inflation historically.' },
+  { q: 'Is my data sent to a server?', a: 'No. All calculations happen in your browser.' }
+]
+
+const relatedTools = [
+  { slug: 'mortgage-calculator', name: 'Mortgage Calculator' },
+  { slug: 'mortgage-refinance-calculator', name: 'Mortgage Refinance Calculator' },
+  { slug: 'compound-interest-calculator', name: 'Compound Interest Calculator' }
+]
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Finance', href: '/finance' },
+  { label: 'Loan', href: '/finance/loan' },
+  { label: 'Rent vs Buy Calculator' }
+]
+
+const whatIs = 'The Rent vs Buy Calculator settles the question with a net-cost comparison instead of a rule of thumb. For buying, it tallies the down payment, closing costs, mortgage payments, property tax, and maintenance, then credits the equity you would walk away with after selling costs. For renting, it tallies rent (growing yearly) and credits the gains from investing the money a buyer would have tied up. Whichever path leaves you richer after your planned stay wins.'
+---
+<Base {...seo}>
+  <Layout>
+    <ToolShell slug="rent-vs-buy-calculator" name="Rent vs Buy Calculator" description="Net cost of buying vs renting over your planned stay — mortgage, taxes, maintenance, and appreciation against rent growth and invested savings." howTo={howTo} faq={faq} relatedTools={relatedTools} breadcrumbs={breadcrumbs} whatIs={whatIs}>
+      <div class="tool-container" style="min-height:560px;">
+        <h3 class="rb-section">Buying</h3>
+        <div class="calc-row calc-row-4">
+          <div class="calc-field"><label class="tool-label" for="rb-price">Home price ($)</label><input type="number" id="rb-price" class="tool-input" placeholder="400000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="rb-down">Down payment (%)</label><input type="number" id="rb-down" class="tool-input" placeholder="20" step="any" min="0" max="100" /></div>
+          <div class="calc-field"><label class="tool-label" for="rb-rate">Mortgage rate (%)</label><input type="number" id="rb-rate" class="tool-input" placeholder="6.5" step="any" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="rb-term">Term (years)</label><input type="number" id="rb-term" class="tool-input" placeholder="30" min="1" /></div>
+        </div>
+        <div class="calc-row calc-row-4">
+          <div class="calc-field"><label class="tool-label" for="rb-tax">Property tax (%/yr)</label><input type="number" id="rb-tax" class="tool-input" placeholder="1.1" step="any" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="rb-maint">Maintenance + insurance (%/yr)</label><input type="number" id="rb-maint" class="tool-input" placeholder="1" step="any" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="rb-appr">Home appreciation (%/yr)</label><input type="number" id="rb-appr" class="tool-input" placeholder="3" step="any" /></div>
+          <div class="calc-field"><label class="tool-label" for="rb-closing">Closing costs (%)</label><input type="number" id="rb-closing" class="tool-input" placeholder="3" step="any" min="0" /></div>
+        </div>
+        <h3 class="rb-section">Renting</h3>
+        <div class="calc-row calc-row-4">
+          <div class="calc-field"><label class="tool-label" for="rb-rent">Monthly rent ($)</label><input type="number" id="rb-rent" class="tool-input" placeholder="2000" min="0" /></div>
+          <div class="calc-field"><label class="tool-label" for="rb-rent-growth">Rent increase (%/yr)</label><input type="number" id="rb-rent-growth" class="tool-input" placeholder="3" step="any" /></div>
+          <div class="calc-field"><label class="tool-label" for="rb-invest">Investment return (%/yr)</label><input type="number" id="rb-invest" class="tool-input" placeholder="7" step="any" /></div>
+          <div class="calc-field"><label class="tool-label" for="rb-years">Years you'll stay</label><input type="number" id="rb-years" class="tool-input" placeholder="8" min="1" /></div>
+        </div>
+        <div class="tool-stats">
+          <div class="tool-stat"><span class="tool-stat-value" id="rb-verdict">—</span><span class="tool-stat-label">Verdict</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="rb-buy-cost">—</span><span class="tool-stat-label">Net cost of buying</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="rb-rent-cost">—</span><span class="tool-stat-label">Net cost of renting</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="rb-payment">—</span><span class="tool-stat-label">Monthly mortgage payment</span></div>
+          <div class="tool-stat"><span class="tool-stat-value" id="rb-equity">—</span><span class="tool-stat-label">Equity when you sell</span></div>
+        </div>
+        <p class="tool-note" id="rb-note"></p>
+      </div>
+    </ToolShell>
+  </Layout>
+</Base>
+
+<style is:global>
+  .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .calc-row-4 { grid-template-columns: repeat(4, 1fr); }
+  .calc-field { margin-bottom: 0.75rem; }
+  .rb-section { font-size: 0.8125rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-2); margin: 0.5rem 0 0.5rem; }
+  @media (max-width: 800px) { .calc-row-4 { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 500px) { .calc-row, .calc-row-4 { grid-template-columns: 1fr; } }
+</style>
+<script src="../tools/rent-vs-buy-calculator.js"></script>

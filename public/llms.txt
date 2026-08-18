@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 528 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 535 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -523,6 +523,7 @@ maratool.com is a growing collection of 528 free tools that run in the browser u
 - [Flashcard Formatter — Q&A to Markdown](https://maratool.com/flashcard-formatter): Flashcard Formatter — Q&A to Markdown. Free, instant, runs in your browser.
 - [APA to MLA Citation Converter](https://maratool.com/apa-mla-converter): APA to MLA Citation Converter. Free, instant, runs in your browser.
 - [Roman Numeral Converter](https://maratool.com/roman-numeral-converter): Roman Numeral Converter. Free, instant, runs in your browser.
+- [Excel Formula Translator](https://maratool.com/excel-formula-translator): Translate Excel function names between English, Portuguese, and Spanish. Search 375 functions — VLOOKUP is PROCV in pt-BR, BUSCARV in Spanish.
 
 ### Finance
 - [Mortgage Calculator — Monthly Payment & Amortization](https://maratool.com/mortgage-calculator): Calculate monthly mortgage payments, total interest, and full amortization schedule. Enter loan amount, rate, and term.
@@ -536,6 +537,12 @@ maratool.com is a growing collection of 528 free tools that run in the browser u
 - [DCF Calculator — Discounted Cash Flow NPV](https://maratool.com/dcf-calculator): DCF Calculator — Discounted Cash Flow NPV. Free, instant, runs in your browser.
 - [Position Size Calculator — Risk per Trade](https://maratool.com/position-size-calculator): Position Size Calculator — Risk per Trade. Free, instant, runs in your browser.
 - [Crypto Profit Calculator](https://maratool.com/crypto-profit-calculator): Crypto Profit Calculator. Free, instant, runs in your browser.
+- [Simple Interest Calculator](https://maratool.com/simple-interest-calculator): Calculate simple interest with I = P·r·t. Enter principal, rate, and time in years, months, or days — compare against annual compounding.
+- [Credit Card Interest Calculator](https://maratool.com/credit-card-interest-calculator): See how long paying off a credit card takes and what it costs. Compare your monthly payment against minimum payments at your APR.
+- [Loan Payoff Calculator](https://maratool.com/loan-payoff-calculator): Find your loan payoff date and what extra monthly payments save — months cut and interest saved, side by side with your current plan.
+- [Mortgage Refinance Calculator](https://maratool.com/mortgage-refinance-calculator): Should you refinance? Compare current vs new rate and term: monthly savings, break-even point on closing costs, and lifetime savings.
+- [Debt Payoff Calculator](https://maratool.com/debt-payoff-calculator): Plan your debt-free date. List balances, APRs, and minimums, add an extra budget, and compare snowball vs avalanche strategies.
+- [Rent vs Buy Calculator](https://maratool.com/rent-vs-buy-calculator): Compare renting vs buying a home over your time horizon — mortgage, taxes, maintenance, and appreciation against rent growth and investing.
 
 ### Business
 - [Profit Margin Calculator](https://maratool.com/profit-margin-calculator): Calculate gross profit, net profit, and margin percentage from revenue and costs. Updates instantly.
