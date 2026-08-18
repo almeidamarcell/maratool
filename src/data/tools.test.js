@@ -10,7 +10,7 @@ describe('tool categories', () => {
 
   test('Health category has expected subcategories', () => {
     expect(subcategoryOrderByCategory['Health']).toEqual([
-      'Anthropometric', 'Cardiology', 'Renal', 'Electrolytes', 'Endocrine', 'Hepatology', 'Ventilation', 'Obstetric', 'Pediatric', 'Drug', 'Infusion', 'Trauma', 'Screening', 'Scale', 'Prognosis', 'Score', 'General',
+      'Anthropometric', 'Cardiology', 'Renal', 'Electrolytes', 'Endocrine', 'Hepatology', 'Ventilation', 'Obstetric', 'Pediatric', 'Drug', 'Infusion', 'Trauma', 'Screening', 'Scale', 'Prognosis', 'Score', 'General', 'Fitness',
     ])
   })
 

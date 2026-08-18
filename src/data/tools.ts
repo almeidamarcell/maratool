@@ -5041,6 +5041,18 @@ export const tools: Tool[] = [
     live: true,
     blogPost: true,
   },
+  // ── Health / Fitness ──
+  {
+    slug: 'exercises',
+    name: 'Exercise Database — Browse Exercises by Muscle & Equipment',
+    emoji: '💪',
+    description: 'Browse 1,035 exercises by muscle, equipment, and difficulty. Step-by-step instructions and a muscle map for every exercise — free, no sign-up.',
+    category: 'Health',
+    subcategory: 'Fitness',
+    keywords: ['exercise database', 'exercises by muscle group', 'chest exercises', 'back exercises', 'dumbbell exercises', 'bodyweight exercises', 'workout exercise list', 'exercises by equipment'],
+    live: true,
+    blogPost: true,
+  },
 ]
 
 // Ordered categories and their subcategories
@@ -5058,7 +5070,7 @@ export const subcategoryOrderByCategory: Record<string, string[]> = {
   Finance: ['Loan', 'Interest', 'Investment', 'Retirement'],
   Education: ['Calculator', 'Reference'],
   Mockup: ['Chat', 'AI Chat', 'Posts', 'Comments', 'Stories', 'Email'],
-  Health: ['Anthropometric', 'Cardiology', 'Renal', 'Electrolytes', 'Endocrine', 'Hepatology', 'Ventilation', 'Obstetric', 'Pediatric', 'Drug', 'Infusion', 'Trauma', 'Screening', 'Scale', 'Prognosis', 'Score', 'General'],
+  Health: ['Anthropometric', 'Cardiology', 'Renal', 'Electrolytes', 'Endocrine', 'Hepatology', 'Ventilation', 'Obstetric', 'Pediatric', 'Drug', 'Infusion', 'Trauma', 'Screening', 'Scale', 'Prognosis', 'Score', 'General', 'Fitness'],
 }
 
 // Tools grouped by category → subcategory

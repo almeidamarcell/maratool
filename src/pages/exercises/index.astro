@@ -12,6 +12,12 @@ const levelValues = facetCounts(byLevel)
 const total = exercises.length
 const description = `Browse ${total} exercises by muscle, equipment, category, and difficulty. Step-by-step instructions and muscle maps — free, no sign-up.`
 
+const relatedTools = [
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+  { slug: 'ideal-body-weight', name: 'Ideal Body Weight Calculator' },
+  { slug: 'unit-converter', name: 'Unit Converter' },
+]
+
 const seo = {
   title: `Exercise Database — ${total} Exercises by Muscle & Equipment | maratool`,
   description,
@@ -92,6 +98,15 @@ const seo = {
         Illustrations: Everkinetic (<a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license noopener" target="_blank">CC BY-SA 4.0</a>) ·
         Photos: free-exercise-db (public domain). Informational only — not fitness or medical advice.
       </p>
+
+      <nav class="exb-related" aria-label="Related tools">
+        <h2>Related tools</h2>
+        <ul>
+          {relatedTools.map(t => (
+            <li><a href={`/${t.slug}/`}>{t.name}</a></li>
+          ))}
+        </ul>
+      </nav>
     </div>
   </Layout>
 </Base>
@@ -117,6 +132,11 @@ const seo = {
   .exb-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: var(--bg-soft); color: var(--text-2); }
   .exb-empty { font-size: 14px; color: var(--text-2); }
   .exb-attr { font-size: 11px; color: var(--text-3); margin-top: 22px; }
+  .exb-related { margin-top: 18px; }
+  .exb-related h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-3); margin: 0 0 8px; }
+  .exb-related ul { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0; padding: 0; list-style: none; }
+  .exb-related a { font-size: 13px; color: var(--accent); text-decoration: none; }
+  .exb-related a:hover { text-decoration: underline; }
   @media (max-width: 860px) { .exb-layout { grid-template-columns: 1fr; } .exb-side { border-right: 0; padding-right: 0; } }
 </style>
 

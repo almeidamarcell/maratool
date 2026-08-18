@@ -1,0 +1,71 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import BlogPostShell from '../../components/BlogPostShell.astro'
+import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
+
+const slug = 'exercises'
+const seo = {
+  title: 'How to find the right exercise for any muscle or equipment | maratool',
+  description: 'Filter 1,035 exercises by muscle group, equipment, and difficulty — then get step-by-step instructions and a muscle map for each one.',
+  canonical: `https://maratool.com/blog/${slug}/`,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: 'How to find the right exercise for any muscle or equipment',
+    image: 'https://maratool.com/og/health.svg',
+    datePublished: '2026-08-16',
+    dateModified: '2026-08-16',
+    author: { '@type': 'Person', name: 'Marcell Almeida', url: 'https://marcell.com.br' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'maratool',
+      url: 'https://maratool.com',
+      logo: { '@type': 'ImageObject', url: 'https://maratool.com/favicon.svg' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://maratool.com/blog/${slug}/` },
+    url: `https://maratool.com/blog/${slug}/`,
+    description: 'Filter 1,035 exercises by muscle group, equipment, and difficulty — then get step-by-step instructions and a muscle map for each one.',
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://maratool.com/blog/' },
+      { '@type': 'ListItem', position: 3, name: 'How to find the right exercise for any muscle or equipment', item: `https://maratool.com/blog/${slug}/` },
+    ],
+  },
+}
+---
+<Base {...seo}>
+  <Layout>
+    <BlogPostShell
+      title="How to find the right exercise for any muscle or equipment"
+      lead="Pick the muscle you want to train and the equipment you actually have — the database returns every matching exercise with instructions."
+      date="August 16, 2026"
+      dateIso="2026-08-16"
+    >
+      <p>Most workout databases either bury exercises under a search box or dump them all into one long list. The <a href="/exercises/">Exercise Database</a> has 1,035 exercises you can filter by muscle group, equipment, category, and difficulty — each one with step-by-step instructions and a front/back muscle map.</p>
+
+      <BlogToolEmbed slug="exercises" title="Try it — filter by muscle or equipment" height={520} />
+
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Choose a muscle group</strong>, or filter by the equipment available to you — barbell, dumbbell, bodyweight, machine, and more.</li>
+        <li><strong>Scan the results</strong> — narrow further by category (strength, stretching, plyometrics) or difficulty level.</li>
+        <li><strong>Open any exercise</strong> for step-by-step instructions and a muscle map.</li>
+      </ol>
+
+      <h2>Primary vs secondary muscles</h2>
+      <p>Every exercise lists a primary muscle — the one doing most of the work — and often several secondary muscles that assist. A bench press is a chest exercise, but it also recruits the triceps and shoulders. The muscle map on each page shows this: the primary muscle in terracotta, secondary muscles in a lighter tint, on both a front and a back view of the body.</p>
+      <p>This matters when planning a session. Training chest and triceps back to back means the triceps are already fatigued from pressing. The muscle maps make that overlap visible at a glance, so you can group exercises that do not compete for the same recovery.</p>
+
+      <h2>Where the data comes from</h2>
+      <p>The database combines two openly-licensed sources. Vector illustrations come from <a href="https://github.com/everkinetic/data" rel="noopener" target="_blank">Everkinetic</a>, licensed CC BY-SA 4.0 — each exercise has a start and an effort phase, which is what makes the animation possible. Photographs and the broader exercise list come from <a href="https://github.com/yuhonas/free-exercise-db" rel="noopener" target="_blank">free-exercise-db</a>, released into the public domain. Full details are on the <a href="/exercises/licenses/">attribution page</a>.</p>
+
+      <hr class="blog-divider" />
+      <p class="blog-footer-note">Open the <a href="/exercises/">Exercise Database</a> or browse more <a href="/health/fitness/">fitness tools</a>. Informational only — not a substitute for professional fitness or medical advice. More tools at <a href="/">maratool.com</a>.</p>
+    </BlogPostShell>
+  </Layout>
+</Base>
