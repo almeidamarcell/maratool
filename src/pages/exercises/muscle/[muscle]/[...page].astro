@@ -45,12 +45,20 @@ const facets = [...equipCounts.entries()]
     href: `/exercises/equipment/${value.replace(/ /g, '-')}/`,
   }))
 
-const topEquip = facets[0] ? equipmentLabel(facets[0].value) : 'body only'
+// `equipmentLabel('other')` is "no equipment listed" — a clause, not a noun, so
+// dropping it into the "X is the most common equipment" slot produced "no
+// equipment listed is the most common equipment for this muscle" on 7 pages.
+// That bucket gets its own sentence. It is the *largest* group on those muscles
+// but not always a majority (30–60%), so the copy says "biggest group", not "most".
+const topEquipValue = facets[0]?.value ?? 'body only'
+const topEquipClause = topEquipValue === 'other'
+  ? 'the biggest group needs no specific equipment at all'
+  : `${equipmentLabel(topEquipValue)} is the most common equipment for this muscle`
 const bodyweightCount = list.filter(ex => ex.equipment.includes('body only')).length
 const faqs = [
   {
     q: `What are the best ${muscle} exercises?`,
-    a: `It depends on your available equipment and experience. This page lists all ${list.length} ${muscle} exercises in the database — ${topEquip} is the most common equipment for this muscle. Open any exercise for step-by-step instructions.`,
+    a: `It depends on your available equipment and experience. This page lists all ${list.length} ${muscle} exercises in the database — ${topEquipClause}. Open any exercise for step-by-step instructions.`,
   },
   {
     q: `How do I train ${muscle} without equipment?`,

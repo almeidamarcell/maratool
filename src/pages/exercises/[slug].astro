@@ -4,16 +4,28 @@ import Layout from '../../components/Layout.astro'
 import MuscleMap from '../../components/exercises/MuscleMap.astro'
 import ExerciseMedia from '../../components/exercises/ExerciseMedia.astro'
 import { exercises, relatedExercises, exerciseMetaDescription } from '../../data/exercises'
+import { exerciseDetailContent } from '../../data/exercises/detail-content'
 import type { Exercise } from '../../data/exercises'
+import type { ExerciseDetailContent } from '../../data/exercises/detail-content'
 
 export function getStaticPaths() {
   return exercises.map(ex => ({
     params: { slug: ex.slug },
-    props: { ex, related: relatedExercises(ex, 4) },
+    props: {
+      ex,
+      related: relatedExercises(ex, 4),
+      // Every sentence here is derived from this record's own fields; see the
+      // module header for why that constraint exists.
+      content: exerciseDetailContent(ex),
+    },
   }))
 }
 
-const { ex, related } = Astro.props as { ex: Exercise; related: Exercise[] }
+const { ex, related, content } = Astro.props as {
+  ex: Exercise
+  related: Exercise[]
+  content: ExerciseDetailContent
+}
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 const primaryLabel = ex.primaryMuscles.map(cap).join(', ')
 const equipLabel = ex.equipment.map(cap).join(', ')
@@ -96,6 +108,73 @@ const seo = {
             {ex.instructions.map(step => <li>{step}</li>)}
           </ol>
 
+          {/*
+            Data-derived body copy. Sits after the how-to so the steps stay the
+            top of the page, and before related exercises so the section ends on
+            outbound links. Any block whose source field is null is skipped
+            outright rather than rendered with a placeholder.
+          */}
+          <div class="ex-detail">
+            {content.muscles.length > 0 && (
+              <section class="ex-sec">
+                <h2>Muscles worked</h2>
+                {content.muscles.map(s => <p>{s}</p>)}
+                {content.muscleLinks.length > 0 && (
+                  <p class="ex-chips">
+                    <span class="ex-chips-lead">Every exercise for:</span>
+                    {content.muscleLinks.map(l => <a href={l.href}>{l.label}</a>)}
+                  </p>
+                )}
+              </section>
+            )}
+
+            {content.movement.length > 0 && (
+              <section class="ex-sec">
+                <h2>How this movement works</h2>
+                {content.movement.map(s => <p>{s}</p>)}
+              </section>
+            )}
+
+            {(content.equipment.length > 0 || content.alternatives.length > 0) && (
+              <section class="ex-sec">
+                <h2>What you need</h2>
+                {content.equipment.map(s => <p>{s}</p>)}
+                {content.equipmentLinks.length > 0 && (
+                  <p class="ex-chips">
+                    <span class="ex-chips-lead">Every exercise using:</span>
+                    {content.equipmentLinks.map(l => <a href={l.href}>{l.label}</a>)}
+                  </p>
+                )}
+                {content.alternatives.length > 0 && (
+                  <>
+                    <p>{content.alternativesLead}</p>
+                    <ul class="ex-alts">
+                      {content.alternatives.map(a => (
+                        <li>
+                          <a href={`/exercises/${a.slug}/`}>{a.name}</a>
+                          <span>{a.equipment}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+              </section>
+            )}
+
+            {content.level && (
+              <section class="ex-sec">
+                <h2>Difficulty</h2>
+                <p>{content.level.note}</p>
+                <p>
+                  Of the {content.level.muscleTotal}{' '}
+                  <a href={content.level.muscleHref}>{content.level.muscle} exercises</a>{' '}
+                  in this database, {content.level.sameLevel} are listed at{' '}
+                  <a href={content.level.href}>{content.level.label.toLowerCase()}</a> level.
+                </p>
+              </section>
+            )}
+          </div>
+
           {related.length > 0 && (
             <div class="ex-related">
               <h2>Related exercises</h2>
@@ -148,6 +227,27 @@ const seo = {
     border: 1px solid var(--border); color: var(--accent); font-size: 12px;
     font-weight: 600; display: flex; align-items: center; justify-content: center;
   }
+  /* Data-derived body copy between the how-to steps and the related list. */
+  .ex-detail { margin-top: 26px; border-top: 1px solid var(--border); }
+  .ex-sec { padding-top: 20px; }
+  .ex-sec h2 { font-size: 17px; margin: 0 0 10px; }
+  .ex-sec p { font-size: 14px; line-height: 1.6; color: var(--text); margin: 0 0 10px; }
+  .ex-chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .ex-chips-lead { font-size: 12px; color: var(--text-2); margin-right: 2px; }
+  .ex-chips a {
+    font-size: 12px; padding: 3px 10px; border-radius: 100px;
+    background: var(--bg-soft); border: 1px solid var(--border);
+    color: var(--cat-health); text-decoration: none;
+  }
+  .ex-chips a:hover { background: var(--bg-hover); }
+  .ex-alts { list-style: none; padding: 0; margin: 0; }
+  .ex-alts li {
+    display: flex; justify-content: space-between; gap: 12px;
+    padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 14px;
+  }
+  .ex-alts a { color: var(--cat-health); text-decoration: none; }
+  .ex-alts span { color: var(--text-3); font-size: 12px; white-space: nowrap; }
+
   .ex-related { margin-top: 26px; }
   .ex-related ul { list-style: none; padding: 0; margin: 0; }
   .ex-related li { padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
