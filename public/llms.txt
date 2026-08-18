@@ -2,7 +2,7 @@
 
 > Free, browser-based developer tools. No accounts, no uploads, no limits. Built by Marcell Almeida.
 
-maratool.com is a growing collection of 528 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
+maratool.com is a growing collection of 529 free tools that run in the browser using vanilla JavaScript and the Web APIs. Every tool is statically pre-rendered and served from Cloudflare's edge network. No sign-up required for any tool. Almost every tool runs entirely client-side with no data sent to any server; the one exception is the Instagram video downloader, which proxies the pasted URL through a small Cloudflare Worker because Instagram blocks direct browser fetches (see https://maratool.com/privacy for details).
 
 ## Tools
 
@@ -505,6 +505,7 @@ maratool.com is a growing collection of 528 free tools that run in the browser u
 - [GWTG-HF Risk Score](https://maratool.com/gwtg-hf-risk): Seven admission variables (BP, BUN, sodium, age, heart rate, race, COPD) map to in-hospital mortality in acute heart failure, from under 1 percent to over 50.
 - [MASCC Score Calculator](https://maratool.com/mascc-febrile-neutropenia): Total seven items to a maximum of 26; a score of 21 or more marks febrile neutropenia as low risk and opens the door to oral outpatient antibiotics.
 - [TASH Score (Massive Transfusion)](https://maratool.com/tash-massive-transfusion): Hemoglobin, base excess, vitals, FAST and fracture pattern give the probability that a trauma patient will need massive transfusion, so the protocol fires early.
+- [Exercise Database — Browse Exercises by Muscle & Equipment](https://maratool.com/exercises): Browse 1,035 exercises by muscle, equipment, and difficulty. Step-by-step instructions and a muscle map for every exercise — free, no sign-up.
 - [Running Pace Calculator — Min/km, Min/mile & Race Times](https://maratool.com/running-pace-calculator): Calculate running pace per km and per mile from distance and time, plus projected 5K, 10K, half and marathon finish times. Free, in your browser.
 - [Pregnancy Due Date Calculator](https://maratool.com/due-date-calculator): Calculate your pregnancy due date from LMP, conception date, or IVF transfer using Naegele’s rule, plus current gestational age and trimester.
 - [BMR Calculator — Basal Metabolic Rate](https://maratool.com/bmr-calculator): Estimate basal metabolic rate from sex, age, height and weight, with Mifflin-St Jeor, Harris-Benedict and Katch-McArdle side by side.

@@ -24,3 +24,30 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+---
+
+## Scope: third-party material not covered by this license
+
+The terms above apply to the Software authored by the Licensor. They do
+not, and cannot, apply to third-party material redistributed in this
+repository. Notwithstanding anything above — including clause 2 — the
+following directories are third-party material and are governed solely by
+their own licenses:
+
+- `public/exercises/svg/**` — exercise illustrations derived from
+  https://github.com/everkinetic/data. Recolored by maratool; the
+  recolored files are adaptations of CC BY-SA 4.0 material and are
+  therefore themselves licensed under **Creative Commons
+  Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**:
+  https://creativecommons.org/licenses/by-sa/4.0/
+  No additional restriction — including clause 2 of this license — is
+  imposed on them.
+
+- `public/exercises/photos/**` — exercise photographs from
+  https://github.com/yuhonas/free-exercise-db, released into the
+  **public domain under the Unlicense**: https://unlicense.org/
+
+The same statement travels with the files in
+`public/exercises/NOTICE.md`. Nothing in this section grants, restricts,
+or otherwise modifies the terms above as they apply to the Software.

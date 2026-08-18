@@ -1,0 +1,49 @@
+---
+interface Props {
+  media: { kind: 'vector' | 'photo'; start: string; end: string }
+  name: string
+}
+const { media, name } = Astro.props
+---
+<div class="exm" data-kind={media.kind} data-start={media.start} data-end={media.end}>
+  <div class="exm-modes" role="group" aria-label="Display mode">
+    <button type="button" data-mode="anim" aria-pressed="true">▶ Animate</button>
+    <button type="button" data-mode="side" aria-pressed="false">Side by side</button>
+    <button type="button" data-mode="start" aria-pressed="false">Start</button>
+    <button type="button" data-mode="end" aria-pressed="false">Effort</button>
+  </div>
+  <div class="exm-stage" data-name={name}></div>
+  <p class="exm-cap"></p>
+</div>
+
+<style is:global>
+  .exm-modes { display: flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--bg); margin-bottom: 10px; }
+  .exm-modes button {
+    flex: 1; font: inherit; font-size: 11.5px; padding: 7px 4px;
+    border: 0; border-right: 1px solid var(--border); background: var(--bg);
+    color: var(--text-2); cursor: pointer; transition: background 100ms ease;
+  }
+  .exm-modes button:last-child { border-right: 0; }
+  .exm-modes button:hover { background: var(--bg-soft); }
+  .exm-modes button[aria-pressed='true'] { background: var(--text); color: #fff; }
+  .exm-stage {
+    position: relative; background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; min-height: 300px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .exm-stage.exm-dual { gap: 0; }
+  .exm-phase { flex: 1; display: flex; align-items: center; justify-content: center; padding: 14px; position: relative; min-width: 0; align-self: stretch; }
+  .exm-phase + .exm-phase { border-left: 1px dashed var(--border); }
+  .exm-media { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+  .exm-phase img, .exm-phase svg { max-width: 100%; max-height: 260px; height: auto; }
+  .exm-phase[data-phase='start'] { color: var(--text); }
+  .exm-phase[data-phase='end'] { color: var(--accent); }
+  .exm-phase b {
+    position: absolute; bottom: 4px; left: 0; right: 0; text-align: center;
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .05em; color: var(--text-3);
+  }
+  .exm-cap { font-size: 11px; color: var(--text-3); text-align: center; margin: 7px 0 0; }
+</style>
+
+<script src="../../tools/exercise-media.js"></script>

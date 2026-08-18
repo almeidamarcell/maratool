@@ -1,0 +1,100 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+
+const title = 'Exercise data & image licenses'
+const description = 'Attribution and license terms for the exercise illustrations, photographs, and data used in the maratool exercise database.'
+
+const seo = {
+  title: `${title} | maratool`,
+  description,
+  canonical: 'https://maratool.com/exercises/licenses/',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: title,
+    url: 'https://maratool.com/exercises/licenses/',
+    description,
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Exercises', item: 'https://maratool.com/exercises/' },
+      { '@type': 'ListItem', position: 3, name: 'Licenses', item: 'https://maratool.com/exercises/licenses/' },
+    ],
+  },
+}
+---
+<Base {...seo} scope="page">
+  <Layout scope="page">
+    <article class="ex-lic">
+      <h1>{title}</h1>
+      <p>
+        The <a href="/exercises/">exercise database</a> is built from two
+        openly-licensed sources. This page records what came from where, and the
+        terms each one carries.
+      </p>
+
+      <h2>Illustrations — Everkinetic</h2>
+      <p>
+        The vector exercise illustrations come from
+        <a href="https://github.com/everkinetic/data" rel="noopener" target="_blank">everkinetic/data</a>,
+        licensed under
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license noopener" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International</a>
+        (CC BY-SA 4.0).
+      </p>
+      <p>
+        maratool recolors these SVGs to match its own palette. Under the ShareAlike
+        term, <strong>those modified versions are themselves published under CC BY-SA
+        4.0</strong> and may be reused on the same terms. The original artwork remains
+        credited to Everkinetic. 266 exercise pages use this illustration set.
+      </p>
+      <p>
+        The recolored files live at <code>public/exercises/svg/</code> in the
+        <a href="https://github.com/almeidamarcell/maratool" rel="noopener" target="_blank">maratool repository</a>.
+        A <a href="/exercises/NOTICE.md">NOTICE file</a> sits beside them
+        (<code>public/exercises/NOTICE.md</code>) stating the same terms, and the
+        repository's <a href="https://github.com/almeidamarcell/maratool/blob/main/LICENSE" rel="noopener" target="_blank">LICENSE</a>
+        carves this directory out explicitly: the source-available terms that cover
+        maratool's own code do not apply to it, and no additional restriction is
+        placed on the artwork.
+      </p>
+
+      <h2>Photographs — free-exercise-db</h2>
+      <p>
+        Exercise photographs and much of the exercise metadata come from
+        <a href="https://github.com/yuhonas/free-exercise-db" rel="noopener" target="_blank">yuhonas/free-exercise-db</a>,
+        released into the public domain under the Unlicense. No attribution is
+        required; we credit it anyway. 769 exercise pages use this photo set.
+      </p>
+      <p>
+        Those files live at <code>public/exercises/photos/</code> and are carved out
+        of the repository license the same way — see the
+        <a href="/exercises/NOTICE.md">NOTICE file</a>.
+      </p>
+
+      <h2>What we do not use</h2>
+      <p>
+        maratool does not use exercise media from Gym visual or any other
+        proprietary source. No such media appears anywhere on this site.
+      </p>
+
+      <p class="ex-lic-note">
+        ⓘ Exercise instructions are informational only and are not a substitute for
+        professional fitness or medical advice.
+      </p>
+    </article>
+  </Layout>
+</Base>
+
+<style is:global>
+  .ex-lic { max-width: 680px; }
+  .ex-lic h1 { font-size: 28px; font-weight: 600; margin: 0 0 12px; }
+  .ex-lic h2 { font-size: 17px; margin: 26px 0 8px; }
+  .ex-lic p { font-size: 14px; line-height: 1.6; color: var(--text-2); margin: 0 0 10px; }
+  .ex-lic code { font-size: 12.5px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; }
+  .ex-lic a { color: var(--cat-health); }
+  .ex-lic-note { margin-top: 26px; font-size: 12px; color: var(--text-3); }
+</style>

@@ -13,8 +13,13 @@ const ROOT = resolve(import.meta.dirname, '..')
 const liveTools = tools.filter(t => t.live)
 const liveSlugs = new Set(liveTools.map(t => t.slug))
 
+// Most tool pages are a flat file (src/pages/<slug>.astro). A few — like the
+// exercises browser, which owns a directory of generated routes — are directory
+// routes (src/pages/<slug>/index.astro). Falling back to the directory form
+// keeps those inside these invariants instead of throwing them out of the run.
 function pageSrc(slug) {
-  return readFileSync(resolve(ROOT, `src/pages/${slug}.astro`), 'utf-8')
+  const flat = resolve(ROOT, `src/pages/${slug}.astro`)
+  return readFileSync(existsSync(flat) ? flat : resolve(ROOT, `src/pages/${slug}/index.astro`), 'utf-8')
 }
 
 // Handles both `description: '...'` and the wrapped form where the value sits

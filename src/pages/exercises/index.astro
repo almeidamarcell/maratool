@@ -1,0 +1,259 @@
+---
+import Base from '../../layouts/Base.astro'
+import Layout from '../../components/Layout.astro'
+import { exercises, byMuscle, byEquipment, byCategory, byLevel, facetCounts, equipmentLabel } from '../../data/exercises'
+
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+const muscleValues = facetCounts(byMuscle)
+const equipmentValues = facetCounts(byEquipment)
+const categoryValues = facetCounts(byCategory)
+const levelValues = facetCounts(byLevel)
+
+const total = exercises.length
+
+// The registry-wide description invariant parses `seo.description` statically,
+// so it must be an inline single-quoted literal rather than a template built
+// from `total`. This const carries the same text for the JSON-LD; a test pins
+// the count in it to the dataset so the two cannot drift apart.
+const description = 'Browse 1,035 exercises by muscle, equipment, category, and difficulty. Step-by-step instructions and a muscle map for every exercise — free, no sign-up.'
+
+// The facet sidebar is checkboxes, which emit no crawlable links — so nothing
+// on the site linked to any /exercises/category/ or /exercises/level/ hub and
+// 10 pages were reachable only through the sitemap. These are real anchors.
+const browseGroups = [
+  {
+    heading: 'Browse by muscle',
+    base: '/exercises/muscle/',
+    values: muscleValues,
+    label: (v: string) => cap(v),
+  },
+  {
+    heading: 'Browse by equipment',
+    base: '/exercises/equipment/',
+    values: equipmentValues,
+    label: (v: string) => cap(equipmentLabel(v)),
+  },
+  {
+    heading: 'Browse by category',
+    base: '/exercises/category/',
+    values: categoryValues,
+    label: (v: string) => cap(v),
+  },
+  {
+    heading: 'Browse by difficulty',
+    base: '/exercises/level/',
+    values: levelValues,
+    label: (v: string) => cap(v),
+  },
+]
+
+const relatedTools = [
+  { slug: 'bmi-calculator', name: 'BMI Calculator' },
+  { slug: 'ideal-body-weight', name: 'Ideal Body Weight Calculator' },
+  { slug: 'unit-converter', name: 'Unit Converter' },
+]
+
+const faqs = [
+  {
+    q: 'How many exercises are in the database?',
+    a: `${total}, merged from two openly-licensed datasets: Everkinetic's vector illustrations (CC BY-SA 4.0) and free-exercise-db's photos (public domain). Every entry has step-by-step instructions, a muscle map, primary and secondary muscles, equipment, and a difficulty level.`,
+  },
+  {
+    q: 'Can I filter by more than one muscle or piece of equipment at once?',
+    a: 'Yes. Checking several boxes inside one group widens the results — check "Chest" and "Triceps" and you get exercises for either. Checking boxes across groups narrows them: "Chest" plus "Dumbbell" returns only chest exercises done with dumbbells.',
+  },
+  {
+    q: 'Do I need an account, and does anything get uploaded?',
+    a: 'No to both. The exercise index is a static JSON file your browser downloads once, and all searching and filtering runs on your machine. Nothing you type is sent anywhere.',
+  },
+  {
+    q: 'Can I reuse the exercise illustrations?',
+    a: 'The vector illustrations are CC BY-SA 4.0, so yes — with attribution to Everkinetic, and your version must carry the same licence. The photographs are public domain and carry no conditions. See the licences page for the full terms.',
+  },
+]
+
+const seo = {
+  title: `Exercise Database — ${total} Exercises by Muscle & Equipment | maratool`,
+  // Inline literal, not a derived template: the registry-wide description
+  // invariant parses this statically. A test pins the count to the dataset.
+  description: 'Browse 1,035 exercises by muscle, equipment, category, and difficulty. Step-by-step instructions and a muscle map for every exercise — free, no sign-up.',
+  canonical: 'https://maratool.com/exercises',
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Exercise Database',
+    url: 'https://maratool.com/exercises/',
+    description,
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(f => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+}
+---
+<Base {...seo} scope="hub">
+  <Layout scope="hub">
+    <div class="exb">
+      <header class="exb-head">
+        <h1>Exercise Database</h1>
+        <p>{total} exercises with step-by-step instructions and muscle maps. Search or filter by muscle, equipment, category, and difficulty.</p>
+      </header>
+
+      <div class="exb-layout">
+        <aside class="exb-side">
+          <section class="exb-group">
+            <h2>Muscle</h2>
+            {muscleValues.map(v => (
+              <label class="exb-facet-row">
+                <input type="checkbox" class="ex-facet" data-facet="muscle" value={v.value} />
+                <span>{cap(v.value)}</span>
+                <b>{v.count}</b>
+              </label>
+            ))}
+          </section>
+          <section class="exb-group">
+            <h2>Equipment</h2>
+            {equipmentValues.map(v => (
+              <label class="exb-facet-row">
+                <input type="checkbox" class="ex-facet" data-facet="equipment" value={v.value} />
+                <span>{cap(v.value)}</span>
+                <b>{v.count}</b>
+              </label>
+            ))}
+          </section>
+          <section class="exb-group">
+            <h2>Category</h2>
+            {categoryValues.map(v => (
+              <label class="exb-facet-row">
+                <input type="checkbox" class="ex-facet" data-facet="category" value={v.value} />
+                <span>{cap(v.value)}</span>
+                <b>{v.count}</b>
+              </label>
+            ))}
+          </section>
+          <section class="exb-group">
+            <h2>Level</h2>
+            {levelValues.map(v => (
+              <label class="exb-facet-row">
+                <input type="checkbox" class="ex-facet" data-facet="level" value={v.value} />
+                <span>{cap(v.value)}</span>
+                <b>{v.count}</b>
+              </label>
+            ))}
+          </section>
+        </aside>
+
+        <div class="exb-main">
+          <div class="exb-searchbar">
+            <span aria-hidden="true">🔎</span>
+            <input id="ex-search" type="search" placeholder="Search exercises…" autocomplete="off" />
+          </div>
+          <p class="exb-count" id="ex-count">Loading…</p>
+          <div class="exb-grid" id="ex-results"></div>
+          <p class="exb-empty" id="ex-empty" hidden>No exercises match those filters.</p>
+        </div>
+      </div>
+
+      <section class="exb-browse">
+        {browseGroups.map(g => (
+          <nav class="exb-browse-group" aria-label={g.heading}>
+            <h2>{g.heading}</h2>
+            <ul>
+              {g.values.map(v => (
+                <li>
+                  <a href={`${g.base}${v.value.replace(/ /g, '-')}/`}>{g.label(v.value)} <b>{v.count}</b></a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))}
+      </section>
+
+      <section class="exb-howto">
+        <h2>How to use</h2>
+        <ol>
+          <li>Type part of an exercise name in the search box, or press ⌘K to jump straight to it.</li>
+          <li>Tick boxes in the sidebar to narrow by muscle, equipment, category, or difficulty.</li>
+          <li>Open any result for step-by-step instructions, a muscle map, and the equipment you need.</li>
+        </ol>
+      </section>
+
+      <section class="exb-faq">
+        <h2>Frequently asked questions</h2>
+        {faqs.map(f => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </section>
+
+      <p class="exb-attr">
+        Illustrations: Everkinetic (<a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license noopener" target="_blank">CC BY-SA 4.0</a>) ·
+        Photos: free-exercise-db (public domain) · <a href="/exercises/licenses/">full attribution</a>.
+        Informational only — not fitness or medical advice.
+      </p>
+
+      <nav class="exb-related" aria-label="Related tools">
+        <h2>Related tools</h2>
+        <ul>
+          {relatedTools.map(t => (
+            <li><a href={`/${t.slug}/`}>{t.name}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </Layout>
+</Base>
+
+<style is:global>
+  .exb-head h1 { font-size: 30px; font-weight: 600; margin: 0 0 6px; }
+  .exb-head p { font-size: 14px; color: var(--text-2); margin: 0 0 18px; max-width: 640px; line-height: 1.5; }
+  .exb-layout { display: grid; grid-template-columns: 220px 1fr; gap: 24px; }
+  .exb-side { border-right: 1px solid var(--border); padding-right: 16px; }
+  .exb-group { margin-bottom: 18px; }
+  .exb-group h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-3); margin: 0 0 8px; }
+  .exb-facet-row { display: flex; align-items: center; gap: 7px; font-size: 13px; padding: 3px 5px; border-radius: 5px; cursor: pointer; color: var(--text-2); }
+  .exb-facet-row:hover { background: var(--bg-hover); }
+  .exb-facet-row b { margin-left: auto; color: var(--text-3); font-size: 11px; font-weight: 500; }
+  .exb-searchbar { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); background: #fff; border-radius: 8px; padding: 10px 12px; }
+  .exb-searchbar input { border: 0; outline: 0; font: inherit; font-size: 14px; flex: 1; background: none; }
+  .exb-count { font-size: 12px; color: var(--text-2); margin: 10px 2px 12px; }
+  .exb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; min-height: 480px; align-content: start; }
+  .exb-card { background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--cat-health); border-radius: 8px; padding: 12px; text-decoration: none; color: inherit; transition: transform 100ms ease, box-shadow 100ms ease; }
+  .exb-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,.06); }
+  .exb-card h3 { font-size: 13px; margin: 0 0 7px; font-weight: 600; line-height: 1.3; }
+  .exb-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+  .exb-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: var(--bg-soft); color: var(--text-2); }
+  .exb-empty { font-size: 14px; color: var(--text-2); }
+  .exb-note { font-size: 12px; color: var(--text-2); margin: 10px 2px 0; }
+  .exb-browse { margin-top: 34px; padding-top: 22px; border-top: 1px solid var(--border); display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 22px; }
+  .exb-browse-group h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-3); margin: 0 0 10px; }
+  .exb-browse-group ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .exb-browse-group a { font-size: 12px; padding: 4px 11px; border-radius: 100px; background: #fff; border: 1px solid var(--border); color: var(--text-2); text-decoration: none; display: inline-block; }
+  .exb-browse-group a:hover { background: var(--bg-hover); }
+  .exb-browse-group a b { color: var(--text-3); font-weight: 500; }
+  .exb-howto { margin-top: 30px; }
+  .exb-howto h2, .exb-faq h2 { font-size: 18px; margin: 0 0 12px; }
+  .exb-howto ol { margin: 0; padding-left: 20px; }
+  .exb-howto li { font-size: 14px; line-height: 1.6; color: var(--text-2); margin-bottom: 6px; }
+  .exb-faq { margin-top: 30px; }
+  .exb-faq details { border-bottom: 1px solid var(--border); padding: 10px 0; font-size: 13px; }
+  .exb-faq summary { cursor: pointer; font-weight: 500; }
+  .exb-faq p { color: var(--text-2); margin: 8px 0 0; line-height: 1.55; }
+  .exb-attr { font-size: 11px; color: var(--text-3); margin-top: 22px; }
+  .exb-attr a { color: var(--text-2); }
+  .exb-related { margin-top: 18px; }
+  .exb-related h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-3); margin: 0 0 8px; }
+  .exb-related ul { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0; padding: 0; list-style: none; }
+  .exb-related a { font-size: 13px; color: var(--accent); text-decoration: none; }
+  .exb-related a:hover { text-decoration: underline; }
+  @media (max-width: 860px) { .exb-layout { grid-template-columns: 1fr; } .exb-side { border-right: 0; padding-right: 0; } }
+</style>
+
+<script src="../../tools/exercise-browser.js"></script>

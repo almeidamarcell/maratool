@@ -39,3 +39,6 @@ BUILD_NOTES.md
 
 # conductor workspace scratch
 .context/
+
+# Superpowers brainstorm companion (local only)
+.superpowers/

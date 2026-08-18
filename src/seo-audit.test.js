@@ -7,6 +7,17 @@ function readSrc(relPath) {
   return readFileSync(resolve(import.meta.dirname, '..', relPath), 'utf-8')
 }
 
+// Most tool pages are a flat file (src/pages/<slug>.astro). A few — like the
+// exercises browser — are directory routes (src/pages/<slug>/index.astro).
+// Fall back to the directory form so those aren't skipped by this audit.
+function readToolPage(slug) {
+  try {
+    return readSrc(`src/pages/${slug}.astro`)
+  } catch {
+    return readSrc(`src/pages/${slug}/index.astro`)
+  }
+}
+
 describe('SEO audit — Group 1: Critical', () => {
   test('Base.astro does not contain PostHog script', () => {
     const base = readSrc('src/layouts/Base.astro')
@@ -85,7 +96,7 @@ describe('SEO audit — Group 2: High Impact', () => {
 
     const liveTools = tools.filter(t => t.live)
     for (const tool of liveTools) {
-      const page = readSrc(`src/pages/${tool.slug}.astro`)
+      const page = readToolPage(tool.slug)
       const catMatch = page.match(/applicationCategory:\s*['"]([^'"]+)['"]/)
       if (!catMatch) continue // some pages may not have schema
 
@@ -127,7 +138,7 @@ describe('SEO audit — Group 3: Internal Linking', () => {
     const liveTools = tools.filter(t => t.live)
     const failures = []
     for (const tool of liveTools) {
-      const page = readSrc(`src/pages/${tool.slug}.astro`)
+      const page = readToolPage(tool.slug)
       // relatedTools can be inline or a separate const — find the array content
       const arrayMatch = page.match(/(?:const\s+relatedTools\s*=\s*\[|relatedTools=\{\[)([\s\S]*?)\]/m)
       if (!arrayMatch) { failures.push(`${tool.slug}: no relatedTools found`); continue }
