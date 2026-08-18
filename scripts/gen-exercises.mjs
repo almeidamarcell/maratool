@@ -16,11 +16,52 @@ const ek = load('src/data/exercises/everkinetic.raw.json')
 const fe = load('src/data/exercises/free-exercise-db.raw.json')
 
 const slugify = n => n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
+// Hyphens are not in [a-z0-9 ], so this already normalizes "EZ-Bar" / "Close-Grip"
+// to the same tokens as their spaced forms before splitting on whitespace.
 const tokens = n => new Set(String(n ?? '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(Boolean))
 const jaccard = (a, b) => {
   const inter = [...a].filter(x => b.has(x)).length
   const union = new Set([...a, ...b]).size
   return union === 0 ? 0 : inter / union
+}
+
+// Distinguishing-modifier guard: two names can score high on Jaccard while
+// naming genuinely different exercises — different equipment, a different
+// bench/body angle, or (more leniently) a different stance. Reject those
+// pairs outright, independent of score.
+const EQUIPMENT_GROUP = ['band', 'barbell', 'dumbbell', 'cable', 'machine', 'kettlebell', 'smith']
+// Angle changes the direction of resistance and therefore which muscle heads
+// are emphasized — a genuinely different exercise. Strict: silence on either
+// side still conflicts with a named angle on the other.
+const ANGLE_GROUP = ['incline', 'decline', 'flat']
+// Stance changes stability/comfort, not the working muscle's movement
+// pattern. Lenient, same treatment as equipment: only a conflict when BOTH
+// sides name a stance and they disagree.
+const STANCE_GROUP = ['seated', 'standing', 'lying', 'kneeling']
+const groupTokens = (toks, group) => group.filter(g => toks.has(g))
+const setsEqual = (a, b) => a.length === b.length && a.every(t => b.includes(t))
+
+function modifierConflict(ekToks, feToks) {
+  // Equipment: only a conflict when BOTH sides name equipment and they
+  // disagree. Silence on one side is not a conflict — this is what keeps
+  // "Bent Arm Pullover" <-> "Bent-Arm Barbell Pullover" merging.
+  const ekEquip = groupTokens(ekToks, EQUIPMENT_GROUP)
+  const feEquip = groupTokens(feToks, EQUIPMENT_GROUP)
+  if (ekEquip.length && feEquip.length && !setsEqual(ekEquip, feEquip)) return true
+
+  // Angle: load-bearing for which muscle heads are worked, so — unlike
+  // equipment — silence on one side IS a conflict here.
+  const ekAngle = groupTokens(ekToks, ANGLE_GROUP)
+  const feAngle = groupTokens(feToks, ANGLE_GROUP)
+  if ((ekAngle.length || feAngle.length) && !setsEqual(ekAngle, feAngle)) return true
+
+  // Stance: same lenient treatment as equipment — only a conflict when both
+  // sides name a stance and they disagree.
+  const ekStance = groupTokens(ekToks, STANCE_GROUP)
+  const feStance = groupTokens(feToks, STANCE_GROUP)
+  if (ekStance.length && feStance.length && !setsEqual(ekStance, feStance)) return true
+
+  return false
 }
 
 // Split a comma-joined muscle string ("triceps, biceps") into canonical muscles.
@@ -29,26 +70,52 @@ const splitMuscles = raw =>
 
 const uniq = a => [...new Set(a)]
 
-// ---- index free-db by token set for fuzzy matching ----
-const feIndexed = fe.map(x => ({ rec: x, toks: tokens(x.name) }))
+// ---- global best-score-first matching ----
+// Compute every (Everkinetic, free-db) candidate pair scoring >= threshold and
+// passing the modifier guard across the WHOLE dataset, then assign greedily
+// from the highest score down. Doing this in Everkinetic file order instead
+// (claim the best still-available row, one Everkinetic record at a time) lets
+// an early mediocre match consume a free-db row a later, better match needed.
 const MATCH_THRESHOLD = 0.75
 
-const usedFe = new Set()
+const ekIndexed = ek.map(x => {
+  const name = x.title || x.name
+  return { rec: x, name, toks: tokens(name) }
+})
+const feIndexed = fe.map(x => ({ rec: x, toks: tokens(x.name) }))
+
+const candidates = []
+for (const e of ekIndexed) {
+  for (const f of feIndexed) {
+    const score = jaccard(e.toks, f.toks)
+    if (score < MATCH_THRESHOLD) continue
+    if (modifierConflict(e.toks, f.toks)) continue
+    candidates.push({ ek: e.rec, fe: f.rec, score })
+  }
+}
+// Highest score first; ties broken deterministically (EK id_num, then FE id)
+// so re-running the generator against unchanged source data is reproducible.
+candidates.sort((a, b) =>
+  b.score - a.score ||
+  a.ek.id_num.localeCompare(b.ek.id_num) ||
+  String(a.fe.id).localeCompare(String(b.fe.id))
+)
+
+const ekMatch = new Map() // ek.id -> matched fe record
+const usedFe = new Set()  // fe.id already claimed
+for (const c of candidates) {
+  if (ekMatch.has(c.ek.id) || usedFe.has(c.fe.id)) continue
+  ekMatch.set(c.ek.id, c.fe)
+  usedFe.add(c.fe.id)
+}
+
 const out = []
 const dropped = []
 
 // ---- Everkinetic first: it owns the better (vector) media ----
 for (const x of ek) {
   const name = x.title || x.name
-  const toks = tokens(name)
-  let best = 0, bestRec = null
-  for (const cand of feIndexed) {
-    if (usedFe.has(cand.rec.id)) continue
-    const j = jaccard(toks, cand.toks)
-    if (j > best) { best = j; bestRec = cand.rec }
-  }
-  const matched = best >= MATCH_THRESHOLD ? bestRec : null
-  if (matched) usedFe.add(matched.id)
+  const matched = ekMatch.get(x.id) ?? null
 
   const primary = uniq([
     ...splitMuscles(x.primary),
@@ -107,7 +174,10 @@ for (const x of ek) {
 for (const x of fe) {
   if (usedFe.has(x.id)) continue
   const imgs = (x.images ?? []).map(p => `/exercises/photos/${p.replace(/\//g, '__')}`)
-  if (imgs.length < 2) continue
+  if (imgs.length < 2) {
+    dropped.push(`${x.name} (fewer than 2 images)`)
+    continue
+  }
   const primary = uniq((x.primaryMuscles ?? []).map(normalizeMuscle).filter(Boolean))
   const secondary = uniq((x.secondaryMuscles ?? []).map(normalizeMuscle).filter(Boolean))
     .filter(m => !primary.includes(m))

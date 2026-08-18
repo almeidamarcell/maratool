@@ -2572,6 +2572,40 @@
     "attribution": "Photos: free-exercise-db — public domain (Unlicense)"
   },
   {
+    "slug": "bench-press-with-bands",
+    "name": "Bench Press - With Bands",
+    "primaryMuscles": [
+      "chest"
+    ],
+    "secondaryMuscles": [
+      "shoulders",
+      "triceps"
+    ],
+    "equipment": [
+      "band"
+    ],
+    "category": "strength",
+    "level": "beginner",
+    "force": "push",
+    "mechanic": "compound",
+    "instructions": [
+      "Using a flat bench secure a band under the leg of the bench that is nearest to your head.",
+      "Once the band is secure, grab it by both handles and lie down on the bench.",
+      "Extend your arms so that you are holding the band handles in front of you at shoulder width.",
+      "Once at shoulder width, rotate your wrists forward so that the palms of your hands are facing away from you. This will be your starting position.",
+      "Bring down the handles slowly until your elbow forms a 90 degree angle. Keep full control at all times.",
+      "As you breathe out, bring the handles up using your pectoral muscles. Lock your arms in the contracted position, squeeze your chest, hold for a second and then start coming down slowly. Tip: It should take at least twice as long to go down than to come up.",
+      "Repeat the movement for the prescribed amount of repetitions of your training program."
+    ],
+    "media": {
+      "kind": "photo",
+      "start": "/exercises/photos/Bench_Press_-_With_Bands__0.jpg",
+      "end": "/exercises/photos/Bench_Press_-_With_Bands__1.jpg"
+    },
+    "source": "free-exercise-db",
+    "attribution": "Photos: free-exercise-db — public domain (Unlicense)"
+  },
+  {
     "slug": "bench-press-dumbbell",
     "name": "Bench Press Dumbbell",
     "primaryMuscles": [
@@ -6179,12 +6213,11 @@
       "forearms"
     ],
     "equipment": [
-      "barbell",
-      "e-z curl bar"
+      "barbell"
     ],
     "category": "strength",
-    "level": "beginner",
-    "force": "pull",
+    "level": null,
+    "force": null,
     "mechanic": "isolation",
     "instructions": [
       "Stand with your feet shoulder width apart, your knees slightly bent and your abs drawn in.",
@@ -6200,8 +6233,7 @@
       "end": "/exercises/svg/0218-tension.svg"
     },
     "source": "everkinetic",
-    "attribution": "Illustration: Everkinetic — CC BY-SA 4.0",
-    "mergedFrom": "Close-Grip_EZ-Bar_Curl_with_Band"
+    "attribution": "Illustration: Everkinetic — CC BY-SA 4.0"
   },
   {
     "slug": "close-grip-standing-biceps-curls-with-barbell",
@@ -6325,6 +6357,37 @@
       "kind": "photo",
       "start": "/exercises/photos/Close-Grip_EZ_Bar_Curl__0.jpg",
       "end": "/exercises/photos/Close-Grip_EZ_Bar_Curl__1.jpg"
+    },
+    "source": "free-exercise-db",
+    "attribution": "Photos: free-exercise-db — public domain (Unlicense)"
+  },
+  {
+    "slug": "close-grip-ez-bar-curl-with-band",
+    "name": "Close-Grip EZ-Bar Curl with Band",
+    "primaryMuscles": [
+      "biceps"
+    ],
+    "secondaryMuscles": [
+      "forearms"
+    ],
+    "equipment": [
+      "e-z curl bar"
+    ],
+    "category": "strength",
+    "level": "beginner",
+    "force": "pull",
+    "mechanic": "isolation",
+    "instructions": [
+      "Attach a band to each end of the bar. Take the bar, placing a foot on the middle of the band. Stand upright with a narrow, supinated grip on the EZ bar. The elbows should be close to the torso. This will be your starting position.",
+      "While keeping the upper arms in place, flex the elbows to execute the curl. Exhale as the weight is lifted.",
+      "Continue the movement until your biceps are fully contracted and the bar is at shoulder level. Hold the contracted position for a second and squeeze the biceps hard.",
+      "Slowly begin to bring the bar back to starting position as your breathe in.",
+      "Repeat for the recommended amount of repetitions."
+    ],
+    "media": {
+      "kind": "photo",
+      "start": "/exercises/photos/Close-Grip_EZ-Bar_Curl_with_Band__0.jpg",
+      "end": "/exercises/photos/Close-Grip_EZ-Bar_Curl_with_Band__1.jpg"
     },
     "source": "free-exercise-db",
     "attribution": "Photos: free-exercise-db — public domain (Unlicense)"
@@ -8333,9 +8396,9 @@
       "bench"
     ],
     "category": "strength",
-    "level": "beginner",
-    "force": "push",
-    "mechanic": "compound",
+    "level": null,
+    "force": null,
+    "mechanic": "isolation",
     "instructions": [
       "Lie on an incline bench which has been set to an incline of 45 degrees.",
       "Start with the dumbbells at shoulder height, your arms wide and elbows pointing down to the floor.",
@@ -8349,8 +8412,7 @@
       "end": "/exercises/svg/0061-tension.svg"
     },
     "source": "everkinetic",
-    "attribution": "Illustration: Everkinetic — CC BY-SA 4.0",
-    "mergedFrom": "Incline_Dumbbell_Press"
+    "attribution": "Illustration: Everkinetic — CC BY-SA 4.0"
   },
   {
     "slug": "dumbbell-incline-row",
@@ -8660,6 +8722,38 @@
       "kind": "photo",
       "start": "/exercises/photos/Dumbbell_Seated_Box_Jump__0.jpg",
       "end": "/exercises/photos/Dumbbell_Seated_Box_Jump__1.jpg"
+    },
+    "source": "free-exercise-db",
+    "attribution": "Photos: free-exercise-db — public domain (Unlicense)"
+  },
+  {
+    "slug": "dumbbell-shoulder-press",
+    "name": "Dumbbell Shoulder Press",
+    "primaryMuscles": [
+      "shoulders"
+    ],
+    "secondaryMuscles": [
+      "triceps"
+    ],
+    "equipment": [
+      "dumbbell"
+    ],
+    "category": "strength",
+    "level": "intermediate",
+    "force": "push",
+    "mechanic": "compound",
+    "instructions": [
+      "While holding a dumbbell in each hand, sit on a military press bench or utility bench that has back support. Place the dumbbells upright on top of your thighs.",
+      "Now raise the dumbbells to shoulder height one at a time using your thighs to help propel them up into position.",
+      "Make sure to rotate your wrists so that the palms of your hands are facing forward. This is your starting position.",
+      "Now, exhale and push the dumbbells upward until they touch at the top.",
+      "Then, after a brief pause at the top contracted position, slowly lower the weights back down to the starting position while inhaling.",
+      "Repeat for the recommended amount of repetitions."
+    ],
+    "media": {
+      "kind": "photo",
+      "start": "/exercises/photos/Dumbbell_Shoulder_Press__0.jpg",
+      "end": "/exercises/photos/Dumbbell_Shoulder_Press__1.jpg"
     },
     "source": "free-exercise-db",
     "attribution": "Photos: free-exercise-db — public domain (Unlicense)"
@@ -11789,18 +11883,16 @@
       "chest"
     ],
     "secondaryMuscles": [
-      "biceps",
-      "shoulders",
-      "triceps"
+      "biceps"
     ],
     "equipment": [
       "band",
       "bench"
     ],
     "category": "strength",
-    "level": "beginner",
-    "force": "push",
-    "mechanic": "compound",
+    "level": null,
+    "force": null,
+    "mechanic": "isolation",
     "instructions": [
       "Securely fasten the band under the leg of a flat bench, near your head.",
       "Lie flat on the bench with your feet flat on the floor in order to stabilise your movements.",
@@ -11814,8 +11906,7 @@
       "end": "/exercises/svg/0044-tension.svg"
     },
     "source": "everkinetic",
-    "attribution": "Illustration: Everkinetic — CC BY-SA 4.0",
-    "mergedFrom": "Bench_Press_-_With_Bands"
+    "attribution": "Illustration: Everkinetic — CC BY-SA 4.0"
   },
   {
     "slug": "incline-bench-pull",
@@ -12118,9 +12209,9 @@
       "bench"
     ],
     "category": "strength",
-    "level": null,
-    "force": null,
-    "mechanic": "isolation",
+    "level": "beginner",
+    "force": "push",
+    "mechanic": "compound",
     "instructions": [
       "Set and incline bench at a 45 degree angle.",
       "Start with the dumbbells at shoulder height, your arms wide and elbows pointing down to the floor.",
@@ -12134,7 +12225,8 @@
       "end": "/exercises/svg/0080-tension.svg"
     },
     "source": "everkinetic",
-    "attribution": "Illustration: Everkinetic — CC BY-SA 4.0"
+    "attribution": "Illustration: Everkinetic — CC BY-SA 4.0",
+    "mergedFrom": "Incline_Dumbbell_Press"
   },
   {
     "slug": "incline-fly-s-with-a-twist",
@@ -12486,16 +12578,14 @@
     "primaryMuscles": [
       "shoulders"
     ],
-    "secondaryMuscles": [
-      "triceps"
-    ],
+    "secondaryMuscles": [],
     "equipment": [
       "dumbbell"
     ],
     "category": "strength",
-    "level": "intermediate",
-    "force": "push",
-    "mechanic": "compound",
+    "level": null,
+    "force": null,
+    "mechanic": "isolation",
     "instructions": [
       "Lie down on an incline bench with your feet flat on the floor and grasp the dumbbells.",
       "With your elbows bent raise your arms up until in line with your shoulders this is your starting position.",
@@ -12508,8 +12598,7 @@
       "end": "/exercises/svg/0031-tension.svg"
     },
     "source": "everkinetic",
-    "attribution": "Illustration: Everkinetic — CC BY-SA 4.0",
-    "mergedFrom": "Dumbbell_Shoulder_Press"
+    "attribution": "Illustration: Everkinetic — CC BY-SA 4.0"
   },
   {
     "slug": "incline-triceps-extension-with-barbell",

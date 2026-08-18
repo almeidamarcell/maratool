@@ -6,7 +6,7 @@
 
 ## 1. Summary
 
-Add an **Exercise Database** to maratool.com: **1,032 exercise pages**, ~41
+Add an **Exercise Database** to maratool.com: **1,035 exercise pages**, ~41
 faceted hub pages, and one searchable browser — all statically generated from
 two openly-licensed datasets. Every exercise page **shows the movement**
 (vector animation or start/end photos) plus a self-drawn **SVG muscle map**.
@@ -29,10 +29,10 @@ Two openly-licensed sources are used instead:
 | [everkinetic/data](https://github.com/everkinetic/data) | **CC BY-SA 4.0** | 267 (with SVG pairs) | **Vector SVG, 2 phases** (`relaxation` / `tension`) |
 | [yuhonas/free-exercise-db](https://github.com/yuhonas/free-exercise-db) | **Unlicense (public domain)** | 873 | 2 photos (start → end) |
 
-**Merges: 102.** 6 records are dropped rather than defaulted (1 Everkinetic record with no
+**Merges: 99.** 6 records are dropped rather than defaulted (1 Everkinetic record with no
 primary muscle, 5 free-exercise-db records with no instructions in the raw upstream data —
-see §3's merge rule). Merged total: **1,032 unique exercises** — 266 with vector animation,
-766 photo-only.
+see §3's merge rule). Merged total: **1,035 unique exercises** — 266 with vector animation,
+769 photo-only.
 
 **Why Everkinetic is the star:** its SVGs use exactly two fills (`#333` figure,
 `#FFF` background), so they can be recolored and animated freely into
@@ -60,14 +60,29 @@ clones were wiped mid-session — external clones are not a dependency):
 Emits a single normalized `exercises.json` + a lightweight browse index.
 
 **Merge rule:** fuzzy-match Everkinetic titles against free-db names (token
-Jaccard ≥ 0.75, each free-db record consumable by at most one match). On a
-match, keep **one** record and prefer the **Everkinetic vector media** (better
-UX), merging free-db's richer metadata (`level`, `force`, `mechanic`,
-`category`). Non-matches from both sides pass through. **A record is dropped
-(and logged by name) rather than defaulted** if, after merging, it still has
-no primary muscle or no instructions — never invent anatomy or fabricate
-steps. The match threshold and the resulting merge map are **snapshot-tested** so the
-merge can't silently drift.
+Jaccard ≥ 0.75). Every (Everkinetic, free-db) candidate pair scoring at or
+above the threshold is collected up front — across the whole dataset, not
+one Everkinetic record at a time — then assigned **greedily from the highest
+score down** (ties broken by Everkinetic `id_num`, then free-db `id`, for
+reproducibility), so a mediocre early match can never consume a row a better,
+later candidate needed; each free-db record is consumable by at most one
+match. A **distinguishing-modifier guard** rejects a candidate pair outright,
+independent of score, when the two names disagree on equipment (`band` vs
+`barbell` vs `dumbbell` vs `cable` vs `machine` vs `kettlebell` vs `smith` —
+conflict only when *both* sides name equipment and it differs) or on bench
+angle (`incline`/`decline`/`flat` — conflict even when only *one* side names
+an angle, since angle changes which muscle heads are worked and silence is
+not a safe wildcard). Stance (`seated`/`standing`/`lying`/`kneeling`) uses the
+same lenient rule as equipment, since it changes stability/comfort rather
+than the movement pattern. On a match, keep **one** record and prefer the
+**Everkinetic vector media** (better UX), merging free-db's richer metadata
+(`level`, `force`, `mechanic`, `category`). Non-matches from both sides pass
+through. **A record is dropped (and logged by name) rather than defaulted**
+if, after merging, it still has no primary muscle or no instructions — never
+invent anatomy or fabricate steps; a free-db record with fewer than 2 images
+is dropped the same way. The match threshold, the modifier guard, and the
+resulting merge map (as `"<Everkinetic name>" => "<free-db name>"` pairs, not
+just a count) are **snapshot-tested** so the merge can't silently drift.
 
 **Normalized record:**
 ```
@@ -88,20 +103,22 @@ muscles. A test asserts every normalized muscle maps to a muscle-map region.
 only`, `cable machine`→`cable`, bench variants→`bench`, …).
 
 **Slugs:** kebab-case(name); on collision, **every** member of the colliding
-group gets `{slug}-{source-id}`. Deterministic; uniqueness enforced by test.
+group gets `{slug}-{n}`, where `n` is the member's 1-based position within the
+colliding group (stable input order, not a source id). Deterministic;
+uniqueness enforced by test.
 
 ## 4. URLs & page inventory
 
 | Page type | Route | Count |
 |---|---|---|
 | Browser | `/exercises` | 1 |
-| Individual exercise | `/exercises/{slug}` | 1,032 |
+| Individual exercise | `/exercises/{slug}` | 1,035 |
 | Muscle hub | `/exercises/muscle/{muscle}` | ~17 |
 | Equipment hub | `/exercises/equipment/{equipment}` | ~14 |
 | Category hub | `/exercises/category/{category}` | 7 |
 | Level hub | `/exercises/level/{level}` | 3 |
 
-**≈1,074 pages.** Hubs are namespaced (`/muscle/`, `/equipment/`, …) so
+**≈1,077 pages.** Hubs are namespaced (`/muscle/`, `/equipment/`, …) so
 collisions with exercise slugs are structurally impossible. Exact hub counts
 are derived from the data at build time, not hardcoded.
 
@@ -154,7 +171,7 @@ category, level, mediaKind}` (~35 KB gz). Raw datasets stay **build-time only**
   to `src/pages/health/[subcategory].astro`. No existing URLs change.)*
 - **Registry:** one `tools.ts` entry for the browser (slug `exercises`,
   category Health, subcategory Fitness, `live: true`, `blogPost: true`). The
-  ~1,074 generated pages are routes, not registry entries.
+  ~1,077 generated pages are routes, not registry entries.
 - **Blog post:** `src/pages/blog/exercises.astro` with `<BlogToolEmbed
   slug="exercises" />`; browser must support `?embed=1`. Enforced by `npm test`.
 - **Assets:** Everkinetic SVGs (~11 MB raw) are optimized (SVGO) and served
@@ -167,7 +184,7 @@ category, level, mediaKind}` (~35 KB gz). Raw datasets stay **build-time only**
 
 ## 8. Testing (`npm test`)
 
-- Merge fidelity: output count === 1,032; every source record either present,
+- Merge fidelity: output count === 1,035; every source record either present,
   explicitly merged, or dropped-and-logged (missing primary muscle or
   instructions); merge map snapshot.
 - Slug uniqueness; every hub's set === data filtered by that facet.
@@ -187,7 +204,7 @@ media as a future UX upgrade.
 
 - **ShareAlike obligation** — derived Everkinetic art must ship CC BY-SA 4.0;
   needs an attribution page and per-page credit. Non-negotiable.
-- **Coverage asymmetry** — only 266/1,032 get vector animation; the other 766
+- **Coverage asymmetry** — only 266/1,035 get vector animation; the other 769
   use photos. Mitigated by the unified media viewer, so the layout is identical
   either way.
 - **Merge false positives** — a bad fuzzy match would fuse two different
@@ -200,7 +217,7 @@ media as a future UX upgrade.
 
 ## 11. Acceptance criteria
 
-- [ ] `npm run build` clean; ~1,074 exercise routes emitted.
+- [ ] `npm run build` clean; ~1,077 exercise routes emitted.
 - [ ] `npm test` passes incl. all new tests in §8.
 - [ ] Every exercise page shows the movement (vector or photos) + muscle map.
 - [ ] Media viewer: 4 modes, hard-cut animation, no phase overlap, preference

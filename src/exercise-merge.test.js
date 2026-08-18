@@ -6,10 +6,12 @@ import { MUSCLES, EQUIPMENT } from './data/exercises/vocab.mjs'
 const ROOT = resolve(import.meta.dirname, '..')
 const load = p => JSON.parse(readFileSync(resolve(ROOT, p), 'utf-8'))
 const all = load('src/data/exercises/exercises.json')
+const fe = load('src/data/exercises/free-exercise-db.raw.json')
+const feById = new Map(fe.map(x => [x.id, x]))
 
 describe('merged exercise dataset', () => {
-  test('has 1032 unique exercises', () => {
-    expect(all.length).toBe(1032)
+  test('has 1035 unique exercises', () => {
+    expect(all.length).toBe(1035)
   })
 
   test('every slug is unique and URL-safe', () => {
@@ -22,7 +24,7 @@ describe('merged exercise dataset', () => {
     const vector = all.filter(x => x.media.kind === 'vector')
     const photo = all.filter(x => x.media.kind === 'photo')
     expect(vector.length).toBe(266)
-    expect(photo.length).toBe(766)
+    expect(photo.length).toBe(769)
   })
 
   test('every record has a non-empty name, instructions and media pair', () => {
@@ -67,7 +69,7 @@ describe('merged exercise dataset', () => {
 
   test('browse index is lean — only the fields the browser filters on', () => {
     const idx = load('public/exercises/browse-index.json')
-    expect(idx.length).toBe(1032)
+    expect(idx.length).toBe(1035)
     expect(Object.keys(idx[0]).sort()).toEqual(
       ['category', 'equipment', 'level', 'mediaKind', 'name', 'primaryMuscles', 'slug'].sort()
     )
@@ -77,7 +79,32 @@ describe('merged exercise dataset', () => {
   })
 
   test('merge map snapshot — guards against silent fuzzy-match drift', () => {
-    const merged = all.filter(x => x.mergedFrom).map(x => x.slug).sort()
-    expect(merged.length).toBe(102)
+    // A bare count can't detect that a PAIRING changed (e.g. a mediocre match
+    // stealing a row a better candidate needed) — only a real map of who
+    // matched whom can. Compare the generated map against a checked-in
+    // fixture; regenerating that fixture is a deliberate, reviewable act.
+    const computed = all
+      .filter(x => x.mergedFrom)
+      .map(x => `"${x.name}" => "${feById.get(x.mergedFrom)?.name}"`)
+      .sort()
+
+    const fixtureRaw = readFileSync(
+      resolve(ROOT, 'src/data/exercises/merge-map.snapshot.txt'), 'utf-8'
+    )
+    const fixture = fixtureRaw
+      .split('\n')
+      .map(l => l.trim())
+      .filter(l => l && !l.startsWith('#'))
+      .sort()
+
+    const onlyInComputed = computed.filter(l => !fixture.includes(l))
+    const onlyInFixture = fixture.filter(l => !computed.includes(l))
+    const diffMessage = [
+      `merge map drifted from src/data/exercises/merge-map.snapshot.txt`,
+      onlyInComputed.length ? `  gained (in computed, not fixture):\n    ${onlyInComputed.join('\n    ')}` : null,
+      onlyInFixture.length ? `  lost (in fixture, not computed):\n    ${onlyInFixture.join('\n    ')}` : null,
+    ].filter(Boolean).join('\n')
+
+    expect(computed, diffMessage).toEqual(fixture)
   })
 })

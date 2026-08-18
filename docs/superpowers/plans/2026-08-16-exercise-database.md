@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Ship an exercise database on maratool.com — 1,032 exercise pages, ~41 faceted hubs, and one searchable browser — generated from two openly-licensed datasets, where every page shows the movement plus a muscle map.
+**Goal:** Ship an exercise database on maratool.com — 1,035 exercise pages, ~41 faceted hubs, and one searchable browser — generated from two openly-licensed datasets, where every page shows the movement plus a muscle map.
 
 **Architecture:** Two datasets are vendored at pinned commits and merged at build time by a Node script into one normalized `exercises.json` plus a lightweight browse index. Astro `getStaticPaths` generates every page from that normalized file. Media is rendered by a single client-side viewer component that handles both vector-SVG pairs (Everkinetic) and photo pairs (free-exercise-db) with four display modes.
 
@@ -441,10 +441,12 @@ import { MUSCLES, EQUIPMENT } from './data/exercises/vocab.mjs'
 const ROOT = resolve(import.meta.dirname, '..')
 const load = p => JSON.parse(readFileSync(resolve(ROOT, p), 'utf-8'))
 const all = load('src/data/exercises/exercises.json')
+const fe = load('src/data/exercises/free-exercise-db.raw.json')
+const feById = new Map(fe.map(x => [x.id, x]))
 
 describe('merged exercise dataset', () => {
-  test('has 1032 unique exercises', () => {
-    expect(all.length).toBe(1032)
+  test('has 1035 unique exercises', () => {
+    expect(all.length).toBe(1035)
   })
 
   test('every slug is unique and URL-safe', () => {
@@ -457,7 +459,7 @@ describe('merged exercise dataset', () => {
     const vector = all.filter(x => x.media.kind === 'vector')
     const photo = all.filter(x => x.media.kind === 'photo')
     expect(vector.length).toBe(266)
-    expect(photo.length).toBe(766)
+    expect(photo.length).toBe(769)
   })
 
   test('every record has a non-empty name, instructions and media pair', () => {
@@ -502,7 +504,7 @@ describe('merged exercise dataset', () => {
 
   test('browse index is lean — only the fields the browser filters on', () => {
     const idx = load('public/exercises/browse-index.json')
-    expect(idx.length).toBe(1032)
+    expect(idx.length).toBe(1035)
     expect(Object.keys(idx[0]).sort()).toEqual(
       ['category', 'equipment', 'level', 'mediaKind', 'name', 'primaryMuscles', 'slug'].sort()
     )
@@ -512,21 +514,64 @@ describe('merged exercise dataset', () => {
   })
 
   test('merge map snapshot — guards against silent fuzzy-match drift', () => {
-    const merged = all.filter(x => x.mergedFrom).map(x => x.slug).sort()
-    expect(merged.length).toBe(102)
+    // A bare count can't detect that a PAIRING changed (e.g. a mediocre match
+    // stealing a row a better candidate needed) — only a real map of who
+    // matched whom can. Compare the generated map against a checked-in
+    // fixture; regenerating that fixture is a deliberate, reviewable act.
+    const computed = all
+      .filter(x => x.mergedFrom)
+      .map(x => `"${x.name}" => "${feById.get(x.mergedFrom)?.name}"`)
+      .sort()
+
+    const fixtureRaw = readFileSync(
+      resolve(ROOT, 'src/data/exercises/merge-map.snapshot.txt'), 'utf-8'
+    )
+    const fixture = fixtureRaw
+      .split('\n')
+      .map(l => l.trim())
+      .filter(l => l && !l.startsWith('#'))
+      .sort()
+
+    const onlyInComputed = computed.filter(l => !fixture.includes(l))
+    const onlyInFixture = fixture.filter(l => !computed.includes(l))
+    const diffMessage = [
+      `merge map drifted from src/data/exercises/merge-map.snapshot.txt`,
+      onlyInComputed.length ? `  gained (in computed, not fixture):\n    ${onlyInComputed.join('\n    ')}` : null,
+      onlyInFixture.length ? `  lost (in fixture, not computed):\n    ${onlyInFixture.join('\n    ')}` : null,
+    ].filter(Boolean).join('\n')
+
+    expect(computed, diffMessage).toEqual(fixture)
   })
 })
 ```
 
-**Note (as actually implemented in Task 3):** the counts above (1,032 / 266 / 766 / 102)
-supersede the estimates below. Two corrections from the original brief were applied:
-(1) the everkinetic source is 267 records, not 270, and `usedFe` deduplication means a
-free-db record can only be consumed by one Everkinetic match, so the true merge count is
-lower than the original 105 estimate; (2) records that end up with zero primary muscles
-or zero instructions after merging are **dropped and logged** rather than defaulted
-(`['abdominals']` fallback removed — it would have mislabeled anatomy). A
-`primaryMuscles.length > 0` invariant test was added. See `task-3-report.md` for the
-full reconciliation and the list of the 6 dropped records.
+**Note (as actually implemented in Task 3, across two fix rounds):** the counts above
+(1,035 / 266 / 769 / 99) supersede the estimates below. Corrections applied to the original
+brief:
+1. The everkinetic source is 267 records, not 270 (Task 1).
+2. Records that end up with zero primary muscles or zero instructions after merging are
+   **dropped and logged** rather than defaulted (`['abdominals']` fallback removed — it
+   would have mislabeled anatomy). A free-db record with fewer than 2 images is dropped
+   and logged the same way. A `primaryMuscles.length > 0` invariant test was added.
+3. **Matching is global best-score-first, not per-Everkinetic-record file-order-first.**
+   Every (Everkinetic, free-db) candidate pair scoring ≥ 0.75 is collected up front, sorted
+   by score descending (ties broken by EK `id_num` then FE `id` for reproducibility), and
+   assigned greedily down that list. File-order-first assignment let a mediocre early match
+   (score 0.75) consume a free-db row a later *exact-title* match (score 1.0) needed.
+4. **A distinguishing-modifier guard rejects same-scoring pairs that name different
+   equipment, or a different bench/resistance angle** (`incline`/`decline`/`flat` —
+   strict: silence on one side still conflicts with a named angle on the other), applied
+   independent of Jaccard score. A separate, more lenient rule covers stance
+   (`seated`/`standing`/`lying`/`kneeling` — conflicts only when BOTH sides name a stance
+   and disagree; same treatment as equipment) because stance affects stability/comfort, not
+   which muscle heads are worked.
+5. The merge-map snapshot test now compares the **actual generated pairing** (as
+   `"<EK name>" => "<FE name>"` lines) against a checked-in fixture,
+   `src/data/exercises/merge-map.snapshot.txt`, instead of asserting only a count — a count
+   can't detect that *which* pairing won changed.
+
+See `task-3-report.md` for the full reconciliation, the merge delta versus the original
+102-pair map, and the list of the 6 dropped records.
 
 - [ ] **Step 2: Run test to verify it fails**
 
@@ -536,6 +581,12 @@ Expected: FAIL — `ENOENT ... src/data/exercises/exercises.json`
 - [ ] **Step 3: Write the merge script**
 
 Create `scripts/gen-exercises.mjs`:
+
+**Note (as actually implemented in Task 3, fix round 2):** the matching algorithm below
+differs from a first-pass, per-Everkinetic-record greedy version — see the reconciliation
+note after Step 1's test code for why (global best-score-first assignment plus an
+equipment/angle/stance distinguishing-modifier guard). This is the final, as-shipped
+script:
 
 ```js
 #!/usr/bin/env node
@@ -556,11 +607,52 @@ const ek = load('src/data/exercises/everkinetic.raw.json')
 const fe = load('src/data/exercises/free-exercise-db.raw.json')
 
 const slugify = n => n.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
+// Hyphens are not in [a-z0-9 ], so this already normalizes "EZ-Bar" / "Close-Grip"
+// to the same tokens as their spaced forms before splitting on whitespace.
 const tokens = n => new Set(String(n ?? '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(Boolean))
 const jaccard = (a, b) => {
   const inter = [...a].filter(x => b.has(x)).length
   const union = new Set([...a, ...b]).size
   return union === 0 ? 0 : inter / union
+}
+
+// Distinguishing-modifier guard: two names can score high on Jaccard while
+// naming genuinely different exercises — different equipment, a different
+// bench/body angle, or (more leniently) a different stance. Reject those
+// pairs outright, independent of score.
+const EQUIPMENT_GROUP = ['band', 'barbell', 'dumbbell', 'cable', 'machine', 'kettlebell', 'smith']
+// Angle changes the direction of resistance and therefore which muscle heads
+// are emphasized — a genuinely different exercise. Strict: silence on either
+// side still conflicts with a named angle on the other.
+const ANGLE_GROUP = ['incline', 'decline', 'flat']
+// Stance changes stability/comfort, not the working muscle's movement
+// pattern. Lenient, same treatment as equipment: only a conflict when BOTH
+// sides name a stance and they disagree.
+const STANCE_GROUP = ['seated', 'standing', 'lying', 'kneeling']
+const groupTokens = (toks, group) => group.filter(g => toks.has(g))
+const setsEqual = (a, b) => a.length === b.length && a.every(t => b.includes(t))
+
+function modifierConflict(ekToks, feToks) {
+  // Equipment: only a conflict when BOTH sides name equipment and they
+  // disagree. Silence on one side is not a conflict — this is what keeps
+  // "Bent Arm Pullover" <-> "Bent-Arm Barbell Pullover" merging.
+  const ekEquip = groupTokens(ekToks, EQUIPMENT_GROUP)
+  const feEquip = groupTokens(feToks, EQUIPMENT_GROUP)
+  if (ekEquip.length && feEquip.length && !setsEqual(ekEquip, feEquip)) return true
+
+  // Angle: load-bearing for which muscle heads are worked, so — unlike
+  // equipment — silence on one side IS a conflict here.
+  const ekAngle = groupTokens(ekToks, ANGLE_GROUP)
+  const feAngle = groupTokens(feToks, ANGLE_GROUP)
+  if ((ekAngle.length || feAngle.length) && !setsEqual(ekAngle, feAngle)) return true
+
+  // Stance: same lenient treatment as equipment — only a conflict when both
+  // sides name a stance and they disagree.
+  const ekStance = groupTokens(ekToks, STANCE_GROUP)
+  const feStance = groupTokens(feToks, STANCE_GROUP)
+  if (ekStance.length && feStance.length && !setsEqual(ekStance, feStance)) return true
+
+  return false
 }
 
 // Split a comma-joined muscle string ("triceps, biceps") into canonical muscles.
@@ -569,26 +661,52 @@ const splitMuscles = raw =>
 
 const uniq = a => [...new Set(a)]
 
-// ---- index free-db by token set for fuzzy matching ----
-const feIndexed = fe.map(x => ({ rec: x, toks: tokens(x.name) }))
+// ---- global best-score-first matching ----
+// Compute every (Everkinetic, free-db) candidate pair scoring >= threshold and
+// passing the modifier guard across the WHOLE dataset, then assign greedily
+// from the highest score down. Doing this in Everkinetic file order instead
+// (claim the best still-available row, one Everkinetic record at a time) lets
+// an early mediocre match consume a free-db row a later, better match needed.
 const MATCH_THRESHOLD = 0.75
 
-const usedFe = new Set()
+const ekIndexed = ek.map(x => {
+  const name = x.title || x.name
+  return { rec: x, name, toks: tokens(name) }
+})
+const feIndexed = fe.map(x => ({ rec: x, toks: tokens(x.name) }))
+
+const candidates = []
+for (const e of ekIndexed) {
+  for (const f of feIndexed) {
+    const score = jaccard(e.toks, f.toks)
+    if (score < MATCH_THRESHOLD) continue
+    if (modifierConflict(e.toks, f.toks)) continue
+    candidates.push({ ek: e.rec, fe: f.rec, score })
+  }
+}
+// Highest score first; ties broken deterministically (EK id_num, then FE id)
+// so re-running the generator against unchanged source data is reproducible.
+candidates.sort((a, b) =>
+  b.score - a.score ||
+  a.ek.id_num.localeCompare(b.ek.id_num) ||
+  String(a.fe.id).localeCompare(String(b.fe.id))
+)
+
+const ekMatch = new Map() // ek.id -> matched fe record
+const usedFe = new Set()  // fe.id already claimed
+for (const c of candidates) {
+  if (ekMatch.has(c.ek.id) || usedFe.has(c.fe.id)) continue
+  ekMatch.set(c.ek.id, c.fe)
+  usedFe.add(c.fe.id)
+}
+
 const out = []
 const dropped = []
 
 // ---- Everkinetic first: it owns the better (vector) media ----
 for (const x of ek) {
   const name = x.title || x.name
-  const toks = tokens(name)
-  let best = 0, bestRec = null
-  for (const cand of feIndexed) {
-    if (usedFe.has(cand.rec.id)) continue
-    const j = jaccard(toks, cand.toks)
-    if (j > best) { best = j; bestRec = cand.rec }
-  }
-  const matched = best >= MATCH_THRESHOLD ? bestRec : null
-  if (matched) usedFe.add(matched.id)
+  const matched = ekMatch.get(x.id) ?? null
 
   const primary = uniq([
     ...splitMuscles(x.primary),
@@ -606,9 +724,20 @@ for (const x of ek) {
 
   const instructions = (x.steps?.length ? x.steps : matched?.instructions) ?? []
 
-  // Never invent a muscle or fabricate instructions — drop and log instead.
-  if (primary.length === 0) { dropped.push(`${name} (no primary muscle)`); continue }
-  if (instructions.length === 0) { dropped.push(`${name} (no instructions)`); continue }
+  // Never invent a muscle. If, after merging in whatever the matched free-db
+  // record contributes, there is still no primary muscle, drop the record
+  // entirely rather than mislabel its anatomy.
+  if (primary.length === 0) {
+    dropped.push(`${name} (no primary muscle)`)
+    continue
+  }
+  // Same principle applied to instructions: never fabricate steps. This
+  // never actually fires for Everkinetic records (every one has non-empty
+  // `steps` in the vendored data), but the guard is kept for symmetry.
+  if (instructions.length === 0) {
+    dropped.push(`${name} (no instructions)`)
+    continue
+  }
 
   out.push({
     slug: slugify(name),
@@ -636,15 +765,26 @@ for (const x of ek) {
 for (const x of fe) {
   if (usedFe.has(x.id)) continue
   const imgs = (x.images ?? []).map(p => `/exercises/photos/${p.replace(/\//g, '__')}`)
-  if (imgs.length < 2) continue
+  if (imgs.length < 2) {
+    dropped.push(`${x.name} (fewer than 2 images)`)
+    continue
+  }
   const primary = uniq((x.primaryMuscles ?? []).map(normalizeMuscle).filter(Boolean))
   const secondary = uniq((x.secondaryMuscles ?? []).map(normalizeMuscle).filter(Boolean))
     .filter(m => !primary.includes(m))
 
-  // Never invent a muscle or fabricate instructions — drop and log instead.
-  if (primary.length === 0) { dropped.push(`${x.name} (no primary muscle)`); continue }
+  // Never invent a muscle — drop rather than mislabel.
+  if (primary.length === 0) {
+    dropped.push(`${x.name} (no primary muscle)`)
+    continue
+  }
+  // Never fabricate instructions either — a handful of free-exercise-db
+  // records ship with an empty `instructions` array upstream.
   const instructions = x.instructions ?? []
-  if (instructions.length === 0) { dropped.push(`${x.name} (no instructions)`); continue }
+  if (instructions.length === 0) {
+    dropped.push(`${x.name} (no instructions)`)
+    continue
+  }
 
   out.push({
     slug: slugify(x.name),
@@ -709,20 +849,21 @@ and append `&& node scripts/gen-exercises.mjs` to the end of the existing `"preb
 - [ ] **Step 5: Run the generator and the test**
 
 Run: `node scripts/gen-exercises.mjs && npx vitest run src/exercise-merge.test.js`
-Expected (as actually implemented): prints `gen-exercises: 1032 exercises (266 vector, 766
-photo), 102 merged, 6 dropped`; all tests PASS. (Original estimate was `1038/270/768/105`
-with no drops — see the reconciliation note above Step 1's test code and `task-3-report.md`
-for why the real numbers differ: 267 vendored Everkinetic records not 270, `usedFe`
-deduplication reduces true merges below the original 105 estimate, and 6 records — 1 with no
-primary muscle, 5 with no instructions in the raw free-exercise-db data — are dropped rather
-than defaulted.)
+Expected (as actually implemented, after two fix rounds): prints `gen-exercises: 1035
+exercises (266 vector, 769 photo), 99 merged, 6 dropped`; all tests PASS. (Original estimate
+was `1038/270/768/105` with no drops — see the reconciliation note above Step 1's test code
+and `task-3-report.md` for the full history: 267 vendored Everkinetic records not 270; a
+global best-score-first matching algorithm plus an equipment/angle/stance
+distinguishing-modifier guard replaced the original per-record greedy matcher, changing
+*which* pairs merge, not just how many; and 6 records — 1 with no primary muscle, 5 with no
+instructions in the raw free-exercise-db data — are dropped rather than defaulted.)
 
 If counts differ, do **not** edit the test to match — investigate the merge threshold first, then reconcile the spec's numbers with reality and update both together.
 
 - [ ] **Step 6: Commit**
 
 ```bash
-git add scripts/gen-exercises.mjs package.json src/data/exercises/exercises.json public/exercises/browse-index.json src/exercise-merge.test.js
+git add scripts/gen-exercises.mjs package.json src/data/exercises/exercises.json public/exercises/browse-index.json src/data/exercises/merge-map.snapshot.txt src/exercise-merge.test.js
 git commit -m "feat(exercises): merge both sources into a normalized dataset + browse index"
 ```
 
@@ -748,7 +889,7 @@ import { exercises, exerciseBySlug, byMuscle, byEquipment, byCategory, byLevel, 
 
 describe('exercise helpers', () => {
   test('exercises loads the full merged set', () => {
-    expect(exercises.length).toBe(1032)
+    expect(exercises.length).toBe(1035)
   })
 
   test('exerciseBySlug resolves every slug exactly once', () => {
@@ -1410,7 +1551,7 @@ git commit -m "feat(exercises): 4-mode media viewer with hard-cut animation"
 
 ---
 
-### Task 7: Individual exercise pages (1,032 routes)
+### Task 7: Individual exercise pages (1,035 routes)
 
 **Files:**
 - Create: `src/pages/exercises/[slug].astro`
@@ -1464,7 +1605,7 @@ describe('exercise detail page', () => {
   })
 
   test('the dataset it renders is non-trivial', () => {
-    expect(exercises.length).toBe(1032)
+    expect(exercises.length).toBe(1035)
   })
 })
 ```
@@ -1641,13 +1782,13 @@ const seo = {
 - [ ] **Step 4: Run test and a scoped build to verify**
 
 Run: `npx vitest run src/exercise-pages.test.js && npm run build`
-Expected: tests PASS; build completes with zero errors and reports ~1,032 additional pages.
+Expected: tests PASS; build completes with zero errors and reports ~1,035 additional pages.
 
 - [ ] **Step 5: Commit**
 
 ```bash
 git add src/pages/exercises/[slug].astro src/exercise-pages.test.js
-git commit -m "feat(exercises): 1032 individual exercise pages with HowTo schema"
+git commit -m "feat(exercises): 1035 individual exercise pages with HowTo schema"
 ```
 
 ---
@@ -2574,7 +2715,7 @@ Then append this entry to the `tools` array (before the closing `]`):
     slug: 'exercises',
     name: 'Exercise Database — Browse Exercises by Muscle & Equipment',
     emoji: '💪',
-    description: 'Browse 1,032 exercises by muscle, equipment, and difficulty. Step-by-step instructions and a muscle map for every exercise — free, no sign-up.',
+    description: 'Browse 1,035 exercises by muscle, equipment, and difficulty. Step-by-step instructions and a muscle map for every exercise — free, no sign-up.',
     category: 'Health',
     subcategory: 'Fitness',
     keywords: ['exercise database', 'exercises by muscle group', 'chest exercises', 'back exercises', 'dumbbell exercises', 'bodyweight exercises', 'workout exercise list', 'exercises by equipment'],
@@ -2590,7 +2731,7 @@ In `src/pages/health/[subcategory].astro`, add to the `descriptions` object:
 ```ts
     fitness: {
       title: 'Fitness & Exercise Tools — maratool',
-      description: 'Browse an exercise database of 1,032 movements by muscle group, equipment, and difficulty — with step-by-step instructions and muscle maps.',
+      description: 'Browse an exercise database of 1,035 movements by muscle group, equipment, and difficulty — with step-by-step instructions and muscle maps.',
       intro: 'Exercise reference and fitness tools.',
     },
 ```
@@ -2606,7 +2747,7 @@ import Layout from '../../components/Layout.astro'
 import BlogToolEmbed from '../../components/BlogToolEmbed.astro'
 
 const title = 'How to find the right exercise for any muscle or equipment'
-const description = 'Filter 1,032 exercises by muscle group, equipment, and difficulty — then get step-by-step instructions and a muscle map for each one.'
+const description = 'Filter 1,035 exercises by muscle group, equipment, and difficulty — then get step-by-step instructions and a muscle map for each one.'
 
 const seo = {
   title: `${title} | maratool`,
@@ -2682,7 +2823,7 @@ Then add it to the `posts` array in `src/pages/blog/index.astro` as the newest (
   {
     slug: 'exercises',
     title: 'How to find the right exercise for any muscle or equipment',
-    description: 'Filter 1,032 exercises by muscle group, equipment, and difficulty — then get step-by-step instructions and a muscle map for each one.',
+    description: 'Filter 1,035 exercises by muscle group, equipment, and difficulty — then get step-by-step instructions and a muscle map for each one.',
     date: '2026-08-16',
   },
 ```
@@ -2877,7 +3018,7 @@ Then update the attribution line in `src/pages/exercises/[slug].astro` to also l
 Add a line to `public/llms.txt` under the tools listing:
 
 ```
-- [Exercise Database](https://maratool.com/exercises/): 1,032 exercises browsable by muscle, equipment, category, and difficulty, each with step-by-step instructions and a muscle map.
+- [Exercise Database](https://maratool.com/exercises/): 1,035 exercises browsable by muscle, equipment, category, and difficulty, each with step-by-step instructions and a muscle map.
 ```
 
 - [ ] **Step 5: Run the full suite and a clean build**
