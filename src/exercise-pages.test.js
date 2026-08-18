@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
-import { exercises } from './data/exercises/index.ts'
+import { exercises, exerciseMetaDescription, MAX_META_DESCRIPTION } from './data/exercises/index.ts'
 
 const ROOT = resolve(import.meta.dirname, '..')
 const page = readFileSync(resolve(ROOT, 'src/pages/exercises/[slug].astro'), 'utf-8')
@@ -38,5 +38,46 @@ describe('exercise detail page', () => {
 
   test('the dataset it renders is non-trivial', () => {
     expect(exercises.length).toBe(1035)
+  })
+
+  test('renders mechanic as a single value, never a comma-joined pill', () => {
+    for (const ex of exercises) {
+      if (ex.mechanic === null) continue
+      expect(ex.mechanic).not.toContain(',')
+    }
+  })
+})
+
+describe('exercise meta descriptions', () => {
+  const all = exercises.map(exerciseMetaDescription)
+
+  test('never exceed the meta description budget', () => {
+    for (const d of all) expect(d.length).toBeLessThanOrEqual(MAX_META_DESCRIPTION)
+  })
+
+  test('never truncate mid-word — every one ends on a complete sentence', () => {
+    // Regression: `.slice(0, 158)` produced endings like
+    // "…and equipment (Dumbbell). Free e" on 57 pages.
+    for (const d of all) {
+      expect(d.endsWith('.')).toBe(true)
+      expect(d).not.toMatch(/\s(Fre|Free e|e)$/)
+    }
+  })
+
+  test('are long enough to be useful', () => {
+    for (const d of all) expect(d.length).toBeGreaterThan(100)
+  })
+
+  test('a pathologically long name still yields a clean, clamped sentence', () => {
+    const monster = {
+      ...exercises[0],
+      name: 'Standing '.repeat(40) + 'Press',
+      primaryMuscles: ['shoulders'],
+      equipment: ['barbell'],
+    }
+    const d = exerciseMetaDescription(monster)
+    expect(d.length).toBeLessThanOrEqual(MAX_META_DESCRIPTION)
+    expect(d.endsWith('.')).toBe(true)
+    expect(d).not.toMatch(/\w-$/)
   })
 })

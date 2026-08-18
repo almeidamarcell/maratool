@@ -54,6 +54,18 @@ describe('merged exercise dataset', () => {
     }
   })
 
+  test('mechanic is a single canonical value, never a comma-joined string', () => {
+    // Regression: the generator used to fall back to Everkinetic's `type`,
+    // which carries values like "isolation, compound". Those reached the
+    // exercise page verbatim and rendered as one nonsense pill.
+    const MECHANICS = ['compound', 'isolation', 'isometric']
+    for (const x of all) {
+      if (x.mechanic === null) continue
+      expect(x.mechanic).not.toContain(',')
+      expect(MECHANICS).toContain(x.mechanic)
+    }
+  })
+
   test('every everkinetic-sourced record carries CC BY-SA attribution', () => {
     for (const x of all.filter(x => x.source === 'everkinetic')) {
       expect(x.attribution).toContain('Everkinetic')

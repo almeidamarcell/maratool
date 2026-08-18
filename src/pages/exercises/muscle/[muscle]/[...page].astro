@@ -1,0 +1,117 @@
+---
+import type { GetStaticPaths, Page } from 'astro'
+import Base from '../../../../layouts/Base.astro'
+import Layout from '../../../../components/Layout.astro'
+import ExerciseHub from '../../../../components/exercises/ExerciseHub.astro'
+import { byMuscle, HUB_PAGE_SIZE, equipmentLabel } from '../../../../data/exercises'
+import type { Exercise } from '../../../../data/exercises'
+
+// Page 1 is `/exercises/muscle/chest/`; page 2+ are `/exercises/muscle/chest/2/`.
+// Each page canonicalises to itself and links to every sibling page, so the
+// whole facet stays crawlable without any one page carrying 700+ cards.
+export const getStaticPaths = (({ paginate }) =>
+  Object.entries(byMuscle).flatMap(([muscle, list]) =>
+    paginate(list, {
+      params: { muscle: muscle.replace(/ /g, '-') },
+      props: { muscle },
+      pageSize: HUB_PAGE_SIZE,
+    })
+  )) satisfies GetStaticPaths
+
+const { muscle, page } = Astro.props as { muscle: string; page: Page<Exercise> }
+const list = byMuscle[muscle]
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+const slug = muscle.replace(/ /g, '-')
+const baseHref = `/exercises/muscle/${slug}/`
+const pageHref = (n: number) => (n === 1 ? baseHref : `${baseHref}${n}/`)
+const canonical = `https://maratool.com${pageHref(page.currentPage)}`
+const pageSuffix = page.currentPage > 1 ? ` — Page ${page.currentPage} of ${page.lastPage}` : ''
+
+const title = `${cap(muscle)} Exercises`
+const description = page.currentPage > 1
+  ? `Page ${page.currentPage} of ${page.lastPage}: more ${muscle} exercises with step-by-step instructions, muscle maps, and equipment filters.`
+  : `${list.length} ${muscle} exercises with step-by-step instructions, muscle maps, and equipment filters. Free, no sign-up.`
+
+// Cross-facet: which equipment appears within this muscle's set.
+const equipCounts = new Map<string, number>()
+for (const ex of list) for (const e of ex.equipment) equipCounts.set(e, (equipCounts.get(e) ?? 0) + 1)
+const facets = [...equipCounts.entries()]
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 8)
+  .map(([value, count]) => ({
+    value,
+    label: cap(equipmentLabel(value)),
+    count,
+    href: `/exercises/equipment/${value.replace(/ /g, '-')}/`,
+  }))
+
+const topEquip = facets[0] ? equipmentLabel(facets[0].value) : 'body only'
+const bodyweightCount = list.filter(ex => ex.equipment.includes('body only')).length
+const faqs = [
+  {
+    q: `What are the best ${muscle} exercises?`,
+    a: `It depends on your available equipment and experience. This page lists all ${list.length} ${muscle} exercises in the database — ${topEquip} is the most common equipment for this muscle. Open any exercise for step-by-step instructions.`,
+  },
+  {
+    q: `How do I train ${muscle} without equipment?`,
+    a: `${bodyweightCount} of these ${muscle} exercises need no equipment at all. Use the equipment filter above and pick "Body only".`,
+  },
+  {
+    q: `Which other muscles do ${muscle} exercises work?`,
+    a: `Most compound movements recruit secondary muscles alongside the ${muscle}. Every exercise page shows a muscle map with the primary muscle in terracotta and secondary muscles in a lighter tint.`,
+  },
+]
+
+const seo = {
+  title: `${title} — ${list.length} Exercises${pageSuffix} | maratool`,
+  description: description.slice(0, 158),
+  canonical,
+  schema: {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: pageSuffix ? `${title}${pageSuffix}` : title,
+    url: canonical,
+    description,
+    hasPart: page.data.map(ex => ({
+      '@type': 'HowTo',
+      name: ex.name,
+      url: `https://maratool.com/exercises/${ex.slug}/`,
+    })),
+  },
+  faqSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(f => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  breadcrumbSchema: {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maratool.com' },
+      { '@type': 'ListItem', position: 2, name: 'Exercises', item: 'https://maratool.com/exercises/' },
+      { '@type': 'ListItem', position: 3, name: title, item: `https://maratool.com${baseHref}` },
+    ],
+  },
+}
+---
+<Base {...seo} scope="hub">
+  <Layout scope="hub">
+    <ExerciseHub
+      title={pageSuffix ? `${title}${pageSuffix}` : title}
+      subtitle={`${list.length} exercises that target the ${muscle}. Filter by equipment, then open any exercise for step-by-step instructions and a muscle map.`}
+      exercises={page.data}
+      facetLabel="Equipment"
+      facets={facets}
+      faqs={faqs}
+      currentPage={page.currentPage}
+      lastPage={page.lastPage}
+      total={page.total}
+      start={page.start}
+      baseHref={baseHref}
+    />
+  </Layout>
+</Base>

@@ -8,6 +8,14 @@
 
   var DATA = []
 
+  // With 1,035 records an unthrottled, uncapped render rebuilt every card on
+  // every keystroke. Two guards: only render 120ms after typing stops, and
+  // never build more than RENDER_CAP cards at once (the count line says how
+  // many matched, so nothing is silently hidden).
+  var DEBOUNCE_MS = 120
+  var RENDER_CAP = 120
+  var debounceTimer = null
+
   function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : '' }
 
   function activeFacets() {
@@ -49,8 +57,9 @@
     }
 
     results.textContent = ''
+    var shown = Math.min(list.length, RENDER_CAP)
     var frag = document.createDocumentFragment()
-    for (var k = 0; k < list.length; k++) {
+    for (var k = 0; k < shown; k++) {
       var ex = list[k]
       var a = document.createElement('a')
       a.className = 'exb-card'
@@ -75,11 +84,23 @@
     }
     results.appendChild(frag)
 
-    countEl.textContent = 'Showing ' + list.length + ' of ' + DATA.length + ' exercises'
+    countEl.textContent = shown < list.length
+      ? 'Showing first ' + shown + ' of ' + list.length + ' matches — search or filter to narrow it down'
+      : 'Showing ' + list.length + ' of ' + DATA.length + ' exercises'
     emptyEl.hidden = list.length !== 0
   }
 
-  search.addEventListener('input', render)
+  function renderDebounced() {
+    if (debounceTimer) clearTimeout(debounceTimer)
+    debounceTimer = setTimeout(function () {
+      debounceTimer = null
+      render()
+    }, DEBOUNCE_MS)
+  }
+
+  // Typing debounces; ticking a checkbox is a discrete action, so it renders
+  // immediately.
+  search.addEventListener('input', renderDebounced)
   var boxes = document.querySelectorAll('.ex-facet')
   for (var b = 0; b < boxes.length; b++) boxes[b].addEventListener('change', render)
 

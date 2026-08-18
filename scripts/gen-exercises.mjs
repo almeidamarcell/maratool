@@ -68,6 +68,21 @@ function modifierConflict(ekToks, feToks) {
 const splitMuscles = raw =>
   String(raw ?? '').split(',').map(s => normalizeMuscle(s)).filter(Boolean)
 
+// `mechanic` is rendered as a single pill on the exercise page, so it must be a
+// single canonical value. free-exercise-db already stores one; Everkinetic's
+// `type` fallback does not — a handful of its records carry comma-joined values
+// like "isolation, compound", which used to reach the page verbatim. Take the
+// first listed canonical value (the source lists the primary classification
+// first) and drop anything outside the vocabulary rather than inventing one.
+const MECHANICS = ['compound', 'isolation', 'isometric']
+const normalizeMechanic = raw => {
+  for (const part of String(raw ?? '').toLowerCase().split(',')) {
+    const t = part.trim()
+    if (MECHANICS.includes(t)) return t
+  }
+  return null
+}
+
 const uniq = a => [...new Set(a)]
 
 // ---- global best-score-first matching ----
@@ -157,7 +172,7 @@ for (const x of ek) {
     category: matched?.category ?? 'strength',
     level: matched?.level ?? null,
     force: matched?.force ?? null,
-    mechanic: matched?.mechanic ?? x.type ?? null,
+    mechanic: normalizeMechanic(matched?.mechanic ?? x.type),
     instructions,
     media: {
       kind: 'vector',
@@ -204,7 +219,7 @@ for (const x of fe) {
     category: x.category ?? 'strength',
     level: x.level ?? null,
     force: x.force ?? null,
-    mechanic: x.mechanic ?? null,
+    mechanic: normalizeMechanic(x.mechanic),
     instructions,
     media: { kind: 'photo', start: imgs[0], end: imgs[1] },
     source: 'free-exercise-db',

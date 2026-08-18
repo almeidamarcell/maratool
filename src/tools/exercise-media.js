@@ -30,10 +30,20 @@
     if (!svgCache.has(url)) {
       svgCache.set(
         url,
-        fetch(url).then(function (res) {
-          if (!res.ok) throw new Error('svg fetch failed: ' + res.status)
-          return res.text()
-        })
+        fetch(url)
+          .then(function (res) {
+            if (!res.ok) throw new Error('svg fetch failed: ' + res.status)
+            return res.text()
+          })
+          .catch(function (err) {
+            // The promise is cached before it settles, so a rejection would
+            // otherwise be cached forever: every later mode switch would reuse
+            // the rejected promise and the stage would stay permanently blank
+            // with no way to retry. Evict on failure so the next switch
+            // re-fetches.
+            svgCache.delete(url)
+            throw err
+          })
       )
     }
     return svgCache.get(url)

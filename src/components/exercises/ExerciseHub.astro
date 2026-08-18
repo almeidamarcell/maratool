@@ -1,5 +1,4 @@
 ---
-import MuscleMap from './MuscleMap.astro'
 import type { Exercise } from '../../data/exercises'
 
 interface Facet { value: string; label: string; count: number; href: string }
@@ -12,9 +11,43 @@ interface Props {
   facetLabel: string
   facets: Facet[]
   faqs?: Faq[]
+  /** 1-based page number of the slice in `exercises`. */
+  currentPage?: number
+  /** Total number of pages for this facet. */
+  lastPage?: number
+  /** Total exercises in the facet, across all pages. */
+  total?: number
+  /** 0-based index of this page's first item within the full facet list. */
+  start?: number
+  /** Page-1 URL, trailing slash included. Page n lives at `${baseHref}${n}/`. */
+  baseHref?: string
 }
-const { title, subtitle, exercises, facetLabel, facets, faqs = [] } = Astro.props
+const {
+  title, subtitle, exercises, facetLabel, facets, faqs = [],
+  currentPage = 1, lastPage = 1, total = exercises.length, start = 0, baseHref = '',
+} = Astro.props
+
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+
+// A per-card MuscleMap used to live here. On a muscle hub every card
+// highlighted the same primary muscle by construction, so the maps were
+// near-identical — and two full silhouettes per card pushed the largest hub
+// to ~100k DOM tags. A category glyph plus the muscle name carries the same
+// scanning value for a fraction of the markup, and drops the duplicated
+// "Muscles worked: …" screen-reader label that shadowed the visible tags.
+const CATEGORY_GLYPH: Record<string, string> = {
+  strength: '🏋️',
+  stretching: '🤸',
+  plyometrics: '⚡',
+  powerlifting: '🥇',
+  'olympic weightlifting': '🏅',
+  strongman: '🪨',
+  cardio: '🏃',
+}
+
+const pageHref = (n: number) => (n === 1 ? baseHref : `${baseHref}${n}/`)
+const firstOnPage = start + 1
+const pageNumbers = Array.from({ length: lastPage }, (_, i) => i + 1)
 ---
 <div class="exh">
   <header class="exh-head">
@@ -31,20 +64,40 @@ const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
     </nav>
   )}
 
+  {lastPage > 1 && (
+    <p class="exh-range">
+      Showing {firstOnPage}–{firstOnPage + exercises.length - 1} of {total} —
+      page {currentPage} of {lastPage}.
+    </p>
+  )}
+
   <div class="exh-grid">
     {exercises.map(ex => (
       <a class="exh-card" href={`/exercises/${ex.slug}/`}>
         <div class="exh-thumb">
-          <MuscleMap primary={ex.primaryMuscles} secondary={ex.secondaryMuscles} size="mini" />
+          <span class="exh-glyph" aria-hidden="true">{CATEGORY_GLYPH[ex.category] ?? '🏋️'}</span>
+          <span class="exh-thumb-label">{cap(ex.primaryMuscles[0] ?? '')}</span>
         </div>
         <h2>{ex.name}</h2>
         <div class="exh-tags">
           {ex.equipment.slice(0, 2).map(e => <span class="exh-tag">{cap(e)}</span>)}
-          <span class="exh-tag">{cap(ex.primaryMuscles[0] ?? '')}</span>
+          {ex.level && <span class="exh-tag">{cap(ex.level)}</span>}
         </div>
       </a>
     ))}
   </div>
+
+  {lastPage > 1 && (
+    <nav class="exh-pager" aria-label="Pagination">
+      {currentPage > 1 && <a class="exh-page" rel="prev" href={pageHref(currentPage - 1)}>← Previous</a>}
+      {pageNumbers.map(n => (
+        n === currentPage
+          ? <span class="exh-page exh-page-on" aria-current="page">{n}</span>
+          : <a class="exh-page" href={pageHref(n)}>{n}</a>
+      ))}
+      {currentPage < lastPage && <a class="exh-page" rel="next" href={pageHref(currentPage + 1)}>Next →</a>}
+    </nav>
+  )}
 
   {faqs.length > 0 && (
     <section class="exh-faq">
@@ -72,11 +125,26 @@ const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
   .exh-chip { font-size: 12px; padding: 4px 11px; border-radius: 100px; background: #fff; border: 1px solid var(--border); color: var(--text-2); text-decoration: none; }
   .exh-chip:hover { background: var(--bg-hover); }
   .exh-chip b { color: var(--text-3); font-weight: 500; }
-  .exh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
+  .exh-range { font-size: 12px; color: var(--text-2); margin: 0 2px 12px; }
+  .exh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; align-content: start; min-height: 320px; }
   .exh-card { background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--cat-health); border-radius: 8px; padding: 14px; text-decoration: none; color: inherit; transition: transform 100ms ease, box-shadow 100ms ease; }
   .exh-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,.06); }
-  .exh-thumb { background: var(--bg-soft); border-radius: 6px; min-height: 96px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+  .exh-thumb {
+    background: var(--bg-soft); border-radius: 6px; min-height: 72px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px; margin-bottom: 10px;
+  }
+  .exh-glyph { font-size: 22px; line-height: 1; }
+  .exh-thumb-label { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-3); }
   .exh-card h2 { font-size: 14px; margin: 0 0 8px; font-weight: 600; line-height: 1.3; }
   .exh-tags { display: flex; gap: 5px; flex-wrap: wrap; }
   .exh-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: var(--bg-soft); color: var(--text-2); }
+  .exh-pager { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; margin-top: 22px; }
+  .exh-page {
+    font-size: 12px; min-width: 28px; padding: 5px 9px; text-align: center;
+    border: 1px solid var(--border); border-radius: 6px; background: #fff;
+    color: var(--text-2); text-decoration: none;
+  }
+  .exh-page:hover { background: var(--bg-hover); }
+  .exh-page-on { background: var(--bg-soft); color: var(--accent); border-color: var(--accent); font-weight: 600; }
 </style>

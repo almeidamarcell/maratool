@@ -1,4 +1,7 @@
-import { describe, test, expect } from 'vitest'
+/**
+ * @vitest-environment jsdom
+ */
+import { describe, test, expect, afterEach, vi } from 'vitest'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
 
@@ -34,20 +37,257 @@ describe('exercise browser page', () => {
     expect(page).toContain("'@type': 'CollectionPage'")
     expect(page).toContain("canonical: 'https://maratool.com/exercises/'")
   })
+
+  test('ships the tool-page contract: a How to use block and FAQPage schema', () => {
+    // CLAUDE.md requires both of every `live: true` tool page.
+    expect(page).toContain('How to use')
+    expect(page).toContain("'@type': 'FAQPage'")
+    expect(page).toContain('faqSchema')
+    expect(page).toContain('<summary>{f.q}</summary>')
+    // Exactly four Q&A pairs, as CLAUDE.md requires.
+    expect((page.match(/^ {4}q: /gm) ?? []).length).toBe(4)
+  })
+
+  test('links every hub as a real anchor with a trailing slash', () => {
+    // The facet sidebar is checkboxes, which emit no crawlable links, so the
+    // category and level hubs were reachable only through the sitemap.
+    for (const base of ['/exercises/muscle/', '/exercises/equipment/', '/exercises/category/', '/exercises/level/']) {
+      expect(page).toContain(`base: '${base}'`)
+    }
+    expect(page).toContain("href={`${g.base}${v.value.replace(/ /g, '-')}/`}")
+  })
 })
 
-describe('exercise-browser.js', () => {
-  test('filters by search text and all four facets', () => {
-    for (const f of ['muscle', 'equipment', 'category', 'level']) {
-      expect(js).toContain(f)
+describe('exercise-browser.js — behaviour', () => {
+  const RECORDS = [
+    { slug: 'barbell-squat', name: 'Barbell Squat', primaryMuscles: ['quadriceps'], equipment: ['barbell'], category: 'strength', level: 'beginner', mediaKind: 'photo' },
+    { slug: 'dumbbell-curl', name: 'Dumbbell Curl', primaryMuscles: ['biceps'], equipment: ['dumbbell'], category: 'strength', level: 'intermediate', mediaKind: 'photo' },
+    { slug: 'push-up', name: 'Push Up', primaryMuscles: ['chest'], equipment: ['body only'], category: 'strength', level: 'beginner', mediaKind: 'photo' },
+    { slug: 'barbell-curl', name: 'Barbell Curl', primaryMuscles: ['biceps'], equipment: ['barbell'], category: 'strength', level: 'expert', mediaKind: 'photo' },
+    // A record with no level at all — must survive when no level filter is on.
+    { slug: 'neck-stretch', name: 'Neck Stretch', primaryMuscles: ['neck'], equipment: ['body only'], category: 'stretching', level: null, mediaKind: 'photo' },
+  ]
+
+  function mount() {
+    document.body.innerHTML = `
+      <aside>
+        <input type="checkbox" class="ex-facet" data-facet="muscle" value="quadriceps" />
+        <input type="checkbox" class="ex-facet" data-facet="muscle" value="biceps" />
+        <input type="checkbox" class="ex-facet" data-facet="muscle" value="neck" />
+        <input type="checkbox" class="ex-facet" data-facet="equipment" value="barbell" />
+        <input type="checkbox" class="ex-facet" data-facet="equipment" value="dumbbell" />
+        <input type="checkbox" class="ex-facet" data-facet="category" value="stretching" />
+        <input type="checkbox" class="ex-facet" data-facet="level" value="beginner" />
+      </aside>
+      <input id="ex-search" type="search" />
+      <p id="ex-count"></p>
+      <div id="ex-results"></div>
+      <p id="ex-empty" hidden></p>
+    `
+  }
+
+  function stubFetch(data) {
+    vi.stubGlobal('fetch', () =>
+      Promise.resolve({ ok: true, json: () => Promise.resolve(data) })
+    )
+  }
+
+  async function loadScriptFresh() {
+    // The script self-initializes at import time, so a cached module would
+    // silently no-op on re-import.
+    vi.resetModules()
+    await import('./tools/exercise-browser.js')
+  }
+
+  async function flush() {
+    await new Promise(r => setTimeout(r, 0))
+    await new Promise(r => setTimeout(r, 0))
+  }
+
+  // Longer than the script's 120ms input debounce.
+  const afterDebounce = () => new Promise(r => setTimeout(r, 200))
+
+  const shownNames = () =>
+    [...document.querySelectorAll('#ex-results .exb-card h3')].map(h => h.textContent)
+
+  const check = (facet, value, on = true) => {
+    const box = document.querySelector(`.ex-facet[data-facet="${facet}"][value="${value}"]`)
+    box.checked = on
+    box.dispatchEvent(new Event('change', { bubbles: true }))
+  }
+
+  const type = async (text) => {
+    const input = document.getElementById('ex-search')
+    input.value = text
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+    await afterDebounce()
+  }
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    document.body.innerHTML = ''
+  })
+
+  test('renders every record once the index loads', async () => {
+    mount()
+    stubFetch(RECORDS)
+    await loadScriptFresh()
+    await flush()
+
+    expect(shownNames()).toHaveLength(RECORDS.length)
+    expect(document.getElementById('ex-count').textContent).toContain('5 of 5')
+  })
+
+  test('links each result with a trailing slash', async () => {
+    mount()
+    stubFetch(RECORDS)
+    await loadScriptFresh()
+    await flush()
+
+    const hrefs = [...document.querySelectorAll('#ex-results .exb-card')].map(a => a.getAttribute('href'))
+    expect(hrefs).toContain('/exercises/barbell-squat/')
+    for (const h of hrefs) expect(h.endsWith('/')).toBe(true)
+  })
+
+  test('search filters by name, case-insensitively', async () => {
+    mount()
+    stubFetch(RECORDS)
+    await loadScriptFresh()
+    await flush()
+
+    await type('curl')
+    expect(shownNames().sort()).toEqual(['Barbell Curl', 'Dumbbell Curl'])
+  })
+
+  test('search that matches nothing reveals the empty message', async () => {
+    mount()
+    stubFetch(RECORDS)
+    await loadScriptFresh()
+    await flush()
+    expect(document.getElementById('ex-empty').hidden).toBe(true)
+
+    await type('zzzz-no-such-exercise')
+    expect(shownNames()).toHaveLength(0)
+    expect(document.getElementById('ex-empty').hidden).toBe(false)
+  })
+
+  test('facets OR within a group', async () => {
+    mount()
+    stubFetch(RECORDS)
+    await loadScriptFresh()
+    await flush()
+
+    check('muscle', 'quadriceps')
+    check('muscle', 'biceps')
+    // quadriceps OR biceps — not the impossible intersection of the two.
+    expect(shownNames().sort()).toEqual(['Barbell Curl', 'Barbell Squat', 'Dumbbell Curl'])
+  })
+
+  test('facets AND across groups', async () => {
+    mount()
+    stubFetch(RECORDS)
+    await loadScriptFresh()
+    await flush()
+
+    check('muscle', 'biceps')
+    check('equipment', 'barbell')
+    expect(shownNames()).toEqual(['Barbell Curl'])
+  })
+
+  test('a level:null record survives when no level filter is active', async () => {
+    // Regression guard: `f.level.indexOf(ex.level)` must only run when a level
+    // filter is actually set, or every record without a level disappears.
+    mount()
+    stubFetch(RECORDS)
+    await loadScriptFresh()
+    await flush()
+
+    expect(shownNames()).toContain('Neck Stretch')
+
+    check('category', 'stretching')
+    expect(shownNames()).toEqual(['Neck Stretch'])
+  })
+
+  test('an active level filter does exclude the level:null record', async () => {
+    mount()
+    stubFetch(RECORDS)
+    await loadScriptFresh()
+    await flush()
+
+    check('level', 'beginner')
+    expect(shownNames().sort()).toEqual(['Barbell Squat', 'Push Up'])
+    expect(shownNames()).not.toContain('Neck Stretch')
+  })
+
+  test('search and facets combine', async () => {
+    mount()
+    stubFetch(RECORDS)
+    await loadScriptFresh()
+    await flush()
+
+    check('equipment', 'barbell')
+    await type('squat')
+    expect(shownNames()).toEqual(['Barbell Squat'])
+  })
+
+  test('caps the rendered set and says how many actually matched', async () => {
+    const many = Array.from({ length: 300 }, (_, i) => ({
+      slug: `ex-${i}`,
+      name: `Exercise ${i}`,
+      primaryMuscles: ['chest'],
+      equipment: ['barbell'],
+      category: 'strength',
+      level: 'beginner',
+      mediaKind: 'photo',
+    }))
+    mount()
+    stubFetch(many)
+    await loadScriptFresh()
+    await flush()
+
+    expect(shownNames().length).toBe(120)
+    const count = document.getElementById('ex-count').textContent
+    expect(count).toContain('first 120')
+    expect(count).toContain('300')
+  })
+
+  test('debounces typing — a burst of keystrokes renders once, at the end', async () => {
+    mount()
+    stubFetch(RECORDS)
+    await loadScriptFresh()
+    await flush()
+
+    const input = document.getElementById('ex-search')
+    for (const v of ['c', 'cu', 'cur', 'curl']) {
+      input.value = v
+      input.dispatchEvent(new Event('input', { bubbles: true }))
     }
+    // Nothing has re-rendered yet — the debounce window is still open.
+    expect(shownNames()).toHaveLength(RECORDS.length)
+
+    await afterDebounce()
+    expect(shownNames().sort()).toEqual(['Barbell Curl', 'Dumbbell Curl'])
   })
 
-  test('links results with trailing slashes', () => {
-    expect(js).toMatch(/'\/exercises\/'/)
-  })
+  test('a failed index fetch shows a message instead of failing silently', async () => {
+    mount()
+    vi.stubGlobal('fetch', () => Promise.reject(new Error('offline')))
+    await loadScriptFresh()
+    await flush()
 
+    expect(document.getElementById('ex-count').textContent).toMatch(/could not load/i)
+    expect(shownNames()).toHaveLength(0)
+  })
+})
+
+describe('exercise-browser.js — source contract', () => {
   test('uses the hidden attribute rather than style.display', () => {
     expect(js).not.toMatch(/style\.display/)
+  })
+
+  test('debounces input and caps the rendered set', () => {
+    expect(js).toContain('DEBOUNCE_MS')
+    expect(js).toContain('RENDER_CAP')
+    expect(js).toContain("search.addEventListener('input', renderDebounced)")
   })
 })

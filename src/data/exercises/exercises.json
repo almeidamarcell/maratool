@@ -3363,7 +3363,7 @@
     "category": "strength",
     "level": null,
     "force": null,
-    "mechanic": "isolation, compound",
+    "mechanic": "isolation",
     "instructions": [
       "This exercise combines a squat with a curl to effectively work the entire body. This is an advanced exercise.",
       "Stand with your feet shoulder width apart, your knees slightly bent and your abs drawn in.",
@@ -9954,7 +9954,7 @@
     "category": "strength",
     "level": null,
     "force": null,
-    "mechanic": "compound, isolation",
+    "mechanic": "compound",
     "instructions": [
       "Grasp a dumbbell in each hand with your palms facing up.",
       "Stand with your feet together, your back straight and your abs drawn in.",
@@ -14508,7 +14508,7 @@
     "category": "strength",
     "level": null,
     "force": null,
-    "mechanic": "compound, isolation",
+    "mechanic": "compound",
     "instructions": [
       "Grasp a dumbbell in each hand with your palms facing up.",
       "Stand with your feet together, your back straight and your abs drawn in.",

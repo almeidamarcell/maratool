@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro'
 import Layout from '../../components/Layout.astro'
 import MuscleMap from '../../components/exercises/MuscleMap.astro'
 import ExerciseMedia from '../../components/exercises/ExerciseMedia.astro'
-import { exercises, relatedExercises } from '../../data/exercises'
+import { exercises, relatedExercises, exerciseMetaDescription } from '../../data/exercises'
 import type { Exercise } from '../../data/exercises'
 
 export function getStaticPaths() {
@@ -18,8 +18,8 @@ const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 const primaryLabel = ex.primaryMuscles.map(cap).join(', ')
 const equipLabel = ex.equipment.map(cap).join(', ')
 
-const description =
-  `How to do the ${ex.name.toLowerCase()}: step-by-step instructions, muscles worked (${primaryLabel}), and equipment (${equipLabel}). Free exercise guide.`.slice(0, 158)
+// Built by a helper that drops whole clauses rather than slicing mid-word.
+const description = exerciseMetaDescription(ex)
 
 const seo = {
   title: `${ex.name} — Muscles Worked & How To | maratool`,

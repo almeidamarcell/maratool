@@ -174,6 +174,37 @@ describe('exercise-media.js — vector SVG inlining (behavioral)', () => {
     expect(startPhase.querySelector('img')).toBeNull()
   })
 
+  test('a failed fetch is not cached — the next mode switch retries and recovers', async () => {
+    // Regression: the in-flight promise is stored in the cache before it
+    // settles, so one transient failure used to poison the entry forever.
+    // Every later mode switch reused the rejected promise and the 300px stage
+    // stayed permanently blank with no retry.
+    // Only the FIRST request for the start URL fails; everything after
+    // succeeds. The default 'anim' mode already requests both URLs at init, so
+    // that initial request is the one that fails.
+    const calls = []
+    vi.stubGlobal('fetch', (url) => {
+      const isFirstStart = url === SVG_URL_START && !calls.includes(SVG_URL_START)
+      calls.push(url)
+      return isFirstStart
+        ? Promise.reject(new Error('network down'))
+        : Promise.resolve({ ok: true, text: () => Promise.resolve(FAKE_SVG) })
+    })
+
+    const root = mountVectorRoot('vector')
+    await loadScriptFresh()
+    await flushMicrotasks()
+    expect(calls.filter((u) => u === SVG_URL_START).length).toBe(1)
+
+    // Switching to the start phase must re-fetch, not replay the cached
+    // rejection. With the rejection cached this stage stays blank forever.
+    root.querySelector('[data-mode="start"]').click()
+    await flushMicrotasks()
+
+    expect(calls.filter((u) => u === SVG_URL_START).length).toBeGreaterThan(1)
+    expect(root.querySelector('.exm-stage [data-phase="start"] svg')).not.toBeNull()
+  })
+
   test('photos still render through a plain <img>, not fetch-and-inline', async () => {
     const calls = []
     vi.stubGlobal('fetch', (url) => {
