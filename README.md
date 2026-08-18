@@ -64,6 +64,24 @@ hosted, managed, or SaaS product.
 > source-available license modelled on MIT with an added SaaS-competition
 > clause. See [LICENSE](./LICENSE) for the full text.
 
+### Third-party material (not under O'Saasy)
+
+Notwithstanding the O'Saasy terms — including the clause 2 SaaS
+restriction — two directories hold third-party material governed solely
+by their own licenses:
+
+| Path | Origin | License |
+|---|---|---|
+| `public/exercises/svg/**` | [everkinetic/data](https://github.com/everkinetic/data) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `public/exercises/photos/**` | [yuhonas/free-exercise-db](https://github.com/yuhonas/free-exercise-db) | [Unlicense](https://unlicense.org/) (public domain) |
+
+The SVGs are recolored by maratool. Because they are adaptations of
+CC BY-SA 4.0 material, the recolored files are themselves CC BY-SA 4.0
+and no additional restriction is placed on them. The full statement
+travels with the files in
+[`public/exercises/NOTICE.md`](./public/exercises/NOTICE.md); pinned
+upstream commits are in `src/data/exercises/EXERCISES_SOURCE.md`.
+
 ## Stack
 
 - **Framework:** [Astro](https://astro.build) (static output, zero JS framework)
