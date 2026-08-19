@@ -4,6 +4,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import sharp from 'sharp'
 import { normalizeMuscle, normalizeEquipment } from '../src/data/exercises/vocab.mjs'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
@@ -229,6 +230,41 @@ for (const x of fe) {
 
 for (const name of dropped) console.log(`dropped: ${name}`)
 
+// ---- thumbnail dimensions for card <img> tags (hub grids + exercise browser) ----
+// Every card is a single <img src={media.start}> with explicit width/height so
+// the browser reserves layout space before the image loads (zero CLS). Real
+// dimensions vary per exercise — SVG viewBoxes range roughly 150-240 x 125-300,
+// and photos are mostly 850x567 but a meaningful minority are portrait — so one
+// guessed constant would reserve the wrong aspect ratio for many cards. Read the
+// real numbers once here instead. This only touches exercises.json, which is
+// build-time-only (imported by .astro files, never fetched by the browser), so
+// it costs nothing on the wire.
+const VIEWBOX_RE = /viewBox="[\d.]+ [\d.]+ ([\d.]+) ([\d.]+)"/
+const photoTargets = []
+for (const x of out) {
+  if (x.media.kind === 'vector') {
+    const svg = readFileSync(resolve(ROOT, 'public' + x.media.start), 'utf-8')
+    const m = svg.match(VIEWBOX_RE)
+    if (m) {
+      x.media.width = Math.round(parseFloat(m[1]))
+      x.media.height = Math.round(parseFloat(m[2]))
+    }
+  } else {
+    photoTargets.push(x)
+  }
+}
+// sharp reads only the file header for metadata (no full decode), but 769
+// concurrent file handles risks exhausting descriptors on some systems — batch it.
+const PHOTO_BATCH = 40
+for (let i = 0; i < photoTargets.length; i += PHOTO_BATCH) {
+  const batch = photoTargets.slice(i, i + PHOTO_BATCH)
+  await Promise.all(batch.map(async x => {
+    const meta = await sharp(resolve(ROOT, 'public' + x.media.start)).metadata()
+    x.media.width = meta.width
+    x.media.height = meta.height
+  }))
+}
+
 // ---- slug collision resolution: every member of a colliding group is suffixed ----
 const bySlug = new Map()
 for (const x of out) {
@@ -245,6 +281,13 @@ out.sort((a, b) => a.name.localeCompare(b.name))
 mkdirSync(resolve(ROOT, 'public/exercises'), { recursive: true })
 writeFileSync(resolve(ROOT, 'src/data/exercises/exercises.json'), JSON.stringify(out, null, 2))
 
+// `media` carries just the start-frame path, not the full {kind,start,end}
+// object — the browser only ever renders one thumbnail per card. This is the
+// one deliberate size trade-off in this file: it adds ~1,035 short URL strings
+// (~40KB minified) to a file every visitor downloads, in exchange for the
+// search/browse page showing the same real thumbnail the hub pages show
+// instead of no image at all. mediaKind stays for anything that still wants a
+// vector/photo distinction without resolving the path.
 const index = out.map(x => ({
   slug: x.slug,
   name: x.name,
@@ -253,8 +296,11 @@ const index = out.map(x => ({
   category: x.category,
   level: x.level,
   mediaKind: x.media.kind,
+  media: x.media.start,
 }))
 writeFileSync(resolve(ROOT, 'public/exercises/browse-index.json'), JSON.stringify(index))
 
 const vector = out.filter(x => x.media.kind === 'vector').length
+const indexBytes = Buffer.byteLength(JSON.stringify(index), 'utf-8')
 console.log(`gen-exercises: ${out.length} exercises (${vector} vector, ${out.length - vector} photo), ${out.filter(x => x.mergedFrom).length} merged, ${dropped.length} dropped`)
+console.log(`gen-exercises: browse-index.json is ${indexBytes} bytes`)

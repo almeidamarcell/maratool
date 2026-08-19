@@ -195,6 +195,10 @@
   text-overflow: ellipsis;
 }
 
+.cmd-row-more .cmd-row-name {
+  color: var(--accent);
+}
+
 .cmd-row-cat {
   font-family: var(--font-mono);
   font-size: 10.5px;

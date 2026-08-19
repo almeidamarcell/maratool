@@ -4,6 +4,11 @@ export interface ExerciseMedia {
   kind: 'vector' | 'photo'
   start: string
   end: string
+  /** Pixel dimensions of `start`, read at build time (SVG viewBox / photo
+   *  header) so card thumbnails can set explicit width/height and avoid
+   *  layout shift. */
+  width: number
+  height: number
 }
 
 export interface Exercise {

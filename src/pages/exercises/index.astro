@@ -227,6 +227,14 @@ const seo = {
   .exb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; min-height: 480px; align-content: start; }
   .exb-card { background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--cat-health); border-radius: 8px; padding: 12px; text-decoration: none; color: inherit; transition: transform 100ms ease, box-shadow 100ms ease; }
   .exb-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,.06); }
+  .exb-thumb {
+    background: var(--bg-soft); border-radius: 6px; min-height: 84px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 8px; overflow: hidden; padding: 6px;
+  }
+  /* Vector line drawings use fill="currentColor", which inside an <img> renders
+     black (the SVG's own initial color) rather than picking up page CSS. Expected. */
+  .exb-thumb img { max-width: 100%; max-height: 72px; width: auto; height: auto; display: block; }
   .exb-card h3 { font-size: 13px; margin: 0 0 7px; font-weight: 600; line-height: 1.3; }
   .exb-tags { display: flex; gap: 5px; flex-wrap: wrap; }
   .exb-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: var(--bg-soft); color: var(--text-2); }

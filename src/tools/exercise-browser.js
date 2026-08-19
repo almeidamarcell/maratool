@@ -16,6 +16,16 @@
   var RENDER_CAP = 120
   var debounceTimer = null
 
+  // Placeholder aspect hint for the thumbnail <img> width/height attributes.
+  // browse-index.json carries each record's real media path but not its real
+  // pixel dimensions (that would mean shipping two more numbers per record to
+  // every visitor). CSS bounds the rendered box to these same dimensions via
+  // max-height + width:auto (see .exb-thumb img in exercises/index.astro), so
+  // the actual on-screen size never depends on this hint being pixel-accurate
+  // — it only avoids a reflow between "no size known" and "image loaded".
+  var THUMB_W = 160
+  var THUMB_H = 84
+
   function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : '' }
 
   function activeFacets() {
@@ -65,6 +75,20 @@
       a.className = 'exb-card'
       a.href = '/exercises/' + ex.slug + '/'
 
+      if (ex.media) {
+        var thumb = document.createElement('div')
+        thumb.className = 'exb-thumb'
+        var img = document.createElement('img')
+        img.src = ex.media
+        img.alt = ''
+        img.loading = 'lazy'
+        img.decoding = 'async'
+        img.width = THUMB_W
+        img.height = THUMB_H
+        thumb.appendChild(img)
+        a.appendChild(thumb)
+      }
+
       var h = document.createElement('h3')
       h.textContent = ex.name
       a.appendChild(h)
@@ -111,6 +135,14 @@
       search.focus()
     }
   })
+
+  // The site-wide ⌘K palette caps exercise results and links here with
+  // ?q=<query> for the rest — prefill the search box so that link actually
+  // continues the search instead of dropping the user on an empty page.
+  try {
+    var initialQuery = new URLSearchParams(window.location.search).get('q')
+    if (initialQuery) search.value = initialQuery
+  } catch (e) { /* URLSearchParams unsupported — search just starts empty */ }
 
   fetch('/exercises/browse-index.json')
     .then(function (r) { return r.json() })
