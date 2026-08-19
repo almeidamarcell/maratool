@@ -62,12 +62,12 @@ describe('exercise browser page', () => {
 
 describe('exercise-browser.js — behaviour', () => {
   const RECORDS = [
-    { slug: 'barbell-squat', name: 'Barbell Squat', primaryMuscles: ['quadriceps'], equipment: ['barbell'], category: 'strength', level: 'beginner', mediaKind: 'photo' },
-    { slug: 'dumbbell-curl', name: 'Dumbbell Curl', primaryMuscles: ['biceps'], equipment: ['dumbbell'], category: 'strength', level: 'intermediate', mediaKind: 'photo' },
-    { slug: 'push-up', name: 'Push Up', primaryMuscles: ['chest'], equipment: ['body only'], category: 'strength', level: 'beginner', mediaKind: 'photo' },
-    { slug: 'barbell-curl', name: 'Barbell Curl', primaryMuscles: ['biceps'], equipment: ['barbell'], category: 'strength', level: 'expert', mediaKind: 'photo' },
+    { slug: 'barbell-squat', name: 'Barbell Squat', primaryMuscles: ['quadriceps'], equipment: ['barbell'], category: 'strength', level: 'beginner', mediaKind: 'photo', media: '/exercises/photos/Barbell_Squat__0.jpg' },
+    { slug: 'dumbbell-curl', name: 'Dumbbell Curl', primaryMuscles: ['biceps'], equipment: ['dumbbell'], category: 'strength', level: 'intermediate', mediaKind: 'photo', media: '/exercises/photos/Dumbbell_Curl__0.jpg' },
+    { slug: 'push-up', name: 'Push Up', primaryMuscles: ['chest'], equipment: ['body only'], category: 'strength', level: 'beginner', mediaKind: 'photo', media: '/exercises/photos/Push_Up__0.jpg' },
+    { slug: 'barbell-curl', name: 'Barbell Curl', primaryMuscles: ['biceps'], equipment: ['barbell'], category: 'strength', level: 'expert', mediaKind: 'photo', media: '/exercises/photos/Barbell_Curl__0.jpg' },
     // A record with no level at all — must survive when no level filter is on.
-    { slug: 'neck-stretch', name: 'Neck Stretch', primaryMuscles: ['neck'], equipment: ['body only'], category: 'stretching', level: null, mediaKind: 'photo' },
+    { slug: 'neck-stretch', name: 'Neck Stretch', primaryMuscles: ['neck'], equipment: ['body only'], category: 'stretching', level: null, mediaKind: 'photo', media: '/exercises/photos/Neck_Stretch__0.jpg' },
   ]
 
   function mount() {
@@ -128,6 +128,7 @@ describe('exercise-browser.js — behaviour', () => {
   afterEach(() => {
     vi.unstubAllGlobals()
     document.body.innerHTML = ''
+    window.history.pushState({}, '', '/')
   })
 
   test('renders every record once the index loads', async () => {
@@ -279,6 +280,47 @@ describe('exercise-browser.js — behaviour', () => {
 
     expect(document.getElementById('ex-count').textContent).toMatch(/could not load/i)
     expect(shownNames()).toHaveLength(0)
+  })
+
+  test('renders a lazy, explicitly-sized thumbnail image sourced from the record\'s media path', async () => {
+    mount()
+    stubFetch(RECORDS)
+    await loadScriptFresh()
+    await flush()
+
+    const img = document.querySelector('#ex-results .exb-card .exb-thumb img')
+    expect(img).not.toBeNull()
+    expect(img.getAttribute('src')).toBe('/exercises/photos/Barbell_Squat__0.jpg')
+    // jsdom doesn't reflect the loading/decoding IDL properties to HTML
+    // attributes (real browsers do), so these are checked as properties —
+    // exactly how exercise-media.js and the other tools/*.js files set them.
+    expect(img.loading).toBe('lazy')
+    expect(img.decoding).toBe('async')
+    expect(img.getAttribute('alt')).toBe('')
+    expect(img.getAttribute('width')).toBeTruthy()
+    expect(img.getAttribute('height')).toBeTruthy()
+  })
+
+  test('prefills the search box from a ?q= URL param — the ⌘K palette\'s "see all" link relies on this', async () => {
+    window.history.pushState({}, '', '/exercises/?q=curl')
+    mount()
+    stubFetch(RECORDS)
+    await loadScriptFresh()
+    await flush()
+
+    expect(document.getElementById('ex-search').value).toBe('curl')
+    expect(shownNames().sort()).toEqual(['Barbell Curl', 'Dumbbell Curl'])
+  })
+
+  test('skips the thumbnail rather than rendering a broken image when a record has no media', async () => {
+    mount()
+    const noMedia = RECORDS.map(r => ({ ...r, media: undefined }))
+    stubFetch(noMedia)
+    await loadScriptFresh()
+    await flush()
+
+    expect(shownNames()).toHaveLength(noMedia.length)
+    expect(document.querySelector('#ex-results .exb-thumb')).toBeNull()
   })
 })
 

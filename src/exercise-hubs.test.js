@@ -111,8 +111,23 @@ describe('ExerciseHub.astro', () => {
     expect(hub).toContain('aria-label="Pagination"')
   })
 
-  test('the decorative card glyph is hidden from screen readers', () => {
-    expect(hub).toMatch(/class="exh-glyph" aria-hidden="true"/)
+  test('renders the exercise\'s own media as a single lazy, explicitly-sized <img> per card', () => {
+    // Card thumbnails used to be a generic category glyph (🏋️ for every
+    // strength exercise). They now render the exercise's own media.start
+    // frame — one <img> tag, not an inlined <svg> (that was the 100k-tag
+    // regression this file's other tests guard against).
+    expect(hub).toContain('src={ex.media.start}')
+    expect(hub).toContain('loading="lazy"')
+    expect(hub).toContain('decoding="async"')
+    expect(hub).toContain('width={ex.media.width}')
+    expect(hub).toContain('height={ex.media.height}')
+  })
+
+  test('the card thumbnail image is decorative — alt is empty so the heading is not double-announced', () => {
+    // <h2>{ex.name}</h2> immediately follows the thumb inside the same <a>,
+    // so a non-empty alt would repeat the exercise name back-to-back for
+    // screen reader users navigating the link.
+    expect(hub).toMatch(/<img[^>]*alt=""/)
   })
 })
 

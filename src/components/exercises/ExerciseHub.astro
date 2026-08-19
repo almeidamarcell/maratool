@@ -32,19 +32,14 @@ const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 // A per-card MuscleMap used to live here. On a muscle hub every card
 // highlighted the same primary muscle by construction, so the maps were
 // near-identical — and two full silhouettes per card pushed the largest hub
-// to ~100k DOM tags. A category glyph plus the muscle name carries the same
-// scanning value for a fraction of the markup, and drops the duplicated
-// "Muscles worked: …" screen-reader label that shadowed the visible tags.
-const CATEGORY_GLYPH: Record<string, string> = {
-  strength: '🏋️',
-  stretching: '🤸',
-  plyometrics: '⚡',
-  powerlifting: '🥇',
-  'olympic weightlifting': '🏅',
-  strongman: '🪨',
-  cardio: '🏃',
-}
-
+// to ~100k DOM tags. That was replaced with a category glyph, which fixed the
+// DOM budget but made every card on a hub look identical — every strength
+// card showed the same 🏋️. The real fix: each exercise already has its own
+// `media.start` frame (Everkinetic vector line drawing or free-exercise-db
+// photo) sitting one HTTP request away. One `<img>` per card, lazy-loaded
+// with explicit dimensions, costs one tag (same order as the glyph+label
+// spans it replaces) and gives every card a distinct, real thumbnail instead
+// of a generic icon.
 const pageHref = (n: number) => (n === 1 ? baseHref : `${baseHref}${n}/`)
 const firstOnPage = start + 1
 const pageNumbers = Array.from({ length: lastPage }, (_, i) => i + 1)
@@ -75,8 +70,14 @@ const pageNumbers = Array.from({ length: lastPage }, (_, i) => i + 1)
     {exercises.map(ex => (
       <a class="exh-card" href={`/exercises/${ex.slug}/`}>
         <div class="exh-thumb">
-          <span class="exh-glyph" aria-hidden="true">{CATEGORY_GLYPH[ex.category] ?? '🏋️'}</span>
-          <span class="exh-thumb-label">{cap(ex.primaryMuscles[0] ?? '')}</span>
+          <img
+            src={ex.media.start}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            width={ex.media.width}
+            height={ex.media.height}
+          />
         </div>
         <h2>{ex.name}</h2>
         <div class="exh-tags">
@@ -130,12 +131,14 @@ const pageNumbers = Array.from({ length: lastPage }, (_, i) => i + 1)
   .exh-card { background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--cat-health); border-radius: 8px; padding: 14px; text-decoration: none; color: inherit; transition: transform 100ms ease, box-shadow 100ms ease; }
   .exh-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,.06); }
   .exh-thumb {
-    background: var(--bg-soft); border-radius: 6px; min-height: 72px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 4px; margin-bottom: 10px;
+    background: var(--bg-soft); border-radius: 6px; min-height: 96px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 10px; overflow: hidden; padding: 6px;
   }
-  .exh-glyph { font-size: 22px; line-height: 1; }
-  .exh-thumb-label { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-3); }
+  /* Vector line drawings use fill="currentColor", which inside an <img> resolves
+     against the SVG's own initial color (black) — a black line drawing on
+     --bg-soft. That's expected; it is not recolourable through an <img> tag. */
+  .exh-thumb img { max-width: 100%; max-height: 84px; width: auto; height: auto; display: block; }
   .exh-card h2 { font-size: 14px; margin: 0 0 8px; font-weight: 600; line-height: 1.3; }
   .exh-tags { display: flex; gap: 5px; flex-wrap: wrap; }
   .exh-tag { font-size: 11px; padding: 2px 8px; border-radius: 100px; background: var(--bg-soft); color: var(--text-2); }

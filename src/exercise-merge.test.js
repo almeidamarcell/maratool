@@ -79,11 +79,15 @@ describe('merged exercise dataset', () => {
     expect(v.media.end).toMatch(/^\/exercises\/svg\/\d+-tension\.svg$/)
   })
 
-  test('browse index is lean — only the fields the browser filters on', () => {
+  test('browse index is lean — only the fields the browser filters on, plus one thumbnail path', () => {
     const idx = load('public/exercises/browse-index.json')
     expect(idx.length).toBe(1035)
+    // `media` (the thumbnail path, media.start) was added deliberately so
+    // hub cards and the ⌘K palette's exercise rows can render a real image —
+    // see ExerciseHub.astro / exercise-browser.js / command-palette.js. It's
+    // the one field here that isn't a filterable facet.
     expect(Object.keys(idx[0]).sort()).toEqual(
-      ['category', 'equipment', 'level', 'mediaKind', 'name', 'primaryMuscles', 'slug'].sort()
+      ['category', 'equipment', 'level', 'media', 'mediaKind', 'name', 'primaryMuscles', 'slug'].sort()
     )
     // Must stay small enough to ship to the client.
     const bytes = readFileSync(resolve(ROOT, 'public/exercises/browse-index.json')).length
